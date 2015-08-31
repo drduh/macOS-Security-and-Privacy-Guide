@@ -23,12 +23,12 @@ The file needed to create an installable image is **InstallESD.dmg**, which is i
 The following are cryptographic hashes of the file. You can use `shasum -a256 InstallESD.dmg` for example, and compare the output to make sure you got the same, authentic copy. You can also Google these hashes to ensure your copy is genuine and hasn't been tampered with.
 
     InstallESD.dmg
-    
+
     SHA-256: af244af020424d803ea8fc143bdd2c067db19f663484d735d6b6733a0feeeb4d
     SHA-1:   eebf02a20ac27665a966957eec6f5e6fe3228a19
     MD5:     8d3187fa7699366e1723c28abd78acc8
 
-Next, mount and install the OS to a temporary image, or use this GUI app <https://github.com/MagerValp/AutoDMG>.
+Next, mount and install the OS to a temporary image, or use the GUI app [MagerValp/AutoDMG](https://github.com/MagerValp/AutoDMG).
 
     hdiutil attach -noverify -mountpoint /tmp/installesd /Applications/Install\ OS\ X\ Mavericks.app/Contents/SharedSupport/InstallESD.dmg
     hdiutil create -size 32g -type SPARSE -fs HFS+J -volname "OS X" -uid 0 -gid 80 -mode 1775 /tmp/output.sparseimage
@@ -98,7 +98,7 @@ Run `diskutil list` to identify the connected disk, usually **/dev/disk2**
 
     diskutil unmountDisk /dev/disk2
     diskutil partitionDisk /dev/disk2 1 JHFS+ OSX 100%
-    
+
 **Restore** the image to the new volume
 
     sudo asr restore \
@@ -186,19 +186,21 @@ Setting a firmware password in OS X prevents your Mac from starting up from any 
 
 1. Shut down your Mac. 
 
-2. Start up your Mac again and immediately hold the Command and R keys after you hear the startup sound to start from OS X Recovery.
+2. Start up your Mac again and immediately hold the `Command` and `R` keys after you hear the startup sound to start from **OS X Recovery**.
 
-3. When the Recovery window appears, choose Firmware Password Utility from the Utilities menu.
+3. When the Recovery window appears, choose **Firmware Password Utility** from the Utilities menu.
 
-4. In the Firmware Utility window that appears, click Turn On Firmware Password.
+4. In the Firmware Utility window that appears, select **Turn On Firmware Password**.
 
 5. Enter a new password, then enter the same password in the Verify field.
 
-6. Click Set Password.
+6. Select Set Password.
 
-7. Click Quit Firmware Utility to close the Firmware Password Utility.
+7. Select Quit Firmware Utility to close the Firmware Password Utility.
 
-8. Click the Apple menu and choose Restart or Shutdown. The next time your Mac starts up, your firmware password is active.
+8. Select the Apple menu and choose Restart or Shutdown.
+
+The firmware password will activate at next boot.
 
 ## Firewall
 Before connecting to the Internet, it's a good idea to first configure a firewall.
@@ -267,7 +269,9 @@ And use the following commands
 Unless you're already familiar with pf, I don't suggest worrying too much about configuring it on OS X.
 
 ## Services
-Before you connect to the Internet, you may wish to disable some Apple services which phone home to Apple (<https://github.com/fix-macosx/yosemite-phone-home>).
+Before you connect to the Internet, you may wish to disable some Apple services which phone home to Apple.
+
+Also see [fix-macosx/yosemite-phone-home](https://github.com/fix-macosx/yosemite-phone-home) and [l1k/osxparanoia](https://github.com/l1k/osxparanoia)
 
 Services on OS X are managed by **launchd**. See <http://launchd.info/>, as well as [Apple's Daemons and Services Programming Guide](https://developer.apple.com/library/mac/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingLaunchdJobs.html) and [Technical Note TN2083](https://developer.apple.com/library/mac/technotes/tn2083/_index.html)
 
@@ -287,16 +291,15 @@ Look at the `ProgramArguments` section to see which binary is run, in this case 
 	
 If you're not interested in Apple Push Notifications, disable the service
 
-	sudo launchctl unload -w \
-	  /System/Library/LaunchDaemons/com.apple.apsd.plist
+	sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.apsd.plist
 	
 Here's an example of disabling a bunch of **user launch agents**,
 
 	function disable_agent {
-	  echo "Disabling ${1}"
-	  launchctl unload -w /System/Library/LaunchAgents/${1}.plist
+      echo "Disabling ${1}"
+      launchctl unload -w /System/Library/LaunchAgents/${1}.plist
 	}
-	
+
 	disable_agent com.apple.AddressBook.SourceSync
 	disable_agent com.apple.AirPlayUIAgent
 	disable_agent com.apple.AOSHeartbeat
@@ -307,7 +310,7 @@ Here's an example of disabling a bunch of **user launch agents**,
 	disable_agent com.apple.CallHistorySyncHelper
 	disable_agent com.apple.cloudd
 	disable_agent com.apple.cloudfamilyrestrictionsd-mac
- 	disable_agent com.apple.cloudpaird
+	disable_agent com.apple.cloudpaird
 	disable_agent com.apple.cloudphotosd
 	disable_agent com.apple.CoreLocationAgent
 	disable_agent com.apple.coreservices.appleid.authentication
@@ -334,8 +337,8 @@ Here's an example of disabling a bunch of **user launch agents**,
 And the same for **system launch daemons**,
 
 	function disable_daemon {
-	  echo "Disabling ${1}"
-	  sudo launchctl unload -w /System/Library/LaunchDaemons/${1}.plist
+      echo "Disabling ${1}"
+      sudo launchctl unload -w /System/Library/LaunchDaemons/${1}.plist
 	}
 	
 	disable_daemon com.apple.apsd
@@ -478,7 +481,7 @@ and <https://grpugh.wordpress.com/2014/10/29/an-undocumented-change-to-captive-n
 ## Certificate authorities
 Yosemite comes with [over 200 root certificate authorities](https://support.apple.com/en-us/HT202858) capable of issuing SSL or code signing certificates.
 
-For more information, see [Certification Authority Trust Tracker](https://github.com/kirei/catt>),
+For more information, see [Certification Authority Trust Tracker](https://github.com/kirei/catt),
 
 and papers
 _[Analysis of the HTTPS certificate ecosystem](http://conferences.sigcomm.org/imc/2013/papers/imc257-durumericAemb.pdf) [pdf]_
@@ -497,10 +500,10 @@ To remove an unwanted certificate, copy its **SHA1** sum, then
 Here's an example of removing a list of roots
 
 	function remove {
-	  echo "Removing ${2}"
-	  sudo /usr/bin/security delete-certificate \
-	    -t -Z $1 \
-	    /System/Library/Keychains/SystemRootCertificates.keychain
+    echo "Removing ${2}"
+    sudo /usr/bin/security delete-certificate \
+      -t -Z $1 \
+      /System/Library/Keychains/SystemRootCertificates.keychain
 	}
 
 	remove "D1EB23A46D17D68FD92564C2F1F1601764D8E349" "AAA Certificate Services"
@@ -533,7 +536,7 @@ Here's an example of removing a list of roots
 	remove "CB44A097857C45FA187ED952086CB9841F2D51B5" "US Govt Common Policy"
 	remove "FAA7D9FB31B746F200A85E65797613D816E063B5" "VRK Gov. Root CA"
 	remove "E7B4F69D61EC9069DB7E90A7401A3CF47D4FE8EE" "WellsSecure Public Root Certificate Authority"
-	
+
 These may be updated or re-added during system updates, though.
 
 A cool idea is to write a custom proxy which monitors and logs certificate chains seen on the wire.
@@ -598,7 +601,7 @@ Write simple or complex rules for redirection, such as to HTTPS,
 
     { +redirect{s@http://@https://@} }
     code.jquery.com
-    
+
     { +redirect{s@http://imgur.com/@https://imgur.com/@}}
     imgur.com
 
@@ -619,13 +622,13 @@ I recommend creating at least three profiles, one for trusted web sites (email, 
 
 * One or more profile(s) for your **real name**, signed-in browsing needs such as banking and email.
 
-The idea is to separate cookie stores and compartmentalize your data. 
+The idea is to separate cookie stores and compartmentalize your data.
 
 Take some time to read <https://www.chromium.org/Home/chromium-privacy>, then disable any Chrome settings you don't want, for example **DNS prefetching**.
 
-If you don't want to use Chrome, **Firefox** is an excellent browser as well. 
+If you don't want to use Chrome, **Firefox** is an excellent browser as well.
 
-Don't use any of those Chromium derived browsers. They are usually closed source, poorly maintained and make dubious claims to protect your privacy. 
+Don't use any of those Chromium derived browsers. They are usually closed source, poorly maintained and make dubious claims to protect your privacy.
 
 Don't use Safari. The code is a mess and security vulnerabilities are frequent, but slow to patch.
 
@@ -640,7 +643,7 @@ See <https://en.wikipedia.org/wiki/Trojan_BackDoor.Flashback>,
 
 <http://www.cvedetails.com/vulnerability-list/vendor_id-53/product_id-497/Adobe-Acrobat-Reader.html>, and
 
-<https://blogs.cisco.com/security/angling-for-silverlight-exploits> 
+<https://blogs.cisco.com/security/angling-for-silverlight-exploits>
 
 ## PGP/GPG
 PGP is a standard for encrypting email end to end. That means only the chosen recepients can decrypt a message, unlike regular email which is read and forever archived by providers.
@@ -674,7 +677,7 @@ Here are recommended options to add to **~/.gnupg/gpg.conf**
     list-options show-uid-validity
     verify-options show-uid-validity
     with-fingerprint
-    
+
 Install the keyservers CA certificate
 
     curl -O https://sks-keyservers.net/sks-keyservers.netCA.pem
@@ -854,8 +857,8 @@ Enable [tty_tickets](http://blog.rongarret.info/2015/08/psa-beware-of-sudo-on-os
 
 Hash your known ssh hosts. To `ssh_config`, add
 
-	Host *
-	  HashKnownHosts yes
+    Host *
+      HashKnownHosts yes
 	 
 Set your screen to lock as soon as the screensaver starts
 	  
@@ -906,3 +909,7 @@ Did you know Apple has not shipped a computer with TPM since [2006](http://osxbo
 [Santa: A binary whitelisting/blacklisting system for Mac OS X](https://github.com/google/santa/)
 
 [IPv6 Hardening Guide for OS X](http://www.insinuator.net/2015/02/ipv6-hardening-guide-for-os-x/)
+
+[Preventing OS X from phoning home to Cupertino](https://github.com/l1k/osxparanoia)
+
+[Yosemite net-monitor](https://github.com/fix-macosx/net-monitor)
