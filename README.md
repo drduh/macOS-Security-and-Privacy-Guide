@@ -382,7 +382,7 @@ To block a domain, just add `0 facebook.com` (`0` means `0.0.0.0`, a null route)
 
 There are many lists of "bad" domains available online which you can paste in, just make sure each line starts with `0` or `127.0.0.1`
 
-For example, see <http://someonewhocares.org/hosts/zero/hosts> and <https://github.com/gorhill/uMatrix/blob/master/assets/umatrix/hosts-files.json>
+For examples, see <http://someonewhocares.org/hosts/zero/hosts>, [l1k/osxparanoia/blob/master/hosts](https://github.com/l1k/osxparanoia/blob/master/hosts) and [gorhill/uMatrix/blob/master/assets/umatrix/hosts-files.json](https://github.com/gorhill/uMatrix/blob/master/assets/umatrix/hosts-files.json).
 
 #### dnsmasq
 
