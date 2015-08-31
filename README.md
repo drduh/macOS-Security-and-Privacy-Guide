@@ -176,6 +176,26 @@ For more information, see <https://derflounder.wordpress.com/2012/02/05/protecti
 
 and paper _[Lest We Remember: Cold Boot Attacks on Encryption Keys](https://www.usenix.org/legacy/event/sec08/tech/full_papers/halderman/halderman.pdf) [pdf]_
 
+## Firmware Password
+
+Setting a firmware password in OS X prevents your Mac from starting up from any device other than your startup disk. [It can also be helpful if your laptop is stolen](https://www.ftc.gov/news-events/blogs/techftc/2015/08/virtues-strong-enduser-device-controls), as the only way to reset the firmware password is through an Apple Store. 
+
+1. Shut down your Mac. 
+
+2. Start up your Mac again and immediately hold the Command and R keys after you hear the startup sound to start from OS X Recovery.
+
+3. When the Recovery window appears, choose Firmware Password Utility from the Utilities menu.
+
+4. In the Firmware Utility window that appears, click Turn On Firmware Password.
+
+5. Enter a new password, then enter the same password in the Verify field.
+
+6. Click Set Password.
+
+7. Click Quit Firmware Utility to close the Firmware Password Utility.
+
+8. Click the Apple menu and choose Restart or Shutdown. The next time your Mac starts up, your firmware password is active.
+
 ## Firewall
 Before connecting to the Internet, it's a good idea to first configure a firewall.
 
