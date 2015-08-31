@@ -154,19 +154,23 @@ When creating your account, use a **strong password** without a hint.
 Don't use your real name for your account as it'll show up as *So-and-so's Macbook* through sharing services to local networks.
 
 ## Full disk encryption
-Before continuing, I strongly recommend turning on **Filevault 2** full disk (technically, full _volume_) encryption.
+**Filevault 2** provides full disk (technically, full _volume_) encryption on OS X.
 
 Filevault encryption will protect data at rest and prevent someone with physical access from stealing data or tampering with your Mac.
 
-With much crypto happening in hardware, the performance penalty for OS X FDE is, in my experience, negligible.
+With much crypto [happening in hardware](https://software.intel.com/en-us/articles/intel-advanced-encryption-standard-aes-instructions-set/), the performance penalty for OS X FDE is not noticeable.
 
 Enable Filevault with `sudo fdesetup enable` or using **System Preferences**. Reboot.
 
-I recommend forgetting the **recovery key**, but if your password is too complicated, you may wish to write the key down and store it in a safe place. 
+The security of Filevault 2 greatly depends on the security of the pseudo random number generator (PRNG).
 
-Your encrypted data will be lost forever if you can't remember the password or recovery key.
+The **PRNG** can be manually seeded with entropy by writing to /dev/random **before** enabling Filevault 2. If possible, activate Filevault 2 after using the Mac for a while.
 
-If you want to know more about how Filevault 2 works, see the paper _[Infiltrate the Vault: Security Analysis and Decryption of Lion Full Disk Encryption](https://eprint.iacr.org/2012/374.pdf) [pdf]_.
+If you can remember your password, there's no reason to save the **recovery key**. However, your encrypted data will be lost forever if you can't remember the password or recovery key.
+
+If you want to know more about how Filevault 2 works, see the paper _[Infiltrate the Vault: Security Analysis and Decryption of Lion Full Disk Encryption](https://eprint.iacr.org/2012/374.pdf) [pdf]_
+
+and _[IEEE Std 1619-2007 “The XTS-AES Tweakable Block Cipher”](http://libeccio.di.unisa.it/Crypto14/Lab/p1619.pdf) [pdf]_
 
 You may wish to enforce **hibernation** and evict Filevault keys from memory instead of traditional "sleep" to memory.
 
