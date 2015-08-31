@@ -345,8 +345,8 @@ And the same for **system launch daemons**,
 	
 Be careful about disabling any services you don't understand, as it may render your system unbootable.
 
-## Spotlight
-Disable Spotlight and Safari suggestions which log and send your keystrokes to Apple.
+## Spotlight Suggestions
+Disable “Spotlight Suggestions” in both the Spotlight preferences and Safari's Search preferences to avoid your search queries being sent to Apple.
 
 See <https://fix-macosx.com/>
 
