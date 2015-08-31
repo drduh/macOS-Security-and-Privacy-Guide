@@ -168,7 +168,7 @@ Your encrypted data will be lost forever if you can't remember the password or r
 
 If you want to know more about how Filevault 2 works, see the paper _[Infiltrate the Vault: Security Analysis and Decryption of Lion Full Disk Encryption](https://eprint.iacr.org/2012/374.pdf) [pdf]_.
 
-You may wish to enforce **hibernation** and evict Filevault keys from memory instread of traditional "sleep" to memory.
+You may wish to enforce **hibernation** and evict Filevault keys from memory instead of traditional "sleep" to memory.
 
     sudo pmset -a destroyfvkeyonstandby 1 hibernatemode 25
     
