@@ -530,7 +530,7 @@ See <https://web.archive.org/web/20130407200745/http://www.divertednetworks.net/
 and <https://grpugh.wordpress.com/2014/10/29/an-undocumented-change-to-captive-network-assistant-settings-in-os-x-10-10-yosemite/>
 
 ## Certificate authorities
-Yosemite comes with [over 200 root certificate authorities](https://support.apple.com/en-us/HT202858) capable of issuing SSL or code signing certificates.
+Yosemite comes with [over 200 root certificate authorities](https://support.apple.com/en-us/HT202858) from for-profit corporations like Apple, Verisign, Thawte, Digicert and government agencies from China, Japan, Netherlands, U.S., and more! These CAs are capable of issuing SSL certificates for any domain or code signing certificates as well.
 
 For more information, see [Certification Authority Trust Tracker](https://github.com/kirei/catt),
 
@@ -539,9 +539,11 @@ _[Analysis of the HTTPS certificate ecosystem](http://conferences.sigcomm.org/im
 
 and _[You Won’t Be Needing These Any More: On Removing Unused Certificates From Trust Stores](http://www.ifca.ai/fc14/papers/fc14_submission_100.pdf) [pdf]_
 
-You can inspect system root certificates in **Keychain Access**, under the **System Roots** tab.
+You can inspect system root certificates in **Keychain Access**, under the **System Roots** tab or by using the `security` command line tool and `/System/Library/Keychains/SystemRootCertificates.keychain` file.
 
-To remove an unwanted certificate, copy its **SHA1** sum, then
+The risk of a [man in the middle](https://en.wikipedia.org/wiki/Man-in-the-middle_attack) attack in which a coerced or compromised certificate authority trusted by your system issues a fake/rogue SSL certificate is quite low, but still [possible](https://en.wikipedia.org/wiki/DigiNotar#Issuance_of_fraudulent_certificates).
+
+To remove an unwanted certificate, copy its **SHA1** sum, then delete it
 
     echo "4F 99 AA 93 FB 2B D1 37 26 A1 99 4A CE 7F F0 05 F2 93 5D 1E" | tr -d ' '
     4F99AA93FB2BD13726A1994ACE7FF005F2935D1E
@@ -797,7 +799,7 @@ Some of the malware comes bundled with both legitimate software, such as the [Ja
 
 See _[Methods of malware persistence on Mac OS X](https://www.virusbtn.com/pdf/conference/vb2014/VB2014-Wardle.pdf) [pdf]_ and [Malware Persistence on OS X Yosemite](https://www.rsaconference.com/events/us15/agenda/sessions/1591/malware-persistence-on-os-x-yosemite) to learn about how garden-variety malware functions.
 
-You can periodically run a tool like [Knock Knock](https://github.com/synack/knockknock) to examine persistent binaries (e.g. scripts, binaries). But by then, it is probably too late.
+You can periodically run a tool like [Knock Knock](https://github.com/synack/knockknock) to examine persistent binaries (e.g. scripts, binaries). But by then, it is probably too late. Maybe [Block Block](https://objective-see.com/products/blockblock.html) will help.
 
 **Anti-virus** programs are not useful for advanced users and **will** increase your attack surface against sophisticated threats. See _[Sophail: Applied attacks against Sophos Antivirus](https://lock.cmpxchg8b.com/sophailv2.pdf) [pdf]_ and [Analysis and Exploitation of an ESET Vulnerability](http://googleprojectzero.blogspot.ro/2015/06/analysis-and-exploitation-of-eset.html). The best anti-virus is **Common Sense 2015**.
 
@@ -942,6 +944,8 @@ Did you know Apple has not shipped a computer with TPM since [2006](http://osxbo
 [Reverse Engineering Resources](http://samdmarshall.com/re.html)
 
 [Patrick Wardle's Objective-See blog](https://objective-see.com/blog.html)
+
+[Dylib Hijack Scanner](https://objective-see.com/products/dhs.html)
 
 [Managing Macs at Google Scale (LISA '13)](https://www.usenix.org/conference/lisa13/managing-macs-google-scale)
 
