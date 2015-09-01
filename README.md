@@ -67,11 +67,13 @@ Then
     sudo installer -pkg /Volumes/OS\ X\ 10.10.5\ Update/OSXUpd10.10.5.pkg -tgt /tmp/os
     hdiutil unmount /Volumes/OS\ X\ 10.10.5\ Update
 
-(Optional) Install any other packages to your new image, such as [Wireshark](https://www.wireshark.org/download.html).
+Optionally, install any other packages to the image, such as [Wireshark](https://www.wireshark.org/download.html).
 
     hdiutil mount Wireshark\ 1.99.5\ Intel\ 64.dmg
     sudo installer -pkg /Volumes/Wireshark/Wireshark\ 1.99.5\ Intel\ 64.pkg -tgt /tmp/os
     hdiutil unmount /Volumes/Wireshark
+    
+See [MagerValp/AutoDMG/wiki/Packages-Suitable-for-Deployment](https://github.com/MagerValp/AutoDMG/wiki/Packages-Suitable-for-Deployment) for caveats and check out [chilcote/outset](https://github.com/chilcote/outset) to instead processes packages and scripts at first boot.
 
 When you're done, detach, convert and verify the image.
 
@@ -80,7 +82,7 @@ When you're done, detach, convert and verify the image.
     hdiutil convert -format UDZO /tmp/output.sparseimage -o yosemite.dmg
     asr imagescan --source yosemite.dmg
 
-Now, **yosemite.dmg** is ready to be applied to one or many Macs. You can further customize the image to have premade users, applications and preferences to your liking.
+Now, `yosemite.dmg` is ready to be applied to one or many Macs. You can further customize the image to have premade users, applications and preferences to your liking.
 
 ## Installing Yosemite
 
@@ -92,7 +94,7 @@ If you don't have an external drive or USB stick to use, it's possible to create
 
 To use **Target Disk Mode**, boot up the Mac you wish to image while holding `T` and connect it to another using Firewire, Thunderbolt or USB-C.
 
-Run `diskutil list` to identify the connected disk, usually **/dev/disk2**
+Run `diskutil list` to identify the connected disk, usually `/dev/disk2`
 
 **Erase** the disk to Journaled HFS+
 
@@ -107,7 +109,7 @@ Run `diskutil list` to identify the connected disk, usually **/dev/disk2**
       --erase --noverify \
       --buffersize 4m
 
-Alternatively, open the **Disk Utility** application, erase the connected Mac's disk, then drag **yosemite.dmg** in to restore it to the new partition.
+Alternatively, open the **Disk Utility** application, erase the connected Mac's disk, then drag `yosemite.dmg` in to restore it to the new partition.
 
 If you've followed these steps correctly, the target Mac should now have a fresh install of OS X Yosemite.
 
@@ -115,9 +117,9 @@ If you want to transfer any files, copy them to a folder like `/Users/Shared` on
 
 #### Recovery partition
 
-We're not done yet! You will need to create a recovery partition in order to use Filevault full disk encryption.
+We're not done yet! Unless you have built the image with [AutoDMG](https://github.com/MagerValp/AutoDMG), you will need to create a recovery partition in order to use Filevault full disk encryption. You can do so using [MagerValp/Create-Recovery-Partition-Installer](https://github.com/MagerValp/Create-Recovery-Partition-Installer) or with the following manual steps.
 
-Download <https://support.apple.com/downloads/DL1464/en_US/RecoveryHDUpdate.dmg>
+Download [RecoveryHDUpdate.dmg](https://support.apple.com/downloads/DL1464/en_US/RecoveryHDUpdate.dmg)
 
     RecoveryHDUpdate.dmg
     
@@ -125,11 +127,14 @@ Download <https://support.apple.com/downloads/DL1464/en_US/RecoveryHDUpdate.dmg>
     SHA-1:   1ac3b7059ae0fcb2877d22375121d4e6920ae5ba
     MD5:     b669cdb341b2253a843bf0d402b9675a
 
-Attach and install
+Attach and expand the installation, then run it
 
     hdiutil attach RecoveryHDUpdate.dmg
+    
     pkgutil --expand /Volumes/Mac\ OS\ X\ Lion\ Recovery\ HD\ Update/RecoveryHDUpdate.pkg /tmp/recovery
+    
     hdiutil attach /tmp/recovery/RecoveryHDUpdate.pkg/RecoveryHDMeta.dmg
+    
     /tmp/recovery/RecoveryHDUpdate.pkg/Scripts/Tools/dmtest ensureRecoveryPartition /Volumes/OS\ X/ /Volumes/Recovery\ HD\ Update/BaseSystem.dmg 0 0 /Volumes/Recovery\ HD\ Update/BaseSystem.chunklist
 
 Where `/Volumes/OS\ X` is the path to the target disk mode booted Mac.
