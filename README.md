@@ -1,4 +1,4 @@
-## Introduction
+
 This is a collection of thoughts on securing a modern Mac running OS X Yosemite and some steps on how to improve privacy.
 
 It is targeted to “power users” who wish to adopt enterprise-standard security, but is also suitable for novice users with an interest in improving their privacy and security on a Mac.
@@ -8,6 +8,47 @@ There is no security silver bullet. A system is only as secure as its administra
 I am **not** responsible if you break a Mac by following any of these steps.
 
 If you wish to make a correction or improvement, please send a pull request.
+
+- [Preparing Yosemite](#preparing-yosemite)
+- [Installing Yosemite](#installing-yosemite)
+    - [Recovery partition](#recovery-partition)
+- [First boot](#first-boot)
+- [Full disk encryption](#full-disk-encryption)
+- [Firmware Password](#firmware-password)
+- [Firewall](#firewall)
+    - [Application layer firewall](#application-layer-firewall)
+    - [Third party solutions](#third-party-solutions)
+    - [Kernel level packet filtering](#kernel-level-packet-filtering)
+- [Services](#services)
+- [Spotlight Suggestions](#spotlight-suggestions)
+- [Homebrew](#homebrew)
+- [DNS](#dns)
+    - [Hosts file](#hosts-file)
+    - [dnsmasq](#dnsmasq)
+    - [dnscrypt](#dnscrypt)
+    - [multicast advertisement](#multicast-advertisement)
+- [Captive portal](#captive-portal)
+- [Certificate authorities](#certificate-authorities)
+- [OpenSSL](#openssl)
+- [Curl](#curl)
+- [HTTP](#http)
+- [Web browsing](#web-browsing)
+- [Plugins](#plugins)
+- [PGP/GPG](#pgpgpg)
+- [OTR](#otr)
+- [Tor](#tor)
+- [VPN](#vpn)
+- [Viruses and malware](#viruses-and-malware)
+- [Gatekeeper and Xprotect](#gatekeeper-and-xprotect)
+- [Passwords](#passwords)
+- [Wi-Fi](#wi-fi)
+- [Physical access](#physical-access)
+- [System monitoring](#system-monitoring)
+    - [Audit](#audit)
+    - [DTrace](#dtrace)
+    - [Network](#network)
+- [Miscellaneous](#miscellaneous)
+- [Additional resources](#additional-resources)
 
 ## Preparing Yosemite
 There are several ways to install a fresh copy of OS X Yosemite.
@@ -185,9 +226,9 @@ For more information, see <https://derflounder.wordpress.com/2012/02/05/protecti
 
 and paper _[Lest We Remember: Cold Boot Attacks on Encryption Keys](https://www.usenix.org/legacy/event/sec08/tech/full_papers/halderman/halderman.pdf) [pdf]_
 
-## Firmware Password
+## Firmware password
 
-Setting a firmware password in OS X prevents your Mac from starting up from any device other than your startup disk. [It can also be helpful if your laptop is stolen](https://www.ftc.gov/news-events/blogs/techftc/2015/08/virtues-strong-enduser-device-controls), as the only way to reset the firmware password is through an Apple Store. 
+Setting a firmware password in OS X prevents your Mac from starting up from any device other than your startup disk. [It can also be helpful if your laptop is stolen](https://www.ftc.gov/news-events/blogs/techftc/2015/08/virtues-strong-enduser-device-controls), as the only way to reset the firmware password is through an Apple Store ([or is it?](https://reverse.put.as/2015/05/29/the-empire-strikes-back-apple-how-your-mac-firmware-security-is-completely-broken/)).
 
 1. Shut down your Mac. 
 
@@ -372,11 +413,13 @@ I recommend installing [Homebrew](http://brew.sh/) to make installing many softw
 
 If you have not already installed Xcode or Command Line Tools, run `xcode-select --install` and a prompt should appear to download and install CLI Tools.
 
-After that's finished, Install Homebrew
+Homebrew can be easily installed with
 
     ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
-Homebrew uses SSL to talk with github and verifies checksums of downloaded packages, so I would consider it to be pretty safe. There is some discussion in <https://github.com/Homebrew/homebrew/issues/18036>.
+or have a look at [homebrew/Installation.md](https://github.com/Homebrew/homebrew/blob/master/share/doc/homebrew/Installation.md#installation) for other installation options.
+
+Homebrew uses SSL/TLS to talk with github and verifies checksums of downloaded packages, so I would consider it to be pretty safe. There is discussion in [homebrew/issues/18036](https://github.com/Homebrew/homebrew/issues/18036).
 
 ## DNS
 Here are a few ways to improve your security and privacy with DNS.
@@ -925,3 +968,5 @@ Did you know Apple has not shipped a computer with TPM since [2006](http://osxbo
 [Preventing OS X from phoning home to Cupertino](https://github.com/l1k/osxparanoia)
 
 [Yosemite net-monitor](https://github.com/fix-macosx/net-monitor)
+
+[Hacker News discussion](https://news.ycombinator.com/item?id=10148077)
