@@ -275,6 +275,8 @@ Also see [fix-macosx/yosemite-phone-home](https://github.com/fix-macosx/yosemite
 
 Services on OS X are managed by **launchd**. See <http://launchd.info/>, as well as [Apple's Daemons and Services Programming Guide](https://developer.apple.com/library/mac/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingLaunchdJobs.html) and [Technical Note TN2083](https://developer.apple.com/library/mac/technotes/tn2083/_index.html)
 
+You can also run [KnockKnock](https://github.com/synack/knockknock) that shows more information about startup items.
+
 Here are the basics:
 
 * Use `launchctl list` to view loaded user agents
