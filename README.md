@@ -610,25 +610,29 @@ You can even replace all ad images with pictures of kittens by running a local w
 I recommend logging all privoxy requests so you can be inspired to write custom rules.
 
 ## Web browsing
-Your web browser is probably the biggest security and privacy risk, as its fundamental job is to download and execute untrusted code from the Internet.
+The web browser is probably the biggest security and privacy risk, as its fundamental job is to download and execute untrusted code from the Internet.
 
 I recommend using **Google Chrome** for most of your browsing. It offers separate profiles, good sandboxing, frequent updates (including Flash) and has many useful extensions.
+
+If you don't want to use Chrome, **Firefox** is an excellent browser as well. See discussion in [issue #2](https://github.com/drduh/OS-X-Yosemite-Security-and-Privacy-Guide/issues/2).
 
 I recommend creating at least three profiles, one for trusted web sites (email, banking), another for untrusted (link aggregators, news sites), and a third for a script-free experience.
 
 * One profile **without cookies or Javascript** enabled which should be the preferred profile to visiting new web sites.
 
-* One profile with [uMatrix](https://github.com/gorhill/uMatrix) installed. If uMatrix looks too complicated, [uBlock](https://github.com/chrisaljoudi/uBlock) is a fine alternative. Use this profile for visiting **mostly trusted** sites with customized uMatrix/uBlock rules. Take the time to learn how these firewall extensions work.
+* One profile with [uMatrix](https://github.com/gorhill/uMatrix) installed. If uMatrix looks too complicated, [uBlock](https://github.com/chrisaljoudi/uBlock) is a fine alternative. Use this profile for visiting **mostly trusted** sites with customized uMatrix/uBlock rules. Take the time to learn how these firewall extensions work. Other recommended extensions are [Privacy Badger](https://www.eff.org/privacybadger) and [HTTPSEverywhere](https://www.eff.org/https-everywhere).
 
 * One or more profile(s) for your **real name**, signed-in browsing needs such as banking and email.
 
 The idea is to separate cookie stores and compartmentalize your data.
 
+In each profile, visit *chrome://plugins/* and **disable Adobe Flash** plugin.
+
+Also visit *chrome://settings/contents* and select **Let me choose when to run plugin content** under the Plugins section.
+
 Take some time to read <https://www.chromium.org/Home/chromium-privacy>, then disable any Chrome settings you don't want, for example **DNS prefetching**.
 
-If you don't want to use Chrome, **Firefox** is an excellent browser as well.
-
-Don't use any of those Chromium derived browsers. They are usually closed source, poorly maintained and make dubious claims to protect your privacy.
+Don't use any of those Chromium-derived browsers. They are usually closed source, poorly maintained and make dubious claims to protect your privacy.
 
 Don't use Safari. The code is a mess and security vulnerabilities are frequent, but slow to patch.
 
