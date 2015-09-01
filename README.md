@@ -427,11 +427,11 @@ Here are a few ways to improve your security and privacy with DNS.
 #### Hosts file
 Use the [hosts file](https://en.wikipedia.org/wiki/Hosts_(file)) to block known malware, advertising or otherwise unwanted domains.
 
-Edit the hosts file as root with `sudo vi /etc/hosts`
+Edit the hosts file as root with `sudo vi /etc/hosts`. The hosts file can also be managed with the GUI app [2ndalpha/gasmask](https://github.com/2ndalpha/gasmask).
 
 To block a domain, just add `0 facebook.com` (`0` means `0.0.0.0`, a null route)
 
-There are many lists of "bad" domains available online which you can paste in, just make sure each line starts with `0` or `127.0.0.1`
+There are many lists of "bad" domains available online which you can paste in, just make sure each line starts with `0` or `127.0.0.1`, and the line `127.0.0.1 localhost` is included.
 
 For examples, see <http://someonewhocares.org/hosts/zero/hosts>, [l1k/osxparanoia/blob/master/hosts](https://github.com/l1k/osxparanoia/blob/master/hosts) and [gorhill/uMatrix/blob/master/assets/umatrix/hosts-files.json](https://github.com/gorhill/uMatrix/blob/master/assets/umatrix/hosts-files.json).
 
@@ -709,7 +709,9 @@ PGP is a standard for encrypting email end to end. That means only the chosen re
 
 **GPG** is also used to verify signatures of software you download and install.
 
-Install it with `brew install gnupg`
+Install it with `brew install gnupg`, or
+
+If you prefer to install the [stable version](https://www.gnupg.org/), install with `brew install homebrew/versions/gnupg21`
 
 If you prefer a GUI, check out [GPG Suite](https://gpgtools.org/)
 
@@ -745,7 +747,7 @@ These settings will configure GnuPG to use SSL when fetching new keys and prefer
 You should also read [OpenPGP Best Practices
 ](https://help.riseup.net/en/security/message-security/openpgp/best-practices)
 
-If you don't already have a gpg keypair, create one now with `gpg --gen-key`.
+If you don't already have a gpg keypair, create one now with `gpg --gen-key`
 
 Read online guides and practice encrypting and decrypting email to yourself and your friends. Get them interested in this stuff!
 
@@ -827,7 +829,9 @@ and also be aware of <http://www.zoharbabin.com/hey-mac-i-dont-appreciate-you-sp
 You can generate passwords with `gpg`, `openssl` or just get creative with **/dev/urandom** output.
 
     openssl rand -base64 30
+    
     gpg --gen-random -a 0 30
+    
     dd if=/dev/urandom bs=1 count=30 2>/dev/null | base64
 
 You can also generate passwords from **Keychain Access** password assistant, or a command line equivalent like <https://github.com/anders/pwgen>.
@@ -901,6 +905,8 @@ Monitor x509 certificates on the wire
       -e x509sat.IA5String \
       -e x509sat.teletexString \
       -Eseparator=/s -Equote=d
+
+Also check out the GUI "simple network activity monitor" [BonzaiThePenguin/Loading](https://github.com/BonzaiThePenguin/Loading)
 
 ## Miscellaneous
 
