@@ -549,7 +549,7 @@ The version of **OpenSSL** which comes with Yosemite is quite dated. It doesn't 
 Apple claims OpenSSL is **deprecated** in their [Cryptographic Services Guide
 ](https://developer.apple.com/library/mac/documentation/Security/Conceptual/cryptoservices/GeneralPurposeCrypto/GeneralPurposeCrypto.html) document. Their version also has patches which may [surprise you](https://hynek.me/articles/apple-openssl-verification-surprises/).
 
-Grab a recent version of OpenSSL with `brew install openssl && brew link openssl`
+Grab a recent version of OpenSSL with `brew install openssl && brew link --force openssl`
 
 The version of **curl** which comes with OS X uses **Secure Transport** for SSL verification. If you prefer to use OpenSSL, install curl with `brew install curl --with-openssl`
 
