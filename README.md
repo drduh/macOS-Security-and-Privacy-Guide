@@ -1,5 +1,3 @@
-_Last updated Aug 30 2015_
-
 ## Introduction
 This is a collection of thoughts on securing a modern Mac running OS X Yosemite and some steps on how to improve privacy.
 
@@ -14,15 +12,19 @@ If you wish to make a correction or improvement, please send a pull request.
 ## Preparing Yosemite
 There are several ways to install a fresh copy of OS X Yosemite.
 
-The simplest one is to boot into **Recovery Mode** by holding **Command** and **R** keys at boot. One can then download and apply an image right from Apple. However, I don't like this way because the machine's serial number and other identifying information is sent to Apple over **HTTP**.
+The simplest way is to boot into [Recovery Mode](https://support.apple.com/en-us/HT201314) by holding `Command` and `R` keys at boot. One can then download and apply an image right from Apple. However, this way exposes the computer's serial number and other identifying information to Apple over plain **HTTP**.
 
-An alternative way is to download Yosemite build **14A389** or later from the **App Store** or some other place and create an installable system image which you can customize and reuse.
+An alternative way is to download Yosemite build **14A389** or newer from the **App Store** or some other place and create an installable system image which you can customize and reuse.
 
-The file needed to create an installable image is **InstallESD.dmg**, which is inside the **Install OS X Yosemite** application bundle. Just right click, select **Show Package Contents** and navigate to **Contents > SharedSupport** to find the dmg.
+OS X installers can be made with the `createinstallmedia` utility included in `/Applications/Install OS X Yosemite.app`. See [Create a bootable installer for OS X Yosemite](https://support.apple.com/en-us/HT201372) or run the utility without arguments to see how it works.
 
-The following are cryptographic hashes of the file. You can use `shasum -a256 InstallESD.dmg` for example, and compare the output to make sure you got the same, authentic copy. You can also Google these hashes to ensure your copy is genuine and hasn't been tampered with.
+If you'd like to do it the **manual** way, you will need to find the file `InstallESD.dmg`, which is inside `/Applications/Install OS X Yosemite.app`.
 
-    InstallESD.dmg
+Just right click, select **Show Package Contents** and navigate to **Contents > SharedSupport** to find the dmg.
+
+You can verify the following cryptographic hashes to ensure you have the same, authentic copy by using a command like `shasum -a256 InstallESD.dmg` and so on. You can also Google these hashes to ensure your copy is genuine and hasn't been tampered with.
+
+    InstallESD.dmg (Build 14A389)
 
     SHA-256: af244af020424d803ea8fc143bdd2c067db19f663484d735d6b6733a0feeeb4d
     SHA-1:   eebf02a20ac27665a966957eec6f5e6fe3228a19
@@ -37,9 +39,7 @@ Next, mount and install the OS to a temporary image, or use the GUI app [MagerVa
 
 This part will take a while, so just be patient. You can `tail -F /var/log/install.log` to check progress.
 
-Next, install the 10.10.4 combo updater. The 10.10.5 update (and later?) will not install until 10.10.4 is.
-
-Download and install **10.10.4 Combo Update** from <https://support.apple.com/downloads/DL1820/en_US/osxupdcombo10.10.4.dmg>
+Download and install the [10.10.4 Combo Update](https://support.apple.com/downloads/DL1820/en_US/osxupdcombo10.10.4.dmg)
 
     osxupdcombo10.10.4.dmg
 
@@ -53,7 +53,7 @@ Then
     sudo installer -pkg /Volumes/OS\ X\ 10.10.4\ Update\ Combo/OSXUpdCombo10.10.4.pkg -tgt /tmp/os
     hdiutil unmount /Volumes/OS\ X\ 10.10.4\ Update\ Combo
 
-Download and install **10.10.5 Combo Update** from <https://support.apple.com/downloads/DL1832/en_US/osxupdcombo10.10.5.dmg>
+Download and install the [10.10.5 Combo Update](https://support.apple.com/downloads/DL1832/en_US/osxupdcombo10.10.5.dmg)
 
     osxupdcombo10.10.5.dmg
 
@@ -67,7 +67,7 @@ Then
     sudo installer -pkg /Volumes/OS\ X\ 10.10.5\ Update/OSXUpd10.10.5.pkg -tgt /tmp/os
     hdiutil unmount /Volumes/OS\ X\ 10.10.5\ Update
 
-(Optional) Install any other packages to your new image, such as **Wireshark**.
+(Optional) Install any other packages to your new image, such as [Wireshark](https://www.wireshark.org/download.html).
 
     hdiutil mount Wireshark\ 1.99.5\ Intel\ 64.dmg
     sudo installer -pkg /Volumes/Wireshark/Wireshark\ 1.99.5\ Intel\ 64.pkg -tgt /tmp/os
