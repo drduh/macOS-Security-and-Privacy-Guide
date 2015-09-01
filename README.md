@@ -354,6 +354,7 @@ Be careful about disabling any services you don't understand, as it may render y
 
 ## Spotlight Suggestions
 Disable “Spotlight Suggestions” in both the Spotlight preferences and Safari's Search preferences to avoid your search queries being sent to Apple.
+Also disable "Bing Web Searches" in the Spotlight preferences to avoid your search queries being sent to Microsoft.
 
 See <https://fix-macosx.com/>
 
