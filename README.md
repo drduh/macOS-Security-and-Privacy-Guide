@@ -865,6 +865,17 @@ For example, a skilled attacker with unsupervised physical access to your comput
 
 [etsy/MIDAS](https://github.com/etsy/MIDAS) and [facebook/osquery](https://github.com/facebook/osquery) are two open source "IDS" frameworks worth checking out.
 
+[OSXAuditor](https://github.com/jipegit/OSXAuditor) : security tool used to analyze artifacts on a a running system.  It returns the following information:
+ - quarantined files
+ - Browser Information
+ 	- Safari: history, downloads, topsites, LastSession, HTML5 databases and localstore
+ 	- Firefox: cookies, downloads, formhistory, permissions, places and signons
+ 	- Chrome: history and archives history, cookies, login data, top sites, web data, HTML5 
+ - User social media and email accounts
+ - WiFi access points
+ - 
+ There is more information on this on the README for the project. 
+
 #### Audit
 OS X has a powerful OpenBSM auditing capability. You can use it to log all process executions and network connections, for example.
 
