@@ -26,7 +26,7 @@ If you wish to make a correction or improvement, please send a pull request.
     - [Hosts file](#hosts-file)
     - [dnsmasq](#dnsmasq)
     - [dnscrypt](#dnscrypt)
-    - [multicast advertisement](#multicast-advertisement)
+    - [Multicast advertisement](#multicast-advertisement)
 - [Captive portal](#captive-portal)
 - [Certificate authorities](#certificate-authorities)
 - [OpenSSL](#openssl)
@@ -439,7 +439,7 @@ For examples, see <http://someonewhocares.org/hosts/zero/hosts>, [l1k/osxparanoi
 
 Install and use `dnsmasq` to cache replies, prevent upstreaming queries for unqualified names, and even block entire TLDs.
 
-Use it in combination with `dnscrypt-proxy` to also encrypt outgoing DNS traffic.
+Use it in combination with `dnscrypt` to also encrypt outgoing DNS traffic.
 
 Install with `brew install dnsmasq`
 
@@ -476,7 +476,7 @@ Make sure `dnsmasq` is running with `sudo lsof -ni UDP:53` or `ps -ef | grep '[d
 
 Use `dnscrypt` to encrypt all going DNS traffic to your provider of choice.
 
-Install with `brew install dnscrypt-proxy`
+Install with `brew install dnscrypt-proxy`, or if you prefer a GUI, see [alterstep/dnscrypt-osxclient](https://github.com/alterstep/dnscrypt-osxclient) 
 
 Install the program
 
@@ -502,9 +502,22 @@ and under the "nobody" user using the dnscrypt.eu-dk DNSCrypt-enabled
 resolver. If you would like to change these settings, you will have to edit
 the plist file (e.g., --resolver-address, --provider-name, --provider-key, etc.)
 
-This can be accomplished by editing `/Library/LaunchDaemons/homebrew.mxcl.dnscrypt-proxy.plist`. I recommend hosting your own dnscrypt server in a trusted location or "cloud".
+This can be accomplished by editing `/Library/LaunchDaemons/homebrew.mxcl.dnscrypt-proxy.plist`.
 
-#### multicast advertisement
+You can run your own [dnscrypt server](https://github.com/Cofyc/dnscrypt-wrapper) from a trusted location or use one of many [public servers](https://github.com/jedisct1/dnscrypt-proxy/blob/master/dnscrypt-resolvers.csv) instead.
+
+Make sure it's working with `tcpdump` or `tshark`
+
+    $ sudo tcpdump -qtni en0
+    IP 10.8.8.8.59636 > 77.66.84.233.443: UDP, length 512
+    IP 77.66.84.233.443 > 10.8.8.8.59636: UDP, length 368
+    
+    $ dig +short -x 77.66.84.233
+    resolver2.dnscrypt.eu
+
+Or by visiting <https://dnsleaktest.com/what-is-a-dns-leak.html>
+
+#### Multicast advertisement
 Turn off multicast DNS if you don't need it. It spams information about your machine and its services to the local network.
 
 Edit `com.apple.mDNSResponder.plist`
@@ -620,7 +633,7 @@ Here are a few recommended self explanatory options to add to **~/.curlrc**
     ipv4
 
 ## HTTP
-I recommend using [privoxy](http://www.privoxy.org/) as a local proxy to filter HTTP traffic.
+I recommend using [privoxy](http://www.privoxy.org/) as a local proxy to sanitize and customize web browsing traffic.
 
 Install and start privoxy
 
@@ -709,9 +722,7 @@ PGP is a standard for encrypting email end to end. That means only the chosen re
 
 **GPG** is also used to verify signatures of software you download and install.
 
-Install it with `brew install gnupg`, or
-
-If you prefer to install the [stable version](https://www.gnupg.org/), install with `brew install homebrew/versions/gnupg21`
+Install it with `brew install gnupg`, or if you prefer to install the newer, more feature-rich [stable version](https://www.gnupg.org/), install with `brew install homebrew/versions/gnupg21`
 
 If you prefer a GUI, check out [GPG Suite](https://gpgtools.org/)
 
@@ -783,7 +794,7 @@ Tor traffic can be identified on a network. It is recommended to additionally ob
 
 This can be done by running your own Tor relay or private bridge which will serve as your obfuscating guard node. Set one up and share it with your friends!
 
-For extra security, use VirtualBox or VMware to run a virtual GNU/Linux or BSD machine to do your private browsing on.
+For extra security, use [VirtualBox](https://www.virtualbox.org/wiki/Downloads) or VMware to run a virtualized [GNU/Linux](http://www.brianlinkletter.com/installing-debian-linux-in-a-virtualbox-virtual-machine/) or [BSD](http://www.openbsd.org/faq/faq4.html) machine to do your private browsing on.
 
 For more on browser privacy, see <https://www.browserleaks.com/> and <https://panopticlick.eff.org/>.
 
