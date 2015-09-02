@@ -863,9 +863,13 @@ For example, a skilled attacker with unsupervised physical access to your comput
 
 ## System monitoring
 
-[etsy/MIDAS](https://github.com/etsy/MIDAS) and [facebook/osquery](https://github.com/facebook/osquery) are two open source "IDS" frameworks worth checking out.
+#### Open Source Monitoring Tools
 
-[OSXAuditor](https://github.com/jipegit/OSXAuditor) : security tool used to analyze artifacts on a a running system.  It returns the following information:
+[Etsy/MIDAS](https://github.com/etsy/MIDAS): MIDAS is a framework for developing a Mac Intrusion Detection Analysis System.  Credits given to the security team at Facebook and Etsy in developing this framework.  This framework consists of utilities which help detect any modifications that have been made to common OS X persistance mechanisms.
+
+[Facebook/osquery](https://github.com/facebook/osquery): Osquery is a great resource which can be used to retrieve low level system information.  Users can write SQL queries to retrieve system information.  More information can be found here: https://osquery.io/
+
+[OSXAuditor](https://github.com/jipegit/OSXAuditor): security tool used to analyze artifacts on a a running system.  It returns the following information:
  - quarantined files
  - Browser Information
  	- Safari: history, downloads, topsites, LastSession, HTML5 databases and localstore
