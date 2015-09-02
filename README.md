@@ -851,7 +851,8 @@ Keep your Mac physically secure at all times. Don't leave it unattended in hotel
 For example, a skilled attacker with unsupervised physical access to your computer can infect the boot ROM to install a keylogger and steal your password - see <https://trmm.net/Thunderstrike>.
 
 ## System monitoring
-Here are some ways to check up on your system.
+
+[etsy/MIDAS](https://github.com/etsy/MIDAS) and [facebook/osquery](https://github.com/facebook/osquery) are two open source "IDS" frameworks worth checking out.
 
 #### Audit
 OS X has a powerful OpenBSM auditing capability. You can use it to log all process executions and network connections, for example.
