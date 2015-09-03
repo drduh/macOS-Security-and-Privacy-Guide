@@ -431,6 +431,8 @@ See <https://fix-macosx.com/>
 
 > If you've upgraded to Mac OS X Yosemite (10.10) and you're using the default settings, each time you start typing in Spotlight (to open an application or search for a file on your computer), your local search terms and location are sent to Apple and third parties (including Microsoft).
 
+Speaking of Microsoft, you may want to see <https://fix10.isleaked.com/> just for fun.
+
 ## Homebrew
 Consider installing [Homebrew](http://brew.sh/) to make installing many software easier.
 
@@ -462,7 +464,7 @@ For examples, see <http://someonewhocares.org/hosts/zero/hosts>, [l1k/osxparanoi
 
 #### dnsmasq
 
-Install and use `dnsmasq` to cache replies, prevent upstreaming queries for unqualified names, and even block entire TLDs.
+Install and use [dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html) to cache replies, prevent upstreaming queries for unqualified names, and even block entire TLDs.
 
 Use it in combination with `dnscrypt` to also encrypt outgoing DNS traffic.
 
@@ -472,7 +474,7 @@ Edit the example configuration
 
     mkdir -p /usr/local/etc
     cp /usr/local/opt/dnsmasq/dnsmasq.conf.example /usr/local/etc/dnsmasq.conf
-    vim !$
+    vim /usr/local/etc/dnsmasq.conf
 
 Have a look through the commented-out options. Here are a few recommended settings to enable,
 
@@ -484,6 +486,12 @@ Have a look through the commented-out options. Here are a few recommended settin
       
       # Forward queries to dnscrypt on localhost
       server=127.0.0.1#5355
+      
+      # Optional logging directives
+      log-async
+      log-dhcp
+      log-queries
+      log-facility=/var/log/dnsmasq.log
       
 Install and start the program
 
@@ -499,7 +507,7 @@ Make sure `dnsmasq` is running with `sudo lsof -ni UDP:53` or `ps -ef | grep '[d
 
 #### dnscrypt
 
-Use `dnscrypt` to encrypt DNS traffic to the provider of choice.
+Use [dnscrypt](https://dnscrypt.org/) to encrypt DNS traffic to the provider of choice.
 
 Install with `brew install dnscrypt-proxy`, or if you prefer a GUI, see [alterstep/dnscrypt-osxclient](https://github.com/alterstep/dnscrypt-osxclient) 
 
@@ -531,7 +539,7 @@ This can be accomplished by editing `/Library/LaunchDaemons/homebrew.mxcl.dnscry
 
 You can run your own [dnscrypt server](https://github.com/Cofyc/dnscrypt-wrapper) from a trusted location or use one of many [public servers](https://github.com/jedisct1/dnscrypt-proxy/blob/master/dnscrypt-resolvers.csv) instead.
 
-Make sure it's working with `tcpdump` or `tshark`
+Make sure it's working with `tcpdump` or Wireshark
 
     $ sudo tcpdump -qtni en0
     IP 10.8.8.8.59636 > 77.66.84.233.443: UDP, length 512
@@ -540,7 +548,7 @@ Make sure it's working with `tcpdump` or `tshark`
     $ dig +short -x 77.66.84.233
     resolver2.dnscrypt.eu
 
-Or by visiting <https://dnsleaktest.com/what-is-a-dns-leak.html>
+Also see <https://dnsleaktest.com/what-is-a-dns-leak.html>
 
 #### Multicast advertisement
 Turn off multicast DNS if you don't need it. It spams information about your machine and its services to the local network.
