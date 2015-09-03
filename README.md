@@ -1,4 +1,3 @@
-
 This is a collection of thoughts on securing a modern Mac running OS X Yosemite and some steps on how to improve privacy.
 
 It is targeted to “power users” who wish to adopt enterprise-standard security, but is also suitable for novice users with an interest in improving their privacy and security on a Mac.
@@ -7,14 +6,15 @@ There is no security silver bullet. A system is only as secure as its administra
 
 I am **not** responsible if you break a Mac by following any of these steps.
 
-If you wish to make a correction or improvement, please send a pull request.
+If you wish to make a correction or improvement, please send a pull request or [open an issue](https://github.com/drduh/OS-X-Yosemite-Security-and-Privacy-Guide/issues).
 
+- [Basics](#basics)
 - [Preparing Yosemite](#preparing-yosemite)
 - [Installing Yosemite](#installing-yosemite)
     - [Recovery partition](#recovery-partition)
 - [First boot](#first-boot)
 - [Full disk encryption](#full-disk-encryption)
-- [Firmware Password](#firmware-password)
+- [Firmware password](#firmware-password)
 - [Firewall](#firewall)
     - [Application layer firewall](#application-layer-firewall)
     - [Third party solutions](#third-party-solutions)
@@ -44,11 +44,35 @@ If you wish to make a correction or improvement, please send a pull request.
 - [Wi-Fi](#wi-fi)
 - [Physical access](#physical-access)
 - [System monitoring](#system-monitoring)
-    - [Audit](#audit)
+    - [Open Source Monitoring Tools](#open-source-monitoring-tools)
+    - [OpenBSM Audit](#openbsm-audit)
     - [DTrace](#dtrace)
     - [Network](#network)
 - [Miscellaneous](#miscellaneous)
 - [Additional resources](#additional-resources)
+
+## Basics
+The standard best security practices apply.
+
+* Create a threat model
+	* What are you trying to protect and from whom? Is your adversary a [three letter agency](https://theintercept.com/document/2015/03/10/strawhorse-attacking-macos-ios-software-development-kit/) (if so, you may want to consider using [OpenBSD](http://www.openbsd.org/) instead), a nosy eavesdropper on the network, or determined [apt](https://en.wikipedia.org/wiki/Advanced_persistent_threat) orchestrating a campaign against you?
+	* Study and appreciate the threat and your attack surface.
+
+* Keep the system up to date
+	* Patch, patch, patch.
+	* Subscribe to announcement mailing lists (e.g., [Apple security-announce](https://lists.apple.com/mailman/listinfo/security-announce)) for software you use often.
+
+* Encrypt sensitive data
+	* In addition to full disk encryption, create one or many encrypted containers to store passwords, keys and personal documents.
+	* This will mitigate damage in case of compromise and data exfiltration.
+
+* Frequent backups
+	* Create regular backups of your data and be ready to reimage in case of compromise.
+	* Always encrypt before copying backups to external media or the "cloud".
+
+* Click carefully
+	* Ultimately, the security of the system can be reduced to its administrator.
+	* Care should be taken when installing new software. Always prefer [free](https://www.gnu.org/philosophy/free-sw.en.html) and open source software ([which OS X is not](https://superuser.com/questions/19492/is-mac-os-x-open-source)).
 
 ## Preparing Yosemite
 There are several ways to install a fresh copy of OS X Yosemite.
@@ -340,8 +364,10 @@ Look at the `ProgramArguments` section to see which binary is run, in this case 
 If you're not interested in Apple Push Notifications, disable the service
 
 	sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.apsd.plist
-	
-Here's an example of disabling a bunch of **user launch agents**,
+
+**Note** Unloading services may break usability of some applications. Read the manual pages and use Google to make sure you understand what you're doing first.
+
+That said, here's an example of disabling some **user launch agents** I don't care for,
 
 	function disable_agent {
       echo "Disabling ${1}"
@@ -398,10 +424,11 @@ And the same for **system launch daemons**,
 	disable_daemon com.apple.SubmitDiagInfo
 	disable_daemon com.apple.TMCacheDelete
 	
-Be careful about disabling any services you don't understand, as it may render your system unbootable.
+Be careful about disabling any system daemons you don't understand, as it may render your system unbootable. If you break your Mac, use [single user mode](https://support.apple.com/en-us/HT201573) to fix it.
 
 ## Spotlight Suggestions
 Disable “Spotlight Suggestions” in both the Spotlight preferences and Safari's Search preferences to avoid your search queries being sent to Apple.
+
 Also disable "Bing Web Searches" in the Spotlight preferences to avoid your search queries being sent to Microsoft.
 
 See <https://fix-macosx.com/>
@@ -474,7 +501,7 @@ Make sure `dnsmasq` is running with `sudo lsof -ni UDP:53` or `ps -ef | grep '[d
 
 #### dnscrypt
 
-Use `dnscrypt` to encrypt all going DNS traffic to your provider of choice.
+Use `dnscrypt` to encrypt DNS traffic to the provider of choice.
 
 Install with `brew install dnscrypt-proxy`, or if you prefer a GUI, see [alterstep/dnscrypt-osxclient](https://github.com/alterstep/dnscrypt-osxclient) 
 
@@ -676,31 +703,32 @@ You can even replace all ad images with pictures of kittens by running a local w
 I recommend logging all privoxy requests so you can be inspired to write custom rules.
 
 ## Web browsing
-The web browser is probably the biggest security and privacy risk, as its fundamental job is to download and execute untrusted code from the Internet.
+The web browser is poses the largest security and privacy risk, as its fundamental job is to download and execute untrusted code from the Internet.
 
-I recommend using **Google Chrome** for most of your browsing. It offers separate profiles, good sandboxing, frequent updates (including Flash) and has many useful extensions.
+I recommend using **Google Chrome** for most of your browsing. It offers [separate profiles](https://www.chromium.org/user-experience/multi-profiles), [good sandboxing](https://www.chromium.org/developers/design-documents/sandbox) and [frequent updates](http://googlechromereleases.blogspot.com/) (including Flash, although you should disable it - see below).
 
 If you don't want to use Chrome, **Firefox** is an excellent browser as well. See discussion in [issue #2](https://github.com/drduh/OS-X-Yosemite-Security-and-Privacy-Guide/issues/2).
 
-I recommend creating at least three profiles, one for trusted web sites (email, banking), another for untrusted (link aggregators, news sites), and a third for a script-free experience.
+I recommend creating at least three profiles, one for browsing **trusted** web sites (email, banking), another for **untrusted** (link aggregators, news sites), and a third for a completely **cookie-less** and **script-less** experience.
 
-* One profile **without cookies or Javascript** enabled which should be the preferred profile to visiting new web sites.
+* One profile **without cookies or Javascript** (turned off in `chrome://settings/content`) which should be the **preferred** profile to visiting new web sites. However, many pages will not load at all without Javascript enabled.
 
-* One profile with [uMatrix](https://github.com/gorhill/uMatrix) installed. If uMatrix looks too complicated, [uBlock](https://github.com/chrisaljoudi/uBlock) is a fine alternative. Use this profile for visiting **mostly trusted** sites with customized uMatrix/uBlock rules. Take the time to learn how these firewall extensions work. Other recommended extensions are [Privacy Badger](https://www.eff.org/privacybadger) and [HTTPSEverywhere](https://www.eff.org/https-everywhere).
+* One profile with [uMatrix](https://github.com/gorhill/uMatrix) (or [uBlock](https://github.com/chrisaljoudi/uBlock), a simpler version). Use this profile for visiting **mostly trusted** web sites. Take time to learn how these **firewall** extensions work. Other frequently recommended extensions are [Privacy Badger](https://www.eff.org/privacybadger) and [HTTPSEverywhere](https://www.eff.org/https-everywhere).
 
-* One or more profile(s) for your **real name**, signed-in browsing needs such as banking and email.
+* One (or more) profile for your "real name", signed-in browsing needs such as banking and email (however, don't open email links from this profile)
 
-The idea is to separate cookie stores and compartmentalize your data.
+The idea is to separate and compartmentalize your data.
 
-In each profile, visit *chrome://plugins/* and **disable Adobe Flash** plugin.
+In each profile, visit `chrome://plugins/` and **disable Adobe Flash** plugin. If you **must** use Flash, create a separate profile, and make sure the content is hosted over **HTTPS**.
 
-Also visit *chrome://settings/contents* and select **Let me choose when to run plugin content** under the Plugins section.
+Also visit `chrome://settings/contents` and select **Let me choose when to run plugin content** under the Plugins section.
 
 Take some time to read <https://www.chromium.org/Home/chromium-privacy>, then disable any Chrome settings you don't want, for example **DNS prefetching**.
 
-Don't use any of those Chromium-derived browsers. They are usually closed source, poorly maintained and make dubious claims to protect your privacy.
+Do **not** use other Chromium-derived browsers. They are usually closed source, poorly maintained and make dubious claims to protect your privacy. See [The Private Life of Chromium Browsers
+](http://thesimplecomputer.info/the-private-life-of-chromium-browsers).
 
-Don't use Safari. The code is a mess and security vulnerabilities are frequent, but slow to patch.
+Do **not** use Safari. The code is a mess and security vulnerabilities are frequent, but slow to patch.
 
 ## Plugins
 Don't download or install Internet plugins like **Silverlight** unless you really need them. Netflix works with HTML5 on Yosemite.
@@ -865,22 +893,21 @@ For example, a skilled attacker with unsupervised physical access to your comput
 
 #### Open Source Monitoring Tools
 
-[Etsy/MIDAS](https://github.com/etsy/MIDAS): MIDAS is a framework for developing a Mac Intrusion Detection Analysis System.  Credits given to the security team at Facebook and Etsy in developing this framework.  This framework consists of utilities which help detect any modifications that have been made to common OS X persistance mechanisms.
+[etsy/MIDAS](https://github.com/etsy/MIDAS) is a framework for developing a Mac Intrusion Detection Analysis System.  Credits given to the security team at Facebook and Etsy in developing this framework.  This framework consists of utilities which help detect any modifications that have been made to common OS X persistance mechanisms.
 
-[Facebook/osquery](https://github.com/facebook/osquery): Osquery is a great resource which can be used to retrieve low level system information.  Users can write SQL queries to retrieve system information.  More information can be found here: https://osquery.io/
+[facebook/osquery](https://github.com/facebook/osquery) can be used to retrieve low level system information.  Users can write SQL queries to retrieve system information.  More information can be found at <https://osquery.io/>
 
-[OSXAuditor](https://github.com/jipegit/OSXAuditor): security tool used to analyze artifacts on a a running system.  It returns the following information:
- - quarantined files
- - Browser Information
- 	- Safari: history, downloads, topsites, LastSession, HTML5 databases and localstore
- 	- Firefox: cookies, downloads, formhistory, permissions, places and signons
- 	- Chrome: history and archives history, cookies, login data, top sites, web data, HTML5 
+[jipegit/OSXAuditor](https://github.com/jipegit/OSXAuditor) can be used to analyze artifacts on a running system:
+
+ - Quarantined files
+ - Browser information
+ 	- Safari history, downloads, topsites, LastSession, HTML5 databases and localstore
+ 	- Firefox cookies, downloads, formhistory, permissions, places and signons
+ 	- Chrome history and archives history, cookies, login data, top sites, web data, HTML5 
  - User social media and email accounts
  - WiFi access points
- - 
- There is more information on this on the README for the project. 
 
-#### Audit
+#### OpenBSM Audit
 OS X has a powerful OpenBSM auditing capability. You can use it to log all process executions and network connections, for example.
 
 Use `praudit -l /dev/auditpipe` to tail audit logs.
@@ -967,8 +994,6 @@ Don't default to saving documents to iCloud
 Did you know Apple has not shipped a computer with TPM since [2006](http://osxbook.com/book/bonus/chapter10/tpm/)?
 
 ## Additional resources
-
-[Apple's security-announce mailing list](https://lists.apple.com/mailman/listinfo/security-announce)
 
 [OS X Yosemite Core Technologies Overview White Paper](https://www.apple.com/osx/pdf/OSXYosemite_TO_FF1.pdf)
 
