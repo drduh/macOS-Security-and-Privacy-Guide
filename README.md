@@ -219,7 +219,7 @@ When OS X first starts, you'll be greeted by **Setup Assistant**.
 
 Do not connect to networking yet; skip that part of the setup for now.
 
-When creating your account, use a **strong password** without a hint.
+When creating your account, use a [strong password](http://www.explainxkcd.com/wiki/index.php/936:_Password_Strength) without a hint.
 
 Don't use your real name for your account as it'll show up as *So-and-so's Macbook* through sharing services to local networks.
 
@@ -230,11 +230,11 @@ Filevault encryption will protect data at rest and prevent someone with physical
 
 With much crypto [happening in hardware](https://software.intel.com/en-us/articles/intel-advanced-encryption-standard-aes-instructions-set/), the performance penalty for OS X FDE is not noticeable.
 
-Enable Filevault with `sudo fdesetup enable` or using **System Preferences**. Reboot.
-
 The security of Filevault 2 greatly depends on the security of the pseudo random number generator (PRNG).
 
 The **PRNG** can be manually seeded with entropy by writing to /dev/random **before** enabling Filevault 2. If possible, activate Filevault 2 after using the Mac for a while.
+
+Enable Filevault with `sudo fdesetup enable` or using **System Preferences**. Reboot.
 
 If you can remember your password, there's no reason to save the **recovery key**. However, your encrypted data will be lost forever if you can't remember the password or recovery key.
 
@@ -302,7 +302,7 @@ Programs such as [Little Snitch](https://www.obdev.at/products/littlesnitch/inde
 
 They are capable of monitoring and blocking **incoming** and **outgoing** network connections. However, they may require the use of a (closed source) third party kernel extension.
 
-If the number of choices of allowing/blocking network connections is overwhelming, I recommend using **Silent Mode** with connections allowed, then periodically check your settings to gain understanding of what various applications are doing.
+If the number of choices of allowing/blocking network connections is overwhelming, use **Silent Mode** with connections allowed, then periodically check your settings to gain understanding of what various applications are doing.
 
 It is worth noting that these firewalls can be bypassed by programs running as **root** or in kernel space, but they are still worth having - just don't expect absolute protection.
 
@@ -436,7 +436,7 @@ See <https://fix-macosx.com/>
 > If you've upgraded to Mac OS X Yosemite (10.10) and you're using the default settings, each time you start typing in Spotlight (to open an application or search for a file on your computer), your local search terms and location are sent to Apple and third parties (including Microsoft).
 
 ## Homebrew
-I recommend installing [Homebrew](http://brew.sh/) to make installing many software easier.
+Consider installing [Homebrew](http://brew.sh/) to make installing many software easier.
 
 If you have not already installed Xcode or Command Line Tools, run `xcode-select --install` and a prompt should appear to download and install CLI Tools.
 
@@ -446,7 +446,9 @@ Homebrew can be easily installed with
 
 or have a look at [homebrew/Installation.md](https://github.com/Homebrew/homebrew/blob/master/share/doc/homebrew/Installation.md#installation) for other installation options.
 
-Homebrew uses SSL/TLS to talk with github and verifies checksums of downloaded packages, so I would consider it to be pretty safe. There is discussion in [homebrew/issues/18036](https://github.com/Homebrew/homebrew/issues/18036).
+Homebrew uses SSL/TLS to talk with github and verifies checksums of downloaded packages, so it's [fairly secure](https://github.com/Homebrew/homebrew/issues/18036).
+
+Or, just download, compile and install software directly from their respective open source repositories.
 
 ## DNS
 Here are a few ways to improve your security and privacy with DNS.
@@ -660,7 +662,7 @@ Here are a few recommended self explanatory options to add to **~/.curlrc**
     ipv4
 
 ## HTTP
-I recommend using [privoxy](http://www.privoxy.org/) as a local proxy to sanitize and customize web browsing traffic.
+Consider using [privoxy](http://www.privoxy.org/) as a local proxy to sanitize and customize web browsing traffic.
 
 Install and start privoxy
 
@@ -700,16 +702,16 @@ Write simple or complex rules for redirection, such as to HTTPS,
 
 You can even replace all ad images with pictures of kittens by running a local web server.
 
-I recommend logging all privoxy requests so you can be inspired to write custom rules.
+Consider logging all privoxy requests so you can be inspired to write custom rules.
 
 ## Web browsing
 The web browser is poses the largest security and privacy risk, as its fundamental job is to download and execute untrusted code from the Internet.
 
-I recommend using **Google Chrome** for most of your browsing. It offers [separate profiles](https://www.chromium.org/user-experience/multi-profiles), [good sandboxing](https://www.chromium.org/developers/design-documents/sandbox) and [frequent updates](http://googlechromereleases.blogspot.com/) (including Flash, although you should disable it - see below).
+Use **Google Chrome** for most of your browsing. It offers [separate profiles](https://www.chromium.org/user-experience/multi-profiles), [good sandboxing](https://www.chromium.org/developers/design-documents/sandbox) and [frequent updates](http://googlechromereleases.blogspot.com/) (including Flash, although you should disable it - see below).
 
-If you don't want to use Chrome, **Firefox** is an excellent browser as well. See discussion in [issue #2](https://github.com/drduh/OS-X-Yosemite-Security-and-Privacy-Guide/issues/2).
+If you don't want to use Chrome, **Firefox** is an excellent browser as well. Or simply use both. See discussion in [issue #2](https://github.com/drduh/OS-X-Yosemite-Security-and-Privacy-Guide/issues/2).
 
-I recommend creating at least three profiles, one for browsing **trusted** web sites (email, banking), another for **untrusted** (link aggregators, news sites), and a third for a completely **cookie-less** and **script-less** experience.
+Create at least three profiles, one for browsing **trusted** web sites (email, banking), another for **untrusted** (link aggregators, news sites), and a third for a completely **cookie-less** and **script-less** experience.
 
 * One profile **without cookies or Javascript** (turned off in `chrome://settings/content`) which should be the **preferred** profile to visiting new web sites. However, many pages will not load at all without Javascript enabled.
 
@@ -879,10 +881,14 @@ You can also generate passwords from **Keychain Access** password assistant, or 
 
 Alternatively, you can manage an encrypted passwords file yourself with `gpg` (shameless plug for my [pwd.sh](https://github.com/drduh/pwd.sh) script).
 
+In addition to passwords, ensure your online accounts (such as github, gmail) have [two factor authentication](https://en.wikipedia.org/wiki/Two-factor_authentication) enabled.
+
+Look to [Yubikey](https://www.yubico.com/products/yubikey-hardware/yubikey-neo/) for a two factor and private key (e.g., ssh, gpg) hardware token.
+
 ## Wi-Fi
 OS X remembers access points it has connected to. Like all wireless devices, your Mac will broadcast all of these access point names it remembers (e.g. *So-and-so's Router*) each time it looks for a network (e.g. wake from sleep).
 
-This is a privacy risk, so I recommend removing networks from the list in **System Preferences** when they're no longer needed.
+This is a privacy risk, so remove networks from the list in **System Preferences** when they're no longer needed.
 
 ## Physical access
 Keep your Mac physically secure at all times. Don't leave it unattended in hotels and such.
