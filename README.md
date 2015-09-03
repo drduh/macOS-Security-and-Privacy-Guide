@@ -211,7 +211,7 @@ Run `diskutil list` again to make sure **Recovery HD** now exists.
 Once you're done, eject the disk with `hdiutil unmount /Volumes/OS\ X` and power down the connected Mac.
 
 ## First boot
-On first boot, hold `Command` `Option` `P` and `R` keys to clear NVRAM.
+On first boot, hold `Command` `Option` `P` and `R` keys to [clear NVRAM](https://support.apple.com/en-us/HT204063).
 
 Wait for the loud, obnoxious gong and keep holding while the Mac reboots once.
 
@@ -284,14 +284,10 @@ Controlled by the **Firewall** tab of **Security & Privacy** in **System Prefere
 
 Enable ALF, logging and "stealth mode" with the following commands, or through System Preferences:
 
-    sudo defaults write /Library/Preferences/com.apple.alf \
-      globalstate -int 1
-    sudo defaults write /Library/Preferences/com.apple.alf \
-      allowsignedenabled -bool false
-    sudo defaults write /Library/Preferences/com.apple.alf \
-      loggingenabled -bool true
-    sudo defaults write /Library/Preferences/com.apple.alf \
-      stealthenabled -bool true
+    sudo defaults write /Library/Preferences/com.apple.alf globalstate -int 1
+    sudo defaults write /Library/Preferences/com.apple.alf allowsignedenabled -bool false
+    sudo defaults write /Library/Preferences/com.apple.alf loggingenabled -bool true
+    sudo defaults write /Library/Preferences/com.apple.alf stealthenabled -bool true
       
 > Computer hackers scan networks so they can attempt to identify computers to attack. You can prevent your computer from responding to some of these scans by using **stealth mode**. When stealth mode is enabled, your computer does not respond to ICMP ping requests, and does not answer to connection attempts from a closed TCP or UDP port. This makes it more difficult for attackers to find your computer.
 
@@ -300,11 +296,11 @@ Note, ALF does not offer the ability to monitor or block **outgoing** connection
 #### Third party solutions
 Programs such as [Little Snitch](https://www.obdev.at/products/littlesnitch/index.html), [Hands Off](https://www.oneperiodic.com/products/handsoff/) and [Radio Silence](http://radiosilenceapp.com/) provide a good balance of usability and security.
 
-They are capable of monitoring and blocking **incoming** and **outgoing** network connections. However, they may require the use of a (closed source) third party kernel extension.
+They are capable of monitoring and blocking **incoming** and **outgoing** network connections. However, they may require the use of a closed source [kernel extension](https://developer.apple.com/library/mac/documentation/Darwin/Conceptual/KernelProgramming/Extend/Extend.html).
 
 If the number of choices of allowing/blocking network connections is overwhelming, use **Silent Mode** with connections allowed, then periodically check your settings to gain understanding of what various applications are doing.
 
-It is worth noting that these firewalls can be bypassed by programs running as **root** or in kernel space, but they are still worth having - just don't expect absolute protection.
+It is worth noting that these firewalls can be bypassed by programs running as **root** or through [OS vulnerabilities](https://www.blackhat.com/docs/us-15/materials/us-15-Wardle-Writing-Bad-A-Malware-For-OS-X.pdf) [pdf], but they are still worth having - just don't expect absolute protection.
 
 #### Kernel level packet filtering 
 A highly customizable, powerful, but also most complicated firewall exists in the kernel. It can be controlled with **pfctl** and various configuration files.
@@ -638,18 +634,36 @@ A cool idea is to write a custom proxy which monitors and logs certificate chain
 
 ## OpenSSL
 
-The version of **OpenSSL** which comes with Yosemite is quite dated. It doesn't support TLS 1.1 or higher, nor does it support Elliptic Curve ciphers.
+The version of `openssl` in Yosemite is `0.9.8` which is [not current](https://apple.stackexchange.com/questions/200582/why-is-apple-using-an-older-version-of-openssl). It doesn't support TLS 1.1 or newer, elliptic curve ciphers, and [more](https://stackoverflow.com/questions/27502215/difference-between-openssl-09-8z-and-1-0-1).
 
 Apple claims OpenSSL is **deprecated** in their [Cryptographic Services Guide
 ](https://developer.apple.com/library/mac/documentation/Security/Conceptual/cryptoservices/GeneralPurposeCrypto/GeneralPurposeCrypto.html) document. Their version also has patches which may [surprise you](https://hynek.me/articles/apple-openssl-verification-surprises/).
 
-Grab a recent version of OpenSSL with `brew install openssl && brew link --force openssl`
+Grab a recent version of OpenSSL with `brew install openssl` and ensure it's the default with `brew link --force openssl`
 
-The version of **curl** which comes with OS X uses **Secure Transport** for SSL verification. If you prefer to use OpenSSL, install curl with `brew install curl --with-openssl`
+Compare the new version with the system one
+
+    $ echo | openssl s_client -connect github.com:443 2>&1 | grep -A2 SSL-Session
+    SSL-Session:
+        Protocol  : TLSv1.2
+        Cipher    : ECDHE-RSA-AES128-GCM-SHA256
+
+    $ ^openssl^/usr/bin/openssl
+    echo | /usr/bin/openssl s_client -connect github.com:443 2>&1 | grep -A2 SSL-Session
+    SSL-Session:
+        Protocol  : TLSv1
+        Cipher    : AES128-SHA
+
+Also see [Comparison of TLS implementations
+](https://en.wikipedia.org/wiki/Comparison_of_TLS_implementations) and [How's My SSL](https://www.howsmyssl.com/).
 
 ## Curl
 
-Here are a few recommended self explanatory options to add to **~/.curlrc**
+The version of `curl` which comes with OS X uses [Secure Transport](https://developer.apple.com/library/mac/documentation/Security/Reference/secureTransportRef/) for SSL/TLS validation.
+
+If you prefer to use OpenSSL, install with `brew install curl --with-openssl` and ensure it's the default with `brew link --force curl`
+
+Here are a few recommended self explanatory options to add to `~/.curlrc`
 
     user-agent = "Mozilla/5.0 (Windows NT 6.1; rv:31.0) Gecko/20100101 Firefox/31.0"
     referer = ";auto"
@@ -707,9 +721,11 @@ Consider logging all privoxy requests so you can be inspired to write custom rul
 ## Web browsing
 The web browser is poses the largest security and privacy risk, as its fundamental job is to download and execute untrusted code from the Internet.
 
-Use **Google Chrome** for most of your browsing. It offers [separate profiles](https://www.chromium.org/user-experience/multi-profiles), [good sandboxing](https://www.chromium.org/developers/design-documents/sandbox) and [frequent updates](http://googlechromereleases.blogspot.com/) (including Flash, although you should disable it - see below).
+Use [Google Chrome](https://www.google.com/chrome/browser/desktop/) for most of your browsing. It offers [separate profiles](https://www.chromium.org/user-experience/multi-profiles), [good sandboxing](https://www.chromium.org/developers/design-documents/sandbox) and [frequent updates](http://googlechromereleases.blogspot.com/) (including Flash, although you should disable it - see below).
 
-If you don't want to use Chrome, **Firefox** is an excellent browser as well. Or simply use both. See discussion in [issue #2](https://github.com/drduh/OS-X-Yosemite-Security-and-Privacy-Guide/issues/2).
+Chrome also comes with a great [PDF viewer](http://0xdabbad00.com/2013/01/13/most-secure-pdf-viewer-chrome-pdf-viewer/).
+
+If you don't want to use Chrome, [Firefox](https://www.mozilla.org/en-US/firefox/new/) is an excellent browser as well. Or simply use both. See discussion in [issue #2](https://github.com/drduh/OS-X-Yosemite-Security-and-Privacy-Guide/issues/2).
 
 Create at least three profiles, one for browsing **trusted** web sites (email, banking), another for **untrusted** (link aggregators, news sites), and a third for a completely **cookie-less** and **script-less** experience.
 
@@ -725,12 +741,13 @@ In each profile, visit `chrome://plugins/` and **disable Adobe Flash** plugin. I
 
 Also visit `chrome://settings/contents` and select **Let me choose when to run plugin content** under the Plugins section.
 
-Take some time to read <https://www.chromium.org/Home/chromium-privacy>, then disable any Chrome settings you don't want, for example **DNS prefetching**.
+Take some time to read through [Chromium Security](https://www.chromium.org/Home/chromium-security) and [Chromium Privacy](https://www.chromium.org/Home/chromium-privacy).
 
-Do **not** use other Chromium-derived browsers. They are usually closed source, poorly maintained and make dubious claims to protect your privacy. See [The Private Life of Chromium Browsers
-](http://thesimplecomputer.info/the-private-life-of-chromium-browsers).
+For example you may wish to disable [DNS prefetching](https://www.chromium.org/developers/design-documents/dns-prefetching) (see also [DNS Prefetching and Its Privacy Implications](https://www.usenix.org/legacy/event/leet10/tech/full_papers/Krishnan.pdf) [pdf].
 
-Do **not** use Safari. The code is a mess and security vulnerabilities are frequent, but slow to patch.
+Do **not** use other Chromium-derived browsers. They are usually [closed source](http://yro.slashdot.org/comments.pl?sid=4176879&cid=44774943), [poorly maintained](https://plus.google.com/+JustinSchuh/posts/69qw9wZVH8z), or make dubious claims to protect privacy. See [The Private Life of Chromium Browsers](http://thesimplecomputer.info/the-private-life-of-chromium-browsers).
+
+Do **not** use Safari. The code is a mess and security vulnerabilities are frequent, but slower to patch ([discussion on HN](https://news.ycombinator.com/item?id=10150038)).
 
 ## Plugins
 Don't download or install Internet plugins like **Silverlight** unless you really need them. Netflix works with HTML5 on Yosemite.
@@ -750,13 +767,13 @@ PGP is a standard for encrypting email end to end. That means only the chosen re
 
 **GPG**, or **GNU Privacy Guard**, is a GPL licensed program compliant with the standard.
 
-**GPG** is also used to verify signatures of software you download and install.
+**GPG** is used to verify signatures of software you download and install, as well as [symmetrically](https://en.wikipedia.org/wiki/Symmetric-key_algorithm) or [asymmetrically](https://en.wikipedia.org/wiki/Public-key_cryptography) encrypt files and text.
 
-Install it with `brew install gnupg`, or if you prefer to install the newer, more feature-rich [stable version](https://www.gnupg.org/), install with `brew install homebrew/versions/gnupg21`
+Install with `brew install gnupg`, or if you prefer to install a newer, more feature-rich [stable version](https://www.gnupg.org/), use `brew install homebrew/versions/gnupg21`
 
 If you prefer a GUI, check out [GPG Suite](https://gpgtools.org/)
 
-Here are recommended options to add to **~/.gnupg/gpg.conf**
+Here are recommended options to add to `~/.gnupg/gpg.conf`
 
     auto-key-locate keyserver
     keyserver hkps://hkps.pool.sks-keyservers.net
@@ -785,12 +802,14 @@ Install the keyservers CA certificate
 
 These settings will configure GnuPG to use SSL when fetching new keys and prefer strong cryptographic primitives.
 
+See also [ioerror/duraconf/configs/gnupg/gpg.conf](https://github.com/ioerror/duraconf/blob/master/configs/gnupg/gpg.conf)
+
 You should also read [OpenPGP Best Practices
 ](https://help.riseup.net/en/security/message-security/openpgp/best-practices)
 
-If you don't already have a gpg keypair, create one now with `gpg --gen-key`
+If you don't already have a gpg keypair, create one with `gpg --gen-key`
 
-Read online guides and practice encrypting and decrypting email to yourself and your friends. Get them interested in this stuff!
+Read [online](https://alexcabal.com/creating-the-perfect-gpg-keypair/) [guides](https://security.stackexchange.com/questions/31594/what-is-a-good-general-purpose-gnupg-key-setup) and practice encrypting and decrypting email to yourself and your friends. Get them interested in this stuff!
 
 ## OTR
 OTR stands for **Off-the-Record** and is a cryptographic protocol for encrypting and authenticating conversations over instant messaging.
@@ -1038,3 +1057,5 @@ Did you know Apple has not shipped a computer with TPM since [2006](http://osxbo
 [Yosemite net-monitor](https://github.com/fix-macosx/net-monitor)
 
 [Hacker News discussion](https://news.ycombinator.com/item?id=10148077)
+
+[Apple Open Source](https://opensource.apple.com/)
