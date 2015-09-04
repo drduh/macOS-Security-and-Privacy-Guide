@@ -147,7 +147,7 @@ Now, `yosemite.dmg` is ready to be applied to one or multiple Macs. You can furt
 
 ## Installing Yosemite
 
-I prefer to install this image using another Mac and **Target Disk Mode**.
+I prefer to install this image using another Mac and **[Target Disk Mode](https://support.apple.com/en-us/HT201462)**.
 
 If you don't have another Mac, create a bootable USB drive from the Yosemite app bundle you already have, and boot the Mac you wish to image to it by holding the *Option* key at boot.
 
