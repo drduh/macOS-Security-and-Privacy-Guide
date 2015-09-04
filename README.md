@@ -261,7 +261,7 @@ and paper [Lest We Remember: Cold Boot Attacks on Encryption Keys](https://www.u
 
 Setting a firmware password in OS X prevents your Mac from starting up from any device other than your startup disk. [It can also be helpful if your laptop is stolen](https://www.ftc.gov/news-events/blogs/techftc/2015/08/virtues-strong-enduser-device-controls), as the only way to reset the firmware password is through an Apple Store ([or is it?](https://reverse.put.as/2015/05/29/the-empire-strikes-back-apple-how-your-mac-firmware-security-is-completely-broken/)).
 
-1. Shut down your Mac.
+1. Shutdown your Mac.
 
 2. Start up your Mac again and immediately hold the `Command` and `R` keys after you hear the startup sound to start from **OS X Recovery**.
 
@@ -936,7 +936,7 @@ You can also generate passwords from **Keychain Access** password assistant, or 
 
 Alternatively, you can manage an encrypted passwords file yourself with `gpg` (shameless plug for my [pwd.sh](https://github.com/drduh/pwd.sh) script).
 
-In addition to passwords, ensure your online accounts (such as github, gmail) have [two factor authentication](https://en.wikipedia.org/wiki/Two-factor_authentication) enabled.
+In addition to passwords, ensure your online accounts (such as github, google accounts, etc.) have [two factor authentication](https://en.wikipedia.org/wiki/Two-factor_authentication) enabled.
 
 Look to [Yubikey](https://www.yubico.com/products/yubikey-hardware/yubikey-neo/) for a two factor and private key (e.g., ssh, gpg) hardware token.
 
