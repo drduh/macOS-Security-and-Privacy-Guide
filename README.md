@@ -77,65 +77,58 @@ The standard best security practices apply.
 ## Preparing Yosemite
 There are several ways to install a fresh copy of OS X Yosemite.
 
-The simplest way is to boot into [Recovery Mode](https://support.apple.com/en-us/HT201314) by holding `Command` and `R` keys at boot. One can then download and apply an image right from Apple. However, this way exposes the computer's serial number and other identifying information to Apple over plain **HTTP**.
+The simplest way is to boot into [Recovery Mode](https://support.apple.com/en-us/HT201314) by holding `Command` and `R` keys at boot. A system image can be downloaded and applied directly from Apple. However, this way exposes the computer's serial number and other identifying information to Apple over plain **HTTP**.
 
-An alternative way is to download Yosemite build **14A389** or newer from the **App Store** or some other place and create an installable system image which you can customize and reuse.
+Another way is to download Yosemite build version `14F27` from the [App Store](https://itunes.apple.com/us/app/os-x-yosemite/id915041082) or some other place and create a custom, installable system image.
 
-OS X installers can be made with the `createinstallmedia` utility included in `/Applications/Install OS X Yosemite.app`. See [Create a bootable installer for OS X Yosemite](https://support.apple.com/en-us/HT201372) or run the utility without arguments to see how it works.
+The application is [code signed](https://developer.apple.com/library/mac/documentation/Security/Conceptual/CodeSigningGuide/Procedures/Procedures.html#//apple_ref/doc/uid/TP40005929-CH4-SW6), which should be verified to make sure you received a legitimate copy.
 
-If you'd like to do it the **manual** way, you will need to find the file `InstallESD.dmg`, which is inside `/Applications/Install OS X Yosemite.app`.
+    $ codesign -dvv Install\ OS\ X\ Yosemite.app
+    Executable=/Users/drduh/Install OS X Yosemite.app/Contents/MacOS/InstallAssistant
+    Identifier=com.apple.InstallAssistant.Yosemite
+    Format=bundle with Mach-O thin (x86_64)
+    CodeDirectory v=20200 size=239 flags=0x200(kill) hashes=4+3 location=embedded
+    Signature size=4169
+    Authority=Apple Mac OS Application Signing
+    Authority=Apple Worldwide Developer Relations Certification Authority
+    Authority=Apple Root CA
+    Info.plist entries=30
+    TeamIdentifier=K36BKF7T3D
 
-Just right click, select **Show Package Contents** and navigate to **Contents > SharedSupport** to find the dmg.
+OS X installers can be made with the `createinstallmedia` utility included in `Install OS X Yosemite.app/Contents/Resources/`. See [Create a bootable installer for OS X Yosemite](https://support.apple.com/en-us/HT201372), or run the utility without arguments to see how it works.
 
-You can verify the following cryptographic hashes to ensure you have the same, authentic copy by using a command like `shasum -a256 InstallESD.dmg` and so on. You can also Google these hashes to ensure your copy is genuine and hasn't been tampered with.
+If you'd like to do it the **manual** way, you will need to find the file `InstallESD.dmg`, which is inside `Install OS X Yosemite.app`.
 
-    InstallESD.dmg (Build 14A389)
+Right click, select **Show Package Contents** and navigate to **Contents > SharedSupport** to find `Install.DMG`.
 
-    SHA-256: af244af020424d803ea8fc143bdd2c067db19f663484d735d6b6733a0feeeb4d
-    SHA-1:   eebf02a20ac27665a966957eec6f5e6fe3228a19
-    MD5:     8d3187fa7699366e1723c28abd78acc8
+You can verify the following cryptographic hashes to ensure you have the same, authentic copy by using a command like `shasum -a256 InstallESD.dmg` and so on.
 
-Next, mount and install the OS to a temporary image, or use the GUI app [MagerValp/AutoDMG](https://github.com/MagerValp/AutoDMG).
+You can also Google these hashes to ensure your copy is genuine and has not been tampered with.
 
-    hdiutil attach -noverify -mountpoint /tmp/installesd /Applications/Install\ OS\ X\ Mavericks.app/Contents/SharedSupport/InstallESD.dmg
+    InstallESD.dmg (Build 14F27)
+
+    SHA-256: 24c4934d91401dd2f738c7811d35ae16d3d7993586592a64b9baf625fe0427db
+    SHA-1:   ef5cc8851b893dbe4bc9a5cf5c648c10450af6bc
+    MD5:     ff4850735fa0a0a1d706edd21f133ef2
+
+Mount and install the operating system to a **temporary image**, or use the GUI app [MagerValp/AutoDMG](https://github.com/MagerValp/AutoDMG).
+
+    hdiutil attach -noverify -mountpoint /tmp/installesd /Applications/Install\ OS\ X\ Yosemite.app/Contents/SharedSupport/InstallESD.dmg
+    
     hdiutil create -size 32g -type SPARSE -fs HFS+J -volname "OS X" -uid 0 -gid 80 -mode 1775 /tmp/output.sparseimage
+    
     hdiutil attach -noverify -mountpoint /tmp/os -owners on /tmp/output.sparseimage
+    
     sudo installer -pkg /tmp/installesd/Packages/OSInstall.mpkg -tgt /tmp/os
 
 This part will take a while, so just be patient. You can `tail -F /var/log/install.log` to check progress.
 
-Download and install the [10.10.4 Combo Update](https://support.apple.com/downloads/DL1820/en_US/osxupdcombo10.10.4.dmg)
-
-    osxupdcombo10.10.4.dmg
-
-    SHA-256: eccebbfcda10ac6f1dc63c389421c73007b44fa836da563e0830de47543890a2
-    SHA-1:   301087ef9ac268c61ebd9d79d001419539dea8ff
-    MD5:     50023d1cf9567bffc0723ef0a49266e2
-
-Then
-
-    hdiutil mount osxupdcombo10.10.4.dmg
-    sudo installer -pkg /Volumes/OS\ X\ 10.10.4\ Update\ Combo/OSXUpdCombo10.10.4.pkg -tgt /tmp/os
-    hdiutil unmount /Volumes/OS\ X\ 10.10.4\ Update\ Combo
-
-Download and install the [10.10.5 Combo Update](https://support.apple.com/downloads/DL1832/en_US/osxupdcombo10.10.5.dmg)
-
-    osxupdcombo10.10.5.dmg
-
-    SHA-256: 40865b9021f4e0534181af100f48be1150b3e8ba80bfabe42cb0c7623717ae27
-    SHA-1:   ddc31ba75b4b67e9aa450a9ab66232e30c718bed
-    MD5:     c2df0cc14d39e6f3a232d2cc524d6d83
-
-Then
-
-    hdiutil mount osxupdcombo10.10.5.dmg
-    sudo installer -pkg /Volumes/OS\ X\ 10.10.5\ Update/OSXUpd10.10.5.pkg -tgt /tmp/os
-    hdiutil unmount /Volumes/OS\ X\ 10.10.5\ Update
-
 Optionally, install any other packages to the image, such as [Wireshark](https://www.wireshark.org/download.html).
 
     hdiutil mount Wireshark\ 1.99.5\ Intel\ 64.dmg
+    
     sudo installer -pkg /Volumes/Wireshark/Wireshark\ 1.99.5\ Intel\ 64.pkg -tgt /tmp/os
+    
     hdiutil unmount /Volumes/Wireshark
     
 See [MagerValp/AutoDMG/wiki/Packages-Suitable-for-Deployment](https://github.com/MagerValp/AutoDMG/wiki/Packages-Suitable-for-Deployment) for caveats and check out [chilcote/outset](https://github.com/chilcote/outset) to instead processes packages and scripts at first boot.
@@ -143,8 +136,11 @@ See [MagerValp/AutoDMG/wiki/Packages-Suitable-for-Deployment](https://github.com
 When you're done, detach, convert and verify the image.
 
     hdiutil detach /tmp/os
+    
     hdiutil detach /tmp/installesd
+    
     hdiutil convert -format UDZO /tmp/output.sparseimage -o yosemite.dmg
+    
     asr imagescan --source yosemite.dmg
 
 Now, `yosemite.dmg` is ready to be applied to one or many Macs. You can further customize the image to have premade users, applications and preferences to your liking.
