@@ -1080,6 +1080,9 @@ Also check out the GUI "simple network activity monitor" [BonzaiThePenguin/Loadi
 
 ## Miscellaneous
 
+Disable Automatic File Opening in Safari.
+In Safari's Preferences - General tab - Uncheck 'Open "safe" files after downloading'.
+
 If you want to play **music** or watch **videos**, use [VLC media player](https://www.videolan.org/vlc/index.html) which is free and open source.
 
 If you want to **torrent**, use [Transmission](http://www.transmissionbt.com/download/) which is free and open source.
