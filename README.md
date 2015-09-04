@@ -482,9 +482,9 @@ Install `dnsmasq` and edit the configuration
     brew install dnsmasq
 
     mkdir -p /usr/local/etc
-    
+
     cp /usr/local/opt/dnsmasq/dnsmasq.conf.example /usr/local/etc/dnsmasq.conf
-    
+
     vim /usr/local/etc/dnsmasq.conf
 
 Have a look through the commented-out options. Here are a few recommended settings to enable,
@@ -493,7 +493,7 @@ Have a look through the commented-out options. Here are a few recommended settin
     server=127.0.0.1#5355
       
     # Never forward plain names
-      domain-needed
+    domain-needed
 
     # Never forward addresses in the non-routed address spaces
     bogus-priv
@@ -527,6 +527,8 @@ Make sure `dnsmasq` is running with `sudo lsof -ni UDP:53` or `ps -ef | grep '[d
       flags    : Request A records, Request AAAA records
       reach    : Reachable,Local Address
 
+**Note** Some VPN software overrides DNS settings on connect. See [issue #24](https://github.com/drduh/OS-X-Yosemite-Security-and-Privacy-Guide/issues/24) for more information.
+
 #### dnscrypt
 
 Use [dnscrypt](https://dnscrypt.org/) to encrypt DNS traffic to the provider of choice.
@@ -536,9 +538,9 @@ If you prefer a GUI application, see [alterstep/dnscrypt-osxclient](https://gith
 Install the program
 
     brew install dnscrypt-proxy
-    
+
     sudo cp -fv /usr/local/opt/dnscrypt-proxy/*.plist /Library/LaunchDaemons
-    
+
     sudo chown root /Library/LaunchDaemons/homebrew.mxcl.dnscrypt-proxy.plist
 
 If using in combination with `dnsmasq`, edit `/Library/LaunchDaemons/homebrew.mxcl.dnscrypt-proxy.plist` to have this line
