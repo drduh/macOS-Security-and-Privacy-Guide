@@ -220,31 +220,42 @@ When creating your account, use a [strong password](http://www.explainxkcd.com/w
 Don't use your real name for your account as it'll show up as *So-and-so's Macbook* through sharing services to local networks.
 
 ## Full disk encryption
-**Filevault 2** provides full disk (technically, full _volume_) encryption on OS X.
+[Filevault](https://en.wikipedia.org/wiki/FileVault) provides full disk (technically, full _volume_) encryption on OS X.
 
 Filevault encryption will protect data at rest and prevent someone with physical access from stealing data or tampering with your Mac.
 
-With much crypto [happening in hardware](https://software.intel.com/en-us/articles/intel-advanced-encryption-standard-aes-instructions-set/), the performance penalty for OS X FDE is not noticeable.
+With much crypto [happening in hardware](https://software.intel.com/en-us/articles/intel-advanced-encryption-standard-aes-instructions-set/), the performance penalty for Filevault is not noticeable.
 
-The security of Filevault 2 greatly depends on the security of the pseudo random number generator (PRNG).
+The security of Filevault 2 greatly depends on the pseudo random number generator (**PRNG**).
 
-The **PRNG** can be manually seeded with entropy by writing to /dev/random **before** enabling Filevault 2. If possible, activate Filevault 2 after using the Mac for a while.
+> The random device implements the Yarrow pseudo random number generator algorithm and maintains its entropy pool.  Additional entropy is fed to the generator regularly by the SecurityServer daemon from random jitter measurements of the kernel.
+>   
+> SecurityServer is also responsible for periodically saving some entropy to disk and reloading it during startup to provide entropy in early system operation.
+    
+See `man 4 random` for more information.
 
-Enable Filevault with `sudo fdesetup enable` or using **System Preferences**. Reboot.
+The PRNG can be manually seeded with entropy by writing to /dev/random **before** enabling Filevault 2. This can be done by simply using the Mac for a little while before activate Filevault 2.
+
+Enable Filevault with `sudo fdesetup enable` or using **System Preferences** and reboot.
 
 If you can remember your password, there's no reason to save the **recovery key**. However, your encrypted data will be lost forever if you can't remember the password or recovery key.
 
-If you want to know more about how Filevault 2 works, see the paper _[Infiltrate the Vault: Security Analysis and Decryption of Lion Full Disk Encryption](https://eprint.iacr.org/2012/374.pdf) [pdf]_
+If you want to know more about how Filevault 2 works, see the paper [Infiltrate the Vault: Security Analysis and Decryption of Lion Full Disk Encryption](https://eprint.iacr.org/2012/374.pdf) [pdf]
 
-and _[IEEE Std 1619-2007 “The XTS-AES Tweakable Block Cipher”](http://libeccio.di.unisa.it/Crypto14/Lab/p1619.pdf) [pdf]_
+and [IEEE Std 1619-2007 “The XTS-AES Tweakable Block Cipher”](http://libeccio.di.unisa.it/Crypto14/Lab/p1619.pdf) [pdf]
 
-You may wish to enforce **hibernation** and evict Filevault keys from memory instead of traditional "sleep" to memory.
+You may wish to enforce **hibernation** and evict Filevault keys from memory instead of traditional sleep to memory.
 
     sudo pmset -a destroyfvkeyonstandby 1 hibernatemode 25
     
-For more information, see <https://derflounder.wordpress.com/2012/02/05/protecting-yourself-against-firewire-dma-attacks-on-10-7-x/> 
+> All computers have firmware of some type—EFI, BIOS—to help in the discovery of hardware components and ultimately to properly bootstrap the computer using the desired OS instance. In the case of Apple hardware and the use of EFI, Apple stores relevant information within EFI to aid in the functionality of OS X. For example, the FileVault key is stored in EFI to transparently come out of standby mode.
 
-and paper _[Lest We Remember: Cold Boot Attacks on Encryption Keys](https://www.usenix.org/legacy/event/sec08/tech/full_papers/halderman/halderman.pdf) [pdf]_
+> Organizations especially sensitive to a high-attack environment, or potentially exposed to full device access when the device is in standby mode, should mitigate this risk by destroying the FileVault key in firmware. Doing so doesn’t destroy the use of FileVault, but simply requires the user to enter the password in order for the system to come out of standby mode.
+    
+For more information, see [Best Practices for
+Deploying FileVault 2](http://training.apple.com/pdf/WP_FileVault2.pdf) [pdf]
+
+and paper [Lest We Remember: Cold Boot Attacks on Encryption Keys](https://www.usenix.org/legacy/event/sec08/tech/full_papers/halderman/halderman.pdf) [pdf]
 
 ## Firmware password
 
@@ -577,9 +588,9 @@ Yosemite comes with [over 200 root certificate authorities](https://support.appl
 For more information, see [Certification Authority Trust Tracker](https://github.com/kirei/catt),
 
 and papers
-_[Analysis of the HTTPS certificate ecosystem](http://conferences.sigcomm.org/imc/2013/papers/imc257-durumericAemb.pdf) [pdf]_
+[Analysis of the HTTPS certificate ecosystem](http://conferences.sigcomm.org/imc/2013/papers/imc257-durumericAemb.pdf) [pdf]
 
-and _[You Won’t Be Needing These Any More: On Removing Unused Certificates From Trust Stores](http://www.ifca.ai/fc14/papers/fc14_submission_100.pdf) [pdf]_
+and [You Won’t Be Needing These Any More: On Removing Unused Certificates From Trust Stores](http://www.ifca.ai/fc14/papers/fc14_submission_100.pdf) [pdf]
 
 You can inspect system root certificates in **Keychain Access**, under the **System Roots** tab or by using the `security` command line tool and `/System/Library/Keychains/SystemRootCertificates.keychain` file.
 
@@ -828,7 +839,7 @@ Remember to turn off **logging** if you're going to use OTR with Adium.
 
 A good console based XMPP client is [profanity](http://www.profanity.im/)  which can be installed with `brew install profanity`
 
-If you want to know how OTR works, read the paper _[Off-the-Record Communication, or, Why Not To Use PGP](https://otr.cypherpunks.ca/otr-wpes.pdf) [pdf]_
+If you want to know how OTR works, read the paper [Off-the-Record Communication, or, Why Not To Use PGP](https://otr.cypherpunks.ca/otr-wpes.pdf) [pdf]
 
 ## Tor
 Tor is an anynomizing proxy which can be used for browsing the web.
@@ -863,11 +874,11 @@ There is an increasing amount of Mac malware in the wild; Macs aren't immune fro
 
 Some of the malware comes bundled with both legitimate software, such as the [Java bundling Ask Toolbar](http://www.zdnet.com/article/oracle-extends-its-adware-bundling-to-include-java-for-macs/), and some with illegitimate software, such as [Mac.BackDoor.iWorm](https://docs.google.com/document/d/1YOfXRUQJgMjJSLBSoLiUaSZfiaS_vU3aG4Bvjmz6Dxs/edit?pli=1) bundled with pirated programs.
 
-See _[Methods of malware persistence on Mac OS X](https://www.virusbtn.com/pdf/conference/vb2014/VB2014-Wardle.pdf) [pdf]_ and [Malware Persistence on OS X Yosemite](https://www.rsaconference.com/events/us15/agenda/sessions/1591/malware-persistence-on-os-x-yosemite) to learn about how garden-variety malware functions.
+See [Methods of malware persistence on Mac OS X](https://www.virusbtn.com/pdf/conference/vb2014/VB2014-Wardle.pdf) [pdf] and [Malware Persistence on OS X Yosemite](https://www.rsaconference.com/events/us15/agenda/sessions/1591/malware-persistence-on-os-x-yosemite) to learn about how garden-variety malware functions.
 
 You can periodically run a tool like [Knock Knock](https://github.com/synack/knockknock) to examine persistent binaries (e.g. scripts, binaries). But by then, it is probably too late. Maybe [Block Block](https://objective-see.com/products/blockblock.html) will help.
 
-**Anti-virus** programs are not useful for advanced users and **will** increase your attack surface against sophisticated threats. See _[Sophail: Applied attacks against Sophos Antivirus](https://lock.cmpxchg8b.com/sophailv2.pdf) [pdf]_ and [Analysis and Exploitation of an ESET Vulnerability](http://googleprojectzero.blogspot.ro/2015/06/analysis-and-exploitation-of-eset.html). The best anti-virus is **Common Sense 2015**.
+**Anti-virus** programs are not useful for advanced users and **will** increase your attack surface against sophisticated threats. See [Sophail: Applied attacks against Sophos Antivirus](https://lock.cmpxchg8b.com/sophailv2.pdf) [pdf] and [Analysis and Exploitation of an ESET Vulnerability](http://googleprojectzero.blogspot.ro/2015/06/analysis-and-exploitation-of-eset.html). The best anti-virus is **Common Sense 2015**.
 
 Local **privilege escalation** bugs are plenty on OS X, so always be careful when downloading and running untrusted programs or trusted programs from third party websites or downloaded over HTTP ([example](http://arstechnica.com/security/2015/08/0-day-bug-in-fully-patched-os-x-comes-under-active-exploit-to-hijack-macs/)).
 
