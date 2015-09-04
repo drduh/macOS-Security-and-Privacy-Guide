@@ -310,11 +310,11 @@ If the number of choices of allowing/blocking network connections is overwhelmin
 It is worth noting that these firewalls can be bypassed by programs running as **root** or through [OS vulnerabilities](https://www.blackhat.com/docs/us-15/materials/us-15-Wardle-Writing-Bad-A-Malware-For-OS-X.pdf) [pdf], but they are still worth having - just don't expect absolute protection.
 
 #### Kernel level packet filtering
-A highly customizable, powerful, but also most complicated firewall exists in the kernel. It can be controlled with **pfctl** and various configuration files.
+A highly customizable, powerful, but also most complicated firewall exists in the kernel. It can be controlled with `pfctl` and various configuration files.
 
-Can also be controlled with a GUI application such as [IceFloor](http://www.hanynet.com/icefloor/).
+pf also be controlled with a GUI application such as [IceFloor](http://www.hanynet.com/icefloor/) or [Murus](http://www.murusfirewall.com/).
 
-There are many books and articles on the subject of **pf** firewall. Here's is just one example of blocking traffic by IP address.
+There are many books and articles on the subject of pf firewall. Here's is just one example of blocking traffic by IP address.
 
 Put the following into a file called `pf.rules`
 
@@ -330,7 +330,7 @@ Put the following into a file called `pf.rules`
     pass out proto udp from any to any keep state
     block log on en0 from {<blocklist>} to any
 
-And use the following commands
+Use the following commands
 
 * `sudo pfctl -e -f pf.rules` to enable the firewall
 * `sudo pfctl -d` to disable the firewall
@@ -465,9 +465,9 @@ Edit the hosts file as root with `sudo vi /etc/hosts`. The hosts file can also b
 
 To block a domain, just add `0 facebook.com` (`0` means `0.0.0.0`, a null route)
 
-There are many lists of "bad" domains available online which you can paste in, just make sure each line starts with `0` or `127.0.0.1`, and the line `127.0.0.1 localhost` is included.
+There are many lists of domains available online which you can paste in, just make sure each line starts with `0` or `127.0.0.1`, and the line `127.0.0.1 localhost` is included.
 
-For examples, see <http://someonewhocares.org/hosts/zero/hosts>, [l1k/osxparanoia/blob/master/hosts](https://github.com/l1k/osxparanoia/blob/master/hosts) and [gorhill/uMatrix/blob/master/assets/umatrix/hosts-files.json](https://github.com/gorhill/uMatrix/blob/master/assets/umatrix/hosts-files.json).
+For examples, see [someonewhocares.org](http://someonewhocares.org/hosts/zero/hosts), [l1k/osxparanoia/blob/master/hosts](https://github.com/l1k/osxparanoia/blob/master/hosts) and [gorhill/uMatrix/hosts-files.json](https://github.com/gorhill/uMatrix/blob/master/assets/umatrix/hosts-files.json).
 
 #### dnsmasq
 
@@ -475,52 +475,70 @@ Install and use [dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html) to cach
 
 Use it in combination with `dnscrypt` to also encrypt outgoing DNS traffic.
 
-Install with `brew install dnsmasq`
+If you don't wish to use `dnscrypt`, you should at least use DNS [not provided](http://bcn.boulder.co.us/~neal/ietf/verisign-abuse.html) [by your ISP](http://hackercodex.com/guide/how-to-stop-isp-dns-server-hijacking/). Two popular alternatives are [Google DNS](https://developers.google.com/speed/public-dns/) and [OpenDNS](https://www.opendns.com/home-internet-security/).
 
-Edit the example configuration
+Install `dnsmasq` and edit the configuration
+
+    brew install dnsmasq
 
     mkdir -p /usr/local/etc
+    
     cp /usr/local/opt/dnsmasq/dnsmasq.conf.example /usr/local/etc/dnsmasq.conf
+    
     vim /usr/local/etc/dnsmasq.conf
 
 Have a look through the commented-out options. Here are a few recommended settings to enable,
 
-      # Never forward plain names
+    # Forward queries to dnscrypt on localhost
+    server=127.0.0.1#5355
+      
+    # Never forward plain names
       domain-needed
 
-      # Never forward addresses in the non-routed address spaces
-      bogus-priv
+    # Never forward addresses in the non-routed address spaces
+    bogus-priv
 
-      # Forward queries to dnscrypt on localhost
-      server=127.0.0.1#5355
-
-      # Optional logging directives
-      log-async
-      log-dhcp
-      log-queries
-      log-facility=/var/log/dnsmasq.log
+    # Optional logging directives
+    log-async
+    log-dhcp
+    log-queries
+    log-facility=/var/log/dnsmasq.log
 
 Install and start the program
 
     sudo cp -fv /usr/local/opt/dnsmasq/*.plist /Library/LaunchDaemons
+    
     sudo chown root /Library/LaunchDaemons/homebrew.mxcl.dnsmasq.plist
+    
     sudo launchctl load /Library/LaunchDaemons/homebrew.mxcl.dnsmasq.plist
 
 Open **System Preferences** > **Network** and select your interface, then the **DNS** tab.
 
 Select the **+** and add `127.0.0.1` as a DNS server.
 
-Make sure `dnsmasq` is running with `sudo lsof -ni UDP:53` or `ps -ef | grep '[d]nsmasq'`
+Make sure `dnsmasq` is running with `sudo lsof -ni UDP:53` or `ps -ef | grep '[d]nsmasq'` or with `scutil`
+
+    $ scutil --dns
+    DNS configuration
+
+    resolver #1
+      search domain[0] : mycoolnetwork
+      nameserver[0] : 127.0.0.1
+      flags    : Request A records, Request AAAA records
+      reach    : Reachable,Local Address
 
 #### dnscrypt
 
 Use [dnscrypt](https://dnscrypt.org/) to encrypt DNS traffic to the provider of choice.
 
-Install with `brew install dnscrypt-proxy`, or if you prefer a GUI, see [alterstep/dnscrypt-osxclient](https://github.com/alterstep/dnscrypt-osxclient)
+If you prefer a GUI application, see [alterstep/dnscrypt-osxclient](https://github.com/alterstep/dnscrypt-osxclient).
 
 Install the program
 
+    brew install dnscrypt-proxy
+    
     sudo cp -fv /usr/local/opt/dnscrypt-proxy/*.plist /Library/LaunchDaemons
+    
     sudo chown root /Library/LaunchDaemons/homebrew.mxcl.dnscrypt-proxy.plist
 
 If using in combination with `dnsmasq`, edit `/Library/LaunchDaemons/homebrew.mxcl.dnscrypt-proxy.plist` to have this line
@@ -555,7 +573,7 @@ Make sure it's working with `tcpdump` or Wireshark
     $ dig +short -x 77.66.84.233
     resolver2.dnscrypt.eu
 
-Also see <https://dnsleaktest.com/what-is-a-dns-leak.html>
+Also see [What is a DNS leak and why should I care?](https://dnsleaktest.com/what-is-a-dns-leak.html)
 
 #### Multicast advertisement
 Turn off multicast DNS if you don't need it. It spams information about your machine and its services to the local network.
@@ -570,7 +588,7 @@ Replace the argument with `-launchd` and `-NoMulticastAdvertisements`
 
 `sudo killall -9 mDNSResponder` to restart **mDNSResponder**
 
-You can also use [this script](https://github.com/MacMiniVault/Mac-Scripts/blob/master/disablebonjour/disablebonjour.sh) to accomplish this.
+You can also use [MacMiniVault/Mac-Scripts/disablebonjour.sh](https://github.com/MacMiniVault/Mac-Scripts/blob/master/disablebonjour/disablebonjour.sh) to accomplish this.
 
 ## Captive portal
 
@@ -696,7 +714,9 @@ Consider using [privoxy](http://www.privoxy.org/) as a local proxy to sanitize a
 Install and start privoxy
 
     brew install privoxy
+    
     ln -sfv /usr/local/opt/privoxy/*.plist ~/Library/LaunchAgents
+    
     launchctl load ~/Library/LaunchAgents/homebrew.mxcl.privoxy.plist
 
 By default, privoxy listens on local TCP port 8118.
