@@ -56,7 +56,7 @@ The standard best security practices apply.
 
 * Create a threat model
 	* What are you trying to protect and from whom? Is your adversary a [three letter agency](https://theintercept.com/document/2015/03/10/strawhorse-attacking-macos-ios-software-development-kit/) (if so, you may want to consider using [OpenBSD](http://www.openbsd.org/) instead), a nosy eavesdropper on the network, or determined [apt](https://en.wikipedia.org/wiki/Advanced_persistent_threat) orchestrating a campaign against you?
-	* Study and appreciate the threat and your attack surface.
+	* Study and recognize the threat and your attack surface.
 
 * Keep the system up to date
 	* Patch, patch, patch.
@@ -114,11 +114,11 @@ You can also Google these hashes to ensure your copy is genuine and has not been
 Mount and install the operating system to a **temporary image**, or use the GUI app [MagerValp/AutoDMG](https://github.com/MagerValp/AutoDMG).
 
     hdiutil attach -noverify -mountpoint /tmp/installesd /Applications/Install\ OS\ X\ Yosemite.app/Contents/SharedSupport/InstallESD.dmg
-    
+
     hdiutil create -size 32g -type SPARSE -fs HFS+J -volname "OS X" -uid 0 -gid 80 -mode 1775 /tmp/output.sparseimage
-    
+
     hdiutil attach -noverify -mountpoint /tmp/os -owners on /tmp/output.sparseimage
-    
+
     sudo installer -pkg /tmp/installesd/Packages/OSInstall.mpkg -tgt /tmp/os
 
 This part will take a while, so just be patient. You can `tail -F /var/log/install.log` to check progress.
@@ -126,24 +126,24 @@ This part will take a while, so just be patient. You can `tail -F /var/log/insta
 Optionally, install any other packages to the image, such as [Wireshark](https://www.wireshark.org/download.html).
 
     hdiutil mount Wireshark\ 1.99.5\ Intel\ 64.dmg
-    
+
     sudo installer -pkg /Volumes/Wireshark/Wireshark\ 1.99.5\ Intel\ 64.pkg -tgt /tmp/os
-    
+
     hdiutil unmount /Volumes/Wireshark
-    
+
 See [MagerValp/AutoDMG/wiki/Packages-Suitable-for-Deployment](https://github.com/MagerValp/AutoDMG/wiki/Packages-Suitable-for-Deployment) for caveats and check out [chilcote/outset](https://github.com/chilcote/outset) to instead processes packages and scripts at first boot.
 
 When you're done, detach, convert and verify the image.
 
     hdiutil detach /tmp/os
-    
+
     hdiutil detach /tmp/installesd
-    
+
     hdiutil convert -format UDZO /tmp/output.sparseimage -o yosemite.dmg
-    
+
     asr imagescan --source yosemite.dmg
 
-Now, `yosemite.dmg` is ready to be applied to one or many Macs. You can further customize the image to have premade users, applications and preferences to your liking.
+Now, `yosemite.dmg` is ready to be applied to one or multiple Macs. You can further customize the image to have premade users, applications and preferences to your liking.
 
 ## Installing Yosemite
 
@@ -183,7 +183,7 @@ We're not done yet! Unless you have built the image with [AutoDMG](https://githu
 Download [RecoveryHDUpdate.dmg](https://support.apple.com/downloads/DL1464/en_US/RecoveryHDUpdate.dmg)
 
     RecoveryHDUpdate.dmg
-    
+
     SHA-256: f6a4f8ac25eaa6163aa33ac46d40f223f40e58ec0b6b9bf6ad96bdbfc771e12c
     SHA-1:   1ac3b7059ae0fcb2877d22375121d4e6920ae5ba
     MD5:     b669cdb341b2253a843bf0d402b9675a
@@ -191,11 +191,11 @@ Download [RecoveryHDUpdate.dmg](https://support.apple.com/downloads/DL1464/en_US
 Attach and expand the installation, then run it
 
     hdiutil attach RecoveryHDUpdate.dmg
-    
+
     pkgutil --expand /Volumes/Mac\ OS\ X\ Lion\ Recovery\ HD\ Update/RecoveryHDUpdate.pkg /tmp/recovery
-    
+
     hdiutil attach /tmp/recovery/RecoveryHDUpdate.pkg/RecoveryHDMeta.dmg
-    
+
     /tmp/recovery/RecoveryHDUpdate.pkg/Scripts/Tools/dmtest ensureRecoveryPartition /Volumes/OS\ X/ /Volumes/Recovery\ HD\ Update/BaseSystem.dmg 0 0 /Volumes/Recovery\ HD\ Update/BaseSystem.chunklist
 
 Where `/Volumes/OS\ X` is the path to the target disk mode booted Mac.
@@ -211,7 +211,7 @@ On first boot, hold `Command` `Option` `P` and `R` keys to [clear NVRAM](https:/
 
 Wait for the loud, obnoxious gong and keep holding while the Mac reboots once.
 
-When OS X first starts, you'll be greeted by **Setup Assistant**. 
+When OS X first starts, you'll be greeted by **Setup Assistant**.
 
 Do not connect to networking yet; skip that part of the setup for now.
 
@@ -229,9 +229,9 @@ With much crypto [happening in hardware](https://software.intel.com/en-us/articl
 The security of Filevault 2 greatly depends on the pseudo random number generator (**PRNG**).
 
 > The random device implements the Yarrow pseudo random number generator algorithm and maintains its entropy pool.  Additional entropy is fed to the generator regularly by the SecurityServer daemon from random jitter measurements of the kernel.
->   
+>
 > SecurityServer is also responsible for periodically saving some entropy to disk and reloading it during startup to provide entropy in early system operation.
-    
+
 See `man 4 random` for more information.
 
 The PRNG can be manually seeded with entropy by writing to /dev/random **before** enabling Filevault 2. This can be done by simply using the Mac for a little while before activate Filevault 2.
@@ -247,11 +247,11 @@ and [IEEE Std 1619-2007 “The XTS-AES Tweakable Block Cipher”](http://libecci
 You may wish to enforce **hibernation** and evict Filevault keys from memory instead of traditional sleep to memory.
 
     sudo pmset -a destroyfvkeyonstandby 1 hibernatemode 25
-    
+
 > All computers have firmware of some type—EFI, BIOS—to help in the discovery of hardware components and ultimately to properly bootstrap the computer using the desired OS instance. In the case of Apple hardware and the use of EFI, Apple stores relevant information within EFI to aid in the functionality of OS X. For example, the FileVault key is stored in EFI to transparently come out of standby mode.
 
 > Organizations especially sensitive to a high-attack environment, or potentially exposed to full device access when the device is in standby mode, should mitigate this risk by destroying the FileVault key in firmware. Doing so doesn’t destroy the use of FileVault, but simply requires the user to enter the password in order for the system to come out of standby mode.
-    
+
 For more information, see [Best Practices for
 Deploying FileVault 2](http://training.apple.com/pdf/WP_FileVault2.pdf) [pdf]
 
@@ -261,7 +261,7 @@ and paper [Lest We Remember: Cold Boot Attacks on Encryption Keys](https://www.u
 
 Setting a firmware password in OS X prevents your Mac from starting up from any device other than your startup disk. [It can also be helpful if your laptop is stolen](https://www.ftc.gov/news-events/blogs/techftc/2015/08/virtues-strong-enduser-device-controls), as the only way to reset the firmware password is through an Apple Store ([or is it?](https://reverse.put.as/2015/05/29/the-empire-strikes-back-apple-how-your-mac-firmware-security-is-completely-broken/)).
 
-1. Shut down your Mac. 
+1. Shut down your Mac.
 
 2. Start up your Mac again and immediately hold the `Command` and `R` keys after you hear the startup sound to start from **OS X Recovery**.
 
@@ -295,7 +295,7 @@ Enable ALF, logging and "stealth mode" with the following commands, or through S
     sudo defaults write /Library/Preferences/com.apple.alf allowsignedenabled -bool false
     sudo defaults write /Library/Preferences/com.apple.alf loggingenabled -bool true
     sudo defaults write /Library/Preferences/com.apple.alf stealthenabled -bool true
-      
+
 > Computer hackers scan networks so they can attempt to identify computers to attack. You can prevent your computer from responding to some of these scans by using **stealth mode**. When stealth mode is enabled, your computer does not respond to ICMP ping requests, and does not answer to connection attempts from a closed TCP or UDP port. This makes it more difficult for attackers to find your computer.
 
 Note, ALF does not offer the ability to monitor or block **outgoing** connections.
@@ -309,7 +309,7 @@ If the number of choices of allowing/blocking network connections is overwhelmin
 
 It is worth noting that these firewalls can be bypassed by programs running as **root** or through [OS vulnerabilities](https://www.blackhat.com/docs/us-15/materials/us-15-Wardle-Writing-Bad-A-Malware-For-OS-X.pdf) [pdf], but they are still worth having - just don't expect absolute protection.
 
-#### Kernel level packet filtering 
+#### Kernel level packet filtering
 A highly customizable, powerful, but also most complicated firewall exists in the kernel. It can be controlled with **pfctl** and various configuration files.
 
 Can also be controlled with a GUI application such as [IceFloor](http://www.hanynet.com/icefloor/).
@@ -361,9 +361,9 @@ Here are the basics:
 For example, to learn what a system launch daemon or agent does, start with
 
 	defaults read /System/Library/LaunchDaemons/com.apple.apsd.plist
-	
+
 Look at the `ProgramArguments` section to see which binary is run, in this case **apsd**. To find more information about that, look at the man page with `man apsd`
-	
+
 If you're not interested in Apple Push Notifications, disable the service
 
 	sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.apsd.plist
@@ -417,7 +417,7 @@ And the same for **system launch daemons**,
       echo "Disabling ${1}"
       sudo launchctl unload -w /System/Library/LaunchDaemons/${1}.plist
 	}
-	
+
 	disable_daemon com.apple.apsd
 	disable_daemon com.apple.AssetCacheLocatorService
 	disable_daemon com.apple.awacsd
@@ -426,7 +426,7 @@ And the same for **system launch daemons**,
 	disable_daemon com.apple.GameController.gamecontrollerd
 	disable_daemon com.apple.SubmitDiagInfo
 	disable_daemon com.apple.TMCacheDelete
-	
+
 Be careful about disabling any system daemons you don't understand, as it may render your system unbootable. If you break your Mac, use [single user mode](https://support.apple.com/en-us/HT201573) to fix it.
 
 ## Spotlight Suggestions
@@ -441,7 +441,7 @@ See <https://fix-macosx.com/>
 Speaking of Microsoft, you may want to see <https://fix10.isleaked.com/> just for fun.
 
 ## Homebrew
-Consider installing [Homebrew](http://brew.sh/) to make installing many software easier.
+Consider installing [Homebrew](http://brew.sh/) to make installing software easier.
 
 If you have not already installed Xcode or Command Line Tools, run `xcode-select --install` and a prompt should appear to download and install CLI Tools.
 
@@ -487,25 +487,25 @@ Have a look through the commented-out options. Here are a few recommended settin
 
       # Never forward plain names
       domain-needed
-      
+
       # Never forward addresses in the non-routed address spaces
       bogus-priv
-      
+
       # Forward queries to dnscrypt on localhost
       server=127.0.0.1#5355
-      
+
       # Optional logging directives
       log-async
       log-dhcp
       log-queries
       log-facility=/var/log/dnsmasq.log
-      
+
 Install and start the program
 
     sudo cp -fv /usr/local/opt/dnsmasq/*.plist /Library/LaunchDaemons
     sudo chown root /Library/LaunchDaemons/homebrew.mxcl.dnsmasq.plist
     sudo launchctl load /Library/LaunchDaemons/homebrew.mxcl.dnsmasq.plist
-    
+
 Open **System Preferences** > **Network** and select your interface, then the **DNS** tab.
 
 Select the **+** and add `127.0.0.1` as a DNS server.
@@ -516,25 +516,25 @@ Make sure `dnsmasq` is running with `sudo lsof -ni UDP:53` or `ps -ef | grep '[d
 
 Use [dnscrypt](https://dnscrypt.org/) to encrypt DNS traffic to the provider of choice.
 
-Install with `brew install dnscrypt-proxy`, or if you prefer a GUI, see [alterstep/dnscrypt-osxclient](https://github.com/alterstep/dnscrypt-osxclient) 
+Install with `brew install dnscrypt-proxy`, or if you prefer a GUI, see [alterstep/dnscrypt-osxclient](https://github.com/alterstep/dnscrypt-osxclient)
 
 Install the program
 
     sudo cp -fv /usr/local/opt/dnscrypt-proxy/*.plist /Library/LaunchDaemons
     sudo chown root /Library/LaunchDaemons/homebrew.mxcl.dnscrypt-proxy.plist
-    
+
 If using in combination with `dnsmasq`, edit `/Library/LaunchDaemons/homebrew.mxcl.dnscrypt-proxy.plist` to have this line
 
-    <string>--local-address=127.0.0.1:5355</string>    
-      
+    <string>--local-address=127.0.0.1:5355</string>
+
 Below the line
 
     <string>/usr/local/opt/dnscrypt-proxy/sbin/dnscrypt-proxy</string>
-    
-Finally, start the program                                                       
-    
+
+Finally, start the program
+
     sudo launchctl load /Library/LaunchDaemons/homebrew.mxcl.dnscrypt-proxy.plist
-    
+
 Make sure `dnscrypt` is running with `sudo lsof -ni UDP:5355` or `ps -ef | grep '[d]nscrypt'`
 
 > By default, dnscrypt-proxy runs on localhost (127.0.0.1), port 53,
@@ -551,7 +551,7 @@ Make sure it's working with `tcpdump` or Wireshark
     $ sudo tcpdump -qtni en0
     IP 10.8.8.8.59636 > 77.66.84.233.443: UDP, length 512
     IP 77.66.84.233.443 > 10.8.8.8.59636: UDP, length 368
-    
+
     $ dig +short -x 77.66.84.233
     resolver2.dnscrypt.eu
 
@@ -563,7 +563,7 @@ Turn off multicast DNS if you don't need it. It spams information about your mac
 Edit `com.apple.mDNSResponder.plist`
 
     sudo -E vim /System/Library/LaunchDaemons/com.apple.mDNSResponder.plist
-   
+
 Copy the line `<string>/usr/sbin/mDNSResponder</string>` and paste it twice (`yy` and `pp` in vim)
 
 Replace the argument with `-launchd` and `-NoMulticastAdvertisements`
@@ -600,7 +600,7 @@ To remove an unwanted certificate, copy its **SHA1** sum, then delete it
 
     echo "4F 99 AA 93 FB 2B D1 37 26 A1 99 4A CE 7F F0 05 F2 93 5D 1E" | tr -d ' '
     4F99AA93FB2BD13726A1994ACE7FF005F2935D1E
-    
+
     sudo security delete-certificate -t -Z 4F99AA93FB2BD13726A1994ACE7FF005F2935D1E /System/Library/Keychains/SystemRootCertificates.keychain
 
 Here's an example of removing a list of roots
@@ -838,7 +838,7 @@ A popular OS X GUI client for XMPP and other chat protocol is [Adium](https://ad
 Consider downloading the [beta version](https://beta.adium.im/) which uses OAuth2, making logging in to Google Talk/Hangouts [more secure](https://trac.adium.im/ticket/16161).
 
     Adium_1.5.11b2.dmg
-    
+
     SHA-256: e7690718f14defa3bc08cd3949a4eab52e942abd47f7ac2ce7157ed7295658c6
     SHA-1:   7f0271d4fe9835b4554225510e758a3c46c10b6a
     MD5:     db27cb75caffdb147db915369ae46b4c
@@ -866,7 +866,7 @@ Tor traffic is **encrypted** (i.e., cannot be read by a passive network eavesdro
 
 Just one example way is by monitoring TLS handshakes:
 
-    $ sudo tcpdump -Ani en0 "tcp" | grep "www" 
+    $ sudo tcpdump -Ani en0 "tcp" | grep "www"
     .............&.$..!www.ht50d2u6ky6y7kbcxhe5mjfdi.com.........
     .~7...~.|.Lp*e.....L._..........ug.......[.net0.brU.....fP...a&..'.]...r.....E*F....{...qjJ}....).$8....	....V.E..0
     ...................www.s4ku5skci.net.........
@@ -925,9 +925,9 @@ and also be aware of <http://www.zoharbabin.com/hey-mac-i-dont-appreciate-you-sp
 You can generate passwords with `gpg`, `openssl` or just get creative with **/dev/urandom** output.
 
     openssl rand -base64 30
-    
+
     gpg --gen-random -a 0 30
-    
+
     dd if=/dev/urandom bs=1 count=30 2>/dev/null | base64
 
 You can also generate passwords from **Keychain Access** password assistant, or a command line equivalent like <https://github.com/anders/pwgen>.
@@ -964,7 +964,7 @@ For example, a skilled attacker with unsupervised physical access to your comput
  - Browser information
  	- Safari history, downloads, topsites, LastSession, HTML5 databases and localstore
  	- Firefox cookies, downloads, formhistory, permissions, places and signons
- 	- Chrome history and archives history, cookies, login data, top sites, web data, HTML5 
+ 	- Chrome history and archives history, cookies, login data, top sites, web data, HTML5
  - User social media and email accounts
  - WiFi access points
 
@@ -1056,9 +1056,9 @@ Hash your known ssh hosts. To `ssh_config`, add
 
     Host *
       HashKnownHosts yes
-	 
+
 Set your screen to lock as soon as the screensaver starts
-	  
+
     defaults write com.apple.screensaver askForPassword -int 1
     defaults write com.apple.screensaver askForPasswordDelay -int 0
 
@@ -1066,11 +1066,11 @@ Expose hidden files and Library folder in Finder
 
     defaults write com.apple.finder AppleShowAllFiles -bool true
     chflags nohidden ~/Library
-    
+
 Don't default to saving documents to iCloud
 
     defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
-    
+
 Did you know Apple has not shipped a computer with TPM since [2006](http://osxbook.com/book/bonus/chapter10/tpm/)?
 
 ## Additional resources
