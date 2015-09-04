@@ -941,10 +941,22 @@ See <http://www.thesafemac.com/mmg-builtin/>
 
 and <http://ilostmynotes.blogspot.com/2012/06/gatekeeper-xprotect-and-quarantine.html>
 
-and also be aware of <http://www.zoharbabin.com/hey-mac-i-dont-appreciate-you-spying-on-me-hidden-downloads-log-in-os-x/>
+**Note** Quarantine stores information about downloaded files in `~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2`. See [here](http://www.zoharbabin.com/hey-mac-i-dont-appreciate-you-spying-on-me-hidden-downloads-log-in-os-x/) for more information.
+
+Furthermore, OS X attaches metadata ([HFS+ extended attributes](https://en.wikipedia.org/wiki/Extended_file_attributes#OS_X)) to downloaded files, e.g.
+
+    $ ls -l@ adobe_flashplayer_setup.dmg 
+    -rw-r-----@ 1 drduh  staff  1000000 Sep  1 12:00 adobe_flashplayer_setup.dmg
+	com.apple.diskimages.fsck	     20 
+	com.apple.diskimages.recentcksum	     79 
+	com.apple.metadata:kMDItemWhereFroms	   2737 
+	com.apple.quarantine	     68
+	
+	$ xattr -l com.apple.metadata:kMDItemWhereFroms adobe_flashplayer_setup.dmg
+	[output omitted]
 
 ## Passwords
-You can generate passwords with `gpg`, `openssl` or just get creative with **/dev/urandom** output.
+You can generate passwords with `gpg`, `openssl` or just get creative with `/dev/urandom` output.
 
     openssl rand -base64 30
 
@@ -952,9 +964,9 @@ You can generate passwords with `gpg`, `openssl` or just get creative with **/de
 
     dd if=/dev/urandom bs=1 count=30 2>/dev/null | base64
 
-You can also generate passwords from **Keychain Access** password assistant, or a command line equivalent like <https://github.com/anders/pwgen>.
+You can also generate passwords from **Keychain Access** password assistant, or a command line equivalent like [anders/pwgen](https://github.com/anders/pwgen).
 
-**Keychains** are encrypted with a [PBKDF2 derived key](https://en.wikipedia.org/wiki/PBKDF2) and are a _pretty safe_ place to store credentials. See <http://juusosalonen.com/post/30923743427/breaking-into-the-os-x-keychain>.
+**Keychains** are encrypted with a [PBKDF2 derived key](https://en.wikipedia.org/wiki/PBKDF2) and are a _pretty safe_ place to store credentials. See also [Breaking into the OS X keychain](http://juusosalonen.com/post/30923743427/breaking-into-the-os-x-keychain).
 
 Alternatively, you can manage an encrypted passwords file yourself with `gpg` (shameless plug for my [pwd.sh](https://github.com/drduh/pwd.sh) script).
 
@@ -978,9 +990,11 @@ For example, a skilled attacker with unsupervised physical access to your comput
 
 [etsy/MIDAS](https://github.com/etsy/MIDAS) is a framework for developing a Mac Intrusion Detection Analysis System.  Credits given to the security team at Facebook and Etsy in developing this framework.  This framework consists of utilities which help detect any modifications that have been made to common OS X persistance mechanisms.
 
-[facebook/osquery](https://github.com/facebook/osquery) can be used to retrieve low level system information.  Users can write SQL queries to retrieve system information.  More information can be found at <https://osquery.io/>
+[facebook/osquery](https://github.com/facebook/osquery) can be used to retrieve low level system information.  Users can write SQL queries to retrieve system information.  More information can be found at <https://osquery.io/>.
 
-[jipegit/OSXAuditor](https://github.com/jipegit/OSXAuditor) can be used to analyze artifacts on a running system:
+[google/grr](https://github.com/google/grr) is an incident response framework focused on remote live forensics.
+
+[jipegit/OSXAuditor](https://github.com/jipegit/OSXAuditor) can be used to analyze artifacts on a running system, such as:
 
  - Quarantined files
  - Browser information
