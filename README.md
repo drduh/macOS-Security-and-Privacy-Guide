@@ -852,19 +852,32 @@ If you want to know how OTR works, read the paper [Off-the-Record Communication,
 ## Tor
 Tor is an anynomizing proxy which can be used for browsing the web.
 
-Download Tor Browser from <https://www.torproject.org/projects/torbrowser.html.en>. Don't configure other browsers to use Tor as you are likely make a mistake which compromises your anonymity.
+Download Tor Browser from <https://www.torproject.org/projects/torbrowser.html.en>. Do **not** attempt to configure other browsers to use Tor as you are likely make a mistake which will compromise your anonymity.
 
-After downloading the `dmg` and `asc` files, use *gpg* to verify the disk image has been signed by Tor developers with `gpg TorBrowser*asc`.
+After downloading the `dmg` and `asc` files, verify the disk image has been signed by Tor developers with `gpg TorBrowser*asc`
 
-If this is your first time using gpg, you will get a warning that the public key was not found. You can fetch it from the keyserver with `gpg --recv-keys 0x2E1AC68ED40814E0` and verify again.
+You may see a warning - the public key was not found. Fetch it from the keyserver with `gpg --recv-keys 0x2E1AC68ED40814E0` and verify again.
 
 Make sure `Good signature from "Tor Browser Developers (signing key) <torbrowser@torproject.org>"` appears in the output.
 
-See <https://www.torproject.org/docs/verifying-signatures.html.en> for more information.
+See [How to verify signatures for packages](https://www.torproject.org/docs/verifying-signatures.html) for more information.
 
-Tor traffic can be identified on a network. It is recommended to additionally obfuscate it using a [pluggable transport](https://www.torproject.org/docs/pluggable-transports.html.en) such as [obfs4proxy](https://github.com/Yawning/obfs4).
+Tor traffic is **encrypted** (i.e., cannot be read by a passive network eavesdropper), but **can** be identified.
 
-This can be done by running your own Tor relay or private bridge which will serve as your obfuscating guard node. Set one up and share it with your friends!
+Just one example way is by monitoring TLS handshakes:
+
+    $ sudo tcpdump -Ani en0 "tcp" | grep "www" 
+    .............&.$..!www.ht50d2u6ky6y7kbcxhe5mjfdi.com.........
+    .~7...~.|.Lp*e.....L._..........ug.......[.net0.brU.....fP...a&..'.]...r.....E*F....{...qjJ}....).$8....	....V.E..0
+    ...................www.s4ku5skci.net.........
+    l..5...R[i.0...A.$...l..Ly.....}..ZY..../.........LH.0..\...3.?.........*.N... ..._/G\...0*..?...`d.........0	...X..&.N0
+    ^C
+
+See [Tor Protocol Specification](https://gitweb.torproject.org/torspec.git/tree/tor-spec.txt) and [Tor/TLSHistory](https://trac.torproject.org/projects/tor/wiki/org/projects/Tor/TLSHistory) for more information.
+
+It is recommended to additionally obfuscate it using a [pluggable transport](https://www.torproject.org/docs/pluggable-transports.html) such as [Yawning/obfs4proxy](https://github.com/Yawning/obfs4) or [SRI-CSL/stegotorus](https://github.com/SRI-CSL/stegotorus).
+
+This can be done by [running a Tor relay](https://www.torproject.org/docs/tor-relay-debian.html) or a private or public [bridge](https://www.torproject.org/docs/bridges.html.en#RunningABridge) which will serve as your obfuscating guard node. Set one up and share it with your friends!
 
 For extra security, use [VirtualBox](https://www.virtualbox.org/wiki/Downloads) or VMware to run a virtualized [GNU/Linux](http://www.brianlinkletter.com/installing-debian-linux-in-a-virtualbox-virtual-machine/) or [BSD](http://www.openbsd.org/faq/faq4.html) machine to do your private browsing on.
 
@@ -962,13 +975,19 @@ Use `praudit -l /dev/auditpipe` to tail audit logs.
 
 See the manual pages for `audit`, `praudit`, `audit_control` and other files in `/etc/security`
 
-More on this later ...
-
 #### DTrace
 
-Use `iosnoop` and `execsnoop` to monitor I/O and process execution.
+`iosnoop` monitors disk I/O.
 
-More on this later ...
+`opensnoop` monitors file opens.
+
+`execsnoop` monitors execution of processes.
+
+`errinfo` monitors failed system calls.
+
+`dtruss` monitors all system calls.
+
+See `man -k dtrace` for more.
 
 #### Network
 
