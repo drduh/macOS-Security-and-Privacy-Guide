@@ -835,9 +835,17 @@ The first time you start a conversation with someone new, you'll be asked to ver
 
 A popular OS X GUI client for XMPP and other chat protocol is [Adium](https://adium.im/)
 
-Remember to turn off **logging** if you're going to use OTR with Adium.
+Consider downloading the [beta version](https://beta.adium.im/) which uses OAuth2, making logging in to Google Talk/Hangouts [more secure](https://trac.adium.im/ticket/16161).
 
-A good console based XMPP client is [profanity](http://www.profanity.im/)  which can be installed with `brew install profanity`
+    Adium_1.5.11b2.dmg
+    
+    SHA-256: e7690718f14defa3bc08cd3949a4eab52e942abd47f7ac2ce7157ed7295658c6
+    SHA-1:   7f0271d4fe9835b4554225510e758a3c46c10b6a
+    MD5:     db27cb75caffdb147db915369ae46b4c
+
+Remember to [disable logging](https://trac.adium.im/ticket/15722) for OTR chats with Adium.
+
+A good console-based XMPP client is [profanity](http://www.profanity.im/)  which can be installed with `brew install profanity`
 
 If you want to know how OTR works, read the paper [Off-the-Record Communication, or, Why Not To Use PGP](https://otr.cypherpunks.ca/otr-wpes.pdf) [pdf]
 
