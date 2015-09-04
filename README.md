@@ -936,7 +936,7 @@ You can also generate passwords from **Keychain Access** password assistant, or 
 
 Alternatively, you can manage an encrypted passwords file yourself with `gpg` (shameless plug for my [pwd.sh](https://github.com/drduh/pwd.sh) script).
 
-In addition to passwords, ensure your online accounts (such as github, gmail) have [two factor authentication](https://en.wikipedia.org/wiki/Two-factor_authentication) enabled.
+In addition to passwords, ensure your online accounts (such as github, google accounts, etc.) have [two factor authentication](https://en.wikipedia.org/wiki/Two-factor_authentication) enabled.
 
 Look to [Yubikey](https://www.yubico.com/products/yubikey-hardware/yubikey-neo/) for a two factor and private key (e.g., ssh, gpg) hardware token.
 
