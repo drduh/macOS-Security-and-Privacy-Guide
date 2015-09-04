@@ -969,11 +969,23 @@ For example, a skilled attacker with unsupervised physical access to your comput
  - WiFi access points
 
 #### OpenBSM Audit
-OS X has a powerful OpenBSM auditing capability. You can use it to log all process executions and network connections, for example.
+OS X has a powerful OpenBSM auditing capability. You can use it to monitor process execution, network activity, and much more.
 
-Use `praudit -l /dev/auditpipe` to tail audit logs.
+Use `sudo praudit -l /dev/auditpipe` to tail audit logs.
 
+Some example events,
+
+    header,201,11,execve(2),0,Thu Sep  1 12:00:00 2015, + 195 msec,exec arg,/Applications/.evilapp/rootkit,path,/Applications/.evilapp/rootkit,path,/Applications/.evilapp/rootkit,attribute,100755,root,wheel,16777220,986535,0,subject,drduh,root,wheel,root,wheel,412,100005,50511731,0.0.0.0,return,success,0,trailer,201,
+
+	header,88,11,connect(2),0,Thu Sep  1 12:00:00 2015, + 238 msec,argument,1,0x5,fd,socket-inet,2,443,173.194.74.104,subject,drduh,root,wheel,root,wheel,326,100005,50331650,0.0.0.0,return,failure : Operation now in progress,4354967105,trailer,88
+	
+	header,111,11,OpenSSH login,0,Thu Sep  1 12:00:00 2015, + 16 msec,subject_ex,drduh,drduh,staff,drduh,staff,404,404,49271,::1,text,successful login drduh,return,success,0,trailer,111,
+	
 See the manual pages for `audit`, `praudit`, `audit_control` and other files in `/etc/security`
+
+**Note** although `man audit` says the `-s` flag will synchronize the audit configuration, it is actually necessary to reboot for changes to take effect.
+
+See articles on [ilostmynotes.blogspot.com](http://ilostmynotes.blogspot.com/2013/10/openbsm-auditd-on-os-x-these-are-logs.html) and [derflounder.wordpress.com](https://derflounder.wordpress.com/2012/01/30/openbsm-auditing-on-mac-os-x/) for more information.
 
 #### DTrace
 
@@ -993,8 +1005,9 @@ See `man -k dtrace` for more.
 
 Here's a few examples of networking monitoring commands
 
-    lsof -ni -P
-    netstat -atln
+    sudo lsof -ni -P
+    
+    sudo netstat -atln
 
 You can also use Wireshark from the command line.
 
