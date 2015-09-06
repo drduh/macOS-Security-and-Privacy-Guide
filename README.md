@@ -277,7 +277,7 @@ Setting a firmware password in OS X prevents your Mac from starting up from any 
 
 8. Select the Apple menu and choose Restart or Shutdown.
 
-The firmware password will activate at next boot.
+The firmware password will activate at next boot. To validate the password hold `alt` pressed while booting, you should be prompted to enter the password. After that select the partition you want to boot from.
 
 ## Firewall
 Before connecting to the Internet, it's a good idea to first configure a firewall.
@@ -785,6 +785,8 @@ For example you may wish to disable [DNS prefetching](https://www.chromium.org/d
 Do **not** use other Chromium-derived browsers. They are usually [closed source](http://yro.slashdot.org/comments.pl?sid=4176879&cid=44774943), [poorly maintained](https://plus.google.com/+JustinSchuh/posts/69qw9wZVH8z), or make dubious claims to protect privacy. See [The Private Life of Chromium Browsers](http://thesimplecomputer.info/the-private-life-of-chromium-browsers).
 
 Do **not** use Safari. The code is a mess and security vulnerabilities are frequent, but slower to patch ([discussion on HN](https://news.ycombinator.com/item?id=10150038)).
+
+For more information about security conscious browsing [HowTo: Privacy & Security Conscious Browsing](https://gist.github.com/atcuno/3425484ac5cce5298932) is a great addition.
 
 ## Plugins
 Don't download or install Internet plugins like **Silverlight** unless you really need them. Netflix works with HTML5 on Yosemite.
