@@ -246,7 +246,8 @@ and [IEEE Std 1619-2007 “The XTS-AES Tweakable Block Cipher”](http://libecci
 
 You may wish to enforce **hibernation** and evict Filevault keys from memory instead of traditional sleep to memory.
 
-    sudo pmset -a destroyfvkeyonstandby 1 hibernatemode 25
+    sudo pmset -a destroyfvkeyonstandby 1 
+    sudo pmset -a hibernatemode 25
 
 > All computers have firmware of some type—EFI, BIOS—to help in the discovery of hardware components and ultimately to properly bootstrap the computer using the desired OS instance. In the case of Apple hardware and the use of EFI, Apple stores relevant information within EFI to aid in the functionality of OS X. For example, the FileVault key is stored in EFI to transparently come out of standby mode.
 
