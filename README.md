@@ -802,7 +802,7 @@ See <https://en.wikipedia.org/wiki/Trojan_BackDoor.Flashback>,
 <https://blogs.cisco.com/security/angling-for-silverlight-exploits>
 
 ## PGP/GPG
-PGP is a standard for encrypting email end to end. That means only the chosen recepients can decrypt a message, unlike regular email which is read and forever archived by providers.
+PGP is a standard for encrypting email end to end. That means only the chosen recipients can decrypt a message, unlike regular email which is read and forever archived by providers.
 
 **GPG**, or **GNU Privacy Guard**, is a GPL licensed program compliant with the standard.
 
@@ -874,7 +874,7 @@ A good console-based XMPP client is [profanity](http://www.profanity.im/)  which
 If you want to know how OTR works, read the paper [Off-the-Record Communication, or, Why Not To Use PGP](https://otr.cypherpunks.ca/otr-wpes.pdf) [pdf]
 
 ## Tor
-Tor is an anynomizing proxy which can be used for browsing the web.
+Tor is an anonymizing proxy which can be used for browsing the web.
 
 Download Tor Browser from <https://www.torproject.org/projects/torbrowser.html.en>. Do **not** attempt to configure other browsers to use Tor as you are likely make a mistake which will compromise your anonymity.
 
@@ -990,7 +990,7 @@ For example, a skilled attacker with unsupervised physical access to your comput
 
 #### Open Source Monitoring Tools
 
-[etsy/MIDAS](https://github.com/etsy/MIDAS) is a framework for developing a Mac Intrusion Detection Analysis System.  Credits given to the security team at Facebook and Etsy in developing this framework.  This framework consists of utilities which help detect any modifications that have been made to common OS X persistance mechanisms.
+[etsy/MIDAS](https://github.com/etsy/MIDAS) is a framework for developing a Mac Intrusion Detection Analysis System.  Credits given to the security team at Facebook and Etsy in developing this framework.  This framework consists of utilities which help detect any modifications that have been made to common OS X persistence mechanisms.
 
 [facebook/osquery](https://github.com/facebook/osquery) can be used to retrieve low level system information.  Users can write SQL queries to retrieve system information.  More information can be found at <https://osquery.io/>.
 
