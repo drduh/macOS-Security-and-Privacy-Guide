@@ -915,6 +915,8 @@ It is a good idea to use a VPN which encrypts **all** outgoing network traffic (
 
 Don't just blindly sign up for a VPN service without understanding the full implications and how your traffic will be routed. If you don't understand how the VPN works or are not familiar with the software used, you are probably better off without it.
 
+**Note** Some clients may send traffic traffic over the next available interface when VPN is interrupted or disconnected. See [scy/8122924](https://gist.github.com/scy/8122924) for an example on how to allow traffic only over VPN.
+
 ## Viruses and malware
 There is an increasing amount of Mac malware in the wild; Macs aren't immune from viruses and malicious software.
 
