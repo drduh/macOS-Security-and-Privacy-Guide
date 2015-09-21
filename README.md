@@ -763,7 +763,7 @@ Use [Google Chrome](https://www.google.com/chrome/browser/desktop/) for most of 
 
 Chrome also comes with a great [PDF viewer](http://0xdabbad00.com/2013/01/13/most-secure-pdf-viewer-chrome-pdf-viewer/).
 
-If you don't want to use Chrome, [Firefox](https://www.mozilla.org/en-US/firefox/new/) is an excellent browser as well. Or simply use both. See discussion in [issue #2](https://github.com/drduh/OS-X-Yosemite-Security-and-Privacy-Guide/issues/2).
+If you don't want to use Chrome, [Firefox](https://www.mozilla.org/en-US/firefox/new/) is an excellent browser as well. Or simply use both. See discussion in [issue #2](https://github.com/drduh/OS-X-Yosemite-Security-and-Privacy-Guide/issues/2). If using Firefox, see [TheCreeper/PrivacyFox](https://github.com/TheCreeper/PrivacyFox) for recomended privacy preferences.
 
 Create at least three profiles, one for browsing **trusted** web sites (email, banking), another for **untrusted** (link aggregators, news sites), and a third for a completely **cookie-less** and **script-less** experience.
 
