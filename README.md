@@ -980,6 +980,9 @@ In addition to passwords, ensure your online accounts (such as github, google ac
 
 Look to [Yubikey](https://www.yubico.com/products/yubikey-hardware/yubikey-neo/) for a two factor and private key (e.g., ssh, gpg) hardware token.
 
+Avoid to login/register on a site by using another of your account, like Facebook, Google, Twitter...
+This increase the risks if one of them is compromised, Ref. [1](http://www.techrepublic.com/article/ibm-builds-a-service-to-help-you-know-who-to-trust-in-the-cloud/) -  [2](http://arxiv.org/pdf/1509.09057v1.pdf)
+
 ## Wi-Fi
 OS X remembers access points it has connected to. Like all wireless devices, your Mac will broadcast all of these access point names it remembers (e.g. *So-and-so's Router*) each time it looks for a network (e.g. wake from sleep).
 
