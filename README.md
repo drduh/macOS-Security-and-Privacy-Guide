@@ -534,8 +534,7 @@ Make sure `dnsmasq` is running with `sudo lsof -ni UDP:53` or `ps -ef | grep '[d
 
 Use [dnscrypt](https://dnscrypt.org/) to encrypt DNS traffic to the provider of choice.
 
-If you prefer a GUI application, see [alterstep/dnscrypt-osxclient](https://github.com/alterstep/dnscrypt-osxclient) or
-[SSL Enforcer](https://www.sslenforcer.com).
+If you prefer a GUI application, see [alterstep/dnscrypt-osxclient](https://github.com/alterstep/dnscrypt-osxclient).
 
 Install the program
 
