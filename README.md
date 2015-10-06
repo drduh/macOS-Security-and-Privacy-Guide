@@ -246,7 +246,7 @@ and [IEEE Std 1619-2007 “The XTS-AES Tweakable Block Cipher”](http://libecci
 
 You may wish to enforce **hibernation** and evict Filevault keys from memory instead of traditional sleep to memory.
 
-    sudo pmset -a destroyfvkeyonstandby 1 
+    sudo pmset -a destroyfvkeyonstandby 1
     sudo pmset -a hibernatemode 25
 
 > All computers have firmware of some type—EFI, BIOS—to help in the discovery of hardware components and ultimately to properly bootstrap the computer using the desired OS instance. In the case of Apple hardware and the use of EFI, Apple stores relevant information within EFI to aid in the functionality of OS X. For example, the FileVault key is stored in EFI to transparently come out of standby mode.
@@ -492,7 +492,7 @@ Have a look through the commented-out options. Here are a few recommended settin
 
     # Forward queries to dnscrypt on localhost
     server=127.0.0.1#5355
-      
+
     # Never forward plain names
     domain-needed
 
@@ -508,9 +508,9 @@ Have a look through the commented-out options. Here are a few recommended settin
 Install and start the program
 
     sudo cp -fv /usr/local/opt/dnsmasq/*.plist /Library/LaunchDaemons
-    
+
     sudo chown root /Library/LaunchDaemons/homebrew.mxcl.dnsmasq.plist
-    
+
     sudo launchctl load /Library/LaunchDaemons/homebrew.mxcl.dnsmasq.plist
 
 Open **System Preferences** > **Network** and select your interface, then the **DNS** tab.
@@ -717,9 +717,9 @@ Consider using [privoxy](http://www.privoxy.org/) as a local proxy to sanitize a
 Install and start privoxy
 
     brew install privoxy
-    
+
     ln -sfv /usr/local/opt/privoxy/*.plist ~/Library/LaunchAgents
-    
+
     launchctl load ~/Library/LaunchAgents/homebrew.mxcl.privoxy.plist
 
 By default, privoxy listens on local TCP port 8118.
@@ -950,13 +950,13 @@ and <http://ilostmynotes.blogspot.com/2012/06/gatekeeper-xprotect-and-quarantine
 
 Furthermore, OS X attaches metadata ([HFS+ extended attributes](https://en.wikipedia.org/wiki/Extended_file_attributes#OS_X)) to downloaded files, e.g.
 
-    $ ls -l@ adobe_flashplayer_setup.dmg 
+    $ ls -l@ adobe_flashplayer_setup.dmg
     -rw-r-----@ 1 drduh  staff  1000000 Sep  1 12:00 adobe_flashplayer_setup.dmg
-	com.apple.diskimages.fsck	     20 
-	com.apple.diskimages.recentcksum	     79 
-	com.apple.metadata:kMDItemWhereFroms	   2737 
+	com.apple.diskimages.fsck	     20
+	com.apple.diskimages.recentcksum	     79
+	com.apple.metadata:kMDItemWhereFroms	   2737
 	com.apple.quarantine	     68
-	
+
 	$ xattr -l com.apple.metadata:kMDItemWhereFroms adobe_flashplayer_setup.dmg
 	[output omitted]
 
@@ -993,8 +993,6 @@ For example, a skilled attacker with unsupervised physical access to your comput
 
 #### Open Source Monitoring Tools
 
-[etsy/MIDAS](https://github.com/etsy/MIDAS) is a framework for developing a Mac Intrusion Detection Analysis System.  Credits given to the security team at Facebook and Etsy in developing this framework.  This framework consists of utilities which help detect any modifications that have been made to common OS X persistence mechanisms.
-
 [facebook/osquery](https://github.com/facebook/osquery) can be used to retrieve low level system information.  Users can write SQL queries to retrieve system information.  More information can be found at <https://osquery.io/>.
 
 [google/grr](https://github.com/google/grr) is an incident response framework focused on remote live forensics.
@@ -1019,9 +1017,9 @@ Some example events,
     header,201,11,execve(2),0,Thu Sep  1 12:00:00 2015, + 195 msec,exec arg,/Applications/.evilapp/rootkit,path,/Applications/.evilapp/rootkit,path,/Applications/.evilapp/rootkit,attribute,100755,root,wheel,16777220,986535,0,subject,drduh,root,wheel,root,wheel,412,100005,50511731,0.0.0.0,return,success,0,trailer,201,
 
 	header,88,11,connect(2),0,Thu Sep  1 12:00:00 2015, + 238 msec,argument,1,0x5,fd,socket-inet,2,443,173.194.74.104,subject,drduh,root,wheel,root,wheel,326,100005,50331650,0.0.0.0,return,failure : Operation now in progress,4354967105,trailer,88
-	
+
 	header,111,11,OpenSSH login,0,Thu Sep  1 12:00:00 2015, + 16 msec,subject_ex,drduh,drduh,staff,drduh,staff,404,404,49271,::1,text,successful login drduh,return,success,0,trailer,111,
-	
+
 See the manual pages for `audit`, `praudit`, `audit_control` and other files in `/etc/security`
 
 **Note** although `man audit` says the `-s` flag will synchronize the audit configuration, it is actually necessary to reboot for changes to take effect.
@@ -1047,7 +1045,7 @@ See `man -k dtrace` for more.
 Here's a few examples of networking monitoring commands
 
     sudo lsof -ni -P
-    
+
     sudo netstat -atln
 
 You can also use Wireshark from the command line.
