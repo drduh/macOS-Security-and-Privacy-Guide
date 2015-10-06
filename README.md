@@ -371,7 +371,7 @@ If you're not interested in Apple Push Notifications, disable the service
 
 **Note** Unloading services may break usability of some applications. Read the manual pages and use Google to make sure you understand what you're doing first.
 
-That said, here's an example of disabling some **user launch agents** I don't care for,
+That said, here's an example of disabling some **user launch agents** I don't care for (the following lines may simply be copied and pasted into a Terminal window),
 
 	function disable_agent {
       echo "Disabling ${1}"
@@ -412,7 +412,7 @@ That said, here's an example of disabling some **user launch agents** I don't ca
 	disable_agent com.apple.syncdefaultsd
 	disable_agent com.apple.telephonyutilities.callservicesd
 
-And the same for **system launch daemons**,
+And the same for **system launch daemons** (you will be prompted for your password, as these are system jobs),
 
 	function disable_daemon {
       echo "Disabling ${1}"
