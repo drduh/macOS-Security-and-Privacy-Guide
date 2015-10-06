@@ -534,7 +534,8 @@ Make sure `dnsmasq` is running with `sudo lsof -ni UDP:53` or `ps -ef | grep '[d
 
 Use [dnscrypt](https://dnscrypt.org/) to encrypt DNS traffic to the provider of choice.
 
-If you prefer a GUI application, see [alterstep/dnscrypt-osxclient](https://github.com/alterstep/dnscrypt-osxclient).
+If you prefer a GUI application, see [alterstep/dnscrypt-osxclient](https://github.com/alterstep/dnscrypt-osxclient) or
+[SSL Enforcer](https://www.sslenforcer.com).
 
 Install the program
 
@@ -769,7 +770,7 @@ Create at least three profiles, one for browsing **trusted** web sites (email, b
 
 * One profile **without cookies or Javascript** (turned off in `chrome://settings/content`) which should be the **preferred** profile to visiting new web sites. However, many pages will not load at all without Javascript enabled.
 
-* One profile with [uMatrix](https://github.com/gorhill/uMatrix) (or [uBlock](https://github.com/chrisaljoudi/uBlock), a simpler version). Use this profile for visiting **mostly trusted** web sites. Take time to learn how these **firewall** extensions work. Other frequently recommended extensions are [Privacy Badger](https://www.eff.org/privacybadger) and [HTTPSEverywhere](https://www.eff.org/https-everywhere).
+* One profile with [uMatrix](https://github.com/gorhill/uMatrix) (or simpler versions like [uBlock](https://github.com/chrisaljoudi/uBlock) or [uBlock Origin](https://github.com/gorhill/uBlock) from the original developer of uBlock). Use this profile for visiting **mostly trusted** web sites. Take time to learn how these **firewall** extensions work. Other frequently recommended extensions are [Privacy Badger](https://www.eff.org/privacybadger) and [HTTPSEverywhere](https://www.eff.org/https-everywhere).
 
 * One (or more) profile for your "real name", signed-in browsing needs such as banking and email (however, don't open email links from this profile)
 
