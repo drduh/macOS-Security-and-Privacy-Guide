@@ -981,7 +981,7 @@ In addition to passwords, ensure your online accounts (such as github, google ac
 Look to [Yubikey](https://www.yubico.com/products/yubikey-hardware/yubikey-neo/) for a two factor and private key (e.g., ssh, gpg) hardware token.
 
 Avoid to login/register on a site by using another of your account, like Facebook, Google, Twitter...
-This increase the risks if one of them is compromised, Ref. [1](http://www.techrepublic.com/article/ibm-builds-a-service-to-help-you-know-who-to-trust-in-the-cloud/) -  [2](http://arxiv.org/pdf/1509.09057v1.pdf)
+This increase the risks if one of them is compromised, Ref. [1](http://www.techrepublic.com/article/ibm-builds-a-service-to-help-you-know-who-to-trust-in-the-cloud/) -  [2](http://arxiv.org/pdf/1509.09057v1.pdf) [pdf]
 
 ## Wi-Fi
 OS X remembers access points it has connected to. Like all wireless devices, your Mac will broadcast all of these access point names it remembers (e.g. *So-and-so's Router*) each time it looks for a network (e.g. wake from sleep).
@@ -1120,7 +1120,7 @@ Did you know Apple has not shipped a computer with TPM since [2006](http://osxbo
 
 ## Additional resources
 
-[OS X Yosemite Core Technologies Overview White Paper](https://www.apple.com/osx/pdf/OSXYosemite_TO_FF1.pdf)
+[OS X Yosemite Core Technologies Overview White Paper](https://www.apple.com/osx/pdf/OSXYosemite_TO_FF1.pdf) [pdf]
 
 [Reversing Engineering Mac OS X blog](https://reverse.put.as/)
 
