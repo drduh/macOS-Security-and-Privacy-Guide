@@ -529,6 +529,7 @@ Make sure `dnsmasq` is running with `sudo lsof -ni UDP:53` or `ps -ef | grep '[d
       reach    : Reachable,Local Address
 
 **Note** Some VPN software overrides DNS settings on connect. See [issue #24](https://github.com/drduh/OS-X-Yosemite-Security-and-Privacy-Guide/issues/24) for more information.
+To verify the DNS Resolver IP used, from your ISP, your VPN or a Proxy, go to [whoer.net](https://whoer.net).
 
 #### dnscrypt
 
@@ -769,8 +770,8 @@ Create at least three profiles, one for browsing **trusted** web sites (email, b
 
 * One profile **without cookies or Javascript** (turned off in `chrome://settings/content`) which should be the **preferred** profile to visiting new web sites. However, many pages will not load at all without Javascript enabled.
 
-* One profile with [uMatrix](https://github.com/gorhill/uMatrix) (or [uBlock](https://github.com/chrisaljoudi/uBlock), a simpler version). Use this profile for visiting **mostly trusted** web sites. Take time to learn how these **firewall** extensions work.Other frequently recommended extensions are [Privacy Badger](https://www.eff.org/privacybadger) and [HTTPSEverywhere](https://www.eff.org/https-everywhere) by EFF.org.
-An alternative to HTTPSEverywhere plugin for FireFox or Chrome, there is [SSL Enforcer](https://www.sslenforcer.com), as it is an application, all installed browsers are covered, including Safari.
+* One profile with [uMatrix](https://github.com/gorhill/uMatrix) (or simpler version [uBlock Origin](https://github.com/gorhill/uBlock) or [uBlock](https://github.com/chrisaljoudi/uBlock)). Use this profile for visiting **mostly trusted** web sites. Take time to learn how these **firewall** extensions work.Other frequently recommended extensions are [Privacy Badger](https://www.eff.org/privacybadger) and [HTTPSEverywhere](https://www.eff.org/https-everywhere) by EFF.org.
+An alternative to HTTPSEverywhere plugin for FireFox or Chrome, is [SSL Enforcer](https://www.sslenforcer.com), as it is an application, all installed browsers are covered, including Safari.
 
 * One (or more) profile for your "real name", signed-in browsing needs such as banking and email (however, don't open email links from this profile)
 
@@ -976,9 +977,9 @@ You can also generate passwords from **Keychain Access** password assistant, or 
 
 Alternatively, you can manage an encrypted passwords file yourself with `gpg` (shameless plug for my [pwd.sh](https://github.com/drduh/pwd.sh) script).
 
-In addition to passwords, ensure your online accounts (such as github, google accounts, etc.) have [two factor authentication](https://en.wikipedia.org/wiki/Two-factor_authentication) enabled.
+In addition to passwords, ensure your online accounts (such as github, google accounts, etc.) have [two factor authentication](https://en.wikipedia.org/wiki/Two-factor_authentication) (a.k.a. 2FA) enabled, see [OAuth](http://oauth.net).
 
-Look to [Yubikey](https://www.yubico.com/products/yubikey-hardware/yubikey-neo/) for a two factor and private key (e.g., ssh, gpg) hardware token.
+Look to [Yubikey](https://www.yubico.com/products/yubikey-hardware/yubikey-neo/) for a two factor and private key (e.g., ssh, gpg) hardware token, [Authy](https://www.authy.com/), [Google Authenticator](https://support.google.com/accounts/topic/28786), [onelogin](https://www.onelogin.com), [duosecurity](https://www.duosecurity.com). 
 
 Avoid to login/register on a site by using another of your account, like Facebook, Google, Twitter...
 This increase the risks if one of them is compromised, Ref. [1](http://www.techrepublic.com/article/ibm-builds-a-service-to-help-you-know-who-to-trust-in-the-cloud/) -  [2](http://arxiv.org/pdf/1509.09057v1.pdf) [pdf]
