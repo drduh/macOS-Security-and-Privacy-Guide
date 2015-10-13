@@ -529,7 +529,7 @@ Make sure `dnsmasq` is running with `sudo lsof -ni UDP:53` or `ps -ef | grep '[d
       reach    : Reachable,Local Address
 
 **Note** Some VPN software overrides DNS settings on connect. See [issue #24](https://github.com/drduh/OS-X-Yosemite-Security-and-Privacy-Guide/issues/24) for more information.
-To verify the DNS Resolver IP used, from your ISP, your VPN or a Proxy, go to [whoer.net](https://whoer.net).
+To verify the DNS Resolver IP used, from your ISP, your VPN or a Proxy, go to [https://ipleak.net](https://ipleak.net).
 
 #### dnscrypt
 
