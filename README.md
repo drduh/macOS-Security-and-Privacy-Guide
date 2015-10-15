@@ -520,21 +520,6 @@ Make sure it's working with `tcpdump` or Wireshark
 
 Also see [What is a DNS leak and why should I care?](https://dnsleaktest.com/what-is-a-dns-leak.html)
 
-#### Multicast advertisement
-Turn off multicast DNS if you don't need it. It spams information about your machine and its services to the local network.
-
-Edit `com.apple.mDNSResponder.plist`
-
-    sudo -E vim /System/Library/LaunchDaemons/com.apple.mDNSResponder.plist
-
-Copy the line `<string>/usr/sbin/mDNSResponder</string>` and paste it twice (`yy` and `pp` in vim)
-
-Replace the argument with `-launchd` and `-NoMulticastAdvertisements`
-
-`sudo killall -9 mDNSResponder` to restart **mDNSResponder**
-
-You can also use [MacMiniVault/Mac-Scripts/disablebonjour.sh](https://github.com/MacMiniVault/Mac-Scripts/blob/master/disablebonjour/disablebonjour.sh) to accomplish this.
-
 ## Captive portal
 
 When OS X connects to new networks, it **probes** the network and launches a Captive Portal assistant utility if connectivity can't be determined.
