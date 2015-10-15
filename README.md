@@ -567,7 +567,7 @@ The version of `openssl` in El Capitan is `0.9.8zg` which is [not current](https
 Apple claims OpenSSL is **deprecated** in their [Cryptographic Services Guide
 ](https://developer.apple.com/library/mac/documentation/Security/Conceptual/cryptoservices/GeneralPurposeCrypto/GeneralPurposeCrypto.html) document. Their version also has patches which may [surprise you](https://hynek.me/articles/apple-openssl-verification-surprises/).
 
-Grab a recent version of OpenSSL with `brew install openssl` and ensure it's the default with `brew link --force openssl`
+Grab a recent version of OpenSSL with `brew install openssl`. Note, linking brew to be used in favor of `/usr/bin/openssl` may interfere with building software. See [issue #39](https://github.com/drduh/OS-X-Yosemite-Security-and-Privacy-Guide/issues/39).
 
 Compare the new version with the system one
 
