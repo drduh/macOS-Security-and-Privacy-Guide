@@ -26,7 +26,6 @@ If you wish to make a correction or improvement, please send a pull request or [
     - [Hosts file](#hosts-file)
     - [dnsmasq](#dnsmasq)
     - [dnscrypt](#dnscrypt)
-    - [Multicast advertisement](#multicast-advertisement)
 - [Captive portal](#captive-portal)
 - [Certificate authorities](#certificate-authorities)
 - [OpenSSL](#openssl)
@@ -39,6 +38,7 @@ If you wish to make a correction or improvement, please send a pull request or [
 - [Tor](#tor)
 - [VPN](#vpn)
 - [Viruses and malware](#viruses-and-malware)
+- [System Integrity Protection](#system-integrity-protection)
 - [Gatekeeper and Xprotect](#gatekeeper-and-xprotect)
 - [Passwords](#passwords)
 - [Wi-Fi](#wi-fi)
@@ -813,6 +813,15 @@ Local **privilege escalation** bugs are plenty on OS X, so always be careful whe
 Have a look at [The Safe Mac](http://www.thesafemac.com/) for past and current Mac security news.
 
 Check out [Hacking Team](https://www.schneier.com/blog/archives/2015/07/hacking_team_is.html) malware for Mac OS: [root installation for MacOS](https://github.com/hackedteam/vector-macos-root), [Support driver for Mac Agent](https://github.com/hackedteam/driver-macos) and [RCS Agent for Mac](https://github.com/hackedteam/core-macos). Good example of malware which hides from **userland** (`ps`, `ls`, etc). and is very difficult to detect.
+
+## System Integrity Protection
+
+From [What's New in OS X 10.11](https://developer.apple.com/library/prerelease/mac/releasenotes/MacOSX/WhatsNewInOSX/Articles/MacOSX10_11.html):
+
+> A new security policy that applies to every running process, including privileged code and code that runs out of the sandbox. The policy extends additional protections to components on disk and at run-time, only allowing system binaries to be modified by the system installer and software updates. Code injection and runtime attachments to system binaries are no longer permitted.
+
+System Integrity Protection is enabled by default, but can be disabled.
+
 
 ## Gatekeeper and Xprotect
 
