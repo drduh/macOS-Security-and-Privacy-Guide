@@ -1,16 +1,16 @@
-This is a collection of thoughts on securing a modern Mac running OS X Yosemite and some steps on how to improve privacy.
+This is a collection of thoughts on securing a modern Apple Mac computer using OS X 10.11 "El Capitan", as well as steps to improving online privacy.
 
-It is targeted to “power users” who wish to adopt enterprise-standard security, but is also suitable for novice users with an interest in improving their privacy and security on a Mac.
+This guide is targeted to “power users” who wish to adopt enterprise-standard security, but is also suitable for novice users with an interest in improving their privacy and security on a Mac.
 
 There is no security silver bullet. A system is only as secure as its administrator is capable of making it.
 
 I am **not** responsible if you break a Mac by following any of these steps.
 
-If you wish to make a correction or improvement, please send a pull request or [open an issue](https://github.com/drduh/OS-X-Yosemite-Security-and-Privacy-Guide/issues).
+If you wish to make a correction or improvement, please send a pull request or [open an issue](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues).
 
 - [Basics](#basics)
-- [Preparing Yosemite](#preparing-yosemite)
-- [Installing Yosemite](#installing-yosemite)
+- [Preparing OS X](#preparing-os-x)
+- [Installing OS X](#installing-os-x)
     - [Recovery partition](#recovery-partition)
 - [First boot](#first-boot)
 - [Full disk encryption](#full-disk-encryption)
@@ -59,8 +59,8 @@ The standard best security practices apply.
 	* Study and recognize the threat and your attack surface.
 
 * Keep the system up to date
-	* Patch, patch, patch.
-	* Subscribe to announcement mailing lists (e.g., [Apple security-announce](https://lists.apple.com/mailman/listinfo/security-announce)) for software you use often.
+	* Patch, patch, patch your system and software.
+	* Subscribe to announcement mailing lists (e.g., [Apple security-announce](https://lists.apple.com/mailman/listinfo/security-announce)) for programs you use often.
 
 * Encrypt sensitive data
 	* In addition to full disk encryption, create one or many encrypted containers to store passwords, keys and personal documents.
@@ -74,18 +74,17 @@ The standard best security practices apply.
 	* Ultimately, the security of the system can be reduced to its administrator.
 	* Care should be taken when installing new software. Always prefer [free](https://www.gnu.org/philosophy/free-sw.en.html) and open source software ([which OS X is not](https://superuser.com/questions/19492/is-mac-os-x-open-source)).
 
-## Preparing Yosemite
-There are several ways to install a fresh copy of OS X Yosemite.
+## Preparing OS X
+There are several ways to install a fresh copy of OS X.
 
 The simplest way is to boot into [Recovery Mode](https://support.apple.com/en-us/HT201314) by holding `Command` and `R` keys at boot. A system image can be downloaded and applied directly from Apple. However, this way exposes the computer's serial number and other identifying information to Apple over plain **HTTP**.
 
-Another way is to download Yosemite build version `14F27` from the [App Store](https://itunes.apple.com/us/app/os-x-yosemite/id915041082) or some other place and create a custom, installable system image.
+Another way is to download El Capitan build version `15A284` from the [App Store](https://itunes.apple.com/us/app/os-x-el-capitan/id1018109117) or some other place and create a custom, installable system image.
 
 The application is [code signed](https://developer.apple.com/library/mac/documentation/Security/Conceptual/CodeSigningGuide/Procedures/Procedures.html#//apple_ref/doc/uid/TP40005929-CH4-SW6), which should be verified to make sure you received a legitimate copy.
 
-    $ codesign -dvv Install\ OS\ X\ Yosemite.app
-    Executable=/Users/drduh/Install OS X Yosemite.app/Contents/MacOS/InstallAssistant
-    Identifier=com.apple.InstallAssistant.Yosemite
+    $ codesign -dvv Install\ OS\ X\ El Capitan.app
+    Executable=/Users/drduh/Install OS X El Capitan.app/Contents/MacOS/InstallAssistant
     Format=bundle with Mach-O thin (x86_64)
     CodeDirectory v=20200 size=239 flags=0x200(kill) hashes=4+3 location=embedded
     Signature size=4169
@@ -95,9 +94,9 @@ The application is [code signed](https://developer.apple.com/library/mac/documen
     Info.plist entries=30
     TeamIdentifier=K36BKF7T3D
 
-OS X installers can be made with the `createinstallmedia` utility included in `Install OS X Yosemite.app/Contents/Resources/`. See [Create a bootable installer for OS X Yosemite](https://support.apple.com/en-us/HT201372), or run the utility without arguments to see how it works.
+OS X installers can be made with the `createinstallmedia` utility included in `Install OS X El Capitan.app/Contents/Resources/`. See [Create a bootable installer for OS X Yosemite](https://support.apple.com/en-us/HT201372), or run the utility without arguments to see how it works.
 
-If you'd like to do it the **manual** way, you will need to find the file `InstallESD.dmg`, which is inside `Install OS X Yosemite.app`.
+If you'd like to do it the **manual** way, you will need to find the file `InstallESD.dmg`, which is inside `Install OS X El Capitan.app`.
 
 Right click, select **Show Package Contents** and navigate to **Contents > SharedSupport** to find `Install.DMG`.
 
@@ -105,15 +104,13 @@ You can verify the following cryptographic hashes to ensure you have the same, a
 
 You can also Google these hashes to ensure your copy is genuine and has not been tampered with.
 
-    InstallESD.dmg (Build 14F27)
+    InstallESD.dmg (Build 15A284)
 
-    SHA-256: 24c4934d91401dd2f738c7811d35ae16d3d7993586592a64b9baf625fe0427db
-    SHA-1:   ef5cc8851b893dbe4bc9a5cf5c648c10450af6bc
-    MD5:     ff4850735fa0a0a1d706edd21f133ef2
+    SHA-1:   5e21097f2e98417ecc12574a7bb46a402594ea4a
 
 Mount and install the operating system to a **temporary image**, or use the GUI app [MagerValp/AutoDMG](https://github.com/MagerValp/AutoDMG).
 
-    hdiutil attach -noverify -mountpoint /tmp/installesd /Applications/Install\ OS\ X\ Yosemite.app/Contents/SharedSupport/InstallESD.dmg
+    hdiutil attach -noverify -mountpoint /tmp/installesd ./InstallESD.dmg
 
     hdiutil create -size 32g -type SPARSE -fs HFS+J -volname "OS X" -uid 0 -gid 80 -mode 1775 /tmp/output.sparseimage
 
@@ -139,17 +136,19 @@ When you're done, detach, convert and verify the image.
 
     hdiutil detach /tmp/installesd
 
-    hdiutil convert -format UDZO /tmp/output.sparseimage -o yosemite.dmg
+    hdiutil convert -format UDZO /tmp/output.sparseimage -o elcap.dmg
 
-    asr imagescan --source yosemite.dmg
+    asr imagescan --source elcap.dmg
 
-Now, `yosemite.dmg` is ready to be applied to one or multiple Macs. You can further customize the image to have premade users, applications and preferences to your liking.
+Now, `elcap.dmg` is ready to be applied to one or multiple Macs. You can further customize the image to include premade users, applications and preferences to your liking.
 
-## Installing Yosemite
+## Installing OS X
 
-I prefer to install this image using another Mac and [Target Disk Mode](https://support.apple.com/en-us/HT201462).
+One way to install the OS X image is using another Mac in [Target Disk Mode](https://support.apple.com/en-us/HT201462).
 
-If you don't have another Mac, create a bootable USB drive from the Yosemite app bundle you already have, and boot the Mac you wish to image to it by holding the *Option* key at boot.
+If you don't have another Mac, create a bootable USB drive from the El Capitan application bundle, and boot the Mac you wish to image to it by holding the *Option* key at boot.
+
+Alternatively, you could also create a second partition on your existing Mac and use that.
 
 If you don't have an external drive or USB stick to use, it's possible to create a small partition with **Disk Utility** and use that. There are several guides online on how to do this.
 
@@ -165,20 +164,20 @@ Run `diskutil list` to identify the connected disk, usually `/dev/disk2`
 **Restore** the image to the new volume
 
     sudo asr restore \
-      --source yosemite.dmg \
+      --source elcap.dmg \
       --target /Volumes/OSX \
       --erase --noverify \
       --buffersize 4m
 
-Alternatively, open the **Disk Utility** application, erase the connected Mac's disk, then drag `yosemite.dmg` in to restore it to the new partition.
+Alternatively, open the **Disk Utility** application, erase the connected Mac's disk, then drag `elcap.dmg` in to restore it to the new partition.
 
-If you've followed these steps correctly, the target Mac should now have a fresh install of OS X Yosemite.
+If you've followed these steps correctly, the target Mac should now have a new install of OS X.
 
-If you want to transfer any files, copy them to a folder like `/Users/Shared` on the mounted disk image, e.g. `cp xcode_6.1.1.dmg /Volumes/OS\ X/Users/Shared`
+If you want to transfer any files, copy them to a folder like `/Users/Shared` on the mounted disk image, e.g. `cp Xcode_6.1.1.dmg /Volumes/OS\ X/Users/Shared`
 
 #### Recovery partition
 
-We're not done yet! Unless you have built the image with [AutoDMG](https://github.com/MagerValp/AutoDMG), you will need to create a recovery partition in order to use Filevault full disk encryption. You can do so using [MagerValp/Create-Recovery-Partition-Installer](https://github.com/MagerValp/Create-Recovery-Partition-Installer) or with the following manual steps.
+We're not done yet! Unless you have built the image with [AutoDMG](https://github.com/MagerValp/AutoDMG), or installed OS X to a second partition on your Mac, you will need to create a recovery partition in order to use Filevault full disk encryption. You can do so using [MagerValp/Create-Recovery-Partition-Installer](https://github.com/MagerValp/Create-Recovery-Partition-Installer) or by following these steps.
 
 Download [RecoveryHDUpdate.dmg](https://support.apple.com/downloads/DL1464/en_US/RecoveryHDUpdate.dmg)
 
@@ -186,7 +185,6 @@ Download [RecoveryHDUpdate.dmg](https://support.apple.com/downloads/DL1464/en_US
 
     SHA-256: f6a4f8ac25eaa6163aa33ac46d40f223f40e58ec0b6b9bf6ad96bdbfc771e12c
     SHA-1:   1ac3b7059ae0fcb2877d22375121d4e6920ae5ba
-    MD5:     b669cdb341b2253a843bf0d402b9675a
 
 Attach and expand the installation, then run it
 
@@ -343,15 +341,13 @@ Use the following commands
 Unless you're already familiar with pf, I don't suggest worrying too much about configuring it on OS X.
 
 ## Services
-Before you connect to the Internet, you may wish to disable some Apple services which phone home to Apple.
+Before you connect to the Internet, you may wish to disable some system services, which use up resources or phone home to Apple.
 
-Also see [fix-macosx/yosemite-phone-home](https://github.com/fix-macosx/yosemite-phone-home) and [l1k/osxparanoia](https://github.com/l1k/osxparanoia)
+See [fix-macosx/yosemite-phone-home](https://github.com/fix-macosx/yosemite-phone-home) and [l1k/osxparanoia](https://github.com/l1k/osxparanoia)
 
 Services on OS X are managed by **launchd**. See <http://launchd.info/>, as well as [Apple's Daemons and Services Programming Guide](https://developer.apple.com/library/mac/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingLaunchdJobs.html) and [Technical Note TN2083](https://developer.apple.com/library/mac/technotes/tn2083/_index.html)
 
 You can also run [KnockKnock](https://github.com/synack/knockknock) that shows more information about startup items.
-
-Here are the basics:
 
 * Use `launchctl list` to view loaded user agents
 * Use `sudo launchctl list` to view loaded system daemons
@@ -371,64 +367,9 @@ If you're not interested in Apple Push Notifications, disable the service
 
 **Note** Unloading services may break usability of some applications. Read the manual pages and use Google to make sure you understand what you're doing first.
 
-That said, here's an example of disabling some **user launch agents** I don't care for (the following lines may simply be copied and pasted into a Terminal window),
-
-	function disable_agent {
-      echo "Disabling ${1}"
-      launchctl unload -w /System/Library/LaunchAgents/${1}.plist
-	}
-
-	disable_agent com.apple.AddressBook.SourceSync
-	disable_agent com.apple.AirPlayUIAgent
-	disable_agent com.apple.AOSHeartbeat
-	disable_agent com.apple.AOSPushRelay
-	disable_agent com.apple.bird
-	disable_agent com.apple.CalendarAgent
-	disable_agent com.apple.CallHistoryPluginHelper
-	disable_agent com.apple.CallHistorySyncHelper
-	disable_agent com.apple.cloudd
-	disable_agent com.apple.cloudfamilyrestrictionsd-mac
-	disable_agent com.apple.cloudpaird
-	disable_agent com.apple.cloudphotosd
-	disable_agent com.apple.CoreLocationAgent
-	disable_agent com.apple.coreservices.appleid.authentication
-	disable_agent com.apple.EscrowSecurityAlert
-	disable_agent com.apple.findmymacmessenger
-	disable_agent com.apple.gamed
-	disable_agent com.apple.helpd
-	disable_agent com.apple.icloud.fmfd
-	disable_agent com.apple.idsremoteurlconnectionagent
-	disable_agent com.apple.imagent
-	disable_agent com.apple.IMLoggingAgent
-	disable_agent com.apple.locationmenu
-	disable_agent com.apple.notificationcenterui
-	disable_agent com.apple.pbs
-	disable_agent com.apple.rtcreportingd
-	disable_agent com.apple.SafariCloudHistoryPushAgent
-	disable_agent com.apple.safaridavclient
-	disable_agent com.apple.SafariNotificationAgent
-	disable_agent com.apple.security.cloudkeychainproxy
-	disable_agent com.apple.SocialPushAgent
-	disable_agent com.apple.syncdefaultsd
-	disable_agent com.apple.telephonyutilities.callservicesd
-
-And the same for **system launch daemons** (you will be prompted for your password, as these are system jobs),
-
-	function disable_daemon {
-      echo "Disabling ${1}"
-      sudo launchctl unload -w /System/Library/LaunchDaemons/${1}.plist
-	}
-
-	disable_daemon com.apple.apsd
-	disable_daemon com.apple.AssetCacheLocatorService
-	disable_daemon com.apple.awacsd
-	disable_daemon com.apple.awdd
-	disable_daemon com.apple.CrashReporterSupportHelper
-	disable_daemon com.apple.GameController.gamecontrollerd
-	disable_daemon com.apple.SubmitDiagInfo
-	disable_daemon com.apple.TMCacheDelete
-
 Be careful about disabling any system daemons you don't understand, as it may render your system unbootable. If you break your Mac, use [single user mode](https://support.apple.com/en-us/HT201573) to fix it.
+
+Use **Console** and **Activity Monitor** applications if you notice your Mac heating up, feeling slugging, or generally misbehaving, as it may have resulted from your tinkering.
 
 ## Spotlight Suggestions
 Disable “Spotlight Suggestions” in both the Spotlight preferences and Safari's Search preferences to avoid your search queries being sent to Apple.
@@ -529,7 +470,6 @@ Make sure `dnsmasq` is running with `sudo lsof -ni UDP:53` or `ps -ef | grep '[d
       reach    : Reachable,Local Address
 
 **Note** Some VPN software overrides DNS settings on connect. See [issue #24](https://github.com/drduh/OS-X-Yosemite-Security-and-Privacy-Guide/issues/24) for more information.
-To verify the DNS Resolver IP used, from your ISP, your VPN or a Proxy, go to [https://ipleak.net](https://ipleak.net).
 
 #### dnscrypt
 
@@ -605,7 +545,7 @@ See <https://web.archive.org/web/20130407200745/http://www.divertednetworks.net/
 and <https://grpugh.wordpress.com/2014/10/29/an-undocumented-change-to-captive-network-assistant-settings-in-os-x-10-10-yosemite/>
 
 ## Certificate authorities
-Yosemite comes with [over 200 root certificate authorities](https://support.apple.com/en-us/HT202858) from for-profit corporations like Apple, Verisign, Thawte, Digicert and government agencies from China, Japan, Netherlands, U.S., and more! These CAs are capable of issuing SSL certificates for any domain or code signing certificates as well.
+OS X El Capitan comes with [over 200 root certificate authorities](https://support.apple.com/en-us/HT205204) from for-profit corporations like Apple, Verisign, Thawte, Digicert and government agencies from China, Japan, Netherlands, U.S., and more! These CAs are capable of issuing SSL certificates for any domain or code signing certificates as well.
 
 For more information, see [Certification Authority Trust Tracker](https://github.com/kirei/catt),
 
@@ -616,62 +556,13 @@ and [You Won’t Be Needing These Any More: On Removing Unused Certificates From
 
 You can inspect system root certificates in **Keychain Access**, under the **System Roots** tab or by using the `security` command line tool and `/System/Library/Keychains/SystemRootCertificates.keychain` file.
 
+You can disable certificate authorities through Keychain Access by marking them as **Never Trust**.
+
 The risk of a [man in the middle](https://en.wikipedia.org/wiki/Man-in-the-middle_attack) attack in which a coerced or compromised certificate authority trusted by your system issues a fake/rogue SSL certificate is quite low, but still [possible](https://en.wikipedia.org/wiki/DigiNotar#Issuance_of_fraudulent_certificates).
-
-To remove an unwanted certificate, copy its **SHA1** sum, then delete it
-
-    echo "4F 99 AA 93 FB 2B D1 37 26 A1 99 4A CE 7F F0 05 F2 93 5D 1E" | tr -d ' '
-    4F99AA93FB2BD13726A1994ACE7FF005F2935D1E
-
-    sudo security delete-certificate -t -Z 4F99AA93FB2BD13726A1994ACE7FF005F2935D1E /System/Library/Keychains/SystemRootCertificates.keychain
-
-Here's an example of removing a list of roots
-
-	function remove {
-    echo "Removing ${2}"
-    sudo /usr/bin/security delete-certificate \
-      -t -Z $1 \
-      /System/Library/Keychains/SystemRootCertificates.keychain
-	}
-
-	remove "D1EB23A46D17D68FD92564C2F1F1601764D8E349" "AAA Certificate Services"
-	remove "4F99AA93FB2BD13726A1994ACE7FF005F2935D1E" "China Internet Network Information Center Root CA"
-	remove "8BAF4C9B1DF02A92F7DA128EB91BACF498604B6F" "CNNIC"
-	remove "8C941B34EA1EA6ED9AE2BC54CF687252B4C9B561" "DoD Root CA 2"
-	remove "10F193F340AC91D6DE5F1EDC006247C4F25D9671" "DoD CLASS 3 Root CA"
-	remove "8C96BAEBDD2B070748EE303266A0F3986E7CAE58" "EBG"
-	remove "51C6E70849066EF392D45CA00D6DA3628FC35239" "E-Tugra Certification Authority"
-	remove "905F942FD9F28F679B378180FD4F846347F645C1" "Federal Common Policy CA"
-	remove "FE45659B79035B98A161B5512EACDA580948224D" "Hellenic Academic and Research Institutions RootCA 2011"
-	remove "D6DAA8208D09D2154D24B52FCB346EB258B28A58" "Hongkong Post Root CA 1"
-	remove "D2441AA8C203AECAA96E501F124D52B68FE4C375" "I.CA"
-	remove "270C500CC6C86ECB1980BC1305439ED282480BE3" "MPHPT Certification Authority"
-	remove "06083F593F15A104A069A46BA903D006B7970991" "NetLock Arany"
-	remove "E392512F0ACFF505DFF6DE067F7537E165EA574B" "NetLock Expressz"
-	remove "016897E1A0B8F2C3B134665C20A727B7A158E28F" "NetLock Minositett Kozjegyzoi"
-	remove "ACED5F6553FD25CE015F1F7A483B6A749F6178C6" "NetLock Kozjegyzoi"
-	remove "2DFF6336E33A4829AA009F01A1801EE7EBA582BB" "Prefectural Association For JPKI"
-	remove "8782C6C304353BCFD29692D2593E7D44D934FF11" "SecureTrust CA"
-	remove "E19FE30E8B84609E809B170D72A8C5BA6E1409BD" "Trusted Certificate Services"
-	remove "3BC0380B33C3F6A60C86152293D9DFF54B81C005" "Trustis FPS Root CA"
-	remove "B091AA913847F313D727BCEFC8179F086F3A8C0F" "TW Government Root Certification Authority"
-	remove "1B4B396126276B6491A2686DD70243212D1F1D96" "TurkTrust 1"
-	remove "7998A308E14D6585E6C21E153A719FBA5AD34AD9" "TurkTrust 2"
-	remove "B435D4E1119D1C6690A749EBB394BD637BA782B7" "TurkTrust 3"
-	remove "F17F6FB631DC99E3A3C87FFE1CF1811088D96033" "TurkTrust 4"
-	remove "0B972C9EA6E7CC58D93B20BF71EC412E7209FABF" "UCA Global Root"
-	remove "8250BED5A214433A66377CBC10EF83F669DA3A67" "UCA Root"
-	remove "CB44A097857C45FA187ED952086CB9841F2D51B5" "US Govt Common Policy"
-	remove "FAA7D9FB31B746F200A85E65797613D816E063B5" "VRK Gov. Root CA"
-	remove "E7B4F69D61EC9069DB7E90A7401A3CF47D4FE8EE" "WellsSecure Public Root Certificate Authority"
-
-These may be updated or re-added during system updates, though.
-
-A cool idea is to write a custom proxy which monitors and logs certificate chains seen on the wire.
 
 ## OpenSSL
 
-The version of `openssl` in Yosemite is `0.9.8` which is [not current](https://apple.stackexchange.com/questions/200582/why-is-apple-using-an-older-version-of-openssl). It doesn't support TLS 1.1 or newer, elliptic curve ciphers, and [more](https://stackoverflow.com/questions/27502215/difference-between-openssl-09-8z-and-1-0-1).
+The version of `openssl` in El Capitan is `0.9.8zg` which is [not current](https://apple.stackexchange.com/questions/200582/why-is-apple-using-an-older-version-of-openssl). It doesn't support TLS 1.1 or newer, elliptic curve ciphers, and [more](https://stackoverflow.com/questions/27502215/difference-between-openssl-09-8z-and-1-0-1).
 
 Apple claims OpenSSL is **deprecated** in their [Cryptographic Services Guide
 ](https://developer.apple.com/library/mac/documentation/Security/Conceptual/cryptoservices/GeneralPurposeCrypto/GeneralPurposeCrypto.html) document. Their version also has patches which may [surprise you](https://hynek.me/articles/apple-openssl-verification-surprises/).
@@ -770,8 +661,7 @@ Create at least three profiles, one for browsing **trusted** web sites (email, b
 
 * One profile **without cookies or Javascript** (turned off in `chrome://settings/content`) which should be the **preferred** profile to visiting new web sites. However, many pages will not load at all without Javascript enabled.
 
-* One profile with [uMatrix](https://github.com/gorhill/uMatrix) (or simpler version [uBlock Origin](https://github.com/gorhill/uBlock) or [uBlock](https://github.com/chrisaljoudi/uBlock)). Use this profile for visiting **mostly trusted** web sites. Take time to learn how these **firewall** extensions work.Other frequently recommended extensions are [Privacy Badger](https://www.eff.org/privacybadger) and [HTTPSEverywhere](https://www.eff.org/https-everywhere) by EFF.org.
-An alternative to HTTPSEverywhere plugin for FireFox or Chrome, is [SSL Enforcer](https://www.sslenforcer.com), as it is an application, all installed browsers are covered, including Safari.
+* One profile with [uMatrix](https://github.com/gorhill/uMatrix) (or [uBlock](https://github.com/chrisaljoudi/uBlock), a simpler version). Use this profile for visiting **mostly trusted** web sites. Take time to learn how these **firewall** extensions work. Other frequently recommended extensions are [Privacy Badger](https://www.eff.org/privacybadger) and [HTTPSEverywhere](https://www.eff.org/https-everywhere).
 
 * One (or more) profile for your "real name", signed-in browsing needs such as banking and email (however, don't open email links from this profile)
 
@@ -792,7 +682,7 @@ Do **not** use Safari. The code is a mess and security vulnerabilities are frequ
 For more information about security conscious browsing [HowTo: Privacy & Security Conscious Browsing](https://gist.github.com/atcuno/3425484ac5cce5298932) is a great addition.
 
 ## Plugins
-Don't download or install Internet plugins like **Silverlight** unless you really need them. Netflix works with HTML5 on Yosemite.
+Don't download or install Internet plugins like **Silverlight** unless you really need them. Netflix works with HTML5 on Yosemite and El Capitan.
 
 **Java**, **Flash**, **Adobe Reader** and others plugins are a big security risk because they are poorly written, and should not be installed.
 
@@ -977,12 +867,9 @@ You can also generate passwords from **Keychain Access** password assistant, or 
 
 Alternatively, you can manage an encrypted passwords file yourself with `gpg` (shameless plug for my [pwd.sh](https://github.com/drduh/pwd.sh) script).
 
-In addition to passwords, ensure your online accounts (such as github, google accounts, etc.) have [two factor authentication](https://en.wikipedia.org/wiki/Two-factor_authentication) (a.k.a. 2FA) enabled, see [OAuth](http://oauth.net).
+In addition to passwords, ensure your online accounts (such as github, google accounts, etc.) have [two factor authentication](https://en.wikipedia.org/wiki/Two-factor_authentication) enabled.
 
-Look to [Yubikey](https://www.yubico.com/products/yubikey-hardware/yubikey-neo/) for a two factor and private key (e.g., ssh, gpg) hardware token, [Authy](https://www.authy.com/), [Google Authenticator](https://support.google.com/accounts/topic/28786), [onelogin](https://www.onelogin.com), [duosecurity](https://www.duosecurity.com). 
-
-Avoid to login/register on a site by using another of your account, like Facebook, Google, Twitter...
-This increase the risks if one of them is compromised, Ref. [1](http://www.techrepublic.com/article/ibm-builds-a-service-to-help-you-know-who-to-trust-in-the-cloud/) -  [2](http://arxiv.org/pdf/1509.09057v1.pdf) [pdf]
+Look to [Yubikey](https://www.yubico.com/products/yubikey-hardware/yubikey-neo/) for a two factor and private key (e.g., ssh, gpg) hardware token.
 
 ## Wi-Fi
 OS X remembers access points it has connected to. Like all wireless devices, your Mac will broadcast all of these access point names it remembers (e.g. *So-and-so's Router*) each time it looks for a network (e.g. wake from sleep).
@@ -1121,7 +1008,7 @@ Did you know Apple has not shipped a computer with TPM since [2006](http://osxbo
 
 ## Additional resources
 
-[OS X Yosemite Core Technologies Overview White Paper](https://www.apple.com/osx/pdf/OSXYosemite_TO_FF1.pdf) [pdf]
+[OS X Yosemite Core Technologies Overview White Paper](https://www.apple.com/osx/pdf/OSXYosemite_TO_FF1.pdf)
 
 [Reversing Engineering Mac OS X blog](https://reverse.put.as/)
 
