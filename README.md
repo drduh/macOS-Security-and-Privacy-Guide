@@ -106,7 +106,8 @@ You can also Google these hashes to ensure your copy is genuine and has not been
 
     InstallESD.dmg (Build 15A284)
 
-    SHA-1:   5e21097f2e98417ecc12574a7bb46a402594ea4a
+    SHA-256:   d20002ec8328784d65274eb49663b24a48be95dc06c6623ec67c9f28a7481352
+    SHA-1:     5e21097f2e98417ecc12574a7bb46a402594ea4a
 
 Mount and install the operating system to a **temporary image**, or use the GUI app [MagerValp/AutoDMG](https://github.com/MagerValp/AutoDMG).
 
