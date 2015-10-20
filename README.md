@@ -1036,6 +1036,8 @@ Also check out the GUI "simple network activity monitor" [BonzaiThePenguin/Loadi
 
 If you wish, disable [Diagnostics & Usage Data](https://github.com/fix-macosx/fix-macosx/wiki/Diagnostics-&-Usage-Data).
 
+Consider creating a second, non-administrator account for web browsing and general use which doesn't require elevated privileges. See [issue #9](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/9).
+
 If you want to play **music** or watch **videos**, use [VLC media player](https://www.videolan.org/vlc/index.html) which is free and open source.
 
 If you want to **torrent**, use [Transmission](http://www.transmissionbt.com/download/) which is free and open source.
@@ -1107,3 +1109,5 @@ Did you know Apple has not shipped a computer with TPM since [2006](http://osxbo
 [OS X 10.10 Yosemite: The Ars Technica Review](http://arstechnica.com/apple/2014/10/os-x-10-10/)
 
 [CIS Apple OSX 10.10 Benchmark](https://benchmarks.cisecurity.org/tools2/osx/CIS_Apple_OSX_10.10_Benchmark_v1.0.0.pdf) [pdf]
+
+[How to Switch to the Mac](https://taoofmac.com/space/HOWTO/Switch)
