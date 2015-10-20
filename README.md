@@ -41,6 +41,7 @@ If you wish to make a correction or improvement, please send a pull request or [
 - [System Integrity Protection](#system-integrity-protection)
 - [Gatekeeper and Xprotect](#gatekeeper-and-xprotect)
 - [Passwords](#passwords)
+- [Backup](#backup)
 - [Wi-Fi](#wi-fi)
 - [SSH](#ssh)
 - [Physical access](#physical-access)
@@ -84,16 +85,19 @@ Another way is to download El Capitan build version `15A284` from the [App Store
 
 The application is [code signed](https://developer.apple.com/library/mac/documentation/Security/Conceptual/CodeSigningGuide/Procedures/Procedures.html#//apple_ref/doc/uid/TP40005929-CH4-SW6), which should be verified to make sure you received a legitimate copy.
 
-    $ codesign -dvv Install\ OS\ X\ El Capitan.app
-    Executable=/Users/drduh/Install OS X El Capitan.app/Contents/MacOS/InstallAssistant
+    $ codesign -dvv /Applications/Install\ OS\ X\ El\ Capitan.app
+    Executable=/Applications/Install OS X El Capitan.app/Contents/MacOS/InstallAssistant
+    Identifier=com.apple.InstallAssistant.ElCapitan
     Format=bundle with Mach-O thin (x86_64)
-    CodeDirectory v=20200 size=239 flags=0x200(kill) hashes=4+3 location=embedded
+    CodeDirectory v=20200 size=280 flags=0x200(kill) hashes=4+5 location=embedded
     Signature size=4169
     Authority=Apple Mac OS Application Signing
     Authority=Apple Worldwide Developer Relations Certification Authority
     Authority=Apple Root CA
-    Info.plist entries=30
+    Info.plist entries=31
     TeamIdentifier=K36BKF7T3D
+    Sealed Resources version=2 rules=8 files=151
+    Internal requirements count=1 size=124
 
 OS X installers can be made with the `createinstallmedia` utility included in `Install OS X El Capitan.app/Contents/Resources/`. See [Create a bootable installer for OS X Yosemite](https://support.apple.com/en-us/HT201372), or run the utility without arguments to see how it works.
 
@@ -753,7 +757,6 @@ Consider downloading the [beta version](https://beta.adium.im/) which uses OAuth
 
     SHA-256: e7690718f14defa3bc08cd3949a4eab52e942abd47f7ac2ce7157ed7295658c6
     SHA-1:   7f0271d4fe9835b4554225510e758a3c46c10b6a
-    MD5:     db27cb75caffdb147db915369ae46b4c
 
 Remember to [disable logging](https://trac.adium.im/ticket/15722) for OTR chats with Adium.
 
@@ -877,12 +880,31 @@ In addition to passwords, ensure your online accounts (such as github, google ac
 
 Look to [Yubikey](https://www.yubico.com/products/yubikey-hardware/yubikey-neo/) for a two factor and private key (e.g., ssh, gpg) hardware token.
 
+## Backup
+Always encrypt files locally before backing them up to external media or online services. One way is to use a symmetric cipher with **gpg** and a password of your choosing.
+
+To encrypt, use
+
+    tar zcvf - ~/Downloads | gpg -c > ~/Desktop/backup-$(date +%F-%H%M).tar.gz.gpg
+    
+To decrypt, use
+
+    gpg -o ~/Desktop/decrypted-backup.tar.gz \
+      -d ~/Desktop/backup-2015-01-01-0000.tar.gz.gpg && \
+      tar zxvf ~/Desktop/decrypted-backup.tar.gz
+      
+You may also create encrypted volumes in OS X using **Disk Utility**, or using `hdiutil`,
+
+    hdiutil create ~/Desktop/encrypted.dmg -encryption -size 1g -volname "Name" -fs JHFS+
+    
+You can also check out services like [SpiderOak](https://spideroak.com/), [Arq](https://www.arqbackup.com/), or [restic](https://restic.github.io/).
+
 ## Wi-Fi
 OS X remembers access points it has connected to. Like all wireless devices, your Mac will broadcast all of these access point names it remembers (e.g. *So-and-so's Router*) each time it looks for a network (e.g. wake from sleep).
 
 This is a privacy risk, so remove networks from the list in **System Preferences** when they're no longer needed.
 
-Remember, WPA protection on wireless networks is [not secure](http://www.howtogeek.com/167783/htg-explains-the-difference-between-wep-wpa-and-wpa2-wireless-encryption-and-why-it-matters/) and you should favor connecting to **WPA2** protected networks only.
+WEP protection on wireless networks is [not secure](http://www.howtogeek.com/167783/htg-explains-the-difference-between-wep-wpa-and-wpa2-wireless-encryption-and-why-it-matters/) and you should favor connecting to **WPA2** protected networks only.
 
 ## SSH
 For outgoing ssh connections, use hardware- or password-protected ssh keys, [set up](http://nerderati.com/2011/03/17/simplify-your-life-with-an-ssh-config-file/) remote hosts and consider [hashing](http://nms.csail.mit.edu/projects/ssh/) them.
