@@ -310,7 +310,9 @@ Programs such as [Little Snitch](https://www.obdev.at/products/littlesnitch/inde
 
 <img width="349" alt="Example of Little Snitch monitored session" src="https://cloud.githubusercontent.com/assets/12475110/10596588/c0eed3c0-76b3-11e5-95b8-9ce7d51b3d82.png">
 
-They are capable of monitoring and blocking **incoming** and **outgoing** network connections. However, they may require the use of a closed source [kernel extension](https://developer.apple.com/library/mac/documentation/Darwin/Conceptual/KernelProgramming/Extend/Extend.html).
+*Example of Little Snitch-monitored session*
+
+These programs are capable of monitoring and blocking **incoming** and **outgoing** network connections. However, they may require the use of a closed source [kernel extension](https://developer.apple.com/library/mac/documentation/Darwin/Conceptual/KernelProgramming/Extend/Extend.html).
 
 If the number of choices of allowing/blocking network connections is overwhelming, use **Silent Mode** with connections allowed, then periodically check your settings to gain understanding of what various applications are doing.
 
@@ -462,11 +464,11 @@ Install and start the program
 
     sudo launchctl load /Library/LaunchDaemons/homebrew.mxcl.dnsmasq.plist
 
-Open **System Preferences** > **Network** and select your interface, then the **DNS** tab.
+Open **System Preferences** > **Network** and select your interface, then the **DNS** tab, select **+** and add `127.0.0.1` as a DNS server, or use the command,
 
-Select the **+** and add `127.0.0.1` as a DNS server.
+    sudo networksetup -setdnsservers "Wi-Fi" 127.0.0.1
 
-Make sure `dnsmasq` is running with `sudo lsof -ni UDP:53` or `ps -ef | grep '[d]nsmasq'` or with `scutil`
+Make sure `dnsmasq` is running with `sudo lsof -ni UDP:53` and is correctly configured with `scutil` or `networksetup`:
 
     $ scutil --dns
     DNS configuration
@@ -476,6 +478,9 @@ Make sure `dnsmasq` is running with `sudo lsof -ni UDP:53` or `ps -ef | grep '[d
       nameserver[0] : 127.0.0.1
       flags    : Request A records, Request AAAA records
       reach    : Reachable,Local Address
+      
+    $ networksetup -getdnsservers "Wi-Fi"               
+    127.0.0.1
 
 **Note** Some VPN software overrides DNS settings on connect. See [issue #24](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/24) for more information.
 
