@@ -602,9 +602,17 @@ Install and start privoxy
 
 By default, privoxy listens on local TCP port 8118.
 
-Set the **HTTP** proxy for your active network interface in **System Preferences** to `127.0.0.1` and port `8118`.
+Set the system **http** proxy for your active network interface `127.0.0.1` and `8118`. This can be done through System Preferences > Network > Advanced > Proxies, or
 
-Confirm it's working by visiting <http://p.p/> and with the command `scutil --proxy`
+    sudo networksetup -setwebproxy "Wi-Fi" 127.0.0.1 8118
+
+Optionally, you can set the system **https** proxy, which allows for domain name filtering, with
+
+    sudo networksetup -setsecurewebproxy "Wi-Fi" 127.0.0.1 8118
+
+Confirm the proxy is set with the command `scutil --proxy`. You can also visit <http://p.p/> in a web browser, or use
+
+    ALL_PROXY=127.0.0.1:8118 curl -I http://p.p/
 
 Privoxy already comes with many good rules, however you can also write your own.
 
@@ -622,7 +630,7 @@ For example, edit `/usr/local/etc/privoxy/user.action` to block elements by doma
     /assets/social-.*
     /img/social.*
 
-Write simple or complex rules for redirection, such as to HTTPS,
+Write simple or complex rules for redirection, such as upgrading connections to HTTPS,
 
     { +redirect{s@http://@https://@} }
     code.jquery.com
@@ -632,7 +640,7 @@ Write simple or complex rules for redirection, such as to HTTPS,
 
 You can even replace all ad images with pictures of kittens by running a local web server.
 
-Consider logging all privoxy requests so you can be inspired to write custom rules.
+Consider logging and monitoring privoxy requests so you can be inspired to write custom rules.
 
 ## Web browsing
 The web browser is poses the largest security and privacy risk, as its fundamental job is to download and execute untrusted code from the Internet.
@@ -973,6 +981,8 @@ Monitor x509 certificates on the wire
 Also check out the GUI "simple network activity monitor" [BonzaiThePenguin/Loading](https://github.com/BonzaiThePenguin/Loading)
 
 ## Miscellaneous
+
+If you wish, disable [Diagnostics & Usage Data](https://github.com/fix-macosx/fix-macosx/wiki/Diagnostics-&-Usage-Data).
 
 If you want to play **music** or watch **videos**, use [VLC media player](https://www.videolan.org/vlc/index.html) which is free and open source.
 
