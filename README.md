@@ -506,6 +506,10 @@ Below the line
 
     <string>/usr/local/opt/dnscrypt-proxy/sbin/dnscrypt-proxy</string>
 
+<img width="916" alt="dnscrypt" src="https://cloud.githubusercontent.com/assets/12475110/10596750/94644540-76b5-11e5-8ddb-15c0130f7827.png">
+
+*Append a local-address line to use dnscrypt on a port other than 53, like 5355.*
+
 Finally, start the program
 
     sudo launchctl load /Library/LaunchDaemons/homebrew.mxcl.dnscrypt-proxy.plist
