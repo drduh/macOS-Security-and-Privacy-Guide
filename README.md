@@ -42,6 +42,7 @@ If you wish to make a correction or improvement, please send a pull request or [
 - [Gatekeeper and Xprotect](#gatekeeper-and-xprotect)
 - [Passwords](#passwords)
 - [Wi-Fi](#wi-fi)
+- [SSH](#ssh)
 - [Physical access](#physical-access)
 - [System monitoring](#system-monitoring)
     - [Open Source Monitoring Tools](#open-source-monitoring-tools)
@@ -602,7 +603,7 @@ Install and start privoxy
 
 By default, privoxy listens on local TCP port 8118.
 
-Set the system **http** proxy for your active network interface `127.0.0.1` and `8118`. This can be done through System Preferences > Network > Advanced > Proxies, or
+Set the system **http** proxy for your active network interface `127.0.0.1` and `8118`. This can be done through **System Preferences > Network > Advanced > Proxies**, or
 
     sudo networksetup -setwebproxy "Wi-Fi" 127.0.0.1 8118
 
@@ -883,6 +884,32 @@ This is a privacy risk, so remove networks from the list in **System Preferences
 
 Remember, WPA protection on wireless networks is [not secure](http://www.howtogeek.com/167783/htg-explains-the-difference-between-wep-wpa-and-wpa2-wireless-encryption-and-why-it-matters/) and you should favor connecting to **WPA2** protected networks only.
 
+## SSH
+For outgoing ssh connections, use hardware- or password-protected ssh keys, [set up](http://nerderati.com/2011/03/17/simplify-your-life-with-an-ssh-config-file/) remote hosts and consider [hashing](http://nms.csail.mit.edu/projects/ssh/) them.
+
+To `~/.ssh/ssh_config`, add
+
+    Host *
+      PasswordAuthentication no
+      ChallengeResponseAuthentication no
+      HashKnownHosts yes
+      
+By default, OS X does not have ssh or *Remote Login* enabled. To enable ssh, use **System Preferences > Sharing**, or
+
+    sudo launchctl load -w /System/Library/LaunchDaemons/ssh.plist
+
+If you are going to enable sshd, at least disable password authentication and consider further [hardening](https://stribika.github.io/2015/01/04/secure-secure-shell.html) your configuration.
+
+To `/etc/sshd_config`, add
+
+    PasswordAuthentication no
+    ChallengeResponseAuthentication no
+    UsePAM no
+    
+ Confirm ssh is enabled or disabled with
+ 
+    sudo lsof -ni TCP:22
+
 ## Physical access
 Keep your Mac physically secure at all times. Don't leave it unattended in hotels and such.
 
@@ -991,11 +1018,6 @@ If you want to **torrent**, use [Transmission](http://www.transmissionbt.com/dow
 Watch the system log with **Console** or the `syslog -w` command.
 
 Enable [tty_tickets](http://blog.rongarret.info/2015/08/psa-beware-of-sudo-on-os-x.html) in the sudoers file.
-
-Hash your known ssh hosts. To `ssh_config`, add
-
-    Host *
-      HashKnownHosts yes
 
 Set your screen to lock as soon as the screensaver starts
 
