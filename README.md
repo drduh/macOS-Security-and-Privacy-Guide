@@ -107,7 +107,7 @@ Right click, select **Show Package Contents** and navigate to **Contents > Share
 
 You can verify the following cryptographic hashes to ensure you have the same, authentic copy by using a command like `shasum -a256 InstallESD.dmg` and so on.
 
-You can also Google these hashes to ensure your copy is genuine and has not been tampered with.
+You can also Google these hashes to ensure your copy is genuine and has not been tampered with. See `InstallESD_Hashes.csv` in this repository for previous versions.
 
     InstallESD.dmg (Build 15B42)
 
