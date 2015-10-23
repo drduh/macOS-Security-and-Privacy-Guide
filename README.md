@@ -81,7 +81,7 @@ There are several ways to install a fresh copy of OS X.
 
 The simplest way is to boot into [Recovery Mode](https://support.apple.com/en-us/HT201314) by holding `Command` and `R` keys at boot. A system image can be downloaded and applied directly from Apple. However, this way exposes the computer's serial number and other identifying information to Apple over plain **HTTP**.
 
-Another way is to download El Capitan build version `15A284` from the [App Store](https://itunes.apple.com/us/app/os-x-el-capitan/id1018109117) or some other place and create a custom, installable system image.
+Another way is to download **OS X El Capitan 10.11.1** from the [App Store](https://itunes.apple.com/us/app/os-x-el-capitan/id1018109117) or some other place and create a custom, installable system image.
 
 The application is [code signed](https://developer.apple.com/library/mac/documentation/Security/Conceptual/CodeSigningGuide/Procedures/Procedures.html#//apple_ref/doc/uid/TP40005929-CH4-SW6), which should be verified to make sure you received a legitimate copy.
 
@@ -109,10 +109,10 @@ You can verify the following cryptographic hashes to ensure you have the same, a
 
 You can also Google these hashes to ensure your copy is genuine and has not been tampered with.
 
-    InstallESD.dmg (Build 15A284)
+    InstallESD.dmg (Build 15B42)
 
-    SHA-256:   d20002ec8328784d65274eb49663b24a48be95dc06c6623ec67c9f28a7481352
-    SHA-1:     5e21097f2e98417ecc12574a7bb46a402594ea4a
+    SHA-256:   6275929722c35674fce90d2272d383d49696096e8626ee7f7900dd0334167a9a
+    SHA-1:     306a080c07e293b6765ba950bab213572704acec
 
 Mount and install the operating system to a **temporary image**, or use the GUI app [MagerValp/AutoDMG](https://github.com/MagerValp/AutoDMG).
 
