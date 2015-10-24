@@ -348,7 +348,7 @@ Use the following commands
 * `sudo ifconfig pflog0 create` to create an interface for logging
 * `sudo tcpdump -ni pflog0` to dump the packets
 
-Unless you're already familiar with pf, I don't suggest worrying too much about configuring it on OS X.
+Unless you're already familiar with packet filtering, spending too much time configuring pf is not recommended. It is also probably unnecessary if your Mac is behind a [NAT](https://www.grc.com/nat/nat.htm) on a secured home network, for example.
 
 ## Services
 Before you connect to the Internet, you may wish to disable some system services, which use up resources or phone home to Apple.
@@ -405,7 +405,9 @@ or have a look at [homebrew/Installation.md](https://github.com/Homebrew/homebre
 
 Homebrew uses SSL/TLS to talk with github and verifies checksums of downloaded packages, so it's [fairly secure](https://github.com/Homebrew/homebrew/issues/18036).
 
-Or, just download, compile and install software directly from their respective open source repositories.
+Alternatively, you could download, compile and install software directly from their respective open source repositories.
+
+Remember to periodically run `brew update` and `brew upgrade` to install homebrewed software updates.
 
 ## DNS
 Here are a few ways to improve your security and privacy with DNS.
@@ -413,13 +415,13 @@ Here are a few ways to improve your security and privacy with DNS.
 #### Hosts file
 Use the [hosts file](https://en.wikipedia.org/wiki/Hosts_(file)) to block known malware, advertising or otherwise unwanted domains.
 
-Edit the hosts file as root with `sudo vi /etc/hosts`. The hosts file can also be managed with the GUI app [2ndalpha/gasmask](https://github.com/2ndalpha/gasmask).
+Edit the hosts file as root, for example with `sudo vi /etc/hosts`. The hosts file can also be managed with the GUI app [2ndalpha/gasmask](https://github.com/2ndalpha/gasmask).
 
 To block a domain, just add `0 facebook.com` (`0` means `0.0.0.0`, a null route)
 
 There are many lists of domains available online which you can paste in, just make sure each line starts with `0` or `127.0.0.1`, and the line `127.0.0.1 localhost` is included.
 
-For examples, see [someonewhocares.org](http://someonewhocares.org/hosts/zero/hosts), [l1k/osxparanoia/blob/master/hosts](https://github.com/l1k/osxparanoia/blob/master/hosts), [StevenBlack/hosts](https://github.com/StevenBlack/hosts) and [gorhill/uMatrix/hosts-files.json](https://github.com/gorhill/uMatrix/blob/master/assets/umatrix/hosts-files.json).
+For hosts lists, see [someonewhocares.org](http://someonewhocares.org/hosts/zero/hosts), [l1k/osxparanoia/blob/master/hosts](https://github.com/l1k/osxparanoia/blob/master/hosts), [StevenBlack/hosts](https://github.com/StevenBlack/hosts) and [gorhill/uMatrix/hosts-files.json](https://github.com/gorhill/uMatrix/blob/master/assets/umatrix/hosts-files.json).
 
 #### dnsmasq
 
@@ -534,7 +536,7 @@ Make sure it's working with `tcpdump` or Wireshark
     $ dig +short -x 77.66.84.233
     resolver2.dnscrypt.eu
 
-Also see [What is a DNS leak and why should I care?](https://dnsleaktest.com/what-is-a-dns-leak.html)
+See also [What is a DNS leak and why should I care?](https://dnsleaktest.com/what-is-a-dns-leak.html) and the [mDNSResponder manual page](https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man8/mDNSResponder.8.html).
 
 ## Captive portal
 
@@ -542,9 +544,7 @@ When OS X connects to new networks, it **probes** the network and launches a Cap
 
 An attacker could trigger the utility and direct a Mac to a site with malware without user interaction, so it's best to disable this feature.
 
-See <https://web.archive.org/web/20130407200745/http://www.divertednetworks.net/apple-captiveportal.html>
-
-and <https://grpugh.wordpress.com/2014/10/29/an-undocumented-change-to-captive-network-assistant-settings-in-os-x-10-10-yosemite/>
+See also [How to disable the captive portal window in Mac OS Lion](https://web.archive.org/web/20130407200745/http://www.divertednetworks.net/apple-captiveportal.html) and [An undocumented change to Captive Network Assistant settings in OS X 10.10 Yosemite](https://grpugh.wordpress.com/2014/10/29/an-undocumented-change-to-captive-network-assistant-settings-in-os-x-10-10-yosemite/).
 
 ## Certificate authorities
 OS X El Capitan comes with [over 200 root certificate authorities](https://support.apple.com/en-us/HT205204) from for-profit corporations like Apple, Verisign, Thawte, Digicert and government agencies from China, Japan, Netherlands, U.S., and more! These CAs are capable of issuing SSL certificates for any domain or code signing certificates as well.
@@ -593,7 +593,7 @@ The version of `curl` which comes with OS X uses [Secure Transport](https://deve
 
 If you prefer to use OpenSSL, install with `brew install curl --with-openssl` and ensure it's the default with `brew link --force curl`
 
-Here are a few recommended self explanatory options to add to `~/.curlrc`
+Here are a few recommended, self-explanatory [options](http://curl.haxx.se/docs/manpage.html) to add to `~/.curlrc`
 
     user-agent = "Mozilla/5.0 (Windows NT 6.1; rv:31.0) Gecko/20100101 Firefox/31.0"
     referer = ";auto"
@@ -749,7 +749,7 @@ See also [ioerror/duraconf/configs/gnupg/gpg.conf](https://github.com/ioerror/du
 You should also read [OpenPGP Best Practices
 ](https://help.riseup.net/en/security/message-security/openpgp/best-practices)
 
-If you don't already have a gpg keypair, create one with `gpg --gen-key`
+If you don't already have a keypair, create one using `gpg --gen-key`
 
 Read [online](https://alexcabal.com/creating-the-perfect-gpg-keypair/) [guides](https://security.stackexchange.com/questions/31594/what-is-a-good-general-purpose-gnupg-key-setup) and practice encrypting and decrypting email to yourself and your friends. Get them interested in this stuff!
 
@@ -778,13 +778,17 @@ If you want to know how OTR works, read the paper [Off-the-Record Communication,
 ## Tor
 Tor is an anonymizing proxy which can be used for browsing the web.
 
-Download Tor Browser from <https://www.torproject.org/projects/torbrowser.html.en>. Do **not** attempt to configure other browsers to use Tor as you are likely make a mistake which will compromise your anonymity.
+Download Tor Browser from <https://www.torproject.org/projects/torbrowser.html>. Do **not** attempt to configure other browsers to use Tor as you are likely make a mistake which will compromise your anonymity.
 
 After downloading the `dmg` and `asc` files, verify the disk image has been signed by Tor developers with `gpg TorBrowser*asc`
 
 You may see a warning - the public key was not found. Fetch it from the keyserver with `gpg --recv-keys 0x2E1AC68ED40814E0` and verify again.
 
-Make sure `Good signature from "Tor Browser Developers (signing key) <torbrowser@torproject.org>"` appears in the output.
+Make sure `Good signature from "Tor Browser Developers (signing key) <torbrowser@torproject.org>"` appears in the output. You may see a benign warning if the key has not been manually assigned trust.
+
+<img width="872" alt="Example of valid signature output" src="https://cloud.githubusercontent.com/assets/12475110/10712417/e7485bb4-7a68-11e5-9bdb-e27bdd3742fd.png">
+
+*Example of valid signature output*
 
 See [How to verify signatures for packages](https://www.torproject.org/docs/verifying-signatures.html) for more information.
 
@@ -807,7 +811,7 @@ This can be done by [running a Tor relay](https://www.torproject.org/docs/tor-re
 
 For extra security, use [VirtualBox](https://www.virtualbox.org/wiki/Downloads) or VMware to run a virtualized [GNU/Linux](http://www.brianlinkletter.com/installing-debian-linux-in-a-virtualbox-virtual-machine/) or [BSD](http://www.openbsd.org/faq/faq4.html) machine to do your private browsing on.
 
-For more on browser privacy, see <https://www.browserleaks.com/> and <https://panopticlick.eff.org/>.
+For more on browser privacy, see [browserleaks.com](https://www.browserleaks.com/) and [EFF Panopticlick](https://panopticlick.eff.org/).
 
 ## VPN
 If you use your Mac on untrusted networks - airports, cafes, etc. - your network traffic is being monitored and possibly tampered with.
@@ -857,11 +861,9 @@ From [What's New in OS X 10.11](https://developer.apple.com/library/prerelease/m
 
 Both offer trivial protection against common risks and are fine at default settings.
 
-See <http://www.thesafemac.com/mmg-builtin/>
+See also [Mac Malware Guide : How does Mac OS X protect me?](http://www.thesafemac.com/mmg-builtin/) and [Gatekeeper, XProtect and the Quarantine attribute](http://ilostmynotes.blogspot.com/2012/06/gatekeeper-xprotect-and-quarantine.html).
 
-and <http://ilostmynotes.blogspot.com/2012/06/gatekeeper-xprotect-and-quarantine.html>
-
-**Note** Quarantine stores information about downloaded files in `~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2`. See [here](http://www.zoharbabin.com/hey-mac-i-dont-appreciate-you-spying-on-me-hidden-downloads-log-in-os-x/) for more information.
+**Note** Quarantine stores information about downloaded files in `~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2`, which may pose a privacy risk. See [here](http://www.zoharbabin.com/hey-mac-i-dont-appreciate-you-spying-on-me-hidden-downloads-log-in-os-x/) for more information.
 
 Furthermore, OS X attaches metadata ([HFS+ extended attributes](https://en.wikipedia.org/wiki/Extended_file_attributes#OS_X)) to downloaded files, e.g.
 
@@ -876,15 +878,18 @@ Furthermore, OS X attaches metadata ([HFS+ extended attributes](https://en.wikip
 	[output omitted]
 
 ## Passwords
-You can generate passwords with `gpg`, `openssl` or just get creative with `/dev/urandom` output.
+You can generate strong passwords with `gpg`, `openssl` or just get creative with `/dev/urandom` output.
 
-    openssl rand -base64 30
+    $ openssl rand -base64 30
+    LK9xkjUEAemc1gV2Ux5xqku+PDmMmCbSTmwfiMRI
 
-    gpg --gen-random -a 0 30
+    $ gpg --gen-random -a 0 30
+    4/bGZL+yUEe8fOqQhF5V01HpGwFSpUPwFcU3aOWQ
 
-    dd if=/dev/urandom bs=1 count=30 2>/dev/null | base64
+    $ dd if=/dev/urandom bs=1 count=30 2>/dev/null | base64
+    CbRGKASFI4eTa96NMrgyamj8dLZdFYBaqtWUSxKe
 
-You can also generate passwords from **Keychain Access** password assistant, or a command line equivalent like [anders/pwgen](https://github.com/anders/pwgen).
+You can also generate passwords, even memorable ones, using **Keychain Access** password assistant, or a command line equivalent like [anders/pwgen](https://github.com/anders/pwgen).
 
 **Keychains** are encrypted with a [PBKDF2 derived key](https://en.wikipedia.org/wiki/PBKDF2) and are a _pretty safe_ place to store credentials. See also [Breaking into the OS X keychain](http://juusosalonen.com/post/30923743427/breaking-into-the-os-x-keychain).
 
@@ -949,7 +954,7 @@ To `/etc/sshd_config`, add
 ## Physical access
 Keep your Mac physically secure at all times. Don't leave it unattended in hotels and such.
 
-For example, a skilled attacker with unsupervised physical access to your computer can infect the boot ROM to install a keylogger and steal your password - see <https://trmm.net/Thunderstrike>.
+For example, a skilled attacker with unsupervised physical access to your computer can infect the boot ROM to install a keylogger and steal your password - see [Thunderstrike](https://trmm.net/Thunderstrike), for example.
 
 ## System monitoring
 
