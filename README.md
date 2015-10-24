@@ -393,7 +393,7 @@ See <https://fix-macosx.com/>
 Speaking of Microsoft, you may want to see <https://fix10.isleaked.com/> just for fun.
 
 ## Homebrew
-Consider installing [Homebrew](http://brew.sh/) to make installing software easier.
+Consider using [Homebrew](http://brew.sh/) to make software installations easier and to update userland tools (see [Apple’s great GPL purge](http://meta.ath0.com/2012/02/05/apples-great-gpl-purge/)).
 
 If you have not already installed Xcode or Command Line Tools, run `xcode-select --install` and a prompt should appear to download and install CLI Tools.
 
@@ -1070,6 +1070,8 @@ Expose hidden files and Library folder in Finder
 Don't default to saving documents to iCloud
 
     defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
+
+[Disable Handoff](https://apple.stackexchange.com/questions/151481/why-is-my-macbook-visibile-on-bluetooth-after-yosemite-install) and Bluetooth features, if they aren't necessary.
 
 Consider [sandboxing](https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man1/sandbox-exec.1.html) your applications. See [fG! Sandbox Guide](https://reverse.put.as/wp-content/uploads/2011/09/Apple-Sandbox-Guide-v0.1.pdf) [pdf] and [s7ephen/OSX-Sandbox--Seatbelt--Profiles](https://github.com/s7ephen/OSX-Sandbox--Seatbelt--Profiles).
 
