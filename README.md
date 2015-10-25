@@ -103,7 +103,7 @@ OS X installers can be made with the `createinstallmedia` utility included in `I
 
 If you'd like to do it the **manual** way, you will need to find the file `InstallESD.dmg`, which is inside `Install OS X El Capitan.app`.
 
-Right click, select **Show Package Contents** and navigate to **Contents > SharedSupport** to find `Install.DMG`.
+Right click, select **Show Package Contents** and navigate to **Contents > SharedSupport** to find `InstallESD.DMG`.
 
 You can verify the following cryptographic hashes to ensure you have the same, authentic copy by using a command like `shasum -a256 InstallESD.dmg` and so on.
 
@@ -659,7 +659,7 @@ You can even replace all ad images with pictures of kittens by running a local w
 Consider logging and monitoring privoxy requests so you can be inspired to write custom rules.
 
 ## Web browsing
-The web browser is poses the largest security and privacy risk, as its fundamental job is to download and execute untrusted code from the Internet.
+The web browser poses the largest security and privacy risk, as its fundamental job is to download and execute untrusted code from the Internet.
 
 Use [Google Chrome](https://www.google.com/chrome/browser/desktop/) for most of your browsing. It offers [separate profiles](https://www.chromium.org/user-experience/multi-profiles), [good sandboxing](https://www.chromium.org/developers/design-documents/sandbox) and [frequent updates](http://googlechromereleases.blogspot.com/) (including Flash, although you should disable it - see below).
 
@@ -760,7 +760,7 @@ You can use OTR on top of any existing **XMPP** chat service, even Google Hangou
 
 The first time you start a conversation with someone new, you'll be asked to verify their public key fingerprint. Make sure to do this in person or by some other secure means (e.g. GPG encrypted mail).
 
-A popular OS X GUI client for XMPP and other chat protocol is [Adium](https://adium.im/)
+A popular OS X GUI client for XMPP and other chat protocols is [Adium](https://adium.im/)
 
 Consider downloading the [beta version](https://beta.adium.im/) which uses OAuth2, making logging in to Google Talk/Hangouts [more secure](https://trac.adium.im/ticket/16161).
 
