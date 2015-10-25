@@ -1,474 +1,474 @@
-filename,label,program,runatload,comment
-/System/Library/LaunchDaemons/bootps.plist,com.apple.bootpd,['/usr/libexec/bootpd'],False,
-/System/Library/LaunchDaemons/com.apple.afpfs_afpLoad.plist,com.apple.afpfs_afpLoad,['/System/Library/Filesystems/AppleShare/afpLoad'],False,
-/System/Library/LaunchDaemons/com.apple.afpfs_checkafp.plist,com.apple.afpfs_checkafp,['/System/Library/Filesystems/AppleShare/check_afp.app/Contents/MacOS/check_afp'],False,
-/System/Library/LaunchDaemons/com.apple.AirPlayXPCHelper.plist,com.apple.AirPlayXPCHelper,['/usr/libexec/AirPlayXPCHelper'],False,
-/System/Library/LaunchDaemons/com.apple.airport.wps.plist,com.apple.airport.wps,['/usr/libexec/wps'],False,
-/System/Library/LaunchDaemons/com.apple.airportd.plist,com.apple.airportd,/usr/libexec/airportd,False,
-/System/Library/LaunchDaemons/com.apple.alf.agent.plist,com.apple.alf,/usr/libexec/ApplicationFirewall/socketfilterfw,False,
-/System/Library/LaunchDaemons/com.apple.AppleFileServer.plist,com.apple.AppleFileServer,['/usr/sbin/AppleFileServer'],False,
-/System/Library/LaunchDaemons/com.apple.appleseed.fbahelperd.plist,com.apple.appleseed.fbahelperd,/System/Library/CoreServices/Applications/Feedback Assistant.app/Contents/Library/LaunchServices/fbahelperd,False,
-/System/Library/LaunchDaemons/com.apple.applessdstatistics.plist,com.apple.applessdstatistics,['/usr/libexec/applessdstatistics'],False,
-/System/Library/LaunchDaemons/com.apple.apsd.plist,com.apple.apsd,['/System/Library/PrivateFrameworks/ApplePushService.framework/apsd'],True,
-/System/Library/LaunchDaemons/com.apple.aslmanager.plist,com.apple.aslmanager,/usr/sbin/aslmanager,False,
-/System/Library/LaunchDaemons/com.apple.AssetCacheLocatorService.plist,com.apple.AssetCacheLocatorService,/System/Library/CoreServices/AssetCacheLocatorService,False,
-/System/Library/LaunchDaemons/com.apple.atrun.plist,com.apple.atrun,['/usr/libexec/atrun'],False,
-/System/Library/LaunchDaemons/com.apple.audio.coreaudiod.plist,com.apple.audio.coreaudiod,['/usr/sbin/coreaudiod'],False,
-/System/Library/LaunchDaemons/com.apple.auditd.plist,com.apple.auditd,/usr/sbin/auditd,False,
-/System/Library/LaunchDaemons/com.apple.autofsd.plist,com.apple.autofsd,/usr/libexec/autofsd,False,
-/System/Library/LaunchDaemons/com.apple.automountd.plist,com.apple.automountd,/usr/libexec/automountd,False,
-/System/Library/LaunchDaemons/com.apple.awacsd.plist,com.apple.awacsd,['/usr/libexec/awacsd'],False,
-/System/Library/LaunchDaemons/com.apple.awdd.plist,com.apple.awdd,['/System/Library/PrivateFrameworks/WirelessDiagnostics.framework/Support/awdd'],False,
-/System/Library/LaunchDaemons/com.apple.backupd-auto.plist,com.apple.backupd-auto,['/System/Library/CoreServices/backupd.bundle/Contents/Resources/backupd-helper', '-launchd'],True,
-/System/Library/LaunchDaemons/com.apple.backupd.plist,com.apple.backupd,/System/Library/CoreServices/backupd.bundle/Contents/Resources/backupd,False,
-/System/Library/LaunchDaemons/com.apple.blued.plist,com.apple.blued,/usr/sbin/blued,False,
-/System/Library/LaunchDaemons/com.apple.bluetoothaudiod.plist,com.apple.bluetoothaudiod,['/usr/sbin/bluetoothaudiod'],False,
-/System/Library/LaunchDaemons/com.apple.bluetoothReporter.plist,com.apple.bluetoothReporter,['/System/Library/Frameworks/IOBluetooth.framework/Versions/A/Resources/BluetoothReporter', '--dumpPacketLog', '/private/var/log/bluetooth.pklg'],False,
-/System/Library/LaunchDaemons/com.apple.bnepd.plist,com.apple.bnepd,/usr/sbin/bnepd,False,
-/System/Library/LaunchDaemons/com.apple.bsd.dirhelper.plist,com.apple.bsd.dirhelper,['/usr/libexec/dirhelper'],True,
-/System/Library/LaunchDaemons/com.apple.cache_delete.plist,com.apple.cache_delete,['/System/Library/PrivateFrameworks/CacheDelete.framework/deleted'],False,
-/System/Library/LaunchDaemons/com.apple.cfprefsd.xpc.daemon.plist,com.apple.cfprefsd.xpc.daemon,['/usr/sbin/cfprefsd', 'daemon'],False,
-/System/Library/LaunchDaemons/com.apple.cloudfamilyrestrictionsd-mac.plist,com.apple.cloudfamilyrestrictionsd,['/System/Library/PrivateFrameworks/CloudFamilyRestrictions.framework/cloudfamilyrestrictionsd'],False,
-/System/Library/LaunchDaemons/com.apple.cmio.AppleCameraAssistant.plist,com.apple.cmio.AppleCameraAssistant,['/Library/CoreMediaIO/Plug-Ins/DAL/AppleCamera.plugin/Contents/Resources/AppleCameraAssistant'],False,
-/System/Library/LaunchDaemons/com.apple.cmio.AVCAssistant.plist,com.apple.cmio.AVCAssistant,['/System/Library/Frameworks/CoreMediaIO.framework/Resources/AVC.plugin/Contents/Resources/AVCAssistant'],False,
-/System/Library/LaunchDaemons/com.apple.cmio.IIDCVideoAssistant.plist,com.apple.cmio.IIDCVideoAssistant,['/System/Library/Frameworks/CoreMediaIO.framework/Resources/IIDC.plugin/Contents/Resources/IIDCVideoAssistant'],False,
-/System/Library/LaunchDaemons/com.apple.cmio.iOSScreenCaptureAssistant.plist,com.apple.cmio.iOSScreenCaptureAssistant,['/Library/CoreMediaIO/Plug-Ins/DAL/iOSScreenCapture.plugin/Contents/Resources/iOSScreenCaptureAssistant'],False,
-/System/Library/LaunchDaemons/com.apple.cmio.VDCAssistant.plist,com.apple.cmio.VDCAssistant,['/System/Library/Frameworks/CoreMediaIO.framework/Resources/VDC.plugin/Contents/Resources/VDCAssistant'],False,
-/System/Library/LaunchDaemons/com.apple.comsat.plist,com.apple.comsat,['/usr/libexec/comsat'],False,
-/System/Library/LaunchDaemons/com.apple.configd.plist,com.apple.configd,['/usr/libexec/configd'],False,
-/System/Library/LaunchDaemons/com.apple.configureLocalKDC.plist,com.apple.configureLocalKDC,['/usr/libexec/configureLocalKDC'],False,
-/System/Library/LaunchDaemons/com.apple.coreduetd.osx.plist,com.apple.coreduetd,/usr/libexec/coreduetd,True,
-/System/Library/LaunchDaemons/com.apple.CoreRAID.plist,com.apple.CoreRAID,['/System/Library/PrivateFrameworks/CoreRAID.framework/Resources/CoreRAIDServer'],True,
-/System/Library/LaunchDaemons/com.apple.coreservices.appleevents.plist,com.apple.coreservices.appleevents,['/System/Library/CoreServices/appleeventsd', '--server'],True,
-/System/Library/LaunchDaemons/com.apple.coreservices.appleid.passwordcheck.plist,com.apple.coreservices.appleid.passwordcheck,['/System/Library/CoreServices/AppleIDAuthAgent', '--checkpassword'],False,
-/System/Library/LaunchDaemons/com.apple.coreservices.launchservicesd.plist,com.apple.coreservices.launchservicesd,['/System/Library/CoreServices/launchservicesd'],True,
-/System/Library/LaunchDaemons/com.apple.coreservicesd.plist,com.apple.coreservicesd,['/System/Library/CoreServices/coreservicesd'],False,
-/System/Library/LaunchDaemons/com.apple.corestorage.corestoraged.plist,com.apple.corestorage.corestoraged,['/usr/libexec/corestoraged'],False,
-/System/Library/LaunchDaemons/com.apple.corestorage.corestoragehelperd.plist,com.apple.corestorage.corestoragehelperd,/usr/libexec/corestoragehelperd,False,
-/System/Library/LaunchDaemons/com.apple.coresymbolicationd.plist,com.apple.coresymbolicationd,['/System/Library/PrivateFrameworks/CoreSymbolication.framework/coresymbolicationd'],False,
-/System/Library/LaunchDaemons/com.apple.CrashReporterSupportHelper.plist,com.apple.CrashReporterSupportHelper,['/System/Library/CoreServices/CrashReporterSupportHelper', 'server-init'],False,
-/System/Library/LaunchDaemons/com.apple.ctkd.plist,com.apple.ctkd,['/System/Library/Frameworks/CryptoTokenKit.framework/ctkd', '-s'],False,
-/System/Library/LaunchDaemons/com.apple.cvmsServ.plist,com.apple.cvmsServ,['/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/CVMServer'],False,
-/System/Library/LaunchDaemons/com.apple.DesktopServicesHelper.plist,com.apple.DesktopServicesHelper,/System/Library/PrivateFrameworks/DesktopServicesPriv.framework/Resources/DesktopServicesHelper,False,
-/System/Library/LaunchDaemons/com.apple.diagnosticd.plist,com.apple.diagnosticd,/usr/libexec/diagnosticd,False,
-/System/Library/LaunchDaemons/com.apple.diskarbitrationd.plist,com.apple.diskarbitrationd,/usr/libexec/diskarbitrationd,False,
-/System/Library/LaunchDaemons/com.apple.diskmanagementd.plist,com.apple.diskmanagementd,['/usr/sbin/diskmanagementd'],False,
-/System/Library/LaunchDaemons/com.apple.displaypolicyd.plist,com.apple.displaypolicyd,['/usr/libexec/displaypolicyd'],True,
-/System/Library/LaunchDaemons/com.apple.distnoted.xpc.daemon.plist,com.apple.distnoted.xpc.daemon,['/usr/sbin/distnoted', 'daemon'],False,
-/System/Library/LaunchDaemons/com.apple.dnsextd.plist,com.apple.dnsextd,['/usr/sbin/dnsextd', '-launchd'],False,
-/System/Library/LaunchDaemons/com.apple.dpaudiothru.plist,com.apple.dpaudiothru,/usr/libexec/dpaudiothru,False,
-/System/Library/LaunchDaemons/com.apple.dpd.plist,com.apple.dpd,['/usr/libexec/dpd'],False,
-/System/Library/LaunchDaemons/com.apple.dspluginhelperd.plist,com.apple.dspluginhelperd,/usr/libexec/dspluginhelperd,False,
-/System/Library/LaunchDaemons/com.apple.DumpGPURestart.plist,com.apple.DumpGPURestart,['/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/DumpGPURestart'],False,
-/System/Library/LaunchDaemons/com.apple.DumpPanic.plist,com.apple.DumpPanic,/System/Library/CoreServices/DumpPanic,True,
-/System/Library/LaunchDaemons/com.apple.dvdplayback.setregion.plist,com.apple.dvdplayback.setregion,['/usr/bin/setregion'],False,
-/System/Library/LaunchDaemons/com.apple.dynamic_pager.plist,com.apple.dynamic_pager,['/sbin/dynamic_pager', '-F', '/private/var/vm/swapfile'],False,
-/System/Library/LaunchDaemons/com.apple.eapolcfg_auth.plist,com.apple.eapolcfg_auth,/System/Library/PrivateFrameworks/EAP8021X.framework/Resources/eapolcfg_auth,False,
-/System/Library/LaunchDaemons/com.apple.efax.plist,com.apple.efax,['/usr/bin/fax', 'answer'],False,
-/System/Library/LaunchDaemons/com.apple.efilogin-helper.plist,com.apple.efilogin-helper,['/System/Library/PrivateFrameworks/EFILogin.framework/Resources/efilogin-helper'],False,
-/System/Library/LaunchDaemons/com.apple.emlog.plist,com.apple.emlog,/usr/libexec/emlog.pl,False,
-/System/Library/LaunchDaemons/com.apple.emond.aslmanager.plist,com.apple.emond.aslmanager,['/usr/sbin/aslmanager', '-s', '/var/log/eventmonitor'],False,
-/System/Library/LaunchDaemons/com.apple.emond.plist,com.apple.emond,/sbin/emond,False,
-/System/Library/LaunchDaemons/com.apple.eppc.plist,com.apple.AEServer,['/System/Library/Frameworks/CoreServices.framework/Frameworks/AE.framework/Versions/A/Support/AEServer', '--debug'],False,
-/System/Library/LaunchDaemons/com.apple.familycontrols.plist,com.apple.familycontrols,['/System/Library/PrivateFrameworks/FamilyControls.framework/Resources/parentalcontrolsd'],False,
-/System/Library/LaunchDaemons/com.apple.FileCoordination.plist,com.apple.FileCoordination,/usr/sbin/filecoordinationd,False,
-/System/Library/LaunchDaemons/com.apple.FileSyncAgent.sshd.plist,com.apple.FileSyncAgent.sshd,['/System/Library/CoreServices/FileSyncAgent.app/Contents/Resources/FileSyncAgent_sshd-keygen-wrapper', '-i', '-f', '/System/Library/CoreServices/FileSyncAgent.app/Contents/Resources/FileSyncAgent_sshd_config'],False,
-/System/Library/LaunchDaemons/com.apple.findmymac.plist,com.apple.findmymacd,/System/Library/PrivateFrameworks/FindMyMac.framework/Resources/FindMyMacd,False,
-/System/Library/LaunchDaemons/com.apple.findmymacmessenger.plist,com.apple.findmymacmessenger,/System/Library/PrivateFrameworks/FindMyMac.framework/Resources/FindMyMacMessenger.app/Contents/MacOS/FindMyMacMessenger,False,
-/System/Library/LaunchDaemons/com.apple.firmwaresyncd.plist,com.apple.firmwaresyncd,/usr/libexec/firmwaresyncd,True,
-/System/Library/LaunchDaemons/com.apple.fontd.plist,com.apple.fontd,['/System/Library/Frameworks/ApplicationServices.framework/Frameworks/ATS.framework/Support/fontd'],False,
-/System/Library/LaunchDaemons/com.apple.fontmover.plist,com.apple.fontmover,['/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ATS.framework/Versions/A/Support/fontmover', '-d'],False,
-/System/Library/LaunchDaemons/com.apple.FontWorker.plist,com.apple.FontWorker,/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ATS.framework/Versions/A/Support/fontworker,False,
-/System/Library/LaunchDaemons/com.apple.fseventsd.plist,com.apple.fseventsd,['/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/FSEvents.framework/Versions/A/Support/fseventsd'],False,
-/System/Library/LaunchDaemons/com.apple.ftp-proxy.plist,com.apple.ftp-proxy,/usr/libexec/ftp-proxy,False,
-/System/Library/LaunchDaemons/com.apple.GameController.gamecontrollerd.plist,com.apple.GameController.gamecontrollerd,['/usr/libexec/gamecontrollerd'],False,
-/System/Library/LaunchDaemons/com.apple.getty.plist,com.apple.getty,['/usr/libexec/getty', 'std.9600', 'console'],False,
-/System/Library/LaunchDaemons/com.apple.gkreport.plist,com.apple.gkreport,['/usr/libexec/gkreport'],False,
-/System/Library/LaunchDaemons/com.apple.GSSCred.plist,com.apple.GSSCred,['/System/Library/Frameworks/GSS.framework/Helpers/com.apple.GSSCred'],False,
-/System/Library/LaunchDaemons/com.apple.gssd.plist,com.apple.gssd,['/usr/sbin/gssd'],False,
-/System/Library/LaunchDaemons/com.apple.hdiejectd.plist,com.apple.hdiejectd,['/System/Library/PrivateFrameworks/DiskImages.framework/Resources/hdiejectd'],False,
-/System/Library/LaunchDaemons/com.apple.hidd.plist,com.apple.hidd,['/usr/libexec/hidd'],False,
-/System/Library/LaunchDaemons/com.apple.icloud.findmydeviced.plist,com.apple.icloud.findmydeviced,/usr/libexec/findmydeviced,False,
-/System/Library/LaunchDaemons/com.apple.iconservices.iconservicesagent.plist,com.apple.iconservices.iconservicesagent,['/System/Library/CoreServices/iconservicesagent'],True,
-/System/Library/LaunchDaemons/com.apple.iconservices.iconservicesd.plist,com.apple.iconservices.iconservicesd,['/System/Library/CoreServices/iconservicesd'],True,
-/System/Library/LaunchDaemons/com.apple.IFCStart.plist,com.apple.IFCStart,['/usr/libexec/ifcstart'],True,
-/System/Library/LaunchDaemons/com.apple.ifdreader.plist,com.apple.ifdreader,['/System/Library/CryptoTokenKit/com.apple.ifdreader.slotd/Contents/MacOS/com.apple.ifdreader'],False,
-/System/Library/LaunchDaemons/com.apple.installandsetup.systemmigrationd.plist,com.apple.installandsetup.systemmigrationd,['/System/Library/PrivateFrameworks/SystemMigration.framework/Resources/systemmigrationd'],False,
-/System/Library/LaunchDaemons/com.apple.installd.plist,com.apple.installd,['/System/Library/PrivateFrameworks/PackageKit.framework/Resources/installd'],False,
-/System/Library/LaunchDaemons/com.apple.IOAccelMemoryInfoCollector.plist,com.apple.IOAccelMemoryInfoCollector,['/usr/libexec/IOAccelMemoryInfoCollector'],False,
-/System/Library/LaunchDaemons/com.apple.IOBluetoothUSBDFU.plist,com.apple.IOBluetoothUSBDFU,['/System/Library/Extensions/IOBluetoothFamily.kext/Contents/PlugIns/IOBluetoothUSBDFU.kext/Contents/Resources/IOBluetoothUSBDFUTool'],False,
-/System/Library/LaunchDaemons/com.apple.kcproxy.plist,com.apple.kcproxy,/usr/libexec/kcproxy,False,
-/System/Library/LaunchDaemons/com.apple.kdumpd.plist,com.apple.kdumpd,['/usr/libexec/kdumpd', '/PanicDumps'],False,
-/System/Library/LaunchDaemons/com.apple.Kerberos.digest-service.plist,com.apple.Kerberos.digest-service,['/System/Library/PrivateFrameworks/Heimdal.framework/Helpers/digest-service'],False,
-/System/Library/LaunchDaemons/com.apple.Kerberos.kadmind.plist,com.apple.Kerberos.kadmind,['/System/Library/PrivateFrameworks/Heimdal.framework/Helpers/kadmind'],False,
-/System/Library/LaunchDaemons/com.apple.Kerberos.kcm.plist,com.apple.Kerberos.kcm,['/System/Library/PrivateFrameworks/Heimdal.framework/Helpers/kcm', '--launchd'],False,
-/System/Library/LaunchDaemons/com.apple.Kerberos.kdc.plist,com.apple.Kerberos.kdc,['/System/Library/PrivateFrameworks/Heimdal.framework/Helpers/kdc'],False,
-/System/Library/LaunchDaemons/com.apple.Kerberos.kpasswdd.plist,com.apple.Kerberos.kpasswdd,['/System/Library/PrivateFrameworks/Heimdal.framework/Helpers/kpasswdd'],False,
-/System/Library/LaunchDaemons/com.apple.KernelEventAgent.plist,com.apple.KernelEventAgent,['/usr/sbin/KernelEventAgent'],False,
-/System/Library/LaunchDaemons/com.apple.kextd.plist,com.apple.kextd,['/usr/libexec/kextd'],False,
-/System/Library/LaunchDaemons/com.apple.kuncd.plist,com.apple.kuncd,['/usr/libexec/kuncd'],False,
-/System/Library/LaunchDaemons/com.apple.locate.plist,com.apple.locate,['/usr/libexec/locate.updatedb'],False,
-/System/Library/LaunchDaemons/com.apple.locationd.plist,com.apple.locationd,['/usr/libexec/locationd'],False,
-/System/Library/LaunchDaemons/com.apple.lockd.plist,com.apple.lockd,['/usr/sbin/rpc.lockd'],False,
-/System/Library/LaunchDaemons/com.apple.logind.plist,com.apple.logind,['/System/Library/CoreServices/logind'],True,
-/System/Library/LaunchDaemons/com.apple.loginwindow.LFVTracer.plist,com.apple.loginwindow.LFVTracer,['/System/Library/CoreServices/loginwindow.app/Contents/Resources/LegacyFileVaultMessageTracer'],False,
-/System/Library/LaunchDaemons/com.apple.loginwindow.plist,com.apple.loginwindow,['/System/Library/CoreServices/loginwindow.app/Contents/MacOS/loginwindow', 'console'],False,
-/System/Library/LaunchDaemons/com.apple.logkextloadsd.plist,com.apple.logkextloadsd,/usr/libexec/logkextloadsd,False,
-/System/Library/LaunchDaemons/com.apple.ManagedClient.cloudconfigurationd.plist,com.apple.ManagedClient.cloudconfigurationd,['/usr/libexec/cloudconfigurationd'],False,
-/System/Library/LaunchDaemons/com.apple.ManagedClient.enroll.plist,com.apple.ManagedClient.enroll,['/System/Library/CoreServices/ManagedClient.app/Contents/MacOS/ManagedClient', '-e'],False,
-/System/Library/LaunchDaemons/com.apple.ManagedClient.plist,com.apple.ManagedClient,/System/Library/CoreServices/ManagedClient.app/Contents/MacOS/ManagedClient,False,
-/System/Library/LaunchDaemons/com.apple.ManagedClient.startup.plist,com.apple.ManagedClient.startup,['/System/Library/CoreServices/ManagedClient.app/Contents/MacOS/ManagedClient', '-i'],True,
-/System/Library/LaunchDaemons/com.apple.mbicloudsetupd.plist,com.apple.mbicloudsetupd,['/System/Library/CoreServices/Setup Assistant.app/Contents/Resources/mbicloudsetupd'],False,
-/System/Library/LaunchDaemons/com.apple.mdmclient.daemon.plist,com.apple.mdmclient.daemon,['/usr/libexec/mdmclient', 'daemon'],True,
-/System/Library/LaunchDaemons/com.apple.mDNSResponder.plist,com.apple.mDNSResponder.reloaded,['/usr/sbin/mDNSResponder', '-launchd', '-noMulticastAdvertisements'],False,
-/System/Library/LaunchDaemons/com.apple.mDNSResponderHelper.plist,com.apple.mDNSResponderHelper.reloaded,['/usr/sbin/mDNSResponderHelper'],False,
-/System/Library/LaunchDaemons/com.apple.metadata.mds.index.plist,com.apple.metadata.mds.index,['/System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Versions/A/Support/mds_stores'],False,
-/System/Library/LaunchDaemons/com.apple.metadata.mds.plist,com.apple.metadata.mds,['/System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Support/mds'],False,
-/System/Library/LaunchDaemons/com.apple.metadata.mds.scan.plist,com.apple.metadata.mds.scan,['/System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Versions/A/Support/mdworker', '-s', 'mdworker-scan', '-c', 'MDSSyncScanWorker', '-m', 'com.apple.metadata.mds.scan'],False,
-/System/Library/LaunchDaemons/com.apple.metadata.mds.spindump.plist,com.apple.metadata.mds.spindump,['/System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Versions/A/Support/mdworker', '-s', 'none', '-c', 'MDSSpinDumpWorker', '-m', 'com.apple.metadata.mds.spindump'],False,
-/System/Library/LaunchDaemons/com.apple.MobileFileIntegrity.plist,com.apple.MobileFileIntegrity,['/usr/libexec/amfid'],False,
-/System/Library/LaunchDaemons/com.apple.msrpc.echosvc.plist,com.apple.msrpc.echosvc,['/usr/libexec/rpcsvchost', '-launchd', 'echosvc.bundle'],False,
-/System/Library/LaunchDaemons/com.apple.msrpc.lsarpc.plist,com.apple.msrpc.lsarpc,['/usr/libexec/rpcsvchost', '-launchd', '-sandbox', 'lsarpc.bundle', 'dssetup.bundle'],False,
-/System/Library/LaunchDaemons/com.apple.msrpc.mdssvc.plist,com.apple.msrpc.mdssvc,['/usr/libexec/rpcsvchost', '-launchd', '-sandbox', 'mdssvc.bundle'],False,
-/System/Library/LaunchDaemons/com.apple.msrpc.netlogon.plist,com.apple.msrpc.netlogon,['/usr/libexec/rpcsvchost', '-launchd', 'netlogon.bundle'],False,
-/System/Library/LaunchDaemons/com.apple.msrpc.srvsvc.plist,com.apple.msrpc.srvsvc,['/usr/libexec/rpcsvchost', '-launchd', '-sandbox', 'srvsvc.bundle'],False,
-/System/Library/LaunchDaemons/com.apple.msrpc.wkssvc.plist,com.apple.msrpc.wkssvc,['/usr/libexec/rpcsvchost', '-launchd', '-sandbox', 'wkssvc.bundle'],False,
-/System/Library/LaunchDaemons/com.apple.mtmd.plist,com.apple.mtmd,['/System/Library/CoreServices/backupd.bundle/Contents/Resources/mtmd'],True,
-/System/Library/LaunchDaemons/com.apple.mtmfs.plist,com.apple.mtmfs,['/System/Library/CoreServices/backupd.bundle/Contents/Resources/mtmfs', '--tcp', '--resvport', '--listen', 'localhost', '--oneshot', '--noportmap', '--nobrowse'],True,
-/System/Library/LaunchDaemons/com.apple.nehelper.plist,com.apple.nehelper,/usr/libexec/nehelper,False,
-/System/Library/LaunchDaemons/com.apple.nesessionmanager.plist,com.apple.nesessionmanager,/usr/libexec/nesessionmanager,False,
-/System/Library/LaunchDaemons/com.apple.netauth.sys.auth.plist,com.apple.netauth.sys.auth,['/System/Library/CoreServices/NetAuthAgent.app/Contents/MacOS/NetAuthSysAgent', '--sys'],False,
-/System/Library/LaunchDaemons/com.apple.netauth.sys.gui.plist,com.apple.netauth.sys.gui,['/System/Library/CoreServices/NetAuthAgent.app/Contents/MacOS/NetAuthAgent', '--sys'],False,
-/System/Library/LaunchDaemons/com.apple.netbiosd.plist,com.apple.netbiosd,['/usr/sbin/netbiosd'],False,
-/System/Library/LaunchDaemons/com.apple.NetBootClientStatus.plist,com.apple.NetBootClientStatus,['/usr/sbin/NetBootClientStatus'],True,
-/System/Library/LaunchDaemons/com.apple.networkd.plist,com.apple.networkd,/usr/libexec/networkd,False,
-/System/Library/LaunchDaemons/com.apple.networkd_privileged.plist,com.apple.networkd_privileged,/usr/libexec/networkd_privileged,False,
-/System/Library/LaunchDaemons/com.apple.NetworkDiagnostics.plist,com.apple.NetworkDiagnostics,/System/Library/CoreServices/Network Diagnostics.app/Contents/MacOS/Network Diagnostics,False,
-/System/Library/LaunchDaemons/com.apple.NetworkLinkConditioner.plist,com.apple.nlcd,['/usr/libexec/nlcd'],False,
-/System/Library/LaunchDaemons/com.apple.NetworkSharing.plist,com.apple.NetworkSharing,['/usr/libexec/InternetSharing'],False,
-/System/Library/LaunchDaemons/com.apple.newsyslog.plist,com.apple.newsyslog,['/usr/sbin/newsyslog'],False,
-/System/Library/LaunchDaemons/com.apple.nfsconf.plist,com.apple.nfsconf,['/sbin/mount_nfs', 'configupdate'],True,
-/System/Library/LaunchDaemons/com.apple.nfsd.plist,com.apple.nfsd,['/sbin/nfsd'],False,
-/System/Library/LaunchDaemons/com.apple.nis.ypbind.plist,com.apple.nis.ypbind,['/usr/sbin/ypbind'],False,
-/System/Library/LaunchDaemons/com.apple.noticeboard.state.plist,com.apple.noticeboard.state,/System/Library/PrivateFrameworks/Noticeboard.framework/Versions/A/Resources/nbstated,False,
-/System/Library/LaunchDaemons/com.apple.notifyd.plist,com.apple.notifyd,['/usr/sbin/notifyd'],False,
-/System/Library/LaunchDaemons/com.apple.nsurlsessiond.plist,com.apple.nsurlsessiond_privileged,['/usr/libexec/nsurlsessiond', '--privileged'],False,
-/System/Library/LaunchDaemons/com.apple.nsurlstoraged.plist,com.apple.nsurlstoraged,/usr/libexec/nsurlstoraged,False,
-/System/Library/LaunchDaemons/com.apple.ocspd.plist,com.apple.ocspd,['/usr/sbin/ocspd'],False,
-/System/Library/LaunchDaemons/com.apple.odproxyd.plist,com.apple.odproxyd,/usr/libexec/odproxyd,False,
-/System/Library/LaunchDaemons/com.apple.ODSAgent.plist,com.apple.ODSAgent,['/System/Library/CoreServices/ODSAgent.app/Contents/MacOS/ODSAgent', '-launchd'],False,
-/System/Library/LaunchDaemons/com.apple.opendirectoryd.plist,com.apple.opendirectoryd,/usr/libexec/opendirectoryd,False,
-/System/Library/LaunchDaemons/com.apple.pacemaker.plist,com.apple.pacemaker,['/usr/libexec/pacemaker', '-b', '-e', '0.0001', '-a', '10'],False,
-/System/Library/LaunchDaemons/com.apple.PasswordService.plist,com.apple.PasswordService,['/usr/sbin/PasswordService', '-n'],False,
-/System/Library/LaunchDaemons/com.apple.PCIELaneConfigTool.plist,com.apple.PCIELaneConfigTool,['/System/Library/CoreServices/Expansion Slot Utility.app/Contents/Resources/PCIELaneConfigTool'],False,
-/System/Library/LaunchDaemons/com.apple.periodic-daily.plist,com.apple.periodic-daily,['/usr/libexec/periodic-wrapper', 'daily'],False,
-/System/Library/LaunchDaemons/com.apple.periodic-monthly.plist,com.apple.periodic-monthly,['/usr/libexec/periodic-wrapper', 'monthly'],False,
-/System/Library/LaunchDaemons/com.apple.periodic-weekly.plist,com.apple.periodic-weekly,['/usr/libexec/periodic-wrapper', 'weekly'],False,
-/System/Library/LaunchDaemons/com.apple.pfctl.plist,com.apple.pfctl,/sbin/pfctl,True,
-/System/Library/LaunchDaemons/com.apple.pfd.plist,com.apple.pfd,['/usr/libexec/pfd', '-d'],False,
-/System/Library/LaunchDaemons/com.apple.platform.ptmd.plist,com.apple.platform.ptmd,/usr/libexec/ptmd,True,
-/System/Library/LaunchDaemons/com.apple.postgres.plist,com.apple.postgres,['/Applications/Server.app/Contents/ServerRoot/usr/bin/xpostgres', '-a', '/Library/Server/PostgreSQL For Server Services/Config/com.apple.postgres.plist'],False,
-/System/Library/LaunchDaemons/com.apple.powerd.plist,com.apple.powerd,/System/Library/CoreServices/powerd.bundle/powerd,False,
-/System/Library/LaunchDaemons/com.apple.powerd.swd.plist,com.apple.powerd.swd,['/System/Library/CoreServices/powerd.bundle/swd'],False,
-/System/Library/LaunchDaemons/com.apple.preferences.timezone.admintool.plist,com.apple.preferences.timezone.admintool,['/System/Library/PreferencePanes/DateAndTime.prefPane/Contents/Resources/TimeZone.prefPane/Contents/Resources/TimeZoneAdminTool'],False,
-/System/Library/LaunchDaemons/com.apple.preferences.timezone.auto.plist,com.apple.preferences.timezone.auto,['/System/Library/PreferencePanes/DateAndTime.prefPane/Contents/Resources/TimeZone.prefPane/Contents/Resources/timezoned.app/Contents/MacOS/timezoned'],False,
-/System/Library/LaunchDaemons/com.apple.printtool.daemon.plist,com.apple.printtool.daemon,['/System/Library/Frameworks/ApplicationServices.framework/Frameworks/PrintCore.framework/Versions/A/printtool', 'daemon'],False,
-/System/Library/LaunchDaemons/com.apple.racoon.plist,com.apple.racoon,['/usr/sbin/racoon', '-D'],False,
-/System/Library/LaunchDaemons/com.apple.RemoteDesktop.PrivilegeProxy.plist,com.apple.RemoteDesktop.PrivilegeProxy,['/System/Library/CoreServices/RemoteManagement/AppleVNCServer.bundle/Contents/Support/VNCPrivilegeProxy'],False,
-/System/Library/LaunchDaemons/com.apple.remotepairtool.plist,com.apple.RemotePairTool,/System/Library/CoreServices/RemotePairTool,False,
-/System/Library/LaunchDaemons/com.apple.ReportCrash.Root.plist,com.apple.ReportCrash.Root,['/System/Library/CoreServices/ReportCrash'],False,
-/System/Library/LaunchDaemons/com.apple.ReportPanicService.plist,com.apple.ReportPanicService,/System/Library/CoreServices/ReportPanicService,False,
-/System/Library/LaunchDaemons/com.apple.revisiond.plist,com.apple.revisiond,['/System/Library/PrivateFrameworks/GenerationalStorage.framework/Versions/A/Support/revisiond'],True,
-/System/Library/LaunchDaemons/com.apple.RFBEventHelper.plist,com.apple.RFBEventHelper,['/System/Library/CoreServices/RFBEventHelper.bundle/Contents/MacOS/RFBEventHelperd'],False,
-/System/Library/LaunchDaemons/com.apple.rpcbind.plist,com.apple.rpcbind,['/usr/sbin/rpcbind'],False,
-/System/Library/LaunchDaemons/com.apple.sandboxd.plist,com.apple.sandboxd,['/usr/libexec/sandboxd', '-n', 'PluginProcess', '-n', ''],False,
-/System/Library/LaunchDaemons/com.apple.SCHelper.plist,com.apple.SCHelper,/System/Library/Frameworks/SystemConfiguration.framework/Versions/A/Helpers/SCHelper,False,
-/System/Library/LaunchDaemons/com.apple.screensharing.plist,com.apple.screensharing,['/System/Library/CoreServices/RemoteManagement/screensharingd.bundle/Contents/MacOS/screensharingd'],False,
-/System/Library/LaunchDaemons/com.apple.scsid.plist,com.apple.scsid,['/usr/libexec/scsid'],True,
-/System/Library/LaunchDaemons/com.apple.secinitd.plist,com.apple.secinitd,/usr/libexec/secinitd,False,
-/System/Library/LaunchDaemons/com.apple.security.agentMain.plist,com.apple.security.agentMain,/System/Library/Frameworks/Security.framework/Versions/A/XPCServices/SecurityAgent.xpc/Contents/MacOS/SecurityAgent,False,
-/System/Library/LaunchDaemons/com.apple.security.authhost.plist,com.apple.security.authhost,/System/Library/Frameworks/Security.framework/Versions/A/XPCServices/authorizationhost.xpc/Contents/MacOS/authorizationhost,False,
-/System/Library/LaunchDaemons/com.apple.security.FDERecoveryAgent.plist,com.apple.security.FDERecoveryAgent,['/usr/libexec/FDERecoveryAgent'],True,
-/System/Library/LaunchDaemons/com.apple.security.syspolicy.plist,com.apple.security.syspolicy,['/usr/libexec/syspolicyd'],False,
-/System/Library/LaunchDaemons/com.apple.securityd.plist,com.apple.securityd,['/usr/sbin/securityd', '-i'],True,
-/System/Library/LaunchDaemons/com.apple.securityd_service.plist,com.apple.securityd_service,/usr/libexec/securityd_service,False,
-/System/Library/LaunchDaemons/com.apple.sessionlogoutd.plist,com.apple.sessionlogoutd,['/System/Library/CoreServices/sessionlogoutd'],False,
-/System/Library/LaunchDaemons/com.apple.smb.preferences.plist,com.apple.smb.preferences,['/usr/libexec/smb-sync-preferences'],True,
-/System/Library/LaunchDaemons/com.apple.smbd.plist,com.apple.smbd,['/usr/sbin/smbd'],False,
-/System/Library/LaunchDaemons/com.apple.softwareupdate_download_service.plist,com.apple.softwareupdate_download_service,['/System/Library/CoreServices/Software Update.app/Contents/Resources/softwareupdate_download_service'],False,
-/System/Library/LaunchDaemons/com.apple.softwareupdate_firstrun_tasks.plist,com.apple.softwareupdatecheck.initial,['/System/Library/CoreServices/Software Update.app/Contents/Resources/softwareupdate_firstrun_tasks', '-BuildTagCache', 'YES'],True,
-/System/Library/LaunchDaemons/com.apple.softwareupdated.plist,com.apple.softwareupdated,['/System/Library/CoreServices/Software Update.app/Contents/Resources/softwareupdated'],False,
-/System/Library/LaunchDaemons/com.apple.speech.speechsynthesisd.plist,com.apple.speech.speechsynthesisd,/System/Library/Frameworks/ApplicationServices.framework/Frameworks/SpeechSynthesis.framework/Resources/com.apple.speech.speechsynthesisd,False,
-/System/Library/LaunchDaemons/com.apple.spindump.plist,com.apple.spindump,['/usr/sbin/spindump'],False,
-/System/Library/LaunchDaemons/com.apple.stackshot.plist,com.apple.stackshot,['/usr/libexec/stackshot', '-t', '-O'],False,
-/System/Library/LaunchDaemons/com.apple.statd.notify.plist,com.apple.statd.notify,['/usr/sbin/rpc.statd', '-n'],True,
-/System/Library/LaunchDaemons/com.apple.storagekitd.plist,com.apple.storagekitd,['/System/Library/PrivateFrameworks/StorageKit.framework/Resources/storagekitd'],False,
-/System/Library/LaunchDaemons/com.apple.storereceiptinstaller.plist,com.apple.storereceiptinstaller,/System/Library/PrivateFrameworks/CommerceKit.framework/Versions/A/Resources/ReceiptInstaller,False,
-/System/Library/LaunchDaemons/com.apple.SubmitDiagInfo.plist,com.apple.SubmitDiagInfo,['/System/Library/CoreServices/SubmitDiagInfo', 'server-init'],False,
-/System/Library/LaunchDaemons/com.apple.suhelperd.plist,com.apple.suhelperd,['/System/Library/PrivateFrameworks/SoftwareUpdate.framework/Resources/suhelperd'],False,
-/System/Library/LaunchDaemons/com.apple.syslogd.plist,com.apple.syslogd,['/usr/sbin/syslogd'],False,
-/System/Library/LaunchDaemons/com.apple.sysmond.plist,com.apple.sysmond,/usr/libexec/sysmond,False,
-/System/Library/LaunchDaemons/com.apple.systemkeychain.plist,com.apple.systemkeychain,['/usr/sbin/systemkeychain', '-d'],False,
-/System/Library/LaunchDaemons/com.apple.systempreferences.installer.plist,com.apple.systempreferences.install,['/Applications/System Preferences.app/Contents/Resources/installAssistant'],False,
-/System/Library/LaunchDaemons/com.apple.systemstats.analysis.plist,com.apple.systemstats.analysis,['/usr/sbin/systemstats', '--xpc'],False,
-/System/Library/LaunchDaemons/com.apple.systemstats.daily.plist,com.apple.systemstats.daily,['/usr/sbin/systemstats', '--daily'],False,
-/System/Library/LaunchDaemons/com.apple.systemstatsd.plist,com.apple.systemstatsd,/usr/libexec/systemstatsd,False,
-/System/Library/LaunchDaemons/com.apple.taskgated-helper.plist,com.apple.taskgated-helper,['/usr/libexec/taskgated-helper'],False,
-/System/Library/LaunchDaemons/com.apple.taskgated.plist,com.apple.taskgated,['/usr/libexec/taskgated', '-s'],False,
-/System/Library/LaunchDaemons/com.apple.tccd.system.plist,com.apple.tccd.system,['/System/Library/PrivateFrameworks/TCC.framework/Resources/tccd', 'system'],False,
-/System/Library/LaunchDaemons/com.apple.thermald.plist,com.apple.thermald,['/usr/libexec/thermald'],True,
-/System/Library/LaunchDaemons/com.apple.TMCacheDelete.plist,com.apple.TMCacheDelete,['/System/Library/CoreServices/backupd.bundle/Contents/Resources/TMCacheDelete'],False,
-/System/Library/LaunchDaemons/com.apple.TrustEvaluationAgent.system.plist,com.apple.TrustEvaluationAgent.system,/System/Library/PrivateFrameworks/TrustEvaluationAgent.framework/Resources/trustevaluationagent,False,
-/System/Library/LaunchDaemons/com.apple.ucupdate.plist,com.apple.ucupdate.plist,['/usr/libexec/ucupdate', '-m', '/usr/share/ucupdate/microcode.dat'],True,
-/System/Library/LaunchDaemons/com.apple.uninstalld.plist,com.apple.uninstalld,['/System/Library/PrivateFrameworks/Uninstall.framework/Resources/uninstalld'],False,
-/System/Library/LaunchDaemons/com.apple.unmountassistant.sysagent.plist,com.apple.unmountassistant.sysagent,['/System/Library/CoreServices/UnmountAssistantAgent.app/Contents/Resources/UASysAgent'],False,
-/System/Library/LaunchDaemons/com.apple.updateEFIDesktopPicture.plist,com.apple.updateEFIDesktopPicture,['/usr/sbin/kextcache', '-u', '/'],False,
-/System/Library/LaunchDaemons/com.apple.usbd.plist,com.apple.usbd,/usr/libexec/usbd,False,
-/System/Library/LaunchDaemons/com.apple.usbmuxd.plist,com.apple.usbmuxd,['/System/Library/PrivateFrameworks/MobileDevice.framework/Versions/A/Resources/usbmuxd', '-launchd'],True,
-/System/Library/LaunchDaemons/com.apple.UserEventAgent-System.plist,com.apple.UserEventAgent-System,['/usr/libexec/UserEventAgent', '(System)'],False,
-/System/Library/LaunchDaemons/com.apple.UserNotificationCenter.plist,com.apple.UserNotificationCenter,['/System/Library/CoreServices/uncd'],False,
-/System/Library/LaunchDaemons/com.apple.uucp.plist,com.apple.uucp,['/usr/sbin/uucico', '-l', '-D'],False,
-/System/Library/LaunchDaemons/com.apple.var-db-dslocal-backup.plist,com.apple.var-db-dslocal-backup,['/usr/bin/xar', '-c', '-f', 'dslocal-backup.xar', 'dslocal'],False,
-/System/Library/LaunchDaemons/com.apple.vsdbutil.plist,com.apple.vsdbutil,['/usr/sbin/vsdbutil', '-i'],False,
-/System/Library/LaunchDaemons/com.apple.warmd.plist,com.apple.warmd,['/usr/libexec/warmd'],True,
-/System/Library/LaunchDaemons/com.apple.watchdogd.plist,com.apple.watchdogd,['/usr/libexec/watchdogd'],True,
-/System/Library/LaunchDaemons/com.apple.wdhelper.plist,com.apple.wdhelper,/usr/libexec/wdhelper,True,
-/System/Library/LaunchDaemons/com.apple.wifid.plist,com.apple.wifid,/usr/libexec/wifid,False,
-/System/Library/LaunchDaemons/com.apple.WindowServer.plist,com.apple.WindowServer,['/System/Library/Frameworks/ApplicationServices.framework/Frameworks/CoreGraphics.framework/Resources/WindowServer', '-daemon'],False,
-/System/Library/LaunchDaemons/com.apple.wirelessproxd.plist,com.apple.wirelessproxd,['/usr/sbin/wirelessproxd'],False,
-/System/Library/LaunchDaemons/com.apple.wwand.plist,com.apple.wwand,/System/Library/Extensions/IOSerialFamily.kext/Contents/PlugIns/AppleWWANSupport.kext/Contents/Resources/wwand,False,
-/System/Library/LaunchDaemons/com.apple.xpc.smd.plist,com.apple.xpc.smd,/usr/libexec/smd,False,
-/System/Library/LaunchDaemons/com.apple.xsan.plist,com.apple.xsan,/System/Library/Filesystems/acfs.fs/Contents/bin/xsand,False,
-/System/Library/LaunchDaemons/com.apple.xsandaily.plist,com.apple.xsandaily,/System/Library/Filesystems/acfs.fs/Contents/bin/xsandaily,False,
-/System/Library/LaunchDaemons/com.apple.xscertadmin.plist,com.apple.xscertadmin,['/usr/sbin/xscertadmin', 'update'],False,
-/System/Library/LaunchDaemons/com.apple.xscertd-helper.plist,com.apple.xscertd-helper,['/usr/libexec/xscertd-helper'],False,
-/System/Library/LaunchDaemons/com.apple.xscertd.plist,com.apple.xscertd,/usr/libexec/xscertd,False,
-/System/Library/LaunchDaemons/com.vix.cron.plist,com.vix.cron,['/usr/sbin/cron'],False,
-/System/Library/LaunchDaemons/exec.plist,com.apple.rexecd,['/usr/libexec/rexecd'],False,
-/System/Library/LaunchDaemons/finger.plist,com.apple.fingerd,['/usr/libexec/fingerd', '-s'],False,
-/System/Library/LaunchDaemons/ftp.plist,com.apple.ftpd,/usr/libexec/ftpd,False,
-/System/Library/LaunchDaemons/login.plist,com.apple.rlogind,['/usr/libexec/rlogind'],False,
-/System/Library/LaunchDaemons/ntalk.plist,com.apple.ntalkd,['/usr/libexec/ntalkd'],False,
-/System/Library/LaunchDaemons/org.apache.httpd.plist,org.apache.httpd,['/usr/sbin/httpd', '-D', 'FOREGROUND'],False,
-/System/Library/LaunchDaemons/org.cups.cups-lpd.plist,org.cups.cups-lpd,['/usr/libexec/cups/daemon/cups-lpd', '-o', 'document-format=application/octet-stream'],False,
-/System/Library/LaunchDaemons/org.cups.cupsd.plist,org.cups.cupsd,['/usr/sbin/cupsd', '-l'],False,
-/System/Library/LaunchDaemons/org.net-snmp.snmpd.plist,org.net-snmp.snmpd,/usr/sbin/snmpd,False,
-/System/Library/LaunchDaemons/org.ntp.ntpd.plist,org.ntp.ntpd,['/usr/libexec/ntpd-wrapper'],False,
-/System/Library/LaunchDaemons/org.openldap.slapd.plist,org.openldap.slapd,/usr/libexec/slapd,False,
-/System/Library/LaunchDaemons/org.postfix.master.plist,org.postfix.master,/usr/libexec/postfix/master,False,
-/System/Library/LaunchDaemons/shell.plist,com.apple.rshd,['/usr/libexec/rshd'],False,
-/System/Library/LaunchDaemons/ssh.plist,com.openssh.sshd,/usr/libexec/sshd-keygen-wrapper,False,
-/System/Library/LaunchDaemons/telnet.plist,com.apple.telnetd,['/usr/libexec/telnetd'],False,
-/System/Library/LaunchDaemons/tftp.plist,com.apple.tftpd,['/usr/libexec/tftpd', '-i', '/private/tftpboot'],False,
-/System/Library/LaunchAgents/com.apple.accountsd.plist,com.apple.accountsd,['/System/Library/Frameworks/Accounts.framework/Versions/A/Support/accountsd'],False,
-/System/Library/LaunchAgents/com.apple.AddressBook.abd.plist,com.apple.AddressBook.abd,['/System/Library/Frameworks/AddressBook.framework/Versions/A/Helpers/AddressBookManager.app/Contents/MacOS/AddressBookManager'],False,
-/System/Library/LaunchAgents/com.apple.AddressBook.AssistantService.plist,com.apple.AddressBook.AssistantService,['/System/Library/Frameworks/AddressBook.framework/Versions/A/Helpers/ABAssistantService.app/Contents/MacOS/ABAssistantService'],False,
-/System/Library/LaunchAgents/com.apple.AddressBook.SourceSync.plist,com.apple.AddressBook.SourceSync,['/System/Library/Frameworks/AddressBook.framework/Versions/A/Helpers/AddressBookSourceSync.app/Contents/MacOS/AddressBookSourceSync'],False,
-/System/Library/LaunchAgents/com.apple.AirPlayUIAgent.plist,com.apple.AirPlayUIAgent,['/System/Library/CoreServices/AirPlayUIAgent.app/Contents/MacOS/AirPlayUIAgent', '--launchd'],False,
-/System/Library/LaunchAgents/com.apple.AirPortBaseStationAgent.plist,com.apple.AirPortBaseStationAgent,['/System/Library/CoreServices/AirPort Base Station Agent.app/Contents/MacOS/AirPort Base Station Agent', '--launchd'],False,
-/System/Library/LaunchAgents/com.apple.alf.useragent.plist,com.apple.alf.useragent,['/usr/libexec/ApplicationFirewall/Firewall'],False,
-/System/Library/LaunchAgents/com.apple.aos.migrate.plist,com.apple.aos.migrate,/System/Library/CoreServices/AOSMigrateAgent,False,
-/System/Library/LaunchAgents/com.apple.AOSHeartbeat.plist,com.apple.AOSHeartbeat,/System/Library/PrivateFrameworks/AOSKit.framework/Helpers/AOSHeartbeat.app/Contents/MacOS/AOSHeartbeat,True,
-/System/Library/LaunchAgents/com.apple.AOSPushRelay.plist,com.apple.AOSPushRelay,/System/Library/PrivateFrameworks/AOSKit.framework/Helpers/AOSPushRelay.app/Contents/MacOS/AOSPushRelay,False,
-/System/Library/LaunchAgents/com.apple.AppleGraphicsWarning.plist,com.apple.AppleGraphicsWarning,['/System/Library/CoreServices/AppleGraphicsWarning.app/Contents/MacOS/AppleGraphicsWarning'],False,
-/System/Library/LaunchAgents/com.apple.appleseed.seedusaged.plist,com.apple.appleseed.seedusaged,/System/Library/CoreServices/Applications/Feedback Assistant.app/Contents/Library/LaunchServices/seedusaged,True,
-/System/Library/LaunchAgents/com.apple.appsleepd.plist,com.apple.appsleep,['/usr/sbin/appsleepd'],False,
-/System/Library/LaunchAgents/com.apple.appstoreupdateagent.plist,com.apple.appstoreupdateagent,/System/Library/PrivateFrameworks/CommerceKit.framework/Versions/A/Resources/appstoreupdateagent,False,
-/System/Library/LaunchAgents/com.apple.apsctl.plist,com.apple.apsctl,['/System/Library/PrivateFrameworks/ApplePushService.framework/apsctl', 'login'],True,
-/System/Library/LaunchAgents/com.apple.askpermissiond.plist,com.apple.askpermissiond,/System/Library/PrivateFrameworks/AskPermission.framework/Versions/A/Resources/askpermissiond,True,
-/System/Library/LaunchAgents/com.apple.AskPermissionUI.plist,com.apple.AskPermissionUI,/System/Library/PrivateFrameworks/AskPermission.framework/Versions/A/Resources/AskPermissionUI.app/Contents/MacOS/AskPermissionUI,False,
-/System/Library/LaunchAgents/com.apple.assistant_service.plist,com.apple.assistant_service,['/System/Library/PrivateFrameworks/AssistantServices.framework/assistant_service'],False,
-/System/Library/LaunchAgents/com.apple.assistantd.plist,com.apple.assistantd,['/System/Library/PrivateFrameworks/AssistantServices.framework/assistantd'],False,
-/System/Library/LaunchAgents/com.apple.AssistiveControl.plist,com.apple.AssistiveControl,['/System/Library/Input Methods/Switch Control.app/Contents/MacOS/Switch Control', 'launchd', '-s'],False,
-/System/Library/LaunchAgents/com.apple.BezelUI.plist,com.apple.BezelUIServer,['/System/Library/LoginPlugins/BezelServices.loginPlugin/Contents/Resources/BezelUI/BezelUIServer'],False,
-/System/Library/LaunchAgents/com.apple.bird.plist,com.apple.bird,['/System/Library/PrivateFrameworks/CloudDocsDaemon.framework/Versions/A/Support/bird'],False,
-/System/Library/LaunchAgents/com.apple.bluetoothUIServer.plist,com.apple.bluetoothUIServer,/System/Library/CoreServices/BluetoothUIServer.app/Contents/MacOS/BluetoothUIServer,False,
-/System/Library/LaunchAgents/com.apple.btsa.plist,com.apple.btsa,['/System/Library/CoreServices/Bluetooth Setup Assistant.app/Contents/MacOS/Bluetooth Setup Assistant', '-autoConfigure'],False,
-/System/Library/LaunchAgents/com.apple.CalendarAgent.plist,com.apple.CalendarAgent,/System/Library/PrivateFrameworks/CalendarAgent.framework/Executables/CalendarAgent,True,
-/System/Library/LaunchAgents/com.apple.CallHistoryPluginHelper.plist,com.apple.CallHistoryPluginHelper,['/System/Library/PrivateFrameworks/CallHistory.framework/Support/CallHistoryPluginHelper'],False,
-/System/Library/LaunchAgents/com.apple.CallHistorySyncHelper.plist,com.apple.CallHistorySyncHelper,['/System/Library/PrivateFrameworks/CallHistory.framework/Support/CallHistorySyncHelper'],False,
-/System/Library/LaunchAgents/com.apple.cfnetwork.AuthBrokerAgent.plist,com.apple.cfnetwork.AuthBrokerAgent,['/System/Library/CoreServices/AuthBrokerAgent'],False,
-/System/Library/LaunchAgents/com.apple.cfnetwork.cfnetworkagent.plist,com.apple.cfnetwork.cfnetworkagent,['/System/Library/CoreServices/CFNetworkAgent'],False,
-/System/Library/LaunchAgents/com.apple.cfprefsd.xpc.agent.plist,com.apple.cfprefsd.xpc.agent,['/usr/sbin/cfprefsd', 'agent'],False,
-/System/Library/LaunchAgents/com.apple.cloudd.plist,com.apple.cloudd,['/System/Library/PrivateFrameworks/CloudKitDaemon.framework/Support/cloudd'],False,
-/System/Library/LaunchAgents/com.apple.cloudfamilyrestrictionsd-mac.plist,com.apple.cloudfamilyrestrictionsd,['/System/Library/PrivateFrameworks/CloudFamilyRestrictions.framework/cloudfamilyrestrictionsd'],False,
-/System/Library/LaunchAgents/com.apple.cloudpaird.plist,com.apple.cloudpaird,/System/Library/CoreServices/cloudpaird,False,
-/System/Library/LaunchAgents/com.apple.cloudphotosd.plist,com.apple.cloudphotosd,/System/Library/CoreServices/cloudphotosd.app/Contents/MacOS/cloudphotosd,False,
-/System/Library/LaunchAgents/com.apple.cmfsyncagent.plist,com.apple.cmfsyncagent,['/System/Library/PrivateFrameworks/CommunicationsFilter.framework/CMFSyncAgent.app/Contents/MacOS/CMFSyncAgent'],False,
-/System/Library/LaunchAgents/com.apple.ContainerRepairAgent.plist,com.apple.ContainerRepairAgent,/usr/libexec/AppSandbox/ContainerRepairAgent,False,
-/System/Library/LaunchAgents/com.apple.CoreAuthentication.daemon.plist,com.apple.CoreAuthentication.daemon,['/System/Library/Frameworks/LocalAuthentication.framework/Support/coreauthd'],False,
-/System/Library/LaunchAgents/com.apple.coredata.externalrecordswriter.plist,com.apple.coredata.externalrecordswriter,['/System/Library/Frameworks/CoreData.framework/Versions/A/Resources/ExternalRecordsWriter'],False,
-/System/Library/LaunchAgents/com.apple.CoreLocationAgent.plist,com.apple.CoreLocationAgent,['/System/Library/CoreServices/CoreLocationAgent.app/Contents/MacOS/CoreLocationAgent'],False,
-/System/Library/LaunchAgents/com.apple.CoreRAIDAgent.plist,com.apple.CoreRAIDAgent,/System/Library/PrivateFrameworks/CoreRAID.framework/Versions/A/Resources/CoreRAIDAgent,False,
-/System/Library/LaunchAgents/com.apple.coreservices.appleid.authentication.plist,com.apple.coreservices.appleid.authentication,/System/Library/CoreServices/AppleIDAuthAgent,True,
-/System/Library/LaunchAgents/com.apple.coreservices.lsactivity.plist,com.apple.coreservices.lsactivity,['/System/Library/CoreServices/lsuseractivityd'],False,
-/System/Library/LaunchAgents/com.apple.coreservices.uiagent.plist,com.apple.coreservices.uiagent,/System/Library/CoreServices/CoreServicesUIAgent.app/Contents/MacOS/CoreServicesUIAgent,False,
-/System/Library/LaunchAgents/com.apple.csuseragent.plist,com.apple.csuseragent,['/System/Library/CoreServices/CSUserAgent'],False,
-/System/Library/LaunchAgents/com.apple.cvmsCompAgent_i386.plist,com.apple.cvmsCompAgent_i386,['/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/CVMCompiler', '2'],False,
-/System/Library/LaunchAgents/com.apple.cvmsCompAgent_i386_1.plist,com.apple.cvmsCompAgent_i386_1,['/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/CVMCompiler', '3'],False,
-/System/Library/LaunchAgents/com.apple.cvmsCompAgent_x86_64.plist,com.apple.cvmsCompAgent_x86_64,['/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/CVMCompiler', '2'],False,
-/System/Library/LaunchAgents/com.apple.cvmsCompAgent_x86_64_1.plist,com.apple.cvmsCompAgent_x86_64_1,['/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/CVMCompiler', '3'],False,
-/System/Library/LaunchAgents/com.apple.cvmsCompAgentLegacy_i386.plist,com.apple.cvmsCompAgentLegacy_i386,['/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/Legacy/CVMCompiler'],False,
-/System/Library/LaunchAgents/com.apple.cvmsCompAgentLegacy_i386_1.plist,com.apple.cvmsCompAgentLegacy_i386_1,['/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/Legacy/CVMCompiler', '1'],False,
-/System/Library/LaunchAgents/com.apple.cvmsCompAgentLegacy_x86_64.plist,com.apple.cvmsCompAgentLegacy_x86_64,['/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/Legacy/CVMCompiler'],False,
-/System/Library/LaunchAgents/com.apple.cvmsCompAgentLegacy_x86_64_1.plist,com.apple.cvmsCompAgentLegacy_x86_64_1,['/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/Legacy/CVMCompiler', '1'],False,
-/System/Library/LaunchAgents/com.apple.DiagnosticReportCleanup.plist,com.apple.DiagnosticReportCleanup.plist,['/System/Library/CoreServices/SubmitDiagInfo', 'cleanup'],False,
-/System/Library/LaunchAgents/com.apple.diagnostics_agent.plist,com.apple.diagnostics_agent,['/System/Library/CoreServices/diagnostics_agent'],True,
-/System/Library/LaunchAgents/com.apple.DictationIM.plist,com.apple.DictationIM,['/System/Library/Input Methods/DictationIM.app/Contents/MacOS/DictationIM'],False,
-/System/Library/LaunchAgents/com.apple.DiskArbitrationAgent.plist,com.apple.DiskArbitrationAgent,/System/Library/Frameworks/DiskArbitration.framework/Versions/A/Support/DiskArbitrationAgent,False,
-/System/Library/LaunchAgents/com.apple.distnoted.xpc.agent.plist,com.apple.distnoted.xpc.agent,['/usr/sbin/distnoted', 'agent'],False,
-/System/Library/LaunchAgents/com.apple.Dock.plist,com.apple.Dock.agent,/System/Library/CoreServices/Dock.app/Contents/MacOS/Dock,False,
-/System/Library/LaunchAgents/com.apple.dt.CommandLineTools.installondemand.plist,com.apple.dt.CommandLineTools.installondemand,/System/Library/CoreServices/Install Command Line Developer Tools.app/Contents/MacOS/Install Command Line Developer Tools,False,
-/System/Library/LaunchAgents/com.apple.EscrowSecurityAlert.plist,com.apple.EscrowSecurityAlert,['/System/Library/PrivateFrameworks/CloudServices.framework/Resources/EscrowSecurityAlert.app/Contents/MacOS/EscrowSecurityAlert'],False,
-/System/Library/LaunchAgents/com.apple.familycircled.plist,com.apple.familycircled,/System/Library/PrivateFrameworks/FamilyCircle.framework/Versions/A/Resources/familycircled,False,
-/System/Library/LaunchAgents/com.apple.familycontrols.useragent.plist,com.apple.familycontrols.useragent,['/System/Library/PrivateFrameworks/FamilyControls.framework/Resources/ParentalControls.app/Contents/MacOS/ParentalControls'],False,
-/System/Library/LaunchAgents/com.apple.familynotificationd.plist,com.apple.familynotificationd,/System/Library/PrivateFrameworks/FamilyNotification.framework/Versions/A/Resources/Family.app/Contents/MacOS/Family,False,
-/System/Library/LaunchAgents/com.apple.FileStatsAgent.plist,com.apple.FileStatsAgent,['/usr/sbin/FileStatsAgent'],False,
-/System/Library/LaunchAgents/com.apple.FileSyncAgent.PHD.plist,com.apple.FileSyncAgent.PHD,['/System/Library/CoreServices/FileSyncAgent.app/Contents/MacOS/FileSyncAgent', '-launchedByLaunchd', '-PHDPlist'],False,
-/System/Library/LaunchAgents/com.apple.FilesystemUI.plist,com.apple.FilesystemUI,['/System/Library/CoreServices/KernelEventAgent.bundle/FileSystemUIAgent.app/Contents/MacOS/FileSystemUIAgent'],False,
-/System/Library/LaunchAgents/com.apple.Finder.plist,com.apple.Finder,/System/Library/CoreServices/Finder.app/Contents/MacOS/Finder,False,
-/System/Library/LaunchAgents/com.apple.findmymacmessenger.plist,com.apple.findmymacmessenger,/System/Library/PrivateFrameworks/FindMyMac.framework/Resources/FindMyMacMessenger.app/Contents/MacOS/FindMyMacMessenger,False,
-/System/Library/LaunchAgents/com.apple.fontd.useragent.plist,com.apple.fontd,['/System/Library/Frameworks/ApplicationServices.framework/Frameworks/ATS.framework/Support/fontd'],False,
-/System/Library/LaunchAgents/com.apple.FontRegistryUIAgent.plist,com.apple.FontRegistryUIAgent,/System/Library/Frameworks/ApplicationServices.framework/Frameworks/ATS.framework/Support/FontRegistryUIAgent.app/Contents/MacOS/FontRegistryUIAgent,False,
-/System/Library/LaunchAgents/com.apple.FontValidator.plist,com.apple.ATS.FontValidator,/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ATS.framework/Versions/A/Support/FontValidator,False,
-/System/Library/LaunchAgents/com.apple.FontValidatorConduit.plist,com.apple.ATS.FontValidatorConduit,/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ATS.framework/Versions/A/Support/FontValidatorConduit,False,
-/System/Library/LaunchAgents/com.apple.FontWorker.plist,com.apple.FontWorker,/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ATS.framework/Versions/A/Support/fontworker,False,
-/System/Library/LaunchAgents/com.apple.FTCleanup.plist,com.apple.FTCleanup,[redacted for github formatting],True,
-/System/Library/LaunchAgents/com.apple.gamed.plist,com.apple.gamed,['/System/Library/PrivateFrameworks/GameCenterFoundation.framework/Versions/A/gamed'],False,
-/System/Library/LaunchAgents/com.apple.helpd.plist,com.apple.helpd,/System/Library/PrivateFrameworks/HelpData.framework/Versions/A/Resources/helpd,True,
-/System/Library/LaunchAgents/com.apple.icbaccountsd.plist,com.apple.icbaccountsd,['/usr/libexec/icbaccountsd'],False,
-/System/Library/LaunchAgents/com.apple.icloud.fmfd.plist,com.apple.icloud.fmfd,/usr/libexec/fmfd,False,
-/System/Library/LaunchAgents/com.apple.iCloudUserNotifications.plist,com.apple.iCloudUserNotificationsd,/System/Library/PrivateFrameworks/AOSAccounts.framework/Versions/A/Resources/iCloudUserNotificationsd.app/Contents/MacOS/iCloudUserNotificationsd,False,
-/System/Library/LaunchAgents/com.apple.iconservices.iconservicesagent.plist,com.apple.iconservices.iconservicesagent,['/System/Library/CoreServices/iconservicesagent'],True,
-/System/Library/LaunchAgents/com.apple.identityservicesd.plist,com.apple.identityservicesd,['/System/Library/PrivateFrameworks/IDS.framework/identityservicesd.app/Contents/MacOS/identityservicesd'],False,
-/System/Library/LaunchAgents/com.apple.idsremoteurlconnectionagent.plist,com.apple.idsfoundation.IDSRemoteURLConnectionAgent,['/System/Library/PrivateFrameworks/IDSFoundation.framework/IDSRemoteURLConnectionAgent.app/Contents/MacOS/IDSRemoteURLConnectionAgent'],False,
-/System/Library/LaunchAgents/com.apple.imagent.plist,com.apple.imagent,['/System/Library/PrivateFrameworks/IMCore.framework/imagent.app/Contents/MacOS/imagent'],False,
-/System/Library/LaunchAgents/com.apple.imklaunchagent.plist,com.apple.imklaunchagent,/System/Library/Frameworks/InputMethodKit.framework/Resources/imklaunchagent,False,
-/System/Library/LaunchAgents/com.apple.IMLoggingAgent.plist,com.apple.IMLoggingAgent,['/System/Library/PrivateFrameworks/IMFoundation.framework/IMLoggingAgent'],False,
-/System/Library/LaunchAgents/com.apple.imtransferagent.plist,com.apple.imcore.imtransferagent,['/System/Library/PrivateFrameworks/IMTransferServices.framework/IMTransferAgent.app/Contents/MacOS/IMTransferAgent'],False,
-/System/Library/LaunchAgents/com.apple.installd.user.plist,com.apple.installd.user,['/System/Library/PrivateFrameworks/PackageKit.framework/Resources/installd'],False,
-/System/Library/LaunchAgents/com.apple.isst.plist,com.apple.isst,/System/Library/CoreServices/Menu Extras/TextInput.menu/Contents/SharedSupport/isst,True,
-/System/Library/LaunchAgents/com.apple.java.InstallOnDemand.plist,com.apple.java.InstallOnDemandAgent,/System/Library/Java/Support/CoreDeploy.bundle/Contents/Download Java Components.app/Contents/MacOS/Download Java Components,False,
-/System/Library/LaunchAgents/com.apple.java.updateSharing.plist,com.apple.java.updateSharing,['/System/Library/Frameworks/JavaVM.framework/Versions/A/Resources/bin/updateSharingD'],False,
-/System/Library/LaunchAgents/com.apple.lateragent.plist,com.apple.lateragent,/System/Library/PrivateFrameworks/CommerceKit.framework/Resources/LaterAgent.app/Contents/MacOS/LaterAgent,False,
-/System/Library/LaunchAgents/com.apple.locationmenu.plist,com.apple.locationmenu,/System/Library/CoreServices/LocationMenu.app/Contents/MacOS/LocationMenu,False,
-/System/Library/LaunchAgents/com.apple.lookupd.plist,com.apple.lookupd,['/System/Library/PrivateFrameworks/Lookup.framework/Resources/com.apple.lookupd'],False,
-/System/Library/LaunchAgents/com.apple.ManagedClientAgent.agent.plist,com.apple.ManagedClientAgent.agent,['/System/Library/CoreServices/ManagedClient.app/Contents/Resources/ManagedClientAgent', '-a'],False,
-/System/Library/LaunchAgents/com.apple.ManagedClientAgent.enrollagent.plist,com.apple.ManagedClientAgent.enrollagent,['/System/Library/CoreServices/ManagedClient.app/Contents/Resources/ManagedClientAgent', '-j'],False,
-/System/Library/LaunchAgents/com.apple.Maps.pushdaemon.plist,com.apple.Maps.mapspushd,/System/Library/CoreServices/mapspushd,False,
-/System/Library/LaunchAgents/com.apple.maspushagent.plist,com.apple.maspushagent,/System/Library/PrivateFrameworks/CommerceKit.framework/Versions/A/Resources/maspushagent,False,
-/System/Library/LaunchAgents/com.apple.mbloginhelper.user.plist,com.apple.mbloginhelper.user,['/System/Library/CoreServices/Setup Assistant.app/Contents/Resources/mbloginhelper'],False,
-/System/Library/LaunchAgents/com.apple.mbpluginhost.user.plist,com.apple.mbpluginhost.user,['/System/Library/CoreServices/Setup Assistant.app/Contents/Resources/mbpluginhost'],False,
-/System/Library/LaunchAgents/com.apple.mdmclient.agent.plist,com.apple.mdmclient.agent,['/usr/libexec/mdmclient', 'agent'],False,
-/System/Library/LaunchAgents/com.apple.mdmclient.cloudconfig.agent.plist,com.apple.mdmclient.cloudconfig.agent,['/usr/libexec/mdmclient', 'cloudconfig'],False,
-/System/Library/LaunchAgents/com.apple.mdworker.32bit.plist,com.apple.mdworker.32bit,['/System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Versions/A/Support/mdworker32', '-s', 'mdworker-lsb', '-c', 'MDSImporterWorker', '-m', 'com.apple.mdworker.32bit'],False,
-/System/Library/LaunchAgents/com.apple.mdworker.bundles.plist,com.apple.mdworker.bundles,['/System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Versions/A/Support/mdworker', '-s', 'mdworker-bundle', '-c', 'MDSImporterBundleFinder', '-m', 'com.apple.mdworker.bundles'],False,
-/System/Library/LaunchAgents/com.apple.mdworker.isolation.plist,com.apple.mdworker.isolation,['/System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Versions/A/Support/mdworker', '-s', 'mdworker', '-c', 'MDSImporterWorker', '-m', 'com.apple.mdworker.isolation'],False,
-/System/Library/LaunchAgents/com.apple.mdworker.lsb.plist,com.apple.mdworker.lsb,['/System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Versions/A/Support/mdworker', '-s', 'mdworker-lsb', '-c', 'MDSImporterWorker', '-m', 'com.apple.mdworker.lsb'],False,
-/System/Library/LaunchAgents/com.apple.mdworker.mail.plist,com.apple.mdworker.mail,['/System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Versions/A/Support/mdworker', '-s', 'mdworker-mail', '-c', 'MDSImporterWorker', '-m', 'com.apple.mdworker.mail'],False,
-/System/Library/LaunchAgents/com.apple.mdworker.shared.plist,com.apple.mdworker.shared,['/System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Versions/A/Support/mdworker', '-s', 'mdworker', '-c', 'MDSImporterWorker', '-m', 'com.apple.mdworker.shared'],False,
-/System/Library/LaunchAgents/com.apple.mdworker.single.plist,com.apple.mdworker.single,['/System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Versions/A/Support/mdworker', '-s', 'mdworker', '-c', 'MDSImporterWorker', '-m', 'com.apple.mdworker.single'],False,
-/System/Library/LaunchAgents/com.apple.mdworker.sizing.plist,com.apple.mdworker.sizing,['/System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Versions/A/Support/mdworker', '-s', 'mdworker-sizing', '-c', 'MDSSizingWorker', '-m', 'com.apple.mdworker.sizing'],False,
-/System/Library/LaunchAgents/com.apple.metadata.mdflagwriter.plist,com.apple.metadata.mdflagwriter,['/System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Versions/A/Support/mdflagwriter'],False,
-/System/Library/LaunchAgents/com.apple.metadata.mdwrite.plist,com.apple.metadata.mdwrite,['/System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Versions/A/Support/mdwrite'],False,
-/System/Library/LaunchAgents/com.apple.metadata.SpotlightNetHelper.plist,com.apple.metadata.SpotlightNetHelper,['/System/Library/PrivateFrameworks/ParsecUI.framework/Versions/A/Support/SpotlightNetHelper.app/Contents/MacOS/SpotlightNetHelper'],False,
-/System/Library/LaunchAgents/com.apple.midiserver.plist,com.apple.midiserver,['/System/Library/Frameworks/CoreMIDI.framework/MIDIServer'],False,
-/System/Library/LaunchAgents/com.apple.neagent.plist,com.apple.neagent,/usr/libexec/neagent,False,
-/System/Library/LaunchAgents/com.apple.netauth.user.auth.plist,com.apple.netauth.user.auth,['/System/Library/CoreServices/NetAuthAgent.app/Contents/MacOS/NetAuthSysAgent'],False,
-/System/Library/LaunchAgents/com.apple.netauth.user.gui.plist,com.apple.netauth.user.gui,['/System/Library/CoreServices/NetAuthAgent.app/Contents/MacOS/NetAuthAgent'],False,
-/System/Library/LaunchAgents/com.apple.NetworkDiagnostics.plist,com.apple.NetworkDiagnostics,/System/Library/CoreServices/Network Diagnostics.app/Contents/MacOS/Network Diagnostics,False,
-/System/Library/LaunchAgents/com.apple.noticeboard.agent.plist,com.apple.noticeboard.agent,/System/Library/PrivateFrameworks/Noticeboard.framework/Versions/A/Resources/nbagent.app/Contents/MacOS/nbagent,False,
-/System/Library/LaunchAgents/com.apple.notificationcenterui.plist,com.apple.notificationcenterui.agent,/System/Library/CoreServices/NotificationCenter.app/Contents/MacOS/NotificationCenter,False,
-/System/Library/LaunchAgents/com.apple.nsurlsessiond.plist,com.apple.nsurlsessiond,/usr/libexec/nsurlsessiond,False,
-/System/Library/LaunchAgents/com.apple.nsurlstoraged.plist,com.apple.nsurlstoraged,/usr/libexec/nsurlstoraged,False,
-/System/Library/LaunchAgents/com.apple.PackageKit.InstallStatus.plist,com.apple.PackageKit.InstallStatus,['/System/Library/CoreServices/Install in Progress.app/Contents/MacOS/Install in Progress'],False,
-/System/Library/LaunchAgents/com.apple.parentalcontrols.check.plist,com.apple.parentalcontrols.check,/System/Library/PrivateFrameworks/FamilyControls.framework/Resources/pcdCheck,True,
-/System/Library/LaunchAgents/com.apple.pboard.plist,com.apple.pboard,['/usr/sbin/pboard'],False,
-/System/Library/LaunchAgents/com.apple.pbs.plist,com.apple.pbs,/System/Library/CoreServices/pbs,False,
-/System/Library/LaunchAgents/com.apple.PCIESlotCheck.plist,com.apple.PCIESlotCheck,['/System/Library/CoreServices/Expansion Slot Utility.app/Contents/Resources/PCIESlotCheck'],True,
-/System/Library/LaunchAgents/com.apple.photolibraryd.plist,com.apple.photolibraryd,/System/Library/PrivateFrameworks/PhotoLibraryPrivate.framework/Versions/A/Support/photolibraryd,False,
-/System/Library/LaunchAgents/com.apple.PhotoLibraryMigrationUtility.XPC.plist,com.apple.PhotoLibraryMigrationUtility.XPC,['/System/Library/CoreServices/Photo Library Migration Utility.app/Contents/MacOS/Photo Library Migration Utility', '-server'],False,
-/System/Library/LaunchAgents/com.apple.pictd.plist,com.apple.pictd,['/usr/sbin/pictd'],False,
-/System/Library/LaunchAgents/com.apple.pluginkit.pkd.plist,com.apple.pluginkit.pkd,/usr/libexec/pkd,False,
-/System/Library/LaunchAgents/com.apple.pluginkit.pkreporter.plist,com.apple.pluginkit.pkreporter,['/usr/libexec/pkreporter'],False,
-/System/Library/LaunchAgents/com.apple.powerchime.plist,com.apple.powerchime,/System/Library/CoreServices/PowerChime.app/Contents/MacOS/PowerChime,True,
-/System/Library/LaunchAgents/com.apple.printtool.agent.plist,com.apple.printtool.agent,['/System/Library/Frameworks/ApplicationServices.framework/Frameworks/PrintCore.framework/Versions/A/printtool', 'agent'],False,
-/System/Library/LaunchAgents/com.apple.printuitool.agent.plist,com.apple.printuitool.agent,['/System/Library/PrivateFrameworks/PrintingPrivate.framework/Versions/A/PrintUITool'],False,
-/System/Library/LaunchAgents/com.apple.PubSub.Agent.plist,com.apple.PubSub.Agent,['/System/Library/Frameworks/PubSub.framework/Versions/A/Resources/PubSubAgent.app/Contents/MacOS/PubSubAgent'],False,
-/System/Library/LaunchAgents/com.apple.quicklook.32bit.plist,com.apple.quicklook.32bit,['/System/Library/Frameworks/QuickLook.framework/Resources/quicklookd32.app/Contents/MacOS/quicklookd32'],False,
-/System/Library/LaunchAgents/com.apple.quicklook.config.plist,com.apple.quicklook.config,['/System/Library/Frameworks/QuickLook.framework/Resources/quicklookconfig'],False,
-/System/Library/LaunchAgents/com.apple.quicklook.plist,com.apple.quicklook,['/System/Library/Frameworks/QuickLook.framework/Resources/quicklookd.app/Contents/MacOS/quicklookd'],False,
-/System/Library/LaunchAgents/com.apple.quicklook.ui.helper.plist,com.apple.quicklook.ui.helper,['/System/Library/Frameworks/Quartz.framework/Frameworks/QuickLookUI.framework/Resources/QuickLookUIHelper.app/Contents/MacOS/QuickLookUIHelper'],False,
-/System/Library/LaunchAgents/com.apple.rcd.plist,com.apple.rcd,['/System/Library/CoreServices/rcd.app/Contents/MacOS/rcd'],False,
-/System/Library/LaunchAgents/com.apple.recentsd.plist,com.apple.recentsd,['/System/Library/PrivateFrameworks/CoreRecents.framework/Versions/A/Support/recentsd'],False,
-/System/Library/LaunchAgents/com.apple.ReclaimSpaceAgent.plist,com.apple.reclaimspace,/System/Library/CoreServices/backupd.bundle/Contents/Resources/ReclaimSpaceAgent.app/Contents/MacOS/ReclaimSpaceAgent,False,
-/System/Library/LaunchAgents/com.apple.RemoteDesktop.plist,com.apple.RemoteDesktop.agent,/System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/MacOS/ARDAgent,False,
-/System/Library/LaunchAgents/com.apple.ReportCrash.plist,com.apple.ReportCrash,['/System/Library/CoreServices/ReportCrash'],False,
-/System/Library/LaunchAgents/com.apple.ReportCrash.Self.plist,com.apple.ReportCrash.Self,['/System/Library/CoreServices/ReportCrash'],False,
-/System/Library/LaunchAgents/com.apple.ReportGPURestart.plist,com.apple.ReportGPURestart,['/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/ReportGPURestart'],False,
-/System/Library/LaunchAgents/com.apple.ReportPanic.plist,com.apple.ReportPanic,/System/Library/CoreServices/ReportPanic.app/Contents/MacOS/ReportPanic,False,
-/System/Library/LaunchAgents/com.apple.rtcreportingd.plist,com.apple.rtcreportingd,['/usr/libexec/rtcreportingd'],False,
-/System/Library/LaunchAgents/com.apple.SafariCloudHistoryPushAgent.plist,com.apple.SafariCloudHistoryPushAgent,/usr/libexec/SafariCloudHistoryPushAgent,False,
-/System/Library/LaunchAgents/com.apple.safaridavclient.plist,com.apple.safaridavclient,['/System/Library/PrivateFrameworks/BookmarkDAV.framework/Helpers/SafariDAVClient'],False,
-/System/Library/LaunchAgents/com.apple.SafariNotificationAgent.plist,com.apple.SafariNotificationAgent,/usr/libexec/SafariNotificationAgent,False,
-/System/Library/LaunchAgents/com.apple.sbd.plist,com.apple.sbd,['/System/Library/PrivateFrameworks/CloudServices.framework/Resources/com.apple.sbd'],False,
-/System/Library/LaunchAgents/com.apple.scopedbookmarkagent.xpc.plist,com.apple.scopedbookmarksagent.xpc,/System/Library/CoreServices/ScopedBookmarkAgent,False,
-/System/Library/LaunchAgents/com.apple.ScreenReaderUIServer.plist,com.apple.ScreenReaderUIServer,/System/Library/PrivateFrameworks/ScreenReader.framework/Resources/ScreenReaderUIServer.app/Contents/MacOS/ScreenReaderUIServer,False,
-/System/Library/LaunchAgents/com.apple.screensharing.agent.plist,com.apple.screensharing.agent,['/System/Library/CoreServices/RemoteManagement/ScreensharingAgent.bundle/Contents/MacOS/ScreensharingAgent'],False,
-/System/Library/LaunchAgents/com.apple.screensharing.MessagesAgent.plist,com.apple.screensharing.MessagesAgent,['/System/Library/CoreServices/RemoteManagement/AppleVNCServer.bundle/Contents/MacOS/AppleVNCServer'],False,
-/System/Library/LaunchAgents/com.apple.scrod.plist,com.apple.scrod,['/System/Library/PrivateFrameworks/ScreenReader.framework/Frameworks/ScreenReaderOutput.framework/Resources/scrod'],False,
-/System/Library/LaunchAgents/com.apple.secd.plist,com.apple.secd,['/usr/libexec/secd'],False,
-/System/Library/LaunchAgents/com.apple.secinitd.plist,com.apple.secinitd,/usr/libexec/secinitd,False,
-/System/Library/LaunchAgents/com.apple.security.agentStub.plist,com.apple.security.agentStub,/System/Library/Frameworks/Security.framework/Versions/A/XPCServices/com.apple.security.agentStub.xpc/Contents/MacOS/com.apple.security.agentStub,False,
-/System/Library/LaunchAgents/com.apple.security.cloudkeychainproxy.plist,com.apple.security.cloudkeychainproxy3,/System/Library/Frameworks/Security.framework/Versions/A/Resources/CloudKeychainProxy.bundle/Contents/MacOS/CloudKeychainProxy,False,
-/System/Library/LaunchAgents/com.apple.security.DiskUnmountWatcher.plist,com.apple.security.DiskUnmountWatcher,['/System/Library/PrivateFrameworks/KerberosHelper/Helpers/DiskUnmountWatcher'],False,
-/System/Library/LaunchAgents/com.apple.security.keychain-circle-notification.plist,com.apple.security.keychain-circle-notification,['/System/Library/CoreServices/Keychain Circle Notification.app/Contents/MacOS/Keychain Circle Notification'],True,
-/System/Library/LaunchAgents/com.apple.sharingd.plist,com.apple.sharingd,/usr/libexec/sharingd,True,
-/System/Library/LaunchAgents/com.apple.soagent.plist,com.apple.soagent,['/System/Library/PrivateFrameworks/MessagesKit.framework/Resources/soagent.app/Contents/MacOS/soagent'],True,
-/System/Library/LaunchAgents/com.apple.SocialPushAgent.plist,com.apple.SocialPushAgent,/System/Library/CoreServices/SocialPushAgent.app/Contents/MacOS/SocialPushAgent,True,
-/System/Library/LaunchAgents/com.apple.softwareupdate_notify_agent.plist,com.apple.softwareupdate_notify_agent,['/System/Library/CoreServices/Software Update.app/Contents/Resources/softwareupdate_notify_agent'],False,
-/System/Library/LaunchAgents/com.apple.speech.speechdatainstallerd.plist,com.apple.speech.speechdatainstallerd,/System/Library/PrivateFrameworks/SpeechObjects.framework/Versions/A/SpeechDataInstallerd.app/Contents/MacOS/SpeechDataInstallerd,False,
-/System/Library/LaunchAgents/com.apple.speech.speechsynthesisd.plist,com.apple.speech.speechsynthesisd,/System/Library/Frameworks/ApplicationServices.framework/Frameworks/SpeechSynthesis.framework/Resources/com.apple.speech.speechsynthesisd,False,
-/System/Library/LaunchAgents/com.apple.speech.synthesisserver.plist,com.apple.speech.synthesisserver,['/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/SpeechSynthesis.framework/Versions/A/SpeechSynthesisServer.app/Contents/MacOS/SpeechSynthesisServer', 'launchd'],False,
-/System/Library/LaunchAgents/com.apple.spindump_agent.plist,com.apple.spindump_agent,['/usr/libexec/spindump_agent'],True,
-/System/Library/LaunchAgents/com.apple.Spotlight.plist,com.apple.Spotlight,['/System/Library/CoreServices/Spotlight.app/Contents/MacOS/Spotlight'],False,
-/System/Library/LaunchAgents/com.apple.SSInvitationAgent.plist,com.apple.ssinvitationagent,/System/Library/CoreServices/RemoteManagement/ScreensharingAgent.bundle/Contents/Support/SSInvitationAgent.app/Contents/MacOS/SSInvitationAgent,False,
-/System/Library/LaunchAgents/com.apple.storeaccountd.plist,com.apple.storeaccountd,/System/Library/PrivateFrameworks/CommerceKit.framework/Versions/A/Resources/storeaccountd,False,
-/System/Library/LaunchAgents/com.apple.storeassetd.plist,com.apple.storeassetd,/System/Library/PrivateFrameworks/CommerceKit.framework/Versions/A/Resources/storeassetd,False,
-/System/Library/LaunchAgents/com.apple.storedownloadd.plist,com.apple.storedownloadd,/System/Library/PrivateFrameworks/CommerceKit.framework/Versions/A/Resources/storedownloadd,False,
-/System/Library/LaunchAgents/com.apple.storeinappd.plist,com.apple.storeinappd,/System/Library/PrivateFrameworks/CommerceKit.framework/Versions/A/Resources/storeinappd,False,
-/System/Library/LaunchAgents/com.apple.storelegacy.plist,com.apple.storelegacy,/System/Library/PrivateFrameworks/CommerceKit.framework/Versions/A/Resources/storelegacy,False,
-/System/Library/LaunchAgents/com.apple.storeuid.plist,com.apple.storeuid,/System/Library/PrivateFrameworks/CommerceKit.framework/Versions/A/Resources/storeuid.app/Contents/MacOS/storeuid,False,
-/System/Library/LaunchAgents/com.apple.syncdefaultsd.plist,com.apple.syncdefaultsd,['/System/Library/PrivateFrameworks/SyncedDefaults.framework/Support/syncdefaultsd'],False,
-/System/Library/LaunchAgents/com.apple.syncservices.SyncServer.plist,com.apple.syncservices.SyncServer,/System/Library/Frameworks/SyncServices.framework/Versions/Current/Resources/SyncServer.app/Contents/MacOS/SyncServer,False,
-/System/Library/LaunchAgents/com.apple.syncservices.uihandler.plist,com.apple.syncservices.uihandler,/System/Library/PrivateFrameworks/SyncServicesUI.framework/Versions/Current/Resources/syncuid.app/Contents/MacOS/syncuid,False,
-/System/Library/LaunchAgents/com.apple.systemprofiler.plist,com.apple.systemprofiler,/Applications/Utilities/System Information.app/Contents/MacOS/System Information,False,
-/System/Library/LaunchAgents/com.apple.SystemUIServer.plist,com.apple.SystemUIServer.agent,/System/Library/CoreServices/SystemUIServer.app/Contents/MacOS/SystemUIServer,False,
-/System/Library/LaunchAgents/com.apple.talagent.plist,com.apple.talagent,/System/Library/CoreServices/talagent,True,
-/System/Library/LaunchAgents/com.apple.tccd.plist,com.apple.tccd,/System/Library/PrivateFrameworks/TCC.framework/Resources/tccd,False,
-/System/Library/LaunchAgents/com.apple.telephonyutilities.callservicesd.plist,com.apple.telephonyutilities.callservicesd,['/System/Library/PrivateFrameworks/TelephonyUtilities.framework/callservicesd'],False,
-/System/Library/LaunchAgents/com.apple.thermaltrap.plist,com.apple.thermaltrap,/System/Library/CoreServices/ThermalTrap.app/Contents/MacOS/ThermalTrap,False,
-/System/Library/LaunchAgents/com.apple.tiswitcher.plist,com.apple.tiswitcher,/System/Library/CoreServices/Menu Extras/TextInput.menu/Contents/SharedSupport/TISwitcher.app/Contents/MacOS/TISwitcher,False,
-/System/Library/LaunchAgents/com.apple.TMHelperAgent.plist,com.apple.TMHelperAgent,['/System/Library/CoreServices/backupd.bundle/Contents/Resources/TMHelperAgent.app/Contents/MacOS/TMHelperAgent'],False,
-/System/Library/LaunchAgents/com.apple.TMHelperAgent.SetupOffer.plist,com.apple.TMHelperAgent.SetupOffer,['/System/Library/CoreServices/backupd.bundle/Contents/Resources/TMHelperAgent.app/Contents/MacOS/TMHelperAgent', '-offer'],False,
-/System/Library/LaunchAgents/com.apple.TrustEvaluationAgent.plist,com.apple.TrustEvaluationAgent,/System/Library/PrivateFrameworks/TrustEvaluationAgent.framework/Resources/trustevaluationagent,False,
-/System/Library/LaunchAgents/com.apple.universalaccessAuthWarn.plist,com.apple.universalaccessAuthWarn,['/System/Library/PrivateFrameworks/UniversalAccess.framework/Versions/A/Resources/universalAccessAuthWarn.app/Contents/MacOS/universalAccessAuthWarn', 'launchd', '-s'],False,
-/System/Library/LaunchAgents/com.apple.universalaccesscontrol.plist,com.apple.universalaccesscontrol,['/System/Library/CoreServices/UniversalAccessControl.app/Contents/MacOS/UniversalAccessControl', 'launchd', '-s'],False,
-/System/Library/LaunchAgents/com.apple.universalaccessd.plist,com.apple.universalaccessd,['/usr/sbin/universalaccessd', 'launchd', '-s'],True,
-/System/Library/LaunchAgents/com.apple.unmountassistant.useragent.plist,com.apple.unmountassistant.useragent,['/System/Library/CoreServices/UnmountAssistantAgent.app/Contents/MacOS/UnmountAssistantAgent'],False,
-/System/Library/LaunchAgents/com.apple.USBAgent.plist,com.apple.USBAgent,/usr/libexec/USBAgent,False,
-/System/Library/LaunchAgents/com.apple.UserEventAgent-Aqua.plist,com.apple.UserEventAgent-Aqua,['/usr/libexec/UserEventAgent', '(Aqua)'],False,
-/System/Library/LaunchAgents/com.apple.UserEventAgent-LoginWindow.plist,com.apple.UserEventAgent-LoginWindow,['/usr/libexec/UserEventAgent', '(LoginWindow)'],False,
-/System/Library/LaunchAgents/com.apple.usernoted.plist,com.apple.usernoted,/usr/sbin/usernoted,True,
-/System/Library/LaunchAgents/com.apple.UserNotificationCenterAgent-LoginWindow.plist,com.apple.UserNotificationCenterAgent-LoginWindow,['/System/Library/CoreServices/UserNotificationCenter.app/Contents/MacOS/UserNotificationCenter', '-loginwindow'],False,
-/System/Library/LaunchAgents/com.apple.UserNotificationCenterAgent.plist,com.apple.UserNotificationCenterAgent,['/System/Library/CoreServices/UserNotificationCenter.app/Contents/MacOS/UserNotificationCenter'],False,
-/System/Library/LaunchAgents/com.apple.VoiceOver.plist,com.apple.VoiceOver,['/System/Library/CoreServices/VoiceOver.app/Contents/MacOS/VoiceOver', 'launchd', '-s'],False,
-/System/Library/LaunchAgents/com.apple.warmd_agent.plist,com.apple.warmd_agent,/usr/libexec/warmd_agent,False,
-/System/Library/LaunchAgents/com.apple.webinspectord.plist,com.apple.webinspectord,/usr/libexec/webinspectord,False,
-/System/Library/LaunchAgents/com.apple.WebKit.PluginAgent.plist,com.apple.WebKit.PluginAgent,['/System/Library/Frameworks/WebKit.framework/Frameworks/WebKitLegacy.framework/WebKitPluginAgent'],False,
-/System/Library/LaunchAgents/com.apple.wifi.WiFiAgent.plist,com.apple.wifi.WiFiAgent,/System/Library/CoreServices/WiFiAgent.app/Contents/MacOS/WiFiAgent,True,
-/System/Library/LaunchAgents/com.apple.xmigrationhelper.user.plist,com.apple.xmigrationhelper.user,['/System/Library/PrivateFrameworks/SystemMigration.framework/Resources/XibalbaHelper.bundle/Contents/Resources/XibalbaHelper'],False,
-/System/Library/LaunchAgents/com.apple.xpc.loginitemregisterd.plist,com.apple.xpc.loginitemregisterd,/usr/libexec/loginitemregisterd,False,
-/System/Library/LaunchAgents/com.apple.xpc.otherbsd.plist,com.apple.xpc.otherbsd,/usr/libexec/otherbsd,False,
-/System/Library/LaunchAgents/com.apple.ZoomWindow.plist,com.apple.ZoomWindow,['/System/Library/CoreServices/ZoomWindow.app/Contents/MacOS/ZoomWindowStarter', 'launchd', '-s'],False,
-/System/Library/LaunchAgents/org.openbsd.ssh-agent.plist,org.openbsd.ssh-agent,['/usr/bin/ssh-agent', '-l'],False,
+filename  label program runatload comment
+/System/Library/LaunchDaemons/bootps.plist	com.apple.bootpd	['/usr/libexec/bootpd']	False	comment
+/System/Library/LaunchDaemons/com.apple.afpfs_afpLoad.plist	com.apple.afpfs_afpLoad	['/System/Library/Filesystems/AppleShare/afpLoad']	False	comment
+/System/Library/LaunchDaemons/com.apple.afpfs_checkafp.plist	com.apple.afpfs_checkafp	['/System/Library/Filesystems/AppleShare/check_afp.app/Contents/MacOS/check_afp']	False	comment
+/System/Library/LaunchDaemons/com.apple.AirPlayXPCHelper.plist	com.apple.AirPlayXPCHelper	['/usr/libexec/AirPlayXPCHelper']	False	comment
+/System/Library/LaunchDaemons/com.apple.airport.wps.plist	com.apple.airport.wps	['/usr/libexec/wps']	False	comment
+/System/Library/LaunchDaemons/com.apple.airportd.plist	com.apple.airportd	/usr/libexec/airportd	False	comment
+/System/Library/LaunchDaemons/com.apple.alf.agent.plist	com.apple.alf	/usr/libexec/ApplicationFirewall/socketfilterfw	False	comment
+/System/Library/LaunchDaemons/com.apple.AppleFileServer.plist	com.apple.AppleFileServer	['/usr/sbin/AppleFileServer']	False	comment
+/System/Library/LaunchDaemons/com.apple.appleseed.fbahelperd.plist	com.apple.appleseed.fbahelperd	/System/Library/CoreServices/Applications/Feedback Assistant.app/Contents/Library/LaunchServices/fbahelperd	False	comment
+/System/Library/LaunchDaemons/com.apple.applessdstatistics.plist	com.apple.applessdstatistics	['/usr/libexec/applessdstatistics']	False	comment
+/System/Library/LaunchDaemons/com.apple.apsd.plist	com.apple.apsd	['/System/Library/PrivateFrameworks/ApplePushService.framework/apsd']	True	comment
+/System/Library/LaunchDaemons/com.apple.aslmanager.plist	com.apple.aslmanager	/usr/sbin/aslmanager	False	comment
+/System/Library/LaunchDaemons/com.apple.AssetCacheLocatorService.plist	com.apple.AssetCacheLocatorService	/System/Library/CoreServices/AssetCacheLocatorService	False	comment
+/System/Library/LaunchDaemons/com.apple.atrun.plist	com.apple.atrun	['/usr/libexec/atrun']	False	comment
+/System/Library/LaunchDaemons/com.apple.audio.coreaudiod.plist	com.apple.audio.coreaudiod	['/usr/sbin/coreaudiod']	False	comment
+/System/Library/LaunchDaemons/com.apple.auditd.plist	com.apple.auditd	/usr/sbin/auditd	False	comment
+/System/Library/LaunchDaemons/com.apple.autofsd.plist	com.apple.autofsd	/usr/libexec/autofsd	False	comment
+/System/Library/LaunchDaemons/com.apple.automountd.plist	com.apple.automountd	/usr/libexec/automountd	False	comment
+/System/Library/LaunchDaemons/com.apple.awacsd.plist	com.apple.awacsd	['/usr/libexec/awacsd']	False	comment
+/System/Library/LaunchDaemons/com.apple.awdd.plist	com.apple.awdd	['/System/Library/PrivateFrameworks/WirelessDiagnostics.framework/Support/awdd']	False	comment
+/System/Library/LaunchDaemons/com.apple.backupd-auto.plist	com.apple.backupd-auto	['/System/Library/CoreServices/backupd.bundle/Contents/Resources/backupd-helper', '-launchd']	True	comment
+/System/Library/LaunchDaemons/com.apple.backupd.plist	com.apple.backupd	/System/Library/CoreServices/backupd.bundle/Contents/Resources/backupd	False	comment
+/System/Library/LaunchDaemons/com.apple.blued.plist	com.apple.blued	/usr/sbin/blued	False	comment
+/System/Library/LaunchDaemons/com.apple.bluetoothaudiod.plist	com.apple.bluetoothaudiod	['/usr/sbin/bluetoothaudiod']	False	comment
+/System/Library/LaunchDaemons/com.apple.bluetoothReporter.plist	com.apple.bluetoothReporter	['/System/Library/Frameworks/IOBluetooth.framework/Versions/A/Resources/BluetoothReporter', '--dumpPacketLog', '/private/var/log/bluetooth.pklg']	False	comment
+/System/Library/LaunchDaemons/com.apple.bnepd.plist	com.apple.bnepd	/usr/sbin/bnepd	False	comment
+/System/Library/LaunchDaemons/com.apple.bsd.dirhelper.plist	com.apple.bsd.dirhelper	['/usr/libexec/dirhelper']	True	comment
+/System/Library/LaunchDaemons/com.apple.cache_delete.plist	com.apple.cache_delete	['/System/Library/PrivateFrameworks/CacheDelete.framework/deleted']	False	comment
+/System/Library/LaunchDaemons/com.apple.cfprefsd.xpc.daemon.plist	com.apple.cfprefsd.xpc.daemon	['/usr/sbin/cfprefsd', 'daemon']	False	comment
+/System/Library/LaunchDaemons/com.apple.cloudfamilyrestrictionsd-mac.plist	com.apple.cloudfamilyrestrictionsd	['/System/Library/PrivateFrameworks/CloudFamilyRestrictions.framework/cloudfamilyrestrictionsd']	False	comment
+/System/Library/LaunchDaemons/com.apple.cmio.AppleCameraAssistant.plist	com.apple.cmio.AppleCameraAssistant	['/Library/CoreMediaIO/Plug-Ins/DAL/AppleCamera.plugin/Contents/Resources/AppleCameraAssistant']	False	comment
+/System/Library/LaunchDaemons/com.apple.cmio.AVCAssistant.plist	com.apple.cmio.AVCAssistant	['/System/Library/Frameworks/CoreMediaIO.framework/Resources/AVC.plugin/Contents/Resources/AVCAssistant']	False	comment
+/System/Library/LaunchDaemons/com.apple.cmio.IIDCVideoAssistant.plist	com.apple.cmio.IIDCVideoAssistant	['/System/Library/Frameworks/CoreMediaIO.framework/Resources/IIDC.plugin/Contents/Resources/IIDCVideoAssistant']	False	comment
+/System/Library/LaunchDaemons/com.apple.cmio.iOSScreenCaptureAssistant.plist	com.apple.cmio.iOSScreenCaptureAssistant	['/Library/CoreMediaIO/Plug-Ins/DAL/iOSScreenCapture.plugin/Contents/Resources/iOSScreenCaptureAssistant']	False	comment
+/System/Library/LaunchDaemons/com.apple.cmio.VDCAssistant.plist	com.apple.cmio.VDCAssistant	['/System/Library/Frameworks/CoreMediaIO.framework/Resources/VDC.plugin/Contents/Resources/VDCAssistant']	False	comment
+/System/Library/LaunchDaemons/com.apple.comsat.plist	com.apple.comsat	['/usr/libexec/comsat']	False	comment
+/System/Library/LaunchDaemons/com.apple.configd.plist	com.apple.configd	['/usr/libexec/configd']	False	comment
+/System/Library/LaunchDaemons/com.apple.configureLocalKDC.plist	com.apple.configureLocalKDC	['/usr/libexec/configureLocalKDC']	False	comment
+/System/Library/LaunchDaemons/com.apple.coreduetd.osx.plist	com.apple.coreduetd	/usr/libexec/coreduetd	True	comment
+/System/Library/LaunchDaemons/com.apple.CoreRAID.plist	com.apple.CoreRAID	['/System/Library/PrivateFrameworks/CoreRAID.framework/Resources/CoreRAIDServer']	True	comment
+/System/Library/LaunchDaemons/com.apple.coreservices.appleevents.plist	com.apple.coreservices.appleevents	['/System/Library/CoreServices/appleeventsd', '--server']	True	comment
+/System/Library/LaunchDaemons/com.apple.coreservices.appleid.passwordcheck.plist	com.apple.coreservices.appleid.passwordcheck	['/System/Library/CoreServices/AppleIDAuthAgent', '--checkpassword']	False	comment
+/System/Library/LaunchDaemons/com.apple.coreservices.launchservicesd.plist	com.apple.coreservices.launchservicesd	['/System/Library/CoreServices/launchservicesd']	True	comment
+/System/Library/LaunchDaemons/com.apple.coreservicesd.plist	com.apple.coreservicesd	['/System/Library/CoreServices/coreservicesd']	False	comment
+/System/Library/LaunchDaemons/com.apple.corestorage.corestoraged.plist	com.apple.corestorage.corestoraged	['/usr/libexec/corestoraged']	False	comment
+/System/Library/LaunchDaemons/com.apple.corestorage.corestoragehelperd.plist	com.apple.corestorage.corestoragehelperd	/usr/libexec/corestoragehelperd	False	comment
+/System/Library/LaunchDaemons/com.apple.coresymbolicationd.plist	com.apple.coresymbolicationd	['/System/Library/PrivateFrameworks/CoreSymbolication.framework/coresymbolicationd']	False	comment
+/System/Library/LaunchDaemons/com.apple.CrashReporterSupportHelper.plist	com.apple.CrashReporterSupportHelper	['/System/Library/CoreServices/CrashReporterSupportHelper', 'server-init']	False	comment
+/System/Library/LaunchDaemons/com.apple.ctkd.plist	com.apple.ctkd	['/System/Library/Frameworks/CryptoTokenKit.framework/ctkd', '-s']	False	comment
+/System/Library/LaunchDaemons/com.apple.cvmsServ.plist	com.apple.cvmsServ	['/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/CVMServer']	False	comment
+/System/Library/LaunchDaemons/com.apple.DesktopServicesHelper.plist	com.apple.DesktopServicesHelper	/System/Library/PrivateFrameworks/DesktopServicesPriv.framework/Resources/DesktopServicesHelper	False	comment
+/System/Library/LaunchDaemons/com.apple.diagnosticd.plist	com.apple.diagnosticd	/usr/libexec/diagnosticd	False	comment
+/System/Library/LaunchDaemons/com.apple.diskarbitrationd.plist	com.apple.diskarbitrationd	/usr/libexec/diskarbitrationd	False	comment
+/System/Library/LaunchDaemons/com.apple.diskmanagementd.plist	com.apple.diskmanagementd	['/usr/sbin/diskmanagementd']	False	comment
+/System/Library/LaunchDaemons/com.apple.displaypolicyd.plist	com.apple.displaypolicyd	['/usr/libexec/displaypolicyd']	True	comment
+/System/Library/LaunchDaemons/com.apple.distnoted.xpc.daemon.plist	com.apple.distnoted.xpc.daemon	['/usr/sbin/distnoted', 'daemon']	False	comment
+/System/Library/LaunchDaemons/com.apple.dnsextd.plist	com.apple.dnsextd	['/usr/sbin/dnsextd', '-launchd']	False	comment
+/System/Library/LaunchDaemons/com.apple.dpaudiothru.plist	com.apple.dpaudiothru	/usr/libexec/dpaudiothru	False	comment
+/System/Library/LaunchDaemons/com.apple.dpd.plist	com.apple.dpd	['/usr/libexec/dpd']	False	comment
+/System/Library/LaunchDaemons/com.apple.dspluginhelperd.plist	com.apple.dspluginhelperd	/usr/libexec/dspluginhelperd	False	comment
+/System/Library/LaunchDaemons/com.apple.DumpGPURestart.plist	com.apple.DumpGPURestart	['/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/DumpGPURestart']	False	comment
+/System/Library/LaunchDaemons/com.apple.DumpPanic.plist	com.apple.DumpPanic	/System/Library/CoreServices/DumpPanic	True	comment
+/System/Library/LaunchDaemons/com.apple.dvdplayback.setregion.plist	com.apple.dvdplayback.setregion	['/usr/bin/setregion']	False	comment
+/System/Library/LaunchDaemons/com.apple.dynamic_pager.plist	com.apple.dynamic_pager	['/sbin/dynamic_pager', '-F', '/private/var/vm/swapfile']	False	comment
+/System/Library/LaunchDaemons/com.apple.eapolcfg_auth.plist	com.apple.eapolcfg_auth	/System/Library/PrivateFrameworks/EAP8021X.framework/Resources/eapolcfg_auth	False	comment
+/System/Library/LaunchDaemons/com.apple.efax.plist	com.apple.efax	['/usr/bin/fax', 'answer']	False	comment
+/System/Library/LaunchDaemons/com.apple.efilogin-helper.plist	com.apple.efilogin-helper	['/System/Library/PrivateFrameworks/EFILogin.framework/Resources/efilogin-helper']	False	comment
+/System/Library/LaunchDaemons/com.apple.emlog.plist	com.apple.emlog	/usr/libexec/emlog.pl	False	comment
+/System/Library/LaunchDaemons/com.apple.emond.aslmanager.plist	com.apple.emond.aslmanager	['/usr/sbin/aslmanager', '-s', '/var/log/eventmonitor']	False	comment
+/System/Library/LaunchDaemons/com.apple.emond.plist	com.apple.emond	/sbin/emond	False	comment
+/System/Library/LaunchDaemons/com.apple.eppc.plist	com.apple.AEServer	['/System/Library/Frameworks/CoreServices.framework/Frameworks/AE.framework/Versions/A/Support/AEServer', '--debug']	False	comment
+/System/Library/LaunchDaemons/com.apple.familycontrols.plist	com.apple.familycontrols	['/System/Library/PrivateFrameworks/FamilyControls.framework/Resources/parentalcontrolsd']	False	comment
+/System/Library/LaunchDaemons/com.apple.FileCoordination.plist	com.apple.FileCoordination	/usr/sbin/filecoordinationd	False	comment
+/System/Library/LaunchDaemons/com.apple.FileSyncAgent.sshd.plist	com.apple.FileSyncAgent.sshd	['/System/Library/CoreServices/FileSyncAgent.app/Contents/Resources/FileSyncAgent_sshd-keygen-wrapper', '-i', '-f', '/System/Library/CoreServices/FileSyncAgent.app/Contents/Resources/FileSyncAgent_sshd_config']	False	comment
+/System/Library/LaunchDaemons/com.apple.findmymac.plist	com.apple.findmymacd	/System/Library/PrivateFrameworks/FindMyMac.framework/Resources/FindMyMacd	False	comment
+/System/Library/LaunchDaemons/com.apple.findmymacmessenger.plist	com.apple.findmymacmessenger	/System/Library/PrivateFrameworks/FindMyMac.framework/Resources/FindMyMacMessenger.app/Contents/MacOS/FindMyMacMessenger	False	comment
+/System/Library/LaunchDaemons/com.apple.firmwaresyncd.plist	com.apple.firmwaresyncd	/usr/libexec/firmwaresyncd	True	comment
+/System/Library/LaunchDaemons/com.apple.fontd.plist	com.apple.fontd	['/System/Library/Frameworks/ApplicationServices.framework/Frameworks/ATS.framework/Support/fontd']	False	comment
+/System/Library/LaunchDaemons/com.apple.fontmover.plist	com.apple.fontmover	['/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ATS.framework/Versions/A/Support/fontmover', '-d']	False	comment
+/System/Library/LaunchDaemons/com.apple.FontWorker.plist	com.apple.FontWorker	/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ATS.framework/Versions/A/Support/fontworker	False	comment
+/System/Library/LaunchDaemons/com.apple.fseventsd.plist	com.apple.fseventsd	['/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/FSEvents.framework/Versions/A/Support/fseventsd']	False	comment
+/System/Library/LaunchDaemons/com.apple.ftp-proxy.plist	com.apple.ftp-proxy	/usr/libexec/ftp-proxy	False	comment
+/System/Library/LaunchDaemons/com.apple.GameController.gamecontrollerd.plist	com.apple.GameController.gamecontrollerd	['/usr/libexec/gamecontrollerd']	False	comment
+/System/Library/LaunchDaemons/com.apple.getty.plist	com.apple.getty	['/usr/libexec/getty', 'std.9600', 'console']	False	comment
+/System/Library/LaunchDaemons/com.apple.gkreport.plist	com.apple.gkreport	['/usr/libexec/gkreport']	False	comment
+/System/Library/LaunchDaemons/com.apple.GSSCred.plist	com.apple.GSSCred	['/System/Library/Frameworks/GSS.framework/Helpers/com.apple.GSSCred']	False	comment
+/System/Library/LaunchDaemons/com.apple.gssd.plist	com.apple.gssd	['/usr/sbin/gssd']	False	comment
+/System/Library/LaunchDaemons/com.apple.hdiejectd.plist	com.apple.hdiejectd	['/System/Library/PrivateFrameworks/DiskImages.framework/Resources/hdiejectd']	False	comment
+/System/Library/LaunchDaemons/com.apple.hidd.plist	com.apple.hidd	['/usr/libexec/hidd']	False	comment
+/System/Library/LaunchDaemons/com.apple.icloud.findmydeviced.plist	com.apple.icloud.findmydeviced	/usr/libexec/findmydeviced	False	comment
+/System/Library/LaunchDaemons/com.apple.iconservices.iconservicesagent.plist	com.apple.iconservices.iconservicesagent	['/System/Library/CoreServices/iconservicesagent']	True	comment
+/System/Library/LaunchDaemons/com.apple.iconservices.iconservicesd.plist	com.apple.iconservices.iconservicesd	['/System/Library/CoreServices/iconservicesd']	True	comment
+/System/Library/LaunchDaemons/com.apple.IFCStart.plist	com.apple.IFCStart	['/usr/libexec/ifcstart']	True	comment
+/System/Library/LaunchDaemons/com.apple.ifdreader.plist	com.apple.ifdreader	['/System/Library/CryptoTokenKit/com.apple.ifdreader.slotd/Contents/MacOS/com.apple.ifdreader']	False	comment
+/System/Library/LaunchDaemons/com.apple.installandsetup.systemmigrationd.plist	com.apple.installandsetup.systemmigrationd	['/System/Library/PrivateFrameworks/SystemMigration.framework/Resources/systemmigrationd']	False	comment
+/System/Library/LaunchDaemons/com.apple.installd.plist	com.apple.installd	['/System/Library/PrivateFrameworks/PackageKit.framework/Resources/installd']	False	comment
+/System/Library/LaunchDaemons/com.apple.IOAccelMemoryInfoCollector.plist	com.apple.IOAccelMemoryInfoCollector	['/usr/libexec/IOAccelMemoryInfoCollector']	False	comment
+/System/Library/LaunchDaemons/com.apple.IOBluetoothUSBDFU.plist	com.apple.IOBluetoothUSBDFU	['/System/Library/Extensions/IOBluetoothFamily.kext/Contents/PlugIns/IOBluetoothUSBDFU.kext/Contents/Resources/IOBluetoothUSBDFUTool']	False	comment
+/System/Library/LaunchDaemons/com.apple.kcproxy.plist	com.apple.kcproxy	/usr/libexec/kcproxy	False	comment
+/System/Library/LaunchDaemons/com.apple.kdumpd.plist	com.apple.kdumpd	['/usr/libexec/kdumpd', '/PanicDumps']	False	comment
+/System/Library/LaunchDaemons/com.apple.Kerberos.digest-service.plist	com.apple.Kerberos.digest-service	['/System/Library/PrivateFrameworks/Heimdal.framework/Helpers/digest-service']	False	comment
+/System/Library/LaunchDaemons/com.apple.Kerberos.kadmind.plist	com.apple.Kerberos.kadmind	['/System/Library/PrivateFrameworks/Heimdal.framework/Helpers/kadmind']	False	comment
+/System/Library/LaunchDaemons/com.apple.Kerberos.kcm.plist	com.apple.Kerberos.kcm	['/System/Library/PrivateFrameworks/Heimdal.framework/Helpers/kcm', '--launchd']	False	comment
+/System/Library/LaunchDaemons/com.apple.Kerberos.kdc.plist	com.apple.Kerberos.kdc	['/System/Library/PrivateFrameworks/Heimdal.framework/Helpers/kdc']	False	comment
+/System/Library/LaunchDaemons/com.apple.Kerberos.kpasswdd.plist	com.apple.Kerberos.kpasswdd	['/System/Library/PrivateFrameworks/Heimdal.framework/Helpers/kpasswdd']	False	comment
+/System/Library/LaunchDaemons/com.apple.KernelEventAgent.plist	com.apple.KernelEventAgent	['/usr/sbin/KernelEventAgent']	False	comment
+/System/Library/LaunchDaemons/com.apple.kextd.plist	com.apple.kextd	['/usr/libexec/kextd']	False	comment
+/System/Library/LaunchDaemons/com.apple.kuncd.plist	com.apple.kuncd	['/usr/libexec/kuncd']	False	comment
+/System/Library/LaunchDaemons/com.apple.locate.plist	com.apple.locate	['/usr/libexec/locate.updatedb']	False	comment
+/System/Library/LaunchDaemons/com.apple.locationd.plist	com.apple.locationd	['/usr/libexec/locationd']	False	comment
+/System/Library/LaunchDaemons/com.apple.lockd.plist	com.apple.lockd	['/usr/sbin/rpc.lockd']	False	comment
+/System/Library/LaunchDaemons/com.apple.logind.plist	com.apple.logind	['/System/Library/CoreServices/logind']	True	comment
+/System/Library/LaunchDaemons/com.apple.loginwindow.LFVTracer.plist	com.apple.loginwindow.LFVTracer	['/System/Library/CoreServices/loginwindow.app/Contents/Resources/LegacyFileVaultMessageTracer']	False	comment
+/System/Library/LaunchDaemons/com.apple.loginwindow.plist	com.apple.loginwindow	['/System/Library/CoreServices/loginwindow.app/Contents/MacOS/loginwindow', 'console']	False	comment
+/System/Library/LaunchDaemons/com.apple.logkextloadsd.plist	com.apple.logkextloadsd	/usr/libexec/logkextloadsd	False	comment
+/System/Library/LaunchDaemons/com.apple.ManagedClient.cloudconfigurationd.plist	com.apple.ManagedClient.cloudconfigurationd	['/usr/libexec/cloudconfigurationd']	False	comment
+/System/Library/LaunchDaemons/com.apple.ManagedClient.enroll.plist	com.apple.ManagedClient.enroll	['/System/Library/CoreServices/ManagedClient.app/Contents/MacOS/ManagedClient', '-e']	False	comment
+/System/Library/LaunchDaemons/com.apple.ManagedClient.plist	com.apple.ManagedClient	/System/Library/CoreServices/ManagedClient.app/Contents/MacOS/ManagedClient	False	comment
+/System/Library/LaunchDaemons/com.apple.ManagedClient.startup.plist	com.apple.ManagedClient.startup	['/System/Library/CoreServices/ManagedClient.app/Contents/MacOS/ManagedClient', '-i']	True	comment
+/System/Library/LaunchDaemons/com.apple.mbicloudsetupd.plist	com.apple.mbicloudsetupd	['/System/Library/CoreServices/Setup Assistant.app/Contents/Resources/mbicloudsetupd']	False	comment
+/System/Library/LaunchDaemons/com.apple.mdmclient.daemon.plist	com.apple.mdmclient.daemon	['/usr/libexec/mdmclient', 'daemon']	True	comment
+/System/Library/LaunchDaemons/com.apple.mDNSResponder.plist	com.apple.mDNSResponder.reloaded	['/usr/sbin/mDNSResponder', '-launchd', '-noMulticastAdvertisements']	False	comment
+/System/Library/LaunchDaemons/com.apple.mDNSResponderHelper.plist	com.apple.mDNSResponderHelper.reloaded	['/usr/sbin/mDNSResponderHelper']	False	comment
+/System/Library/LaunchDaemons/com.apple.metadata.mds.index.plist	com.apple.metadata.mds.index	['/System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Versions/A/Support/mds_stores']	False	comment
+/System/Library/LaunchDaemons/com.apple.metadata.mds.plist	com.apple.metadata.mds	['/System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Support/mds']	False	comment
+/System/Library/LaunchDaemons/com.apple.metadata.mds.scan.plist	com.apple.metadata.mds.scan	['/System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Versions/A/Support/mdworker', '-s', 'mdworker-scan', '-c', 'MDSSyncScanWorker', '-m', 'com.apple.metadata.mds.scan']	False	comment
+/System/Library/LaunchDaemons/com.apple.metadata.mds.spindump.plist	com.apple.metadata.mds.spindump	['/System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Versions/A/Support/mdworker', '-s', 'none', '-c', 'MDSSpinDumpWorker', '-m', 'com.apple.metadata.mds.spindump']	False	comment
+/System/Library/LaunchDaemons/com.apple.MobileFileIntegrity.plist	com.apple.MobileFileIntegrity	['/usr/libexec/amfid']	False	comment
+/System/Library/LaunchDaemons/com.apple.msrpc.echosvc.plist	com.apple.msrpc.echosvc	['/usr/libexec/rpcsvchost', '-launchd', 'echosvc.bundle']	False	comment
+/System/Library/LaunchDaemons/com.apple.msrpc.lsarpc.plist	com.apple.msrpc.lsarpc	['/usr/libexec/rpcsvchost', '-launchd', '-sandbox', 'lsarpc.bundle', 'dssetup.bundle']	False	comment
+/System/Library/LaunchDaemons/com.apple.msrpc.mdssvc.plist	com.apple.msrpc.mdssvc	['/usr/libexec/rpcsvchost', '-launchd', '-sandbox', 'mdssvc.bundle']	False	comment
+/System/Library/LaunchDaemons/com.apple.msrpc.netlogon.plist	com.apple.msrpc.netlogon	['/usr/libexec/rpcsvchost', '-launchd', 'netlogon.bundle']	False	comment
+/System/Library/LaunchDaemons/com.apple.msrpc.srvsvc.plist	com.apple.msrpc.srvsvc	['/usr/libexec/rpcsvchost', '-launchd', '-sandbox', 'srvsvc.bundle']	False	comment
+/System/Library/LaunchDaemons/com.apple.msrpc.wkssvc.plist	com.apple.msrpc.wkssvc	['/usr/libexec/rpcsvchost', '-launchd', '-sandbox', 'wkssvc.bundle']	False	comment
+/System/Library/LaunchDaemons/com.apple.mtmd.plist	com.apple.mtmd	['/System/Library/CoreServices/backupd.bundle/Contents/Resources/mtmd']	True	comment
+/System/Library/LaunchDaemons/com.apple.mtmfs.plist	com.apple.mtmfs	['/System/Library/CoreServices/backupd.bundle/Contents/Resources/mtmfs', '--tcp', '--resvport', '--listen', 'localhost', '--oneshot', '--noportmap', '--nobrowse']	True	comment
+/System/Library/LaunchDaemons/com.apple.nehelper.plist	com.apple.nehelper	/usr/libexec/nehelper	False	comment
+/System/Library/LaunchDaemons/com.apple.nesessionmanager.plist	com.apple.nesessionmanager	/usr/libexec/nesessionmanager	False	comment
+/System/Library/LaunchDaemons/com.apple.netauth.sys.auth.plist	com.apple.netauth.sys.auth	['/System/Library/CoreServices/NetAuthAgent.app/Contents/MacOS/NetAuthSysAgent', '--sys']	False	comment
+/System/Library/LaunchDaemons/com.apple.netauth.sys.gui.plist	com.apple.netauth.sys.gui	['/System/Library/CoreServices/NetAuthAgent.app/Contents/MacOS/NetAuthAgent', '--sys']	False	comment
+/System/Library/LaunchDaemons/com.apple.netbiosd.plist	com.apple.netbiosd	['/usr/sbin/netbiosd']	False	comment
+/System/Library/LaunchDaemons/com.apple.NetBootClientStatus.plist	com.apple.NetBootClientStatus	['/usr/sbin/NetBootClientStatus']	True	comment
+/System/Library/LaunchDaemons/com.apple.networkd.plist	com.apple.networkd	/usr/libexec/networkd	False	comment
+/System/Library/LaunchDaemons/com.apple.networkd_privileged.plist	com.apple.networkd_privileged	/usr/libexec/networkd_privileged	False	comment
+/System/Library/LaunchDaemons/com.apple.NetworkDiagnostics.plist	com.apple.NetworkDiagnostics	/System/Library/CoreServices/Network Diagnostics.app/Contents/MacOS/Network Diagnostics	False	comment
+/System/Library/LaunchDaemons/com.apple.NetworkLinkConditioner.plist	com.apple.nlcd	['/usr/libexec/nlcd']	False	comment
+/System/Library/LaunchDaemons/com.apple.NetworkSharing.plist	com.apple.NetworkSharing	['/usr/libexec/InternetSharing']	False	comment
+/System/Library/LaunchDaemons/com.apple.newsyslog.plist	com.apple.newsyslog	['/usr/sbin/newsyslog']	False	comment
+/System/Library/LaunchDaemons/com.apple.nfsconf.plist	com.apple.nfsconf	['/sbin/mount_nfs', 'configupdate']	True	comment
+/System/Library/LaunchDaemons/com.apple.nfsd.plist	com.apple.nfsd	['/sbin/nfsd']	False	comment
+/System/Library/LaunchDaemons/com.apple.nis.ypbind.plist	com.apple.nis.ypbind	['/usr/sbin/ypbind']	False	comment
+/System/Library/LaunchDaemons/com.apple.noticeboard.state.plist	com.apple.noticeboard.state	/System/Library/PrivateFrameworks/Noticeboard.framework/Versions/A/Resources/nbstated	False	comment
+/System/Library/LaunchDaemons/com.apple.notifyd.plist	com.apple.notifyd	['/usr/sbin/notifyd']	False	comment
+/System/Library/LaunchDaemons/com.apple.nsurlsessiond.plist	com.apple.nsurlsessiond_privileged	['/usr/libexec/nsurlsessiond', '--privileged']	False	comment
+/System/Library/LaunchDaemons/com.apple.nsurlstoraged.plist	com.apple.nsurlstoraged	/usr/libexec/nsurlstoraged	False	comment
+/System/Library/LaunchDaemons/com.apple.ocspd.plist	com.apple.ocspd	['/usr/sbin/ocspd']	False	comment
+/System/Library/LaunchDaemons/com.apple.odproxyd.plist	com.apple.odproxyd	/usr/libexec/odproxyd	False	comment
+/System/Library/LaunchDaemons/com.apple.ODSAgent.plist	com.apple.ODSAgent	['/System/Library/CoreServices/ODSAgent.app/Contents/MacOS/ODSAgent', '-launchd']	False	comment
+/System/Library/LaunchDaemons/com.apple.opendirectoryd.plist	com.apple.opendirectoryd	/usr/libexec/opendirectoryd	False	comment
+/System/Library/LaunchDaemons/com.apple.pacemaker.plist	com.apple.pacemaker	['/usr/libexec/pacemaker', '-b', '-e', '0.0001', '-a', '10']	False	comment
+/System/Library/LaunchDaemons/com.apple.PasswordService.plist	com.apple.PasswordService	['/usr/sbin/PasswordService', '-n']	False	comment
+/System/Library/LaunchDaemons/com.apple.PCIELaneConfigTool.plist	com.apple.PCIELaneConfigTool	['/System/Library/CoreServices/Expansion Slot Utility.app/Contents/Resources/PCIELaneConfigTool']	False	comment
+/System/Library/LaunchDaemons/com.apple.periodic-daily.plist	com.apple.periodic-daily	['/usr/libexec/periodic-wrapper', 'daily']	False	comment
+/System/Library/LaunchDaemons/com.apple.periodic-monthly.plist	com.apple.periodic-monthly	['/usr/libexec/periodic-wrapper', 'monthly']	False	comment
+/System/Library/LaunchDaemons/com.apple.periodic-weekly.plist	com.apple.periodic-weekly	['/usr/libexec/periodic-wrapper', 'weekly']	False	comment
+/System/Library/LaunchDaemons/com.apple.pfctl.plist	com.apple.pfctl	/sbin/pfctl	True	comment
+/System/Library/LaunchDaemons/com.apple.pfd.plist	com.apple.pfd	['/usr/libexec/pfd', '-d']	False	comment
+/System/Library/LaunchDaemons/com.apple.platform.ptmd.plist	com.apple.platform.ptmd	/usr/libexec/ptmd	True	comment
+/System/Library/LaunchDaemons/com.apple.postgres.plist	com.apple.postgres	['/Applications/Server.app/Contents/ServerRoot/usr/bin/xpostgres', '-a', '/Library/Server/PostgreSQL For Server Services/Config/com.apple.postgres.plist']	False	comment
+/System/Library/LaunchDaemons/com.apple.powerd.plist	com.apple.powerd	/System/Library/CoreServices/powerd.bundle/powerd	False	comment
+/System/Library/LaunchDaemons/com.apple.powerd.swd.plist	com.apple.powerd.swd	['/System/Library/CoreServices/powerd.bundle/swd']	False	comment
+/System/Library/LaunchDaemons/com.apple.preferences.timezone.admintool.plist	com.apple.preferences.timezone.admintool	['/System/Library/PreferencePanes/DateAndTime.prefPane/Contents/Resources/TimeZone.prefPane/Contents/Resources/TimeZoneAdminTool']	False	comment
+/System/Library/LaunchDaemons/com.apple.preferences.timezone.auto.plist	com.apple.preferences.timezone.auto	['/System/Library/PreferencePanes/DateAndTime.prefPane/Contents/Resources/TimeZone.prefPane/Contents/Resources/timezoned.app/Contents/MacOS/timezoned']	False	comment
+/System/Library/LaunchDaemons/com.apple.printtool.daemon.plist	com.apple.printtool.daemon	['/System/Library/Frameworks/ApplicationServices.framework/Frameworks/PrintCore.framework/Versions/A/printtool', 'daemon']	False	comment
+/System/Library/LaunchDaemons/com.apple.racoon.plist	com.apple.racoon	['/usr/sbin/racoon', '-D']	False	comment
+/System/Library/LaunchDaemons/com.apple.RemoteDesktop.PrivilegeProxy.plist	com.apple.RemoteDesktop.PrivilegeProxy	['/System/Library/CoreServices/RemoteManagement/AppleVNCServer.bundle/Contents/Support/VNCPrivilegeProxy']	False	comment
+/System/Library/LaunchDaemons/com.apple.remotepairtool.plist	com.apple.RemotePairTool	/System/Library/CoreServices/RemotePairTool	False	comment
+/System/Library/LaunchDaemons/com.apple.ReportCrash.Root.plist	com.apple.ReportCrash.Root	['/System/Library/CoreServices/ReportCrash']	False	comment
+/System/Library/LaunchDaemons/com.apple.ReportPanicService.plist	com.apple.ReportPanicService	/System/Library/CoreServices/ReportPanicService	False	comment
+/System/Library/LaunchDaemons/com.apple.revisiond.plist	com.apple.revisiond	['/System/Library/PrivateFrameworks/GenerationalStorage.framework/Versions/A/Support/revisiond']	True	comment
+/System/Library/LaunchDaemons/com.apple.RFBEventHelper.plist	com.apple.RFBEventHelper	['/System/Library/CoreServices/RFBEventHelper.bundle/Contents/MacOS/RFBEventHelperd']	False	comment
+/System/Library/LaunchDaemons/com.apple.rpcbind.plist	com.apple.rpcbind	['/usr/sbin/rpcbind']	False	comment
+/System/Library/LaunchDaemons/com.apple.sandboxd.plist	com.apple.sandboxd	['/usr/libexec/sandboxd', '-n', 'PluginProcess', '-n', '']	False	comment
+/System/Library/LaunchDaemons/com.apple.SCHelper.plist	com.apple.SCHelper	/System/Library/Frameworks/SystemConfiguration.framework/Versions/A/Helpers/SCHelper	False	comment
+/System/Library/LaunchDaemons/com.apple.screensharing.plist	com.apple.screensharing	['/System/Library/CoreServices/RemoteManagement/screensharingd.bundle/Contents/MacOS/screensharingd']	False	comment
+/System/Library/LaunchDaemons/com.apple.scsid.plist	com.apple.scsid	['/usr/libexec/scsid']	True	comment
+/System/Library/LaunchDaemons/com.apple.secinitd.plist	com.apple.secinitd	/usr/libexec/secinitd	False	comment
+/System/Library/LaunchDaemons/com.apple.security.agentMain.plist	com.apple.security.agentMain	/System/Library/Frameworks/Security.framework/Versions/A/XPCServices/SecurityAgent.xpc/Contents/MacOS/SecurityAgent	False	comment
+/System/Library/LaunchDaemons/com.apple.security.authhost.plist	com.apple.security.authhost	/System/Library/Frameworks/Security.framework/Versions/A/XPCServices/authorizationhost.xpc/Contents/MacOS/authorizationhost	False	comment
+/System/Library/LaunchDaemons/com.apple.security.FDERecoveryAgent.plist	com.apple.security.FDERecoveryAgent	['/usr/libexec/FDERecoveryAgent']	True	comment
+/System/Library/LaunchDaemons/com.apple.security.syspolicy.plist	com.apple.security.syspolicy	['/usr/libexec/syspolicyd']	False	comment
+/System/Library/LaunchDaemons/com.apple.securityd.plist	com.apple.securityd	['/usr/sbin/securityd', '-i']	True	comment
+/System/Library/LaunchDaemons/com.apple.securityd_service.plist	com.apple.securityd_service	/usr/libexec/securityd_service	False	comment
+/System/Library/LaunchDaemons/com.apple.sessionlogoutd.plist	com.apple.sessionlogoutd	['/System/Library/CoreServices/sessionlogoutd']	False	comment
+/System/Library/LaunchDaemons/com.apple.smb.preferences.plist	com.apple.smb.preferences	['/usr/libexec/smb-sync-preferences']	True	comment
+/System/Library/LaunchDaemons/com.apple.smbd.plist	com.apple.smbd	['/usr/sbin/smbd']	False	comment
+/System/Library/LaunchDaemons/com.apple.softwareupdate_download_service.plist	com.apple.softwareupdate_download_service	['/System/Library/CoreServices/Software Update.app/Contents/Resources/softwareupdate_download_service']	False	comment
+/System/Library/LaunchDaemons/com.apple.softwareupdate_firstrun_tasks.plist	com.apple.softwareupdatecheck.initial	['/System/Library/CoreServices/Software Update.app/Contents/Resources/softwareupdate_firstrun_tasks', '-BuildTagCache', 'YES']	True	comment
+/System/Library/LaunchDaemons/com.apple.softwareupdated.plist	com.apple.softwareupdated	['/System/Library/CoreServices/Software Update.app/Contents/Resources/softwareupdated']	False	comment
+/System/Library/LaunchDaemons/com.apple.speech.speechsynthesisd.plist	com.apple.speech.speechsynthesisd	/System/Library/Frameworks/ApplicationServices.framework/Frameworks/SpeechSynthesis.framework/Resources/com.apple.speech.speechsynthesisd	False	comment
+/System/Library/LaunchDaemons/com.apple.spindump.plist	com.apple.spindump	['/usr/sbin/spindump']	False	comment
+/System/Library/LaunchDaemons/com.apple.stackshot.plist	com.apple.stackshot	['/usr/libexec/stackshot', '-t', '-O']	False	comment
+/System/Library/LaunchDaemons/com.apple.statd.notify.plist	com.apple.statd.notify	['/usr/sbin/rpc.statd', '-n']	True	comment
+/System/Library/LaunchDaemons/com.apple.storagekitd.plist	com.apple.storagekitd	['/System/Library/PrivateFrameworks/StorageKit.framework/Resources/storagekitd']	False	comment
+/System/Library/LaunchDaemons/com.apple.storereceiptinstaller.plist	com.apple.storereceiptinstaller	/System/Library/PrivateFrameworks/CommerceKit.framework/Versions/A/Resources/ReceiptInstaller	False	comment
+/System/Library/LaunchDaemons/com.apple.SubmitDiagInfo.plist	com.apple.SubmitDiagInfo	['/System/Library/CoreServices/SubmitDiagInfo', 'server-init']	False	comment
+/System/Library/LaunchDaemons/com.apple.suhelperd.plist	com.apple.suhelperd	['/System/Library/PrivateFrameworks/SoftwareUpdate.framework/Resources/suhelperd']	False	comment
+/System/Library/LaunchDaemons/com.apple.syslogd.plist	com.apple.syslogd	['/usr/sbin/syslogd']	False	comment
+/System/Library/LaunchDaemons/com.apple.sysmond.plist	com.apple.sysmond	/usr/libexec/sysmond	False	comment
+/System/Library/LaunchDaemons/com.apple.systemkeychain.plist	com.apple.systemkeychain	['/usr/sbin/systemkeychain', '-d']	False	comment
+/System/Library/LaunchDaemons/com.apple.systempreferences.installer.plist	com.apple.systempreferences.install	['/Applications/System Preferences.app/Contents/Resources/installAssistant']	False	comment
+/System/Library/LaunchDaemons/com.apple.systemstats.analysis.plist	com.apple.systemstats.analysis	['/usr/sbin/systemstats', '--xpc']	False	comment
+/System/Library/LaunchDaemons/com.apple.systemstats.daily.plist	com.apple.systemstats.daily	['/usr/sbin/systemstats', '--daily']	False	comment
+/System/Library/LaunchDaemons/com.apple.systemstatsd.plist	com.apple.systemstatsd	/usr/libexec/systemstatsd	False	comment
+/System/Library/LaunchDaemons/com.apple.taskgated-helper.plist	com.apple.taskgated-helper	['/usr/libexec/taskgated-helper']	False	comment
+/System/Library/LaunchDaemons/com.apple.taskgated.plist	com.apple.taskgated	['/usr/libexec/taskgated', '-s']	False	comment
+/System/Library/LaunchDaemons/com.apple.tccd.system.plist	com.apple.tccd.system	['/System/Library/PrivateFrameworks/TCC.framework/Resources/tccd', 'system']	False	comment
+/System/Library/LaunchDaemons/com.apple.thermald.plist	com.apple.thermald	['/usr/libexec/thermald']	True	comment
+/System/Library/LaunchDaemons/com.apple.TMCacheDelete.plist	com.apple.TMCacheDelete	['/System/Library/CoreServices/backupd.bundle/Contents/Resources/TMCacheDelete']	False	comment
+/System/Library/LaunchDaemons/com.apple.TrustEvaluationAgent.system.plist	com.apple.TrustEvaluationAgent.system	/System/Library/PrivateFrameworks/TrustEvaluationAgent.framework/Resources/trustevaluationagent	False	comment
+/System/Library/LaunchDaemons/com.apple.ucupdate.plist	com.apple.ucupdate.plist	['/usr/libexec/ucupdate', '-m', '/usr/share/ucupdate/microcode.dat']	True	comment
+/System/Library/LaunchDaemons/com.apple.uninstalld.plist	com.apple.uninstalld	['/System/Library/PrivateFrameworks/Uninstall.framework/Resources/uninstalld']	False	comment
+/System/Library/LaunchDaemons/com.apple.unmountassistant.sysagent.plist	com.apple.unmountassistant.sysagent	['/System/Library/CoreServices/UnmountAssistantAgent.app/Contents/Resources/UASysAgent']	False	comment
+/System/Library/LaunchDaemons/com.apple.updateEFIDesktopPicture.plist	com.apple.updateEFIDesktopPicture	['/usr/sbin/kextcache', '-u', '/']	False	comment
+/System/Library/LaunchDaemons/com.apple.usbd.plist	com.apple.usbd	/usr/libexec/usbd	False	comment
+/System/Library/LaunchDaemons/com.apple.usbmuxd.plist	com.apple.usbmuxd	['/System/Library/PrivateFrameworks/MobileDevice.framework/Versions/A/Resources/usbmuxd', '-launchd']	True	comment
+/System/Library/LaunchDaemons/com.apple.UserEventAgent-System.plist	com.apple.UserEventAgent-System	['/usr/libexec/UserEventAgent', '(System)']	False	comment
+/System/Library/LaunchDaemons/com.apple.UserNotificationCenter.plist	com.apple.UserNotificationCenter	['/System/Library/CoreServices/uncd']	False	comment
+/System/Library/LaunchDaemons/com.apple.uucp.plist	com.apple.uucp	['/usr/sbin/uucico', '-l', '-D']	False	comment
+/System/Library/LaunchDaemons/com.apple.var-db-dslocal-backup.plist	com.apple.var-db-dslocal-backup	['/usr/bin/xar', '-c', '-f', 'dslocal-backup.xar', 'dslocal']	False	comment
+/System/Library/LaunchDaemons/com.apple.vsdbutil.plist	com.apple.vsdbutil	['/usr/sbin/vsdbutil', '-i']	False	comment
+/System/Library/LaunchDaemons/com.apple.warmd.plist	com.apple.warmd	['/usr/libexec/warmd']	True	comment
+/System/Library/LaunchDaemons/com.apple.watchdogd.plist	com.apple.watchdogd	['/usr/libexec/watchdogd']	True	comment
+/System/Library/LaunchDaemons/com.apple.wdhelper.plist	com.apple.wdhelper	/usr/libexec/wdhelper	True	comment
+/System/Library/LaunchDaemons/com.apple.wifid.plist	com.apple.wifid	/usr/libexec/wifid	False	comment
+/System/Library/LaunchDaemons/com.apple.WindowServer.plist	com.apple.WindowServer	['/System/Library/Frameworks/ApplicationServices.framework/Frameworks/CoreGraphics.framework/Resources/WindowServer', '-daemon']	False	comment
+/System/Library/LaunchDaemons/com.apple.wirelessproxd.plist	com.apple.wirelessproxd	['/usr/sbin/wirelessproxd']	False	comment
+/System/Library/LaunchDaemons/com.apple.wwand.plist	com.apple.wwand	/System/Library/Extensions/IOSerialFamily.kext/Contents/PlugIns/AppleWWANSupport.kext/Contents/Resources/wwand	False	comment
+/System/Library/LaunchDaemons/com.apple.xpc.smd.plist	com.apple.xpc.smd	/usr/libexec/smd	False	comment
+/System/Library/LaunchDaemons/com.apple.xsan.plist	com.apple.xsan	/System/Library/Filesystems/acfs.fs/Contents/bin/xsand	False	comment
+/System/Library/LaunchDaemons/com.apple.xsandaily.plist	com.apple.xsandaily	/System/Library/Filesystems/acfs.fs/Contents/bin/xsandaily	False	comment
+/System/Library/LaunchDaemons/com.apple.xscertadmin.plist	com.apple.xscertadmin	['/usr/sbin/xscertadmin', 'update']	False	comment
+/System/Library/LaunchDaemons/com.apple.xscertd-helper.plist	com.apple.xscertd-helper	['/usr/libexec/xscertd-helper']	False	comment
+/System/Library/LaunchDaemons/com.apple.xscertd.plist	com.apple.xscertd	/usr/libexec/xscertd	False	comment
+/System/Library/LaunchDaemons/com.vix.cron.plist	com.vix.cron	['/usr/sbin/cron']	False	comment
+/System/Library/LaunchDaemons/exec.plist	com.apple.rexecd	['/usr/libexec/rexecd']	False	comment
+/System/Library/LaunchDaemons/finger.plist	com.apple.fingerd	['/usr/libexec/fingerd', '-s']	False	comment
+/System/Library/LaunchDaemons/ftp.plist	com.apple.ftpd	/usr/libexec/ftpd	False	comment
+/System/Library/LaunchDaemons/login.plist	com.apple.rlogind	['/usr/libexec/rlogind']	False	comment
+/System/Library/LaunchDaemons/ntalk.plist	com.apple.ntalkd	['/usr/libexec/ntalkd']	False	comment
+/System/Library/LaunchDaemons/org.apache.httpd.plist	org.apache.httpd	['/usr/sbin/httpd', '-D', 'FOREGROUND']	False	comment
+/System/Library/LaunchDaemons/org.cups.cups-lpd.plist	org.cups.cups-lpd	['/usr/libexec/cups/daemon/cups-lpd', '-o', 'document-format=application/octet-stream']	False	comment
+/System/Library/LaunchDaemons/org.cups.cupsd.plist	org.cups.cupsd	['/usr/sbin/cupsd', '-l']	False	comment
+/System/Library/LaunchDaemons/org.net-snmp.snmpd.plist	org.net-snmp.snmpd	/usr/sbin/snmpd	False	comment
+/System/Library/LaunchDaemons/org.ntp.ntpd.plist	org.ntp.ntpd	['/usr/libexec/ntpd-wrapper']	False	comment
+/System/Library/LaunchDaemons/org.openldap.slapd.plist	org.openldap.slapd	/usr/libexec/slapd	False	comment
+/System/Library/LaunchDaemons/org.postfix.master.plist	org.postfix.master	/usr/libexec/postfix/master	False	comment
+/System/Library/LaunchDaemons/shell.plist	com.apple.rshd	['/usr/libexec/rshd']	False	comment
+/System/Library/LaunchDaemons/ssh.plist	com.openssh.sshd	/usr/libexec/sshd-keygen-wrapper	False	comment
+/System/Library/LaunchDaemons/telnet.plist	com.apple.telnetd	['/usr/libexec/telnetd']	False	comment
+/System/Library/LaunchDaemons/tftp.plist	com.apple.tftpd	['/usr/libexec/tftpd', '-i', '/private/tftpboot']	False	comment
+/System/Library/LaunchAgents/com.apple.accountsd.plist	com.apple.accountsd	['/System/Library/Frameworks/Accounts.framework/Versions/A/Support/accountsd']	False	comment
+/System/Library/LaunchAgents/com.apple.AddressBook.abd.plist	com.apple.AddressBook.abd	['/System/Library/Frameworks/AddressBook.framework/Versions/A/Helpers/AddressBookManager.app/Contents/MacOS/AddressBookManager']	False	comment
+/System/Library/LaunchAgents/com.apple.AddressBook.AssistantService.plist	com.apple.AddressBook.AssistantService	['/System/Library/Frameworks/AddressBook.framework/Versions/A/Helpers/ABAssistantService.app/Contents/MacOS/ABAssistantService']	False	comment
+/System/Library/LaunchAgents/com.apple.AddressBook.SourceSync.plist	com.apple.AddressBook.SourceSync	['/System/Library/Frameworks/AddressBook.framework/Versions/A/Helpers/AddressBookSourceSync.app/Contents/MacOS/AddressBookSourceSync']	False	comment
+/System/Library/LaunchAgents/com.apple.AirPlayUIAgent.plist	com.apple.AirPlayUIAgent	['/System/Library/CoreServices/AirPlayUIAgent.app/Contents/MacOS/AirPlayUIAgent', '--launchd']	False	comment
+/System/Library/LaunchAgents/com.apple.AirPortBaseStationAgent.plist	com.apple.AirPortBaseStationAgent	['/System/Library/CoreServices/AirPort Base Station Agent.app/Contents/MacOS/AirPort Base Station Agent', '--launchd']	False	comment
+/System/Library/LaunchAgents/com.apple.alf.useragent.plist	com.apple.alf.useragent	['/usr/libexec/ApplicationFirewall/Firewall']	False	comment
+/System/Library/LaunchAgents/com.apple.aos.migrate.plist	com.apple.aos.migrate	/System/Library/CoreServices/AOSMigrateAgent	False	comment
+/System/Library/LaunchAgents/com.apple.AOSHeartbeat.plist	com.apple.AOSHeartbeat	/System/Library/PrivateFrameworks/AOSKit.framework/Helpers/AOSHeartbeat.app/Contents/MacOS/AOSHeartbeat	True	comment
+/System/Library/LaunchAgents/com.apple.AOSPushRelay.plist	com.apple.AOSPushRelay	/System/Library/PrivateFrameworks/AOSKit.framework/Helpers/AOSPushRelay.app/Contents/MacOS/AOSPushRelay	False	comment
+/System/Library/LaunchAgents/com.apple.AppleGraphicsWarning.plist	com.apple.AppleGraphicsWarning	['/System/Library/CoreServices/AppleGraphicsWarning.app/Contents/MacOS/AppleGraphicsWarning']	False	comment
+/System/Library/LaunchAgents/com.apple.appleseed.seedusaged.plist	com.apple.appleseed.seedusaged	/System/Library/CoreServices/Applications/Feedback Assistant.app/Contents/Library/LaunchServices/seedusaged	True	comment
+/System/Library/LaunchAgents/com.apple.appsleepd.plist	com.apple.appsleep	['/usr/sbin/appsleepd']	False	comment
+/System/Library/LaunchAgents/com.apple.appstoreupdateagent.plist	com.apple.appstoreupdateagent	/System/Library/PrivateFrameworks/CommerceKit.framework/Versions/A/Resources/appstoreupdateagent	False	comment
+/System/Library/LaunchAgents/com.apple.apsctl.plist	com.apple.apsctl	['/System/Library/PrivateFrameworks/ApplePushService.framework/apsctl', 'login']	True	comment
+/System/Library/LaunchAgents/com.apple.askpermissiond.plist	com.apple.askpermissiond	/System/Library/PrivateFrameworks/AskPermission.framework/Versions/A/Resources/askpermissiond	True	comment
+/System/Library/LaunchAgents/com.apple.AskPermissionUI.plist	com.apple.AskPermissionUI	/System/Library/PrivateFrameworks/AskPermission.framework/Versions/A/Resources/AskPermissionUI.app/Contents/MacOS/AskPermissionUI	False	comment
+/System/Library/LaunchAgents/com.apple.assistant_service.plist	com.apple.assistant_service	['/System/Library/PrivateFrameworks/AssistantServices.framework/assistant_service']	False	comment
+/System/Library/LaunchAgents/com.apple.assistantd.plist	com.apple.assistantd	['/System/Library/PrivateFrameworks/AssistantServices.framework/assistantd']	False	comment
+/System/Library/LaunchAgents/com.apple.AssistiveControl.plist	com.apple.AssistiveControl	['/System/Library/Input Methods/Switch Control.app/Contents/MacOS/Switch Control', 'launchd', '-s']	False	comment
+/System/Library/LaunchAgents/com.apple.BezelUI.plist	com.apple.BezelUIServer	['/System/Library/LoginPlugins/BezelServices.loginPlugin/Contents/Resources/BezelUI/BezelUIServer']	False	comment
+/System/Library/LaunchAgents/com.apple.bird.plist	com.apple.bird	['/System/Library/PrivateFrameworks/CloudDocsDaemon.framework/Versions/A/Support/bird']	False	comment
+/System/Library/LaunchAgents/com.apple.bluetoothUIServer.plist	com.apple.bluetoothUIServer	/System/Library/CoreServices/BluetoothUIServer.app/Contents/MacOS/BluetoothUIServer	False	comment
+/System/Library/LaunchAgents/com.apple.btsa.plist	com.apple.btsa	['/System/Library/CoreServices/Bluetooth Setup Assistant.app/Contents/MacOS/Bluetooth Setup Assistant', '-autoConfigure']	False	comment
+/System/Library/LaunchAgents/com.apple.CalendarAgent.plist	com.apple.CalendarAgent	/System/Library/PrivateFrameworks/CalendarAgent.framework/Executables/CalendarAgent	True	comment
+/System/Library/LaunchAgents/com.apple.CallHistoryPluginHelper.plist	com.apple.CallHistoryPluginHelper	['/System/Library/PrivateFrameworks/CallHistory.framework/Support/CallHistoryPluginHelper']	False	comment
+/System/Library/LaunchAgents/com.apple.CallHistorySyncHelper.plist	com.apple.CallHistorySyncHelper	['/System/Library/PrivateFrameworks/CallHistory.framework/Support/CallHistorySyncHelper']	False	comment
+/System/Library/LaunchAgents/com.apple.cfnetwork.AuthBrokerAgent.plist	com.apple.cfnetwork.AuthBrokerAgent	['/System/Library/CoreServices/AuthBrokerAgent']	False	comment
+/System/Library/LaunchAgents/com.apple.cfnetwork.cfnetworkagent.plist	com.apple.cfnetwork.cfnetworkagent	['/System/Library/CoreServices/CFNetworkAgent']	False	comment
+/System/Library/LaunchAgents/com.apple.cfprefsd.xpc.agent.plist	com.apple.cfprefsd.xpc.agent	['/usr/sbin/cfprefsd', 'agent']	False	comment
+/System/Library/LaunchAgents/com.apple.cloudd.plist	com.apple.cloudd	['/System/Library/PrivateFrameworks/CloudKitDaemon.framework/Support/cloudd']	False	comment
+/System/Library/LaunchAgents/com.apple.cloudfamilyrestrictionsd-mac.plist	com.apple.cloudfamilyrestrictionsd	['/System/Library/PrivateFrameworks/CloudFamilyRestrictions.framework/cloudfamilyrestrictionsd']	False	comment
+/System/Library/LaunchAgents/com.apple.cloudpaird.plist	com.apple.cloudpaird	/System/Library/CoreServices/cloudpaird	False	comment
+/System/Library/LaunchAgents/com.apple.cloudphotosd.plist	com.apple.cloudphotosd	/System/Library/CoreServices/cloudphotosd.app/Contents/MacOS/cloudphotosd	False	comment
+/System/Library/LaunchAgents/com.apple.cmfsyncagent.plist	com.apple.cmfsyncagent	['/System/Library/PrivateFrameworks/CommunicationsFilter.framework/CMFSyncAgent.app/Contents/MacOS/CMFSyncAgent']	False	comment
+/System/Library/LaunchAgents/com.apple.ContainerRepairAgent.plist	com.apple.ContainerRepairAgent	/usr/libexec/AppSandbox/ContainerRepairAgent	False	comment
+/System/Library/LaunchAgents/com.apple.CoreAuthentication.daemon.plist	com.apple.CoreAuthentication.daemon	['/System/Library/Frameworks/LocalAuthentication.framework/Support/coreauthd']	False	comment
+/System/Library/LaunchAgents/com.apple.coredata.externalrecordswriter.plist	com.apple.coredata.externalrecordswriter	['/System/Library/Frameworks/CoreData.framework/Versions/A/Resources/ExternalRecordsWriter']	False	comment
+/System/Library/LaunchAgents/com.apple.CoreLocationAgent.plist	com.apple.CoreLocationAgent	['/System/Library/CoreServices/CoreLocationAgent.app/Contents/MacOS/CoreLocationAgent']	False	comment
+/System/Library/LaunchAgents/com.apple.CoreRAIDAgent.plist	com.apple.CoreRAIDAgent	/System/Library/PrivateFrameworks/CoreRAID.framework/Versions/A/Resources/CoreRAIDAgent	False	comment
+/System/Library/LaunchAgents/com.apple.coreservices.appleid.authentication.plist	com.apple.coreservices.appleid.authentication	/System/Library/CoreServices/AppleIDAuthAgent	True	comment
+/System/Library/LaunchAgents/com.apple.coreservices.lsactivity.plist	com.apple.coreservices.lsactivity	['/System/Library/CoreServices/lsuseractivityd']	False	comment
+/System/Library/LaunchAgents/com.apple.coreservices.uiagent.plist	com.apple.coreservices.uiagent	/System/Library/CoreServices/CoreServicesUIAgent.app/Contents/MacOS/CoreServicesUIAgent	False	comment
+/System/Library/LaunchAgents/com.apple.csuseragent.plist	com.apple.csuseragent	['/System/Library/CoreServices/CSUserAgent']	False	comment
+/System/Library/LaunchAgents/com.apple.cvmsCompAgent_i386.plist	com.apple.cvmsCompAgent_i386	['/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/CVMCompiler', '2']	False	comment
+/System/Library/LaunchAgents/com.apple.cvmsCompAgent_i386_1.plist	com.apple.cvmsCompAgent_i386_1	['/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/CVMCompiler', '3']	False	comment
+/System/Library/LaunchAgents/com.apple.cvmsCompAgent_x86_64.plist	com.apple.cvmsCompAgent_x86_64	['/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/CVMCompiler', '2']	False	comment
+/System/Library/LaunchAgents/com.apple.cvmsCompAgent_x86_64_1.plist	com.apple.cvmsCompAgent_x86_64_1	['/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/CVMCompiler', '3']	False	comment
+/System/Library/LaunchAgents/com.apple.cvmsCompAgentLegacy_i386.plist	com.apple.cvmsCompAgentLegacy_i386	['/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/Legacy/CVMCompiler']	False	comment
+/System/Library/LaunchAgents/com.apple.cvmsCompAgentLegacy_i386_1.plist	com.apple.cvmsCompAgentLegacy_i386_1	['/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/Legacy/CVMCompiler', '1']	False	comment
+/System/Library/LaunchAgents/com.apple.cvmsCompAgentLegacy_x86_64.plist	com.apple.cvmsCompAgentLegacy_x86_64	['/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/Legacy/CVMCompiler']	False	comment
+/System/Library/LaunchAgents/com.apple.cvmsCompAgentLegacy_x86_64_1.plist	com.apple.cvmsCompAgentLegacy_x86_64_1	['/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/Legacy/CVMCompiler', '1']	False	comment
+/System/Library/LaunchAgents/com.apple.DiagnosticReportCleanup.plist	com.apple.DiagnosticReportCleanup.plist	['/System/Library/CoreServices/SubmitDiagInfo', 'cleanup']	False	comment
+/System/Library/LaunchAgents/com.apple.diagnostics_agent.plist	com.apple.diagnostics_agent	['/System/Library/CoreServices/diagnostics_agent']	True	comment
+/System/Library/LaunchAgents/com.apple.DictationIM.plist	com.apple.DictationIM	['/System/Library/Input Methods/DictationIM.app/Contents/MacOS/DictationIM']	False	comment
+/System/Library/LaunchAgents/com.apple.DiskArbitrationAgent.plist	com.apple.DiskArbitrationAgent	/System/Library/Frameworks/DiskArbitration.framework/Versions/A/Support/DiskArbitrationAgent	False	comment
+/System/Library/LaunchAgents/com.apple.distnoted.xpc.agent.plist	com.apple.distnoted.xpc.agent	['/usr/sbin/distnoted', 'agent']	False	comment
+/System/Library/LaunchAgents/com.apple.Dock.plist	com.apple.Dock.agent	/System/Library/CoreServices/Dock.app/Contents/MacOS/Dock	False	comment
+/System/Library/LaunchAgents/com.apple.dt.CommandLineTools.installondemand.plist	com.apple.dt.CommandLineTools.installondemand	/System/Library/CoreServices/Install Command Line Developer Tools.app/Contents/MacOS/Install Command Line Developer Tools	False	comment
+/System/Library/LaunchAgents/com.apple.EscrowSecurityAlert.plist	com.apple.EscrowSecurityAlert	['/System/Library/PrivateFrameworks/CloudServices.framework/Resources/EscrowSecurityAlert.app/Contents/MacOS/EscrowSecurityAlert']	False	comment
+/System/Library/LaunchAgents/com.apple.familycircled.plist	com.apple.familycircled	/System/Library/PrivateFrameworks/FamilyCircle.framework/Versions/A/Resources/familycircled	False	comment
+/System/Library/LaunchAgents/com.apple.familycontrols.useragent.plist	com.apple.familycontrols.useragent	['/System/Library/PrivateFrameworks/FamilyControls.framework/Resources/ParentalControls.app/Contents/MacOS/ParentalControls']	False	comment
+/System/Library/LaunchAgents/com.apple.familynotificationd.plist	com.apple.familynotificationd	/System/Library/PrivateFrameworks/FamilyNotification.framework/Versions/A/Resources/Family.app/Contents/MacOS/Family	False	comment
+/System/Library/LaunchAgents/com.apple.FileStatsAgent.plist	com.apple.FileStatsAgent	['/usr/sbin/FileStatsAgent']	False	comment
+/System/Library/LaunchAgents/com.apple.FileSyncAgent.PHD.plist	com.apple.FileSyncAgent.PHD	['/System/Library/CoreServices/FileSyncAgent.app/Contents/MacOS/FileSyncAgent', '-launchedByLaunchd', '-PHDPlist']	False	comment
+/System/Library/LaunchAgents/com.apple.FilesystemUI.plist	com.apple.FilesystemUI	['/System/Library/CoreServices/KernelEventAgent.bundle/FileSystemUIAgent.app/Contents/MacOS/FileSystemUIAgent']	False	comment
+/System/Library/LaunchAgents/com.apple.Finder.plist	com.apple.Finder	/System/Library/CoreServices/Finder.app/Contents/MacOS/Finder	False	comment
+/System/Library/LaunchAgents/com.apple.findmymacmessenger.plist	com.apple.findmymacmessenger	/System/Library/PrivateFrameworks/FindMyMac.framework/Resources/FindMyMacMessenger.app/Contents/MacOS/FindMyMacMessenger	False	comment
+/System/Library/LaunchAgents/com.apple.fontd.useragent.plist	com.apple.fontd	['/System/Library/Frameworks/ApplicationServices.framework/Frameworks/ATS.framework/Support/fontd']	False	comment
+/System/Library/LaunchAgents/com.apple.FontRegistryUIAgent.plist	com.apple.FontRegistryUIAgent	/System/Library/Frameworks/ApplicationServices.framework/Frameworks/ATS.framework/Support/FontRegistryUIAgent.app/Contents/MacOS/FontRegistryUIAgent	False	comment
+/System/Library/LaunchAgents/com.apple.FontValidator.plist	com.apple.ATS.FontValidator	/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ATS.framework/Versions/A/Support/FontValidator	False	comment
+/System/Library/LaunchAgents/com.apple.FontValidatorConduit.plist	com.apple.ATS.FontValidatorConduit	/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ATS.framework/Versions/A/Support/FontValidatorConduit	False	comment
+/System/Library/LaunchAgents/com.apple.FontWorker.plist	com.apple.FontWorker	/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ATS.framework/Versions/A/Support/fontworker	False	comment
+/System/Library/LaunchAgents/com.apple.FTCleanup.plist	com.apple.FTCleanup	[redacted]	True	comment
+/System/Library/LaunchAgents/com.apple.gamed.plist	com.apple.gamed	['/System/Library/PrivateFrameworks/GameCenterFoundation.framework/Versions/A/gamed']	False	comment
+/System/Library/LaunchAgents/com.apple.helpd.plist	com.apple.helpd	/System/Library/PrivateFrameworks/HelpData.framework/Versions/A/Resources/helpd	True	comment
+/System/Library/LaunchAgents/com.apple.icbaccountsd.plist	com.apple.icbaccountsd	['/usr/libexec/icbaccountsd']	False	comment
+/System/Library/LaunchAgents/com.apple.icloud.fmfd.plist	com.apple.icloud.fmfd	/usr/libexec/fmfd	False	comment
+/System/Library/LaunchAgents/com.apple.iCloudUserNotifications.plist	com.apple.iCloudUserNotificationsd	/System/Library/PrivateFrameworks/AOSAccounts.framework/Versions/A/Resources/iCloudUserNotificationsd.app/Contents/MacOS/iCloudUserNotificationsd	False	comment
+/System/Library/LaunchAgents/com.apple.iconservices.iconservicesagent.plist	com.apple.iconservices.iconservicesagent	['/System/Library/CoreServices/iconservicesagent']	True	comment
+/System/Library/LaunchAgents/com.apple.identityservicesd.plist	com.apple.identityservicesd	['/System/Library/PrivateFrameworks/IDS.framework/identityservicesd.app/Contents/MacOS/identityservicesd']	False	comment
+/System/Library/LaunchAgents/com.apple.idsremoteurlconnectionagent.plist	com.apple.idsfoundation.IDSRemoteURLConnectionAgent	['/System/Library/PrivateFrameworks/IDSFoundation.framework/IDSRemoteURLConnectionAgent.app/Contents/MacOS/IDSRemoteURLConnectionAgent']	False	comment
+/System/Library/LaunchAgents/com.apple.imagent.plist	com.apple.imagent	['/System/Library/PrivateFrameworks/IMCore.framework/imagent.app/Contents/MacOS/imagent']	False	comment
+/System/Library/LaunchAgents/com.apple.imklaunchagent.plist	com.apple.imklaunchagent	/System/Library/Frameworks/InputMethodKit.framework/Resources/imklaunchagent	False	comment
+/System/Library/LaunchAgents/com.apple.IMLoggingAgent.plist	com.apple.IMLoggingAgent	['/System/Library/PrivateFrameworks/IMFoundation.framework/IMLoggingAgent']	False	comment
+/System/Library/LaunchAgents/com.apple.imtransferagent.plist	com.apple.imcore.imtransferagent	['/System/Library/PrivateFrameworks/IMTransferServices.framework/IMTransferAgent.app/Contents/MacOS/IMTransferAgent']	False	comment
+/System/Library/LaunchAgents/com.apple.installd.user.plist	com.apple.installd.user	['/System/Library/PrivateFrameworks/PackageKit.framework/Resources/installd']	False	comment
+/System/Library/LaunchAgents/com.apple.isst.plist	com.apple.isst	/System/Library/CoreServices/Menu Extras/TextInput.menu/Contents/SharedSupport/isst	True	comment
+/System/Library/LaunchAgents/com.apple.java.InstallOnDemand.plist	com.apple.java.InstallOnDemandAgent	/System/Library/Java/Support/CoreDeploy.bundle/Contents/Download Java Components.app/Contents/MacOS/Download Java Components	False	comment
+/System/Library/LaunchAgents/com.apple.java.updateSharing.plist	com.apple.java.updateSharing	['/System/Library/Frameworks/JavaVM.framework/Versions/A/Resources/bin/updateSharingD']	False	comment
+/System/Library/LaunchAgents/com.apple.lateragent.plist	com.apple.lateragent	/System/Library/PrivateFrameworks/CommerceKit.framework/Resources/LaterAgent.app/Contents/MacOS/LaterAgent	False	comment
+/System/Library/LaunchAgents/com.apple.locationmenu.plist	com.apple.locationmenu	/System/Library/CoreServices/LocationMenu.app/Contents/MacOS/LocationMenu	False	comment
+/System/Library/LaunchAgents/com.apple.lookupd.plist	com.apple.lookupd	['/System/Library/PrivateFrameworks/Lookup.framework/Resources/com.apple.lookupd']	False	comment
+/System/Library/LaunchAgents/com.apple.ManagedClientAgent.agent.plist	com.apple.ManagedClientAgent.agent	['/System/Library/CoreServices/ManagedClient.app/Contents/Resources/ManagedClientAgent', '-a']	False	comment
+/System/Library/LaunchAgents/com.apple.ManagedClientAgent.enrollagent.plist	com.apple.ManagedClientAgent.enrollagent	['/System/Library/CoreServices/ManagedClient.app/Contents/Resources/ManagedClientAgent', '-j']	False	comment
+/System/Library/LaunchAgents/com.apple.Maps.pushdaemon.plist	com.apple.Maps.mapspushd	/System/Library/CoreServices/mapspushd	False	comment
+/System/Library/LaunchAgents/com.apple.maspushagent.plist	com.apple.maspushagent	/System/Library/PrivateFrameworks/CommerceKit.framework/Versions/A/Resources/maspushagent	False	comment
+/System/Library/LaunchAgents/com.apple.mbloginhelper.user.plist	com.apple.mbloginhelper.user	['/System/Library/CoreServices/Setup Assistant.app/Contents/Resources/mbloginhelper']	False	comment
+/System/Library/LaunchAgents/com.apple.mbpluginhost.user.plist	com.apple.mbpluginhost.user	['/System/Library/CoreServices/Setup Assistant.app/Contents/Resources/mbpluginhost']	False	comment
+/System/Library/LaunchAgents/com.apple.mdmclient.agent.plist	com.apple.mdmclient.agent	['/usr/libexec/mdmclient', 'agent']	False	comment
+/System/Library/LaunchAgents/com.apple.mdmclient.cloudconfig.agent.plist	com.apple.mdmclient.cloudconfig.agent	['/usr/libexec/mdmclient', 'cloudconfig']	False	comment
+/System/Library/LaunchAgents/com.apple.mdworker.32bit.plist	com.apple.mdworker.32bit	['/System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Versions/A/Support/mdworker32', '-s', 'mdworker-lsb', '-c', 'MDSImporterWorker', '-m', 'com.apple.mdworker.32bit']	False	comment
+/System/Library/LaunchAgents/com.apple.mdworker.bundles.plist	com.apple.mdworker.bundles	['/System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Versions/A/Support/mdworker', '-s', 'mdworker-bundle', '-c', 'MDSImporterBundleFinder', '-m', 'com.apple.mdworker.bundles']	False	comment
+/System/Library/LaunchAgents/com.apple.mdworker.isolation.plist	com.apple.mdworker.isolation	['/System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Versions/A/Support/mdworker', '-s', 'mdworker', '-c', 'MDSImporterWorker', '-m', 'com.apple.mdworker.isolation']	False	comment
+/System/Library/LaunchAgents/com.apple.mdworker.lsb.plist	com.apple.mdworker.lsb	['/System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Versions/A/Support/mdworker', '-s', 'mdworker-lsb', '-c', 'MDSImporterWorker', '-m', 'com.apple.mdworker.lsb']	False	comment
+/System/Library/LaunchAgents/com.apple.mdworker.mail.plist	com.apple.mdworker.mail	['/System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Versions/A/Support/mdworker', '-s', 'mdworker-mail', '-c', 'MDSImporterWorker', '-m', 'com.apple.mdworker.mail']	False	comment
+/System/Library/LaunchAgents/com.apple.mdworker.shared.plist	com.apple.mdworker.shared	['/System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Versions/A/Support/mdworker', '-s', 'mdworker', '-c', 'MDSImporterWorker', '-m', 'com.apple.mdworker.shared']	False	comment
+/System/Library/LaunchAgents/com.apple.mdworker.single.plist	com.apple.mdworker.single	['/System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Versions/A/Support/mdworker', '-s', 'mdworker', '-c', 'MDSImporterWorker', '-m', 'com.apple.mdworker.single']	False	comment
+/System/Library/LaunchAgents/com.apple.mdworker.sizing.plist	com.apple.mdworker.sizing	['/System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Versions/A/Support/mdworker', '-s', 'mdworker-sizing', '-c', 'MDSSizingWorker', '-m', 'com.apple.mdworker.sizing']	False	comment
+/System/Library/LaunchAgents/com.apple.metadata.mdflagwriter.plist	com.apple.metadata.mdflagwriter	['/System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Versions/A/Support/mdflagwriter']	False	comment
+/System/Library/LaunchAgents/com.apple.metadata.mdwrite.plist	com.apple.metadata.mdwrite	['/System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Versions/A/Support/mdwrite']	False	comment
+/System/Library/LaunchAgents/com.apple.metadata.SpotlightNetHelper.plist	com.apple.metadata.SpotlightNetHelper	['/System/Library/PrivateFrameworks/ParsecUI.framework/Versions/A/Support/SpotlightNetHelper.app/Contents/MacOS/SpotlightNetHelper']	False	comment
+/System/Library/LaunchAgents/com.apple.midiserver.plist	com.apple.midiserver	['/System/Library/Frameworks/CoreMIDI.framework/MIDIServer']	False	comment
+/System/Library/LaunchAgents/com.apple.neagent.plist	com.apple.neagent	/usr/libexec/neagent	False	comment
+/System/Library/LaunchAgents/com.apple.netauth.user.auth.plist	com.apple.netauth.user.auth	['/System/Library/CoreServices/NetAuthAgent.app/Contents/MacOS/NetAuthSysAgent']	False	comment
+/System/Library/LaunchAgents/com.apple.netauth.user.gui.plist	com.apple.netauth.user.gui	['/System/Library/CoreServices/NetAuthAgent.app/Contents/MacOS/NetAuthAgent']	False	comment
+/System/Library/LaunchAgents/com.apple.NetworkDiagnostics.plist	com.apple.NetworkDiagnostics	/System/Library/CoreServices/Network Diagnostics.app/Contents/MacOS/Network Diagnostics	False	comment
+/System/Library/LaunchAgents/com.apple.noticeboard.agent.plist	com.apple.noticeboard.agent	/System/Library/PrivateFrameworks/Noticeboard.framework/Versions/A/Resources/nbagent.app/Contents/MacOS/nbagent	False	comment
+/System/Library/LaunchAgents/com.apple.notificationcenterui.plist	com.apple.notificationcenterui.agent	/System/Library/CoreServices/NotificationCenter.app/Contents/MacOS/NotificationCenter	False	comment
+/System/Library/LaunchAgents/com.apple.nsurlsessiond.plist	com.apple.nsurlsessiond	/usr/libexec/nsurlsessiond	False	comment
+/System/Library/LaunchAgents/com.apple.nsurlstoraged.plist	com.apple.nsurlstoraged	/usr/libexec/nsurlstoraged	False	comment
+/System/Library/LaunchAgents/com.apple.PackageKit.InstallStatus.plist	com.apple.PackageKit.InstallStatus	['/System/Library/CoreServices/Install in Progress.app/Contents/MacOS/Install in Progress']	False	comment
+/System/Library/LaunchAgents/com.apple.parentalcontrols.check.plist	com.apple.parentalcontrols.check	/System/Library/PrivateFrameworks/FamilyControls.framework/Resources/pcdCheck	True	comment
+/System/Library/LaunchAgents/com.apple.pboard.plist	com.apple.pboard	['/usr/sbin/pboard']	False	comment
+/System/Library/LaunchAgents/com.apple.pbs.plist	com.apple.pbs	/System/Library/CoreServices/pbs	False	comment
+/System/Library/LaunchAgents/com.apple.PCIESlotCheck.plist	com.apple.PCIESlotCheck	['/System/Library/CoreServices/Expansion Slot Utility.app/Contents/Resources/PCIESlotCheck']	True	comment
+/System/Library/LaunchAgents/com.apple.photolibraryd.plist	com.apple.photolibraryd	/System/Library/PrivateFrameworks/PhotoLibraryPrivate.framework/Versions/A/Support/photolibraryd	False	comment
+/System/Library/LaunchAgents/com.apple.PhotoLibraryMigrationUtility.XPC.plist	com.apple.PhotoLibraryMigrationUtility.XPC	['/System/Library/CoreServices/Photo Library Migration Utility.app/Contents/MacOS/Photo Library Migration Utility', '-server']	False	comment
+/System/Library/LaunchAgents/com.apple.pictd.plist	com.apple.pictd	['/usr/sbin/pictd']	False	comment
+/System/Library/LaunchAgents/com.apple.pluginkit.pkd.plist	com.apple.pluginkit.pkd	/usr/libexec/pkd	False	comment
+/System/Library/LaunchAgents/com.apple.pluginkit.pkreporter.plist	com.apple.pluginkit.pkreporter	['/usr/libexec/pkreporter']	False	comment
+/System/Library/LaunchAgents/com.apple.powerchime.plist	com.apple.powerchime	/System/Library/CoreServices/PowerChime.app/Contents/MacOS/PowerChime	True	comment
+/System/Library/LaunchAgents/com.apple.printtool.agent.plist	com.apple.printtool.agent	['/System/Library/Frameworks/ApplicationServices.framework/Frameworks/PrintCore.framework/Versions/A/printtool', 'agent']	False	comment
+/System/Library/LaunchAgents/com.apple.printuitool.agent.plist	com.apple.printuitool.agent	['/System/Library/PrivateFrameworks/PrintingPrivate.framework/Versions/A/PrintUITool']	False	comment
+/System/Library/LaunchAgents/com.apple.PubSub.Agent.plist	com.apple.PubSub.Agent	['/System/Library/Frameworks/PubSub.framework/Versions/A/Resources/PubSubAgent.app/Contents/MacOS/PubSubAgent']	False	comment
+/System/Library/LaunchAgents/com.apple.quicklook.32bit.plist	com.apple.quicklook.32bit	['/System/Library/Frameworks/QuickLook.framework/Resources/quicklookd32.app/Contents/MacOS/quicklookd32']	False	comment
+/System/Library/LaunchAgents/com.apple.quicklook.config.plist	com.apple.quicklook.config	['/System/Library/Frameworks/QuickLook.framework/Resources/quicklookconfig']	False	comment
+/System/Library/LaunchAgents/com.apple.quicklook.plist	com.apple.quicklook	['/System/Library/Frameworks/QuickLook.framework/Resources/quicklookd.app/Contents/MacOS/quicklookd']	False	comment
+/System/Library/LaunchAgents/com.apple.quicklook.ui.helper.plist	com.apple.quicklook.ui.helper	['/System/Library/Frameworks/Quartz.framework/Frameworks/QuickLookUI.framework/Resources/QuickLookUIHelper.app/Contents/MacOS/QuickLookUIHelper']	False	comment
+/System/Library/LaunchAgents/com.apple.rcd.plist	com.apple.rcd	['/System/Library/CoreServices/rcd.app/Contents/MacOS/rcd']	False	comment
+/System/Library/LaunchAgents/com.apple.recentsd.plist	com.apple.recentsd	['/System/Library/PrivateFrameworks/CoreRecents.framework/Versions/A/Support/recentsd']	False	comment
+/System/Library/LaunchAgents/com.apple.ReclaimSpaceAgent.plist	com.apple.reclaimspace	/System/Library/CoreServices/backupd.bundle/Contents/Resources/ReclaimSpaceAgent.app/Contents/MacOS/ReclaimSpaceAgent	False	comment
+/System/Library/LaunchAgents/com.apple.RemoteDesktop.plist	com.apple.RemoteDesktop.agent	/System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/MacOS/ARDAgent	False	comment
+/System/Library/LaunchAgents/com.apple.ReportCrash.plist	com.apple.ReportCrash	['/System/Library/CoreServices/ReportCrash']	False	comment
+/System/Library/LaunchAgents/com.apple.ReportCrash.Self.plist	com.apple.ReportCrash.Self	['/System/Library/CoreServices/ReportCrash']	False	comment
+/System/Library/LaunchAgents/com.apple.ReportGPURestart.plist	com.apple.ReportGPURestart	['/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/ReportGPURestart']	False	comment
+/System/Library/LaunchAgents/com.apple.ReportPanic.plist	com.apple.ReportPanic	/System/Library/CoreServices/ReportPanic.app/Contents/MacOS/ReportPanic	False	comment
+/System/Library/LaunchAgents/com.apple.rtcreportingd.plist	com.apple.rtcreportingd	['/usr/libexec/rtcreportingd']	False	comment
+/System/Library/LaunchAgents/com.apple.SafariCloudHistoryPushAgent.plist	com.apple.SafariCloudHistoryPushAgent	/usr/libexec/SafariCloudHistoryPushAgent	False	comment
+/System/Library/LaunchAgents/com.apple.safaridavclient.plist	com.apple.safaridavclient	['/System/Library/PrivateFrameworks/BookmarkDAV.framework/Helpers/SafariDAVClient']	False	comment
+/System/Library/LaunchAgents/com.apple.SafariNotificationAgent.plist	com.apple.SafariNotificationAgent	/usr/libexec/SafariNotificationAgent	False	comment
+/System/Library/LaunchAgents/com.apple.sbd.plist	com.apple.sbd	['/System/Library/PrivateFrameworks/CloudServices.framework/Resources/com.apple.sbd']	False	comment
+/System/Library/LaunchAgents/com.apple.scopedbookmarkagent.xpc.plist	com.apple.scopedbookmarksagent.xpc	/System/Library/CoreServices/ScopedBookmarkAgent	False	comment
+/System/Library/LaunchAgents/com.apple.ScreenReaderUIServer.plist	com.apple.ScreenReaderUIServer	/System/Library/PrivateFrameworks/ScreenReader.framework/Resources/ScreenReaderUIServer.app/Contents/MacOS/ScreenReaderUIServer	False	comment
+/System/Library/LaunchAgents/com.apple.screensharing.agent.plist	com.apple.screensharing.agent	['/System/Library/CoreServices/RemoteManagement/ScreensharingAgent.bundle/Contents/MacOS/ScreensharingAgent']	False	comment
+/System/Library/LaunchAgents/com.apple.screensharing.MessagesAgent.plist	com.apple.screensharing.MessagesAgent	['/System/Library/CoreServices/RemoteManagement/AppleVNCServer.bundle/Contents/MacOS/AppleVNCServer']	False	comment
+/System/Library/LaunchAgents/com.apple.scrod.plist	com.apple.scrod	['/System/Library/PrivateFrameworks/ScreenReader.framework/Frameworks/ScreenReaderOutput.framework/Resources/scrod']	False	comment
+/System/Library/LaunchAgents/com.apple.secd.plist	com.apple.secd	['/usr/libexec/secd']	False	comment
+/System/Library/LaunchAgents/com.apple.secinitd.plist	com.apple.secinitd	/usr/libexec/secinitd	False	comment
+/System/Library/LaunchAgents/com.apple.security.agentStub.plist	com.apple.security.agentStub	/System/Library/Frameworks/Security.framework/Versions/A/XPCServices/com.apple.security.agentStub.xpc/Contents/MacOS/com.apple.security.agentStub	False	comment
+/System/Library/LaunchAgents/com.apple.security.cloudkeychainproxy.plist	com.apple.security.cloudkeychainproxy3	/System/Library/Frameworks/Security.framework/Versions/A/Resources/CloudKeychainProxy.bundle/Contents/MacOS/CloudKeychainProxy	False	comment
+/System/Library/LaunchAgents/com.apple.security.DiskUnmountWatcher.plist	com.apple.security.DiskUnmountWatcher	['/System/Library/PrivateFrameworks/KerberosHelper/Helpers/DiskUnmountWatcher']	False	comment
+/System/Library/LaunchAgents/com.apple.security.keychain-circle-notification.plist	com.apple.security.keychain-circle-notification	['/System/Library/CoreServices/Keychain Circle Notification.app/Contents/MacOS/Keychain Circle Notification']	True	comment
+/System/Library/LaunchAgents/com.apple.sharingd.plist	com.apple.sharingd	/usr/libexec/sharingd	True	comment
+/System/Library/LaunchAgents/com.apple.soagent.plist	com.apple.soagent	['/System/Library/PrivateFrameworks/MessagesKit.framework/Resources/soagent.app/Contents/MacOS/soagent']	True	comment
+/System/Library/LaunchAgents/com.apple.SocialPushAgent.plist	com.apple.SocialPushAgent	/System/Library/CoreServices/SocialPushAgent.app/Contents/MacOS/SocialPushAgent	True	comment
+/System/Library/LaunchAgents/com.apple.softwareupdate_notify_agent.plist	com.apple.softwareupdate_notify_agent	['/System/Library/CoreServices/Software Update.app/Contents/Resources/softwareupdate_notify_agent']	False	comment
+/System/Library/LaunchAgents/com.apple.speech.speechdatainstallerd.plist	com.apple.speech.speechdatainstallerd	/System/Library/PrivateFrameworks/SpeechObjects.framework/Versions/A/SpeechDataInstallerd.app/Contents/MacOS/SpeechDataInstallerd	False	comment
+/System/Library/LaunchAgents/com.apple.speech.speechsynthesisd.plist	com.apple.speech.speechsynthesisd	/System/Library/Frameworks/ApplicationServices.framework/Frameworks/SpeechSynthesis.framework/Resources/com.apple.speech.speechsynthesisd	False	comment
+/System/Library/LaunchAgents/com.apple.speech.synthesisserver.plist	com.apple.speech.synthesisserver	['/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/SpeechSynthesis.framework/Versions/A/SpeechSynthesisServer.app/Contents/MacOS/SpeechSynthesisServer', 'launchd']	False	comment
+/System/Library/LaunchAgents/com.apple.spindump_agent.plist	com.apple.spindump_agent	['/usr/libexec/spindump_agent']	True	comment
+/System/Library/LaunchAgents/com.apple.Spotlight.plist	com.apple.Spotlight	['/System/Library/CoreServices/Spotlight.app/Contents/MacOS/Spotlight']	False	comment
+/System/Library/LaunchAgents/com.apple.SSInvitationAgent.plist	com.apple.ssinvitationagent	/System/Library/CoreServices/RemoteManagement/ScreensharingAgent.bundle/Contents/Support/SSInvitationAgent.app/Contents/MacOS/SSInvitationAgent	False	comment
+/System/Library/LaunchAgents/com.apple.storeaccountd.plist	com.apple.storeaccountd	/System/Library/PrivateFrameworks/CommerceKit.framework/Versions/A/Resources/storeaccountd	False	comment
+/System/Library/LaunchAgents/com.apple.storeassetd.plist	com.apple.storeassetd	/System/Library/PrivateFrameworks/CommerceKit.framework/Versions/A/Resources/storeassetd	False	comment
+/System/Library/LaunchAgents/com.apple.storedownloadd.plist	com.apple.storedownloadd	/System/Library/PrivateFrameworks/CommerceKit.framework/Versions/A/Resources/storedownloadd	False	comment
+/System/Library/LaunchAgents/com.apple.storeinappd.plist	com.apple.storeinappd	/System/Library/PrivateFrameworks/CommerceKit.framework/Versions/A/Resources/storeinappd	False	comment
+/System/Library/LaunchAgents/com.apple.storelegacy.plist	com.apple.storelegacy	/System/Library/PrivateFrameworks/CommerceKit.framework/Versions/A/Resources/storelegacy	False	comment
+/System/Library/LaunchAgents/com.apple.storeuid.plist	com.apple.storeuid	/System/Library/PrivateFrameworks/CommerceKit.framework/Versions/A/Resources/storeuid.app/Contents/MacOS/storeuid	False	comment
+/System/Library/LaunchAgents/com.apple.syncdefaultsd.plist	com.apple.syncdefaultsd	['/System/Library/PrivateFrameworks/SyncedDefaults.framework/Support/syncdefaultsd']	False	comment
+/System/Library/LaunchAgents/com.apple.syncservices.SyncServer.plist	com.apple.syncservices.SyncServer	/System/Library/Frameworks/SyncServices.framework/Versions/Current/Resources/SyncServer.app/Contents/MacOS/SyncServer	False	comment
+/System/Library/LaunchAgents/com.apple.syncservices.uihandler.plist	com.apple.syncservices.uihandler	/System/Library/PrivateFrameworks/SyncServicesUI.framework/Versions/Current/Resources/syncuid.app/Contents/MacOS/syncuid	False	comment
+/System/Library/LaunchAgents/com.apple.systemprofiler.plist	com.apple.systemprofiler	/Applications/Utilities/System Information.app/Contents/MacOS/System Information	False	comment
+/System/Library/LaunchAgents/com.apple.SystemUIServer.plist	com.apple.SystemUIServer.agent	/System/Library/CoreServices/SystemUIServer.app/Contents/MacOS/SystemUIServer	False	comment
+/System/Library/LaunchAgents/com.apple.talagent.plist	com.apple.talagent	/System/Library/CoreServices/talagent	True	comment
+/System/Library/LaunchAgents/com.apple.tccd.plist	com.apple.tccd	/System/Library/PrivateFrameworks/TCC.framework/Resources/tccd	False	comment
+/System/Library/LaunchAgents/com.apple.telephonyutilities.callservicesd.plist	com.apple.telephonyutilities.callservicesd	['/System/Library/PrivateFrameworks/TelephonyUtilities.framework/callservicesd']	False	comment
+/System/Library/LaunchAgents/com.apple.thermaltrap.plist	com.apple.thermaltrap	/System/Library/CoreServices/ThermalTrap.app/Contents/MacOS/ThermalTrap	False	comment
+/System/Library/LaunchAgents/com.apple.tiswitcher.plist	com.apple.tiswitcher	/System/Library/CoreServices/Menu Extras/TextInput.menu/Contents/SharedSupport/TISwitcher.app/Contents/MacOS/TISwitcher	False	comment
+/System/Library/LaunchAgents/com.apple.TMHelperAgent.plist	com.apple.TMHelperAgent	['/System/Library/CoreServices/backupd.bundle/Contents/Resources/TMHelperAgent.app/Contents/MacOS/TMHelperAgent']	False	comment
+/System/Library/LaunchAgents/com.apple.TMHelperAgent.SetupOffer.plist	com.apple.TMHelperAgent.SetupOffer	['/System/Library/CoreServices/backupd.bundle/Contents/Resources/TMHelperAgent.app/Contents/MacOS/TMHelperAgent', '-offer']	False	comment
+/System/Library/LaunchAgents/com.apple.TrustEvaluationAgent.plist	com.apple.TrustEvaluationAgent	/System/Library/PrivateFrameworks/TrustEvaluationAgent.framework/Resources/trustevaluationagent	False	comment
+/System/Library/LaunchAgents/com.apple.universalaccessAuthWarn.plist	com.apple.universalaccessAuthWarn	['/System/Library/PrivateFrameworks/UniversalAccess.framework/Versions/A/Resources/universalAccessAuthWarn.app/Contents/MacOS/universalAccessAuthWarn', 'launchd', '-s']	False	comment
+/System/Library/LaunchAgents/com.apple.universalaccesscontrol.plist	com.apple.universalaccesscontrol	['/System/Library/CoreServices/UniversalAccessControl.app/Contents/MacOS/UniversalAccessControl', 'launchd', '-s']	False	comment
+/System/Library/LaunchAgents/com.apple.universalaccessd.plist	com.apple.universalaccessd	['/usr/sbin/universalaccessd', 'launchd', '-s']	True	comment
+/System/Library/LaunchAgents/com.apple.unmountassistant.useragent.plist	com.apple.unmountassistant.useragent	['/System/Library/CoreServices/UnmountAssistantAgent.app/Contents/MacOS/UnmountAssistantAgent']	False	comment
+/System/Library/LaunchAgents/com.apple.USBAgent.plist	com.apple.USBAgent	/usr/libexec/USBAgent	False	comment
+/System/Library/LaunchAgents/com.apple.UserEventAgent-Aqua.plist	com.apple.UserEventAgent-Aqua	['/usr/libexec/UserEventAgent', '(Aqua)']	False	comment
+/System/Library/LaunchAgents/com.apple.UserEventAgent-LoginWindow.plist	com.apple.UserEventAgent-LoginWindow	['/usr/libexec/UserEventAgent', '(LoginWindow)']	False	comment
+/System/Library/LaunchAgents/com.apple.usernoted.plist	com.apple.usernoted	/usr/sbin/usernoted	True	comment
+/System/Library/LaunchAgents/com.apple.UserNotificationCenterAgent-LoginWindow.plist	com.apple.UserNotificationCenterAgent-LoginWindow	['/System/Library/CoreServices/UserNotificationCenter.app/Contents/MacOS/UserNotificationCenter', '-loginwindow']	False	comment
+/System/Library/LaunchAgents/com.apple.UserNotificationCenterAgent.plist	com.apple.UserNotificationCenterAgent	['/System/Library/CoreServices/UserNotificationCenter.app/Contents/MacOS/UserNotificationCenter']	False	comment
+/System/Library/LaunchAgents/com.apple.VoiceOver.plist	com.apple.VoiceOver	['/System/Library/CoreServices/VoiceOver.app/Contents/MacOS/VoiceOver', 'launchd', '-s']	False	comment
+/System/Library/LaunchAgents/com.apple.warmd_agent.plist	com.apple.warmd_agent	/usr/libexec/warmd_agent	False	comment
+/System/Library/LaunchAgents/com.apple.webinspectord.plist	com.apple.webinspectord	/usr/libexec/webinspectord	False	comment
+/System/Library/LaunchAgents/com.apple.WebKit.PluginAgent.plist	com.apple.WebKit.PluginAgent	['/System/Library/Frameworks/WebKit.framework/Frameworks/WebKitLegacy.framework/WebKitPluginAgent']	False	comment
+/System/Library/LaunchAgents/com.apple.wifi.WiFiAgent.plist	com.apple.wifi.WiFiAgent	/System/Library/CoreServices/WiFiAgent.app/Contents/MacOS/WiFiAgent	True	comment
+/System/Library/LaunchAgents/com.apple.xmigrationhelper.user.plist	com.apple.xmigrationhelper.user	['/System/Library/PrivateFrameworks/SystemMigration.framework/Resources/XibalbaHelper.bundle/Contents/Resources/XibalbaHelper']	False	comment
+/System/Library/LaunchAgents/com.apple.xpc.loginitemregisterd.plist	com.apple.xpc.loginitemregisterd	/usr/libexec/loginitemregisterd	False	comment
+/System/Library/LaunchAgents/com.apple.xpc.otherbsd.plist	com.apple.xpc.otherbsd	/usr/libexec/otherbsd	False	comment
+/System/Library/LaunchAgents/com.apple.ZoomWindow.plist	com.apple.ZoomWindow	['/System/Library/CoreServices/ZoomWindow.app/Contents/MacOS/ZoomWindowStarter', 'launchd', '-s']	False	comment
+/System/Library/LaunchAgents/org.openbsd.ssh-agent.plist	org.openbsd.ssh-agent	['/usr/bin/ssh-agent', '-l']	False	comment
