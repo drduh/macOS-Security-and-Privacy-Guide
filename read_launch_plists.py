@@ -6,10 +6,11 @@
 # find /System/Library/Launch* -type f -exec sudo plutil -convert xml1 {} \;
 
 import glob
+import hashlib
 import os
 import plistlib
 
-header ='filename,label,program,runatload,comment'
+header ='filename,label,program,sha256,runatload,comment'
 location = '/System/Library/Launch%s/*.plist'
 
 
@@ -40,9 +41,20 @@ def GetProgram(plist):
      if the executable requires command line options.
   """
   try:
-    return plist['Program']
+    p = plist['Program']
   except KeyError:
-    return plist['ProgramArguments']
+    p = plist['ProgramArguments']
+  return (p, HashFile(p))
+
+
+def HashFile(f):
+  """Returns SHA-256 hash of a given file."""
+  if type(f) is list:
+    f = f[0]
+  try:
+    return hashlib.sha256(open(f,'rb').read()).hexdigest()
+  except (FileNotFoundError, PermissionError):
+    return 'UNKNOWN'
 
 
 def main():
@@ -53,8 +65,10 @@ def main():
     for filename in glob.glob(location % kind):
       p = LoadPlist(filename)
       if p:
-        e = (filename, GetLabel(p), '"%s"' % GetProgram(p), GetStatus(p))
-        print('%s,%s,%s,%s,' % (e))
+        e = (filename, GetLabel(p), '"%s",%s' % GetProgram(p), GetStatus(p))
+        print('%s,%s,%s,%s,' % e)
+      else:
+        print('Could not load %s' % filename)
 
 
 if __name__ == '__main__':
