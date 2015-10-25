@@ -385,7 +385,7 @@ To view currently disabled services, use
 
     find /var/db/com.apple.xpc.launchd/ -type f -print -exec defaults read {} \; 2>/dev/null
 
-An annotated list of launch daemons and agents is included in this repository.
+An annotated list of launch daemons and agents, the respective program executed, and the program's hash sum is included in this repository. You may run the `read_launch_plists.py` script and `diff` output to check for any discrepancies on your system.
 
 ## Spotlight Suggestions
 Disable “Spotlight Suggestions” in both the Spotlight preferences and Safari's Search preferences to avoid your search queries being sent to Apple.
