@@ -381,11 +381,15 @@ Be careful about disabling any system daemons you don't understand, as it may re
 
 Use [Console](https://en.wikipedia.org/wiki/Console_(OS_X)) and [Activity Monitor](https://support.apple.com/en-us/HT201464) applications if you notice your Mac heating up, feeling slugging, or generally misbehaving, as it may have resulted from your tinkering.
 
-To view currently disabled services, use
+To view currently disabled services,
 
     find /var/db/com.apple.xpc.launchd/ -type f -print -exec defaults read {} \; 2>/dev/null
 
-An annotated list of launch daemons and agents, the respective program executed, and the program's hash sum is included in this repository. You may run the `read_launch_plists.py` script and `diff` output to check for any discrepancies on your system.
+An annotated list of launch daemons and agents, the respective program executed, and the program's hash sum is included in this repository. 
+
+You may run the `read_launch_plists.py` script and `diff` output to check for any discrepancies on your system, e.g.:
+
+    diff <(python3 read_launch_lists.py) <(cat yosemite_launch_plists.csv)
 
 ## Spotlight Suggestions
 Disable “Spotlight Suggestions” in both the Spotlight preferences and Safari's Search preferences to avoid your search queries being sent to Apple.
