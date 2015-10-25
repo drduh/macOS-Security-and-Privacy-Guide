@@ -369,7 +369,7 @@ For example, to learn what a system launch daemon or agent does, start with
 
 	defaults read /System/Library/LaunchDaemons/com.apple.apsd.plist
 
-Look at the `ProgramArguments` section to see which binary is run, in this case **apsd**. To find more information about that, look at the man page with `man apsd`
+Look at the `Program` or `ProgramArguments` section to see which binary is run, in this case `apsd`. To find more information about that, look at the man page with `man apsd`
 
 If you're not interested in Apple Push Notifications, disable the service
 
@@ -379,7 +379,13 @@ If you're not interested in Apple Push Notifications, disable the service
 
 Be careful about disabling any system daemons you don't understand, as it may render your system unbootable. If you break your Mac, use [single user mode](https://support.apple.com/en-us/HT201573) to fix it.
 
-Use **Console** and **Activity Monitor** applications if you notice your Mac heating up, feeling slugging, or generally misbehaving, as it may have resulted from your tinkering.
+Use [Console](https://en.wikipedia.org/wiki/Console_(OS_X)) and [Activity Monitor](https://support.apple.com/en-us/HT201464) applications if you notice your Mac heating up, feeling slugging, or generally misbehaving, as it may have resulted from your tinkering.
+
+To view currently disabled services, use
+
+    find /var/db/com.apple.xpc.launchd/ -type f -print -exec defaults read {} \; 2>/dev/null
+
+An annotated list of launch daemons and agents is included in this repository.
 
 ## Spotlight Suggestions
 Disable “Spotlight Suggestions” in both the Spotlight preferences and Safari's Search preferences to avoid your search queries being sent to Apple.
