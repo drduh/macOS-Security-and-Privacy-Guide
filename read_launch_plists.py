@@ -41,10 +41,9 @@ def GetProgram(plist):
      if the executable requires command line options.
   """
   try:
-    p = plist['Program']
+    return "['%s']" % plist['Program'], HashFile(plist['Program'])
   except KeyError:
-    p = plist['ProgramArguments']
-  return (p, HashFile(p))
+    return plist['ProgramArguments'], HashFile(plist['ProgramArguments'])
 
 
 def HashFile(f):
