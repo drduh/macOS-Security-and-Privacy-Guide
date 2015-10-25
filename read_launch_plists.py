@@ -53,7 +53,7 @@ def HashFile(f):
     f = f[0]
   try:
     return hashlib.sha256(open(f,'rb').read()).hexdigest()
-  except (FileNotFoundError, PermissionError):
+  except:
     return 'UNKNOWN'
 
 
