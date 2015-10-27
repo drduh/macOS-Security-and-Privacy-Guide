@@ -581,15 +581,16 @@ Apple claims OpenSSL is **deprecated** in their [Cryptographic Services Guide
 
 Grab a recent version of OpenSSL with `brew install openssl`. Note, linking brew to be used in favor of `/usr/bin/openssl` may interfere with building software. See [issue #39](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/39).
 
-Compare the new version with the system one
+For example, compare the TLS protocol and cipher between the homebrew version and the system version of OpenSSL,
 
-    $ echo | openssl s_client -connect github.com:443 2>&1 | grep -A2 SSL-Session
+    $ openssl version; echo | openssl s_client -connect github.com:443 2>&1 | grep -A2 SSL-Session
+    OpenSSL 1.0.2d 9 Jul 2015
     SSL-Session:
         Protocol  : TLSv1.2
         Cipher    : ECDHE-RSA-AES128-GCM-SHA256
 
     $ ^openssl^/usr/bin/openssl
-    echo | /usr/bin/openssl s_client -connect github.com:443 2>&1 | grep -A2 SSL-Session
+    OpenSSL 0.9.8zg 14 July 2015
     SSL-Session:
         Protocol  : TLSv1
         Cipher    : AES128-SHA
