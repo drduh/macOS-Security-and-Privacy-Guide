@@ -292,18 +292,31 @@ There are three basic types of firewall for OS X.
 #### Application layer firewall
 Built-in, basic firewall which blocks **incoming** connections only.
 
-Controlled by the **Firewall** tab of **Security & Privacy** in **System Preferences**.
+Note, this firewall does not have the ability to monitor, nor block **outgoing** connections.
 
-Enable ALF, logging and "stealth mode" with the following commands, or through System Preferences:
+It can be controlled by the **Firewall** tab of **Security & Privacy** in **System Preferences**, or with the following commands.
 
-    sudo defaults write /Library/Preferences/com.apple.alf globalstate -int 1
-    sudo defaults write /Library/Preferences/com.apple.alf allowsignedenabled -bool false
+Enable the firewall:
+
+    sudo defaults write /Library/Preferences/com.apple.alf globalstate -bool true
+
+Enable logging:
+
     sudo defaults write /Library/Preferences/com.apple.alf loggingenabled -bool true
+    
+You may also wish to enable stealth mode:
+
     sudo defaults write /Library/Preferences/com.apple.alf stealthenabled -bool true
 
 > Computer hackers scan networks so they can attempt to identify computers to attack. You can prevent your computer from responding to some of these scans by using **stealth mode**. When stealth mode is enabled, your computer does not respond to ICMP ping requests, and does not answer to connection attempts from a closed TCP or UDP port. This makes it more difficult for attackers to find your computer.
 
-Note, ALF does not offer the ability to monitor or block **outgoing** connections.
+Finally, you may wish to disable the *Automatically allow signed software to receive incoming connections* feature.
+
+    sudo defaults write /Library/Preferences/com.apple.alf allowsignedenabled -bool false
+
+> Applications that are signed by a valid certificate authority are automatically added to the list of allowed apps, rather than prompting the user to authorize them. Apps included in OS X are signed by Apple and are allowed to receive incoming connections when this setting is enabled. For example, since iTunes is already signed by Apple, it is automatically allowed to receive incoming connections through the firewall.
+> 
+> If you run an unsigned app that is not listed in the firewall list, a dialog appears with options to Allow or Deny connections for the app. If you choose Allow, OS X signs the application and automatically adds it to the firewall list. If you choose Deny, OS X adds it to the list but denies incoming connections intended for this app.
 
 #### Third party solutions
 Programs such as [Little Snitch](https://www.obdev.at/products/littlesnitch/index.html), [Hands Off](https://www.oneperiodic.com/products/handsoff/) and [Radio Silence](http://radiosilenceapp.com/) provide a good balance of usability and security.
