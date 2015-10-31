@@ -391,6 +391,8 @@ You may run the `read_launch_plists.py` script and `diff` output to check for an
 
     diff <(python3 read_launch_plists.py) <(cat 14F27_launchd.csv)
 
+See also [cirrusj.github.io/Yosemite-Stop-Launch](http://cirrusj.github.io/Yosemite-Stop-Launch/) for descriptions of services.
+
 ## Spotlight Suggestions
 Disable “Spotlight Suggestions” in both the Spotlight preferences and Safari's Search preferences to avoid your search queries being sent to Apple.
 
