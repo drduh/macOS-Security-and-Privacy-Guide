@@ -350,6 +350,8 @@ Use the following commands
 
 Unless you're already familiar with packet filtering, spending too much time configuring pf is not recommended. It is also probably unnecessary if your Mac is behind a [NAT](https://www.grc.com/nat/nat.htm) on a secured home network, for example.
 
+For an example of using pf to audit "phone home" behavior of user and system-level processes on, see [fix-macosx/net-monitor](https://github.com/fix-macosx/net-monitor).
+
 ## Services
 Before you connect to the Internet, you may wish to disable some system services, which use up resources or phone home to Apple.
 
@@ -1130,10 +1132,6 @@ Did you know Apple has not shipped a computer with TPM since [2006](http://osxbo
 [Santa: A binary whitelisting/blacklisting system for Mac OS X](https://github.com/google/santa/)
 
 [IPv6 Hardening Guide for OS X](http://www.insinuator.net/2015/02/ipv6-hardening-guide-for-os-x/)
-
-[Preventing OS X from phoning home to Cupertino](https://github.com/l1k/osxparanoia)
-
-[Yosemite net-monitor](https://github.com/fix-macosx/net-monitor)
 
 [Hacker News discussion](https://news.ycombinator.com/item?id=10148077)
 
