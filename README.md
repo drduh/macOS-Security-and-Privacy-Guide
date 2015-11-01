@@ -613,8 +613,7 @@ For example, compare the TLS protocol and cipher between the homebrew version an
         Cipher    : AES128-SHA
 
 Also see [Comparison of TLS implementations
-](https://en.wikipedia.org/wiki/Comparison_of_TLS_implementations), [How's My SSL](https://www.howsmyssl.com/), [Qualys SLL Labs Tools](https://www.ssllabs.com/projects/) and their Open Source command-line API.
-
+](https://en.wikipedia.org/wiki/Comparison_of_TLS_implementations), [How's My SSL](https://www.howsmyssl.com/), as well as [Qualys SSL Labs Tools](https://www.ssllabs.com/projects/).
 ## Curl
 
 The version of `curl` which comes with OS X uses [Secure Transport](https://developer.apple.com/library/mac/documentation/Security/Reference/secureTransportRef/) for SSL/TLS validation.
