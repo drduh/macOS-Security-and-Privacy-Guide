@@ -635,7 +635,7 @@ Here are a few recommended, self-explanatory [options](http://curl.haxx.se/docs/
 ## HTTP
 Consider using [privoxy](http://www.privoxy.org/) as a local proxy to sanitize and customize web browsing traffic.
 
-A signed package for privoxy can be downloaded from [Sourceforge](http://sourceforge.net/projects/ijbswa/files/Macintosh%20%28OS%20X%29/) (see [issue #65](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/65)).
+A signed package for privoxy can be downloaded from [Sourceforge](http://sourceforge.net/projects/ijbswa/files/Macintosh%20%28OS%20X%29/) or [silvester.org.uk](http://silvester.org.uk/privoxy_installers/OSX/) (see [issue #65](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/65)).
 
 Alternatively, install and start privoxy using Homebrew:
 
