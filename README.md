@@ -303,7 +303,7 @@ Enable the firewall:
 Enable logging:
 
     sudo defaults write /Library/Preferences/com.apple.alf loggingenabled -bool true
-    
+
 You may also wish to enable stealth mode:
 
     sudo defaults write /Library/Preferences/com.apple.alf stealthenabled -bool true
@@ -363,7 +363,7 @@ Use the following commands
 
 Unless you're already familiar with packet filtering, spending too much time configuring pf is not recommended. It is also probably unnecessary if your Mac is behind a [NAT](https://www.grc.com/nat/nat.htm) on a secured home network, for example.
 
-For an example of using pf to audit "phone home" behavior of user and system-level processes on, see [fix-macosx/net-monitor](https://github.com/fix-macosx/net-monitor).
+For an example of using pf to audit "phone home" behavior of user and system-level processes, see [fix-macosx/net-monitor](https://github.com/fix-macosx/net-monitor).
 
 ## Services
 Before you connect to the Internet, you may wish to disable some system services, which use up resources or phone home to Apple.
@@ -569,7 +569,9 @@ See also [What is a DNS leak and why should I care?](https://dnsleaktest.com/wha
 
 When OS X connects to new networks, it **probes** the network and launches a Captive Portal assistant utility if connectivity can't be determined.
 
-An attacker could trigger the utility and direct a Mac to a site with malware without user interaction, so it's best to disable this feature.
+An attacker could trigger the utility and direct a Mac to a site with malware without user interaction, so it's best to disable this feature and log in to captive portals using your regular Web browser.
+
+    sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.captive.control Active -bool false
 
 See also [How to disable the captive portal window in Mac OS Lion](https://web.archive.org/web/20130407200745/http://www.divertednetworks.net/apple-captiveportal.html) and [An undocumented change to Captive Network Assistant settings in OS X 10.10 Yosemite](https://grpugh.wordpress.com/2014/10/29/an-undocumented-change-to-captive-network-assistant-settings-in-os-x-10-10-yosemite/).
 
@@ -614,13 +616,14 @@ For example, compare the TLS protocol and cipher between the homebrew version an
 
 Also see [Comparison of TLS implementations
 ](https://en.wikipedia.org/wiki/Comparison_of_TLS_implementations), [How's My SSL](https://www.howsmyssl.com/), as well as [Qualys SSL Labs Tools](https://www.ssllabs.com/projects/).
+
 ## Curl
 
 The version of `curl` which comes with OS X uses [Secure Transport](https://developer.apple.com/library/mac/documentation/Security/Reference/secureTransportRef/) for SSL/TLS validation.
 
 If you prefer to use OpenSSL, install with `brew install curl --with-openssl` and ensure it's the default with `brew link --force curl`
 
-Here are a few recommended, self-explanatory [options](http://curl.haxx.se/docs/manpage.html) to add to `~/.curlrc`
+Here are several recommended, self-explanatory [options](http://curl.haxx.se/docs/manpage.html) to add to `~/.curlrc`
 
     user-agent = "Mozilla/5.0 (Windows NT 6.1; rv:31.0) Gecko/20100101 Firefox/31.0"
     referer = ";auto"
@@ -744,7 +747,7 @@ Install with `brew install gnupg`, or if you prefer to install a newer, more fea
 
 If you prefer a GUI, check out [GPG Suite](https://gpgtools.org/)
 
-Here are recommended options to add to `~/.gnupg/gpg.conf`
+Here are several recommended options to add to `~/.gnupg/gpg.conf`
 
     auto-key-locate keyserver
     keyserver hkps://hkps.pool.sks-keyservers.net
@@ -757,6 +760,7 @@ Here are recommended options to add to `~/.gnupg/gpg.conf`
     personal-digest-preferences SHA512 SHA384 SHA256 SHA224
     default-preference-list SHA512 SHA384 SHA256 SHA224 AES256 AES192 AES CAST5 ZLIB BZIP2 ZIP Uncompressed
     cert-digest-algo SHA512
+    s2k-digest-algo SHA512
     charset utf-8
     fixed-list-mode
     no-comments
@@ -769,6 +773,7 @@ Here are recommended options to add to `~/.gnupg/gpg.conf`
 Install the keyservers CA certificate
 
     curl -O https://sks-keyservers.net/sks-keyservers.netCA.pem
+
     sudo mv sks-keyservers.netCA.pem /etc
 
 These settings will configure GnuPG to use SSL when fetching new keys and prefer strong cryptographic primitives.
@@ -801,6 +806,8 @@ Consider downloading the [beta version](https://beta.adium.im/) which uses OAuth
 Remember to [disable logging](https://trac.adium.im/ticket/15722) for OTR chats with Adium.
 
 A good console-based XMPP client is [profanity](http://www.profanity.im/)  which can be installed with `brew install profanity`
+
+Also, check out [Tor Messenger](https://blog.torproject.org/blog/tor-messenger-beta-chat-over-tor-easily), although it is still in beta.
 
 If you want to know how OTR works, read the paper [Off-the-Record Communication, or, Why Not To Use PGP](https://otr.cypherpunks.ca/otr-wpes.pdf) [pdf]
 
@@ -993,12 +1000,12 @@ For example, a skilled attacker with unsupervised physical access to your comput
 
 [google/grr](https://github.com/google/grr) is an incident response framework focused on remote live forensics.
 
-[jipegit/OSXAuditor](https://github.com/jipegit/OSXAuditor) can be used to analyze artifacts on a running system, such as:
+[jipegit/OSXAuditor](https://github.com/jipegit/OSXAuditor) analyzes artifacts on a running system, such as:
 
  - Quarantined files
  - Browser information
  	- Safari history, downloads, topsites, LastSession, HTML5 databases and localstore
- 	- Firefox cookies, downloads, formhistory, permissions, places and signons
+ 	- Firefox cookies, downloads, form history, permissions, places and signons
  	- Chrome history and archives history, cookies, login data, top sites, web data, HTML5
  - User social media and email accounts
  - WiFi access points
