@@ -952,7 +952,7 @@ You may also create encrypted volumes in OS X using **Disk Utility**, or using `
 
     hdiutil create ~/Desktop/encrypted.dmg -encryption -size 1g -volname "Name" -fs JHFS+
     
-You can also check out services like [SpiderOak](https://spideroak.com/), [Arq](https://www.arqbackup.com/), or [restic](https://restic.github.io/).
+Also see the following applications and services: [SpiderOak](https://spideroak.com/), [Arq](https://www.arqbackup.com/), [Espionage](https://www.espionageapp.com/), and [restic](https://restic.github.io/).
 
 ## Wi-Fi
 OS X remembers access points it has connected to. Like all wireless devices, your Mac will broadcast all of these access point names it remembers (e.g. *So-and-so's Router*) each time it looks for a network (e.g. wake from sleep).
