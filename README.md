@@ -638,7 +638,7 @@ Here are several recommended, self-explanatory [options](http://curl.haxx.se/doc
 ## HTTP
 Consider using [privoxy](http://www.privoxy.org/) as a local proxy to sanitize and customize web browsing traffic.
 
-A signed package for privoxy can be downloaded from [Sourceforge](http://sourceforge.net/projects/ijbswa/files/Macintosh%20%28OS%20X%29/) or [silvester.org.uk](http://silvester.org.uk/privoxy/OSX/) (see [issue #65](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/65)).
+A signed installation package for privoxy can be downloaded from [Sourceforge](http://sourceforge.net/projects/ijbswa/files/Macintosh%20%28OS%20X%29/) or [silvester.org.uk](http://silvester.org.uk/privoxy/OSX/). The signed package is [more secure](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/65) than the Homebrew version, and attracts full support from the Privoxy project.
 
 Alternatively, install and start privoxy using Homebrew:
 
@@ -1185,3 +1185,5 @@ Did you know Apple has not shipped a computer with TPM since [2006](http://osxbo
 [CIS Apple OSX 10.10 Benchmark](https://benchmarks.cisecurity.org/tools2/osx/CIS_Apple_OSX_10.10_Benchmark_v1.0.0.pdf) [pdf]
 
 [How to Switch to the Mac](https://taoofmac.com/space/HOWTO/Switch)
+
+[Security Configuration For Mac OS X Version 10.6 Snow Leopard](http://www.apple.com/support/security/guides/docs/SnowLeopard_Security_Config_v10.6.pdf) [pdf]
