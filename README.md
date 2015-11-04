@@ -974,16 +974,30 @@ Finally, WEP protection on wireless networks is [not secure](http://www.howtogee
 ## SSH
 For outgoing ssh connections, use hardware- or password-protected ssh keys, [set up](http://nerderati.com/2011/03/17/simplify-your-life-with-an-ssh-config-file/) remote hosts and consider [hashing](http://nms.csail.mit.edu/projects/ssh/) them.
 
-To `~/.ssh/ssh_config`, add
+Here are several recommended [options](https://www.freebsd.org/cgi/man.cgi?query=ssh_config&sektion=5) to add to  `~/.ssh/ssh_config`
 
     Host *
       PasswordAuthentication no
       ChallengeResponseAuthentication no
       HashKnownHosts yes
       
-By default, OS X does not have ssh or *Remote Login* enabled. To enable ssh, use **System Preferences > Sharing**, or
+You can also use ssh to create an [encrypted tunnel](http://blog.trackets.com/2014/05/17/ssh-tunnel-local-and-remote-port-forwarding-explained-with-examples.html) to send your traffic through, which is similar to a VPN.
+
+For example, to use privoxy on a remote host:
+
+    ssh -C -L 5555:127.0.0.1:8118 you@remote-host.tld
+    
+    sudo networksetup -setwebproxy "Wi-Fi" 127.0.0.1 5555
+    
+    sudo networksetup -setsecurewebproxy "Wi-Fi" 127.0.0.1 5555
+
+By default, OS X does **not** have sshd or *Remote Login* enabled.
+
+To enable sshd and allow incoming ssh connections:
 
     sudo launchctl load -w /System/Library/LaunchDaemons/ssh.plist
+
+Or use the **System Preferences** > **Sharing** menu.
 
 If you are going to enable sshd, at least disable password authentication and consider further [hardening](https://stribika.github.io/2015/01/04/secure-secure-shell.html) your configuration.
 
@@ -993,7 +1007,7 @@ To `/etc/sshd_config`, add
     ChallengeResponseAuthentication no
     UsePAM no
     
- Confirm ssh is enabled or disabled with
+ Confirm sshd is enabled or disabled with:
  
     sudo lsof -ni TCP:22
 
@@ -1018,7 +1032,7 @@ For example, a skilled attacker with unsupervised physical access to your comput
  	- Firefox cookies, downloads, form history, permissions, places and signons
  	- Chrome history and archives history, cookies, login data, top sites, web data, HTML5
  - User social media and email accounts
- - WiFi access points
+ - Wi-Fi access points
 
 #### OpenBSM Audit
 OS X has a powerful OpenBSM auditing capability. You can use it to monitor process execution, network activity, and much more.
