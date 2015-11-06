@@ -1182,7 +1182,7 @@ Did you know Apple has not shipped a computer with TPM since [2006](http://osxbo
 
 [OS X 10.10 Yosemite: The Ars Technica Review](http://arstechnica.com/apple/2014/10/os-x-10-10/)
 
-[CIS Apple OSX 10.10 Benchmark](https://benchmarks.cisecurity.org/tools2/osx/CIS_Apple_OSX_10.10_Benchmark_v1.0.0.pdf) [pdf]
+[CIS Apple OSX 10.10 Benchmark](https://benchmarks.cisecurity.org/tools2/osx/CIS_Apple_OSX_10.10_Benchmark_v1.1.0.pdf) [pdf]
 
 [How to Switch to the Mac](https://taoofmac.com/space/HOWTO/Switch)
 
