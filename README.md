@@ -238,7 +238,7 @@ The security of Filevault 2 greatly depends on the pseudo random number generato
 
 See `man 4 random` for more information.
 
-The PRNG can be manually seeded with entropy by writing to /dev/random **before** enabling Filevault 2. This can be done by simply using the Mac for a little while before activate Filevault 2.
+The PRNG can be manually seeded with entropy by writing to /dev/random **before** enabling Filevault 2. This can be done by simply using the Mac for a little while before activating Filevault 2.
 
 Enable Filevault with `sudo fdesetup enable` or using **System Preferences** and reboot.
 
@@ -478,7 +478,8 @@ Have a look through the commented-out options. Here are a few recommended settin
 
     # Blackhole Tor hidden services and local TLDs
     address=/.onion/0.0.0.0
-    address=/.whatever/0.0.0.0
+    address=/.local/0.0.0.0
+    address=/.mycoolnetwork/0.0.0.0
 
     # Never forward addresses in the non-routed address spaces
     bogus-priv
@@ -514,8 +515,8 @@ Make sure `dnsmasq` is running with `sudo lsof -ni UDP:53` and is correctly conf
       nameserver[0] : 127.0.0.1
       flags    : Request A records, Request AAAA records
       reach    : Reachable,Local Address
- 
-    $ networksetup -getdnsservers "Wi-Fi"               
+
+    $ networksetup -getdnsservers "Wi-Fi"
     127.0.0.1
 
 **Note** Some VPN software overrides DNS settings on connect. See [issue #24](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/24) for more information.
@@ -714,7 +715,7 @@ Create at least three profiles, one for browsing **trusted** web sites (email, b
 
 * One profile with [uMatrix](https://github.com/gorhill/uMatrix) (or [uBlock](https://github.com/chrisaljoudi/uBlock), a simpler version). Use this profile for visiting **mostly trusted** web sites. Take time to learn how these **firewall** extensions work. Other frequently recommended extensions are [Privacy Badger](https://www.eff.org/privacybadger),  [HTTPSEverywhere](https://www.eff.org/https-everywhere) and [CertPatrol](http://patrol.psyced.org/) (Firefox only).
 
-* One (or more) profile for your "real name", signed-in browsing needs such as banking and email (however, don't open email links from this profile). 
+* One (or more) profile for your "real name", signed-in browsing needs such as banking and email (however, don't open email links from this profile).
 
 The idea is to separate and compartmentalize your data, so that an exploit or privacy violation in one session does not necessarily affect data in another.
 
@@ -948,17 +949,17 @@ Always encrypt files locally before backing them up to external media or online 
 To encrypt, use
 
     tar zcvf - ~/Downloads | gpg -c > ~/Desktop/backup-$(date +%F-%H%M).tar.gz.gpg
-    
+
 To decrypt, use
 
     gpg -o ~/Desktop/decrypted-backup.tar.gz \
       -d ~/Desktop/backup-2015-01-01-0000.tar.gz.gpg && \
       tar zxvf ~/Desktop/decrypted-backup.tar.gz
-      
+
 You may also create encrypted volumes in OS X using **Disk Utility**, or using `hdiutil`,
 
     hdiutil create ~/Desktop/encrypted.dmg -encryption -size 1g -volname "Name" -fs JHFS+
-    
+
 Also see the following applications and services: [SpiderOak](https://spideroak.com/), [Arq](https://www.arqbackup.com/), [Espionage](https://www.espionageapp.com/), and [restic](https://restic.github.io/).
 
 ## Wi-Fi
@@ -971,7 +972,7 @@ Also see [Signals from the Crowd: Uncovering Social Relationships through Smartp
 You may wish to [spoof the MAC address](https://en.wikipedia.org/wiki/MAC_spoofing) of your network card before connecting to new and untrusted wireless networks to mitigate passive fingerprinting, e.g.:
 
     sudo ifconfig en0 ether $(openssl rand -hex 6 | sed 's%\(..\)%\1:%g; s%.$%%')
-    
+
 **Note** MAC addresses will reset to their hardware defaults on each boot.
 
 Also see [feross/SpoofMAC](https://github.com/feross/SpoofMAC).
@@ -987,15 +988,15 @@ Here are several recommended [options](https://www.freebsd.org/cgi/man.cgi?query
       PasswordAuthentication no
       ChallengeResponseAuthentication no
       HashKnownHosts yes
-      
+
 You can also use ssh to create an [encrypted tunnel](http://blog.trackets.com/2014/05/17/ssh-tunnel-local-and-remote-port-forwarding-explained-with-examples.html) to send your traffic through, which is similar to a VPN.
 
 For example, to use privoxy on a remote host:
 
     ssh -C -L 5555:127.0.0.1:8118 you@remote-host.tld
-    
+
     sudo networksetup -setwebproxy "Wi-Fi" 127.0.0.1 5555
-    
+
     sudo networksetup -setsecurewebproxy "Wi-Fi" 127.0.0.1 5555
 
 By default, OS X does **not** have sshd or *Remote Login* enabled.
@@ -1013,9 +1014,9 @@ To `/etc/sshd_config`, add
     PasswordAuthentication no
     ChallengeResponseAuthentication no
     UsePAM no
-    
+
  Confirm sshd is enabled or disabled with:
- 
+
     sudo lsof -ni TCP:22
 
 ## Physical access
