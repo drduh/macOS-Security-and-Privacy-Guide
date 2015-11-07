@@ -315,7 +315,7 @@ Finally, you may wish to disable the *Automatically allow signed software to rec
     sudo defaults write /Library/Preferences/com.apple.alf allowsignedenabled -bool false
 
 > Applications that are signed by a valid certificate authority are automatically added to the list of allowed apps, rather than prompting the user to authorize them. Apps included in OS X are signed by Apple and are allowed to receive incoming connections when this setting is enabled. For example, since iTunes is already signed by Apple, it is automatically allowed to receive incoming connections through the firewall.
-> 
+>
 > If you run an unsigned app that is not listed in the firewall list, a dialog appears with options to Allow or Deny connections for the app. If you choose Allow, OS X signs the application and automatically adds it to the firewall list. If you choose Deny, OS X adds it to the list but denies incoming connections intended for this app.
 
 #### Third party solutions
@@ -400,7 +400,7 @@ To view currently disabled services,
 
     find /var/db/com.apple.xpc.launchd/ -type f -print -exec defaults read {} \; 2>/dev/null
 
-Annotated lists of launch daemons and agents, the respective program executed, and the programs' hash sums are included in this repository. 
+Annotated lists of launch daemons and agents, the respective program executed, and the programs' hash sums are included in this repository.
 
 You may run the `read_launch_plists.py` script and `diff` output to check for any discrepancies on your system, e.g.:
 
@@ -476,8 +476,15 @@ Have a look through the commented-out options. Here are a few recommended settin
     # Never forward plain names
     domain-needed
 
+    # Blackhole Tor hidden services and local TLDs
+    address=/.onion/0.0.0.0
+    address=/.whatever/0.0.0.0
+
     # Never forward addresses in the non-routed address spaces
     bogus-priv
+
+    # Reject private addresses from upstream nameservers
+    stop-dns-rebind
 
     # Optional logging directives
     log-async
@@ -507,7 +514,7 @@ Make sure `dnsmasq` is running with `sudo lsof -ni UDP:53` and is correctly conf
       nameserver[0] : 127.0.0.1
       flags    : Request A records, Request AAAA records
       reach    : Reachable,Local Address
-      
+ 
     $ networksetup -getdnsservers "Wi-Fi"               
     127.0.0.1
 
