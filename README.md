@@ -1195,3 +1195,5 @@ Did you know Apple has not shipped a computer with TPM since [2006](http://osxbo
 [How to Switch to the Mac](https://taoofmac.com/space/HOWTO/Switch)
 
 [Security Configuration For Mac OS X Version 10.6 Snow Leopard](http://www.apple.com/support/security/guides/docs/SnowLeopard_Security_Config_v10.6.pdf) [pdf]
+
+[EFF Surveillance Self-Defense](https://ssd.eff.org/)
