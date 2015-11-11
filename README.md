@@ -723,26 +723,20 @@ In each profile, visit `chrome://plugins/` and **disable Adobe Flash** plugin. I
 
 Take some time to read through [Chromium Security](https://www.chromium.org/Home/chromium-security) and [Chromium Privacy](https://www.chromium.org/Home/chromium-privacy).
 
-For example you may wish to disable [DNS prefetching](https://www.chromium.org/developers/design-documents/dns-prefetching) (see also [DNS Prefetching and Its Privacy Implications](https://www.usenix.org/legacy/event/leet10/tech/full_papers/Krishnan.pdf) [pdf].
+For example you may wish to disable [DNS prefetching](https://www.chromium.org/developers/design-documents/dns-prefetching) (see also [DNS Prefetching and Its Privacy Implications](https://www.usenix.org/legacy/event/leet10/tech/full_papers/Krishnan.pdf) [pdf]).
 
 Do **not** use other Chromium-derived browsers. They are usually [closed source](http://yro.slashdot.org/comments.pl?sid=4176879&cid=44774943), [poorly maintained](https://plus.google.com/+JustinSchuh/posts/69qw9wZVH8z), or make dubious claims to protect privacy. See [The Private Life of Chromium Browsers](http://thesimplecomputer.info/the-private-life-of-chromium-browsers).
 
-Do **not** use Safari. The code is a mess and security vulnerabilities are frequent, but slower to patch ([discussion on HN](https://news.ycombinator.com/item?id=10150038)). If you have to use Safari, disable the **Open "safe" files after downloading** option in Preferences.
+Do **not** use Safari. The code is a mess and [security](https://nakedsecurity.sophos.com/2014/02/24/anatomy-of-a-goto-fail-apples-ssl-bug-explained-plus-an-unofficial-patch/) [vulnerabilities](https://vimeo.com/144872861) are frequent, and slower to patch (see also [discussion on Hacker News](https://news.ycombinator.com/item?id=10150038)). If you do use Safari, at least [disable](https://thoughtsviewsopinions.wordpress.com/2013/04/26/how-to-stop-downloaded-files-opening-automatically/) the *Open "safe" files after downloading* option in Preferences.
 
-For more information about security conscious browsing [HowTo: Privacy & Security Conscious Browsing](https://gist.github.com/atcuno/3425484ac5cce5298932) is a great addition.
+For more information about security conscious browsing, see [HowTo: Privacy & Security Conscious Browsing](https://gist.github.com/atcuno/3425484ac5cce5298932), [browserleaks.com](https://www.browserleaks.com/) and [EFF Panopticlick](https://panopticlick.eff.org/).
 
 ## Plugins
-Don't download or install Internet plugins like **Silverlight** unless you really need them. Netflix works with HTML5 on Yosemite and El Capitan.
+**Adobe Flash**, **Oracle Java**, **Adobe Reader**, **Microsoft Silverlight** (Netflix now works with [HTML5](https://help.netflix.com/en/node/23742)) and other plugins are [security risks](https://news.ycombinator.com/item?id=9901480) and should not be installed. 
 
-**Java**, **Flash**, **Adobe Reader** and others plugins are a big security risk because they are poorly written, and should not be installed.
+If they are necessary, only use them in a disposable virtual machine and subscribe to security announcements to make sure you're always patched.
 
-Really, only use them in a disposable VM.
-
-See <https://en.wikipedia.org/wiki/Trojan_BackDoor.Flashback>,
-
-<http://www.cvedetails.com/vulnerability-list/vendor_id-53/product_id-497/Adobe-Acrobat-Reader.html>, and
-
-<https://blogs.cisco.com/security/angling-for-silverlight-exploits>
+See [Hacking Team Flash Zero-Day](http://blog.trendmicro.com/trendlabs-security-intelligence/hacking-team-flash-zero-day-integrated-into-exploit-kits/), [Java Trojan BackDoor.Flashback](https://en.wikipedia.org/wiki/Trojan_BackDoor.Flashback), [Acrobat Reader: Security Vulnerabilities](http://www.cvedetails.com/vulnerability-list/vendor_id-53/product_id-497/Adobe-Acrobat-Reader.html), and [Angling for Silverlight Exploits](https://blogs.cisco.com/security/angling-for-silverlight-exploits), for example.
 
 ## PGP/GPG
 PGP is a standard for encrypting email end to end. That means only the chosen recipients can decrypt a message, unlike regular email which is read and forever archived by providers.
@@ -786,10 +780,7 @@ Install the keyservers CA certificate
 
 These settings will configure GnuPG to use SSL when fetching new keys and prefer strong cryptographic primitives.
 
-See also [ioerror/duraconf/configs/gnupg/gpg.conf](https://github.com/ioerror/duraconf/blob/master/configs/gnupg/gpg.conf)
-
-You should also read [OpenPGP Best Practices
-](https://help.riseup.net/en/security/message-security/openpgp/best-practices)
+See also [ioerror/duraconf/configs/gnupg/gpg.conf](https://github.com/ioerror/duraconf/blob/master/configs/gnupg/gpg.conf). You should also take some time to read [OpenPGP Best Practices](https://help.riseup.net/en/security/message-security/openpgp/best-practices).
 
 If you don't already have a keypair, create one using `gpg --gen-key`
 
@@ -817,7 +808,7 @@ A good console-based XMPP client is [profanity](http://www.profanity.im/)  which
 
 Also, check out [Tor Messenger](https://blog.torproject.org/blog/tor-messenger-beta-chat-over-tor-easily), although it is still in beta.
 
-If you want to know how OTR works, read the paper [Off-the-Record Communication, or, Why Not To Use PGP](https://otr.cypherpunks.ca/otr-wpes.pdf) [pdf]
+If you want to know how OTR works, read the paper [Off-the-Record Communication, or, Why Not To Use PGP](https://otr.cypherpunks.ca/otr-wpes.pdf) [pdf].
 
 ## Tor
 Tor is an anonymizing proxy which can be used for browsing the web.
@@ -836,7 +827,7 @@ Make sure `Good signature from "Tor Browser Developers (signing key) <torbrowser
 
 See [How to verify signatures for packages](https://www.torproject.org/docs/verifying-signatures.html) for more information.
 
-Tor traffic is **encrypted** (i.e., cannot be read by a passive network eavesdropper), but **can** be identified.
+Tor traffic is **encrypted** to the [exit node](https://en.wikipedia.org/wiki/Tor_(anonymity_network)#Exit_node_eavesdropping) (i.e., cannot be read by a passive network eavesdropper), but **can** be identified.
 
 Just one example way is by monitoring TLS handshakes:
 
@@ -849,13 +840,13 @@ Just one example way is by monitoring TLS handshakes:
 
 See [Tor Protocol Specification](https://gitweb.torproject.org/torspec.git/tree/tor-spec.txt) and [Tor/TLSHistory](https://trac.torproject.org/projects/tor/wiki/org/projects/Tor/TLSHistory) for more information.
 
-It is recommended to additionally obfuscate it using a [pluggable transport](https://www.torproject.org/docs/pluggable-transports.html) such as [Yawning/obfs4proxy](https://github.com/Yawning/obfs4) or [SRI-CSL/stegotorus](https://github.com/SRI-CSL/stegotorus).
+It is recommended to additionally obfuscate Tor traffic using a [pluggable transport](https://www.torproject.org/docs/pluggable-transports.html), such as [Yawning/obfs4proxy](https://github.com/Yawning/obfs4) or [SRI-CSL/stegotorus](https://github.com/SRI-CSL/stegotorus).
 
-This can be done by [running a Tor relay](https://www.torproject.org/docs/tor-relay-debian.html) or a private or public [bridge](https://www.torproject.org/docs/bridges.html.en#RunningABridge) which will serve as your obfuscating guard node. Set one up and share it with your friends!
+This can be done by setting up your own [Tor relay](https://www.torproject.org/docs/tor-relay-debian.html) or finding an existing private or public [bridge](https://www.torproject.org/docs/bridges.html.en#RunningABridge) to serve as an obfuscating entry node.
 
-For extra security, use [VirtualBox](https://www.virtualbox.org/wiki/Downloads) or VMware to run a virtualized [GNU/Linux](http://www.brianlinkletter.com/installing-debian-linux-in-a-virtualbox-virtual-machine/) or [BSD](http://www.openbsd.org/faq/faq4.html) machine to do your private browsing on.
+For extra security, use [VirtualBox](https://www.virtualbox.org/wiki/Downloads) or [VMware](https://www.vmware.com/products/fusion) to run a virtualized [GNU/Linux](http://www.brianlinkletter.com/installing-debian-linux-in-a-virtualbox-virtual-machine/) or [BSD](http://www.openbsd.org/faq/faq4.html) machine to do your private browsing on.
 
-For more on browser privacy, see [browserleaks.com](https://www.browserleaks.com/) and [EFF Panopticlick](https://panopticlick.eff.org/).
+Finally, remember the Tor network provides [anonymity](https://www.privateinternetaccess.com/blog/2013/10/how-does-privacy-differ-from-anonymity-and-why-are-both-important/), which is not necessarily synonymous with privacy. The Tor network does not guarantee protection against a global observer capable of traffic analysis and [correlation](https://blog.torproject.org/category/tags/traffic-correlation). See also [Seeking Anonymity in an Internet Panopticon](http://bford.info/pub/net/panopticon-cacm.pdf) [pdf] and [Traffic Correlation on Tor by Realistic Adversaries](http://www.ohmygodel.com/publications/usersrouted-ccs13.pdf) [pdf].
 
 ## VPN
 If you use your Mac on untrusted networks - airports, cafes, etc. - your network traffic is being monitored and possibly tampered with.
