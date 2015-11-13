@@ -9,6 +9,7 @@ import glob
 import hashlib
 import os
 import plistlib
+import subprocess
 
 header ='filename,label,program,sha256,runatload,comment'
 location = '/System/Library/Launch%s/*.plist'
@@ -16,11 +17,20 @@ location = '/System/Library/Launch%s/*.plist'
 
 def LoadPlist(filename):
   """Plists can be read with plistlib."""
+  # creating our own data
+  data = None
+  
   try:
-    return plistlib.readPlist(filename)
-  except:
-    print('python3.4 is required to read binary plist %s, skipping' % filename)
-    return None
+      p = subprocess.Popen(['/usr/bin/plutil','-convert','xml1', '-o', '-', filename], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+      out_data, err_data = p.communicate()
+  except IOError as e:
+      # file could not be found
+      print e
+      
+  if(p.returncode == 0):
+      data = plistlib.readPlistFromString(out_data)
+  
+  return data
 
 
 def GetStatus(plist):
