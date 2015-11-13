@@ -10,10 +10,11 @@ import hashlib
 import os
 import plistlib
 import subprocess
+import csv
 
 header ='filename,label,program,sha256,runatload,comment'
 location = '/System/Library/Launch%s/*.plist'
-
+comments = {}
 
 def LoadPlist(filename):
   """Plists can be read with plistlib."""
@@ -66,16 +67,32 @@ def HashFile(f):
     return 'UNKNOWN'
 
 
+def GetComment(plist):
+  """docstring for GetComment"""
+  global comments
+  label = plist['Label']
+  comment = None
+  if label in comments:
+    comment = comments[label]
+  return comment
+
+
 def main():
   """Main function."""
   print(header)
-
+  
+  global comments
+  csvfile = os.path.join(os.path.dirname(os.path.realpath(__file__)), "comments.csv")
+  with open(csvfile, 'rb') as f:
+      reader = csv.reader(f)
+      comments = {rows[0]:rows[1] for rows in reader}
+  
   for kind in ['Daemons', 'Agents']:
     for filename in glob.glob(location % kind):
       p = LoadPlist(filename)
       if p:
-        e = (filename, GetLabel(p), '"%s",%s' % GetProgram(p), GetStatus(p))
-        print('%s,%s,%s,%s,' % e)
+        e = (filename, GetLabel(p), '"%s",%s' % GetProgram(p), GetStatus(p), '"%s"' % GetComment(p))
+        print('%s,%s,%s,%s,%s' % e)
       else:
         print('Could not load %s' % filename)
 
