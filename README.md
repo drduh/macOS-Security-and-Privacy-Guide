@@ -486,6 +486,13 @@ Have a look through the commented-out options. Here are a few recommended settin
 
     # Reject private addresses from upstream nameservers
     stop-dns-rebind
+    
+    # Query servers in order
+    strict-order
+
+    # Set the size of the cache
+    # The default is to keep 150 hostnames
+    cache-size=8192
 
     # Optional logging directives
     log-async
