@@ -287,7 +287,7 @@ The firmware password will activate at next boot. To validate the password hold 
 ## Firewall
 Before connecting to the Internet, it's a good idea to first configure a firewall.
 
-There are three basic types of firewall for OS X.
+There are three types of firewall for OS X.
 
 #### Application layer firewall
 Built-in, basic firewall which blocks **incoming** connections only.
@@ -404,7 +404,7 @@ Annotated lists of launch daemons and agents, the respective program executed, a
 
 You may run the `read_launch_plists.py` script and `diff` output to check for any discrepancies on your system, e.g.:
 
-    diff <(python3 read_launch_plists.py) <(cat 14F27_launchd.csv)
+    diff <(python read_launch_plists.py) <(cat 14F27_launchd.csv)
 
 See also [cirrusj.github.io/Yosemite-Stop-Launch](http://cirrusj.github.io/Yosemite-Stop-Launch/) for descriptions of services.
 
@@ -434,7 +434,7 @@ Homebrew uses SSL/TLS to talk with github and verifies checksums of downloaded p
 
 Alternatively, you could download, compile and install software directly from their respective open source repositories.
 
-Remember to periodically run `brew update` and `brew upgrade` to install homebrewed software updates.
+Remember to periodically run `brew update` and `brew upgrade` on trusted, secure networks to install software updates.
 
 ## DNS
 Here are a few ways to improve your security and privacy with DNS.

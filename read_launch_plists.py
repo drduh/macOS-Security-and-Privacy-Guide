@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 #
-# This script reads system launch daemons and agents.
-#
-# Python 3.4 is required to read binary plists, or convert them first with,
-# find /System/Library/Launch* -type f -exec sudo plutil -convert xml1 {} \;
+# This script reads system launch daemon and agent plists.
 
 import glob
 import hashlib
@@ -22,11 +19,13 @@ def LoadPlist(filename):
   data = None
   
   try:
-      p = subprocess.Popen(['/usr/bin/plutil','-convert','xml1', '-o', '-', filename], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-      out_data, err_data = p.communicate()
+    p = subprocess.Popen(
+        ['/usr/bin/plutil', '-convert', 'xml1', '-o', '-', filename],
+        stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    out_data, err_data = p.communicate()
   except IOError as e:
-      # file could not be found
-      print e
+    # file could not be found
+    print e
       
   if(p.returncode == 0):
       data = plistlib.readPlistFromString(out_data)
@@ -82,7 +81,10 @@ def main():
   print(header)
   
   global comments
-  csvfile = os.path.join(os.path.dirname(os.path.realpath(__file__)), "comments.csv")
+
+  csvfile = os.path.join(os.path.dirname(
+      os.path.realpath(__file__)), 'comments.csv')
+
   with open(csvfile, 'rb') as f:
       reader = csv.reader(f)
       comments = {rows[0]:rows[1] for rows in reader}
