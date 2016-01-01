@@ -81,7 +81,7 @@ There are several ways to install a fresh copy of OS X.
 
 The simplest way is to boot into [Recovery Mode](https://support.apple.com/en-us/HT201314) by holding `Command` and `R` keys at boot. A system image can be downloaded and applied directly from Apple. However, this way exposes the computer's serial number and other identifying information to Apple over plain **HTTP**.
 
-Another way is to download **OS X El Capitan 10.11.1** from the [App Store](https://itunes.apple.com/us/app/os-x-el-capitan/id1018109117) or some other place and create a custom, installable system image.
+Another way is to download **OS X El Capitan 10.11.2** from the [App Store](https://itunes.apple.com/us/app/os-x-el-capitan/id1018109117) or some other place and create a custom, installable system image.
 
 The application is [code signed](https://developer.apple.com/library/mac/documentation/Security/Conceptual/CodeSigningGuide/Procedures/Procedures.html#//apple_ref/doc/uid/TP40005929-CH4-SW6), which should be verified to make sure you received a legitimate copy.
 
@@ -109,10 +109,10 @@ You can verify the following cryptographic hashes to ensure you have the same, a
 
 You can also Google these hashes to ensure your copy is genuine and has not been tampered with. See `InstallESD_Hashes.csv` in this repository for previous versions.
 
-    InstallESD.dmg (Build 15B42)
+    InstallESD.dmg (Build 15C50)
 
-    SHA-256:   6275929722c35674fce90d2272d383d49696096e8626ee7f7900dd0334167a9a
-    SHA-1:     306a080c07e293b6765ba950bab213572704acec
+    SHA-256:   8e81dc547f07bc92408d5269983c64cf6ab2206e4d9a1cd94eb6e9003279921b
+    SHA-1:     2b11b8b618a2e5100507c3c432363081db65c4c8
 
 Mount and install the operating system to a **temporary image**, or use the GUI app [MagerValp/AutoDMG](https://github.com/MagerValp/AutoDMG).
 
@@ -128,9 +128,9 @@ This part will take a while, so just be patient. You can `tail -F /var/log/insta
 
 Optionally, install any other packages to the image, such as [Wireshark](https://www.wireshark.org/download.html).
 
-    hdiutil mount Wireshark\ 1.99.5\ Intel\ 64.dmg
+    hdiutil mount Wireshark\ 2.0.1\ Intel\ 64.dmg
 
-    sudo installer -pkg /Volumes/Wireshark/Wireshark\ 1.99.5\ Intel\ 64.pkg -tgt /tmp/os
+    sudo installer -pkg /Volumes/Wireshark/Wireshark\ 2.0.1\ Intel\ 64.pkg -tgt /tmp/os
 
     hdiutil unmount /Volumes/Wireshark
 
@@ -179,7 +179,7 @@ Alternatively, open the **Disk Utility** application, erase the connected Mac's 
 
 If you've followed these steps correctly, the target Mac should now have a new install of OS X.
 
-If you want to transfer any files, copy them to a folder like `/Users/Shared` on the mounted disk image, e.g. `cp Xcode_6.1.1.dmg /Volumes/OS\ X/Users/Shared`
+If you want to transfer any files, copy them to a folder like `/Users/Shared` on the mounted disk image, e.g. `cp Xcode_7.0.dmg /Volumes/OS\ X/Users/Shared`
 
 #### Recovery partition
 
@@ -683,7 +683,7 @@ Confirm the proxy is set with the command `scutil --proxy`. You can also visit <
 
 Privoxy already comes with many good rules, however you can also write your own.
 
-For example, edit `/usr/local/etc/privoxy/user.action` to block elements by domain or with regular expressions,
+Edit `/usr/local/etc/privoxy/user.action` to filter elements by domain or with regular expressions, e.g.:
 
     { +block{unwanted stuff} }
     www.facebook.com/(extern|plugins)/(login_status|like(box)?|activity|fan)\.php
@@ -697,13 +697,12 @@ For example, edit `/usr/local/etc/privoxy/user.action` to block elements by doma
     /assets/social-.*
     /img/social.*
 
-Write simple or complex rules for redirection, such as upgrading connections to HTTPS,
+Write simple or complex rules for redirection, such as upgrading connections to HTTPS, e.g.:
 
     { +redirect{s@http://@https://@} }
     code.jquery.com
-
-    { +redirect{s@http://imgur.com/@https://imgur.com/@}}
     imgur.com
+E
 
 You can even replace all ad images with pictures of kittens by running a local web server.
 
@@ -881,9 +880,9 @@ You can periodically run a tool like [Knock Knock](https://github.com/synack/kno
 
 **Anti-virus** programs are a double-edged sword -- not useful for **advanced** users and will likely increase attack surface against sophisticated threats, however possibly useful for catching "garden variety" malware on **novice** users' Macs. There is also the additional processing overhead to consider.
 
-See [Sophail: Applied attacks against Sophos Antivirus](https://lock.cmpxchg8b.com/sophailv2.pdf) [pdf], [Analysis and Exploitation of an ESET Vulnerability](http://googleprojectzero.blogspot.ro/2015/06/analysis-and-exploitation-of-eset.html), [a trivial Avast RCE](https://code.google.com/p/google-security-research/issues/detail?id=546), and [Popular Security Software Came Under Relentless NSA and GCHQ Attacks](https://theintercept.com/2015/06/22/nsa-gchq-targeted-kaspersky/).
+See [Sophail: Applied attacks against  Antivirus](https://lock.cmpxchg8b.com/sophailv2.pdf) [pdf], [Analysis and Exploitation of an ESET Vulnerability](http://googleprojectzero.blogspot.ro/2015/06/analysis-and-exploitation-of-eset.html), [a trivial Avast RCE](https://code.google.com/p/google-security-research/issues/detail?id=546), [Popular Security Software Came Under Relentless NSA and GCHQ Attacks](https://theintercept.com/2015/06/22/nsa-gchq-targeted-kaspersky/), and [AVG: "Web TuneUP" extension multiple critical vulnerabilitie](https://code.google.com/p/google-security-research/issues/detail?id=675).
 
-Therefore, the best anti-virus is **Common Sense 2015**. Also see discussion in [issue #44](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/44).
+Therefore, the best anti-virus is **Common Sense 2015**. See more discussion in [issue #44](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/44).
 
 Local privilege escalation bugs are plenty on OS X, so always be careful when downloading and running untrusted programs or trusted programs from third party websites or downloaded over HTTP ([example](http://arstechnica.com/security/2015/08/0-day-bug-in-fully-patched-os-x-comes-under-active-exploit-to-hijack-macs/)).
 
