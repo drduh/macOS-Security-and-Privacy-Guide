@@ -702,7 +702,7 @@ Write simple or complex rules for redirection, such as upgrading connections to 
     { +redirect{s@http://@https://@} }
     code.jquery.com
     imgur.com
-E
+    .wikipedia.org
 
 You can even replace all ad images with pictures of kittens by running a local web server.
 
@@ -823,7 +823,9 @@ If you want to know how OTR works, read the paper [Off-the-Record Communication,
 ## Tor
 Tor is an anonymizing proxy which can be used for browsing the web.
 
-Download Tor Browser from <https://www.torproject.org/projects/torbrowser.html>. Do **not** attempt to configure other browsers to use Tor as you are likely make a mistake which will compromise your anonymity.
+Download Tor Browser from <https://www.torproject.org/projects/torbrowser.html>.
+
+Do **not** attempt to configure other browsers to use Tor as you are likely make a mistake which will compromise your anonymity.
 
 After downloading the `dmg` and `asc` files, verify the disk image has been signed by Tor developers with `gpg TorBrowser*asc`
 
@@ -957,16 +959,16 @@ To decrypt, use
       -d ~/Desktop/backup-2015-01-01-0000.tar.gz.gpg && \
       tar zxvf ~/Desktop/decrypted-backup.tar.gz
 
-You may also create encrypted volumes in OS X using **Disk Utility**, or using `hdiutil`,
+You may also create encrypted volumes using **Disk Utility**, or `hdiutil`, e.g.:
 
     hdiutil create ~/Desktop/encrypted.dmg -encryption -size 1g -volname "Name" -fs JHFS+
 
 Also see the following applications and services: [SpiderOak](https://spideroak.com/), [Arq](https://www.arqbackup.com/), [Espionage](https://www.espionageapp.com/), and [restic](https://restic.github.io/).
 
 ## Wi-Fi
-OS X remembers access points it has connected to. Like all wireless devices, your Mac will broadcast all of these access point names it remembers (e.g. *So-and-so's Router*) each time it looks for a network (e.g. wake from sleep).
+OS X remembers access points it has connected to. Like all wireless devices, the Mac will broadcast all access point names it remembers (e.g., *MyHomeNetwork*) each time it looks for a network, such as when waking from sleep.
 
-This is a privacy risk, so remove networks from the list in **System Preferences** when they're no longer needed.
+This is a privacy risk, so remove networks from the list in **System Preferences** > **Network** > **Advanced** when they're no longer needed.
 
 Also see [Signals from the Crowd: Uncovering Social Relationships through Smartphone Probes](http://conferences.sigcomm.org/imc/2013/papers/imc148-barberaSP106.pdf) [pdf] and [Wi-Fi told me everything about you](http://confiance-numerique.clermont-universite.fr/Slides/M-Cunche-2014.pdf) [pdf].
 
@@ -1064,27 +1066,33 @@ See articles on [ilostmynotes.blogspot.com](http://ilostmynotes.blogspot.com/201
 
 #### DTrace
 
-`iosnoop` monitors disk I/O.
+`iosnoop` monitors disk I/O
 
-`opensnoop` monitors file opens.
+`opensnoop` monitors file opens
 
-`execsnoop` monitors execution of processes.
+`execsnoop` monitors execution of processes
 
-`errinfo` monitors failed system calls.
+`errinfo` monitors failed system calls
 
-`dtruss` monitors all system calls.
+`dtruss` monitors all system calls
 
-See `man -k dtrace` for more.
+See `man -k dtrace` for more
+
+#### Execution
+
+`ps -ef` lists information about all running processes.
+
+You can also view processes with **Activity Monitor**.
+
+`launchctl list` and `sudo launchctl list` lists loaded and running user and system launch daemons and agents.
 
 #### Network
 
-Here's a few examples of networking monitoring commands
+`sudo lsof -ni -P` lists all open Internet and network "files"
 
-    sudo lsof -ni -P
+`sudo netstat -atln` lists contents of various network-related data structures
 
-    sudo netstat -atln
-
-You can also use Wireshark from the command line.
+You can also use [Wireshark](https://www.wireshark.org/) from the command line.
 
 Monitor DNS queries and replies
 
@@ -1198,3 +1206,5 @@ Did you know Apple has not shipped a computer with TPM since [2006](http://osxbo
 [Security Configuration For Mac OS X Version 10.6 Snow Leopard](http://www.apple.com/support/security/guides/docs/SnowLeopard_Security_Config_v10.6.pdf) [pdf]
 
 [EFF Surveillance Self-Defense](https://ssd.eff.org/)
+
+[MacAdmins on Slack](https://macadmins.herokuapp.com/)
