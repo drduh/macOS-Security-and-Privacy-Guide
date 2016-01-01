@@ -262,6 +262,13 @@ Deploying FileVault 2](http://training.apple.com/pdf/WP_FileVault2.pdf) [pdf]
 
 and paper [Lest We Remember: Cold Boot Attacks on Encryption Keys](https://www.usenix.org/legacy/event/sec08/tech/full_papers/halderman/halderman.pdf) [pdf]
 
+## User directory encryption
+There is a way to make filesystem even more secure (especially in
+multi-user environments). We can achieve that by adding extra encryption
+on user directory.
+
+You can do this using: https://github.com/pr0d1r2/hackintosh_alpha#setup-legacy-filevault
+
 ## Firmware password
 
 Setting a firmware password in OS X prevents your Mac from starting up from any device other than your startup disk. [It can also be helpful if your laptop is stolen](https://www.ftc.gov/news-events/blogs/techftc/2015/08/virtues-strong-enduser-device-controls), as the only way to reset the firmware password is through an Apple Store ([or is it?](https://reverse.put.as/2015/05/29/the-empire-strikes-back-apple-how-your-mac-firmware-security-is-completely-broken/)).
