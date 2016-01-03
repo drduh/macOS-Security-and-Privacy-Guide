@@ -456,15 +456,18 @@ Use it in combination with `dnscrypt` to also encrypt outgoing DNS traffic.
 
 If you don't wish to use `dnscrypt`, you should at least use DNS [not provided](http://bcn.boulder.co.us/~neal/ietf/verisign-abuse.html) [by your ISP](http://hackercodex.com/guide/how-to-stop-isp-dns-server-hijacking/). Two popular alternatives are [Google DNS](https://developers.google.com/speed/public-dns/) and [OpenDNS](https://www.opendns.com/home-internet-security/).
 
+[DNSSEC](https://en.wikipedia.org/wiki/Domain_Name_System_Security_Extensions) is a set of extensions to DNS which provide to DNS clients (resolvers) origin authentication of DNS data, authenticated denial of existence, and data integrity. All answers from DNSSEC protected zones are digitally signed. The signed records are authenticated via a chain of trust, starting with a set of verified public keys for the DNS root-zone. The current root-zone trust anchors may be downloaded [from IANA website](https://www.iana.org/dnssec/files). There are a number of resources on DNSSEC, but probably the best one is [dnssec.net website](http://www.dnssec.net).
+
 Install `dnsmasq` and edit the configuration
 
-    brew install dnsmasq
+    brew install dnsmasq --with-dnssec
 
     mkdir -p /usr/local/etc
 
     cp /usr/local/opt/dnsmasq/dnsmasq.conf.example /usr/local/etc/dnsmasq.conf
 
     vim /usr/local/etc/dnsmasq.conf
+    
 
 Have a look through the commented-out options. Here are a few recommended settings to enable,
 
@@ -497,6 +500,11 @@ Have a look through the commented-out options. Here are a few recommended settin
     log-dhcp
     log-queries
     log-facility=/var/log/dnsmasq.log
+    
+    # DNSSEC options
+    dnssec
+    trust-anchor=.,19036,8,2,49AAC11D7B6F6446702E54A1607371607A1A41855200FD2CE1CDDE32F24E8FB5
+    dnssec-check-unsigned
 
 Install and start the program
 
@@ -525,6 +533,25 @@ Make sure `dnsmasq` is running with `sudo lsof -ni UDP:53` and is correctly conf
     127.0.0.1
 
 **Note** Some VPN software overrides DNS settings on connect. See [issue #24](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/24) for more information.
+
+##### Test DNSSEC validation
+Test DNSSEC validation succeeds for signed zones:
+
+    $ dig +dnssec icann.org
+
+Reply should have `NOERROR` status and contain `ad` flag. For instance,
+
+    ;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 47039
+    ;; flags: qr rd ra ad; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1
+
+Test DNSSEC validation fails for zones that are signed improperly:
+
+    $ dig www.dnssec-failed.org
+
+Reply should have `SERVFAIL` status. For instance,
+
+    ;; ->>HEADER<<- opcode: QUERY, status: SERVFAIL, id: 15190
+    ;; flags: qr rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 0, ADDITIONAL: 1
 
 #### dnscrypt
 
