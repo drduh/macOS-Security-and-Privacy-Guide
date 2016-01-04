@@ -1,16 +1,16 @@
-This is a collection of thoughts on securing a modern Mac running OS X Yosemite and some steps on how to improve privacy.
+This is a collection of thoughts on securing a modern Apple Mac computer using OS X 10.11 "El Capitan", as well as steps to improving online privacy.
 
-It is targeted to “power users” who wish to adopt enterprise-standard security, but is also suitable for novice users with an interest in improving their privacy and security on a Mac.
+This guide is targeted to “power users” who wish to adopt enterprise-standard security, but is also suitable for novice users with an interest in improving their privacy and security on a Mac.
 
 There is no security silver bullet. A system is only as secure as its administrator is capable of making it.
 
 I am **not** responsible if you break a Mac by following any of these steps.
 
-If you wish to make a correction or improvement, please send a pull request or [open an issue](https://github.com/drduh/OS-X-Yosemite-Security-and-Privacy-Guide/issues).
+If you wish to make a correction or improvement, please send a pull request or [open an issue](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues).
 
 - [Basics](#basics)
-- [Preparing Yosemite](#preparing-yosemite)
-- [Installing Yosemite](#installing-yosemite)
+- [Preparing OS X](#preparing-os-x)
+- [Installing OS X](#installing-os-x)
     - [Recovery partition](#recovery-partition)
 - [First boot](#first-boot)
 - [Full disk encryption](#full-disk-encryption)
@@ -26,7 +26,6 @@ If you wish to make a correction or improvement, please send a pull request or [
     - [Hosts file](#hosts-file)
     - [dnsmasq](#dnsmasq)
     - [dnscrypt](#dnscrypt)
-    - [Multicast advertisement](#multicast-advertisement)
 - [Captive portal](#captive-portal)
 - [Certificate authorities](#certificate-authorities)
 - [OpenSSL](#openssl)
@@ -39,9 +38,12 @@ If you wish to make a correction or improvement, please send a pull request or [
 - [Tor](#tor)
 - [VPN](#vpn)
 - [Viruses and malware](#viruses-and-malware)
+- [System Integrity Protection](#system-integrity-protection)
 - [Gatekeeper and Xprotect](#gatekeeper-and-xprotect)
 - [Passwords](#passwords)
+- [Backup](#backup)
 - [Wi-Fi](#wi-fi)
+- [SSH](#ssh)
 - [Physical access](#physical-access)
 - [System monitoring](#system-monitoring)
     - [Open Source Monitoring Tools](#open-source-monitoring-tools)
@@ -59,8 +61,8 @@ The standard best security practices apply.
 	* Study and recognize the threat and your attack surface.
 
 * Keep the system up to date
-	* Patch, patch, patch.
-	* Subscribe to announcement mailing lists (e.g., [Apple security-announce](https://lists.apple.com/mailman/listinfo/security-announce)) for software you use often.
+	* Patch, patch, patch your system and software.
+	* Subscribe to announcement mailing lists (e.g., [Apple security-announce](https://lists.apple.com/mailman/listinfo/security-announce)) for programs you use often.
 
 * Encrypt sensitive data
 	* In addition to full disk encryption, create one or many encrypted containers to store passwords, keys and personal documents.
@@ -74,46 +76,47 @@ The standard best security practices apply.
 	* Ultimately, the security of the system can be reduced to its administrator.
 	* Care should be taken when installing new software. Always prefer [free](https://www.gnu.org/philosophy/free-sw.en.html) and open source software ([which OS X is not](https://superuser.com/questions/19492/is-mac-os-x-open-source)).
 
-## Preparing Yosemite
-There are several ways to install a fresh copy of OS X Yosemite.
+## Preparing OS X
+There are several ways to install a fresh copy of OS X.
 
 The simplest way is to boot into [Recovery Mode](https://support.apple.com/en-us/HT201314) by holding `Command` and `R` keys at boot. A system image can be downloaded and applied directly from Apple. However, this way exposes the computer's serial number and other identifying information to Apple over plain **HTTP**.
 
-Another way is to download Yosemite build version `14F27` from the [App Store](https://itunes.apple.com/us/app/os-x-yosemite/id915041082) or some other place and create a custom, installable system image.
+Another way is to download **OS X El Capitan 10.11.2** from the [App Store](https://itunes.apple.com/us/app/os-x-el-capitan/id1018109117) or some other place and create a custom, installable system image.
 
 The application is [code signed](https://developer.apple.com/library/mac/documentation/Security/Conceptual/CodeSigningGuide/Procedures/Procedures.html#//apple_ref/doc/uid/TP40005929-CH4-SW6), which should be verified to make sure you received a legitimate copy.
 
-    $ codesign -dvv Install\ OS\ X\ Yosemite.app
-    Executable=/Users/drduh/Install OS X Yosemite.app/Contents/MacOS/InstallAssistant
-    Identifier=com.apple.InstallAssistant.Yosemite
+    $ codesign -dvv /Applications/Install\ OS\ X\ El\ Capitan.app
+    Executable=/Applications/Install OS X El Capitan.app/Contents/MacOS/InstallAssistant
+    Identifier=com.apple.InstallAssistant.ElCapitan
     Format=bundle with Mach-O thin (x86_64)
-    CodeDirectory v=20200 size=239 flags=0x200(kill) hashes=4+3 location=embedded
+    CodeDirectory v=20200 size=280 flags=0x200(kill) hashes=4+5 location=embedded
     Signature size=4169
     Authority=Apple Mac OS Application Signing
     Authority=Apple Worldwide Developer Relations Certification Authority
     Authority=Apple Root CA
-    Info.plist entries=30
+    Info.plist entries=31
     TeamIdentifier=K36BKF7T3D
+    Sealed Resources version=2 rules=8 files=151
+    Internal requirements count=1 size=124
 
-OS X installers can be made with the `createinstallmedia` utility included in `Install OS X Yosemite.app/Contents/Resources/`. See [Create a bootable installer for OS X Yosemite](https://support.apple.com/en-us/HT201372), or run the utility without arguments to see how it works.
+OS X installers can be made with the `createinstallmedia` utility included in `Install OS X El Capitan.app/Contents/Resources/`. See [Create a bootable installer for OS X Yosemite](https://support.apple.com/en-us/HT201372), or run the utility without arguments to see how it works.
 
-If you'd like to do it the **manual** way, you will need to find the file `InstallESD.dmg`, which is inside `Install OS X Yosemite.app`.
+If you'd like to do it the **manual** way, you will need to find the file `InstallESD.dmg`, which is inside `Install OS X El Capitan.app`.
 
-Right click, select **Show Package Contents** and navigate to **Contents > SharedSupport** to find `Install.DMG`.
+Right click, select **Show Package Contents** and navigate to **Contents > SharedSupport** to find `InstallESD.DMG`.
 
 You can verify the following cryptographic hashes to ensure you have the same, authentic copy by using a command like `shasum -a256 InstallESD.dmg` and so on.
 
-You can also Google these hashes to ensure your copy is genuine and has not been tampered with.
+You can also Google these hashes to ensure your copy is genuine and has not been tampered with. See `InstallESD_Hashes.csv` in this repository for previous versions.
 
-    InstallESD.dmg (Build 14F27)
+    InstallESD.dmg (Build 15C50)
 
-    SHA-256: 24c4934d91401dd2f738c7811d35ae16d3d7993586592a64b9baf625fe0427db
-    SHA-1:   ef5cc8851b893dbe4bc9a5cf5c648c10450af6bc
-    MD5:     ff4850735fa0a0a1d706edd21f133ef2
+    SHA-256:   8e81dc547f07bc92408d5269983c64cf6ab2206e4d9a1cd94eb6e9003279921b
+    SHA-1:     2b11b8b618a2e5100507c3c432363081db65c4c8
 
 Mount and install the operating system to a **temporary image**, or use the GUI app [MagerValp/AutoDMG](https://github.com/MagerValp/AutoDMG).
 
-    hdiutil attach -noverify -mountpoint /tmp/installesd /Applications/Install\ OS\ X\ Yosemite.app/Contents/SharedSupport/InstallESD.dmg
+    hdiutil attach -noverify -mountpoint /tmp/installesd ./InstallESD.dmg
 
     hdiutil create -size 32g -type SPARSE -fs HFS+J -volname "OS X" -uid 0 -gid 80 -mode 1775 /tmp/output.sparseimage
 
@@ -125,9 +128,9 @@ This part will take a while, so just be patient. You can `tail -F /var/log/insta
 
 Optionally, install any other packages to the image, such as [Wireshark](https://www.wireshark.org/download.html).
 
-    hdiutil mount Wireshark\ 1.99.5\ Intel\ 64.dmg
+    hdiutil mount Wireshark\ 2.0.1\ Intel\ 64.dmg
 
-    sudo installer -pkg /Volumes/Wireshark/Wireshark\ 1.99.5\ Intel\ 64.pkg -tgt /tmp/os
+    sudo installer -pkg /Volumes/Wireshark/Wireshark\ 2.0.1\ Intel\ 64.pkg -tgt /tmp/os
 
     hdiutil unmount /Volumes/Wireshark
 
@@ -139,17 +142,19 @@ When you're done, detach, convert and verify the image.
 
     hdiutil detach /tmp/installesd
 
-    hdiutil convert -format UDZO /tmp/output.sparseimage -o yosemite.dmg
+    hdiutil convert -format UDZO /tmp/output.sparseimage -o elcap.dmg
 
-    asr imagescan --source yosemite.dmg
+    asr imagescan --source elcap.dmg
 
-Now, `yosemite.dmg` is ready to be applied to one or multiple Macs. You can further customize the image to have premade users, applications and preferences to your liking.
+Now, `elcap.dmg` is ready to be applied to one or multiple Macs. You can further customize the image to include premade users, applications and preferences to your liking.
 
-## Installing Yosemite
+## Installing OS X
 
-I prefer to install this image using another Mac and [Target Disk Mode](https://support.apple.com/en-us/HT201462).
+One way to install the OS X image is using another Mac in [Target Disk Mode](https://support.apple.com/en-us/HT201462).
 
-If you don't have another Mac, create a bootable USB drive from the Yosemite app bundle you already have, and boot the Mac you wish to image to it by holding the *Option* key at boot.
+If you don't have another Mac, create a bootable USB drive from the El Capitan application bundle, and boot the Mac you wish to image to it by holding the *Option* key at boot.
+
+Alternatively, you could also create a second partition on your existing Mac and use that.
 
 If you don't have an external drive or USB stick to use, it's possible to create a small partition with **Disk Utility** and use that. There are several guides online on how to do this.
 
@@ -165,20 +170,20 @@ Run `diskutil list` to identify the connected disk, usually `/dev/disk2`
 **Restore** the image to the new volume
 
     sudo asr restore \
-      --source yosemite.dmg \
+      --source elcap.dmg \
       --target /Volumes/OSX \
       --erase --noverify \
       --buffersize 4m
 
-Alternatively, open the **Disk Utility** application, erase the connected Mac's disk, then drag `yosemite.dmg` in to restore it to the new partition.
+Alternatively, open the **Disk Utility** application, erase the connected Mac's disk, then drag `elcap.dmg` in to restore it to the new partition.
 
-If you've followed these steps correctly, the target Mac should now have a fresh install of OS X Yosemite.
+If you've followed these steps correctly, the target Mac should now have a new install of OS X.
 
-If you want to transfer any files, copy them to a folder like `/Users/Shared` on the mounted disk image, e.g. `cp xcode_6.1.1.dmg /Volumes/OS\ X/Users/Shared`
+If you want to transfer any files, copy them to a folder like `/Users/Shared` on the mounted disk image, e.g. `cp Xcode_7.0.dmg /Volumes/OS\ X/Users/Shared`
 
 #### Recovery partition
 
-We're not done yet! Unless you have built the image with [AutoDMG](https://github.com/MagerValp/AutoDMG), you will need to create a recovery partition in order to use Filevault full disk encryption. You can do so using [MagerValp/Create-Recovery-Partition-Installer](https://github.com/MagerValp/Create-Recovery-Partition-Installer) or with the following manual steps.
+We're not done yet! Unless you have built the image with [AutoDMG](https://github.com/MagerValp/AutoDMG), or installed OS X to a second partition on your Mac, you will need to create a recovery partition in order to use Filevault full disk encryption. You can do so using [MagerValp/Create-Recovery-Partition-Installer](https://github.com/MagerValp/Create-Recovery-Partition-Installer) or by following these steps.
 
 Download [RecoveryHDUpdate.dmg](https://support.apple.com/downloads/DL1464/en_US/RecoveryHDUpdate.dmg)
 
@@ -186,7 +191,6 @@ Download [RecoveryHDUpdate.dmg](https://support.apple.com/downloads/DL1464/en_US
 
     SHA-256: f6a4f8ac25eaa6163aa33ac46d40f223f40e58ec0b6b9bf6ad96bdbfc771e12c
     SHA-1:   1ac3b7059ae0fcb2877d22375121d4e6920ae5ba
-    MD5:     b669cdb341b2253a843bf0d402b9675a
 
 Attach and expand the installation, then run it
 
@@ -234,7 +238,7 @@ The security of Filevault 2 greatly depends on the pseudo random number generato
 
 See `man 4 random` for more information.
 
-The PRNG can be manually seeded with entropy by writing to /dev/random **before** enabling Filevault 2. This can be done by simply using the Mac for a little while before activate Filevault 2.
+The PRNG can be manually seeded with entropy by writing to /dev/random **before** enabling Filevault 2. This can be done by simply using the Mac for a little while before activating Filevault 2.
 
 Enable Filevault with `sudo fdesetup enable` or using **System Preferences** and reboot.
 
@@ -246,7 +250,7 @@ and [IEEE Std 1619-2007 “The XTS-AES Tweakable Block Cipher”](http://libecci
 
 You may wish to enforce **hibernation** and evict Filevault keys from memory instead of traditional sleep to memory.
 
-    sudo pmset -a destroyfvkeyonstandby 1 
+    sudo pmset -a destroyfvkeyonstandby 1
     sudo pmset -a hibernatemode 25
 
 > All computers have firmware of some type—EFI, BIOS—to help in the discovery of hardware components and ultimately to properly bootstrap the computer using the desired OS instance. In the case of Apple hardware and the use of EFI, Apple stores relevant information within EFI to aid in the functionality of OS X. For example, the FileVault key is stored in EFI to transparently come out of standby mode.
@@ -283,28 +287,45 @@ The firmware password will activate at next boot. To validate the password hold 
 ## Firewall
 Before connecting to the Internet, it's a good idea to first configure a firewall.
 
-There are three basic types of firewall for OS X.
+There are three types of firewall for OS X.
 
 #### Application layer firewall
 Built-in, basic firewall which blocks **incoming** connections only.
 
-Controlled by the **Firewall** tab of **Security & Privacy** in **System Preferences**.
+Note, this firewall does not have the ability to monitor, nor block **outgoing** connections.
 
-Enable ALF, logging and "stealth mode" with the following commands, or through System Preferences:
+It can be controlled by the **Firewall** tab of **Security & Privacy** in **System Preferences**, or with the following commands.
 
-    sudo defaults write /Library/Preferences/com.apple.alf globalstate -int 1
-    sudo defaults write /Library/Preferences/com.apple.alf allowsignedenabled -bool false
+Enable the firewall:
+
+    sudo defaults write /Library/Preferences/com.apple.alf globalstate -bool true
+
+Enable logging:
+
     sudo defaults write /Library/Preferences/com.apple.alf loggingenabled -bool true
+
+You may also wish to enable stealth mode:
+
     sudo defaults write /Library/Preferences/com.apple.alf stealthenabled -bool true
 
 > Computer hackers scan networks so they can attempt to identify computers to attack. You can prevent your computer from responding to some of these scans by using **stealth mode**. When stealth mode is enabled, your computer does not respond to ICMP ping requests, and does not answer to connection attempts from a closed TCP or UDP port. This makes it more difficult for attackers to find your computer.
 
-Note, ALF does not offer the ability to monitor or block **outgoing** connections.
+Finally, you may wish to disable the *Automatically allow signed software to receive incoming connections* feature.
+
+    sudo defaults write /Library/Preferences/com.apple.alf allowsignedenabled -bool false
+
+> Applications that are signed by a valid certificate authority are automatically added to the list of allowed apps, rather than prompting the user to authorize them. Apps included in OS X are signed by Apple and are allowed to receive incoming connections when this setting is enabled. For example, since iTunes is already signed by Apple, it is automatically allowed to receive incoming connections through the firewall.
+>
+> If you run an unsigned app that is not listed in the firewall list, a dialog appears with options to Allow or Deny connections for the app. If you choose Allow, OS X signs the application and automatically adds it to the firewall list. If you choose Deny, OS X adds it to the list but denies incoming connections intended for this app.
 
 #### Third party solutions
 Programs such as [Little Snitch](https://www.obdev.at/products/littlesnitch/index.html), [Hands Off](https://www.oneperiodic.com/products/handsoff/) and [Radio Silence](http://radiosilenceapp.com/) provide a good balance of usability and security.
 
-They are capable of monitoring and blocking **incoming** and **outgoing** network connections. However, they may require the use of a closed source [kernel extension](https://developer.apple.com/library/mac/documentation/Darwin/Conceptual/KernelProgramming/Extend/Extend.html).
+<img width="349" alt="Example of Little Snitch monitored session" src="https://cloud.githubusercontent.com/assets/12475110/10596588/c0eed3c0-76b3-11e5-95b8-9ce7d51b3d82.png">
+
+*Example of Little Snitch-monitored session*
+
+These programs are capable of monitoring and blocking **incoming** and **outgoing** network connections. However, they may require the use of a closed source [kernel extension](https://developer.apple.com/library/mac/documentation/Darwin/Conceptual/KernelProgramming/Extend/Extend.html).
 
 If the number of choices of allowing/blocking network connections is overwhelming, use **Silent Mode** with connections allowed, then periodically check your settings to gain understanding of what various applications are doing.
 
@@ -340,18 +361,18 @@ Use the following commands
 * `sudo ifconfig pflog0 create` to create an interface for logging
 * `sudo tcpdump -ni pflog0` to dump the packets
 
-Unless you're already familiar with pf, I don't suggest worrying too much about configuring it on OS X.
+Unless you're already familiar with packet filtering, spending too much time configuring pf is not recommended. It is also probably unnecessary if your Mac is behind a [NAT](https://www.grc.com/nat/nat.htm) on a secured home network, for example.
+
+For an example of using pf to audit "phone home" behavior of user and system-level processes, see [fix-macosx/net-monitor](https://github.com/fix-macosx/net-monitor).
 
 ## Services
-Before you connect to the Internet, you may wish to disable some Apple services which phone home to Apple.
+Before you connect to the Internet, you may wish to disable some system services, which use up resources or phone home to Apple.
 
-Also see [fix-macosx/yosemite-phone-home](https://github.com/fix-macosx/yosemite-phone-home) and [l1k/osxparanoia](https://github.com/l1k/osxparanoia)
+See [fix-macosx/yosemite-phone-home](https://github.com/fix-macosx/yosemite-phone-home) and [l1k/osxparanoia](https://github.com/l1k/osxparanoia)
 
 Services on OS X are managed by **launchd**. See <http://launchd.info/>, as well as [Apple's Daemons and Services Programming Guide](https://developer.apple.com/library/mac/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingLaunchdJobs.html) and [Technical Note TN2083](https://developer.apple.com/library/mac/technotes/tn2083/_index.html)
 
 You can also run [KnockKnock](https://github.com/synack/knockknock) that shows more information about startup items.
-
-Here are the basics:
 
 * Use `launchctl list` to view loaded user agents
 * Use `sudo launchctl list` to view loaded system daemons
@@ -363,7 +384,7 @@ For example, to learn what a system launch daemon or agent does, start with
 
 	defaults read /System/Library/LaunchDaemons/com.apple.apsd.plist
 
-Look at the `ProgramArguments` section to see which binary is run, in this case **apsd**. To find more information about that, look at the man page with `man apsd`
+Look at the `Program` or `ProgramArguments` section to see which binary is run, in this case `apsd`. To find more information about that, look at the man page with `man apsd`
 
 If you're not interested in Apple Push Notifications, disable the service
 
@@ -371,64 +392,21 @@ If you're not interested in Apple Push Notifications, disable the service
 
 **Note** Unloading services may break usability of some applications. Read the manual pages and use Google to make sure you understand what you're doing first.
 
-That said, here's an example of disabling some **user launch agents** I don't care for,
-
-	function disable_agent {
-      echo "Disabling ${1}"
-      launchctl unload -w /System/Library/LaunchAgents/${1}.plist
-	}
-
-	disable_agent com.apple.AddressBook.SourceSync
-	disable_agent com.apple.AirPlayUIAgent
-	disable_agent com.apple.AOSHeartbeat
-	disable_agent com.apple.AOSPushRelay
-	disable_agent com.apple.bird
-	disable_agent com.apple.CalendarAgent
-	disable_agent com.apple.CallHistoryPluginHelper
-	disable_agent com.apple.CallHistorySyncHelper
-	disable_agent com.apple.cloudd
-	disable_agent com.apple.cloudfamilyrestrictionsd-mac
-	disable_agent com.apple.cloudpaird
-	disable_agent com.apple.cloudphotosd
-	disable_agent com.apple.CoreLocationAgent
-	disable_agent com.apple.coreservices.appleid.authentication
-	disable_agent com.apple.EscrowSecurityAlert
-	disable_agent com.apple.findmymacmessenger
-	disable_agent com.apple.gamed
-	disable_agent com.apple.helpd
-	disable_agent com.apple.icloud.fmfd
-	disable_agent com.apple.idsremoteurlconnectionagent
-	disable_agent com.apple.imagent
-	disable_agent com.apple.IMLoggingAgent
-	disable_agent com.apple.locationmenu
-	disable_agent com.apple.notificationcenterui
-	disable_agent com.apple.pbs
-	disable_agent com.apple.rtcreportingd
-	disable_agent com.apple.SafariCloudHistoryPushAgent
-	disable_agent com.apple.safaridavclient
-	disable_agent com.apple.SafariNotificationAgent
-	disable_agent com.apple.security.cloudkeychainproxy
-	disable_agent com.apple.SocialPushAgent
-	disable_agent com.apple.syncdefaultsd
-	disable_agent com.apple.telephonyutilities.callservicesd
-
-And the same for **system launch daemons**,
-
-	function disable_daemon {
-      echo "Disabling ${1}"
-      sudo launchctl unload -w /System/Library/LaunchDaemons/${1}.plist
-	}
-
-	disable_daemon com.apple.apsd
-	disable_daemon com.apple.AssetCacheLocatorService
-	disable_daemon com.apple.awacsd
-	disable_daemon com.apple.awdd
-	disable_daemon com.apple.CrashReporterSupportHelper
-	disable_daemon com.apple.GameController.gamecontrollerd
-	disable_daemon com.apple.SubmitDiagInfo
-	disable_daemon com.apple.TMCacheDelete
-
 Be careful about disabling any system daemons you don't understand, as it may render your system unbootable. If you break your Mac, use [single user mode](https://support.apple.com/en-us/HT201573) to fix it.
+
+Use [Console](https://en.wikipedia.org/wiki/Console_(OS_X)) and [Activity Monitor](https://support.apple.com/en-us/HT201464) applications if you notice your Mac heating up, feeling slugging, or generally misbehaving, as it may have resulted from your tinkering.
+
+To view currently disabled services,
+
+    find /var/db/com.apple.xpc.launchd/ -type f -print -exec defaults read {} \; 2>/dev/null
+
+Annotated lists of launch daemons and agents, the respective program executed, and the programs' hash sums are included in this repository.
+
+You may run the `read_launch_plists.py` script and `diff` output to check for any discrepancies on your system, e.g.:
+
+    diff <(python read_launch_plists.py) <(cat 14F27_launchd.csv)
+
+See also [cirrusj.github.io/Yosemite-Stop-Launch](http://cirrusj.github.io/Yosemite-Stop-Launch/) for descriptions of services.
 
 ## Spotlight Suggestions
 Disable “Spotlight Suggestions” in both the Spotlight preferences and Safari's Search preferences to avoid your search queries being sent to Apple.
@@ -442,7 +420,7 @@ See <https://fix-macosx.com/>
 Speaking of Microsoft, you may want to see <https://fix10.isleaked.com/> just for fun.
 
 ## Homebrew
-Consider installing [Homebrew](http://brew.sh/) to make installing software easier.
+Consider using [Homebrew](http://brew.sh/) to make software installations easier and to update userland tools (see [Apple’s great GPL purge](http://meta.ath0.com/2012/02/05/apples-great-gpl-purge/)).
 
 If you have not already installed Xcode or Command Line Tools, run `xcode-select --install` and a prompt should appear to download and install CLI Tools.
 
@@ -454,7 +432,9 @@ or have a look at [homebrew/Installation.md](https://github.com/Homebrew/homebre
 
 Homebrew uses SSL/TLS to talk with github and verifies checksums of downloaded packages, so it's [fairly secure](https://github.com/Homebrew/homebrew/issues/18036).
 
-Or, just download, compile and install software directly from their respective open source repositories.
+Alternatively, you could download, compile and install software directly from their respective open source repositories.
+
+Remember to periodically run `brew update` and `brew upgrade` on trusted, secure networks to install software updates.
 
 ## DNS
 Here are a few ways to improve your security and privacy with DNS.
@@ -462,13 +442,13 @@ Here are a few ways to improve your security and privacy with DNS.
 #### Hosts file
 Use the [hosts file](https://en.wikipedia.org/wiki/Hosts_(file)) to block known malware, advertising or otherwise unwanted domains.
 
-Edit the hosts file as root with `sudo vi /etc/hosts`. The hosts file can also be managed with the GUI app [2ndalpha/gasmask](https://github.com/2ndalpha/gasmask).
+Edit the hosts file as root, for example with `sudo vi /etc/hosts`. The hosts file can also be managed with the GUI app [2ndalpha/gasmask](https://github.com/2ndalpha/gasmask).
 
 To block a domain, just add `0 facebook.com` (`0` means `0.0.0.0`, a null route)
 
 There are many lists of domains available online which you can paste in, just make sure each line starts with `0` or `127.0.0.1`, and the line `127.0.0.1 localhost` is included.
 
-For examples, see [someonewhocares.org](http://someonewhocares.org/hosts/zero/hosts), [l1k/osxparanoia/blob/master/hosts](https://github.com/l1k/osxparanoia/blob/master/hosts) and [gorhill/uMatrix/hosts-files.json](https://github.com/gorhill/uMatrix/blob/master/assets/umatrix/hosts-files.json).
+For hosts lists, see [someonewhocares.org](http://someonewhocares.org/hosts/zero/hosts), [l1k/osxparanoia/blob/master/hosts](https://github.com/l1k/osxparanoia/blob/master/hosts), [StevenBlack/hosts](https://github.com/StevenBlack/hosts) and [gorhill/uMatrix/hosts-files.json](https://github.com/gorhill/uMatrix/blob/master/assets/umatrix/hosts-files.json).
 
 #### dnsmasq
 
@@ -492,12 +472,27 @@ Have a look through the commented-out options. Here are a few recommended settin
 
     # Forward queries to dnscrypt on localhost
     server=127.0.0.1#5355
-      
+
     # Never forward plain names
     domain-needed
 
+    # Blackhole Tor hidden services and local TLDs
+    address=/.onion/0.0.0.0
+    address=/.local/0.0.0.0
+    address=/.mycoolnetwork/0.0.0.0
+
     # Never forward addresses in the non-routed address spaces
     bogus-priv
+
+    # Reject private addresses from upstream nameservers
+    stop-dns-rebind
+    
+    # Query servers in order
+    strict-order
+
+    # Set the size of the cache
+    # The default is to keep 150 hostnames
+    cache-size=8192
 
     # Optional logging directives
     log-async
@@ -508,16 +503,16 @@ Have a look through the commented-out options. Here are a few recommended settin
 Install and start the program
 
     sudo cp -fv /usr/local/opt/dnsmasq/*.plist /Library/LaunchDaemons
-    
+
     sudo chown root /Library/LaunchDaemons/homebrew.mxcl.dnsmasq.plist
-    
+
     sudo launchctl load /Library/LaunchDaemons/homebrew.mxcl.dnsmasq.plist
 
-Open **System Preferences** > **Network** and select your interface, then the **DNS** tab.
+Open **System Preferences** > **Network** and select your interface, then the **DNS** tab, select **+** and add `127.0.0.1` as a DNS server, or use the command,
 
-Select the **+** and add `127.0.0.1` as a DNS server.
+    sudo networksetup -setdnsservers "Wi-Fi" 127.0.0.1
 
-Make sure `dnsmasq` is running with `sudo lsof -ni UDP:53` or `ps -ef | grep '[d]nsmasq'` or with `scutil`
+Make sure `dnsmasq` is running with `sudo lsof -ni UDP:53` and is correctly configured with `scutil` or `networksetup`:
 
     $ scutil --dns
     DNS configuration
@@ -528,7 +523,10 @@ Make sure `dnsmasq` is running with `sudo lsof -ni UDP:53` or `ps -ef | grep '[d
       flags    : Request A records, Request AAAA records
       reach    : Reachable,Local Address
 
-**Note** Some VPN software overrides DNS settings on connect. See [issue #24](https://github.com/drduh/OS-X-Yosemite-Security-and-Privacy-Guide/issues/24) for more information.
+    $ networksetup -getdnsservers "Wi-Fi"
+    127.0.0.1
+
+**Note** Some VPN software overrides DNS settings on connect. See [issue #24](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/24) for more information.
 
 #### dnscrypt
 
@@ -551,6 +549,14 @@ If using in combination with `dnsmasq`, edit `/Library/LaunchDaemons/homebrew.mx
 Below the line
 
     <string>/usr/local/opt/dnscrypt-proxy/sbin/dnscrypt-proxy</string>
+
+<img width="916" alt="dnscrypt" src="https://cloud.githubusercontent.com/assets/12475110/10596750/94644540-76b5-11e5-8ddb-15c0130f7827.png">
+
+*Append a local-address line to use dnscrypt on a port other than 53, like 5355.*
+
+By default, the `resolvers-list` will point to the dnscrypt version specific resolvers file. When dnscrypt is updated, this version may no longer exist, and if it does, may point to an outdated file. This can be fixed by changing the resolvers file in `/Library/LaunchDaemons/homebrew.mxcl.dnscrypt-proxy.plist` to the symlinked version in `/usr/local/share`:
+
+    <string>--resolvers-list=/usr/local/share/dnscrypt-proxy/dnscrypt-resolvers.csv</string>
 
 Finally, start the program
 
@@ -576,35 +582,20 @@ Make sure it's working with `tcpdump` or Wireshark
     $ dig +short -x 77.66.84.233
     resolver2.dnscrypt.eu
 
-Also see [What is a DNS leak and why should I care?](https://dnsleaktest.com/what-is-a-dns-leak.html)
-
-#### Multicast advertisement
-Turn off multicast DNS if you don't need it. It spams information about your machine and its services to the local network.
-
-Edit `com.apple.mDNSResponder.plist`
-
-    sudo -E vim /System/Library/LaunchDaemons/com.apple.mDNSResponder.plist
-
-Copy the line `<string>/usr/sbin/mDNSResponder</string>` and paste it twice (`yy` and `pp` in vim)
-
-Replace the argument with `-launchd` and `-NoMulticastAdvertisements`
-
-`sudo killall -9 mDNSResponder` to restart **mDNSResponder**
-
-You can also use [MacMiniVault/Mac-Scripts/disablebonjour.sh](https://github.com/MacMiniVault/Mac-Scripts/blob/master/disablebonjour/disablebonjour.sh) to accomplish this.
+See also [What is a DNS leak and why should I care?](https://dnsleaktest.com/what-is-a-dns-leak.html) and the [mDNSResponder manual page](https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man8/mDNSResponder.8.html).
 
 ## Captive portal
 
 When OS X connects to new networks, it **probes** the network and launches a Captive Portal assistant utility if connectivity can't be determined.
 
-An attacker could trigger the utility and direct a Mac to a site with malware without user interaction, so it's best to disable this feature.
+An attacker could trigger the utility and direct a Mac to a site with malware without user interaction, so it's best to disable this feature and log in to captive portals using your regular Web browser.
 
-See <https://web.archive.org/web/20130407200745/http://www.divertednetworks.net/apple-captiveportal.html>
+    sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.captive.control Active -bool false
 
-and <https://grpugh.wordpress.com/2014/10/29/an-undocumented-change-to-captive-network-assistant-settings-in-os-x-10-10-yosemite/>
+See also [How to disable the captive portal window in Mac OS Lion](https://web.archive.org/web/20130407200745/http://www.divertednetworks.net/apple-captiveportal.html) and [An undocumented change to Captive Network Assistant settings in OS X 10.10 Yosemite](https://grpugh.wordpress.com/2014/10/29/an-undocumented-change-to-captive-network-assistant-settings-in-os-x-10-10-yosemite/).
 
 ## Certificate authorities
-Yosemite comes with [over 200 root certificate authorities](https://support.apple.com/en-us/HT202858) from for-profit corporations like Apple, Verisign, Thawte, Digicert and government agencies from China, Japan, Netherlands, U.S., and more! These CAs are capable of issuing SSL certificates for any domain or code signing certificates as well.
+OS X El Capitan comes with [over 200 root certificate authorities](https://support.apple.com/en-us/HT205204) from for-profit corporations like Apple, Verisign, Thawte, Digicert and government agencies from China, Japan, Netherlands, U.S., and more! These CAs are capable of issuing SSL certificates for any domain or code signing certificates as well.
 
 For more information, see [Certification Authority Trust Tracker](https://github.com/kirei/catt),
 
@@ -615,83 +606,35 @@ and [You Won’t Be Needing These Any More: On Removing Unused Certificates From
 
 You can inspect system root certificates in **Keychain Access**, under the **System Roots** tab or by using the `security` command line tool and `/System/Library/Keychains/SystemRootCertificates.keychain` file.
 
+You can disable certificate authorities through Keychain Access by marking them as **Never Trust**.
+
 The risk of a [man in the middle](https://en.wikipedia.org/wiki/Man-in-the-middle_attack) attack in which a coerced or compromised certificate authority trusted by your system issues a fake/rogue SSL certificate is quite low, but still [possible](https://en.wikipedia.org/wiki/DigiNotar#Issuance_of_fraudulent_certificates).
-
-To remove an unwanted certificate, copy its **SHA1** sum, then delete it
-
-    echo "4F 99 AA 93 FB 2B D1 37 26 A1 99 4A CE 7F F0 05 F2 93 5D 1E" | tr -d ' '
-    4F99AA93FB2BD13726A1994ACE7FF005F2935D1E
-
-    sudo security delete-certificate -t -Z 4F99AA93FB2BD13726A1994ACE7FF005F2935D1E /System/Library/Keychains/SystemRootCertificates.keychain
-
-Here's an example of removing a list of roots
-
-	function remove {
-    echo "Removing ${2}"
-    sudo /usr/bin/security delete-certificate \
-      -t -Z $1 \
-      /System/Library/Keychains/SystemRootCertificates.keychain
-	}
-
-	remove "D1EB23A46D17D68FD92564C2F1F1601764D8E349" "AAA Certificate Services"
-	remove "4F99AA93FB2BD13726A1994ACE7FF005F2935D1E" "China Internet Network Information Center Root CA"
-	remove "8BAF4C9B1DF02A92F7DA128EB91BACF498604B6F" "CNNIC"
-	remove "8C941B34EA1EA6ED9AE2BC54CF687252B4C9B561" "DoD Root CA 2"
-	remove "10F193F340AC91D6DE5F1EDC006247C4F25D9671" "DoD CLASS 3 Root CA"
-	remove "8C96BAEBDD2B070748EE303266A0F3986E7CAE58" "EBG"
-	remove "51C6E70849066EF392D45CA00D6DA3628FC35239" "E-Tugra Certification Authority"
-	remove "905F942FD9F28F679B378180FD4F846347F645C1" "Federal Common Policy CA"
-	remove "FE45659B79035B98A161B5512EACDA580948224D" "Hellenic Academic and Research Institutions RootCA 2011"
-	remove "D6DAA8208D09D2154D24B52FCB346EB258B28A58" "Hongkong Post Root CA 1"
-	remove "D2441AA8C203AECAA96E501F124D52B68FE4C375" "I.CA"
-	remove "270C500CC6C86ECB1980BC1305439ED282480BE3" "MPHPT Certification Authority"
-	remove "06083F593F15A104A069A46BA903D006B7970991" "NetLock Arany"
-	remove "E392512F0ACFF505DFF6DE067F7537E165EA574B" "NetLock Expressz"
-	remove "016897E1A0B8F2C3B134665C20A727B7A158E28F" "NetLock Minositett Kozjegyzoi"
-	remove "ACED5F6553FD25CE015F1F7A483B6A749F6178C6" "NetLock Kozjegyzoi"
-	remove "2DFF6336E33A4829AA009F01A1801EE7EBA582BB" "Prefectural Association For JPKI"
-	remove "8782C6C304353BCFD29692D2593E7D44D934FF11" "SecureTrust CA"
-	remove "E19FE30E8B84609E809B170D72A8C5BA6E1409BD" "Trusted Certificate Services"
-	remove "3BC0380B33C3F6A60C86152293D9DFF54B81C005" "Trustis FPS Root CA"
-	remove "B091AA913847F313D727BCEFC8179F086F3A8C0F" "TW Government Root Certification Authority"
-	remove "1B4B396126276B6491A2686DD70243212D1F1D96" "TurkTrust 1"
-	remove "7998A308E14D6585E6C21E153A719FBA5AD34AD9" "TurkTrust 2"
-	remove "B435D4E1119D1C6690A749EBB394BD637BA782B7" "TurkTrust 3"
-	remove "F17F6FB631DC99E3A3C87FFE1CF1811088D96033" "TurkTrust 4"
-	remove "0B972C9EA6E7CC58D93B20BF71EC412E7209FABF" "UCA Global Root"
-	remove "8250BED5A214433A66377CBC10EF83F669DA3A67" "UCA Root"
-	remove "CB44A097857C45FA187ED952086CB9841F2D51B5" "US Govt Common Policy"
-	remove "FAA7D9FB31B746F200A85E65797613D816E063B5" "VRK Gov. Root CA"
-	remove "E7B4F69D61EC9069DB7E90A7401A3CF47D4FE8EE" "WellsSecure Public Root Certificate Authority"
-
-These may be updated or re-added during system updates, though.
-
-A cool idea is to write a custom proxy which monitors and logs certificate chains seen on the wire.
 
 ## OpenSSL
 
-The version of `openssl` in Yosemite is `0.9.8` which is [not current](https://apple.stackexchange.com/questions/200582/why-is-apple-using-an-older-version-of-openssl). It doesn't support TLS 1.1 or newer, elliptic curve ciphers, and [more](https://stackoverflow.com/questions/27502215/difference-between-openssl-09-8z-and-1-0-1).
+The version of `openssl` in El Capitan is `0.9.8zg` which is [not current](https://apple.stackexchange.com/questions/200582/why-is-apple-using-an-older-version-of-openssl). It doesn't support TLS 1.1 or newer, elliptic curve ciphers, and [more](https://stackoverflow.com/questions/27502215/difference-between-openssl-09-8z-and-1-0-1).
 
 Apple claims OpenSSL is **deprecated** in their [Cryptographic Services Guide
 ](https://developer.apple.com/library/mac/documentation/Security/Conceptual/cryptoservices/GeneralPurposeCrypto/GeneralPurposeCrypto.html) document. Their version also has patches which may [surprise you](https://hynek.me/articles/apple-openssl-verification-surprises/).
 
-Grab a recent version of OpenSSL with `brew install openssl` and ensure it's the default with `brew link --force openssl`
+Grab a recent version of OpenSSL with `brew install openssl`. Note, linking brew to be used in favor of `/usr/bin/openssl` may interfere with building software. See [issue #39](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/39).
 
-Compare the new version with the system one
+For example, compare the TLS protocol and cipher between the homebrew version and the system version of OpenSSL,
 
-    $ echo | openssl s_client -connect github.com:443 2>&1 | grep -A2 SSL-Session
+    $ openssl version; echo | openssl s_client -connect github.com:443 2>&1 | grep -A2 SSL-Session
+    OpenSSL 1.0.2d 9 Jul 2015
     SSL-Session:
         Protocol  : TLSv1.2
         Cipher    : ECDHE-RSA-AES128-GCM-SHA256
 
     $ ^openssl^/usr/bin/openssl
-    echo | /usr/bin/openssl s_client -connect github.com:443 2>&1 | grep -A2 SSL-Session
+    OpenSSL 0.9.8zg 14 July 2015
     SSL-Session:
         Protocol  : TLSv1
         Cipher    : AES128-SHA
 
 Also see [Comparison of TLS implementations
-](https://en.wikipedia.org/wiki/Comparison_of_TLS_implementations) and [How's My SSL](https://www.howsmyssl.com/).
+](https://en.wikipedia.org/wiki/Comparison_of_TLS_implementations), [How's My SSL](https://www.howsmyssl.com/), as well as [Qualys SSL Labs Tools](https://www.ssllabs.com/projects/).
 
 ## Curl
 
@@ -699,7 +642,7 @@ The version of `curl` which comes with OS X uses [Secure Transport](https://deve
 
 If you prefer to use OpenSSL, install with `brew install curl --with-openssl` and ensure it's the default with `brew link --force curl`
 
-Here are a few recommended self explanatory options to add to `~/.curlrc`
+Here are several recommended, self-explanatory [options](http://curl.haxx.se/docs/manpage.html) to add to `~/.curlrc`
 
     user-agent = "Mozilla/5.0 (Windows NT 6.1; rv:31.0) Gecko/20100101 Firefox/31.0"
     referer = ";auto"
@@ -714,23 +657,33 @@ Here are a few recommended self explanatory options to add to `~/.curlrc`
 ## HTTP
 Consider using [privoxy](http://www.privoxy.org/) as a local proxy to sanitize and customize web browsing traffic.
 
-Install and start privoxy
+A signed installation package for privoxy can be downloaded from [Sourceforge](http://sourceforge.net/projects/ijbswa/files/Macintosh%20%28OS%20X%29/) or [silvester.org.uk](http://silvester.org.uk/privoxy/OSX/). The signed package is [more secure](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/65) than the Homebrew version, and attracts full support from the Privoxy project.
+
+Alternatively, install and start privoxy using Homebrew:
 
     brew install privoxy
-    
+
     ln -sfv /usr/local/opt/privoxy/*.plist ~/Library/LaunchAgents
-    
+
     launchctl load ~/Library/LaunchAgents/homebrew.mxcl.privoxy.plist
 
 By default, privoxy listens on local TCP port 8118.
 
-Set the **HTTP** proxy for your active network interface in **System Preferences** to `127.0.0.1` and port `8118`.
+Set the system **http** proxy for your active network interface `127.0.0.1` and `8118`. This can be done through **System Preferences > Network > Advanced > Proxies**, or
 
-Confirm it's working by visiting <http://p.p/> and with the command `scutil --proxy`
+    sudo networksetup -setwebproxy "Wi-Fi" 127.0.0.1 8118
+
+Optionally, you can set the system **https** proxy, which allows for domain name filtering, with
+
+    sudo networksetup -setsecurewebproxy "Wi-Fi" 127.0.0.1 8118
+
+Confirm the proxy is set with the command `scutil --proxy`. You can also visit <http://p.p/> in a web browser, or use
+
+    ALL_PROXY=127.0.0.1:8118 curl -I http://p.p/
 
 Privoxy already comes with many good rules, however you can also write your own.
 
-For example, edit `/usr/local/etc/privoxy/user.action` to block elements by domain or with regular expressions,
+Edit `/usr/local/etc/privoxy/user.action` to filter elements by domain or with regular expressions, e.g.:
 
     { +block{unwanted stuff} }
     www.facebook.com/(extern|plugins)/(login_status|like(box)?|activity|fan)\.php
@@ -744,63 +697,56 @@ For example, edit `/usr/local/etc/privoxy/user.action` to block elements by doma
     /assets/social-.*
     /img/social.*
 
-Write simple or complex rules for redirection, such as to HTTPS,
+Write simple or complex rules for redirection, such as upgrading connections to HTTPS, e.g.:
 
     { +redirect{s@http://@https://@} }
     code.jquery.com
-
-    { +redirect{s@http://imgur.com/@https://imgur.com/@}}
     imgur.com
+    .wikipedia.org
 
 You can even replace all ad images with pictures of kittens by running a local web server.
 
-Consider logging all privoxy requests so you can be inspired to write custom rules.
+Consider logging and monitoring privoxy requests so you can be inspired to write custom rules.
 
 ## Web browsing
-The web browser is poses the largest security and privacy risk, as its fundamental job is to download and execute untrusted code from the Internet.
+The web browser poses the largest security and privacy risk, as its fundamental job is to download and execute untrusted code from the Internet.
 
 Use [Google Chrome](https://www.google.com/chrome/browser/desktop/) for most of your browsing. It offers [separate profiles](https://www.chromium.org/user-experience/multi-profiles), [good sandboxing](https://www.chromium.org/developers/design-documents/sandbox) and [frequent updates](http://googlechromereleases.blogspot.com/) (including Flash, although you should disable it - see below).
 
 Chrome also comes with a great [PDF viewer](http://0xdabbad00.com/2013/01/13/most-secure-pdf-viewer-chrome-pdf-viewer/).
 
-If you don't want to use Chrome, [Firefox](https://www.mozilla.org/en-US/firefox/new/) is an excellent browser as well. Or simply use both. See discussion in [issue #2](https://github.com/drduh/OS-X-Yosemite-Security-and-Privacy-Guide/issues/2).
+If you don't want to use Chrome, [Firefox](https://www.mozilla.org/en-US/firefox/new/) is an excellent browser as well. Or simply use both. See discussion in [issue #2](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/2).
+
+If using Firefox, see [TheCreeper/PrivacyFox](https://github.com/TheCreeper/PrivacyFox) for recomended privacy preferences.
 
 Create at least three profiles, one for browsing **trusted** web sites (email, banking), another for **untrusted** (link aggregators, news sites), and a third for a completely **cookie-less** and **script-less** experience.
 
-* One profile **without cookies or Javascript** (turned off in `chrome://settings/content`) which should be the **preferred** profile to visiting new web sites. However, many pages will not load at all without Javascript enabled.
+* One profile **without cookies or Javascript** enabled (e.g, turned off in `chrome://settings/content`) which should be the **preferred** profile to visiting untrusted web sites. However, many pages will not load at all without Javascript enabled.
 
-* One profile with [uMatrix](https://github.com/gorhill/uMatrix) (or [uBlock](https://github.com/chrisaljoudi/uBlock), a simpler version). Use this profile for visiting **mostly trusted** web sites. Take time to learn how these **firewall** extensions work. Other frequently recommended extensions are [Privacy Badger](https://www.eff.org/privacybadger) and [HTTPSEverywhere](https://www.eff.org/https-everywhere).
+* One profile with [uMatrix](https://github.com/gorhill/uMatrix) (or [uBlock](https://github.com/chrisaljoudi/uBlock), a simpler version). Use this profile for visiting **mostly trusted** web sites. Take time to learn how these **firewall** extensions work. Other frequently recommended extensions are [Privacy Badger](https://www.eff.org/privacybadger),  [HTTPSEverywhere](https://www.eff.org/https-everywhere) and [CertPatrol](http://patrol.psyced.org/) (Firefox only).
 
-* One (or more) profile for your "real name", signed-in browsing needs such as banking and email (however, don't open email links from this profile)
+* One (or more) profile for your "real name", signed-in browsing needs such as banking and email (however, don't open email links from this profile).
 
-The idea is to separate and compartmentalize your data.
+The idea is to separate and compartmentalize your data, so that an exploit or privacy violation in one session does not necessarily affect data in another.
 
-In each profile, visit `chrome://plugins/` and **disable Adobe Flash** plugin. If you **must** use Flash, create a separate profile, and make sure the content is hosted over **HTTPS**.
-
-Also visit `chrome://settings/contents` and select **Let me choose when to run plugin content** under the Plugins section.
+In each profile, visit `chrome://plugins/` and **disable Adobe Flash** plugin. If you **must** use Flash, create a separate profile, make sure the content is hosted over **HTTPS**, and also visit `chrome://settings/contents` and select **Let me choose when to run plugin content** under the Plugins section.
 
 Take some time to read through [Chromium Security](https://www.chromium.org/Home/chromium-security) and [Chromium Privacy](https://www.chromium.org/Home/chromium-privacy).
 
-For example you may wish to disable [DNS prefetching](https://www.chromium.org/developers/design-documents/dns-prefetching) (see also [DNS Prefetching and Its Privacy Implications](https://www.usenix.org/legacy/event/leet10/tech/full_papers/Krishnan.pdf) [pdf].
+For example you may wish to disable [DNS prefetching](https://www.chromium.org/developers/design-documents/dns-prefetching) (see also [DNS Prefetching and Its Privacy Implications](https://www.usenix.org/legacy/event/leet10/tech/full_papers/Krishnan.pdf) [pdf]).
 
 Do **not** use other Chromium-derived browsers. They are usually [closed source](http://yro.slashdot.org/comments.pl?sid=4176879&cid=44774943), [poorly maintained](https://plus.google.com/+JustinSchuh/posts/69qw9wZVH8z), or make dubious claims to protect privacy. See [The Private Life of Chromium Browsers](http://thesimplecomputer.info/the-private-life-of-chromium-browsers).
 
-Do **not** use Safari. The code is a mess and security vulnerabilities are frequent, but slower to patch ([discussion on HN](https://news.ycombinator.com/item?id=10150038)).
+Do **not** use Safari. The code is a mess and [security](https://nakedsecurity.sophos.com/2014/02/24/anatomy-of-a-goto-fail-apples-ssl-bug-explained-plus-an-unofficial-patch/) [vulnerabilities](https://vimeo.com/144872861) are frequent, and slower to patch (see also [discussion on Hacker News](https://news.ycombinator.com/item?id=10150038)). If you do use Safari, at least [disable](https://thoughtsviewsopinions.wordpress.com/2013/04/26/how-to-stop-downloaded-files-opening-automatically/) the *Open "safe" files after downloading* option in Preferences.
 
-For more information about security conscious browsing [HowTo: Privacy & Security Conscious Browsing](https://gist.github.com/atcuno/3425484ac5cce5298932) is a great addition.
+For more information about security conscious browsing, see [HowTo: Privacy & Security Conscious Browsing](https://gist.github.com/atcuno/3425484ac5cce5298932), [browserleaks.com](https://www.browserleaks.com/) and [EFF Panopticlick](https://panopticlick.eff.org/).
 
 ## Plugins
-Don't download or install Internet plugins like **Silverlight** unless you really need them. Netflix works with HTML5 on Yosemite.
+**Adobe Flash**, **Oracle Java**, **Adobe Reader**, **Microsoft Silverlight** (Netflix now works with [HTML5](https://help.netflix.com/en/node/23742)) and other plugins are [security risks](https://news.ycombinator.com/item?id=9901480) and should not be installed. 
 
-**Java**, **Flash**, **Adobe Reader** and others plugins are a big security risk because they are poorly written, and should not be installed.
+If they are necessary, only use them in a disposable virtual machine and subscribe to security announcements to make sure you're always patched.
 
-Really, only use them in a disposable VM.
-
-See <https://en.wikipedia.org/wiki/Trojan_BackDoor.Flashback>,
-
-<http://www.cvedetails.com/vulnerability-list/vendor_id-53/product_id-497/Adobe-Acrobat-Reader.html>, and
-
-<https://blogs.cisco.com/security/angling-for-silverlight-exploits>
+See [Hacking Team Flash Zero-Day](http://blog.trendmicro.com/trendlabs-security-intelligence/hacking-team-flash-zero-day-integrated-into-exploit-kits/), [Java Trojan BackDoor.Flashback](https://en.wikipedia.org/wiki/Trojan_BackDoor.Flashback), [Acrobat Reader: Security Vulnerabilities](http://www.cvedetails.com/vulnerability-list/vendor_id-53/product_id-497/Adobe-Acrobat-Reader.html), and [Angling for Silverlight Exploits](https://blogs.cisco.com/security/angling-for-silverlight-exploits), for example.
 
 ## PGP/GPG
 PGP is a standard for encrypting email end to end. That means only the chosen recipients can decrypt a message, unlike regular email which is read and forever archived by providers.
@@ -813,7 +759,7 @@ Install with `brew install gnupg`, or if you prefer to install a newer, more fea
 
 If you prefer a GUI, check out [GPG Suite](https://gpgtools.org/)
 
-Here are recommended options to add to `~/.gnupg/gpg.conf`
+Here are several recommended options to add to `~/.gnupg/gpg.conf`
 
     auto-key-locate keyserver
     keyserver hkps://hkps.pool.sks-keyservers.net
@@ -826,6 +772,7 @@ Here are recommended options to add to `~/.gnupg/gpg.conf`
     personal-digest-preferences SHA512 SHA384 SHA256 SHA224
     default-preference-list SHA512 SHA384 SHA256 SHA224 AES256 AES192 AES CAST5 ZLIB BZIP2 ZIP Uncompressed
     cert-digest-algo SHA512
+    s2k-digest-algo SHA512
     charset utf-8
     fixed-list-mode
     no-comments
@@ -838,16 +785,14 @@ Here are recommended options to add to `~/.gnupg/gpg.conf`
 Install the keyservers CA certificate
 
     curl -O https://sks-keyservers.net/sks-keyservers.netCA.pem
+
     sudo mv sks-keyservers.netCA.pem /etc
 
 These settings will configure GnuPG to use SSL when fetching new keys and prefer strong cryptographic primitives.
 
-See also [ioerror/duraconf/configs/gnupg/gpg.conf](https://github.com/ioerror/duraconf/blob/master/configs/gnupg/gpg.conf)
+See also [ioerror/duraconf/configs/gnupg/gpg.conf](https://github.com/ioerror/duraconf/blob/master/configs/gnupg/gpg.conf). You should also take some time to read [OpenPGP Best Practices](https://help.riseup.net/en/security/message-security/openpgp/best-practices).
 
-You should also read [OpenPGP Best Practices
-](https://help.riseup.net/en/security/message-security/openpgp/best-practices)
-
-If you don't already have a gpg keypair, create one with `gpg --gen-key`
+If you don't already have a keypair, create one using `gpg --gen-key`
 
 Read [online](https://alexcabal.com/creating-the-perfect-gpg-keypair/) [guides](https://security.stackexchange.com/questions/31594/what-is-a-good-general-purpose-gnupg-key-setup) and practice encrypting and decrypting email to yourself and your friends. Get them interested in this stuff!
 
@@ -858,7 +803,7 @@ You can use OTR on top of any existing **XMPP** chat service, even Google Hangou
 
 The first time you start a conversation with someone new, you'll be asked to verify their public key fingerprint. Make sure to do this in person or by some other secure means (e.g. GPG encrypted mail).
 
-A popular OS X GUI client for XMPP and other chat protocol is [Adium](https://adium.im/)
+A popular OS X GUI client for XMPP and other chat protocols is [Adium](https://adium.im/)
 
 Consider downloading the [beta version](https://beta.adium.im/) which uses OAuth2, making logging in to Google Talk/Hangouts [more secure](https://trac.adium.im/ticket/16161).
 
@@ -866,28 +811,35 @@ Consider downloading the [beta version](https://beta.adium.im/) which uses OAuth
 
     SHA-256: e7690718f14defa3bc08cd3949a4eab52e942abd47f7ac2ce7157ed7295658c6
     SHA-1:   7f0271d4fe9835b4554225510e758a3c46c10b6a
-    MD5:     db27cb75caffdb147db915369ae46b4c
 
 Remember to [disable logging](https://trac.adium.im/ticket/15722) for OTR chats with Adium.
 
 A good console-based XMPP client is [profanity](http://www.profanity.im/)  which can be installed with `brew install profanity`
 
-If you want to know how OTR works, read the paper [Off-the-Record Communication, or, Why Not To Use PGP](https://otr.cypherpunks.ca/otr-wpes.pdf) [pdf]
+Also, check out [Tor Messenger](https://blog.torproject.org/blog/tor-messenger-beta-chat-over-tor-easily), although it is still in beta.
+
+If you want to know how OTR works, read the paper [Off-the-Record Communication, or, Why Not To Use PGP](https://otr.cypherpunks.ca/otr-wpes.pdf) [pdf].
 
 ## Tor
 Tor is an anonymizing proxy which can be used for browsing the web.
 
-Download Tor Browser from <https://www.torproject.org/projects/torbrowser.html.en>. Do **not** attempt to configure other browsers to use Tor as you are likely make a mistake which will compromise your anonymity.
+Download Tor Browser from <https://www.torproject.org/projects/torbrowser.html>.
+
+Do **not** attempt to configure other browsers to use Tor as you are likely make a mistake which will compromise your anonymity.
 
 After downloading the `dmg` and `asc` files, verify the disk image has been signed by Tor developers with `gpg TorBrowser*asc`
 
 You may see a warning - the public key was not found. Fetch it from the keyserver with `gpg --recv-keys 0x2E1AC68ED40814E0` and verify again.
 
-Make sure `Good signature from "Tor Browser Developers (signing key) <torbrowser@torproject.org>"` appears in the output.
+Make sure `Good signature from "Tor Browser Developers (signing key) <torbrowser@torproject.org>"` appears in the output. You may see a benign warning if the key has not been manually assigned trust.
+
+<img width="872" alt="Example of valid signature output" src="https://cloud.githubusercontent.com/assets/12475110/10712417/e7485bb4-7a68-11e5-9bdb-e27bdd3742fd.png">
+
+*Example of valid signature output*
 
 See [How to verify signatures for packages](https://www.torproject.org/docs/verifying-signatures.html) for more information.
 
-Tor traffic is **encrypted** (i.e., cannot be read by a passive network eavesdropper), but **can** be identified.
+Tor traffic is **encrypted** to the [exit node](https://en.wikipedia.org/wiki/Tor_(anonymity_network)#Exit_node_eavesdropping) (i.e., cannot be read by a passive network eavesdropper), but **can** be identified.
 
 Just one example way is by monitoring TLS handshakes:
 
@@ -900,13 +852,13 @@ Just one example way is by monitoring TLS handshakes:
 
 See [Tor Protocol Specification](https://gitweb.torproject.org/torspec.git/tree/tor-spec.txt) and [Tor/TLSHistory](https://trac.torproject.org/projects/tor/wiki/org/projects/Tor/TLSHistory) for more information.
 
-It is recommended to additionally obfuscate it using a [pluggable transport](https://www.torproject.org/docs/pluggable-transports.html) such as [Yawning/obfs4proxy](https://github.com/Yawning/obfs4) or [SRI-CSL/stegotorus](https://github.com/SRI-CSL/stegotorus).
+It is recommended to additionally obfuscate Tor traffic using a [pluggable transport](https://www.torproject.org/docs/pluggable-transports.html), such as [Yawning/obfs4proxy](https://github.com/Yawning/obfs4) or [SRI-CSL/stegotorus](https://github.com/SRI-CSL/stegotorus).
 
-This can be done by [running a Tor relay](https://www.torproject.org/docs/tor-relay-debian.html) or a private or public [bridge](https://www.torproject.org/docs/bridges.html.en#RunningABridge) which will serve as your obfuscating guard node. Set one up and share it with your friends!
+This can be done by setting up your own [Tor relay](https://www.torproject.org/docs/tor-relay-debian.html) or finding an existing private or public [bridge](https://www.torproject.org/docs/bridges.html.en#RunningABridge) to serve as an obfuscating entry node.
 
-For extra security, use [VirtualBox](https://www.virtualbox.org/wiki/Downloads) or VMware to run a virtualized [GNU/Linux](http://www.brianlinkletter.com/installing-debian-linux-in-a-virtualbox-virtual-machine/) or [BSD](http://www.openbsd.org/faq/faq4.html) machine to do your private browsing on.
+For extra security, use [VirtualBox](https://www.virtualbox.org/wiki/Downloads) or [VMware](https://www.vmware.com/products/fusion) to run a virtualized [GNU/Linux](http://www.brianlinkletter.com/installing-debian-linux-in-a-virtualbox-virtual-machine/) or [BSD](http://www.openbsd.org/faq/faq4.html) machine to do your private browsing on.
 
-For more on browser privacy, see <https://www.browserleaks.com/> and <https://panopticlick.eff.org/>.
+Finally, remember the Tor network provides [anonymity](https://www.privateinternetaccess.com/blog/2013/10/how-does-privacy-differ-from-anonymity-and-why-are-both-important/), which is not necessarily synonymous with privacy. The Tor network does not guarantee protection against a global observer capable of traffic analysis and [correlation](https://blog.torproject.org/category/tags/traffic-correlation). See also [Seeking Anonymity in an Internet Panopticon](http://bford.info/pub/net/panopticon-cacm.pdf) [pdf] and [Traffic Correlation on Tor by Realistic Adversaries](http://www.ohmygodel.com/publications/usersrouted-ccs13.pdf) [pdf].
 
 ## VPN
 If you use your Mac on untrusted networks - airports, cafes, etc. - your network traffic is being monitored and possibly tampered with.
@@ -915,22 +867,38 @@ It is a good idea to use a VPN which encrypts **all** outgoing network traffic (
 
 Don't just blindly sign up for a VPN service without understanding the full implications and how your traffic will be routed. If you don't understand how the VPN works or are not familiar with the software used, you are probably better off without it.
 
-## Viruses and malware
-There is an increasing amount of Mac malware in the wild; Macs aren't immune from viruses and malicious software.
+When choosing a VPN service or setting up your own, be sure to research the protocols, key exchange algorithms, authentication mechanisms, and type of encryption being used. Some protocols, such as [PPTP](https://en.wikipedia.org/wiki/Point-to-Point_Tunneling_Protocol#Security), should be avoided in favor of [OpenVPN](https://en.wikipedia.org/wiki/OpenVPN), for example.
 
-Some of the malware comes bundled with both legitimate software, such as the [Java bundling Ask Toolbar](http://www.zdnet.com/article/oracle-extends-its-adware-bundling-to-include-java-for-macs/), and some with illegitimate software, such as [Mac.BackDoor.iWorm](https://docs.google.com/document/d/1YOfXRUQJgMjJSLBSoLiUaSZfiaS_vU3aG4Bvjmz6Dxs/edit?pli=1) bundled with pirated programs.
+Some clients may send traffic traffic over the next available interface when VPN is interrupted or disconnected. See [scy/8122924](https://gist.github.com/scy/8122924) for an example on how to allow traffic only over VPN.
+
+## Viruses and malware
+There is an ever-increasing amount of Mac malware in the wild. Macs aren't immune from viruses and malicious software!
+
+Some malware comes bundled with both legitimate software, such as the [Java bundling Ask Toolbar](http://www.zdnet.com/article/oracle-extends-its-adware-bundling-to-include-java-for-macs/), and some with illegitimate software, such as [Mac.BackDoor.iWorm](https://docs.google.com/document/d/1YOfXRUQJgMjJSLBSoLiUaSZfiaS_vU3aG4Bvjmz6Dxs/edit?pli=1) bundled with pirated programs.
 
 See [Methods of malware persistence on Mac OS X](https://www.virusbtn.com/pdf/conference/vb2014/VB2014-Wardle.pdf) [pdf] and [Malware Persistence on OS X Yosemite](https://www.rsaconference.com/events/us15/agenda/sessions/1591/malware-persistence-on-os-x-yosemite) to learn about how garden-variety malware functions.
 
 You can periodically run a tool like [Knock Knock](https://github.com/synack/knockknock) to examine persistent binaries (e.g. scripts, binaries). But by then, it is probably too late. Maybe [Block Block](https://objective-see.com/products/blockblock.html) will help.
 
-**Anti-virus** programs are not useful for advanced users and **will** increase your attack surface against sophisticated threats. See [Sophail: Applied attacks against Sophos Antivirus](https://lock.cmpxchg8b.com/sophailv2.pdf) [pdf] and [Analysis and Exploitation of an ESET Vulnerability](http://googleprojectzero.blogspot.ro/2015/06/analysis-and-exploitation-of-eset.html). The best anti-virus is **Common Sense 2015**.
+**Anti-virus** programs are a double-edged sword -- not useful for **advanced** users and will likely increase attack surface against sophisticated threats, however possibly useful for catching "garden variety" malware on **novice** users' Macs. There is also the additional processing overhead to consider.
 
-Local **privilege escalation** bugs are plenty on OS X, so always be careful when downloading and running untrusted programs or trusted programs from third party websites or downloaded over HTTP ([example](http://arstechnica.com/security/2015/08/0-day-bug-in-fully-patched-os-x-comes-under-active-exploit-to-hijack-macs/)).
+See [Sophail: Applied attacks against  Antivirus](https://lock.cmpxchg8b.com/sophailv2.pdf) [pdf], [Analysis and Exploitation of an ESET Vulnerability](http://googleprojectzero.blogspot.ro/2015/06/analysis-and-exploitation-of-eset.html), [a trivial Avast RCE](https://code.google.com/p/google-security-research/issues/detail?id=546), [Popular Security Software Came Under Relentless NSA and GCHQ Attacks](https://theintercept.com/2015/06/22/nsa-gchq-targeted-kaspersky/), and [AVG: "Web TuneUP" extension multiple critical vulnerabilitie](https://code.google.com/p/google-security-research/issues/detail?id=675).
+
+Therefore, the best anti-virus is **Common Sense 2015**. See more discussion in [issue #44](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/44).
+
+Local privilege escalation bugs are plenty on OS X, so always be careful when downloading and running untrusted programs or trusted programs from third party websites or downloaded over HTTP ([example](http://arstechnica.com/security/2015/08/0-day-bug-in-fully-patched-os-x-comes-under-active-exploit-to-hijack-macs/)).
 
 Have a look at [The Safe Mac](http://www.thesafemac.com/) for past and current Mac security news.
 
-Check out [Hacking Team](https://www.schneier.com/blog/archives/2015/07/hacking_team_is.html) malware for Mac OS: [root installation for MacOS](https://github.com/hackedteam/vector-macos-root), [Support driver for Mac Agent](https://github.com/hackedteam/driver-macos) and [RCS Agent for Mac](https://github.com/hackedteam/core-macos). Good example of malware which hides from **userland** (`ps`, `ls`, etc). and is very difficult to detect.
+Also check out [Hacking Team](https://www.schneier.com/blog/archives/2015/07/hacking_team_is.html) malware for Mac OS: [root installation for MacOS](https://github.com/hackedteam/vector-macos-root), [Support driver for Mac Agent](https://github.com/hackedteam/driver-macos) and [RCS Agent for Mac](https://github.com/hackedteam/core-macos), which is a good example of advanced malware with capabilities to hide from **userland** (e.g., `ps`, `ls`), for example.
+
+## System Integrity Protection
+
+[System Integrity Protection](https://support.apple.com/en-us/HT204899) (SIP) is a new security feature of OS X 10.11. It is enabled by default, but [can be disabled](https://derflounder.wordpress.com/2015/10/01/system-integrity-protection-adding-another-layer-to-apples-security-model/), which may be necessary to change some system settings, such as deleting root certificate authorities or unloading certain launch daemons.
+
+From [What's New in OS X 10.11](https://developer.apple.com/library/prerelease/mac/releasenotes/MacOSX/WhatsNewInOSX/Articles/MacOSX10_11.html):
+
+> A new security policy that applies to every running process, including privileged code and code that runs out of the sandbox. The policy extends additional protections to components on disk and at run-time, only allowing system binaries to be modified by the system installer and software updates. Code injection and runtime attachments to system binaries are no longer permitted.
 
 ## Gatekeeper and Xprotect
 
@@ -940,34 +908,35 @@ Check out [Hacking Team](https://www.schneier.com/blog/archives/2015/07/hacking_
 
 Both offer trivial protection against common risks and are fine at default settings.
 
-See <http://www.thesafemac.com/mmg-builtin/>
+See also [Mac Malware Guide : How does Mac OS X protect me?](http://www.thesafemac.com/mmg-builtin/) and [Gatekeeper, XProtect and the Quarantine attribute](http://ilostmynotes.blogspot.com/2012/06/gatekeeper-xprotect-and-quarantine.html).
 
-and <http://ilostmynotes.blogspot.com/2012/06/gatekeeper-xprotect-and-quarantine.html>
-
-**Note** Quarantine stores information about downloaded files in `~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2`. See [here](http://www.zoharbabin.com/hey-mac-i-dont-appreciate-you-spying-on-me-hidden-downloads-log-in-os-x/) for more information.
+**Note** Quarantine stores information about downloaded files in `~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2`, which may pose a privacy risk. See [here](http://www.zoharbabin.com/hey-mac-i-dont-appreciate-you-spying-on-me-hidden-downloads-log-in-os-x/) for more information.
 
 Furthermore, OS X attaches metadata ([HFS+ extended attributes](https://en.wikipedia.org/wiki/Extended_file_attributes#OS_X)) to downloaded files, e.g.
 
-    $ ls -l@ adobe_flashplayer_setup.dmg 
+    $ ls -l@ adobe_flashplayer_setup.dmg
     -rw-r-----@ 1 drduh  staff  1000000 Sep  1 12:00 adobe_flashplayer_setup.dmg
-	com.apple.diskimages.fsck	     20 
-	com.apple.diskimages.recentcksum	     79 
-	com.apple.metadata:kMDItemWhereFroms	   2737 
+	com.apple.diskimages.fsck	     20
+	com.apple.diskimages.recentcksum	     79
+	com.apple.metadata:kMDItemWhereFroms	   2737
 	com.apple.quarantine	     68
-	
+
 	$ xattr -l com.apple.metadata:kMDItemWhereFroms adobe_flashplayer_setup.dmg
 	[output omitted]
 
 ## Passwords
-You can generate passwords with `gpg`, `openssl` or just get creative with `/dev/urandom` output.
+You can generate strong passwords with `gpg`, `openssl` or just get creative with `/dev/urandom` output.
 
-    openssl rand -base64 30
+    $ openssl rand -base64 30
+    LK9xkjUEAemc1gV2Ux5xqku+PDmMmCbSTmwfiMRI
 
-    gpg --gen-random -a 0 30
+    $ gpg --gen-random -a 0 30
+    4/bGZL+yUEe8fOqQhF5V01HpGwFSpUPwFcU3aOWQ
 
-    dd if=/dev/urandom bs=1 count=30 2>/dev/null | base64
+    $ dd if=/dev/urandom bs=1 count=30 2>/dev/null | base64
+    CbRGKASFI4eTa96NMrgyamj8dLZdFYBaqtWUSxKe
 
-You can also generate passwords from **Keychain Access** password assistant, or a command line equivalent like [anders/pwgen](https://github.com/anders/pwgen).
+You can also generate passwords, even memorable ones, using **Keychain Access** password assistant, or a command line equivalent like [anders/pwgen](https://github.com/anders/pwgen).
 
 **Keychains** are encrypted with a [PBKDF2 derived key](https://en.wikipedia.org/wiki/PBKDF2) and are a _pretty safe_ place to store credentials. See also [Breaking into the OS X keychain](http://juusosalonen.com/post/30923743427/breaking-into-the-os-x-keychain).
 
@@ -977,35 +946,104 @@ In addition to passwords, ensure your online accounts (such as github, google ac
 
 Look to [Yubikey](https://www.yubico.com/products/yubikey-hardware/yubikey-neo/) for a two factor and private key (e.g., ssh, gpg) hardware token.
 
-## Wi-Fi
-OS X remembers access points it has connected to. Like all wireless devices, your Mac will broadcast all of these access point names it remembers (e.g. *So-and-so's Router*) each time it looks for a network (e.g. wake from sleep).
+## Backup
+Always encrypt files locally before backing them up to external media or online services. One way is to use a symmetric cipher with **gpg** and a password of your choosing.
 
-This is a privacy risk, so remove networks from the list in **System Preferences** when they're no longer needed.
+To encrypt, use
+
+    tar zcvf - ~/Downloads | gpg -c > ~/Desktop/backup-$(date +%F-%H%M).tar.gz.gpg
+
+To decrypt, use
+
+    gpg -o ~/Desktop/decrypted-backup.tar.gz \
+      -d ~/Desktop/backup-2015-01-01-0000.tar.gz.gpg && \
+      tar zxvf ~/Desktop/decrypted-backup.tar.gz
+
+You may also create encrypted volumes using **Disk Utility**, or `hdiutil`, e.g.:
+
+    hdiutil create ~/Desktop/encrypted.dmg -encryption -size 1g -volname "Name" -fs JHFS+
+
+Also see the following applications and services: [SpiderOak](https://spideroak.com/), [Arq](https://www.arqbackup.com/), [Espionage](https://www.espionageapp.com/), and [restic](https://restic.github.io/).
+
+## Wi-Fi
+OS X remembers access points it has connected to. Like all wireless devices, the Mac will broadcast all access point names it remembers (e.g., *MyHomeNetwork*) each time it looks for a network, such as when waking from sleep.
+
+This is a privacy risk, so remove networks from the list in **System Preferences** > **Network** > **Advanced** when they're no longer needed.
+
+Also see [Signals from the Crowd: Uncovering Social Relationships through Smartphone Probes](http://conferences.sigcomm.org/imc/2013/papers/imc148-barberaSP106.pdf) [pdf] and [Wi-Fi told me everything about you](http://confiance-numerique.clermont-universite.fr/Slides/M-Cunche-2014.pdf) [pdf].
+
+You may wish to [spoof the MAC address](https://en.wikipedia.org/wiki/MAC_spoofing) of your network card before connecting to new and untrusted wireless networks to mitigate passive fingerprinting, e.g.:
+
+    sudo ifconfig en0 ether $(openssl rand -hex 6 | sed 's%\(..\)%\1:%g; s%.$%%')
+
+**Note** MAC addresses will reset to their hardware defaults on each boot.
+
+Also see [feross/SpoofMAC](https://github.com/feross/SpoofMAC).
+
+Finally, WEP protection on wireless networks is [not secure](http://www.howtogeek.com/167783/htg-explains-the-difference-between-wep-wpa-and-wpa2-wireless-encryption-and-why-it-matters/) and you should favor connecting to **WPA2** protected networks only to mitigate the risk of passive eavesdroppers.
+
+## SSH
+For outgoing ssh connections, use hardware- or password-protected ssh keys, [set up](http://nerderati.com/2011/03/17/simplify-your-life-with-an-ssh-config-file/) remote hosts and consider [hashing](http://nms.csail.mit.edu/projects/ssh/) them.
+
+Here are several recommended [options](https://www.freebsd.org/cgi/man.cgi?query=ssh_config&sektion=5) to add to  `~/.ssh/ssh_config`
+
+    Host *
+      PasswordAuthentication no
+      ChallengeResponseAuthentication no
+      HashKnownHosts yes
+
+You can also use ssh to create an [encrypted tunnel](http://blog.trackets.com/2014/05/17/ssh-tunnel-local-and-remote-port-forwarding-explained-with-examples.html) to send your traffic through, which is similar to a VPN.
+
+For example, to use privoxy on a remote host:
+
+    ssh -C -L 5555:127.0.0.1:8118 you@remote-host.tld
+
+    sudo networksetup -setwebproxy "Wi-Fi" 127.0.0.1 5555
+
+    sudo networksetup -setsecurewebproxy "Wi-Fi" 127.0.0.1 5555
+
+By default, OS X does **not** have sshd or *Remote Login* enabled.
+
+To enable sshd and allow incoming ssh connections:
+
+    sudo launchctl load -w /System/Library/LaunchDaemons/ssh.plist
+
+Or use the **System Preferences** > **Sharing** menu.
+
+If you are going to enable sshd, at least disable password authentication and consider further [hardening](https://stribika.github.io/2015/01/04/secure-secure-shell.html) your configuration.
+
+To `/etc/sshd_config`, add
+
+    PasswordAuthentication no
+    ChallengeResponseAuthentication no
+    UsePAM no
+
+ Confirm sshd is enabled or disabled with:
+
+    sudo lsof -ni TCP:22
 
 ## Physical access
 Keep your Mac physically secure at all times. Don't leave it unattended in hotels and such.
 
-For example, a skilled attacker with unsupervised physical access to your computer can infect the boot ROM to install a keylogger and steal your password - see <https://trmm.net/Thunderstrike>.
+For example, a skilled attacker with unsupervised physical access to your computer can infect the boot ROM to install a keylogger and steal your password - see [Thunderstrike](https://trmm.net/Thunderstrike), for example.
 
 ## System monitoring
 
 #### Open Source Monitoring Tools
 
-[etsy/MIDAS](https://github.com/etsy/MIDAS) is a framework for developing a Mac Intrusion Detection Analysis System.  Credits given to the security team at Facebook and Etsy in developing this framework.  This framework consists of utilities which help detect any modifications that have been made to common OS X persistence mechanisms.
-
 [facebook/osquery](https://github.com/facebook/osquery) can be used to retrieve low level system information.  Users can write SQL queries to retrieve system information.  More information can be found at <https://osquery.io/>.
 
 [google/grr](https://github.com/google/grr) is an incident response framework focused on remote live forensics.
 
-[jipegit/OSXAuditor](https://github.com/jipegit/OSXAuditor) can be used to analyze artifacts on a running system, such as:
+[jipegit/OSXAuditor](https://github.com/jipegit/OSXAuditor) analyzes artifacts on a running system, such as:
 
  - Quarantined files
  - Browser information
  	- Safari history, downloads, topsites, LastSession, HTML5 databases and localstore
- 	- Firefox cookies, downloads, formhistory, permissions, places and signons
+ 	- Firefox cookies, downloads, form history, permissions, places and signons
  	- Chrome history and archives history, cookies, login data, top sites, web data, HTML5
  - User social media and email accounts
- - WiFi access points
+ - Wi-Fi access points
 
 #### OpenBSM Audit
 OS X has a powerful OpenBSM auditing capability. You can use it to monitor process execution, network activity, and much more.
@@ -1017,9 +1055,9 @@ Some example events,
     header,201,11,execve(2),0,Thu Sep  1 12:00:00 2015, + 195 msec,exec arg,/Applications/.evilapp/rootkit,path,/Applications/.evilapp/rootkit,path,/Applications/.evilapp/rootkit,attribute,100755,root,wheel,16777220,986535,0,subject,drduh,root,wheel,root,wheel,412,100005,50511731,0.0.0.0,return,success,0,trailer,201,
 
 	header,88,11,connect(2),0,Thu Sep  1 12:00:00 2015, + 238 msec,argument,1,0x5,fd,socket-inet,2,443,173.194.74.104,subject,drduh,root,wheel,root,wheel,326,100005,50331650,0.0.0.0,return,failure : Operation now in progress,4354967105,trailer,88
-	
+
 	header,111,11,OpenSSH login,0,Thu Sep  1 12:00:00 2015, + 16 msec,subject_ex,drduh,drduh,staff,drduh,staff,404,404,49271,::1,text,successful login drduh,return,success,0,trailer,111,
-	
+
 See the manual pages for `audit`, `praudit`, `audit_control` and other files in `/etc/security`
 
 **Note** although `man audit` says the `-s` flag will synchronize the audit configuration, it is actually necessary to reboot for changes to take effect.
@@ -1028,27 +1066,33 @@ See articles on [ilostmynotes.blogspot.com](http://ilostmynotes.blogspot.com/201
 
 #### DTrace
 
-`iosnoop` monitors disk I/O.
+`iosnoop` monitors disk I/O
 
-`opensnoop` monitors file opens.
+`opensnoop` monitors file opens
 
-`execsnoop` monitors execution of processes.
+`execsnoop` monitors execution of processes
 
-`errinfo` monitors failed system calls.
+`errinfo` monitors failed system calls
 
-`dtruss` monitors all system calls.
+`dtruss` monitors all system calls
 
-See `man -k dtrace` for more.
+See `man -k dtrace` for more
+
+#### Execution
+
+`ps -ef` lists information about all running processes.
+
+You can also view processes with **Activity Monitor**.
+
+`launchctl list` and `sudo launchctl list` lists loaded and running user and system launch daemons and agents.
 
 #### Network
 
-Here's a few examples of networking monitoring commands
+`sudo lsof -ni -P` lists all open Internet and network "files"
 
-    sudo lsof -ni -P
-    
-    sudo netstat -atln
+`sudo netstat -atln` lists contents of various network-related data structures
 
-You can also use Wireshark from the command line.
+You can also use [Wireshark](https://www.wireshark.org/) from the command line.
 
 Monitor DNS queries and replies
 
@@ -1083,6 +1127,10 @@ Also check out the GUI "simple network activity monitor" [BonzaiThePenguin/Loadi
 
 ## Miscellaneous
 
+If you wish, disable [Diagnostics & Usage Data](https://github.com/fix-macosx/fix-macosx/wiki/Diagnostics-&-Usage-Data).
+
+Consider creating a second, non-administrator account for web browsing and general use which doesn't require elevated privileges. See [issue #9](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/9).
+
 If you want to play **music** or watch **videos**, use [VLC media player](https://www.videolan.org/vlc/index.html) which is free and open source.
 
 If you want to **torrent**, use [Transmission](http://www.transmissionbt.com/download/) which is free and open source.
@@ -1090,11 +1138,6 @@ If you want to **torrent**, use [Transmission](http://www.transmissionbt.com/dow
 Watch the system log with **Console** or the `syslog -w` command.
 
 Enable [tty_tickets](http://blog.rongarret.info/2015/08/psa-beware-of-sudo-on-os-x.html) in the sudoers file.
-
-Hash your known ssh hosts. To `ssh_config`, add
-
-    Host *
-      HashKnownHosts yes
 
 Set your screen to lock as soon as the screensaver starts
 
@@ -1109,6 +1152,8 @@ Expose hidden files and Library folder in Finder
 Don't default to saving documents to iCloud
 
     defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
+
+[Disable Handoff](https://apple.stackexchange.com/questions/151481/why-is-my-macbook-visibile-on-bluetooth-after-yosemite-install) and Bluetooth features, if they aren't necessary.
 
 Consider [sandboxing](https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man1/sandbox-exec.1.html) your applications. See [fG! Sandbox Guide](https://reverse.put.as/wp-content/uploads/2011/09/Apple-Sandbox-Guide-v0.1.pdf) [pdf] and [s7ephen/OSX-Sandbox--Seatbelt--Profiles](https://github.com/s7ephen/OSX-Sandbox--Seatbelt--Profiles).
 
@@ -1148,10 +1193,18 @@ Did you know Apple has not shipped a computer with TPM since [2006](http://osxbo
 
 [IPv6 Hardening Guide for OS X](http://www.insinuator.net/2015/02/ipv6-hardening-guide-for-os-x/)
 
-[Preventing OS X from phoning home to Cupertino](https://github.com/l1k/osxparanoia)
-
-[Yosemite net-monitor](https://github.com/fix-macosx/net-monitor)
-
 [Hacker News discussion](https://news.ycombinator.com/item?id=10148077)
 
 [Apple Open Source](https://opensource.apple.com/)
+
+[OS X 10.10 Yosemite: The Ars Technica Review](http://arstechnica.com/apple/2014/10/os-x-10-10/)
+
+[CIS Apple OSX 10.10 Benchmark](https://benchmarks.cisecurity.org/tools2/osx/CIS_Apple_OSX_10.10_Benchmark_v1.1.0.pdf) [pdf]
+
+[How to Switch to the Mac](https://taoofmac.com/space/HOWTO/Switch)
+
+[Security Configuration For Mac OS X Version 10.6 Snow Leopard](http://www.apple.com/support/security/guides/docs/SnowLeopard_Security_Config_v10.6.pdf) [pdf]
+
+[EFF Surveillance Self-Defense](https://ssd.eff.org/)
+
+[MacAdmins on Slack](https://macadmins.herokuapp.com/)
