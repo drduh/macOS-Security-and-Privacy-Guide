@@ -17,7 +17,7 @@ If you wish to make a correction or improvement, please send a pull request or [
 - [Firmware password](#firmware-password)
 - [Firewall](#firewall)
     - [Application layer firewall](#application-layer-firewall)
-    - [Third party solutions](#third-party-solutions)
+    - [Third party firewalls](#third-party-firewalls)
     - [Kernel level packet filtering](#kernel-level-packet-filtering)
 - [Services](#services)
 - [Spotlight Suggestions](#spotlight-suggestions)
@@ -46,8 +46,8 @@ If you wish to make a correction or improvement, please send a pull request or [
 - [SSH](#ssh)
 - [Physical access](#physical-access)
 - [System monitoring](#system-monitoring)
-    - [Open Source Monitoring Tools](#open-source-monitoring-tools)
-    - [OpenBSM Audit](#openbsm-audit)
+    - [Open source monitoring tools](#open-source-monitoring-tools)
+    - [OpenBSM audit](#openbsm-audit)
     - [DTrace](#dtrace)
     - [Network](#network)
 - [Miscellaneous](#miscellaneous)
@@ -58,7 +58,7 @@ The standard best security practices apply.
 
 * Create a threat model
 	* What are you trying to protect and from whom? Is your adversary a [three letter agency](https://theintercept.com/document/2015/03/10/strawhorse-attacking-macos-ios-software-development-kit/) (if so, you may want to consider using [OpenBSD](http://www.openbsd.org/) instead), a nosy eavesdropper on the network, or determined [apt](https://en.wikipedia.org/wiki/Advanced_persistent_threat) orchestrating a campaign against you?
-	* Study and recognize the threat and your attack surface.
+	* Study and recognize threats and how to reduce attack surface.
 
 * Keep the system up to date
 	* Patch, patch, patch your system and software.
@@ -73,7 +73,7 @@ The standard best security practices apply.
 	* Always encrypt before copying backups to external media or the "cloud".
 
 * Click carefully
-	* Ultimately, the security of the system can be reduced to its administrator.
+	* Ultimately, the security of a system can be reduced to its administrator.
 	* Care should be taken when installing new software. Always prefer [free](https://www.gnu.org/philosophy/free-sw.en.html) and open source software ([which OS X is not](https://superuser.com/questions/19492/is-mac-os-x-open-source)).
 
 ## Preparing OS X
@@ -266,9 +266,7 @@ and paper [Lest We Remember: Cold Boot Attacks on Encryption Keys](https://www.u
 
 Setting a firmware password in OS X prevents your Mac from starting up from any device other than your startup disk. [It can also be helpful if your laptop is stolen](https://www.ftc.gov/news-events/blogs/techftc/2015/08/virtues-strong-enduser-device-controls), as the only way to reset the firmware password is through an Apple Store ([or is it?](https://reverse.put.as/2015/05/29/the-empire-strikes-back-apple-how-your-mac-firmware-security-is-completely-broken/)).
 
-1. Shutdown your Mac.
-
-2. Start up your Mac again and immediately hold the `Command` and `R` keys after you hear the startup sound to start from **OS X Recovery**.
+1. Start up holding the `Command` and `R` keys to boot from **OS X Recovery** mode.
 
 3. When the Recovery window appears, choose **Firmware Password Utility** from the Utilities menu.
 
@@ -282,12 +280,12 @@ Setting a firmware password in OS X prevents your Mac from starting up from any 
 
 8. Select the Apple menu and choose Restart or Shutdown.
 
-The firmware password will activate at next boot. To validate the password hold `alt` pressed while booting, you should be prompted to enter the password. After that select the partition you want to boot from.
+The firmware password will activate at next boot. To validate the password, hold `alt` during boot - you should be prompted to enter the password.
 
 ## Firewall
 Before connecting to the Internet, it's a good idea to first configure a firewall.
 
-There are three types of firewall for OS X.
+There are several types of firewall for OS X.
 
 #### Application layer firewall
 Built-in, basic firewall which blocks **incoming** connections only.
@@ -310,7 +308,7 @@ You may also wish to enable stealth mode:
 
 > Computer hackers scan networks so they can attempt to identify computers to attack. You can prevent your computer from responding to some of these scans by using **stealth mode**. When stealth mode is enabled, your computer does not respond to ICMP ping requests, and does not answer to connection attempts from a closed TCP or UDP port. This makes it more difficult for attackers to find your computer.
 
-Finally, you may wish to disable the *Automatically allow signed software to receive incoming connections* feature.
+Finally, you may wish to disable feature, *Automatically allow signed software to receive incoming connections*.
 
     sudo defaults write /Library/Preferences/com.apple.alf allowsignedenabled -bool false
 
@@ -318,7 +316,7 @@ Finally, you may wish to disable the *Automatically allow signed software to rec
 >
 > If you run an unsigned app that is not listed in the firewall list, a dialog appears with options to Allow or Deny connections for the app. If you choose Allow, OS X signs the application and automatically adds it to the firewall list. If you choose Deny, OS X adds it to the list but denies incoming connections intended for this app.
 
-#### Third party solutions
+#### Third party firewalls
 Programs such as [Little Snitch](https://www.obdev.at/products/littlesnitch/index.html), [Hands Off](https://www.oneperiodic.com/products/handsoff/) and [Radio Silence](http://radiosilenceapp.com/) provide a good balance of usability and security.
 
 <img width="349" alt="Example of Little Snitch monitored session" src="https://cloud.githubusercontent.com/assets/12475110/10596588/c0eed3c0-76b3-11e5-95b8-9ce7d51b3d82.png">
@@ -374,8 +372,8 @@ Services on OS X are managed by **launchd**. See <http://launchd.info/>, as well
 
 You can also run [KnockKnock](https://github.com/synack/knockknock) that shows more information about startup items.
 
-* Use `launchctl list` to view loaded user agents
-* Use `sudo launchctl list` to view loaded system daemons
+* Use `launchctl list` to view running user agents
+* Use `sudo launchctl list` to view running system daemons
 * Specify the service name to examine it, e.g. `launchctl list com.apple.Maps.mapspushd`
 * Use `defaults read` to examine job plists in `/System/Library/LaunchDaemons` and `/System/Library/LaunchAgents`
 * Use `man`, `strings` and Google to learn about what the agent/daemon runs
@@ -413,7 +411,7 @@ Disable “Spotlight Suggestions” in both the Spotlight preferences and Safari
 
 Also disable "Bing Web Searches" in the Spotlight preferences to avoid your search queries being sent to Microsoft.
 
-See <https://fix-macosx.com/>
+See <https://fix-macosx.com/> for detailed instructions.
 
 > If you've upgraded to Mac OS X Yosemite (10.10) and you're using the default settings, each time you start typing in Spotlight (to open an application or search for a file on your computer), your local search terms and location are sent to Apple and third parties (including Microsoft).
 
@@ -721,7 +719,7 @@ If using Firefox, see [TheCreeper/PrivacyFox](https://github.com/TheCreeper/Priv
 
 Create at least three profiles, one for browsing **trusted** web sites (email, banking), another for **untrusted** (link aggregators, news sites), and a third for a completely **cookie-less** and **script-less** experience.
 
-* One profile **without cookies or Javascript** enabled (e.g, turned off in `chrome://settings/content`) which should be the **preferred** profile to visiting untrusted web sites. However, many pages will not load at all without Javascript enabled.
+* One profile **without cookies or Javascript** enabled (e.g., turned off in `chrome://settings/content`) which should be the **preferred** profile to visiting untrusted web sites. However, many pages will not load at all without Javascript enabled.
 
 * One profile with [uMatrix](https://github.com/gorhill/uMatrix) (or [uBlock](https://github.com/chrisaljoudi/uBlock), a simpler version). Use this profile for visiting **mostly trusted** web sites. Take time to learn how these **firewall** extensions work. Other frequently recommended extensions are [Privacy Badger](https://www.eff.org/privacybadger),  [HTTPSEverywhere](https://www.eff.org/https-everywhere) and [CertPatrol](http://patrol.psyced.org/) (Firefox only).
 
@@ -729,7 +727,7 @@ Create at least three profiles, one for browsing **trusted** web sites (email, b
 
 The idea is to separate and compartmentalize your data, so that an exploit or privacy violation in one session does not necessarily affect data in another.
 
-In each profile, visit `chrome://plugins/` and **disable Adobe Flash** plugin. If you **must** use Flash, create a separate profile, make sure the content is hosted over **HTTPS**, and also visit `chrome://settings/contents` and select **Let me choose when to run plugin content** under the Plugins section.
+In each profile, visit `chrome://plugins/` and **disable Adobe Flash** plugin. If you **must** use Flash, create a separate profile, make sure to only use **HTTPS**, and also visit `chrome://settings/contents` to select **Let me choose when to run plugin content**, under the Plugins section (also known as *click-to-play*).
 
 Take some time to read through [Chromium Security](https://www.chromium.org/Home/chromium-security) and [Chromium Privacy](https://www.chromium.org/Home/chromium-privacy).
 
@@ -852,11 +850,11 @@ Just one example way is by monitoring TLS handshakes:
 
 See [Tor Protocol Specification](https://gitweb.torproject.org/torspec.git/tree/tor-spec.txt) and [Tor/TLSHistory](https://trac.torproject.org/projects/tor/wiki/org/projects/Tor/TLSHistory) for more information.
 
-It is recommended to additionally obfuscate Tor traffic using a [pluggable transport](https://www.torproject.org/docs/pluggable-transports.html), such as [Yawning/obfs4proxy](https://github.com/Yawning/obfs4) or [SRI-CSL/stegotorus](https://github.com/SRI-CSL/stegotorus).
+You may wish to additionally obfuscate Tor traffic using a [pluggable transport](https://www.torproject.org/docs/pluggable-transports.html), such as [Yawning/obfs4proxy](https://github.com/Yawning/obfs4) or [SRI-CSL/stegotorus](https://github.com/SRI-CSL/stegotorus).
 
 This can be done by setting up your own [Tor relay](https://www.torproject.org/docs/tor-relay-debian.html) or finding an existing private or public [bridge](https://www.torproject.org/docs/bridges.html.en#RunningABridge) to serve as an obfuscating entry node.
 
-For extra security, use [VirtualBox](https://www.virtualbox.org/wiki/Downloads) or [VMware](https://www.vmware.com/products/fusion) to run a virtualized [GNU/Linux](http://www.brianlinkletter.com/installing-debian-linux-in-a-virtualbox-virtual-machine/) or [BSD](http://www.openbsd.org/faq/faq4.html) machine to do your private browsing on.
+For extra security, use Tor inside a [VirtualBox](https://www.virtualbox.org/wiki/Downloads) or [VMware](https://www.vmware.com/products/fusion) virtualized [GNU/Linux](http://www.brianlinkletter.com/installing-debian-linux-in-a-virtualbox-virtual-machine/) or [BSD](http://www.openbsd.org/faq/faq4.html) machine.
 
 Finally, remember the Tor network provides [anonymity](https://www.privateinternetaccess.com/blog/2013/10/how-does-privacy-differ-from-anonymity-and-why-are-both-important/), which is not necessarily synonymous with privacy. The Tor network does not guarantee protection against a global observer capable of traffic analysis and [correlation](https://blog.torproject.org/category/tags/traffic-correlation). See also [Seeking Anonymity in an Internet Panopticon](http://bford.info/pub/net/panopticon-cacm.pdf) [pdf] and [Traffic Correlation on Tor by Realistic Adversaries](http://www.ohmygodel.com/publications/usersrouted-ccs13.pdf) [pdf].
 
@@ -884,7 +882,7 @@ You can periodically run a tool like [Knock Knock](https://github.com/synack/kno
 
 See [Sophail: Applied attacks against  Antivirus](https://lock.cmpxchg8b.com/sophailv2.pdf) [pdf], [Analysis and Exploitation of an ESET Vulnerability](http://googleprojectzero.blogspot.ro/2015/06/analysis-and-exploitation-of-eset.html), [a trivial Avast RCE](https://code.google.com/p/google-security-research/issues/detail?id=546), [Popular Security Software Came Under Relentless NSA and GCHQ Attacks](https://theintercept.com/2015/06/22/nsa-gchq-targeted-kaspersky/), and [AVG: "Web TuneUP" extension multiple critical vulnerabilitie](https://code.google.com/p/google-security-research/issues/detail?id=675).
 
-Therefore, the best anti-virus is **Common Sense 2015**. See more discussion in [issue #44](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/44).
+Therefore, the best anti-virus is **Common Sense 2016**. See more discussion in [issue #44](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/44).
 
 Local privilege escalation bugs are plenty on OS X, so always be careful when downloading and running untrusted programs or trusted programs from third party websites or downloaded over HTTP ([example](http://arstechnica.com/security/2015/08/0-day-bug-in-fully-patched-os-x-comes-under-active-exploit-to-hijack-macs/)).
 
@@ -942,9 +940,9 @@ You can also generate passwords, even memorable ones, using **Keychain Access** 
 
 Alternatively, you can manage an encrypted passwords file yourself with `gpg` (shameless plug for my [pwd.sh](https://github.com/drduh/pwd.sh) script).
 
-In addition to passwords, ensure your online accounts (such as github, google accounts, etc.) have [two factor authentication](https://en.wikipedia.org/wiki/Two-factor_authentication) enabled.
+In addition to passwords, ensure eligible online accounts, such as Github, Google accounts, banking, have [two factor authentication](https://en.wikipedia.org/wiki/Two-factor_authentication) enabled.
 
-Look to [Yubikey](https://www.yubico.com/products/yubikey-hardware/yubikey-neo/) for a two factor and private key (e.g., ssh, gpg) hardware token.
+Look to [Yubikey](https://www.yubico.com/products/yubikey-hardware/yubikey-neo/) for a two factor and private key (e.g., ssh, gpg) hardware token. One of two Yubikey's slots can also be programmed to emit a long, static password (which can be used in combination with a short, memorized password, for example).
 
 ## Backup
 Always encrypt files locally before backing them up to external media or online services. One way is to use a symmetric cipher with **gpg** and a password of your choosing.
@@ -1029,7 +1027,7 @@ For example, a skilled attacker with unsupervised physical access to your comput
 
 ## System monitoring
 
-#### Open Source Monitoring Tools
+#### Open source monitoring tools
 
 [facebook/osquery](https://github.com/facebook/osquery) can be used to retrieve low level system information.  Users can write SQL queries to retrieve system information.  More information can be found at <https://osquery.io/>.
 
@@ -1045,12 +1043,10 @@ For example, a skilled attacker with unsupervised physical access to your comput
  - User social media and email accounts
  - Wi-Fi access points
 
-#### OpenBSM Audit
+#### OpenBSM audit
 OS X has a powerful OpenBSM auditing capability. You can use it to monitor process execution, network activity, and much more.
 
-Use `sudo praudit -l /dev/auditpipe` to tail audit logs.
-
-Some example events,
+Use `sudo praudit -l /dev/auditpipe` to tail audit logs, e.g.:
 
     header,201,11,execve(2),0,Thu Sep  1 12:00:00 2015, + 195 msec,exec arg,/Applications/.evilapp/rootkit,path,/Applications/.evilapp/rootkit,path,/Applications/.evilapp/rootkit,attribute,100755,root,wheel,16777220,986535,0,subject,drduh,root,wheel,root,wheel,412,100005,50511731,0.0.0.0,return,success,0,trailer,201,
 
@@ -1060,7 +1056,7 @@ Some example events,
 
 See the manual pages for `audit`, `praudit`, `audit_control` and other files in `/etc/security`
 
-**Note** although `man audit` says the `-s` flag will synchronize the audit configuration, it is actually necessary to reboot for changes to take effect.
+**Note** although `man audit` says the `-s` flag will synchronize the audit configuration, it appears necessary to reboot for changes to take effect.
 
 See articles on [ilostmynotes.blogspot.com](http://ilostmynotes.blogspot.com/2013/10/openbsm-auditd-on-os-x-these-are-logs.html) and [derflounder.wordpress.com](https://derflounder.wordpress.com/2012/01/30/openbsm-auditing-on-mac-os-x/) for more information.
 
@@ -1161,6 +1157,8 @@ Did you know Apple has not shipped a computer with TPM since [2006](http://osxbo
 
 ## Additional resources
 
+*In no particular order*
+
 [OS X Yosemite Core Technologies Overview White Paper](https://www.apple.com/osx/pdf/OSXYosemite_TO_FF1.pdf)
 
 [Reversing Engineering Mac OS X blog](https://reverse.put.as/)
@@ -1208,3 +1206,5 @@ Did you know Apple has not shipped a computer with TPM since [2006](http://osxbo
 [EFF Surveillance Self-Defense](https://ssd.eff.org/)
 
 [MacAdmins on Slack](https://macadmins.herokuapp.com/)
+
+[SummitRoute/osxlockdown](https://github.com/SummitRoute/osxlockdown)
