@@ -1016,6 +1016,9 @@ Here are several recommended [options](https://www.freebsd.org/cgi/man.cgi?query
       PasswordAuthentication no
       ChallengeResponseAuthentication no
       HashKnownHosts yes
+      UseRoaming no
+
+UseRoaming is an undocumented option in OpenSSH that is enabled by default and is vulnerable in OpenSSH versions 5.4 through 7.1. The vulnerabilities are detailed in [CVE-2016-0777 and CVE-2016-0778](http://undeadly.org/cgi?action=article&sid=20160114142733).
 
 You can also use ssh to create an [encrypted tunnel](http://blog.trackets.com/2014/05/17/ssh-tunnel-local-and-remote-port-forwarding-explained-with-examples.html) to send your traffic through, which is similar to a VPN.
 
