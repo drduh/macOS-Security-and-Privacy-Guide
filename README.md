@@ -109,10 +109,10 @@ You can verify the following cryptographic hashes to ensure you have the same, a
 
 You can also Google these hashes to ensure your copy is genuine and has not been tampered with. See `InstallESD_Hashes.csv` in this repository for previous versions.
 
-    InstallESD.dmg (Build 15C50)
+    InstallESD.dmg (Build 15D21)
 
-    SHA-256:   8e81dc547f07bc92408d5269983c64cf6ab2206e4d9a1cd94eb6e9003279921b
-    SHA-1:     2b11b8b618a2e5100507c3c432363081db65c4c8
+    SHA-256:   bc46b9b02e69546e1446e131d4a8d3b0203a6bbad73a003749571da85f51a613
+    SHA-1:     e4311d93127d0668372b32e5342f3b455b6bc9bd
 
 Mount and install the operating system to a **temporary image**, or use the GUI app [MagerValp/AutoDMG](https://github.com/MagerValp/AutoDMG).
 
