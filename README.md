@@ -935,7 +935,12 @@ Both offer trivial protection against common risks and are fine at default setti
 
 See also [Mac Malware Guide : How does Mac OS X protect me?](http://www.thesafemac.com/mmg-builtin/) and [Gatekeeper, XProtect and the Quarantine attribute](http://ilostmynotes.blogspot.com/2012/06/gatekeeper-xprotect-and-quarantine.html).
 
-**Note** Quarantine stores information about downloaded files in `~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2`, which may pose a privacy risk. See [here](http://www.zoharbabin.com/hey-mac-i-dont-appreciate-you-spying-on-me-hidden-downloads-log-in-os-x/) for more information.
+**Note** Quarantine stores information about downloaded files in `~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2`, which may pose a privacy risk. To examine the file, use `strings` or,
+
+    echo 'SELECT datetime(LSQuarantineTimeStamp + 978307200, "unixepoch") as LSQuarantineTimeStamp, LSQuarantineAgentName, LSQuarantineOriginURLString, LSQuarantineDataURLString from LSQuarantineEvent;' | sqlite3 /Users/$USER/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2
+
+
+See [here](http://www.zoharbabin.com/hey-mac-i-dont-appreciate-you-spying-on-me-hidden-downloads-log-in-os-x/) for more information.
 
 Furthermore, OS X attaches metadata ([HFS+ extended attributes](https://en.wikipedia.org/wiki/Extended_file_attributes#OS_X)) to downloaded files, e.g.
 
@@ -996,6 +1001,8 @@ OS X remembers access points it has connected to. Like all wireless devices, the
 This is a privacy risk, so remove networks from the list in **System Preferences** > **Network** > **Advanced** when they're no longer needed.
 
 Also see [Signals from the Crowd: Uncovering Social Relationships through Smartphone Probes](http://conferences.sigcomm.org/imc/2013/papers/imc148-barberaSP106.pdf) [pdf] and [Wi-Fi told me everything about you](http://confiance-numerique.clermont-universite.fr/Slides/M-Cunche-2014.pdf) [pdf].
+
+Saved Wi-Fi information (SSID, last connection, etc.) can be found in `/Library/Preferences/SystemConfiguration/com.apple.airport.preferences.plist`
 
 You may wish to [spoof the MAC address](https://en.wikipedia.org/wiki/MAC_spoofing) of your network card before connecting to new and untrusted wireless networks to mitigate passive fingerprinting, e.g.:
 
@@ -1209,6 +1216,8 @@ Did you know Apple has not shipped a computer with TPM since [2006](http://osxbo
 
 [The EFI boot process](http://homepage.ntlworld.com/jonathan.deboynepollard/FGA/efi-boot-process.html)
 
+[The Intel Mac boot process](http://refit.sourceforge.net/info/boot_process.html)
+
 [Userland Persistence on Mac OS X](https://archive.org/details/joshpitts_shmoocon2015)
 
 [Developing Mac OSX kernel rootkits](http://phrack.org/issues/66/16.html#article)
@@ -1238,3 +1247,13 @@ Did you know Apple has not shipped a computer with TPM since [2006](http://osxbo
 [MacAdmins on Slack](https://macadmins.herokuapp.com/)
 
 [SummitRoute/osxlockdown](https://github.com/SummitRoute/osxlockdown)
+
+[iCloud security and privacy overview](http://support.apple.com/kb/HT4865)
+
+[Demystifying the DMG File Format](http://newosxbook.com/DMG.html)
+
+[libyal/libfvde](https://github.com/libyal/libfvde)
+
+[Mac OS X Forensics - Technical Report](https://www.ma.rhul.ac.uk/static/techrep/2015/RHUL-MA-2015-8.pdf) [pdf]
+
+[Mac Forensics: Mac OS X and the HFS+ File System](https://cet4861.pbworks.com/w/file/fetch/71245694/mac.forensics.craiger-burke.IFIP.06.pdf) [pdf]
