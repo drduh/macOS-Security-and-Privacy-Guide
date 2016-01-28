@@ -1062,6 +1062,8 @@ Keep your Mac physically secure at all times. Don't leave it unattended in hotel
 
 For example, a skilled attacker with unsupervised physical access to your computer can infect the boot ROM to install a keylogger and steal your password - see [Thunderstrike](https://trmm.net/Thunderstrike), for example.
 
+A helpful tool is [usbkill](https://github.com/hephaest0s/usbkill), which is *"an anti-forensic kill-switch that waits for a change on your USB ports and then immediately shuts down your computer"*.
+
 ## System monitoring
 
 #### Open source monitoring tools
