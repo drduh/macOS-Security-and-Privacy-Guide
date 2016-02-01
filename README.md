@@ -81,7 +81,7 @@ There are several ways to install a fresh copy of OS X.
 
 The simplest way is to boot into [Recovery Mode](https://support.apple.com/en-us/HT201314) by holding `Command` and `R` keys at boot. A system image can be downloaded and applied directly from Apple. However, this way exposes the computer's serial number and other identifying information to Apple over plain **HTTP**.
 
-Another way is to download **OS X El Capitan 10.11.2** from the [App Store](https://itunes.apple.com/us/app/os-x-el-capitan/id1018109117) or some other place and create a custom, installable system image.
+Another way is to download **OS X El Capitan 10.11.3** from the [App Store](https://itunes.apple.com/us/app/os-x-el-capitan/id1018109117) or some other place and create a custom, installable system image.
 
 The application is [code signed](https://developer.apple.com/library/mac/documentation/Security/Conceptual/CodeSigningGuide/Procedures/Procedures.html#//apple_ref/doc/uid/TP40005929-CH4-SW6), which should be verified to make sure you received a legitimate copy.
 
@@ -1062,6 +1062,8 @@ Keep your Mac physically secure at all times. Don't leave it unattended in hotel
 For example, a skilled attacker with unsupervised physical access to your computer can infect the boot ROM to install a keylogger and steal your password - see [Thunderstrike](https://trmm.net/Thunderstrike), for example.
 
 A helpful tool is [usbkill](https://github.com/hephaest0s/usbkill), which is *"an anti-forensic kill-switch that waits for a change on your USB ports and then immediately shuts down your computer"*.
+
+Consider purchasing a [privacy filter](https://www.amazon.com/s/ref=nb_sb_noss_2?url=node%3D15782001&field-keywords=macbook) for your screen to thwart shoulder surfers.
 
 ## System monitoring
 
