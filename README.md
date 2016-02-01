@@ -658,8 +658,7 @@ For example, compare the TLS protocol and cipher between the homebrew version an
         Protocol  : TLSv1
         Cipher    : AES128-SHA
 
-Also see [Comparison of TLS implementations
-](https://en.wikipedia.org/wiki/Comparison_of_TLS_implementations), [How's My SSL](https://www.howsmyssl.com/), as well as [Qualys SSL Labs Tools](https://www.ssllabs.com/projects/).
+Also see [Comparison of TLS implementations](https://en.wikipedia.org/wiki/Comparison_of_TLS_implementations), [How's My SSL](https://www.howsmyssl.com/), as well as [Qualys SSL Labs Tools](https://www.ssllabs.com/projects/).
 
 ## Curl
 
@@ -817,12 +816,12 @@ These settings will configure GnuPG to use SSL when fetching new keys and prefer
 
 See also [ioerror/duraconf/configs/gnupg/gpg.conf](https://github.com/ioerror/duraconf/blob/master/configs/gnupg/gpg.conf). You should also take some time to read [OpenPGP Best Practices](https://help.riseup.net/en/security/message-security/openpgp/best-practices).
 
-If you don't already have a keypair, create one using `gpg --gen-key`
+If you don't already have a keypair, create one using `gpg --gen-key`. Also see [drduh/YubiKey-Guide](https://github.com/drduh/YubiKey-Guide).
 
 Read [online](https://alexcabal.com/creating-the-perfect-gpg-keypair/) [guides](https://security.stackexchange.com/questions/31594/what-is-a-good-general-purpose-gnupg-key-setup) and practice encrypting and decrypting email to yourself and your friends. Get them interested in this stuff!
 
 ## OTR
-OTR stands for **Off-the-Record** and is a cryptographic protocol for encrypting and authenticating conversations over instant messaging.
+OTR stands for **off-the-record** and is a cryptographic protocol for encrypting and authenticating conversations over instant messaging.
 
 You can use OTR on top of any existing **XMPP** chat service, even Google Hangouts (which only encrypts conversations between users and the server).
 
@@ -970,11 +969,11 @@ You can also generate passwords, even memorable ones, using **Keychain Access** 
 
 **Keychains** are encrypted with a [PBKDF2 derived key](https://en.wikipedia.org/wiki/PBKDF2) and are a _pretty safe_ place to store credentials. See also [Breaking into the OS X keychain](http://juusosalonen.com/post/30923743427/breaking-into-the-os-x-keychain).
 
-Alternatively, you can manage an encrypted passwords file yourself with `gpg` (shameless plug for my [pwd.sh](https://github.com/drduh/pwd.sh) script).
+Alternatively, you can manage an encrypted passwords file yourself with `gpg` (shameless plug for my [drduh/pwd.sh](https://github.com/drduh/pwd.sh) script).
 
 In addition to passwords, ensure eligible online accounts, such as Github, Google accounts, banking, have [two factor authentication](https://en.wikipedia.org/wiki/Two-factor_authentication) enabled.
 
-Look to [Yubikey](https://www.yubico.com/products/yubikey-hardware/yubikey-neo/) for a two factor and private key (e.g., ssh, gpg) hardware token. One of two Yubikey's slots can also be programmed to emit a long, static password (which can be used in combination with a short, memorized password, for example).
+Look to [Yubikey](https://www.yubico.com/products/yubikey-hardware/yubikey-neo/) for a two factor and private key (e.g., ssh, gpg) hardware token. See [drduh/YubiKey-Guide](https://github.com/drduh/YubiKey-Guide) and [trmm.net/Yubikey](https://trmm.net/Yubikey). One of two Yubikey's slots can also be programmed to emit a long, static password (which can be used in combination with a short, memorized password, for example).
 
 ## Backup
 Always encrypt files locally before backing them up to external media or online services. One way is to use a symmetric cipher with **gpg** and a password of your choosing.
