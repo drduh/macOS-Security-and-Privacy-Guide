@@ -39,7 +39,7 @@ If you wish to make a correction or improvement, please send a pull request or [
 - [VPN](#vpn)
 - [Viruses and malware](#viruses-and-malware)
 - [System Integrity Protection](#system-integrity-protection)
-- [Gatekeeper and Xprotect](#gatekeeper-and-xprotect)
+- [Gatekeeper and XProtect](#gatekeeper-and-xprotect)
 - [Passwords](#passwords)
 - [Backup](#backup)
 - [Wi-Fi](#wi-fi)
@@ -735,7 +735,7 @@ Consider logging and monitoring privoxy requests so you can be inspired to write
 ## Web browsing
 The web browser poses the largest security and privacy risk, as its fundamental job is to download and execute untrusted code from the Internet.
 
-Use [Google Chrome](https://www.google.com/chrome/browser/desktop/) for most of your browsing. It offers [separate profiles](https://www.chromium.org/user-experience/multi-profiles), [good sandboxing](https://www.chromium.org/developers/design-documents/sandbox) and [frequent updates](http://googlechromereleases.blogspot.com/) (including Flash, although you should disable it - see below).
+Use [Google Chrome](https://www.google.com/chrome/browser/desktop/) for most of your browsing. It offers [separate profiles](https://www.chromium.org/user-experience/multi-profiles), [good sandboxing](https://www.chromium.org/developers/design-documents/sandbox), [frequent updates](http://googlechromereleases.blogspot.com/) (including Flash, although you should disable it - see below), and carries [impressive credentials](https://www.chromium.org/Home/chromium-security/brag-sheet).
 
 Chrome also comes with a great [PDF viewer](http://0xdabbad00.com/2013/01/13/most-secure-pdf-viewer-chrome-pdf-viewer/).
 
@@ -759,9 +759,9 @@ Take some time to read through [Chromium Security](https://www.chromium.org/Home
 
 For example you may wish to disable [DNS prefetching](https://www.chromium.org/developers/design-documents/dns-prefetching) (see also [DNS Prefetching and Its Privacy Implications](https://www.usenix.org/legacy/event/leet10/tech/full_papers/Krishnan.pdf) [pdf]).
 
-Do **not** use other Chromium-derived browsers. They are usually [closed source](http://yro.slashdot.org/comments.pl?sid=4176879&cid=44774943), [poorly maintained](https://plus.google.com/+JustinSchuh/posts/69qw9wZVH8z), or make dubious claims to protect privacy. See [The Private Life of Chromium Browsers](http://thesimplecomputer.info/the-private-life-of-chromium-browsers).
+Do **not** use other Chromium-derived browsers. They are usually [closed source](http://yro.slashdot.org/comments.pl?sid=4176879&cid=44774943), [poorly maintained](https://plus.google.com/+JustinSchuh/posts/69qw9wZVH8z), [have bugs](https://code.google.com/p/google-security-research/issues/detail?id=679), and make dubious claims to protect privacy. See [The Private Life of Chromium Browsers](http://thesimplecomputer.info/the-private-life-of-chromium-browsers).
 
-Do **not** use Safari. The code is a mess and [security](https://nakedsecurity.sophos.com/2014/02/24/anatomy-of-a-goto-fail-apples-ssl-bug-explained-plus-an-unofficial-patch/) [vulnerabilities](https://vimeo.com/144872861) are frequent, and slower to patch (see also [discussion on Hacker News](https://news.ycombinator.com/item?id=10150038)). If you do use Safari, at least [disable](https://thoughtsviewsopinions.wordpress.com/2013/04/26/how-to-stop-downloaded-files-opening-automatically/) the *Open "safe" files after downloading* option in Preferences.
+Do **not** use Safari. The code is a mess and [security](https://nakedsecurity.sophos.com/2014/02/24/anatomy-of-a-goto-fail-apples-ssl-bug-explained-plus-an-unofficial-patch/) [vulnerabilities](https://vimeo.com/144872861) are frequent, and slower to patch (see also [discussion on Hacker News](https://news.ycombinator.com/item?id=10150038)). Security does [not appear](https://discussions.apple.com/thread/5128209) to be a priority for Safari. If you do use it, at least [disable](https://thoughtsviewsopinions.wordpress.com/2013/04/26/how-to-stop-downloaded-files-opening-automatically/) the *Open "safe" files after downloading* option in Preferences, and be aware of other [privacy nuances](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/93).
 
 For more information about security conscious browsing, see [HowTo: Privacy & Security Conscious Browsing](https://gist.github.com/atcuno/3425484ac5cce5298932), [browserleaks.com](https://www.browserleaks.com/) and [EFF Panopticlick](https://panopticlick.eff.org/).
 
@@ -829,7 +829,7 @@ The first time you start a conversation with someone new, you'll be asked to ver
 
 A popular OS X GUI client for XMPP and other chat protocols is [Adium](https://adium.im/)
 
-Consider downloading the [beta version](https://beta.adium.im/) which uses OAuth2, making logging in to Google Talk/Hangouts [more secure](https://trac.adium.im/ticket/16161).
+Consider downloading the [beta version](https://beta.adium.im/) which uses OAuth2, making logging in to Google Talk/Hangouts [more](https://adium.im/blog/2015/04/) [secure](https://trac.adium.im/ticket/16161).
 
     Adium_1.5.11b2.dmg
 
@@ -840,9 +840,9 @@ Remember to [disable logging](https://trac.adium.im/ticket/15722) for OTR chats 
 
 A good console-based XMPP client is [profanity](http://www.profanity.im/)  which can be installed with `brew install profanity`
 
-Also, check out [Tor Messenger](https://blog.torproject.org/blog/tor-messenger-beta-chat-over-tor-easily), although it is still in beta.
+For improved anonymity, check out [Tor Messenger](https://blog.torproject.org/blog/tor-messenger-beta-chat-over-tor-easily), although it is still in beta, as well as [Ricochet](https://ricochet.im/), which both use the Tor network rather than relying on messaging servers.
 
-If you want to know how OTR works, read the paper [Off-the-Record Communication, or, Why Not To Use PGP](https://otr.cypherpunks.ca/otr-wpes.pdf) [pdf].
+If you want to know how OTR works, read the paper [Off-the-Record Communication, or, Why Not To Use PGP](https://otr.cypherpunks.ca/otr-wpes.pdf) [pdf]
 
 ## Tor
 Tor is an anonymizing proxy which can be used for browsing the web.
@@ -902,7 +902,7 @@ Some malware comes bundled with both legitimate software, such as the [Java bund
 
 See [Methods of malware persistence on Mac OS X](https://www.virusbtn.com/pdf/conference/vb2014/VB2014-Wardle.pdf) [pdf] and [Malware Persistence on OS X Yosemite](https://www.rsaconference.com/events/us15/agenda/sessions/1591/malware-persistence-on-os-x-yosemite) to learn about how garden-variety malware functions.
 
-You can periodically run a tool like [Knock Knock](https://github.com/synack/knockknock) to examine persistent binaries (e.g. scripts, binaries). But by then, it is probably too late. Maybe [Block Block](https://objective-see.com/products/blockblock.html) will help.
+You could periodically run a tool like [Knock Knock](https://github.com/synack/knockknock) to examine persistent applications (e.g. scripts, binaries). But by then, it is probably too late. Maybe [Block Block](https://objective-see.com/products/blockblock.html) will help. See caveats in [issue #90](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/90) first, however.
 
 **Anti-virus** programs are a double-edged sword -- not useful for **advanced** users and will likely increase attack surface against sophisticated threats, however possibly useful for catching "garden variety" malware on **novice** users' Macs. There is also the additional processing overhead to consider.
 
@@ -924,11 +924,13 @@ From [What's New in OS X 10.11](https://developer.apple.com/library/prerelease/m
 
 > A new security policy that applies to every running process, including privileged code and code that runs out of the sandbox. The policy extends additional protections to components on disk and at run-time, only allowing system binaries to be modified by the system installer and software updates. Code injection and runtime attachments to system binaries are no longer permitted.
 
-## Gatekeeper and Xprotect
+Also see [What is the “rootless” feature in El Capitan, really?](https://apple.stackexchange.com/questions/193368/what-is-the-rootless-feature-in-el-capitan-really)
+
+## Gatekeeper and XProtect
 
 **Gatekeeper** and the **quarantine** system try to prevent unsigned or "bad" programs and files from running and opening.
 
-**Xprotect** prevents the execution of known bad files and outdated plugin versions, but does nothing to cleanup or stop existing malware.
+**XProtect** prevents the execution of known bad files and outdated plugin versions, but does nothing to cleanup or stop existing malware.
 
 Both offer trivial protection against common risks and are fine at default settings.
 
@@ -1171,6 +1173,8 @@ If you want to play **music** or watch **videos**, use [VLC media player](https:
 
 If you want to **torrent**, use [Transmission](http://www.transmissionbt.com/download/) which is free and open source. You may also wish to use a block list to avoid peering with known bad hosts - see [Which is the best blocklist for Transmission?](https://giuliomac.wordpress.com/2014/02/19/best-blocklist-for-transmission/) and [johntyree/3331662](https://gist.github.com/johntyree/3331662).
 
+Manage default file handlers with [duti](http://duti.org/), which can be installed with `brew install duti`. One reason to manage extensions is to prevent auto-mounting of remote filesystems in Finder (see [Protecting Yourself From Sparklegate](https://www.taoeffect.com/blog/2016/02/apologies-sky-kinda-falling-protecting-yourself-from-sparklegate/)).
+
 Watch the system log with **Console** or the `syslog -w` command.
 
 Enable [tty_tickets](http://blog.rongarret.info/2015/08/psa-beware-of-sudo-on-os-x.html) in the sudoers file.
@@ -1256,6 +1260,10 @@ Did you know Apple has not shipped a computer with TPM since [2006](http://osxbo
 [Demystifying the DMG File Format](http://newosxbook.com/DMG.html)
 
 [libyal/libfvde](https://github.com/libyal/libfvde)
+
+[There's a lot of vulnerable OS X applications out there (Sparkle Framework RCE)](https://vulnsec.com/2016/osx-apps-vulnerabilities/)
+
+[iSeeYou: Disabling the MacBook Webcam Indicator LED](https://jscholarship.library.jhu.edu/handle/1774.2/36569)
 
 [Mac OS X Forensics - Technical Report](https://www.ma.rhul.ac.uk/static/techrep/2015/RHUL-MA-2015-8.pdf) [pdf]
 
