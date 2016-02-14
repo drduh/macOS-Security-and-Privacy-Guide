@@ -467,7 +467,7 @@ Install `dnsmasq` and edit the configuration
     cp /usr/local/opt/dnsmasq/dnsmasq.conf.example /usr/local/etc/dnsmasq.conf
 
     vim /usr/local/etc/dnsmasq.conf
-    
+
 
 Have a look through the commented-out options. Here are a few recommended settings to enable,
 
@@ -487,7 +487,7 @@ Have a look through the commented-out options. Here are a few recommended settin
 
     # Reject private addresses from upstream nameservers
     stop-dns-rebind
-    
+
     # Query servers in order
     strict-order
 
@@ -500,7 +500,7 @@ Have a look through the commented-out options. Here are a few recommended settin
     log-dhcp
     log-queries
     log-facility=/var/log/dnsmasq.log
-    
+
     # DNSSEC options
     dnssec
     trust-anchor=.,19036,8,2,49AAC11D7B6F6446702E54A1607371607A1A41855200FD2CE1CDDE32F24E8FB5
@@ -766,7 +766,7 @@ Do **not** use Safari. The code is a mess and [security](https://nakedsecurity.s
 For more information about security conscious browsing, see [HowTo: Privacy & Security Conscious Browsing](https://gist.github.com/atcuno/3425484ac5cce5298932), [browserleaks.com](https://www.browserleaks.com/) and [EFF Panopticlick](https://panopticlick.eff.org/).
 
 ## Plugins
-**Adobe Flash**, **Oracle Java**, **Adobe Reader**, **Microsoft Silverlight** (Netflix now works with [HTML5](https://help.netflix.com/en/node/23742)) and other plugins are [security risks](https://news.ycombinator.com/item?id=9901480) and should not be installed. 
+**Adobe Flash**, **Oracle Java**, **Adobe Reader**, **Microsoft Silverlight** (Netflix now works with [HTML5](https://help.netflix.com/en/node/23742)) and other plugins are [security risks](https://news.ycombinator.com/item?id=9901480) and should not be installed.
 
 If they are necessary, only use them in a disposable virtual machine and subscribe to security announcements to make sure you're always patched.
 
@@ -1169,7 +1169,7 @@ Consider creating a second, non-administrator account for web browsing and gener
 
 If you want to play **music** or watch **videos**, use [VLC media player](https://www.videolan.org/vlc/index.html) which is free and open source.
 
-If you want to **torrent**, use [Transmission](http://www.transmissionbt.com/download/) which is free and open source.
+If you want to **torrent**, use [Transmission](http://www.transmissionbt.com/download/) which is free and open source. You may also wish to use a block list to avoid peering with known bad hosts - see [Which is the best blocklist for Transmission?](https://giuliomac.wordpress.com/2014/02/19/best-blocklist-for-transmission/) and [johntyree/3331662](https://gist.github.com/johntyree/3331662).
 
 Watch the system log with **Console** or the `syslog -w` command.
 
