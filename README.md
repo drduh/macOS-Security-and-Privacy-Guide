@@ -25,6 +25,7 @@ If you wish to make a correction or improvement, please send a pull request or [
 - [DNS](#dns)
     - [Hosts file](#hosts-file)
     - [dnsmasq](#dnsmasq)
+      - [Test DNSSEC validation](#test-dnssec-validation)
     - [dnscrypt](#dnscrypt)
 - [Captive portal](#captive-portal)
 - [Certificate authorities](#certificate-authorities)
@@ -49,6 +50,7 @@ If you wish to make a correction or improvement, please send a pull request or [
     - [Open source monitoring tools](#open-source-monitoring-tools)
     - [OpenBSM audit](#openbsm-audit)
     - [DTrace](#dtrace)
+    - [Execution](#execution)
     - [Network](#network)
 - [Miscellaneous](#miscellaneous)
 - [Additional resources](#additional-resources)
@@ -1075,15 +1077,7 @@ Consider purchasing a [privacy filter](https://www.amazon.com/s/ref=nb_sb_noss_2
 
 [google/grr](https://github.com/google/grr) is an incident response framework focused on remote live forensics.
 
-[jipegit/OSXAuditor](https://github.com/jipegit/OSXAuditor) analyzes artifacts on a running system, such as:
-
- - Quarantined files
- - Browser information
- 	- Safari history, downloads, topsites, LastSession, HTML5 databases and localstore
- 	- Firefox cookies, downloads, form history, permissions, places and signons
- 	- Chrome history and archives history, cookies, login data, top sites, web data, HTML5
- - User social media and email accounts
- - Wi-Fi access points
+[jipegit/OSXAuditor](https://github.com/jipegit/OSXAuditor) analyzes artifacts on a running system, such as quarantined files, Safari, Chrome and Firefox history, downloads, HTML5 databases and localstore, social media and email accounts, and Wi-Fi access point names.
 
 #### OpenBSM audit
 OS X has a powerful OpenBSM auditing capability. You can use it to monitor process execution, network activity, and much more.
@@ -1205,7 +1199,7 @@ Did you know Apple has not shipped a computer with TPM since [2006](http://osxbo
 
 [OS X Yosemite Core Technologies Overview White Paper](https://www.apple.com/osx/pdf/OSXYosemite_TO_FF1.pdf)
 
-[Reversing Engineering Mac OS X blog](https://reverse.put.as/)
+[Reverse Engineering Mac OS X blog](https://reverse.put.as/)
 
 [Reverse Engineering Resources](http://samdmarshall.com/re.html)
 
