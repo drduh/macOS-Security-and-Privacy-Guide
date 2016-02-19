@@ -264,6 +264,24 @@ Deploying FileVault 2](http://training.apple.com/pdf/WP_FileVault2.pdf) [pdf]
 
 and paper [Lest We Remember: Cold Boot Attacks on Encryption Keys](https://www.usenix.org/legacy/event/sec08/tech/full_papers/halderman/halderman.pdf) [pdf]
 
+## Separate user[s]
+
+Create a second, non-administrator account for day-to-day tasks. This
+will increase security by not having access to sudo (in case of its
+beeing compromised as it was couple of times in past). What you can do
+even more is apply some form of "security by isolation" (concept used
+widely in [Qubes OS](https://www.qubes-os.org/)) and create separate
+account for sensitive tasks like banking.
+
+## User directory encryption
+To have security "security by isolation" secure on single machine we
+need to have extra encryption layer on home directory. For multi-user
+systems it is quite nice as sometimes when there is need to share
+machine with family (which does not have so much paranoia) they tend
+to have simple passwords which can be used to decrypt hard drive.
+
+You can do this using: https://github.com/pr0d1r2/hackintosh_alpha#setup-legacy-filevault
+
 ## Firmware password
 
 Setting a firmware password in OS X prevents your Mac from starting up from any device other than your startup disk. [It can also be helpful if your laptop is stolen](https://www.ftc.gov/news-events/blogs/techftc/2015/08/virtues-strong-enduser-device-controls), as the only way to reset the firmware password is through an Apple Store ([or is it?](https://reverse.put.as/2015/05/29/the-empire-strikes-back-apple-how-your-mac-firmware-security-is-completely-broken/)).
