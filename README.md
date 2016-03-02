@@ -437,7 +437,6 @@ Alternatively, you could download, compile and install software directly from th
 Remember to periodically run `brew update` and `brew upgrade` on trusted, secure networks to install software updates.
 
 ## DNS
-Here are a few ways to improve your security and privacy with DNS.
 
 #### Hosts file
 Use the [hosts file](https://en.wikipedia.org/wiki/Hosts_(file)) to block known malware, advertising or otherwise unwanted domains.
@@ -452,26 +451,27 @@ For hosts lists, see [someonewhocares.org](http://someonewhocares.org/hosts/zero
 
 #### dnsmasq
 
-Install and use [dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html) to cache replies, prevent upstreaming queries for unqualified names, and even block entire TLDs.
+Among other features, [dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html) is able to cache replies, prevent upstreaming queries for unqualified names, and block entire TLDs.
 
-Use it in combination with `dnscrypt` to also encrypt outgoing DNS traffic.
+Use in combination with `dnscrypt` to additionally encrypt outgoing DNS traffic.
 
 If you don't wish to use `dnscrypt`, you should at least use DNS [not provided](http://bcn.boulder.co.us/~neal/ietf/verisign-abuse.html) [by your ISP](http://hackercodex.com/guide/how-to-stop-isp-dns-server-hijacking/). Two popular alternatives are [Google DNS](https://developers.google.com/speed/public-dns/) and [OpenDNS](https://www.opendns.com/home-internet-security/).
 
 [DNSSEC](https://en.wikipedia.org/wiki/Domain_Name_System_Security_Extensions) is a set of extensions to DNS which provide to DNS clients (resolvers) origin authentication of DNS data, authenticated denial of existence, and data integrity. All answers from DNSSEC protected zones are digitally signed. The signed records are authenticated via a chain of trust, starting with a set of verified public keys for the DNS root-zone. The current root-zone trust anchors may be downloaded [from IANA website](https://www.iana.org/dnssec/files). There are a number of resources on DNSSEC, but probably the best one is [dnssec.net website](http://www.dnssec.net).
 
-Install `dnsmasq` and edit the configuration
+Install dnsmasq:
 
     brew install dnsmasq --with-dnssec
 
     mkdir -p /usr/local/etc
 
     cp /usr/local/opt/dnsmasq/dnsmasq.conf.example /usr/local/etc/dnsmasq.conf
+    
+Edit the configuration:
 
     vim /usr/local/etc/dnsmasq.conf
 
-
-Have a look through the commented-out options. Here are a few recommended settings to enable,
+Have a look through the commented-out options. Here are a few recommended settings to enable:
 
     # Forward queries to dnscrypt on localhost
     server=127.0.0.1#5355
@@ -479,10 +479,11 @@ Have a look through the commented-out options. Here are a few recommended settin
     # Never forward plain names
     domain-needed
 
-    # Blackhole Tor hidden services and local TLDs
+    # Examples of blocking TLDs or subdomains
     address=/.onion/0.0.0.0
     address=/.local/0.0.0.0
     address=/.mycoolnetwork/0.0.0.0
+    address=/.facebook.com/0.0.0.0
 
     # Never forward addresses in the non-routed address spaces
     bogus-priv
@@ -508,7 +509,7 @@ Have a look through the commented-out options. Here are a few recommended settin
     trust-anchor=.,19036,8,2,49AAC11D7B6F6446702E54A1607371607A1A41855200FD2CE1CDDE32F24E8FB5
     dnssec-check-unsigned
 
-Install and start the program
+Install and start the program:
 
     sudo cp -fv /usr/local/opt/dnsmasq/*.plist /Library/LaunchDaemons
 
@@ -516,7 +517,7 @@ Install and start the program
 
     sudo launchctl load /Library/LaunchDaemons/homebrew.mxcl.dnsmasq.plist
 
-Open **System Preferences** > **Network** and select your interface, then the **DNS** tab, select **+** and add `127.0.0.1` as a DNS server, or use the command,
+Open **System Preferences** > **Network** and select the active interface, then the **DNS** tab, select **+** and add `127.0.0.1` as a DNS server, or use the command:
 
     sudo networksetup -setdnsservers "Wi-Fi" 127.0.0.1
 
@@ -537,6 +538,7 @@ Make sure `dnsmasq` is running with `sudo lsof -ni UDP:53` and is correctly conf
 **Note** Some VPN software overrides DNS settings on connect. See [issue #24](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/24) for more information.
 
 ##### Test DNSSEC validation
+
 Test DNSSEC validation succeeds for signed zones:
 
     $ dig +dnssec icann.org
@@ -561,7 +563,7 @@ Use [dnscrypt](https://dnscrypt.org/) to encrypt DNS traffic to the provider of 
 
 If you prefer a GUI application, see [alterstep/dnscrypt-osxclient](https://github.com/alterstep/dnscrypt-osxclient).
 
-Install the program
+Install the program:
 
     brew install dnscrypt-proxy
 
@@ -569,11 +571,11 @@ Install the program
 
     sudo chown root /Library/LaunchDaemons/homebrew.mxcl.dnscrypt-proxy.plist
 
-If using in combination with `dnsmasq`, edit `/Library/LaunchDaemons/homebrew.mxcl.dnscrypt-proxy.plist` to have this line
+If using in combination with `dnsmasq`, edit `/Library/LaunchDaemons/homebrew.mxcl.dnscrypt-proxy.plist` to have this line:
 
     <string>--local-address=127.0.0.1:5355</string>
 
-Below the line
+Below the line:
 
     <string>/usr/local/opt/dnscrypt-proxy/sbin/dnscrypt-proxy</string>
 
@@ -585,7 +587,7 @@ By default, the `resolvers-list` will point to the dnscrypt version specific res
 
     <string>--resolvers-list=/usr/local/share/dnscrypt-proxy/dnscrypt-resolvers.csv</string>
 
-Finally, start the program
+Start the program:
 
     sudo launchctl load /Library/LaunchDaemons/homebrew.mxcl.dnscrypt-proxy.plist
 
@@ -593,14 +595,13 @@ Make sure `dnscrypt` is running with `sudo lsof -ni UDP:5355` or `ps -ef | grep 
 
 > By default, dnscrypt-proxy runs on localhost (127.0.0.1), port 53,
 and under the "nobody" user using the dnscrypt.eu-dk DNSCrypt-enabled
-resolver. If you would like to change these settings, you will have to edit
-the plist file (e.g., --resolver-address, --provider-name, --provider-key, etc.)
+resolver. If you would like to change these settings, you will have to edit the plist file (e.g., --resolver-address, --provider-name, --provider-key, etc.)
 
 This can be accomplished by editing `/Library/LaunchDaemons/homebrew.mxcl.dnscrypt-proxy.plist`.
 
 You can run your own [dnscrypt server](https://github.com/Cofyc/dnscrypt-wrapper) from a trusted location or use one of many [public servers](https://github.com/jedisct1/dnscrypt-proxy/blob/master/dnscrypt-resolvers.csv) instead.
 
-Make sure it's working with `tcpdump` or Wireshark
+Confirm outgoing dns traffic is encrypted:
 
     $ sudo tcpdump -qtni en0
     IP 10.8.8.8.59636 > 77.66.84.233.443: UDP, length 512
@@ -624,12 +625,7 @@ See also [Apple OS X Lion Security: Captive Portal Hijacking Attack](https://www
 ## Certificate authorities
 OS X El Capitan comes with [over 200 root certificate authorities](https://support.apple.com/en-us/HT205204) from for-profit corporations like Apple, Verisign, Thawte, Digicert and government agencies from China, Japan, Netherlands, U.S., and more! These CAs are capable of issuing SSL certificates for any domain or code signing certificates as well.
 
-For more information, see [Certification Authority Trust Tracker](https://github.com/kirei/catt),
-
-and papers
-[Analysis of the HTTPS certificate ecosystem](http://conferences.sigcomm.org/imc/2013/papers/imc257-durumericAemb.pdf) [pdf]
-
-and [You Won’t Be Needing These Any More: On Removing Unused Certificates From Trust Stores](http://www.ifca.ai/fc14/papers/fc14_submission_100.pdf) [pdf]
+For more information, see [Certification Authority Trust Tracker](https://github.com/kirei/catt), [Analysis of the HTTPS certificate ecosystem](http://conferences.sigcomm.org/imc/2013/papers/imc257-durumericAemb.pdf) [pdf], and [You Won’t Be Needing These Any More: On Removing Unused Certificates From Trust Stores](http://www.ifca.ai/fc14/papers/fc14_submission_100.pdf) [pdf].
 
 You can inspect system root certificates in **Keychain Access**, under the **System Roots** tab or by using the `security` command line tool and `/System/Library/Keychains/SystemRootCertificates.keychain` file.
 
@@ -641,8 +637,7 @@ The risk of a [man in the middle](https://en.wikipedia.org/wiki/Man-in-the-middl
 
 The version of `openssl` in El Capitan is `0.9.8zg` which is [not current](https://apple.stackexchange.com/questions/200582/why-is-apple-using-an-older-version-of-openssl). It doesn't support TLS 1.1 or newer, elliptic curve ciphers, and [more](https://stackoverflow.com/questions/27502215/difference-between-openssl-09-8z-and-1-0-1).
 
-Apple claims OpenSSL is **deprecated** in their [Cryptographic Services Guide
-](https://developer.apple.com/library/mac/documentation/Security/Conceptual/cryptoservices/GeneralPurposeCrypto/GeneralPurposeCrypto.html) document. Their version also has patches which may [surprise you](https://hynek.me/articles/apple-openssl-verification-surprises/).
+Apple claims OpenSSL is **deprecated** in their [Cryptographic Services Guide](https://developer.apple.com/library/mac/documentation/Security/Conceptual/cryptoservices/GeneralPurposeCrypto/GeneralPurposeCrypto.html) document. Their version also has patches which may [surprise you](https://hynek.me/articles/apple-openssl-verification-surprises/).
 
 Grab a recent version of OpenSSL with `brew install openssl`. Note, linking brew to be used in favor of `/usr/bin/openssl` may interfere with building software. See [issue #39](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/39).
 
@@ -668,7 +663,7 @@ The version of `curl` which comes with OS X uses [Secure Transport](https://deve
 
 If you prefer to use OpenSSL, install with `brew install curl --with-openssl` and ensure it's the default with `brew link --force curl`
 
-Here are several recommended, self-explanatory [options](http://curl.haxx.se/docs/manpage.html) to add to `~/.curlrc`
+Here are several recommended [options](http://curl.haxx.se/docs/manpage.html) to add to `~/.curlrc` (see `man curl` for more):
 
     user-agent = "Mozilla/5.0 (Windows NT 6.1; rv:31.0) Gecko/20100101 Firefox/31.0"
     referer = ";auto"
@@ -723,14 +718,13 @@ Edit `/usr/local/etc/privoxy/user.action` to filter elements by domain or with r
     /assets/social-.*
     /img/social.*
 
-Write simple or complex rules for redirection, such as upgrading connections to HTTPS, e.g.:
-
     { +redirect{s@http://@https://@} }
+    .google.com
     code.jquery.com
     imgur.com
     .wikipedia.org
 
-You can even replace all ad images with pictures of kittens by running a local web server.
+You can even replace ad images with pictures of kittens by starting the a local web server and redirecting blocked privoxy requests to `127.0.0.1`.
 
 Consider logging and monitoring privoxy requests so you can be inspired to write custom rules.
 
@@ -747,23 +741,25 @@ If using Firefox, see [TheCreeper/PrivacyFox](https://github.com/TheCreeper/Priv
 
 Create at least three profiles, one for browsing **trusted** web sites (email, banking), another for **untrusted** (link aggregators, news sites), and a third for a completely **cookie-less** and **script-less** experience.
 
-* One profile **without cookies or Javascript** enabled (e.g., turned off in `chrome://settings/content`) which should be the **preferred** profile to visiting untrusted web sites. However, many pages will not load at all without Javascript enabled.
+* One profile **without cookies or Javascript** enabled (e.g., turned off in `chrome://settings/content`) which should be the preferred profile to visiting untrusted web sites. However, many pages will not load at all without Javascript enabled.
 
-* One profile with [uMatrix](https://github.com/gorhill/uMatrix) (or [uBlock](https://github.com/chrisaljoudi/uBlock), a simpler version). Use this profile for visiting **mostly trusted** web sites. Take time to learn how these **firewall** extensions work. Other frequently recommended extensions are [Privacy Badger](https://www.eff.org/privacybadger),  [HTTPSEverywhere](https://www.eff.org/https-everywhere) and [CertPatrol](http://patrol.psyced.org/) (Firefox only).
+* One profile with [uMatrix](https://github.com/gorhill/uMatrix) (or [uBlock](https://github.com/chrisaljoudi/uBlock), a simpler version). Use this profile for visiting **mostly trusted** web sites. Take time to learn how these firewall extensions work. Other frequently recommended extensions are [Privacy Badger](https://www.eff.org/privacybadger), [HTTPSEverywhere](https://www.eff.org/https-everywhere) and [CertPatrol](http://patrol.psyced.org/) (Firefox only).
 
-* One (or more) profile for your "real name", signed-in browsing needs such as banking and email (however, don't open email links from this profile).
+* One (or more) profile(s) for your "real name", signed-in browsing needs such as banking and email (however, don't open email links from this profile).
 
 The idea is to separate and compartmentalize your data, so that an exploit or privacy violation in one session does not necessarily affect data in another.
 
-In each profile, visit `chrome://plugins/` and **disable Adobe Flash** plugin. If you **must** use Flash, create a separate profile, make sure to only use **HTTPS**, and also visit `chrome://settings/contents` to select **Let me choose when to run plugin content**, under the Plugins section (also known as *click-to-play*).
+In each profile, visit `chrome://plugins/` and disable **Adobe Flash Player**. If you must use Flash, visit `chrome://settings/contents` to enable **Let me choose when to run plugin content**, under the Plugins section (also known as *click-to-play*).
 
 Take some time to read through [Chromium Security](https://www.chromium.org/Home/chromium-security) and [Chromium Privacy](https://www.chromium.org/Home/chromium-privacy).
 
 For example you may wish to disable [DNS prefetching](https://www.chromium.org/developers/design-documents/dns-prefetching) (see also [DNS Prefetching and Its Privacy Implications](https://www.usenix.org/legacy/event/leet10/tech/full_papers/Krishnan.pdf) [pdf]).
 
-Do **not** use other Chromium-derived browsers. They are usually [closed source](http://yro.slashdot.org/comments.pl?sid=4176879&cid=44774943), [poorly maintained](https://plus.google.com/+JustinSchuh/posts/69qw9wZVH8z), [have bugs](https://code.google.com/p/google-security-research/issues/detail?id=679), and make dubious claims to protect privacy. See [The Private Life of Chromium Browsers](http://thesimplecomputer.info/the-private-life-of-chromium-browsers).
+Also be aware of [WebRTC](https://en.wikipedia.org/wiki/WebRTC#Concerns), which may reveal your local or public (if connected to VPN) IP address(es). This can be disabled with extensions such as [uBlock Origin](https://github.com/gorhill/uBlock/wiki/Prevent-WebRTC-from-leaking-local-IP-address) and [rentamob/WebRTC-Leak-Prevent](https://github.com/rentamob/WebRTC-Leak-Prevent).
 
-Do **not** use Safari. The code is a mess and [security](https://nakedsecurity.sophos.com/2014/02/24/anatomy-of-a-goto-fail-apples-ssl-bug-explained-plus-an-unofficial-patch/) [vulnerabilities](https://vimeo.com/144872861) are frequent, and slower to patch (see also [discussion on Hacker News](https://news.ycombinator.com/item?id=10150038)). Security does [not appear](https://discussions.apple.com/thread/5128209) to be a priority for Safari. If you do use it, at least [disable](https://thoughtsviewsopinions.wordpress.com/2013/04/26/how-to-stop-downloaded-files-opening-automatically/) the *Open "safe" files after downloading* option in Preferences, and be aware of other [privacy nuances](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/93).
+Chromium-derived browsers are not recommended. They are usually [closed source](http://yro.slashdot.org/comments.pl?sid=4176879&cid=44774943), [poorly maintained](https://plus.google.com/+JustinSchuh/posts/69qw9wZVH8z), [have bugs](https://code.google.com/p/google-security-research/issues/detail?id=679), and make dubious claims to protect privacy. See [The Private Life of Chromium Browsers](http://thesimplecomputer.info/the-private-life-of-chromium-browsers).
+
+Safari is not recommended. The code is a mess and [security](https://nakedsecurity.sophos.com/2014/02/24/anatomy-of-a-goto-fail-apples-ssl-bug-explained-plus-an-unofficial-patch/) [vulnerabilities](https://vimeo.com/144872861) are frequent, and slower to patch (see [discussion on Hacker News](https://news.ycombinator.com/item?id=10150038)). Security does [not appear](https://discussions.apple.com/thread/5128209) to be a priority for Safari. If you do use it, at least [disable](https://thoughtsviewsopinions.wordpress.com/2013/04/26/how-to-stop-downloaded-files-opening-automatically/) the **Open "safe" files after downloading** option in Preferences, and be aware of other [privacy nuances](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/93).
 
 For more information about security conscious browsing, see [HowTo: Privacy & Security Conscious Browsing](https://gist.github.com/atcuno/3425484ac5cce5298932), [browserleaks.com](https://www.browserleaks.com/) and [EFF Panopticlick](https://panopticlick.eff.org/).
 
