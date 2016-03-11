@@ -829,10 +829,10 @@ A popular OS X GUI client for XMPP and other chat protocols is [Adium](https://a
 
 Consider downloading the [beta version](https://beta.adium.im/) which uses OAuth2, making logging in to Google Talk/Hangouts [more](https://adium.im/blog/2015/04/) [secure](https://trac.adium.im/ticket/16161).
 
-    Adium_1.5.11b2.dmg
+    Adium_1.5.11b3.dmg
 
-    SHA-256: e7690718f14defa3bc08cd3949a4eab52e942abd47f7ac2ce7157ed7295658c6
-    SHA-1:   7f0271d4fe9835b4554225510e758a3c46c10b6a
+    SHA-256: 999e1931a52dc327b3a6e8492ffa9df724a837c88ad9637a501be2e3b6710078
+    SHA-1:   ca804389412f9aeb7971ade6812f33ac739140e6
 
 Remember to [disable logging](https://trac.adium.im/ticket/15722) for OTR chats with Adium.
 
