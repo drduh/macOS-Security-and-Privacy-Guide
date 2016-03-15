@@ -1193,7 +1193,7 @@ Did you know Apple has not shipped a computer with TPM since [2006](http://osxbo
 
 *In no particular order*
 
-[OS X Yosemite Core Technologies Overview White Paper](https://www.apple.com/osx/pdf/OSXYosemite_TO_FF1.pdf)
+[OS X Core Technologies Overview White Paper](https://www.apple.com/osx/all-features/pdf/osx_elcapitan_core_technologies_overview.pdf)
 
 [Reverse Engineering Mac OS X blog](https://reverse.put.as/)
 
