@@ -83,23 +83,23 @@ There are several ways to install a fresh copy of OS X.
 
 The simplest way is to boot into [Recovery Mode](https://support.apple.com/en-us/HT201314) by holding `Command` and `R` keys at boot. A system image can be downloaded and applied directly from Apple. However, this way exposes the computer's serial number and other identifying information to Apple over plain **HTTP**.
 
-Another way is to download **OS X El Capitan 10.11.3** from the [App Store](https://itunes.apple.com/us/app/os-x-el-capitan/id1018109117) or some other place and create a custom, installable system image.
+Another way is to download **OS X El Capitan 10.11.4** from the [App Store](https://itunes.apple.com/us/app/os-x-el-capitan/id1018109117) or some other place and create a custom, installable system image.
 
 The application is [code signed](https://developer.apple.com/library/mac/documentation/Security/Conceptual/CodeSigningGuide/Procedures/Procedures.html#//apple_ref/doc/uid/TP40005929-CH4-SW6), which should be verified to make sure you received a legitimate copy.
 
     $ codesign -dvv /Applications/Install\ OS\ X\ El\ Capitan.app
-    Executable=/Applications/Install OS X El Capitan.app/Contents/MacOS/InstallAssistant
-    Identifier=com.apple.InstallAssistant.ElCapitan
-    Format=bundle with Mach-O thin (x86_64)
-    CodeDirectory v=20200 size=280 flags=0x200(kill) hashes=4+5 location=embedded
-    Signature size=4169
-    Authority=Apple Mac OS Application Signing
-    Authority=Apple Worldwide Developer Relations Certification Authority
-    Authority=Apple Root CA
-    Info.plist entries=31
-    TeamIdentifier=K36BKF7T3D
-    Sealed Resources version=2 rules=8 files=151
-    Internal requirements count=1 size=124
+	Executable=/Applications/Install OS X El Capitan.app/Contents/MacOS/InstallAssistant
+	Identifier=com.apple.InstallAssistant.ElCapitan
+	Format=app bundle with Mach-O thin (x86_64)
+	CodeDirectory v=20200 size=280 flags=0x200(kill) hashes=4+5 location=embedded
+	Signature size=4167
+	Authority=Apple Mac OS Application Signing
+	Authority=Apple Worldwide Developer Relations Certification Authority
+	Authority=Apple Root CA
+	Info.plist entries=31
+	TeamIdentifier=K36BKF7T3D
+	Sealed Resources version=2 rules=7 files=152
+	Internal requirements count=1 size=124
 
 OS X installers can be made with the `createinstallmedia` utility included in `Install OS X El Capitan.app/Contents/Resources/`. See [Create a bootable installer for OS X Yosemite](https://support.apple.com/en-us/HT201372), or run the utility without arguments to see how it works.
 
@@ -111,10 +111,10 @@ You can verify the following cryptographic hashes to ensure you have the same, a
 
 You can also Google these hashes to ensure your copy is genuine and has not been tampered with. See `InstallESD_Hashes.csv` in this repository for previous versions.
 
-    InstallESD.dmg (Build 15D21)
+    InstallESD.dmg (Build 15E65)
 
-    SHA-256:   bc46b9b02e69546e1446e131d4a8d3b0203a6bbad73a003749571da85f51a613
-    SHA-1:     e4311d93127d0668372b32e5342f3b455b6bc9bd
+    SHA-256:   532830b2a04b6f496b1cc1b18cc1645d1cda34151c212b68133f41c19d1431ed
+    SHA-1:     f6292573395b46e8110be6077fd4827409bc948b
 
 Mount and install the operating system to a **temporary image**, or use the GUI app [MagerValp/AutoDMG](https://github.com/MagerValp/AutoDMG).
 
