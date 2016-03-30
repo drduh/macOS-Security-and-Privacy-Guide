@@ -610,7 +610,7 @@ Confirm outgoing dns traffic is encrypted:
     $ dig +short -x 77.66.84.233
     resolver2.dnscrypt.eu
 
-See also [What is a DNS leak and why should I care?](https://dnsleaktest.com/what-is-a-dns-leak.html) and the [mDNSResponder manual page](https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man8/mDNSResponder.8.html).
+See also [What is a DNS leak and why should I care?](https://dnsleaktest.com/what-is-a-dns-leak.html) and the [mDNSResponder manual page](https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man8/mDNSResponder.8.html). Precise test: [ipv6-test.com](http://ipv6-test.com/).
 
 ## Captive portal
 
