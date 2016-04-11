@@ -655,7 +655,7 @@ For example, compare the TLS protocol and cipher between the homebrew version an
         Protocol  : TLSv1
         Cipher    : AES128-SHA
 
-Also see [Comparison of TLS implementations](https://en.wikipedia.org/wiki/Comparison_of_TLS_implementations), [How's My SSL](https://www.howsmyssl.com/), as well as [Qualys SSL Labs Tools](https://www.ssllabs.com/projects/).
+Also see [Comparison of TLS implementations](https://en.wikipedia.org/wiki/Comparison_of_TLS_implementations), [How's My SSL](https://www.howsmyssl.com/), [Qualys SSL Labs Tools](https://www.ssllabs.com/projects/) and for detailed explanations and with latest vulnerabilities tests [ssl-checker.online-domain-tools.com](http://ssl-checker.online-domain-tools.com).
 
 ## Curl
 
