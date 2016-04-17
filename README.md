@@ -47,16 +47,16 @@ If you wish to make a correction or improvement, please send a pull request or [
 - [SSH](#ssh)
 - [Physical access](#physical-access)
 - [System monitoring](#system-monitoring)
-    - [Open source monitoring tools](#open-source-monitoring-tools)
     - [OpenBSM audit](#openbsm-audit)
     - [DTrace](#dtrace)
     - [Execution](#execution)
     - [Network](#network)
 - [Miscellaneous](#miscellaneous)
+- [Related software](#related-software)
 - [Additional resources](#additional-resources)
 
 ## Basics
-The standard best security practices apply.
+The standard best security practices apply:
 
 * Create a threat model
 	* What are you trying to protect and from whom? Is your adversary a [three letter agency](https://theintercept.com/document/2015/03/10/strawhorse-attacking-macos-ios-software-development-kit/) (if so, you may want to consider using [OpenBSD](http://www.openbsd.org/) instead), a nosy eavesdropper on the network, or determined [apt](https://en.wikipedia.org/wiki/Advanced_persistent_threat) orchestrating a campaign against you?
@@ -236,7 +236,7 @@ Enable Filevault with `sudo fdesetup enable` or using **System Preferences** and
 
 If you can remember your password, there's no reason to save the **recovery key**. However, your encrypted data will be lost forever if you can't remember the password or recovery key.
 
-If you want to know more about how Filevault 2 works, see the paper [Infiltrate the Vault: Security Analysis and Decryption of Lion Full Disk Encryption](https://eprint.iacr.org/2012/374.pdf) [pdf]
+If you want to know more about how Filevault 2 works, see the paper [Infiltrate the Vault: Security Analysis and Decryption of Lion Full Disk Encryption](https://eprint.iacr.org/2012/374.pdf) [pdf] and related [presentation](http://www.cl.cam.ac.uk/~osc22/docs/slides_fv2_ifip_2013.pdf) [PDF].
 
 and [IEEE Std 1619-2007 “The XTS-AES Tweakable Block Cipher”](http://libeccio.di.unisa.it/Crypto14/Lab/p1619.pdf) [pdf]
 
@@ -876,7 +876,7 @@ When choosing a VPN service or setting up your own, be sure to research the prot
 Some clients may send traffic over the next available interface when VPN is interrupted or disconnected. See [scy/8122924](https://gist.github.com/scy/8122924) for an example on how to allow traffic only over VPN.
 
 ## Viruses and malware
-There is an ever-increasing amount of Mac malware in the wild. Macs aren't immune from viruses and malicious software!
+There is an [ever-increasing](https://www.documentcloud.org/documents/2459197-bit9-carbon-black-threat-research-report-2015.html) amount of Mac malware in the wild. Macs aren't immune from viruses and malicious software!
 
 Some malware comes bundled with both legitimate software, such as the [Java bundling Ask Toolbar](http://www.zdnet.com/article/oracle-extends-its-adware-bundling-to-include-java-for-macs/), and some with illegitimate software, such as [Mac.BackDoor.iWorm](https://docs.google.com/document/d/1YOfXRUQJgMjJSLBSoLiUaSZfiaS_vU3aG4Bvjmz6Dxs/edit?pli=1) bundled with pirated programs.
 
@@ -1047,14 +1047,6 @@ Consider purchasing a [privacy filter](https://www.amazon.com/s/ref=nb_sb_noss_2
 
 ## System monitoring
 
-#### Open source monitoring tools
-
-[facebook/osquery](https://github.com/facebook/osquery) can be used to retrieve low level system information.  Users can write SQL queries to retrieve system information.  More information can be found at <https://osquery.io/>.
-
-[google/grr](https://github.com/google/grr) is an incident response framework focused on remote live forensics.
-
-[jipegit/OSXAuditor](https://github.com/jipegit/OSXAuditor) analyzes artifacts on a running system, such as quarantined files, Safari, Chrome and Firefox history, downloads, HTML5 databases and localstore, social media and email accounts, and Wi-Fi access point names.
-
 #### OpenBSM audit
 OS X has a powerful OpenBSM auditing capability. You can use it to monitor process execution, network activity, and much more.
 
@@ -1167,9 +1159,31 @@ Consider [sandboxing](https://developer.apple.com/library/mac/documentation/Darw
 
 Did you know Apple has not shipped a computer with TPM since [2006](http://osxbook.com/book/bonus/chapter10/tpm/)?
 
+## Related software
+
+[Santa](https://github.com/google/santa/) - A binary whitelisting/blacklisting system for Mac OS X.
+
+[SummitRoute/osxlockdown](https://github.com/SummitRoute/osxlockdown) - audit, and remediate, security configuration settings on OS X 10.11 (El Capitan).
+
+[Lockdown](https://objective-see.com/products/lockdown.html) - tool for El Capitan that audits and remediates security configuration settings.
+
+[Dylib Hijack Scanner](https://objective-see.com/products/dhs.html) - scan your computer for applications that are either susceptible to dylib hijacking or have been hijacked.
+
+[facebook/osquery](https://github.com/facebook/osquery) - can be used to retrieve low level system information.  Users can write SQL queries to retrieve system information.
+
+[google/grr](https://github.com/google/grr) - incident response framework focused on remote live forensics.
+
+[yelp/osxcollector](https://github.com/yelp/osxcollector) - A forensic evidence collection & analysis toolkit for OS X.
+
+[jipegit/OSXAuditor](https://github.com/jipegit/OSXAuditor) - analyzes artifacts on a running system, such as quarantined files, Safari, Chrome and Firefox history, downloads, HTML5 databases and localstore, social media and email accounts, and Wi-Fi access point names.
+
+[libyal/libfvde](https://github.com/libyal/libfvde) - library to access FileVault Drive Encryption (FVDE) (or FileVault2) encrypted volumes.
+
 ## Additional resources
 
 *In no particular order*
+
+[Mac Developer Library: Secure Coding Guide](https://developer.apple.com/library/mac/documentation/Security/Conceptual/SecureCodingGuide/Introduction.html)
 
 [OS X Core Technologies Overview White Paper](https://www.apple.com/osx/all-features/pdf/osx_elcapitan_core_technologies_overview.pdf)
 
@@ -1179,13 +1193,9 @@ Did you know Apple has not shipped a computer with TPM since [2006](http://osxbo
 
 [Patrick Wardle's Objective-See blog](https://objective-see.com/blog.html)
 
-[Dylib Hijack Scanner](https://objective-see.com/products/dhs.html)
-
 [Managing Macs at Google Scale (LISA '13)](https://www.usenix.org/conference/lisa13/managing-macs-google-scale)
 
 [OS X Hardening: Securing a Large Global Mac Fleet (LISA '13)](https://www.usenix.org/conference/lisa13/os-x-hardening-securing-large-global-mac-fleet)
-
-[Yelp's forensic evidence collection & analysis toolkit for OS X](https://github.com/yelp/osxcollector)
 
 [DoD Security Technical Implementation Guides for Mac OS](http://iase.disa.mil/stigs/os/mac/Pages/mac-os.aspx)
 
@@ -1200,8 +1210,6 @@ Did you know Apple has not shipped a computer with TPM since [2006](http://osxbo
 [IOKit kernel code execution exploit](https://code.google.com/p/google-security-research/issues/detail?id=135)
 
 [Hidden backdoor API to root privileges in Apple OS X](https://truesecdev.wordpress.com/2015/04/09/hidden-backdoor-api-to-root-privileges-in-apple-os-x/)
-
-[Santa: A binary whitelisting/blacklisting system for Mac OS X](https://github.com/google/santa/)
 
 [IPv6 Hardening Guide for OS X](http://www.insinuator.net/2015/02/ipv6-hardening-guide-for-os-x/)
 
@@ -1221,13 +1229,9 @@ Did you know Apple has not shipped a computer with TPM since [2006](http://osxbo
 
 [MacAdmins on Slack](https://macadmins.herokuapp.com/)
 
-[SummitRoute/osxlockdown](https://github.com/SummitRoute/osxlockdown)
-
 [iCloud security and privacy overview](http://support.apple.com/kb/HT4865)
 
 [Demystifying the DMG File Format](http://newosxbook.com/DMG.html)
-
-[libyal/libfvde](https://github.com/libyal/libfvde)
 
 [There's a lot of vulnerable OS X applications out there (Sparkle Framework RCE)](https://vulnsec.com/2016/osx-apps-vulnerabilities/)
 
@@ -1238,3 +1242,5 @@ Did you know Apple has not shipped a computer with TPM since [2006](http://osxbo
 [Mac Forensics: Mac OS X and the HFS+ File System](https://cet4861.pbworks.com/w/file/fetch/71245694/mac.forensics.craiger-burke.IFIP.06.pdf) [pdf]
 
 [Extracting FileVault 2 Keys with Volatility](https://tribalchicken.com.au/security/extracting-filevault-2-keys-with-volatility/)
+
+[Auditing and Exploiting Apple IPC](https://googleprojectzero.blogspot.com/2015/09/revisiting-apple-ipc-1-distributed_28.html)
