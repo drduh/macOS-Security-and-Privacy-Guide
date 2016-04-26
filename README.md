@@ -1168,7 +1168,11 @@ Don't default to saving documents to iCloud:
 
 Disable crash reporter (the dialog which appears after an application crashes and prompts to report the problem to Apple):
 
-	defaults write com.apple.CrashReporter DialogType none
+    defaults write com.apple.CrashReporter DialogType none
+
+Disable Bonjour [multicast advertisements](https://www.trustwave.com/Resources/SpiderLabs-Blog/mDNS---Telling-the-world-about-you-(and-your-device)/):
+
+    sudo defaults write /Library/Preferences/com.apple.mDNSResponder.plist NoMulticastAdvertisements -bool YES
 
 [Disable Handoff](https://apple.stackexchange.com/questions/151481/why-is-my-macbook-visibile-on-bluetooth-after-yosemite-install) and Bluetooth features, if they aren't necessary.
 
@@ -1229,6 +1233,8 @@ Did you know Apple has not shipped a computer with TPM since [2006](http://osxbo
 [Hidden backdoor API to root privileges in Apple OS X](https://truesecdev.wordpress.com/2015/04/09/hidden-backdoor-api-to-root-privileges-in-apple-os-x/)
 
 [IPv6 Hardening Guide for OS X](http://www.insinuator.net/2015/02/ipv6-hardening-guide-for-os-x/)
+
+[Harden the World: Mac OSX 10.11 El Capitan](http://docs.hardentheworld.org/OS/OSX_10.11_El_Capitan/)
 
 [Hacker News discussion](https://news.ycombinator.com/item?id=10148077)
 
