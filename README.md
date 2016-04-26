@@ -175,6 +175,10 @@ If you've followed these steps correctly, the target Mac should now have a new i
 
 If you want to transfer any files, copy them to a folder like `/Users/Shared` on the mounted disk image, e.g. `cp Xcode_7.0.dmg /Volumes/OS\ X/Users/Shared`
 
+<img width="1280" alt="Finished restore install from USB recovery boot" src="https://cloud.githubusercontent.com/assets/12475110/14804078/f27293c8-0b2d-11e6-8e1f-0fb0ac2f1a4d.png">
+
+*Finished restore install from USB recovery boot*
+
 We're not done yet! Unless you have built the image with [AutoDMG](https://github.com/MagerValp/AutoDMG), or installed OS X to a second partition on your Mac, you will need to create a recovery partition. You can do so using [MagerValp/Create-Recovery-Partition-Installer](https://github.com/MagerValp/Create-Recovery-Partition-Installer) or using the following manual steps:
 
 Download [RecoveryHDUpdate.dmg](https://support.apple.com/downloads/DL1464/en_US/RecoveryHDUpdate.dmg)
