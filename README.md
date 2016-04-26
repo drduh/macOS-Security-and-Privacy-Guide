@@ -572,6 +572,10 @@ Below the line:
 
 *Append a local-address line to use dnscrypt on a port other than 53, like 5355.*
 
+This can also be done using Homebrew, by installing `gnu-sed` and using the command:
+
+    $ sudo gsed -i "/sbin\\/dnscrypt-proxy<\\/string>/a<string>--local-address=127.0.0.1:5355<\\/string>\n" /Library/LaunchDaemons/homebrew.mxcl.dnscrypt-proxy.plist
+
 By default, the `resolvers-list` will point to the dnscrypt version specific resolvers file. When dnscrypt is updated, this version may no longer exist, and if it does, may point to an outdated file. This can be fixed by changing the resolvers file in `/Library/LaunchDaemons/homebrew.mxcl.dnscrypt-proxy.plist` to the symlinked version in `/usr/local/share`:
 
     <string>--resolvers-list=/usr/local/share/dnscrypt-proxy/dnscrypt-resolvers.csv</string>
