@@ -1148,7 +1148,7 @@ If you want to **torrent**, use [Transmission](http://www.transmissionbt.com/dow
 
 Manage default file handlers with [duti](http://duti.org/), which can be installed with `brew install duti`. One reason to manage extensions is to prevent auto-mounting of remote filesystems in Finder (see [Protecting Yourself From Sparklegate](https://www.taoeffect.com/blog/2016/02/apologies-sky-kinda-falling-protecting-yourself-from-sparklegate/)).
 
-Watch the system log with **Console** or the `syslog -w` command.
+Watch the system log with /Applications/Utilities/Console.app or the `syslog` command.
 
 Enable [tty_tickets](http://blog.rongarret.info/2015/08/psa-beware-of-sudo-on-os-x.html) in the sudoers file.
 
@@ -1162,9 +1162,13 @@ Expose hidden files and Library folder in Finder:
     defaults write com.apple.finder AppleShowAllFiles -bool true
     chflags nohidden ~/Library
 
-Don't default to saving documents to iCloud
+Don't default to saving documents to iCloud:
 
     defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
+
+Disable crash reporter (the dialog which appears after an application crashes and prompts to report the problem to Apple):
+
+	defaults write com.apple.CrashReporter DialogType none
 
 [Disable Handoff](https://apple.stackexchange.com/questions/151481/why-is-my-macbook-visibile-on-bluetooth-after-yosemite-install) and Bluetooth features, if they aren't necessary.
 
