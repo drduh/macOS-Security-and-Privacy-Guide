@@ -9,9 +9,7 @@ I am **not** responsible if you break a Mac by following any of these steps.
 If you wish to make a correction or improvement, please send a pull request or [open an issue](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues).
 
 - [Basics](#basics)
-- [Preparing OS X](#preparing-os-x)
-- [Installing OS X](#installing-os-x)
-    - [Recovery partition](#recovery-partition)
+- [Preparing and Installing OS X](#preparing-and-installing-os-x)
 - [First boot](#first-boot)
 - [Full disk encryption](#full-disk-encryption)
 - [Firmware password](#firmware-password)
@@ -78,16 +76,16 @@ The standard best security practices apply:
 	* Ultimately, the security of a system can be reduced to its administrator.
 	* Care should be taken when installing new software. Always prefer [free](https://www.gnu.org/philosophy/free-sw.en.html) and open source software ([which OS X is not](https://superuser.com/questions/19492/is-mac-os-x-open-source)).
 
-## Preparing OS X
+## Preparing and Installing OS X
 There are several ways to install a fresh copy of OS X.
 
-The simplest way is to boot into [Recovery Mode](https://support.apple.com/en-us/HT201314) by holding `Command` and `R` keys at boot. A system image can be downloaded and applied directly from Apple. However, this way exposes the computer's serial number and other identifying information to Apple over plain **HTTP**.
+The simplest way is to boot into [Recovery Mode](https://support.apple.com/en-us/HT201314) by holding `Command` and `R` keys at boot. A system image can be downloaded and applied directly from Apple. However, this way exposes the computer's serial number and other identifying information to Apple.
 
 Another way is to download **OS X El Capitan 10.11.4** from the [App Store](https://itunes.apple.com/us/app/os-x-el-capitan/id1018109117) or some other place and create a custom, installable system image.
 
 The application is [code signed](https://developer.apple.com/library/mac/documentation/Security/Conceptual/CodeSigningGuide/Procedures/Procedures.html#//apple_ref/doc/uid/TP40005929-CH4-SW6), which should be verified to make sure you received a legitimate copy:
 
-    $ codesign -dvv /Applications/Install\ OS\ X\ El\ Capitan.app
+	$ codesign -dvv /Applications/Install\ OS\ X\ El\ Capitan.app
 	Executable=/Applications/Install OS X El Capitan.app/Contents/MacOS/InstallAssistant
 	Identifier=com.apple.InstallAssistant.ElCapitan
 	Format=app bundle with Mach-O thin (x86_64)
@@ -103,7 +101,19 @@ The application is [code signed](https://developer.apple.com/library/mac/documen
 
 OS X installers can be made with the `createinstallmedia` utility included in `Install OS X El Capitan.app/Contents/Resources/`. See [Create a bootable installer for OS X Yosemite](https://support.apple.com/en-us/HT201372), or run the utility without arguments to see how it works.
 
-If you'd like to do it the **manual** way, you will need to find the file `InstallESD.dmg`, which is inside `Install OS X El Capitan.app`.
+To create a bootable USB OS X installer, mount a disk and erase it to default options in Disk Utility, then:
+
+	$ cd /Applications/Install\ OS\ X\ El\ Capitan.app
+	$ sudo ./Contents/Resources/createinstallmedia --volume /Volumes/Untitled --applicationpath /Applications/Install\ OS\ X\ El\ Capitan.app --nointeraction
+	Erasing Disk: 0%... 10%... 20%... 30%... 100%...
+	Copying installer files to disk...
+	Copy complete.
+	Making disk bootable...
+	Copying boot files...
+	Copy complete.
+	Done.
+
+Otherwise, to create a custom installable image which can be restored to a Mac, you will need to find the file `InstallESD.dmg`, which is also inside `Install OS X El Capitan.app`.
 
 Right click, select **Show Package Contents** and navigate to **Contents > SharedSupport** to find `InstallESD.DMG`.
 
@@ -142,40 +152,30 @@ When you're done, detach, convert and verify the image:
 
 Now, `elcap.dmg` is ready to be applied to one or multiple Macs. You can further customize the image to include premade users, applications and preferences to your liking.
 
-## Installing OS X
-
-One way to install the OS X image is using another Mac in [Target Disk Mode](https://support.apple.com/en-us/HT201462).
-
-If you don't have another Mac, create a bootable USB drive from the El Capitan application bundle, and boot the Mac you wish to image to it by holding the *Option* key at boot.
-
-Alternatively, you could also create a second partition on your existing Mac and use that.
-
-If you don't have an external drive or USB stick to use, it's possible to create a small partition with **Disk Utility** and use that. There are several guides online on how to do this.
+This image can be installed using another Mac in [Target Disk Mode](https://support.apple.com/en-us/HT201462).
 
 To use **Target Disk Mode**, boot up the Mac you wish to image while holding `T` and connect it to another using Firewire, Thunderbolt or USB-C.
 
+If you don't have another Mac, boot to a USB installer, with `elcap.dmg` and other required files copied to it, by holding the *Option* key at boot.
+
 Run `diskutil list` to identify the connected disk, usually `/dev/disk2`
 
-**Erase** the disk to Journaled HFS+:
+Erase the disk to Journaled HFS+:
 
     diskutil unmountDisk /dev/disk2
     diskutil partitionDisk /dev/disk2 1 JHFS+ OSX 100%
 
-**Restore** the image to the new volume:
+Restore the image to the new volume:
 
-    sudo asr restore \
-      --source ~/elcap.dmg --target /Volumes/OSX \
-      --erase --noverify --buffersize 4m
+    sudo asr restore --source ~/elcap.dmg --target /Volumes/OSX --erase --noverify --buffersize 4m
 
-Alternatively, open the **Disk Utility** application, erase the connected Mac's disk, then drag `elcap.dmg` in to restore it to the new partition.
+Alternatively, use the **Disk Utility** application to erase the connected Mac's disk, then restore `elcap.dmg` to the new partition.
 
 If you've followed these steps correctly, the target Mac should now have a new install of OS X.
 
 If you want to transfer any files, copy them to a folder like `/Users/Shared` on the mounted disk image, e.g. `cp Xcode_7.0.dmg /Volumes/OS\ X/Users/Shared`
 
-#### Recovery partition
-
-We're not done yet! Unless you have built the image with [AutoDMG](https://github.com/MagerValp/AutoDMG), or installed OS X to a second partition on your Mac, you will need to create a recovery partition in order to use Filevault full disk encryption. You can do so using [MagerValp/Create-Recovery-Partition-Installer](https://github.com/MagerValp/Create-Recovery-Partition-Installer) or by following these steps.
+We're not done yet! Unless you have built the image with [AutoDMG](https://github.com/MagerValp/AutoDMG), or installed OS X to a second partition on your Mac, you will need to create a recovery partition. You can do so using [MagerValp/Create-Recovery-Partition-Installer](https://github.com/MagerValp/Create-Recovery-Partition-Installer) or using the following manual steps:
 
 Download [RecoveryHDUpdate.dmg](https://support.apple.com/downloads/DL1464/en_US/RecoveryHDUpdate.dmg)
 
@@ -184,25 +184,21 @@ Download [RecoveryHDUpdate.dmg](https://support.apple.com/downloads/DL1464/en_US
     SHA-256: f6a4f8ac25eaa6163aa33ac46d40f223f40e58ec0b6b9bf6ad96bdbfc771e12c
     SHA-1:   1ac3b7059ae0fcb2877d22375121d4e6920ae5ba
 
-Attach and expand the installation, then run it
+Attach and expand the installation, then run it:
 
     hdiutil attach RecoveryHDUpdate.dmg
-
     pkgutil --expand /Volumes/Mac\ OS\ X\ Lion\ Recovery\ HD\ Update/RecoveryHDUpdate.pkg /tmp/recovery
-
     hdiutil attach /tmp/recovery/RecoveryHDUpdate.pkg/RecoveryHDMeta.dmg
-
     /tmp/recovery/RecoveryHDUpdate.pkg/Scripts/Tools/dmtest ensureRecoveryPartition /Volumes/OS\ X/ /Volumes/Recovery\ HD\ Update/BaseSystem.dmg 0 0 /Volumes/Recovery\ HD\ Update/BaseSystem.chunklist
 
-Where `/Volumes/OS\ X` is the path to the target disk mode booted Mac.
+Replace `/Volumes/OS\ X` with the path to the target disk mode-booted Mac.
 
-This step will take several minutes.
-
-Run `diskutil list` again to make sure **Recovery HD** now exists.
+This step will take several minutes. Run `diskutil list` again to make sure **Recovery HD** now exists.
 
 Once you're done, eject the disk with `hdiutil unmount /Volumes/OS\ X` and power down the connected Mac.
 
 ## First boot
+
 On first boot, hold `Command` `Option` `P` and `R` keys to [clear NVRAM](https://support.apple.com/en-us/HT204063).
 
 Wait for the loud, obnoxious gong and keep holding while the Mac reboots once.
