@@ -1166,6 +1166,8 @@ Don't default to saving documents to iCloud:
 
     defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
 
+Enable [Secure Keyboard Entry](https://security.stackexchange.com/questions/47749/how-secure-is-secure-keyboard-entry-in-mac-os-xs-terminal) in Terminal (unless you use [YubiKey](https://mig5.net/content/secure-keyboard-entry-os-x-blocks-interaction-yubikeys) or applications such as [TextExpander](https://smilesoftware.com/textexpander/secureinput)).
+
 Disable crash reporter (the dialog which appears after an application crashes and prompts to report the problem to Apple):
 
     defaults write com.apple.CrashReporter DialogType none
