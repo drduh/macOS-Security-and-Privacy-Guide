@@ -933,32 +933,45 @@ See also [Mac Malware Guide : How does Mac OS X protect me?](http://www.thesafem
 
     echo 'SELECT datetime(LSQuarantineTimeStamp + 978307200, "unixepoch") as LSQuarantineTimeStamp, LSQuarantineAgentName, LSQuarantineOriginURLString, LSQuarantineDataURLString from LSQuarantineEvent;' | sqlite3 /Users/$USER/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2
 
-
 See [here](http://www.zoharbabin.com/hey-mac-i-dont-appreciate-you-spying-on-me-hidden-downloads-log-in-os-x/) for more information.
 
 Furthermore, OS X attaches metadata ([HFS+ extended attributes](https://en.wikipedia.org/wiki/Extended_file_attributes#OS_X)) to downloaded files:
 
     $ ls -l@ adobe_flashplayer_setup.dmg
     -rw-r-----@ 1 drduh  staff  1000000 Sep  1 12:00 adobe_flashplayer_setup.dmg
-	com.apple.diskimages.fsck	     20
-	com.apple.diskimages.recentcksum	     79
-	com.apple.metadata:kMDItemWhereFroms	   2737
-	com.apple.quarantine	     68
+    com.apple.diskimages.fsck	     20
+    com.apple.diskimages.recentcksum	     79
+    com.apple.metadata:kMDItemWhereFroms	   2737
+    com.apple.quarantine	     68
 
-	$ xattr -l com.apple.metadata:kMDItemWhereFroms adobe_flashplayer_setup.dmg
-	[output omitted]
+To view or remove metadata, use `xattr`:
 
+    $ xattr -l com.apple.metadata:kMDItemWhereFroms adobe_flashplayer_setup.dmg
+    
 ## Passwords
-You can generate strong passwords with `gpg`, `openssl` or just get creative with `/dev/urandom` output:
+
+You can generate strong passwords with OpenSSL:
 
     $ openssl rand -base64 30
     LK9xkjUEAemc1gV2Ux5xqku+PDmMmCbSTmwfiMRI
 
+Or GPG:
+
     $ gpg --gen-random -a 0 30
     4/bGZL+yUEe8fOqQhF5V01HpGwFSpUPwFcU3aOWQ
 
+Or `/dev/urandom` output:
+
     $ dd if=/dev/urandom bs=1 count=30 2>/dev/null | base64
     CbRGKASFI4eTa96NMrgyamj8dLZdFYBaqtWUSxKe
+
+With control over character sets:
+
+    $ LANG=C tr -dc 'a-zA-Z0-9' < /dev/urandom | fold -w 40 | head -n 1
+    jm0iKn7ngQST8I0mMMCbbi6SKPcoUWwCb5lWEjxK
+    
+    $ LANG=C tr -dc 'DrDuh0-9' < /dev/urandom | fold -w 40 | head -n 1
+    686672u2Dh7r754209uD312hhh23uD7u41h3875D
 
 You can also generate passwords, even memorable ones, using **Keychain Access** password assistant, or a command line equivalent like [anders/pwgen](https://github.com/anders/pwgen).
 
@@ -971,13 +984,16 @@ In addition to passwords, ensure eligible online accounts, such as Github, Googl
 Look to [Yubikey](https://www.yubico.com/products/yubikey-hardware/yubikey-neo/) for a two factor and private key (e.g., ssh, gpg) hardware token. See [drduh/YubiKey-Guide](https://github.com/drduh/YubiKey-Guide) and [trmm.net/Yubikey](https://trmm.net/Yubikey). One of two Yubikey's slots can also be programmed to emit a long, static password (which can be used in combination with a short, memorized password, for example).
 
 ## Backup
-Always encrypt files locally before backing them up to external media or online services. One way is to use a symmetric cipher with **gpg** and a password of your choosing.
+
+Always encrypt files locally before backing them up to external media or online services.
+
+One way is to use a symmetric cipher with GPG and a password of your choosing.
 
 To encrypt a directory:
 
     tar zcvf - ~/Downloads | gpg -c > ~/Desktop/backup-$(date +%F-%H%M).tar.gz.gpg
 
-To decrypt it:
+To decrypt an archive:
 
     gpg -o ~/Desktop/decrypted-backup.tar.gz \
       -d ~/Desktop/backup-2015-01-01-0000.tar.gz.gpg && \
