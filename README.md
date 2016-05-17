@@ -115,16 +115,13 @@ To create a bootable USB OS X installer, mount a disk and erase it to default op
 
 Otherwise, to create a custom installable image which can be restored to a Mac, you will need to find the file `InstallESD.dmg`, which is also inside `Install OS X El Capitan.app`.
 
-Right click, select **Show Package Contents** and navigate to **Contents > SharedSupport** to find `InstallESD.DMG`.
+Right click, select **Show Package Contents** and navigate to **Contents > SharedSupport** to find `InstallESD.dmg`.
 
 You can verify the following cryptographic hashes to ensure you have the same, authentic copy by using a command like `shasum -a256 InstallESD.dmg` and so on.
 
-You can also Google these hashes to ensure your copy is genuine and has not been tampered with. See `InstallESD_Hashes.csv` in this repository for previous versions.
+You can also Google these hashes to ensure your copy is genuine and has not been tampered with.
 
-    InstallESD.dmg (Build 15E65)
-
-    SHA-256:   532830b2a04b6f496b1cc1b18cc1645d1cda34151c212b68133f41c19d1431ed
-    SHA-1:     f6292573395b46e8110be6077fd4827409bc948b
+See [InstallESD_Hashes.csv](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/blob/master/InstallESD_Hashes.csv) in this repository for a list of current and previous build hashes.
 
 Mount and install the operating system to a temporary image, or use the GUI app [MagerValp/AutoDMG](https://github.com/MagerValp/AutoDMG):
 
