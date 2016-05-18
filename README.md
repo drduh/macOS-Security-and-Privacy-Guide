@@ -977,9 +977,9 @@ With control over character sets:
 
 You can also generate passwords, even memorable ones, using **Keychain Access** password assistant, or a command line equivalent like [anders/pwgen](https://github.com/anders/pwgen).
 
-**Keychains** are encrypted with a [PBKDF2 derived key](https://en.wikipedia.org/wiki/PBKDF2) and are a _pretty safe_ place to store credentials. See also [Breaking into the OS X keychain](http://juusosalonen.com/post/30923743427/breaking-into-the-os-x-keychain).
+Keychains are encrypted with a [PBKDF2 derived key](https://en.wikipedia.org/wiki/PBKDF2) and are a _pretty safe_ place to store credentials. See also [Breaking into the OS X keychain](http://juusosalonen.com/post/30923743427/breaking-into-the-os-x-keychain). Also be aware that Keychain [does not encrypt](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/118) the names corresponding to password entries.
 
-Alternatively, you can manage an encrypted passwords file yourself with `gpg` (shameless plug for my [drduh/pwd.sh](https://github.com/drduh/pwd.sh) script).
+Alternatively, you can manage an encrypted passwords file yourself with `gpg` (shameless plug for my [drduh/pwd.sh](https://github.com/drduh/pwd.sh) password manager script).
 
 In addition to passwords, ensure eligible online accounts, such as Github, Google accounts, banking, have [two factor authentication](https://en.wikipedia.org/wiki/Two-factor_authentication) enabled.
 
