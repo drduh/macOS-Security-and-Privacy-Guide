@@ -932,6 +932,11 @@ See also [Mac Malware Guide : How does Mac OS X protect me?](http://www.thesafem
 
 See [here](http://www.zoharbabin.com/hey-mac-i-dont-appreciate-you-spying-on-me-hidden-downloads-log-in-os-x/) for more information.
 
+To permanently disable this feature, [clear the file](https://superuser.com/questions/90008/how-to-clear-the-contents-of-a-file-from-the-command-line) and [make it immutable](http://hints.macworld.com/article.php?story=20031017061722471):
+
+    $ :>~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2
+    $ sudo chflags schg ~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2
+
 Furthermore, OS X attaches metadata ([HFS+ extended attributes](https://en.wikipedia.org/wiki/Extended_file_attributes#OS_X)) to downloaded files:
 
     $ ls -l@ adobe_flashplayer_setup.dmg
