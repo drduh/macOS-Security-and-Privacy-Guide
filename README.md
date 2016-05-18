@@ -1204,21 +1204,23 @@ Did you know Apple has not shipped a computer with TPM since [2006](http://osxbo
 
 [Santa](https://github.com/google/santa/) - A binary whitelisting/blacklisting system for Mac OS X.
 
-[SummitRoute/osxlockdown](https://github.com/SummitRoute/osxlockdown) - audit, and remediate, security configuration settings on OS X 10.11 (El Capitan).
+[SummitRoute/osxlockdown](https://github.com/SummitRoute/osxlockdown) - audit and remediate security configuration settings on OS X 10.11 (El Capitan).
 
 [Lockdown](https://objective-see.com/products/lockdown.html) - tool for El Capitan that audits and remediates security configuration settings.
 
-[Dylib Hijack Scanner](https://objective-see.com/products/dhs.html) - scan your computer for applications that are either susceptible to dylib hijacking or have been hijacked.
+[Dylib Hijack Scanner](https://objective-see.com/products/dhs.html) - scan for applications that are either susceptible to dylib hijacking or have been hijacked.
 
 [facebook/osquery](https://github.com/facebook/osquery) - can be used to retrieve low level system information.  Users can write SQL queries to retrieve system information.
 
 [google/grr](https://github.com/google/grr) - incident response framework focused on remote live forensics.
 
-[yelp/osxcollector](https://github.com/yelp/osxcollector) - A forensic evidence collection & analysis toolkit for OS X.
+[yelp/osxcollector](https://github.com/yelp/osxcollector) - forensic evidence collection & analysis toolkit for OS X.
 
 [jipegit/OSXAuditor](https://github.com/jipegit/OSXAuditor) - analyzes artifacts on a running system, such as quarantined files, Safari, Chrome and Firefox history, downloads, HTML5 databases and localstore, social media and email accounts, and Wi-Fi access point names.
 
 [libyal/libfvde](https://github.com/libyal/libfvde) - library to access FileVault Drive Encryption (FVDE) (or FileVault2) encrypted volumes.
+
+[CISOfy/lynis](https://github.com/CISOfy/lynis) - cross-platform security auditing tool and assists with compliance testing and system hardening.
 
 ## Additional resources
 
