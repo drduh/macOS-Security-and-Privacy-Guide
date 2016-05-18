@@ -78,11 +78,12 @@ The standard best security practices apply:
 	* Care should be taken when installing new software. Always prefer [free](https://www.gnu.org/philosophy/free-sw.en.html) and open source software ([which OS X is not](https://superuser.com/questions/19492/is-mac-os-x-open-source)).
 
 ## Preparing and Installing OS X
+
 There are several ways to install a fresh copy of OS X.
 
 The simplest way is to boot into [Recovery Mode](https://support.apple.com/en-us/HT201314) by holding `Command` and `R` keys at boot. A system image can be downloaded and applied directly from Apple. However, this way exposes the computer's serial number and other identifying information to Apple.
 
-Another way is to download **OS X El Capitan 10.11.4** from the [App Store](https://itunes.apple.com/us/app/os-x-el-capitan/id1018109117) or some other place and create a custom, installable system image.
+Another way is to download **OS X El Capitan** from the [App Store](https://itunes.apple.com/us/app/os-x-el-capitan/id1018109117) or some other place and create a custom, installable system image.
 
 The application is [code signed](https://developer.apple.com/library/mac/documentation/Security/Conceptual/CodeSigningGuide/Procedures/Procedures.html#//apple_ref/doc/uid/TP40005929-CH4-SW6), which should be verified to make sure you received a legitimate copy:
 
@@ -101,6 +102,8 @@ The application is [code signed](https://developer.apple.com/library/mac/documen
 	Internal requirements count=1 size=124
 
 OS X installers can be made with the `createinstallmedia` utility included in `Install OS X El Capitan.app/Contents/Resources/`. See [Create a bootable installer for OS X Yosemite](https://support.apple.com/en-us/HT201372), or run the utility without arguments to see how it works.
+
+**Note** Apple's installer [does not appear to work](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/120) across OS versions. If you want to build a 10.9 image, for example, the following steps must be run on a 10.9 machine.
 
 To create a bootable USB OS X installer, mount a disk and erase it to default options in Disk Utility, then:
 
