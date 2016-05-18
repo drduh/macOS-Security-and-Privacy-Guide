@@ -1050,6 +1050,10 @@ For example, to use Privoxy on a remote host:
     $ sudo networksetup -setwebproxy "Wi-Fi" 127.0.0.1 5555
     $ sudo networksetup -setsecurewebproxy "Wi-Fi" 127.0.0.1 5555
 
+Or to use an ssh connection as a [SOCKS proxy](https://www.mikeash.com/ssh_socks.html):
+
+    $ ssh -NCD 3000 you@remote-host.tld
+
 By default, OS X does **not** have sshd or *Remote Login* enabled.
 
 To enable sshd and allow incoming ssh connections:
