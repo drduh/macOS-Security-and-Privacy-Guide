@@ -251,6 +251,12 @@ You may wish to enforce **hibernation** and evict Filevault keys from memory ins
 
 > Organizations especially sensitive to a high-attack environment, or potentially exposed to full device access when the device is in standby mode, should mitigate this risk by destroying the FileVault key in firmware. Doing so doesn’t destroy the use of FileVault, but simply requires the user to enter the password in order for the system to come out of standby mode.
 
+If you choose to evict Filevault keys in standby mode, you should also modify your standby and power nap settings. Otherwise, your machine may wake while in standby mode and then power off due to the absence of the FileVault key. See [issue #124](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/124) for more information. These settings can be changed with:
+
+    $ sudo pmset -a powernap 0
+    $ sudo pmset -a standby 0
+    $ sudo pmset -a standbydelay 0
+
 For more information, see [Best Practices for
 Deploying FileVault 2](http://training.apple.com/pdf/WP_FileVault2.pdf)[pdf] and paper [Lest We Remember: Cold Boot Attacks on Encryption Keys](https://www.usenix.org/legacy/event/sec08/tech/full_papers/halderman/halderman.pdf)[pdf]
 
