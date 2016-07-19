@@ -216,6 +216,14 @@ When creating your account, use a [strong password](http://www.explainxkcd.com/w
 
 Don't use your real name for your account as it'll show up as *So-and-so's Macbook* through sharing services to local networks.
 
+To change the system [hostname](https://support.apple.com/kb/PH18720?locale=en_US) manually:
+
+	$ sudo sysctl kern.hostname=localhost
+	$ sudo hostname -s localhost
+	$ sudo scutil --set HostName localhost
+	$ sudo scutil --set LocalHostName localhost
+	$ sudo scutil --set ComputerName localhost
+
 ## Full disk encryption
 
 [Filevault](https://en.wikipedia.org/wiki/FileVault) provides full disk (technically, full _volume_) encryption on OS X.
