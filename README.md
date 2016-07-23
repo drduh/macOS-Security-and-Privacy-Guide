@@ -246,7 +246,7 @@ Enable Filevault with `sudo fdesetup enable` or using **System Preferences** and
 
 If you can remember your password, there's no reason to save the **recovery key**. However, your encrypted data will be lost forever if you can't remember the password or recovery key.
 
-If you want to know more about how Filevault 2 works, see the paper [Infiltrate the Vault: Security Analysis and Decryption of Lion Full Disk Encryption](https://eprint.iacr.org/2012/374.pdf) [pdf] and related [presentation](http://www.cl.cam.ac.uk/~osc22/docs/slides_fv2_ifip_2013.pdf) [PDF].
+If you want to know more about how Filevault 2 works, see the paper [Infiltrate the Vault: Security Analysis and Decryption of Lion Full Disk Encryption](https://eprint.iacr.org/2012/374.pdf) [pdf] and related [presentation](http://www.cl.cam.ac.uk/~osc22/docs/slides_fv2_ifip_2013.pdf) [pdf].
 
 and [IEEE Std 1619-2007 “The XTS-AES Tweakable Block Cipher”](http://libeccio.di.unisa.it/Crypto14/Lab/p1619.pdf) [pdf]
 
@@ -266,27 +266,37 @@ If you choose to evict Filevault keys in standby mode, you should also modify yo
     $ sudo pmset -a standbydelay 0
 
 For more information, see [Best Practices for
-Deploying FileVault 2](http://training.apple.com/pdf/WP_FileVault2.pdf)[pdf] and paper [Lest We Remember: Cold Boot Attacks on Encryption Keys](https://www.usenix.org/legacy/event/sec08/tech/full_papers/halderman/halderman.pdf)[pdf]
+Deploying FileVault 2](http://training.apple.com/pdf/WP_FileVault2.pdf) [pdf] and paper [Lest We Remember: Cold Boot Attacks on Encryption Keys](https://www.usenix.org/legacy/event/sec08/tech/full_papers/halderman/halderman.pdf) [pdf]
 
 ## Firmware password
 
-Setting a firmware password in OS X prevents your Mac from starting up from any device other than your startup disk. [It can also be helpful if your laptop is stolen](https://www.ftc.gov/news-events/blogs/techftc/2015/08/virtues-strong-enduser-device-controls), as the only way to reset the firmware password is through an Apple Store ([or is it?](https://reverse.put.as/2015/05/29/the-empire-strikes-back-apple-how-your-mac-firmware-security-is-completely-broken/)).
+Setting a firmware password prevents your Mac from starting up from any device other than your startup disk. It may also be set to be required on each boot.
 
-1. Start up holding the `Command` and `R` keys to boot from **OS X Recovery** mode.
+This feature [can be helpful if your laptop is stolen](https://www.ftc.gov/news-events/blogs/techftc/2015/08/virtues-strong-enduser-device-controls), as the only way to reset the firmware password is through an Apple Store, or by using an [SPI programmer](https://reverse.put.as/2016/06/25/apple-efi-firmware-passwords-and-the-scbo-myth/), such as [Bus Pirate](http://ho.ax/posts/2012/06/unbricking-a-macbook/) or other flash IC programmer.
+
+1. Start up holding the `Command` and `R` keys to boot to [OS X Recovery](https://support.apple.com/en-au/HT201314) mode.
 
 3. When the Recovery window appears, choose **Firmware Password Utility** from the Utilities menu.
 
 4. In the Firmware Utility window that appears, select **Turn On Firmware Password**.
 
-5. Enter a new password, then enter the same password in the Verify field.
+5. Enter a new password, then enter the same password in the **Verify** field.
 
-6. Select Set Password.
+6. Select **Set Password**.
 
-7. Select Quit Firmware Utility to close the Firmware Password Utility.
+7. Select **Quit Firmware Utility** to close the Firmware Password Utility.
 
 8. Select the Apple menu and choose Restart or Shutdown.
 
-The firmware password will activate at next boot. To validate the password, hold `alt` during boot - you should be prompted to enter the password.
+The firmware password will activate at next boot. To validate the password, hold `Alt` during boot - you should be prompted to enter the password.
+
+The firmware password can also be managed with the `firmwarepasswd` utility while booted into the OS.
+
+<img width="750" alt="Using a Dediprog SF600 to dump and flash a 2013 MacBook SPI Flash chip to remove a firmware password, sans Apple" src="https://cloud.githubusercontent.com/assets/12475110/17075918/0f851c0c-50e7-11e6-904d-0b56cf0080c1.png">
+
+*Using a [Dediprog SF600](http://www.dediprog.com/pd/spi-flash-solution/sf600) to dump and flash a 2013 MacBook SPI Flash chip to remove a firmware password, sans Apple*
+
+See [HT204455](https://support.apple.com/en-au/HT204455), [LongSoft/UEFITool](https://github.com/LongSoft/UEFITool) and [chipsec/chipsec](https://github.com/chipsec/chipsec) for more information.
 
 ## Firewall
 
@@ -295,6 +305,7 @@ Before connecting to the Internet, it's a good idea to first configure a firewal
 There are several types of firewall for OS X.
 
 #### Application layer firewall
+
 Built-in, basic firewall which blocks **incoming** connections only.
 
 Note, this firewall does not have the ability to monitor, nor block **outgoing** connections.
@@ -335,6 +346,8 @@ These programs are capable of monitoring and blocking **incoming** and **outgoin
 If the number of choices of allowing/blocking network connections is overwhelming, use **Silent Mode** with connections allowed, then periodically check your settings to gain understanding of what various applications are doing.
 
 It is worth noting that these firewalls can be bypassed by programs running as **root** or through [OS vulnerabilities](https://www.blackhat.com/docs/us-15/materials/us-15-Wardle-Writing-Bad-A-Malware-For-OS-X.pdf) [pdf], but they are still worth having - just don't expect absolute protection.
+
+For more on how Little Snitch works, see the [Network Kernel Extensions Programming Guide](https://developer.apple.com/library/mac/documentation/Darwin/Conceptual/NKEConceptual/socket_nke/socket_nke.html#//apple_ref/doc/uid/TP40001858-CH228-SW1) and [Shut up snitch! – reverse engineering and exploiting a critical Little Snitch vulnerability](https://reverse.put.as/2016/07/22/shut-up-snitch-reverse-engineering-and-exploiting-a-critical-little-snitch-vulnerability/).
 
 #### Kernel level packet filtering
 A highly customizable, powerful, but also most complicated firewall exists in the kernel. It can be controlled with `pfctl` and various configuration files.
