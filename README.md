@@ -256,6 +256,7 @@ If you choose to evict Filevault keys in standby mode, you should also modify yo
     $ sudo pmset -a powernap 0
     $ sudo pmset -a standby 0
     $ sudo pmset -a standbydelay 0
+    $ sudo pmset -a autopoweroff 0
 
 For more information, see [Best Practices for
 Deploying FileVault 2](http://training.apple.com/pdf/WP_FileVault2.pdf)[pdf] and paper [Lest We Remember: Cold Boot Attacks on Encryption Keys](https://www.usenix.org/legacy/event/sec08/tech/full_papers/halderman/halderman.pdf)[pdf]
