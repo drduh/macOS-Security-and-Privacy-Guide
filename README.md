@@ -762,7 +762,7 @@ If you don't want to use Chrome, [Firefox](https://www.mozilla.org/en-US/firefox
 
 If using Firefox, see [TheCreeper/PrivacyFox](https://github.com/TheCreeper/PrivacyFox) for recommended privacy preferences. Also be sure to check out [NoScript](https://noscript.net/) for Mozilla-based browsers, which allows whitelist-based, pre-emptive script blocking.
 
-Create at least three profiles, one for browsing **trusted** web sites (email, banking), another for **untrusted** (link aggregators, news sites), and a third for a completely **cookie-less** and **script-less** experience.
+Create at least three profiles, one for browsing **trusted** web sites (email, banking), another for **mostly trusted** web sites (link aggregators, news sites), and a third for a completely **cookie-less** and **script-less** experience.
 
 * One profile **without cookies or Javascript** enabled (e.g., turned off in `chrome://settings/content`) which should be the preferred profile to visiting untrusted web sites. However, many pages will not load at all without Javascript enabled.
 
