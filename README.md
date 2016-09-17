@@ -920,7 +920,7 @@ Don't just blindly sign up for a VPN service without understanding the full impl
 
 When choosing a VPN service or setting up your own, be sure to research the protocols, key exchange algorithms, authentication mechanisms, and type of encryption being used. Some protocols, such as [PPTP](https://en.wikipedia.org/wiki/Point-to-Point_Tunneling_Protocol#Security), should be avoided in favor of [OpenVPN](https://en.wikipedia.org/wiki/OpenVPN), for example.
 
-Some clients may send traffic over the next available interface when VPN is interrupted or disconnected. See [scy/8122924](https://gist.github.com/scy/8122924) for an example on how to allow traffic only over VPN.
+Some clients may send traffic over the next available interface when VPN is interrupted or disconnected. See [scy/8122924](https://gist.github.com/scy/8122924) for an example on how to allow traffic only over VPN.  [Cloak](https://www.getcloak.com/) has an interesting model, because Clock has a feature called [Overcloak](https://www.getcloak.com/about/overcloak/) will block insecure traffic over the network in the event that the VPN connection gets interrupted.
 
 ## Viruses and malware
 
