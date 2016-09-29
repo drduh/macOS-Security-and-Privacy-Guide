@@ -457,10 +457,9 @@ Alternatively, you could download, compile and install software directly from th
 
 Remember to periodically run `brew update` and `brew upgrade` on trusted, secure networks to install software updates.
 
-According to [Homebrew/brew/blob/master/share/doc/homebrew/Analytics.md](https://github.com/Homebrew/brew/blob/master/share/doc/homebrew/Analytics.md), Homebrew will start logging user behaviour through Google Analytics. 
+According to [Homebrew's Anonymous Aggregate User Behaviour Analytics](https://github.com/Homebrew/brew/blob/master/docs/Analytics.md), Homebrew has begun gathering anonymous aggregate user behaviour analytics and reporting these to Google Analytics.
 
-The documentation says the user can opt-out by including an environment variable `HOMEBREW_NO_ANALYTICS=1`. 
-Include that on your `.bashrc`or `.zshrc`.
+To opt out of Homebrew's analytics, you can set `export HOMEBREW_NO_ANALYTICS=1` in your environment or shell rc file, or use `brew analytics off`
 
 ## DNS
 
