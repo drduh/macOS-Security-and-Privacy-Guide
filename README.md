@@ -1231,6 +1231,10 @@ Expose hidden files and Library folder in Finder:
     $ defaults write com.apple.finder AppleShowAllFiles -bool true
     $ chflags nohidden ~/Library
 
+Show all filename extensions (so that "Evil.jpg.app" cannot masquerade easily).
+
+    $ defaults write NSGlobalDomain AppleShowAllExtensions -bool true
+
 Don't default to saving documents to iCloud:
 
     $ defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
