@@ -10,6 +10,7 @@ If you wish to make a correction or improvement, please send a pull request or [
 
 - [Basics](#basics)
 - [Preparing and Installing OS X](#preparing-and-installing-os-x)
+    - [Virtualization](#virtualization)
 - [First boot](#first-boot)
 - [Full disk encryption](#full-disk-encryption)
 - [Firmware password](#firmware-password)
@@ -168,7 +169,7 @@ Erase the disk to Journaled HFS+:
 
 Restore the image to the new volume:
 
-    $ sudo asr restore --source ~/elcap.dmg --target /Volumes/OSX --erase --noverify --buffersize 4m
+    $ sudo asr restore --source ~/elcap.dmg --target /Volumes/OSX --erase --buffersize 4m
 
 Alternatively, use the **Disk Utility** application to erase the connected Mac's disk, then restore `elcap.dmg` to the new partition.
 
@@ -201,6 +202,50 @@ Replace `/Volumes/OS\ X` with the path to the target disk mode-booted Mac.
 This step will take several minutes. Run `diskutil list` again to make sure **Recovery HD** now exists.
 
 Once you're done, eject the disk with `hdiutil unmount /Volumes/OS\ X` and power down the connected Mac.
+
+### Virtualization
+
+To install OS X as a virtual machine (vm) using [VMware Fusion](https://www.vmware.com/products/fusion.html), follow the instructions above to create an image. You will **not** need to download and create a recovery partition manually.
+
+For the Installation Method, select *Install OS X from the recovery partition*. Customize any memory or CPU requirements and complete setup. The guest vm should boot into [Recovery Mode](https://support.apple.com/en-us/HT201314) by default.
+
+In Recovery Mode, select a language, then Utilities > Terminal from the menubar.
+
+In the guest vm, type `ifconfig | grep inet` - you should see a private address like `172.16.34.129`
+
+On the host Mac, type `ifconfig | grep inet` - you should see a private gateway address like `172.16.34.1`
+
+From the host Mac, serve the installable image to the guest vm by editing `/etc/apache2/httpd.conf` and adding the following line to the top (using the gateway address assigned to the host Mac and port 80):
+
+    Listen 172.16.34.1:80
+
+On the host Mac, link the image to the default Apache Web server directory:
+
+	$ sudo ln ~/Desktop/elcap.dmg /Library/WebServer/Documents
+
+From the host Mac, start Apache in the foreground:
+
+	$ sudo httpd -X
+
+From the guest VM, install the disk image to the volume over the local network using `asr`:
+
+```
+-bash-3.2# asr restore --source http://172.16.34.1/elcap.dmg --target /Volumes/Macintosh\ HD/ --erase --buffersize 4m
+	Validating target...done
+	Validating source...done
+	Erase contents of /dev/disk0s2 (/Volumes/Macintosh HD)? [ny]: y
+	Retrieving scan information...done
+	Validating sizes...done
+	Restoring  ....10....20....30....40....50....60....70....80....90....100
+	Verifying  ....10....20....30....40....50....60....70....80....90....100
+	Remounting target volume...done
+```
+
+When it's finished, stop the Apache Web server on the host Mac by pressing `Control` `C` at the `sudo httpd -X` window and remove the image copy with `sudo rm /Library/WebServer/Documents/elcap.dmg`
+
+In the guest vm, select *Startup Disk* from the top-left corner Apple menu, select the hard drive and restart. You may wish to disable the Network Adapter in VMware for the initial guest vm boot.
+
+Take and Restore from saved guest vm snapshots before and after attempting risky browsing, for example, or use a guest vm to install and operate questionable software.
 
 ## First boot
 
@@ -387,6 +432,7 @@ Unless you're already familiar with packet filtering, spending too much time con
 For an example of using pf to audit "phone home" behavior of user and system-level processes, see [fix-macosx/net-monitor](https://github.com/fix-macosx/net-monitor).
 
 ## Services
+
 Before you connect to the Internet, you may wish to disable some system services, which use up resources or phone home to Apple.
 
 See [fix-macosx/yosemite-phone-home](https://github.com/fix-macosx/yosemite-phone-home) and [l1k/osxparanoia](https://github.com/l1k/osxparanoia)
@@ -430,6 +476,7 @@ You may run the `read_launch_plists.py` script and `diff` output to check for an
 See also [cirrusj.github.io/Yosemite-Stop-Launch](http://cirrusj.github.io/Yosemite-Stop-Launch/) for descriptions of services and [Provisioning OS X and Disabling Unnecessary Services](https://vilimpoc.org/blog/2014/01/15/provisioning-os-x-and-disabling-unnecessary-services/) for another explanation.
 
 ## Spotlight Suggestions
+
 Disable “Spotlight Suggestions” in both the Spotlight preferences and Safari's Search preferences to avoid your search queries being sent to Apple.
 
 Also disable "Bing Web Searches" in the Spotlight preferences to avoid your search queries being sent to Microsoft.
@@ -441,6 +488,7 @@ See [fix-macosx.com](https://fix-macosx.com/) for detailed instructions.
 Speaking of Microsoft, you may want to see <https://fix10.isleaked.com/> just for fun.
 
 ## Homebrew
+
 Consider using [Homebrew](http://brew.sh/) to make software installations easier and to update userland tools (see [Apple’s great GPL purge](http://meta.ath0.com/2012/02/05/apples-great-gpl-purge/)).
 
 If you have not already installed Xcode or Command Line Tools, run `xcode-select --install` and a prompt should appear to download and install CLI Tools.
@@ -700,6 +748,7 @@ Here are several recommended [options](http://curl.haxx.se/docs/manpage.html) to
     ipv4
 
 ## HTTP
+
 Consider using [privoxy](http://www.privoxy.org/) as a local proxy to sanitize and customize web browsing traffic.
 
 A signed installation package for privoxy can be downloaded from [Sourceforge](http://sourceforge.net/projects/ijbswa/files/Macintosh%20%28OS%20X%29/) or [silvester.org.uk](http://silvester.org.uk/privoxy/OSX/). The signed package is [more secure](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/65) than the Homebrew version, and attracts full support from the Privoxy project.
@@ -788,6 +837,7 @@ Other miscellaneous browsers, such as [Brave](https://github.com/drduh/OS-X-Secu
 For more information about security conscious browsing, see [HowTo: Privacy & Security Conscious Browsing](https://gist.github.com/atcuno/3425484ac5cce5298932), [browserleaks.com](https://www.browserleaks.com/) and [EFF Panopticlick](https://panopticlick.eff.org/).
 
 ## Plugins
+
 **Adobe Flash**, **Oracle Java**, **Adobe Reader**, **Microsoft Silverlight** (Netflix now works with [HTML5](https://help.netflix.com/en/node/23742)) and other plugins are [security risks](https://news.ycombinator.com/item?id=9901480) and should not be installed.
 
 If they are necessary, only use them in a disposable virtual machine and subscribe to security announcements to make sure you're always patched.
@@ -795,6 +845,7 @@ If they are necessary, only use them in a disposable virtual machine and subscri
 See [Hacking Team Flash Zero-Day](http://blog.trendmicro.com/trendlabs-security-intelligence/hacking-team-flash-zero-day-integrated-into-exploit-kits/), [Java Trojan BackDoor.Flashback](https://en.wikipedia.org/wiki/Trojan_BackDoor.Flashback), [Acrobat Reader: Security Vulnerabilities](http://www.cvedetails.com/vulnerability-list/vendor_id-53/product_id-497/Adobe-Acrobat-Reader.html), and [Angling for Silverlight Exploits](https://blogs.cisco.com/security/angling-for-silverlight-exploits), for example.
 
 ## PGP/GPG
+
 PGP is a standard for encrypting email end to end. That means only the chosen recipients can decrypt a message, unlike regular email which is read and forever archived by providers.
 
 **GPG**, or **GNU Privacy Guard**, is a GPL licensed program compliant with the standard.
@@ -805,7 +856,7 @@ Install with `brew install gnupg`, or if you prefer to install a newer, more fea
 
 If you prefer a GUI, check out [GPG Suite](https://gpgtools.org/).
 
-Here are several recommended options to add to `~/.gnupg/gpg.conf`:
+Here are several [recommended options](https://github.com/drduh/config/blob/master/gpg.conf) to add to `~/.gnupg/gpg.conf`:
 
     auto-key-locate keyserver
     keyserver hkps://hkps.pool.sks-keyservers.net
@@ -819,6 +870,7 @@ Here are several recommended options to add to `~/.gnupg/gpg.conf`:
     default-preference-list SHA512 SHA384 SHA256 SHA224 AES256 AES192 AES CAST5 ZLIB BZIP2 ZIP Uncompressed
     cert-digest-algo SHA512
     s2k-digest-algo SHA512
+    s2k-cipher-algo AES256
     charset utf-8
     fixed-list-mode
     no-comments
@@ -1045,6 +1097,7 @@ You may also create encrypted volumes using **Disk Utility** or `hdiutil`:
 Also see the following applications and services: [SpiderOak](https://spideroak.com/), [Arq](https://www.arqbackup.com/), [Espionage](https://www.espionageapp.com/), and [restic](https://restic.github.io/).
 
 ## Wi-Fi
+
 OS X remembers access points it has connected to. Like all wireless devices, the Mac will broadcast all access point names it remembers (e.g., *MyHomeNetwork*) each time it looks for a network, such as when waking from sleep.
 
 This is a privacy risk, so remove networks from the list in **System Preferences** > **Network** > **Advanced** when they're no longer needed.
@@ -1122,6 +1175,7 @@ Consider purchasing a [privacy filter](https://www.amazon.com/s/ref=nb_sb_noss_2
 ## System monitoring
 
 #### OpenBSM audit
+
 OS X has a powerful OpenBSM auditing capability. You can use it to monitor process execution, network activity, and much more.
 
 To tail audit logs, use the `praudit` utility:
