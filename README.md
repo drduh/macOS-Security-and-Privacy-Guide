@@ -1272,7 +1272,7 @@ Manage default file handlers with [duti](http://duti.org/), which can be install
 
 Watch the system log with /Applications/Utilities/Console.app or the `syslog` command.
 
-Enable [tty_tickets](http://blog.rongarret.info/2015/08/psa-beware-of-sudo-on-os-x.html) in the sudoers file.
+In systems prior to macOS Sierra (10.12), enable the [tty_tickets flag](https://derflounder.wordpress.com/2016/09/21/tty_tickets-option-now-on-by-default-for-macos-sierras-sudo-tool/) in /etc/sudoers to restrict the sudo session to the Terminal window/tab that started it. To do so, use `sudo visudo` and add the line `Defaults    tty_tickets`.
 
 Set your screen to lock as soon as the screensaver starts:
 
