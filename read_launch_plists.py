@@ -43,7 +43,10 @@ def GetStatus(plist):
 
 def GetLabel(plist):
   """Plists have a label."""
-  return plist['Label']
+  try:
+    return plist['Label']
+  except KeyError:
+    return 'False'
 
 
 def GetProgram(plist):
@@ -91,12 +94,13 @@ def main():
   
   for kind in ['Daemons', 'Agents']:
     for filename in glob.glob(location % kind):
-      p = LoadPlist(filename)
-      if p:
-        e = (filename, GetLabel(p), '"%s",%s' % GetProgram(p), GetStatus(p), '"%s"' % GetComment(p))
-        print('%s,%s,%s,%s,%s' % e)
-      else:
-        print('Could not load %s' % filename)
+      if not filename.endswith('com.apple.jetsamproperties.Mac.plist'):
+        p = LoadPlist(filename)
+        if p:
+          e = (filename, GetLabel(p), '"%s",%s' % GetProgram(p), GetStatus(p), '"%s"' % GetComment(p))
+          print('%s,%s,%s,%s,%s' % e)
+        else:
+          print('Could not load %s' % filename)
 
 
 if __name__ == '__main__':
