@@ -495,9 +495,9 @@ If you have not already installed Xcode or Command Line Tools, run `xcode-select
 
 To install Homebrew:
 
-    $ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    $ /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
-Or, see [homebrew/Installation.md](https://github.com/Homebrew/homebrew/blob/master/share/doc/homebrew/Installation.md#installation) for other installation options.
+Or, see [homebrew/Installation.md](https://github.com/Homebrew/brew/blob/master/docs/Installation.md) for other installation options.
 
 Homebrew uses SSL/TLS to talk with github and verifies checksums of downloaded packages, so it's [fairly secure](https://github.com/Homebrew/homebrew/issues/18036).
 
@@ -507,7 +507,7 @@ Remember to periodically run `brew update` and `brew upgrade` on trusted, secure
 
 According to [Homebrew's Anonymous Aggregate User Behaviour Analytics](https://github.com/Homebrew/brew/blob/master/docs/Analytics.md), Homebrew has begun gathering anonymous aggregate user behaviour analytics and reporting these to Google Analytics.
 
-To opt out of Homebrew's analytics, you can set `export HOMEBREW_NO_ANALYTICS=1` in your environment or shell rc file, or use `brew analytics off`
+To opt out of Homebrew's analytics, you can set `export HOMEBREW_NO_ANALYTICS=1` in your environment or shell rc file, or use `brew analytics off`.
 
 ## DNS
 
