@@ -13,6 +13,7 @@ If you wish to make a correction or improvement, please send a pull request or [
 - [Preparing and Installing macOS](#preparing-and-installing-macos)
     - [Virtualization](#virtualization)
 - [First boot](#first-boot)
+- [Admin and standard user accounts](#admin-and-standard-user-accounts)
 - [Full disk encryption](#full-disk-encryption)
 - [Firewall](#firewall)
     - [Application layer firewall](#application-layer-firewall)
@@ -336,6 +337,29 @@ Don't use your real name for your account as it'll show up as *So-and-so's MacBo
 	$ sudo scutil --set LocalHostName localhost
 	$ sudo scutil --set ComputerName localhost
 
+## Admin and standard user accounts
+
+The first user account is always an admin account. Admin accounts are members of the admin group and have access to `sudo`, which allows them to usurp other accounts, in particular root, and gives them effective control over the system. Any program that the admin executes can potentially obtain the same access, making this a security risk. Utilities like `sudo` have [weaknesses that can be exploited](https://bogner.sh/2014/03/another-mac-os-x-sudo-password-bypass/) by concurrently running programs and many panes in System Preferences are [unlocked by default](http://csrc.nist.gov/publications/drafts/800-179/sp800_179_draft.pdf) [p. 61–62] for admin accounts. Although Apple does not have a recommendation, it is considered a [best practice](http://csrc.nist.gov/publications/drafts/800-179/sp800_179_draft.pdf) [p. 41–42] to use a separate standard account for day-to-day work and use the admin account only when needed.
+
+It is not strictly required to ever log into the admin account via the OS X login screen. The system will prompt for authentication when required and Terminal can do the rest. To that end, Apple provides some [recommendations](https://support.apple.com/HT203998) for hiding the admin account and its home directory. This can be an elegant solution to avoid having a visible 'ghost' account. The admin account can also be [removed from FileVault](http://apple.stackexchange.com/a/94373).
+
+#### Caveats
+
+1. Only administrators can install applications in `/Applications` (local directory). Finder and Installer will prompt a standard user with an authentication dialog. Many applications can be installed in `~/Applications` instead (the directory can be created manually). As a rule of thumb: applications that do not require admin access – or do not complain about not being installed in `/Applications` – should be installed in the user directory, the rest in the local directory. Mac App Store applications are still installed in `/Applications` and require no additional authentication.
+
+2. `sudo` is not available in shells of the standard user, which requires using `su` or `login` to enter a shell of the admin account. This can make some maneuvers trickier and requires some basic experience with command-line interfaces.
+
+3. System Preferences and several system utilities (e.g. Wi-Fi Diagnostics) will require root privileges for full functionality. Many panels in System Preferences are locked and need to be unlocked separately by clicking on the lock icon. Some applications will simply prompt for authentication upon opening, others must be opened by an admin account directly to get access to all functions (e.g. Console).
+
+4. There are third-party applications that will not work correctly because they assume that the user account is an admin. These programs may have to be executed by logging into the admin account, or by using the `open` utility.
+
+#### Setup
+
+Accounts can be created and managed in System Preferences. On settled systems, it is generally easier to create a second admin account and then demote the first account. This avoids data migration. Newly installed systems can also just add a standard account. Demoting an account can be done either from the the new admin account in System Preferences – the other account must be logged out – or by executing this command:
+```
+sudo dscl . -delete /Groups/admin GroupMembership user_name
+```
+
 ## Full disk encryption
 
 [FileVault](https://en.wikipedia.org/wiki/FileVault) provides full disk (technically, full _volume_) encryption on macOS.
@@ -615,7 +639,7 @@ Install Dnsmasq (DNSSEC is optional):
     $ brew install dnsmasq --with-dnssec
 
     $ cp ~/homebrew/opt/dnsmasq/dnsmasq.conf.example ~/homebrew/etc/dnsmasq.conf
-    
+
 Edit the configuration:
 
     $ vim ~/homebrew/etc/dnsmasq.conf
@@ -1247,7 +1271,7 @@ $ xattr -d com.apple.quarantine ~/Downloads/TorBrowser-6.0.5-osx64_en-US.dmg
 $ xattr -l ~/Downloads/TorBrowser-6.0.5-osx64_en-US.dmg
 [No output after removal.]
 ```
-    
+
 ## Passwords
 
 You can generate strong passwords with OpenSSL:
@@ -1269,7 +1293,7 @@ With control over character sets:
 
     $ LANG=C tr -dc 'a-zA-Z0-9' < /dev/urandom | fold -w 40 | head -n 1
     jm0iKn7ngQST8I0mMMCbbi6SKPcoUWwCb5lWEjxK
-    
+
     $ LANG=C tr -dc 'DrDuh0-9' < /dev/urandom | fold -w 40 | head -n 1
     686672u2Dh7r754209uD312hhh23uD7u41h3875D
 
@@ -1480,8 +1504,6 @@ Also see the simple networking monitoring application [BonzaiThePenguin/Loading]
 ## Miscellaneous
 
 If you wish, disable [Diagnostics & Usage Data](https://github.com/fix-macosx/fix-macosx/wiki/Diagnostics-&-Usage-Data).
-
-Consider creating a second, non-administrator account for Web browsing and general use which doesn't require elevated privileges. See [issue #9](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/9).
 
 If you want to play **music** or watch **videos**, use [VLC media player](https://www.videolan.org/vlc/index.html) which is free and open source.
 
