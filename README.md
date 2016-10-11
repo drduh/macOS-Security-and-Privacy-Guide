@@ -402,27 +402,30 @@ It can be controlled by the **Firewall** tab of **Security & Privacy** in **Syst
 
 Enable the firewall:
 
-    $ sudo defaults write /Library/Preferences/com.apple.alf globalstate -bool true
+    $ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on
 
 Enable logging:
 
-    $ sudo defaults write /Library/Preferences/com.apple.alf loggingenabled -bool true
+    $ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setloggingmode on
 
 You may also wish to enable stealth mode:
 
-    $ sudo defaults write /Library/Preferences/com.apple.alf stealthenabled -bool true
+    $ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode on
 
 > Computer hackers scan networks so they can attempt to identify computers to attack. You can prevent your computer from responding to some of these scans by using **stealth mode**. When stealth mode is enabled, your computer does not respond to ICMP ping requests, and does not answer to connection attempts from a closed TCP or UDP port. This makes it more difficult for attackers to find your computer.
 
-Finally, you may wish to disable *Automatically allow built-in software to receive incoming connetions* as well as *Automatically allow downloaded signed software to receive incoming connections*:
+Finally, you may wish to prevent *built-in software* as well as *code-signed, downloaded software from being whitelisted automatically*:
 
-    $ sudo defaults write /Library/Preferences/com.apple.alf allowsignedenabled -bool false
-
-    $ sudo defaults write /Library/Preferences/com.apple.alf allowdownloadsignedenabled -bool false
+    $ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setallowsigned off
+    $ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setallowsignedapp off
 
 > Applications that are signed by a valid certificate authority are automatically added to the list of allowed apps, rather than prompting the user to authorize them. Apps included in OS X are signed by Apple and are allowed to receive incoming connections when this setting is enabled. For example, since iTunes is already signed by Apple, it is automatically allowed to receive incoming connections through the firewall.
 
 > If you run an unsigned app that is not listed in the firewall list, a dialog appears with options to Allow or Deny connections for the app. If you choose Allow, OS X signs the application and automatically adds it to the firewall list. If you choose Deny, OS X adds it to the list but denies incoming connections intended for this app.
+
+After interacting with `socketfilterfw`, you may want to restart (or terminate) the process:
+
+    $ sudo pkill -HUP socketfilterfw
 
 #### Third party firewalls
 
@@ -615,7 +618,7 @@ Install Dnsmasq (DNSSEC is optional):
     $ brew install dnsmasq --with-dnssec
 
     $ cp ~/homebrew/opt/dnsmasq/dnsmasq.conf.example ~/homebrew/etc/dnsmasq.conf
-    
+
 Edit the configuration:
 
     $ vim ~/homebrew/etc/dnsmasq.conf
@@ -1247,7 +1250,7 @@ $ xattr -d com.apple.quarantine ~/Downloads/TorBrowser-6.0.5-osx64_en-US.dmg
 $ xattr -l ~/Downloads/TorBrowser-6.0.5-osx64_en-US.dmg
 [No output after removal.]
 ```
-    
+
 ## Passwords
 
 You can generate strong passwords with OpenSSL:
@@ -1269,7 +1272,7 @@ With control over character sets:
 
     $ LANG=C tr -dc 'a-zA-Z0-9' < /dev/urandom | fold -w 40 | head -n 1
     jm0iKn7ngQST8I0mMMCbbi6SKPcoUWwCb5lWEjxK
-    
+
     $ LANG=C tr -dc 'DrDuh0-9' < /dev/urandom | fold -w 40 | head -n 1
     686672u2Dh7r754209uD312hhh23uD7u41h3875D
 
