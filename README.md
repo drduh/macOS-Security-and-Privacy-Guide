@@ -327,15 +327,10 @@ When macOS first starts, you'll be greeted by **Setup Assistant**.
 
 When creating your account, use a [strong password](http://www.explainxkcd.com/wiki/index.php/936:_Password_Strength) without a hint.
 
-Don't use your real name for your account as it'll show up as *So-and-so's MacBook* through sharing services to local networks and in various local preference files.
+If you enter your real name at the account setup process, be aware that your [computer's name and local hostname](https://support.apple.com/kb/PH18720) will be comprised of that name (e.g., *John Appleseed's MacBook*) and thus appear in local networks and preference files. You can change them both in **System Preferences > Sharing** or with the following commands:
 
-**(Optional)** To change the system [hostname](https://support.apple.com/kb/PH18720?locale=en_US) manually:
-
-	$ sudo sysctl kern.hostname=localhost
-	$ sudo hostname -s localhost
-	$ sudo scutil --set HostName localhost
-	$ sudo scutil --set LocalHostName localhost
-	$ sudo scutil --set ComputerName localhost
+	$ sudo scutil --set ComputerName your_computer_name
+	$ sudo scutil --set LocalHostName your_hostname
 
 ## Admin and standard user accounts
 
