@@ -167,7 +167,7 @@ To create a custom, installable image which can be [restored](https://en.wikiped
 
 With Finder, right click on the app, select **Show Package Contents** and navigate to **Contents** > **SharedSupport** to find the file `InstallESD.dmg`.
 
-You can verify the following cryptographic hashes to ensure you have the same copy with `shasum -a 256 InstallESD.dmg` (from Finder, you can drag the file into a Terminal window to provide the full path).
+You can [verify](https://support.apple.com/en-us/HT201259) the following cryptographic hashes to ensure you have the same copy with `openssl sha1 InstallESD.dmg` or `shasum -a 1 InstallESD.dmg` or `shasum -a 256 InstallESD.dmg` (from Finder, you can drag the file into a Terminal window to provide the full path).
 
 See [InstallESD_Hashes.csv](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/blob/master/InstallESD_Hashes.csv) in this repository for a list of current and previous file hashes. You can also Google the cryptographic hashes to ensure the file is genuine and has not been tampered with.
 
