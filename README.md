@@ -289,7 +289,7 @@ From the host Mac, serve the installable image to the guest vm by editing `/etc/
 
 On the host Mac, link the image to the default Apache Web server directory:
 
-	$ sudo ln ~/Desktop/sierra.dmg /Library/WebServer/Documents
+	$ sudo ln ~/sierra.dmg /Library/WebServer/Documents
 
 From the host Mac, start Apache in the foreground:
 
