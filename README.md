@@ -31,7 +31,6 @@ If you wish to make a correction or improvement, please send a pull request or [
 - [Certificate authorities](#certificate-authorities)
 - [OpenSSL](#openssl)
 - [Curl](#curl)
-- [HTTP](#http)
 - [Web](#web)
     - [Privoxy](#privoxy)
     - [Browser](#Browser)
