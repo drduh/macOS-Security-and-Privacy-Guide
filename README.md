@@ -140,7 +140,7 @@ macOS installers can be made with the `createinstallmedia` utility included in `
 
 **Note** Apple's installer [does not appear to work](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/120) across OS versions. If you want to build a 10.12 image, for example, the following steps must be run on a 10.12 machine!
 
-To create a **bootable USB macOS installer**, mount a USB drive, and erase and partition it, then use the `createmediainstall` utility:
+To create a **bootable USB macOS installer**, mount a USB drive, and erase and partition it, then use the `createinstallmedia` utility:
 
 ```
 $ diskutil list
