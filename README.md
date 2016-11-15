@@ -114,7 +114,11 @@ See [HT204455](https://support.apple.com/en-au/HT204455), [LongSoft/UEFITool](ht
 
 There are several ways to install a fresh copy of macOS.
 
-The simplest way is to boot into [Recovery Mode](https://support.apple.com/en-us/HT201314) by holding `Command` `R` keys at boot. A system image can be downloaded and applied directly from Apple. However, this way exposes the serial number and other identifying information to Apple.
+The simplest way is to boot into [Recovery Mode](https://support.apple.com/en-us/HT201314) by holding `Command` `R` keys at boot. A system image can be downloaded and applied directly from Apple. However, this way exposes the serial number and other identifying information over the network in plaintext.
+
+<img width="500" alt="PII is transmitted to Apple in plaintext when using macOS Recovery" src="https://cloud.githubusercontent.com/assets/12475110/20312189/8987c958-ab20-11e6-90fa-7fd7c8c1169e.png">
+
+*Packet capture of an unencrypted HTTP conversation during macOS recovery*
 
 Another way is to download **macOS Sierra** from the [App Store](https://itunes.apple.com/us/app/macos-sierra/id1127487414) or some other place and create a custom, installable system image.
 
