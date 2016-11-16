@@ -148,7 +148,7 @@ To create a **bootable USB macOS installer**, mount a USB drive, and erase and p
 
 ```
 $ diskutil list
-[Find disk matching correct size, usually disk2]
+[Find disk matching correct size, usually "disk2"]
 
 $ diskutil unmountDisk /dev/disk2
 
@@ -170,7 +170,7 @@ To create a custom, installable image which can be [restored](https://en.wikiped
 
 With Finder, right click on the app, select **Show Package Contents** and navigate to **Contents** > **SharedSupport** to find the file `InstallESD.dmg`.
 
-You can [verify](https://support.apple.com/en-us/HT201259) the following cryptographic hashes to ensure you have the same copy with `openssl sha1 InstallESD.dmg` or `shasum -a 1 InstallESD.dmg` or `shasum -a 256 InstallESD.dmg` (from Finder, you can drag the file into a Terminal window to provide the full path).
+You can [verify](https://support.apple.com/en-us/HT201259) the following cryptographic hashes to ensure you have the same copy with `openssl sha1 InstallESD.dmg` or `shasum -a 1 InstallESD.dmg` or `shasum -a 256 InstallESD.dmg` (in Finder, you can drag the file into a Terminal window to provide the full path).
 
 See [InstallESD_Hashes.csv](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/blob/master/InstallESD_Hashes.csv) in this repository for a list of current and previous file hashes. You can also Google the cryptographic hashes to ensure the file is genuine and has not been tampered with.
 
@@ -186,7 +186,7 @@ To create the image, use [MagerValp/AutoDMG](https://github.com/MagerValp/AutoDM
 
 This part will take a while, so be patient. You can `tail -F /var/log/install.log` in another Terminal window to check progress.
 
-**(Optional)** Install other packages, such as [Wireshark](https://www.wireshark.org/download.html):
+**(Optional)** Install additional software, such as [Wireshark](https://www.wireshark.org/download.html):
 
     $ hdiutil attach Wireshark\ 2.2.0\ Intel\ 64.dmg
 
@@ -218,7 +218,7 @@ Run `diskutil list` to identify the connected Mac's disk, usually `/dev/disk2`
 
 **(Optional)** [Securely erase](https://www.backblaze.com/blog/securely-erase-mac-ssd/) the disk with a single pass (if previously FileVault-encrypted, the disk must first be unlocked and mounted as `/dev/disk3s2`):
 
-	$ sudo diskutil secureErase freespace 1 /dev/disk3s2
+    $ sudo diskutil secureErase freespace 1 /dev/disk3s2
 
 Partition the disk to Journaled HFS+:
 
@@ -273,9 +273,9 @@ Once you're done, eject the disk with `hdiutil unmount /Volumes/macOS` and power
 To install macOS as a virtual machine (vm) using [VMware Fusion](https://www.vmware.com/products/fusion.html), follow the instructions above to create an image. You will **not** need to download and create a recovery partition manually.
 
 ```
-VMware-Fusion-8.5.0-4352717.dmg
-SHA-256: 2a19b1fd294e532b6781f1ebe88b173ec22f4b76d12a467b87648cc7ff8920f1
-SHA-1:   0839f8b4ad61a310e5a03ded3b2a619b75d5ff88
+VMware-Fusion-8.5.2-4635224.dmg
+SHA-256: f6c54b98c9788d1df94d470661eedff3e5d24ca4fb8962fac5eb5dc56de63b77
+SHA-1:   37ec465673ab802a3f62388d119399cb94b05408
 ```
 
 For the Installation Method, select *Install OS X from the recovery partition*. Customize any memory or CPU requirements and complete setup. The guest vm should boot into [Recovery Mode](https://support.apple.com/en-us/HT201314) by default.
@@ -324,15 +324,14 @@ Take and Restore from saved guest vm snapshots before and after attempting risky
 
 On first boot, hold `Command` `Option` `P` `R` keys to [clear NVRAM](https://support.apple.com/en-us/HT204063).
 
-Wait for the loud, obnoxious gong and keep holding the keys while the Mac reboots once.
-
 When macOS first starts, you'll be greeted by **Setup Assistant**.
 
 When creating your account, use a [strong password](http://www.explainxkcd.com/wiki/index.php/936:_Password_Strength) without a hint.
 
-If you enter your real name at the account setup process, be aware that your [computer's name and local hostname](https://support.apple.com/kb/PH18720) will be comprised of that name (e.g., *John Appleseed's MacBook*) and thus appear in local networks and preference files. You can change them both in **System Preferences > Sharing** or with the following commands:
+If you enter your real name at the account setup process, be aware that your [computer's name and local hostname](https://support.apple.com/kb/PH18720) will be comprised of that name (e.g., *John Appleseed's MacBook*) and thus will appear on local networks and in various preference files. You can change them both in **System Preferences > Sharing** or with the following commands:
 
 	$ sudo scutil --set ComputerName your_computer_name
+
 	$ sudo scutil --set LocalHostName your_hostname
 
 ## Admin and standard user accounts
@@ -385,9 +384,7 @@ Enable FileVault with `sudo fdesetup enable` or through **System Preferences** >
 
 If you can remember your password, there's no reason to save the **recovery key**. However, your encrypted data will be lost forever if you can't remember the password or recovery key.
 
-If you want to know more about how FileVault works, see the paper [Infiltrate the Vault: Security Analysis and Decryption of Lion Full Disk Encryption](https://eprint.iacr.org/2012/374.pdf) (pdf) and related [presentation](http://www.cl.cam.ac.uk/~osc22/docs/slides_fv2_ifip_2013.pdf) (pdf).
-
-and [IEEE Std 1619-2007 “The XTS-AES Tweakable Block Cipher”](http://libeccio.di.unisa.it/Crypto14/Lab/p1619.pdf) (pdf)
+If you want to know more about how FileVault works, see the paper [Infiltrate the Vault: Security Analysis and Decryption of Lion Full Disk Encryption](https://eprint.iacr.org/2012/374.pdf) (pdf) and related [presentation](http://www.cl.cam.ac.uk/~osc22/docs/slides_fv2_ifip_2013.pdf) (pdf). Also see [IEEE Std 1619-2007 “The XTS-AES Tweakable Block Cipher”](http://libeccio.di.unisa.it/Crypto14/Lab/p1619.pdf) (pdf).
 
 You may wish to enforce **hibernation** and evict FileVault keys from memory instead of traditional sleep to memory:
 
@@ -439,6 +436,7 @@ You may also wish to enable stealth mode:
 Finally, you may wish to prevent *built-in software* as well as *code-signed, downloaded software from being whitelisted automatically*:
 
     $ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setallowsigned off
+
     $ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setallowsignedapp off
 
 > Applications that are signed by a valid certificate authority are automatically added to the list of allowed apps, rather than prompting the user to authorize them. Apps included in OS X are signed by Apple and are allowed to receive incoming connections when this setting is enabled. For example, since iTunes is already signed by Apple, it is automatically allowed to receive incoming connections through the firewall.
@@ -512,7 +510,7 @@ For an example of using pf to audit "phone home" behavior of user and system-lev
 
 Before you connect to the Internet, you may wish to disable some system services, which use up resources or phone home to Apple.
 
-See [fix-macosx/yosemite-phone-home](https://github.com/fix-macosx/yosemite-phone-home) and [l1k/osxparanoia](https://github.com/l1k/osxparanoia)
+See [fix-macosx/yosemite-phone-home](https://github.com/fix-macosx/yosemite-phone-home), [l1k/osxparanoia](https://github.com/l1k/osxparanoia) and [karek314/macOS-home-call-drop](https://github.com/karek314/macOS-home-call-drop) for further recommendations.
 
 Services on macOS are managed by **launchd**. See (launchd.info)[http://launchd.info/], as well as [Apple's Daemons and Services Programming Guide](https://developer.apple.com/library/mac/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingLaunchdJobs.html) and [Technical Note TN2083](https://developer.apple.com/library/mac/technotes/tn2083/_index.html)
 
@@ -591,9 +589,11 @@ Homebrew uses SSL/TLS to talk with GitHub and verifies checksums of downloaded p
 
 Remember to periodically run `brew update` and `brew upgrade` on trusted and secure networks to download and install software updates. To get information on a package before installation, run `brew info <package>` and check its recipe online.
 
-According to [Homebrew's Anonymous Aggregate User Behaviour Analytics](https://github.com/Homebrew/brew/blob/master/docs/Analytics.md), Homebrew has begun gathering anonymous aggregate user behaviour analytics and reporting these to Google Analytics.
+According to [Homebrew's Anonymous Aggregate User Behaviour Analytics](https://github.com/Homebrew/brew/blob/master/docs/Analytics.md), Homebrew gathers anonymous aggregate user behaviour analytics and reporting these to Google Analytics.
 
-To opt out of Homebrew's analytics, you can set `export HOMEBREW_NO_ANALYTICS=1` in your environment or shell rc file, or use `brew analytics off`
+To opt out of Homebrew's analytics, you can set `export HOMEBREW_NO_ANALYTICS=1` in your environment or shell rc file, or use `brew analytics off`.
+
+You may also wish to enable [additional security options](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/138), such as `HOMEBREW_NO_INSECURE_REDIRECT=1` and `HOMEBREW_CASK_OPTS=--require-sha`.
 
 ## DNS
 
