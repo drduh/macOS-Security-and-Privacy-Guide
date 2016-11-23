@@ -33,7 +33,7 @@ If you wish to make a correction or improvement, please send a pull request or [
 - [Curl](#curl)
 - [Web](#web)
     - [Privoxy](#privoxy)
-    - [Browser](#Browser)
+    - [Browser](#browser)
     - [Plugins](#plugins)
 - [PGP/GPG](#pgpgpg)
 - [OTR](#otr)
