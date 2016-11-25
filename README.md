@@ -473,7 +473,7 @@ For more on how Little Snitch works, see the [Network Kernel Extensions Programm
 
 A highly customizable, powerful, but also most complicated firewall exists in the kernel. It can be controlled with `pfctl` and various configuration files.
 
-pf also be controlled with a GUI application such as [IceFloor](http://www.hanynet.com/icefloor/) or [Murus](http://www.murusfirewall.com/).
+pf can also be controlled with a GUI application such as [IceFloor](http://www.hanynet.com/icefloor/) or [Murus](http://www.murusfirewall.com/).
 
 There are many books and articles on the subject of pf firewall. Here's is just one example of blocking traffic by IP address.
 
@@ -536,7 +536,7 @@ For example, if you're not interested in Apple Push Notifications, disable the s
 
 Be careful about disabling any system daemons you don't understand, as it may render your system unbootable. If you break your Mac, use [single user mode](https://support.apple.com/en-us/HT201573) to fix it.
 
-Use [Console](https://en.wikipedia.org/wiki/Console_(OS_X)) and [Activity Monitor](https://support.apple.com/en-us/HT201464) applications if you notice your Mac heating up, feeling slugging, or generally misbehaving, as it may have resulted from your tinkering.
+Use [Console](https://en.wikipedia.org/wiki/Console_(OS_X)) and [Activity Monitor](https://support.apple.com/en-us/HT201464) applications if you notice your Mac heating up, feeling sluggish, or generally misbehaving, as it may have resulted from your tinkering.
 
 To view currently disabled services:
 
