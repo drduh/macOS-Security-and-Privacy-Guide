@@ -378,7 +378,7 @@ The PRNG can be manually seeded with entropy by writing to /dev/random **before*
 To manually seed entropy *before* enabling FileVault:
 
 	$ cat > /dev/random
-	[Type random letters for a long while, then press Control-C]
+	[Type random letters for a long while, then press Control-D]
 
 Enable FileVault with `sudo fdesetup enable` or through **System Preferences** > **Security & Privacy** and reboot.
 
