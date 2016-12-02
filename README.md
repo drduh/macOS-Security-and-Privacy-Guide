@@ -1594,6 +1594,8 @@ Did you know Apple has not shipped a computer with TPM since [2006](http://osxbo
 
 *In no particular order*
 
+[MacOS Hardening Guide - Appendix, Mac OS X and iOS Internals](http://newosxbook.com/files/moxii3/AppendixA.pdf)
+
 [Mac Developer Library: Secure Coding Guide](https://developer.apple.com/library/mac/documentation/Security/Conceptual/SecureCodingGuide/Introduction.html)
 
 [OS X Core Technologies Overview White Paper](https://www.apple.com/osx/all-features/pdf/osx_elcapitan_core_technologies_overview.pdf)
@@ -1627,6 +1629,8 @@ Did you know Apple has not shipped a computer with TPM since [2006](http://osxbo
 [Harden the World: Mac OSX 10.11 El Capitan](http://docs.hardentheworld.org/OS/OSX_10.11_El_Capitan/)
 
 [Hacker News discussion](https://news.ycombinator.com/item?id=10148077)
+
+[Hacker News discussion 2](https://news.ycombinator.com/item?id=13023823)
 
 [Apple Open Source](https://opensource.apple.com/)
 
