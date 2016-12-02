@@ -66,6 +66,7 @@ The standard best security practices apply:
 
 * Keep the system up to date
 	* Patch, patch, patch your system and software.
+	* macOS system updates can be completed using the App Store application, or the `softwareupdate` command-line utility - neither requires registering an Apple account.
 	* Subscribe to announcement mailing lists (e.g., [Apple security-announce](https://lists.apple.com/mailman/listinfo/security-announce)) for programs you use often.
 
 * Encrypt sensitive data
