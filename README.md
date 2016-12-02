@@ -1221,6 +1221,8 @@ From [What's New in OS X 10.11](https://developer.apple.com/library/prerelease/m
 
 Also see [What is the “rootless” feature in El Capitan, really?](https://apple.stackexchange.com/questions/193368/what-is-the-rootless-feature-in-el-capitan-really)
 
+Some MacBook hardware has shipped with [SIP disabled](http://appleinsider.com/articles/16/11/17/system-integrity-protection-disabled-by-default-on-some-touch-bar-macbook-pros). To verify SIP is enabled, use the command `csrutil status`, which should return: `System Integrity Protection status: enabled.` Otherwise, [enable SIP](https://developer.apple.com/library/content/documentation/Security/Conceptual/System_Integrity_Protection_Guide/ConfiguringSystemIntegrityProtection/ConfiguringSystemIntegrityProtection.html) through Recovery Mode.
+
 ## Gatekeeper and XProtect
 
 **Gatekeeper** and the **quarantine** system try to prevent unsigned or "bad" programs and files from running and opening.
