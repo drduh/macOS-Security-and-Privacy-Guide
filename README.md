@@ -1154,7 +1154,51 @@ $ hdiutil mount TorBrowser-6.0.5-osx64_en-US.dmg
 $ cp -rv /Volumes/Tor\ Browser/TorBrowser.app /Applications
 ```
 
-Tor traffic is **encrypted** to the [exit node](https://en.wikipedia.org/wiki/Tor_(anonymity_network)#Exit_node_eavesdropping) (cannot be read by a passive network eavesdropper), but Tor use **can** be identified - for example, TLS handshake "hostnames" will show up in plaintext:
+It is also possible to verify the Tor application's code signature was made by with The Tor Project's Apple developer ID **MADPSAYN6T**:
+
+```
+$ codesign -dvv /Applications/TorBrowser.app
+Executable=/Applications/TorBrowser.app/Contents/MacOS/firefox
+Identifier=org.mozilla.tor browser
+Format=app bundle with Mach-O thin (x86_64)
+CodeDirectory v=20200 size=247 flags=0x0(none) hashes=5+3 location=embedded
+Library validation warning=OS X SDK version before 10.9 does not support Library Validation
+Signature size=4247
+Authority=Developer ID Application: The Tor Project, Inc (MADPSAYN6T)
+Authority=Developer ID Certification Authority
+Authority=Apple Root CA
+Signed Time=Nov 30, 2016, 10:40:34 AM
+Info.plist entries=21
+TeamIdentifier=MADPSAYN6T
+Sealed Resources version=2 rules=12 files=130
+Internal requirements count=1 size=184
+```
+
+To view certificate details, extract it with `codesign` and decode it with `openssl`:
+
+```
+$ codesign -d --extract-certificates /Applications/TorBrowser.app
+Executable=/Applications/TorBrowser.app/Contents/MacOS/firefox
+
+$ file codesign*
+codesign0: data
+codesign1: data
+codesign2: data
+
+$ openssl x509 -inform der -in codesign0 -subject -issuer -startdate -enddate -noout
+subject= /UID=MADPSAYN6T/CN=Developer ID Application: The Tor Project, Inc (MADPSAYN6T)/OU=MADPSAYN6T/O=The Tor Project, Inc/C=US
+issuer= /CN=Developer ID Certification Authority/OU=Apple Certification Authority/O=Apple Inc./C=US
+notBefore=Apr 12 22:40:13 2016 GMT
+notAfter=Apr 13 22:40:13 2021 GMT
+
+$ openssl x509 -inform der -in codesign0  -fingerprint -noout
+SHA1 Fingerprint=95:80:54:F1:54:66:F3:9C:C2:D8:27:7A:29:21:D9:61:11:93:B3:E8
+
+$ openssl x509 -inform der -in codesign0 -fingerprint -sha256 -noout
+SHA256 Fingerprint=B5:0D:47:F0:3E:CB:42:B6:68:1C:6F:38:06:2B:C2:9F:41:FA:D6:54:F1:29:D3:E4:DD:9C:C7:49:35:FF:F5:D9
+```
+
+Tor traffic is **encrypted** to the [exit node](https://en.wikipedia.org/wiki/Tor_(anonymity_network)#Exit_node_eavesdropping) (i.e., cannot be read by a passive network eavesdropper), but Tor use **can** be identified - for example, TLS handshake "hostnames" will show up in plaintext:
 
 ```
 $ sudo tcpdump -An "tcp" | grep "www"
