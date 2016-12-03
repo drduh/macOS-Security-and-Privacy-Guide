@@ -2,7 +2,7 @@ This is a collection of thoughts on securing a modern Apple Mac computer using m
 
 This guide is targeted to “power users” who wish to adopt enterprise-standard security, but is also suitable for novice users with an interest in improving their privacy and security on a Mac.
 
-There is no security silver bullet. A system is only as secure as its administrator is capable of making it.
+A system is only as secure as its administrator is capable of making it. There is no one single technology, software, nor technique to guarantee perfect computer security; a modern operating system and computer is very complex, and requires numerous incremental changes to meaningfully improve one's security and privacy posture.
 
 I am **not** responsible if you break a Mac by following any of these steps.
 
@@ -66,6 +66,7 @@ The standard best security practices apply:
 
 * Keep the system up to date
 	* Patch, patch, patch your system and software.
+	* macOS system updates can be completed using the App Store application, or the `softwareupdate` command-line utility - neither requires registering an Apple account.
 	* Subscribe to announcement mailing lists (e.g., [Apple security-announce](https://lists.apple.com/mailman/listinfo/security-announce)) for programs you use often.
 
 * Encrypt sensitive data
@@ -1197,7 +1198,7 @@ Some malware comes bundled with both legitimate software, such as the [Java bund
 
 See [Methods of malware persistence on Mac OS X](https://www.virusbtn.com/pdf/conference/vb2014/VB2014-Wardle.pdf) (pdf) and [Malware Persistence on OS X Yosemite](https://www.rsaconference.com/events/us15/agenda/sessions/1591/malware-persistence-on-os-x-yosemite) to learn about how garden-variety malware functions.
 
-You could periodically run a tool like [Knock Knock](https://github.com/synack/knockknock) to examine persistent applications (e.g. scripts, binaries). But by then, it is probably too late. Maybe applications such as [Block Block](https://objective-see.com/products/blockblock.html) and [Ostiarius](https://objective-see.com/products/ostiarius.html) will help. See warnings and caveats in [issue #90](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/90) first, however.  Using an application such as [Little Flocker] (https://github.com/jzdziarski/littleflocker) can also protect parts of the filesystem from unauthorized writes similar to how Little Snitch protects the network (note, however, the software is still in beta and should be [used with caution](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/pull/128)).
+You could periodically run a tool like [Knock Knock](https://github.com/synack/knockknock) to examine persistent applications (e.g. scripts, binaries). But by then, it is probably too late. Maybe applications such as [Block Block](https://objective-see.com/products/blockblock.html) and [Ostiarius](https://objective-see.com/products/ostiarius.html) will help. See warnings and caveats in [issue #90](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/90) first, however.  Using an application such as [Little Flocker](https://www.littleflocker.com/) can also protect parts of the filesystem from unauthorized writes similar to how Little Snitch protects the network (note, however, the software is still in beta and should be [used with caution](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/pull/128)).
 
 **Anti-virus** programs are a double-edged sword -- not useful for **advanced** users and will likely increase attack surface against sophisticated threats, however possibly useful for catching "garden variety" malware on **novice** users' Macs. There is also the additional processing overhead to consider.
 
@@ -1220,6 +1221,8 @@ From [What's New in OS X 10.11](https://developer.apple.com/library/prerelease/m
 > A new security policy that applies to every running process, including privileged code and code that runs out of the sandbox. The policy extends additional protections to components on disk and at run-time, only allowing system binaries to be modified by the system installer and software updates. Code injection and runtime attachments to system binaries are no longer permitted.
 
 Also see [What is the “rootless” feature in El Capitan, really?](https://apple.stackexchange.com/questions/193368/what-is-the-rootless-feature-in-el-capitan-really)
+
+Some MacBook hardware has shipped with [SIP disabled](http://appleinsider.com/articles/16/11/17/system-integrity-protection-disabled-by-default-on-some-touch-bar-macbook-pros). To verify SIP is enabled, use the command `csrutil status`, which should return: `System Integrity Protection status: enabled.` Otherwise, [enable SIP](https://developer.apple.com/library/content/documentation/Security/Conceptual/System_Integrity_Protection_Guide/ConfiguringSystemIntegrityProtection/ConfiguringSystemIntegrityProtection.html) through Recovery Mode.
 
 ## Gatekeeper and XProtect
 
@@ -1592,6 +1595,8 @@ Did you know Apple has not shipped a computer with TPM since [2006](http://osxbo
 
 *In no particular order*
 
+[MacOS Hardening Guide - Appendix, Mac OS X and iOS Internals](http://newosxbook.com/files/moxii3/AppendixA.pdf)
+
 [Mac Developer Library: Secure Coding Guide](https://developer.apple.com/library/mac/documentation/Security/Conceptual/SecureCodingGuide/Introduction.html)
 
 [OS X Core Technologies Overview White Paper](https://www.apple.com/osx/all-features/pdf/osx_elcapitan_core_technologies_overview.pdf)
@@ -1625,6 +1630,8 @@ Did you know Apple has not shipped a computer with TPM since [2006](http://osxbo
 [Harden the World: Mac OSX 10.11 El Capitan](http://docs.hardentheworld.org/OS/OSX_10.11_El_Capitan/)
 
 [Hacker News discussion](https://news.ycombinator.com/item?id=10148077)
+
+[Hacker News discussion 2](https://news.ycombinator.com/item?id=13023823)
 
 [Apple Open Source](https://opensource.apple.com/)
 
