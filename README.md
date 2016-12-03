@@ -691,9 +691,9 @@ log-facility=/var/log/dnsmasq.log
 #dnssec-check-unsigned
 ```
 
-Install and start the program:
+Install and start the program (sudo is required to bind to [privileged port](https://unix.stackexchange.com/questions/16564/why-are-the-first-1024-ports-restricted-to-the-root-user-only) 53):
 
-    $ brew services start dnsmasq
+    $ sudo brew services start dnsmasq
 
 To set Dnsmasq as your local DNS server, open **System Preferences** > **Network** and select the active interface, then the **DNS** tab, select **+** and add `127.0.0.1`, or use:
 
