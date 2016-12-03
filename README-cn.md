@@ -8,7 +8,7 @@ This is a collection of thoughts on securing a modern Apple Mac computer using m
 
 This guide is targeted to “power users” who wish to adopt enterprise-standard security, but is also suitable for novice users with an interest in improving their privacy and security on a Mac.
 
-There is no security silver bullet. A system is only as secure as its administrator is capable of making it.
+A system is only as secure as its administrator is capable of making it. There is no one single technology, software, nor technique to guarantee perfect computer security; a modern operating system and computer is very complex, and requires numerous incremental changes to meaningfully improve one's security and privacy posture.
 
 I am **not** responsible if you break a Mac by following any of these steps.
 
@@ -67,24 +67,25 @@ If you wish to make a correction or improvement, please send a pull request or [
 The standard best security practices apply:
 
 * Create a threat model
-	* What are you trying to protect and from whom? Is your adversary a [three letter agency](https://theintercept.com/document/2015/03/10/strawhorse-attacking-macos-ios-software-development-kit/) (if so, you may want to consider using [OpenBSD](http://www.openbsd.org/) instead), a nosy eavesdropper on the network, or determined [apt](https://en.wikipedia.org/wiki/Advanced_persistent_threat) orchestrating a campaign against you?
-	* Study and recognize threats and how to reduce attack surface.
+    * What are you trying to protect and from whom? Is your adversary a [three letter agency](https://theintercept.com/document/2015/03/10/strawhorse-attacking-macos-ios-software-development-kit/) (if so, you may want to consider using [OpenBSD](http://www.openbsd.org/) instead), a nosy eavesdropper on the network, or determined [apt](https://en.wikipedia.org/wiki/Advanced_persistent_threat) orchestrating a campaign against you?
+    * Study and recognize threats and how to reduce attack surface.
 
 * Keep the system up to date
-	* Patch, patch, patch your system and software.
-	* Subscribe to announcement mailing lists (e.g., [Apple security-announce](https://lists.apple.com/mailman/listinfo/security-announce)) for programs you use often.
+    * Patch, patch, patch your system and software.
+    * macOS system updates can be completed using the App Store application, or the `softwareupdate` command-line utility - neither requires registering an Apple account.
+    * Subscribe to announcement mailing lists (e.g., [Apple security-announce](https://lists.apple.com/mailman/listinfo/security-announce)) for programs you use often.
 
 * Encrypt sensitive data
-	* In addition to full disk encryption, create one or many encrypted containers to store passwords, keys and personal documents.
-	* This will mitigate damage in case of compromise and data exfiltration.
+    * In addition to full disk encryption, create one or many encrypted containers to store passwords, keys and personal documents.
+    * This will mitigate damage in case of compromise and data exfiltration.
 
 * Frequent backups
-	* Create regular backups of your data and be ready to reimage in case of compromise.
-	* Always encrypt before copying backups to external media or the "cloud".
+    * Create regular backups of your data and be ready to reimage in case of compromise.
+    * Always encrypt before copying backups to external media or the "cloud".
 
 * Click carefully
-	* Ultimately, the security of a system can be reduced to its administrator.
-	* Care should be taken when installing new software. Always prefer [free](https://www.gnu.org/philosophy/free-sw.en.html) and open source software ([which macOS is not](https://superuser.com/questions/19492/is-mac-os-x-open-source)).
+    * Ultimately, the security of a system can be reduced to its administrator.
+    * Care should be taken when installing new software. Always prefer [free](https://www.gnu.org/philosophy/free-sw.en.html) and open source software ([which macOS is not](https://superuser.com/questions/19492/is-mac-os-x-open-source)).
 
 ## Firmware
 
@@ -298,24 +299,24 @@ From the host Mac, serve the installable image to the guest vm by editing `/etc/
 
 On the host Mac, link the image to the default Apache Web server directory:
 
-	$ sudo ln ~/sierra.dmg /Library/WebServer/Documents
+    $ sudo ln ~/sierra.dmg /Library/WebServer/Documents
 
 From the host Mac, start Apache in the foreground:
 
-	$ sudo httpd -X
+    $ sudo httpd -X
 
 From the guest VM, install the disk image to the volume over the local network using `asr`:
 
 ```
 -bash-3.2# asr restore --source http://172.16.34.1/sierra.dmg --target /Volumes/Macintosh\ HD/ --erase --buffersize 4m
-	Validating target...done
-	Validating source...done
-	Erase contents of /dev/disk0s2 (/Volumes/Macintosh HD)? [ny]: y
-	Retrieving scan information...done
-	Validating sizes...done
-	Restoring  ....10....20....30....40....50....60....70....80....90....100
-	Verifying  ....10....20....30....40....50....60....70....80....90....100
-	Remounting target volume...done
+    Validating target...done
+    Validating source...done
+    Erase contents of /dev/disk0s2 (/Volumes/Macintosh HD)? [ny]: y
+    Retrieving scan information...done
+    Validating sizes...done
+    Restoring  ....10....20....30....40....50....60....70....80....90....100
+    Verifying  ....10....20....30....40....50....60....70....80....90....100
+    Remounting target volume...done
 ```
 
 When it's finished, stop the Apache Web server on the host Mac by pressing `Control` `C` at the `sudo httpd -X` window and remove the image copy with `sudo rm /Library/WebServer/Documents/sierra.dmg`
@@ -336,9 +337,9 @@ When creating your account, use a [strong password](http://www.explainxkcd.com/w
 
 If you enter your real name at the account setup process, be aware that your [computer's name and local hostname](https://support.apple.com/kb/PH18720) will be comprised of that name (e.g., *John Appleseed's MacBook*) and thus will appear on local networks and in various preference files. You can change them both in **System Preferences > Sharing** or with the following commands:
 
-	$ sudo scutil --set ComputerName your_computer_name
+    $ sudo scutil --set ComputerName your_computer_name
 
-	$ sudo scutil --set LocalHostName your_hostname
+    $ sudo scutil --set LocalHostName your_hostname
 
 ## Admin and standard user accounts
 
@@ -383,8 +384,8 @@ The PRNG can be manually seeded with entropy by writing to /dev/random **before*
 
 To manually seed entropy *before* enabling FileVault:
 
-	$ cat > /dev/random
-	[Type random letters for a long while, then press Control-D]
+    $ cat > /dev/random
+    [Type random letters for a long while, then press Control-D]
 
 Enable FileVault with `sudo fdesetup enable` or through **System Preferences** > **Security & Privacy** and reboot.
 
@@ -1166,7 +1167,7 @@ $ sudo tcpdump -An "tcp" | grep "www"
 listening on pktap, link-type PKTAP (Apple DLT_PKTAP), capture size 262144 bytes
 .............". ...www.odezz26nvv7jeqz1xghzs.com.........
 .............#.!...www.bxbko3qi7vacgwyk4ggulh.com.........
-.6....m.....>...:.........|../*	Z....W....X=..6...C../....................................0...0..0.......'....F./0..	*.H........0%1#0!..U....www.b6zazzahl3h3faf4x2.com0...160402000000Z..170317000000Z0'1%0#..U....www.tm3ddrghe22wgqna5u8g.net0..0..
+.6....m.....>...:.........|../* Z....W....X=..6...C../....................................0...0..0.......'....F./0..    *.H........0%1#0!..U....www.b6zazzahl3h3faf4x2.com0...160402000000Z..170317000000Z0'1%0#..U....www.tm3ddrghe22wgqna5u8g.net0..0..
 ```
 
 See [Tor Protocol Specification](https://gitweb.torproject.org/torspec.git/tree/tor-spec.txt) and [Tor/TLSHistory](https://trac.torproject.org/projects/tor/wiki/org/projects/Tor/TLSHistory) for more information.
@@ -1203,7 +1204,7 @@ Some malware comes bundled with both legitimate software, such as the [Java bund
 
 See [Methods of malware persistence on Mac OS X](https://www.virusbtn.com/pdf/conference/vb2014/VB2014-Wardle.pdf) (pdf) and [Malware Persistence on OS X Yosemite](https://www.rsaconference.com/events/us15/agenda/sessions/1591/malware-persistence-on-os-x-yosemite) to learn about how garden-variety malware functions.
 
-You could periodically run a tool like [Knock Knock](https://github.com/synack/knockknock) to examine persistent applications (e.g. scripts, binaries). But by then, it is probably too late. Maybe applications such as [Block Block](https://objective-see.com/products/blockblock.html) and [Ostiarius](https://objective-see.com/products/ostiarius.html) will help. See warnings and caveats in [issue #90](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/90) first, however.  Using an application such as [Little Flocker] (https://github.com/jzdziarski/littleflocker) can also protect parts of the filesystem from unauthorized writes similar to how Little Snitch protects the network (note, however, the software is still in beta and should be [used with caution](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/pull/128)).
+You could periodically run a tool like [Knock Knock](https://github.com/synack/knockknock) to examine persistent applications (e.g. scripts, binaries). But by then, it is probably too late. Maybe applications such as [Block Block](https://objective-see.com/products/blockblock.html) and [Ostiarius](https://objective-see.com/products/ostiarius.html) will help. See warnings and caveats in [issue #90](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/90) first, however.  Using an application such as [Little Flocker](https://www.littleflocker.com/) can also protect parts of the filesystem from unauthorized writes similar to how Little Snitch protects the network (note, however, the software is still in beta and should be [used with caution](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/pull/128)).
 
 **Anti-virus** programs are a double-edged sword -- not useful for **advanced** users and will likely increase attack surface against sophisticated threats, however possibly useful for catching "garden variety" malware on **novice** users' Macs. There is also the additional processing overhead to consider.
 
@@ -1226,6 +1227,8 @@ From [What's New in OS X 10.11](https://developer.apple.com/library/prerelease/m
 > A new security policy that applies to every running process, including privileged code and code that runs out of the sandbox. The policy extends additional protections to components on disk and at run-time, only allowing system binaries to be modified by the system installer and software updates. Code injection and runtime attachments to system binaries are no longer permitted.
 
 Also see [What is the “rootless” feature in El Capitan, really?](https://apple.stackexchange.com/questions/193368/what-is-the-rootless-feature-in-el-capitan-really)
+
+Some MacBook hardware has shipped with [SIP disabled](http://appleinsider.com/articles/16/11/17/system-integrity-protection-disabled-by-default-on-some-touch-bar-macbook-pros). To verify SIP is enabled, use the command `csrutil status`, which should return: `System Integrity Protection status: enabled.` Otherwise, [enable SIP](https://developer.apple.com/library/content/documentation/Security/Conceptual/System_Integrity_Protection_Guide/ConfiguringSystemIntegrityProtection/ConfiguringSystemIntegrityProtection.html) through Recovery Mode.
 
 ## Gatekeeper and XProtect
 
@@ -1253,8 +1256,8 @@ Furthermore, macOS attaches metadata ([HFS+ extended attributes](https://en.wiki
 ```
 $ ls -l@ ~/Downloads/TorBrowser-6.0.5-osx64_en-US.dmg
 -rw-r--r--@ 1 drduh  staff  59322237 Oct  9 15:20 TorBrowser-6.0.5-osx64_en-US.dmg
-com.apple.metadata:kMDItemWhereFroms	     186
-com.apple.quarantine	      68
+com.apple.metadata:kMDItemWhereFroms         186
+com.apple.quarantine          68
 
 $ xattr -l ~/Downloads/TorBrowser-6.0.5-osx64_en-US.dmg
 com.apple.metadata:kMDItemWhereFroms:
@@ -1598,6 +1601,8 @@ Did you know Apple has not shipped a computer with TPM since [2006](http://osxbo
 
 *In no particular order*
 
+[MacOS Hardening Guide - Appendix, Mac OS X and iOS Internals](http://newosxbook.com/files/moxii3/AppendixA.pdf)
+
 [Mac Developer Library: Secure Coding Guide](https://developer.apple.com/library/mac/documentation/Security/Conceptual/SecureCodingGuide/Introduction.html)
 
 [OS X Core Technologies Overview White Paper](https://www.apple.com/osx/all-features/pdf/osx_elcapitan_core_technologies_overview.pdf)
@@ -1631,6 +1636,8 @@ Did you know Apple has not shipped a computer with TPM since [2006](http://osxbo
 [Harden the World: Mac OSX 10.11 El Capitan](http://docs.hardentheworld.org/OS/OSX_10.11_El_Capitan/)
 
 [Hacker News discussion](https://news.ycombinator.com/item?id=10148077)
+
+[Hacker News discussion 2](https://news.ycombinator.com/item?id=13023823)
 
 [Apple Open Source](https://opensource.apple.com/)
 
