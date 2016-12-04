@@ -1,4 +1,4 @@
-This is a collection of thoughts on securing a modern Apple Mac computer using macOS (formerly *"OS X"*) 10.12 "Sierra", as well as steps to improving online privacy.
+This is a collection of thoughts on securing a modern Apple Mac computer using macOS (formerly *OS X*) 10.12 "Sierra", as well as steps to improving online privacy.
 
 This guide is targeted to “power users” who wish to adopt enterprise-standard security, but is also suitable for novice users with an interest in improving their privacy and security on a Mac.
 
@@ -141,7 +141,7 @@ Sealed Resources version=2 rules=7 files=137
 Internal requirements count=1 size=124
 ```
 
-macOS installers can be made with the `createinstallmedia` utility included in `Install macOS Sierra.app/Contents/Resources/`. See [Create a bootable installer for OS X Yosemite](https://support.apple.com/en-us/HT201372), or run the utility without arguments to see how it works.
+macOS installers can be made with the `createinstallmedia` utility included in `Install macOS Sierra.app/Contents/Resources/`. See [Create a bootable installer for macOS](https://support.apple.com/en-us/HT201372), or run the utility without arguments to see how it works.
 
 **Note** Apple's installer [does not appear to work](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/120) across OS versions. If you want to build a 10.12 image, for example, the following steps must be run on a 10.12 machine!
 
@@ -321,7 +321,7 @@ Take and Restore from saved guest vm snapshots before and after attempting risky
 
 ## First boot
 
-**Note** Before setting up macOS, consider disconnecting networking and configuring a firewall(s) first. However, [late 2016 MacBooks](https://www.ifixit.com/Device/MacBook_Pro_15%22_Late_2016_Touch_Bar) with Touch Bar hardware [require online OS activation](https://onemoreadmin.wordpress.com/2016/11/27/the-untouchables-apples-new-os-activation-for-touch-bar-macbook-pros/). 
+**Note** Before setting up macOS, consider disconnecting networking and configuring a firewall(s) first. However, [late 2016 MacBooks](https://www.ifixit.com/Device/MacBook_Pro_15%22_Late_2016_Touch_Bar) with Touch Bar hardware [require online OS activation](https://onemoreadmin.wordpress.com/2016/11/27/the-untouchables-apples-new-os-activation-for-touch-bar-macbook-pros/).
 
 On first boot, hold `Command` `Option` `P` `R` keys to [clear NVRAM](https://support.apple.com/en-us/HT204063).
 
@@ -329,7 +329,7 @@ When macOS first starts, you'll be greeted by **Setup Assistant**.
 
 When creating your account, use a [strong password](http://www.explainxkcd.com/wiki/index.php/936:_Password_Strength) without a hint.
 
-If you enter your real name at the account setup process, be aware that your [computer's name and local hostname](https://support.apple.com/kb/PH18720) will be comprised of that name (e.g., *John Appleseed's MacBook*) and thus will appear on local networks and in various preference files. You can change them both in **System Preferences > Sharing** or with the following commands:
+If you enter your real name at the account setup process, be aware that your [computer's name and local hostname](https://support.apple.com/kb/PH18720) will comprise that name (e.g., *John Appleseed's MacBook*) and thus will appear on local networks and in various preference files. You can change them both in **System Preferences > Sharing** or with the following commands:
 
 	$ sudo scutil --set ComputerName your_computer_name
 
@@ -339,7 +339,7 @@ If you enter your real name at the account setup process, be aware that your [co
 
 The first user account is always an admin account. Admin accounts are members of the admin group and have access to `sudo`, which allows them to usurp other accounts, in particular root, and gives them effective control over the system. Any program that the admin executes can potentially obtain the same access, making this a security risk. Utilities like `sudo` have [weaknesses that can be exploited](https://bogner.sh/2014/03/another-mac-os-x-sudo-password-bypass/) by concurrently running programs and many panes in System Preferences are [unlocked by default](http://csrc.nist.gov/publications/drafts/800-179/sp800_179_draft.pdf) [p. 61–62] for admin accounts. It is considered a best practice by [Apple](https://help.apple.com/machelp/mac/10.12/index.html#/mh11389) and [others](http://csrc.nist.gov/publications/drafts/800-179/sp800_179_draft.pdf) [p. 41–42] to use a separate standard account for day-to-day work and use the admin account for installations and system configuration.
 
-It is not strictly required to ever log into the admin account via the OS X login screen. The system will prompt for authentication when required and Terminal can do the rest. To that end, Apple provides some [recommendations](https://support.apple.com/HT203998) for hiding the admin account and its home directory. This can be an elegant solution to avoid having a visible 'ghost' account. The admin account can also be [removed from FileVault](http://apple.stackexchange.com/a/94373).
+It is not strictly required to ever log into the admin account via the macOS login screen. The system will prompt for authentication when required and Terminal can do the rest. To that end, Apple provides some [recommendations](https://support.apple.com/HT203998) for hiding the admin account and its home directory. This can be an elegant solution to avoid having a visible 'ghost' account. The admin account can also be [removed from FileVault](http://apple.stackexchange.com/a/94373).
 
 #### Caveats
 
@@ -392,7 +392,7 @@ You may wish to enforce **hibernation** and evict FileVault keys from memory ins
     $ sudo pmset -a destroyfvkeyonstandby 1
     $ sudo pmset -a hibernatemode 25
 
-> All computers have firmware of some type—EFI, BIOS—to help in the discovery of hardware components and ultimately to properly bootstrap the computer using the desired OS instance. In the case of Apple hardware and the use of EFI, Apple stores relevant information within EFI to aid in the functionality of OS X. For example, the FileVault key is stored in EFI to transparently come out of standby mode.
+> All computers have firmware of some type—EFI, BIOS—to help in the discovery of hardware components and ultimately to properly bootstrap the computer using the desired OS instance. In the case of Apple hardware and the use of EFI, Apple stores relevant information within EFI to aid in the functionality of macOS. For example, the FileVault key is stored in EFI to transparently come out of standby mode.
 
 > Organizations especially sensitive to a high-attack environment, or potentially exposed to full device access when the device is in standby mode, should mitigate this risk by destroying the FileVault key in firmware. Doing so doesn’t destroy the use of FileVault, but simply requires the user to enter the password in order for the system to come out of standby mode.
 
@@ -440,9 +440,9 @@ Finally, you may wish to prevent *built-in software* as well as *code-signed, do
 
     $ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setallowsignedapp off
 
-> Applications that are signed by a valid certificate authority are automatically added to the list of allowed apps, rather than prompting the user to authorize them. Apps included in OS X are signed by Apple and are allowed to receive incoming connections when this setting is enabled. For example, since iTunes is already signed by Apple, it is automatically allowed to receive incoming connections through the firewall.
+> Applications that are signed by a valid certificate authority are automatically added to the list of allowed apps, rather than prompting the user to authorize them. Apps included in macOS are signed by Apple and are allowed to receive incoming connections when this setting is enabled. For example, since iTunes is already signed by Apple, it is automatically allowed to receive incoming connections through the firewall.
 
-> If you run an unsigned app that is not listed in the firewall list, a dialog appears with options to Allow or Deny connections for the app. If you choose Allow, OS X signs the application and automatically adds it to the firewall list. If you choose Deny, OS X adds it to the list but denies incoming connections intended for this app.
+> If you run an unsigned app that is not listed in the firewall list, a dialog appears with options to Allow or Deny connections for the app. If you choose "Allow", macOS signs the application and automatically adds it to the firewall list. If you choose "Deny", macOS adds it to the list but denies incoming connections intended for this app.
 
 After interacting with `socketfilterfw`, you may want to restart (or terminate) the process:
 
@@ -559,7 +559,7 @@ Also disable **Bing Web Searches** in the Spotlight preferences to avoid your se
 
 See [fix-macosx.com](https://fix-macosx.com/) for detailed instructions.
 
-> If you've upgraded to Mac OS X Yosemite (10.10) and you're using the default settings, each time you start typing in Spotlight (to open an application or search for a file on your computer), your local search terms and location are sent to Apple and third parties (including Microsoft).
+> If you've upgraded to OS X 10.10 "Yosemite" and you're using the default settings, each time you start typing in Spotlight (to open an application or search for a file on your computer), your local search terms and location are sent to Apple and third parties (including Microsoft).
 
 To download, view and apply their suggested fixes:
 
@@ -1258,7 +1258,7 @@ Also check out [Hacking Team](https://www.schneier.com/blog/archives/2015/07/hac
 
 ## System Integrity Protection
 
-[System Integrity Protection](https://support.apple.com/en-us/HT204899) (SIP) is a new security feature of OS X 10.11. It is enabled by default, but [can be disabled](https://derflounder.wordpress.com/2015/10/01/system-integrity-protection-adding-another-layer-to-apples-security-model/), which may be necessary to change some system settings, such as deleting root certificate authorities or unloading certain launch daemons. Keep this feature on, as it is by default.
+[System Integrity Protection](https://support.apple.com/en-us/HT204899) (SIP) is a security feature since OS X 10.11 "El Capitan". It is enabled by default, but [can be disabled](https://derflounder.wordpress.com/2015/10/01/system-integrity-protection-adding-another-layer-to-apples-security-model/), which may be necessary to change some system settings, such as deleting root certificate authorities or unloading certain launch daemons. Keep this feature on, as it is by default.
 
 From [What's New in OS X 10.11](https://developer.apple.com/library/prerelease/mac/releasenotes/MacOSX/WhatsNewInOSX/Articles/MacOSX10_11.html):
 
@@ -1613,7 +1613,7 @@ Did you know Apple has not shipped a computer with TPM since [2006](http://osxbo
 
 ## Related software
 
-[Santa](https://github.com/google/santa/) - A binary whitelisting/blacklisting system for Mac OS X.
+[Santa](https://github.com/google/santa/) - A binary whitelisting/blacklisting system for macOS.
 
 [kristovatlas/osx-config-check](https://github.com/kristovatlas/osx-config-check) - checks your OSX machine against various hardened configuration settings.
 
@@ -1639,7 +1639,7 @@ Did you know Apple has not shipped a computer with TPM since [2006](http://osxbo
 
 *In no particular order*
 
-[MacOS Hardening Guide - Appendix, Mac OS X and iOS Internals](http://newosxbook.com/files/moxii3/AppendixA.pdf)
+[MacOS Hardening Guide - Appendix of \*OS Internals: Volume III - Security & Insecurity Internals](http://newosxbook.com/files/moxii3/AppendixA.pdf)
 
 [Mac Developer Library: Secure Coding Guide](https://developer.apple.com/library/mac/documentation/Security/Conceptual/SecureCodingGuide/Introduction.html)
 
