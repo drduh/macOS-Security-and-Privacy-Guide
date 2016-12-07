@@ -1198,25 +1198,25 @@ Another set of scripts to lock down your system so it will only access the inter
 
 ## 病毒和恶意软件
 
-面对 [日益增长](https://www.documentcloud.org/documents/2459197-bit9-carbon-black-threat-research-report-2015.html) 的 Mac 恶意软件，Mac 还无法抵御这些病毒和恶意软件！
+面对[日益增长](https://www.documentcloud.org/documents/2459197-bit9-carbon-black-threat-research-report-2015.html)的恶意软件，Mac 还无法很好的防御这些病毒和恶意软件！
 
-一些恶意软件捆绑在正常软件上， 比如将 [Java bundling Ask Toolbar](http://www.zdnet.com/article/oracle-extends-its-adware-bundling-to-include-java-for-macs/)， 和   [Mac.BackDoor.iWorm](https://docs.google.com/document/d/1YOfXRUQJgMjJSLBSoLiUaSZfiaS_vU3aG4Bvjmz6Dxs/edit?pli=1) 这种非法软件通过重新打包，捆绑到一块。 [Malwarebytes Anti-Malware for Mac](https://www.malwarebytes.com/antimalware/mac/) 是一款超棒的应用，它可以帮你扫除各种各样的恶意软件和其它垃圾软件。
+一些恶意软件捆绑在正常软件上，比如将 [Java bundling Ask Toolbar](http://www.zdnet.com/article/oracle-extends-its-adware-bundling-to-include-java-for-macs/)，和 [Mac.BackDoor.iWorm](https://docs.google.com/document/d/1YOfXRUQJgMjJSLBSoLiUaSZfiaS_vU3aG4Bvjmz6Dxs/edit?pli=1) 这种非法软件通过重新打包，捆绑到一块。[Malwarebytes Anti-Malware for Mac](https://www.malwarebytes.com/antimalware/mac/) 是一款超棒的应用，它可以帮你扫除各种各样的恶意软件和其它垃圾软件。
 
-看看 [Methods of malware persistence on Mac OS X](https://www.virusbtn.com/pdf/conference/vb2014/VB2014-Wardle.pdf) (pdf) 和 [Malware Persistence on OS X Yosemite](https://www.rsaconference.com/events/us15/agenda/sessions/1591/malware-persistence-on-os-x-yosemite) 来了解各种恶意软件的功能和危害。
+看看[恶意软件驻留在 Mac OS X 的方法](https://www.virusbtn.com/pdf/conference/vb2014/VB2014-Wardle.pdf) (pdf) 和[恶意软件在 OS X Yosemite 后台运行](https://www.rsaconference.com/events/us15/agenda/sessions/1591/malware-persistence-on-os-x-yosemite)了解各种恶意软件的功能和危害。
 
-你可以定期运行 [Knock Knock](https://github.com/synack/knockknock) 这样的工具来检查持续在运行的应用 (比如脚本，二进制)。但那可能已经为时过晚。[Block Block](https://objective-see.com/products/blockblock.html) 和 [Ostiarius](https://objective-see.com/products/ostiarius.html) 这样的应用可能还有些帮助。先看看 [issue #90](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/90) 中的警告。 不过使用 [Little Flocker](https://www.littleflocker.com/) 也能保护部分文件系统免遭非法写入，类似 Little Snitch 保护网络 (注意，该软件目前是 beat 版本，[谨慎使用](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/pull/128))。
+你可以定期运行 [Knock Knock](https://github.com/synack/knockknock) 这样的工具来检查持续在运行的应用(比如脚本，二进制)。但那可能已经为时过晚。[Block Block](https://objective-see.com/products/blockblock.html) 和 [Ostiarius](https://objective-see.com/products/ostiarius.html) 这样的应用可能还有些帮助。先看看 [issue #90](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/90) 中的警告。不过使用 [Little Flocker](https://www.littleflocker.com/) 也能保护部分文件系统免遭非法写入，类似 Little Snitch 保护网络 (注意，该软件目前是 beat 版本，[谨慎使用](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/pull/128))。
 
-**反病毒** 软件是把双刃剑 -- 对于 **高级** 用户没什么用，却可能增加面临复杂攻击的威胁。 然而对于 Mac **新手** 用户可能是有用的，可以检测到“各种”恶意软件。不过也要考到额外的处理开销。
+**反病毒** 软件是把双刃剑 -- 对于**高级**用户没什么用，却可能面临更多复杂攻击的威胁。然而对于 Mac **新手**用户可能是有用的，可以检测到“各种”恶意软件。不过也要考到额外的处理开销。
 
-看看 [Sophail: Applied attacks against  Antivirus](https://lock.cmpxchg8b.com/sophailv2.pdf) (pdf), [Analysis and Exploitation of an ESET Vulnerability](http://googleprojectzero.blogspot.ro/2015/06/analysis-and-exploitation-of-eset.html), [a trivial Avast RCE](https://code.google.com/p/google-security-research/issues/detail?id=546), [Popular Security Software Came Under Relentless NSA and GCHQ Attacks](https://theintercept.com/2015/06/22/nsa-gchq-targeted-kaspersky/), 和 [AVG: "Web TuneUP" extension multiple critical vulnerabilities](https://code.google.com/p/google-security-research/issues/detail?id=675).
+看看 [Sophail: Applied attacks against Antivirus](https://lock.cmpxchg8b.com/sophailv2.pdf) (pdf), [Analysis and Exploitation of an ESET Vulnerability](http://googleprojectzero.blogspot.ro/2015/06/analysis-and-exploitation-of-eset.html), [a trivial Avast RCE](https://code.google.com/p/google-security-research/issues/detail?id=546), [Popular Security Software Came Under Relentless NSA and GCHQ Attacks](https://theintercept.com/2015/06/22/nsa-gchq-targeted-kaspersky/), 和 [AVG: "Web TuneUP" extension multiple critical vulnerabilities](https://code.google.com/p/google-security-research/issues/detail?id=675).
 
 因此，最好的防病毒是 Common Sense 2016。看看 [issue #44](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/44)中更多的讨论。
 
 macOS 上有很多本地提权漏洞，所以要小心那些从第三方网站或 HTTP([案例](http://arstechnica.com/security/2015/08/0-day-bug-in-fully-patched-os-x-comes-under-active-exploit-to-hijack-macs/)) 下载且运行受信或不受信的程序。
 
-看看 [The Safe Mac](http://www.thesafemac.com/)  上过去和目前的 Mac 安全新闻。
+看看 [The Safe Mac](http://www.thesafemac.com/) 上过去和目前的 Mac 安全新闻。
 
-也检查下 [Hacking Team](https://www.schneier.com/blog/archives/2015/07/hacking_team_is.html)  为 Mac OS 开发的恶意软件: [root installation for MacOS](https://github.com/hackedteam/vector-macos-root)、 [Support driver for Mac Agent](https://github.com/hackedteam/driver-macos) 和 [RCS Agent for Mac](https://github.com/hackedteam/core-macos)， 这是一个很好的示例，一些高级的恶意程序是如何在 **用户空间** 隐藏自己的(例如 `ps`、`ls`)。 想了解更多的话，看看 [A Brief Analysis of an RCS Implant Installer](https://objective-see.com/blog/blog_0x0D.html) 和 [reverse.put.as](https://reverse.put.as/2016/02/29/the-italian-morons-are-back-what-are-they-up-to-this-time/)
+也检查下 [Hacking Team](https://www.schneier.com/blog/archives/2015/07/hacking_team_is.html) 为 Mac OS 开发的恶意软件：[root installation for MacOS](https://github.com/hackedteam/vector-macos-root)、 [Support driver for Mac Agent](https://github.com/hackedteam/driver-macos) 和 [RCS Agent for Mac](https://github.com/hackedteam/core-macos)， 这是一个很好的示例，一些高级的恶意程序是如何在 **用户空间** 隐藏自己的(例如 `ps`、`ls`)。 想了解更多的话，看看 [A Brief Analysis of an RCS Implant Installer](https://objective-see.com/blog/blog_0x0D.html) 和 [reverse.put.as](https://reverse.put.as/2016/02/29/the-italian-morons-are-back-what-are-they-up-to-this-time/)
 
 ## 系统完整性保护
 
@@ -1224,11 +1224,11 @@ macOS 上有很多本地提权漏洞，所以要小心那些从第三方网站�
 
 摘取自 [OS X 10.11 新增功能](https://developer.apple.com/library/prerelease/mac/releasenotes/MacOSX/WhatsNewInOSX/Articles/MacOSX10_11.html):
 
-> 一项新的安全政策，应用于每个正在运行的进程，包括特权代码，和从沙盒中运行的代码。 该策略对磁盘上和运行时的组件扩展了额外的保护，只允许系统安装程序和软件更新修改系统二进制文件。 不再允许代码注入和运行时附加系统二进制文件。
+> 一项新的安全政策，应用于每个正在运行的进程，包括特权代码和从沙盒中运行的代码。该策略对磁盘上和运行时的组件增加了额外的保护，只允许系统安装程序和软件更新修改系统二进制文件。不再允许代码注入和运行时附加系统二进制文件。
 
-也看看 [What is the “rootless” feature in El Capitan, really?](https://apple.stackexchange.com/questions/193368/what-is-the-rootless-feature-in-el-capitan-really)
+看看 [What is the “rootless” feature in El Capitan, really?](https://apple.stackexchange.com/questions/193368/what-is-the-rootless-feature-in-el-capitan-really)。
 
-[禁用 SIP](http://appleinsider.com/articles/16/11/17/system-integrity-protection-disabled-by-default-on-some-touch-bar-macbook-pros) 的一些 MacBook 已经出售。 要验证SIP是否已启用，请使用命令 `csrutil status`， 该命令应返回: `System Integrity Protection status: enabled.`。 否则, 通过恢复模式[启用 SIP](https://developer.apple.com/library/content/documentation/Security/Conceptual/System_Integrity_Protection_Guide/ConfiguringSystemIntegrityProtection/ConfiguringSystemIntegrityProtection.html)。
+[禁用 SIP](http://appleinsider.com/articles/16/11/17/system-integrity-protection-disabled-by-default-on-some-touch-bar-macbook-pros) 的一些 MacBook 已经售出。要验证 SIP 是否已启用，请使用命令 `csrutil status`，该命令应返回: `System Integrity Protection status: enabled.`。 否则，通过恢复模式[启用 SIP](https://developer.apple.com/library/content/documentation/Security/Conceptual/System_Integrity_Protection_Guide/ConfiguringSystemIntegrityProtection/ConfiguringSystemIntegrityProtection.html)。
 
 ## Gatekeeper 和 XProtect
 
@@ -1244,14 +1244,14 @@ macOS 上有很多本地提权漏洞，所以要小心那些从第三方网站�
 
     $ echo 'SELECT datetime(LSQuarantineTimeStamp + 978307200, "unixepoch") as LSQuarantineTimeStamp, LSQuarantineAgentName, LSQuarantineOriginURLString, LSQuarantineDataURLString from LSQuarantineEvent;' | sqlite3 /Users/$USER/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2
 
-看看[这篇](http://www.zoharbabin.com/hey-mac-i-dont-appreciate-you-spying-on-me-hidden-downloads-log-in-os-x/) 了解更多信息。
+看看[这篇文章](http://www.zoharbabin.com/hey-mac-i-dont-appreciate-you-spying-on-me-hidden-downloads-log-in-os-x/) 了解更多信息。
 
-想永久禁用此项功能， [清除文件](https://superuser.com/questions/90008/how-to-clear-the-contents-of-a-file-from-the-command-line) 和 [让它不可更改](http://hints.macworld.com/article.php?story=20031017061722471):
+想永久禁用此项功能，[清除文件](https://superuser.com/questions/90008/how-to-clear-the-contents-of-a-file-from-the-command-line) 和 [让它不可更改](http://hints.macworld.com/article.php?story=20031017061722471)：
 
     $ :>~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2
     $ sudo chflags schg ~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2
 
-此外， macOS 附加元数据 ([HFS+ extended attributes](https://en.wikipedia.org/wiki/Extended_file_attributes#OS_X))来下载文件:
+此外，macOS 附加元数据 ([HFS+ extended attributes](https://en.wikipedia.org/wiki/Extended_file_attributes#OS_X))来下载文件：
 
 ```
 $ ls -l@ ~/Downloads/TorBrowser-6.0.5-osx64_en-US.dmg
@@ -1286,22 +1286,22 @@ $ xattr -l ~/Downloads/TorBrowser-6.0.5-osx64_en-US.dmg
 
 ## 密码
 
-你可以使用 OpenSSL 生成强密码:
+你可以使用 OpenSSL 生成强密码：
 
     $ openssl rand -base64 30
     LK9xkjUEAemc1gV2Ux5xqku+PDmMmCbSTmwfiMRI
 
-或者 GPG:
+或者 GPG：
 
     $ gpg --gen-random -a 0 30
     4/bGZL+yUEe8fOqQhF5V01HpGwFSpUPwFcU3aOWQ
 
-或 `/dev/urandom` output:
+或 `/dev/urandom` output：
 
     $ dd if=/dev/urandom bs=1 count=30 2>/dev/null | base64
     CbRGKASFI4eTa96NMrgyamj8dLZdFYBaqtWUSxKe
 
-还可以控制字符集:
+还可以控制字符集：
 
     $ LANG=C tr -dc 'a-zA-Z0-9' < /dev/urandom | fold -w 40 | head -n 1
     jm0iKn7ngQST8I0mMMCbbi6SKPcoUWwCb5lWEjxK
@@ -1309,9 +1309,9 @@ $ xattr -l ~/Downloads/TorBrowser-6.0.5-osx64_en-US.dmg
     $ LANG=C tr -dc 'DrDuh0-9' < /dev/urandom | fold -w 40 | head -n 1
     686672u2Dh7r754209uD312hhh23uD7u41h3875D
 
-你也可以用 **Keychain Access（钥匙串访问）** 生成一个令人难忘的密码，或者用 [anders/pwgen](https://github.com/anders/pwgen) 这样的命令行生成。
+你也可以用 **Keychain Access（钥匙串访问）**生成一个令人难忘的密码，或者用 [anders/pwgen](https://github.com/anders/pwgen) 这样的命令行生成。
 
-钥匙串使用 [PBKDF2 派生密钥](https://en.wikipedia.org/wiki/PBKDF2)加密，是个 **非常安全** 存储凭据的地方。 看看 [Breaking into the OS X keychain](http://juusosalonen.com/post/30923743427/breaking-into-the-os-x-keychain)。还要注意钥匙串[不加密](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/118)的密码对应密码输入的名称。
+钥匙串使用 [PBKDF2 派生密钥](https://en.wikipedia.org/wiki/PBKDF2)加密，是个**非常安全**存储凭据的地方。看看 [Breaking into the OS X keychain](http://juusosalonen.com/post/30923743427/breaking-into-the-os-x-keychain)。还要注意钥匙串[不加密](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/118)的密码对应密码输入的名称。
 
 或者，可以自己用 GnuPG (基于 [drduh/pwd.sh](https://github.com/drduh/pwd.sh) 密码管理脚本的一个插件)管理一个加密的密码文件。
 
@@ -1334,11 +1334,11 @@ $ xattr -l ~/Downloads/TorBrowser-6.0.5-osx64_en-US.dmg
     $ gpg -o ~/Desktop/decrypted-backup.tar.gz -d ~/Desktop/backup-2015-01-01-0000.tar.gz.gpg && \
       tar zxvf ~/Desktop/decrypted-backup.tar.gz
 
-你也可以用 **Disk Utility** 或 `hdiutil` 创建加密卷:
+你也可以用 **Disk Utility** 或 `hdiutil` 创建加密卷：
 
     $ hdiutil create ~/Desktop/encrypted.dmg -encryption -size 1g -volname "Name" -fs JHFS+
 
-也可以考虑使用下面的应用和服务: [SpiderOak](https://spideroak.com/)、 [Arq](https://www.arqbackup.com/)、 [Espionage](https://www.espionageapp.com/)， 和 [restic](https://restic.github.io/)。
+也可以考虑使用下面的应用和服务：[SpiderOak](https://spideroak.com/)、[Arq](https://www.arqbackup.com/)、[Espionage](https://www.espionageapp.com/) 和 [restic](https://restic.github.io/)。
 
 ## Wi-Fi
 
@@ -1348,21 +1348,21 @@ macOS 会记住它连接过的接入点。比如所有无线设备，每次搜�
 
 看看 [Signals from the Crowd: Uncovering Social Relationships through Smartphone Probes](http://conferences.sigcomm.org/imc/2013/papers/imc148-barberaSP106.pdf) (pdf) 和 [Wi-Fi told me everything about you](http://confiance-numerique.clermont-universite.fr/Slides/M-Cunche-2014.pdf) (pdf)。
 
-保存的 Wi-Fi 信息 (SSID、最后一次连接，等)可以在 `/Library/Preferences/SystemConfiguration/com.apple.airport.preferences.plist` 中找到。
+保存的 Wi-Fi 信息 (SSID、最后一次连接等)可以在 `/Library/Preferences/SystemConfiguration/com.apple.airport.preferences.plist` 中找到。
 
-你可能希望在连接到新的和不可信的无线网络之前 [伪造网卡 MAC 地址](https://en.wikipedia.org/wiki/MAC_spoofing)，以减少被动痕迹:
+你可能希望在连接到新的和不可信的无线网络之前[伪造网卡 MAC 地址](https://en.wikipedia.org/wiki/MAC_spoofing)，以减少被动痕迹:
 
     $ sudo ifconfig en0 ether $(openssl rand -hex 6 | sed 's%\(..\)%\1:%g; s%.$%%')
 
-**注意** 每次启动，MAC 地址将重置为硬件默认地址。
+**注意**每次启动，MAC 地址将重置为硬件默认地址。
 
 了解下 [feross/SpoofMAC](https://github.com/feross/SpoofMAC).
 
-最后， WEP 保护在无线网络是[不安全](http://www.howtogeek.com/167783/htg-explains-the-difference-between-wep-wpa-and-wpa2-wireless-encryption-and-why-it-matters/) 的，你应该尽量选择连接 **WPA2** 保护网络，可以减少被窃听的风险。
+最后，WEP 保护在无线网络是[不安全](http://www.howtogeek.com/167783/htg-explains-the-difference-between-wep-wpa-and-wpa2-wireless-encryption-and-why-it-matters/) 的，你应该尽量选择连接 **WPA2** 保护网络，可以减少被窃听的风险。
 
 ## SSH
 
-对于向外的 ssh 连接，使用硬件或密码保护的秘钥， [设置](http://nerderati.com/2011/03/17/simplify-your-life-with-an-ssh-config-file/) 远程 hosts 并考虑对它们进行 [哈希](http://nms.csail.mit.edu/projects/ssh/)，以增强安全性。
+对于向外的 ssh 连接，使用硬件或密码保护的秘钥，[设置](http://nerderati.com/2011/03/17/simplify-your-life-with-an-ssh-config-file/)远程 hosts 并考虑对它们进行[哈希](http://nms.csail.mit.edu/projects/ssh/)，以增强安全性。
 
 这有些推荐的[配置项](https://www.freebsd.org/cgi/man.cgi?query=ssh_config&sektion=5)加到 `~/.ssh/config`:
 
@@ -1387,7 +1387,7 @@ macOS 会记住它连接过的接入点。比如所有无线设备，每次搜�
 
     $ ssh -NCD 3000 you@remote-host.tld
 
-默认情况下， macOS **没有** sshd ，也不允许 *远程登陆*。
+默认情况下， macOS **没有** sshd ，也不允许*远程登陆*。
 
 启用 sshd 且允许进入的 ssh 连接:
 
@@ -1395,7 +1395,7 @@ macOS 会记住它连接过的接入点。比如所有无线设备，每次搜�
 
 或者设置 **System Preferences** > **Sharing** 菜单。
 
-如果你准备使用 sshd， 至少禁用密码身份验证并考虑进一步[强化](https://stribika.github.io/2015/01/04/secure-secure-shell.html)配置。
+如果你准备使用 sshd，至少禁用密码身份验证并考虑进一步[强化](https://stribika.github.io/2015/01/04/secure-secure-shell.html)配置。
 
 找到 `/etc/sshd_config`，添加:
 
@@ -1405,7 +1405,7 @@ ChallengeResponseAuthentication no
 UsePAM no
 ```
 
- 确认 sshd 是否启用:
+确认 sshd 是否启用:
 
     $ sudo lsof -Pni TCP:22
 
@@ -1415,7 +1415,7 @@ UsePAM no
 
 有一种攻击就是通过物理访问，通过注入引导 ROM 来安装键盘记录器，偷走你的密码。看看这个案例 [Thunderstrike](https://trmm.net/Thunderstrike)。
 
-有个工具 [usbkill](https://github.com/hephaest0s/usbkill) 可以帮助你， 这是 *"一个反监视断路开关，一旦发现 USB 端口发生改变就会关闭你的计算机"*。
+有个工具 [usbkill](https://github.com/hephaest0s/usbkill) 可以帮助你，这是*"一个反监视断路开关，一旦发现 USB 端口发生改变就会关闭你的计算机"*。
 
 考虑购买屏幕[隐私过滤器](https://www.amazon.com/s/ref=nb_sb_noss_2?url=node%3D15782001&field-keywords=macbook)防止别人偷瞄。
 
@@ -1461,7 +1461,7 @@ header,111,11,OpenSSH login,0,Thu Sep  1 12:00:00 2015, + 16 msec,subject_ex,drd
 
 `ps -ef` 列出所有正在运行的进程。
 
-你也可以通过 **活动监视器** 来查看进程。
+你也可以通过**活动监视器**来查看进程。
 
 `launchctl list` 和 `sudo launchctl list` 分别列出用户运行和加载的程序，系统启动守护程序和代理。
 
@@ -1518,11 +1518,11 @@ $ tshark -Y "ssl.handshake.certificate" -Tfields \
 
 如果你想的话，禁用[诊断与用量](https://github.com/fix-macosx/fix-macosx/wiki/Diagnostics-&-Usage-Data).
 
-如果你想播放 **音乐** 或看 **视频**， 使用 [VLC 播放器](https://www.videolan.org/vlc/index.html)，这是免费且开源的。
+如果你想播放**音乐**或看**视频**，使用 [VLC 播放器](https://www.videolan.org/vlc/index.html)，这是免费且开源的。
 
 如果你想用 **torrents**， 使用免费、开源的 [Transmission](http://www.transmissionbt.com/download/)(注意：所有软件都一样，即使是开源项目，[恶意软件还是可能找到破解的方式](http://researchcenter.paloaltonetworks.com/2016/03/new-os-x-ransomware-keranger-infected-transmission-bittorrent-client-installer/))。你可能希望使用一个块列表来避免和那些已知的坏主机配对，了解下 [Transmission 上最好的块列表](https://giuliomac.wordpress.com/2014/02/19/best-blocklist-for-transmission/) 和 [johntyree/3331662](https://gist.github.com/johntyree/3331662)。
 
-用 [duti](http://duti.org/) 管理默认文件处理， 可以通过 `brew install duti` 来安装。管理扩展的原因之一是为了防止远程文件系统在 Finder 中自动挂载。 ([保护自己免受 Sparkle 后门影响](https://www.taoeffect.com/blog/2016/02/apologies-sky-kinda-falling-protecting-yourself-from-sparklegate/))。这里有几个处理程序的建议：
+用 [duti](http://duti.org/) 管理默认文件处理，可以通过 `brew install duti` 来安装。管理扩展的原因之一是为了防止远程文件系统在 Finder 中自动挂载。 ([保护自己免受 Sparkle 后门影响](https://www.taoeffect.com/blog/2016/02/apologies-sky-kinda-falling-protecting-yourself-from-sparklegate/))。这里有几个处理程序的建议：
 
 ```
 $ duti -s com.apple.Safari afp
@@ -1534,7 +1534,7 @@ $ duti -s com.apple.Safari nfs
 $ duti -s com.apple.Safari smb
 ```
 
-使用 **控制台** 应用程序来监控系统日志， 也可以用 `syslog -w` 或 `log stream` 命令。
+使用**控制台**应用程序来监控系统日志，也可以用 `syslog -w` 或 `log stream` 命令。
 
 在 macOS Sierra (10.12) 之前的系统，在 `/etc/sudoers`启用 [tty_tickets flag](https://derflounder.wordpress.com/2016/09/21/tty_tickets-option-now-on-by-default-for-macos-sierras-sudo-tool/) 来阻止 sudo 会话在其它终端生效。使用命令 `sudo visudo` 然后添加一行 `Defaults    tty_tickets` 就可以了。
 
