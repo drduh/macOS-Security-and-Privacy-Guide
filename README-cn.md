@@ -4,13 +4,13 @@
 * 译者：
 * 校对者：
 
-这里汇集了如何保护运行了 10.12 "Sierra" 操作系统的苹果 mac 电脑的想法，也包含了一些提高网络隐私的小贴士。  
+这里汇集了一些想法，它们是有关如何保护运行了 10.12 "Sierra" 操作系统的苹果 mac 电脑，也包含了一些提高个人网络隐私的小贴士。  
 
 这份指南的目标读者是那些 "高级用户"，他们希望采用企业及标准的安全措施，但是也适用于那些想在 mac 上提高个人隐私和安全性的初级用户们适用。
 
-一个系统只有当它的管理者足够有能力的时候才会变得更加安全。没有一个单独的技术、软件、或者任何一个科技能保证计算机完全安全；现代的计算机和操作系统都是非常复杂的，并且需要大量的增量修改才获得在安全性和隐私性上真正意义的提高。
+一个系统的安全与否完全取决于管理员的能力。没有一个单独的技术、软件、或者任何一个科技能保证计算机完全安全；现代的计算机和操作系统都是非常复杂的，并且需要大量的增量修改才能获得在安全性和隐私性上真正意义的提高。
 
-*免责声明*：以下过程中可能会产生 mac 电脑的损坏，*请您自行负责*。
+*免责声明*：若按照以下操作后对您的 mac 电脑造成损伤，*望您自行负责*。
 
 如果你发现了本文中的错误或者有待改进的内容，请提交 `pull request` 或者 [创建一个 `issue`](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues).
 
@@ -64,16 +64,16 @@
 
 ## 基础知识
 
-最佳标准安全实践适用在以下几点:
+安全标准的最佳实践适用于以下几点:
 
 * 创建一个威胁模型
-    *  什么是你在保护的，避免谁的侵害？你的对手是一个隐藏的机构么？（如果是的，你需要考虑替换使用 [OpenBSD](http://www.openbsd.org)），或者是一个在网络上好管闲事的偷听者，或是针对你采取的一个精心策划的网络攻击？
+    *  考虑下什么是你需要保护的，避免谁的侵害？你的对手会是一个秘密机构么？（如果是的，你需要考虑替换使用 [OpenBSD](http://www.openbsd.org)），或者是一个在网络上好管闲事的偷听者，还是一起针对你精心策划的网络攻击？
     * 研究并识别出那些威胁，想一想如何减少被攻击的面。
 
 * 保持系统更新
-    * 请一直为你的系统和软件更新补丁，更新补丁，更新补丁！（重要的事情说三遍）
+    * 请为你的系统和软件持续更新补丁，更新补丁，更新补丁！（重要的事情说三遍）
     * 可以使用 `App store` 应用程序来完成对 `macOS` 系统的更新，或者使用命令行工具 `softwareupdate`，这两个都不需要注册苹果账号。
-    * 请订阅那些你经常使用的程序的公告邮件列表(例如，[Apple 安全公告](https://lists.apple.com/mailman/listinfo/security-announce))。
+    * 请为那些你经常使用的程序，订阅公告邮件列表(例如，[Apple 安全公告](https://lists.apple.com/mailman/listinfo/security-announce))。
 
 * 对敏感数据进行加密
     * 除了对整个磁盘加密之外，创建一个或者多个加密的容器，用它们来保存一些你的密码，秘钥和那些个人文件。
@@ -84,14 +84,14 @@
     * 在拷贝数据备份到外部存储介质或者 “云” 系统中之前，始终对它们进行加密。
 
 * 注意钓鱼网站
-    * 最后，管理员使用中的安全意识能大大减少系统的安全风险。
+    * 最后，具有高安全意识的管理员能大大降低系统的安全风险。
     * 在安装新软件的时候，请加倍小心。始终选择 [自由安全的软件](https://www.gnu.org/philosophy/free-sw.en.html) 和 开源的软件（[macOS 当然不是开源的](https://superuser.com/questions/19492/is-mac-os-x-open-source))
 
 ## 固件
 
-设定一个固件的密码能阻止其他任何设备启动你的 Mac 电脑，除了你的启动盘。它也能设定成每次引导的时候。
+为固件设定一个密码能阻止任何其他设备启动你的 Mac 电脑，除了你的启动盘。它也能设定成每次引导的时候需要。
 
-[当你的计算机被偷的时候，这个功能是非常有用的](https://www.ftc.gov/news-events/blogs/techftc/2015/08/virtues-strong-enduser-device-controls)，因为唯一能重置固件密码的方式是通过 `Apple Store`，或者使用一个 [SPI 程序](https://reverse.put.as/2016/06/25/apple-efi-firmware-passwords-and-the-scbo-myth/)，例如，[Bus Pirate](http://ho.ax/posts/2012/06/unbricking-a-macbook/) 或者其他刷新电路的程序。
+[当你的计算机被盗的时候，这个功能是非常有用的](https://www.ftc.gov/news-events/blogs/techftc/2015/08/virtues-strong-enduser-device-controls)，因为唯一能重置固件密码的方式是通过 `Apple Store`，或者使用一个 [SPI 程序](https://reverse.put.as/2016/06/25/apple-efi-firmware-passwords-and-the-scbo-myth/)，例如，[Bus Pirate](http://ho.ax/posts/2012/06/unbricking-a-macbook/) 或者其他刷新电路的程序。
 
 1. 开始时，按下 `Command` `R` 键来引导 [恢复模式 / Recovery Mode](https://support.apple.com/en-au/HT201314)。
 
@@ -113,23 +113,23 @@
 
 <img width="750" alt="Using a Dediprog SF600 to dump and flash a 2013 MacBook SPI Flash chip to remove a firmware password, sans Apple" src="https://cloud.githubusercontent.com/assets/12475110/17075918/0f851c0c-50e7-11e6-904d-0b56cf0080c1.png">
 
-*使用 [Dediprog SF600](http://www.dediprog.com/pd/spi-flash-solution/sf600)来输出并且烧录一个 2013 款的 MacBook SPI 闪存芯片,或者移除一个固件密码， 在没有 Apple 技术支持下*
+**在没有 Apple 技术支持下，使用 [Dediprog SF600](http://www.dediprog.com/pd/spi-flash-solution/sf600)来输出并且烧录一个 2013 款的 MacBook SPI 闪存芯片，或者移除一个固件密码**
 
 可参考 [HT204455](https://support.apple.com/en-au/HT204455), [LongSoft/UEFITool](https://github.com/LongSoft/UEFITool) 或者 [chipsec/chipsec](https://github.com/chipsec/chipsec) 了解更多信息。
 
 ## 准备和安装 macOS
 
-有很多种方式来安装一个 macOS 的最新副本。
+有很多种方式来安装一个全新的 macOS 副本。
 
 最简单的方式是在引导过程中按住 `Command` 和 `R` 键进入 [Recovery Mode / 恢复模式](https://support.apple.com/en-us/HT201314)。系统镜像文件能直接从苹官网上申请并且下载。然而，这样的方式会以明文形式直接在网络上暴露出你的机器识别码和其他的识别信息。
 
 <img width="500" alt="PII is transmitted to Apple in plaintext when using macOS Recovery" src="https://cloud.githubusercontent.com/assets/12475110/20312189/8987c958-ab20-11e6-90fa-7fd7c8c1169e.png">
 
-**在 macOS 恢复过程中，捕获到的未加密 HTTP 会话包**
+**在 macOS 恢复过程中，捕获到未加密的 HTTP 会话包**
 
-另一种方式是，从 [App Store](https://itunes.apple.com/us/app/macos-sierra/id1127487414) 下载 **macOS Sierra** 安装程序或者从其他地方，之后创建一个自定义可安装的镜像系统。
+另一种方式是，从 [App Store](https://itunes.apple.com/us/app/macos-sierra/id1127487414) 下载 **macOS Sierra** 安装程序或者从其他地方，之后创建一个自定义可安装的系统镜像。
 
-这个 macOS Sierra 安装应用程序是经过 [代码签名的](https://developer.apple.com/library/mac/documentation/Security/Conceptual/CodeSigningGuide/Procedures/Procedures.html#//apple_ref/doc/uid/TP40005929-CH4-SW6)，它可以使用 `code sign` 命令来验证来确保你接收到的是一个正版文件的拷贝。
+这个 macOS Sierra 安装应用程序是经过 [代码签名的](https://developer.apple.com/library/mac/documentation/Security/Conceptual/CodeSigningGuide/Procedures/Procedures.html#//apple_ref/doc/uid/TP40005929-CH4-SW6)，它可以使用 `code sign` 命令来验证并确保你接收到的是一个正版文件的拷贝。
 
 ```
 $ codesign -dvv /Applications/Install\ macOS\ Sierra.app
@@ -175,9 +175,9 @@ Done.
 
 为了创建一个自定义、可安装的镜像，能用它恢复一台 Mac 电脑，你需要找到 `InstallESD.dmg`，这个文件也包含在 `Install macOS Sierra.app` 中。
 
-通过 `Finder` 找到，并在这个应用程序图标上点击鼠标右键，选择 **Show Package Contents / 显示包内容**，之后从 **Contents / 内容** 进入到 **SharedSupport / 共享支持**，去找到 `InstallESD.dmg` 文件。
+通过 `Finder` 找到，并在这个应用程序图标上点击鼠标右键，选择 **Show Package Contents / 显示包内容**，之后从 **Contents / 内容** 进入到 **SharedSupport / 共享支持**，找到 `InstallESD.dmg` 文件。
 
-你能通过 `openssl sha1 InstallESD.dmg` 、`shasum -a 1 InstallESD.dmg` 或者 `shasum -a 256 InstallESD.dmg` 得到的加密过的哈希值 [验证](https://support.apple.com/en-us/HT201259) 来确保你得到的是同一份正版拷贝。
+你能通过 `openssl sha1 InstallESD.dmg` 、`shasum -a 1 InstallESD.dmg` 或者 `shasum -a 256 InstallESD.dmg` 得到的加密过的哈希值 [验证](https://support.apple.com/en-us/HT201259) 来确保你得到的是同一份正版拷贝(在 Finder 中，你能把文件直接拷贝到终端中，它能提供这个文件的完整路径地址)。
 
 可以参考 [InstallESD_Hashes.csv](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/blob/master/InstallESD_Hashes.csv) 这个在我代码仓库中的文件，它是现在和之前该版本文件的哈希值。你也可以使用 Google 搜索这些加密的哈希值，确保这个文件是正版且没有被修改过的。
 
@@ -201,7 +201,7 @@ Done.
 
     $ hdiutil unmount /Volumes/Wireshark
 
-遇到安装错误时，请参考 [MagerValp/AutoDMG/wiki/Packages-Suitable-for-Deployment](https://github.com/MagerValp/AutoDMG/wiki/Packages-Suitable-for-Deployment)，使用 [chilcote/outset](https://github.com/chilcote/outset) 来处理首次引导时候的包和脚本。
+遇到安装错误时，请参考 [MagerValp/AutoDMG/wiki/Packages-Suitable-for-Deployment](https://github.com/MagerValp/AutoDMG/wiki/Packages-Suitable-for-Deployment)，使用 [chilcote/outset](https://github.com/chilcote/outset) 来替代解决首次引导时候的包和脚本。
 
 当你完成的时候，分离，转换并且验证这个镜像:
 
@@ -227,7 +227,7 @@ Done.
 
     $ sudo diskutil secureErase freespace 1 /dev/disk3s2
 
-把磁盘分区成 `Journaled HFS+`:
+把磁盘分区改成 `Journaled HFS+` 格式:
 
     $ sudo diskutil unmountDisk /dev/disk2
 
@@ -321,9 +321,9 @@ SHA-1:   37ec465673ab802a3f62388d119399cb94b05408
 
 完成后，在 `sudo httpd -X` 窗口内通过 `Control` 和 `C` 组合键停止在宿主机 Mac 上运行的  Apache 网络服务器服务，并且通过命令 `sudo rm /Library/WebServer/Documents/sierra.dmg` 删除镜像备份文件。
 
-在虚拟机内，在 Apple 菜单的左上角选择 *Startup Disk*，选择硬件驱动器并重启你的电脑。你可能想在初始化虚拟机启动的时候禁用网络适配器。
+在虚拟机内，在左上角 Apple 菜单中选择 *Startup Disk*，选择硬件驱动器并重启你的电脑。你可能想在初始化虚拟机启动的时候禁用网络适配器。
 
-例如，在访问某些有风险的网站之前保存虚拟机的快照，并在之后用它还原该虚拟机。或者使用一个虚拟机来安装有潜在问题的软件。
+例如，在访问某些有风险的网站之前保存虚拟机的快照，并在之后用它还原该虚拟机。或者使用一个虚拟机来安装和使用有潜在问题的软件。
 
 ## 首次启动
 
@@ -343,7 +343,7 @@ SHA-1:   37ec465673ab802a3f62388d119399cb94b05408
 
 ## 管理员和普通用户账号
 
-第一账户始终是管理员账户。管理员账户是管理组中的成员并且有访问 `sudo` 的能力，允许他们修改其他账户，特别是 `root`，赋予他们对系统更高效的控制权。管理员执行的任何程序也有可能获得一样的权限，这就造成了一个安全风险。类似于 `sudo` 这样的工具 [都有一些能被利用的弱点](https://bogner.sh/2014/03/another-mac-os-x-sudo-password-bypass/)，例如在默认管理员账户运行的情况下，并行打开的程序或者很多系统的设定都是 [处于解锁的状态](http://csrc.nist.gov/publications/drafts/800-179/sp800_179_draft.pdf) [p. 61–62]。[Apple](https://help.apple.com/machelp/mac/10.12/index.html#/mh11389) 提供了一个最佳实践和 [其他一些](http://csrc.nist.gov/publications/drafts/800-179/sp800_179_draft.pdf) [p. 41–42]，例如，为每天基本的工作建立一个单独的账号，使用管理员账号仅为了安装软件和配置系统。
+管理员账户始终是第一个账户。管理员账户是管理组中的成员并且有访问 `sudo` 的能力，允许他们修改其他账户，特别是 `root`，赋予他们对系统更高效的控制权。管理员执行的任何程序也有可能获得一样的权限，这就造成了一个安全风险。类似于 `sudo` 这样的工具 [都有一些能被利用的弱点](https://bogner.sh/2014/03/another-mac-os-x-sudo-password-bypass/)，例如在默认管理员账户运行的情况下，并行打开的程序或者很多系统的设定都是 [处于解锁的状态](http://csrc.nist.gov/publications/drafts/800-179/sp800_179_draft.pdf) [p. 61–62]。[Apple](https://help.apple.com/machelp/mac/10.12/index.html#/mh11389) 提供了一个最佳实践和 [其他一些](http://csrc.nist.gov/publications/drafts/800-179/sp800_179_draft.pdf) [p. 41–42]，例如，为每天基本的工作建立一个单独的账号，使用管理员账号仅为了安装软件和配置系统。
 
 每一次都通过 OS X 登录界面进入管理员帐号并不是必须的。系统会在需要认证许可的时候弹出提示框，之后交给终端就行了。为了达到这个目的，Apple 为隐藏管理员账户和它的根目录提供了一些 [建议](https://support.apple.com/HT203998)。这对避免显示一个可见的 `影子` 账户来说是一个好办法。管理员账户也能 [从 FileVault 里移除](http://apple.stackexchange.com/a/94373)。
 
@@ -364,7 +364,7 @@ SHA-1:   37ec465673ab802a3f62388d119399cb94b05408
 sudo dscl . -delete /Groups/admin GroupMembership user_name
 ```
 
-## 对整个磁盘尽心数据加密
+## 对整个磁盘进行数据加密
 
 [FileVault](https://en.wikipedia.org/wiki/FileVault) 提供了在 macOS 上对整个磁盘加密的能力（技术上来说，是_整个卷宗_。）
 
@@ -398,11 +398,11 @@ FileVault 的安全性依赖于伪随机数生成器 (PRNG)。
     $ sudo pmset -a destroyfvkeyonstandby 1
     $ sudo pmset -a hibernatemode 25
 
-> 所有计算机都有一些固件，例如 type-EFI, BIOS-to，他们帮助发现其他硬件组件，最终使用期望的操作系统把计算机启动起来。以 Apple 硬件和 EFI 的使用来说，Apple 把有关的信息保存在 EFI 内，来辅助 OS X 的功能正确运行。举例来说，FileVault 的秘钥保存在 EFI 内，在待机模式的时候出现。
+> 所有计算机都有一些固件，例如 type-EFI, BIOS-to，他们帮助发现其他硬件组件，最终使用要求的操作系统把计算机启动起来。以 Apple 硬件和 EFI 的使用来说，Apple 把有关的信息保存在 EFI 内，它辅助 OS X 的功能正确运行。举例来说，FileVault 的秘钥保存在 EFI 内，在待机模式的时候出现。
 
-> 那些容易被高频攻击的组织机构，或者那些待机模式下，容易被暴露给所有设备访问的设备，它们都应该通过销毁在固件中的 FileVault 秘钥来减少这个风险。这么干并不会损坏 FileVault 的正常使用，但是系统需要用户在每次跳出待机模式的时候输入这个密码。
+> 那些容易被高频攻击的组织机构，或者那些待机模式下，容易被暴露给所有设备访问的设备，它们都应该销毁在固件中的 FileVault 秘钥来减少这个风险。这么干并不会损坏 FileVault 的正常使用，但是系统需要用户在每次跳出待机模式的时候输入这个密码。
 
-如果你选择在待机模式下删除 FileVault 秘钥，你也应该修改待机模式的设置。否则，你的机器可能无法正常进入待机模式，会因为缺少 FileVault 秘钥而关机。参考 [issue #124](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/124) 获得更多信息。这些设置可通过以下命令修改:
+如果你选择在待机模式下删除 FileVault 秘钥，你也应该修改待机模式的设置。否则，你的机器可能无法正常进入待机模式，会因为缺少 FileVault 秘钥而关机。参考 [issue #124](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/124) 获得更多信息。可以通过以下命令修改这些设置:
 
     $ sudo pmset -a powernap 0
     $ sudo pmset -a standby 0
@@ -414,15 +414,15 @@ FileVault 的安全性依赖于伪随机数生成器 (PRNG)。
 
 ## 防火墙
 
-在准备连接进入互联网之前，最好是先为自己配置一个防火墙。
+在准备连接进入互联网之前，最好是先配置一个防火墙。
 
-多个种类的防火墙在 macOS 上。
+在 macOS 上有好几种防火墙。
 
 #### 应用程序层的防火墙
 
-内嵌式的，基本的防火墙，它只阻止 **对内** 的连接。
+系统自带的那个基本的防火墙，它只阻止 **对内** 的连接。
 
-注意，这个防火墙没有监视的能力，也没有阻止 **外出** 的连接。
+注意，这个防火墙没有监控的能力，也没有阻止 **对外** 连接的能力。
 
 它能在 **System Preferences** 中 **Security & Privacy** 标签中的 **Firewall**控制，或者使用以下的命令。
 
@@ -434,13 +434,13 @@ FileVault 的安全性依赖于伪随机数生成器 (PRNG)。
 
     $ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setloggingmode on
 
-你也想开启私密模式:
+你不放开启私密模式:
 
     $ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode on
 
-> 计算机黑客会扫描网络，所以他们能标记计算机并且攻击。你能使用**私密模式**，避免你的计算机响应一些这样的扫描。当私密模式开启了，你的电脑就不会响应 ICMP 请求，并且不答复来已关闭的 TCP 或 UDP 端口的连接。这会让攻击者很难发现你的计算机。
+> 计算机黑客会扫描网络，所以他们能标记计算机并且实施网络攻击。你能使用**私密模式**，避免你的计算机响应一些这样的恶意扫描。当开启了防火墙的私密模式后，你的计算机就不会响应 ICMP 请求，并且不响应那些已关闭的 TCP 或 UDP 端口的连接。这会让那些网络攻击者们很难发现你的计算机。
 
-最后，你可能会想阻 **内嵌式的软件**和**经过代码签名，下载过得软件自动加入白名单:**
+最后，你可能会想阻止 **系统自带的软件**和**经过代码签名，下载过的软件自动加入白名单:**
 
     $ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setallowsigned off
 
@@ -450,7 +450,7 @@ FileVault 的安全性依赖于伪随机数生成器 (PRNG)。
 
 > 如果你执行一个未签名的应用程序，它也没有被纳入防火墙白名单，此时一个带允许或者拒绝该连接选项的对话框会出现。如果你选择允许连接，OS X 对这个应用程序签名并且自动把它增加进防火墙的白名单。如果你选择拒绝连接，OS X 也会把它加入名单中，但是会拒绝对这个应用程序的对内连接。
 
-在使用完 `socketfilterfw` 之后，你需要重新启动计算机（或者结束）这个进程:
+在使用完 `socketfilterfw` 之后，你需要重新启动（或者结束）这个进程:
 
     $ sudo pkill -HUP socketfilterfw
 
@@ -460,7 +460,7 @@ FileVault 的安全性依赖于伪随机数生成器 (PRNG)。
 
 <img width="349" alt="Example of Little Snitch monitored session" src="https://cloud.githubusercontent.com/assets/12475110/10596588/c0eed3c0-76b3-11e5-95b8-9ce7d51b3d82.png">
 
-**以下是 Little Snitch 的监控会话**
+**以下是一段 Little Snitch 监控会话的例子**
 
 ```
 LittleSnitch-3.7.dmg
@@ -470,15 +470,15 @@ SHA-1:   1320ca9bcffb8ff8105b7365e792db6dc7b9f46a
 
 这些程序都具备有监控和阻拦**对内**和**对外**网络连接的能力。然而，他们可能会需要使用一个闭源的 [内核扩展](https://developer.apple.com/library/mac/documentation/Darwin/Conceptual/KernelProgramming/Extend/Extend.html)。
 
-如果过多的允许或者阻拦网络连接的选择让你不堪重负，使用允许连接的 **静谧模式**，之后定期检查你的设定的选项，来了解这么多应用程序都在干什么。 
+如果过多的允许或者阻拦网络连接的选择让你不堪重负，使用配置过白名单的**静谧模式**，之后定期检查你设定项，来了解这么多应用程序都在干什么。 
 
 需要指出的是，这些防火墙都会被以 **root** 权限运行的程序绕过，或者通过 [OS vulnerabilities](https://www.blackhat.com/docs/us-15/materials/us-15-Wardle-Writing-Bad-A-Malware-For-OS-X.pdf) (pdf)，但是他们还是值得拥有的 — 只是不要期待完全的保护。
 
-若想了解更多有关 Little Snitch 如何工作的内容，可参考以下两篇文章，[Network Kernel Extensions Programming Guide](https://developer.apple.com/library/mac/documentation/Darwin/Conceptual/NKEConceptual/socket_nke/socket_nke.html#//apple_ref/doc/uid/TP40001858-CH228-SW1) 和 [Shut up snitch! – reverse engineering and exploiting a critical Little Snitch vulnerability](https://reverse.put.as/2016/07/22/shut-up-snitch-reverse-engineering-and-exploiting-a-critical-little-snitch-vulnerability/).
+若想了解更多有关 Little Snitch 是如何工作的，可参考以下两篇文章，[Network Kernel Extensions Programming Guide](https://developer.apple.com/library/mac/documentation/Darwin/Conceptual/NKEConceptual/socket_nke/socket_nke.html#//apple_ref/doc/uid/TP40001858-CH228-SW1) 和 [Shut up snitch! – reverse engineering and exploiting a critical Little Snitch vulnerability](https://reverse.put.as/2016/07/22/shut-up-snitch-reverse-engineering-and-exploiting-a-critical-little-snitch-vulnerability/).
 
 #### 内核等级的数据包过滤
 
-有一个高度可定制化、功能强大，但的确也是最复杂的防火墙存在内核中。它能通过 `pfctl` 和很多配置文件控制。
+有一个高度可定制化、功能强大，但的确也是最复杂的防火墙存在内核中。它能通过 `pfctl` 或者很多配置文件控制。
 
 pf 也能通过一个 GUI 应用程序控制，例如 [IceFloor](http://www.hanynet.com/icefloor/) 或者 [Murus](http://www.murusfirewall.com/)。
 
@@ -533,29 +533,29 @@ block log on en0 from {<blocklist>} to any
 
     $ defaults read /System/Library/LaunchDaemons/com.apple.apsd.plist
 
-看一看 `Program` 或者 `ProgramArguments` 部分，你就知道哪个二进制文件在运行，此处是 `apsd`。可以通过 `man apsd` 查看更多有关它的信息。
+看一看 `Program` 或者 `ProgramArguments` 这两个部分的内容，你就知道哪个二进制文件在运行，此处是 `apsd`。可以通过 `man apsd` 查看更多有关它的信息。
 
 再举一个例子，如果你对 `Apple Push Nofitications` 不感兴趣，可以禁止这个服务:
 
     $ sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.apsd.plist
 
-**注意** 卸载某写服务可能造成某些应用程序无法使用。首先，请阅读手册或者使用 Google 检索确保你明白自己在干什么。
+**注意** 卸载某些服务可能造成某些应用程序无法使用。首先，请阅读手册或者使用 Google 检索确保你明白自己在干什么。
 
 禁用那些你不理解的系统守护进程的时候一定要万分小心，因为它可能会让你的系统瘫痪无法引导。如果你弄坏了你的 Mac，可以使用 [单一用户模式](https://support.apple.com/en-us/HT201573) 来修复。
 
-如果你觉得 Mac 持续升温，感觉卡顿或者常常表现诡异，可以使用 [Console](https://en.wikipedia.org/wiki/Console_(OS_X)) 和 [Activity Monitor](https://support.apple.com/en-us/HT201464) 这两个应用程序，因为这可能是你不小心操作造成的。
+如果你觉得 Mac 持续升温，感觉卡顿或者常常表现出诡异的行为，可以使用 [Console](https://en.wikipedia.org/wiki/Console_(OS_X)) 和 [Activity Monitor](https://support.apple.com/en-us/HT201464) 这两个应用程序，因为这可能是你不小心操作造成的。
 
 以下指令可以查看现在已经禁用的服务:
 
     $ find /var/db/com.apple.xpc.launchd/ -type f -print -exec defaults read {} \; 2>/dev/null
 
-有详细注释的启动系统守护进程和代理的列表，各自运行的程序和程序的哈斯校验值都包含在这个代码仓库中了。
+有详细注释的启动系统守护进程和代理的列表，各自运行的程序和程序的哈希校验值都包含在这个代码仓库中了。
 
-**(可选项)** 运行 `read_launch_plists.py` 脚本，使用 `diff` 输出和你系统对比的差异，例如:
+**(可选项)** 运行 `read_launch_plists.py` 脚本，使用 `diff` 输出和你系统对比后产生的差异，例如:
 
     $ diff <(python read_launch_plists.py) <(cat 16A323_launchd.csv)
 
-你可以参考这篇 [cirrusj.github.io/Yosemite-Stop-Launch](http://cirrusj.github.io/Yosemite-Stop-Launch/)，它解释了一些服务， 也可以看看这篇 [Provisioning OS X and Disabling Unnecessary Services](https://vilimpoc.org/blog/2014/01/15/provisioning-os-x-and-disabling-unnecessary-services/)，它又做了一些其他解释。
+你可以参考这篇 [cirrusj.github.io/Yosemite-Stop-Launch](http://cirrusj.github.io/Yosemite-Stop-Launch/)，它对具体服务进行了一些解释， 也可以看看这篇 [Provisioning OS X and Disabling Unnecessary Services](https://vilimpoc.org/blog/2014/01/15/provisioning-os-x-and-disabling-unnecessary-services/)，这篇是其他一些解释。
 
 ## Spotlight Suggestions
 
