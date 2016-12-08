@@ -1200,17 +1200,17 @@ Another set of scripts to lock down your system so it will only access the inter
 
 面对[日益增长](https://www.documentcloud.org/documents/2459197-bit9-carbon-black-threat-research-report-2015.html)的恶意软件，Mac 还无法很好的防御这些病毒和恶意软件！
 
-一些恶意软件捆绑在正常软件上，比如将 [Java bundling Ask Toolbar](http://www.zdnet.com/article/oracle-extends-its-adware-bundling-to-include-java-for-macs/)，和 [Mac.BackDoor.iWorm](https://docs.google.com/document/d/1YOfXRUQJgMjJSLBSoLiUaSZfiaS_vU3aG4Bvjmz6Dxs/edit?pli=1) 这种非法软件通过重新打包，捆绑到一块。[Malwarebytes Anti-Malware for Mac](https://www.malwarebytes.com/antimalware/mac/) 是一款超棒的应用，它可以帮你扫除各种各样的恶意软件和其它垃圾软件。
+一些恶意软件捆绑在正常软件上，比如 [Java bundling Ask Toolbar](http://www.zdnet.com/article/oracle-extends-its-adware-bundling-to-include-java-for-macs/)，还有 [Mac.BackDoor.iWorm](https://docs.google.com/document/d/1YOfXRUQJgMjJSLBSoLiUaSZfiaS_vU3aG4Bvjmz6Dxs/edit?pli=1) 这种和盗版软件捆绑到一块的。[Malwarebytes Anti-Malware for Mac](https://www.malwarebytes.com/antimalware/mac/) 是一款超棒的应用，它可以帮你摆脱种类繁多的垃圾软件和其他恶意程序的困扰。
 
 看看[恶意软件驻留在 Mac OS X 的方法](https://www.virusbtn.com/pdf/conference/vb2014/VB2014-Wardle.pdf) (pdf) 和[恶意软件在 OS X Yosemite 后台运行](https://www.rsaconference.com/events/us15/agenda/sessions/1591/malware-persistence-on-os-x-yosemite)了解各种恶意软件的功能和危害。
 
-你可以定期运行 [Knock Knock](https://github.com/synack/knockknock) 这样的工具来检查持续在运行的应用(比如脚本，二进制)。但那可能已经为时过晚。[Block Block](https://objective-see.com/products/blockblock.html) 和 [Ostiarius](https://objective-see.com/products/ostiarius.html) 这样的应用可能还有些帮助。先看看 [issue #90](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/90) 中的警告。不过使用 [Little Flocker](https://www.littleflocker.com/) 也能保护部分文件系统免遭非法写入，类似 Little Snitch 保护网络 (注意，该软件目前是 beat 版本，[谨慎使用](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/pull/128))。
+你可以定期运行 [Knock Knock](https://github.com/synack/knockknock) 这样的工具来检查在持续运行的应用(比如脚本，二进制程序)。但这种方法可能已经过时了。[Block Block](https://objective-see.com/products/blockblock.html) 和 [Ostiarius](https://objective-see.com/products/ostiarius.html) 这样的应用可能还有些帮助。可以在 [issue #90](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/90) 中查看相关警告。除此之外，使用 [Little Flocker](https://www.littleflocker.com/) 也能保护部分文件系统免遭非法写入，类似 Little Snitch 保护网络 (注意，该软件目前是 beat 版本，[谨慎使用](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/pull/128))。
 
 **反病毒** 软件是把双刃剑 -- 对于**高级**用户没什么用，却可能面临更多复杂攻击的威胁。然而对于 Mac **新手**用户可能是有用的，可以检测到“各种”恶意软件。不过也要考到额外的处理开销。
 
 看看 [Sophail: Applied attacks against Antivirus](https://lock.cmpxchg8b.com/sophailv2.pdf) (pdf), [Analysis and Exploitation of an ESET Vulnerability](http://googleprojectzero.blogspot.ro/2015/06/analysis-and-exploitation-of-eset.html), [a trivial Avast RCE](https://code.google.com/p/google-security-research/issues/detail?id=546), [Popular Security Software Came Under Relentless NSA and GCHQ Attacks](https://theintercept.com/2015/06/22/nsa-gchq-targeted-kaspersky/), 和 [AVG: "Web TuneUP" extension multiple critical vulnerabilities](https://code.google.com/p/google-security-research/issues/detail?id=675).
 
-因此，最好的防病毒是 Common Sense 2016。看看 [issue #44](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/44)中更多的讨论。
+因此，最好的防病毒方式是日常地防范。看看 [issue #44](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/44)中的讨论。
 
 macOS 上有很多本地提权漏洞，所以要小心那些从第三方网站或 HTTP([案例](http://arstechnica.com/security/2015/08/0-day-bug-in-fully-patched-os-x-comes-under-active-exploit-to-hijack-macs/)) 下载且运行受信或不受信的程序。
 
@@ -1224,7 +1224,7 @@ macOS 上有很多本地提权漏洞，所以要小心那些从第三方网站�
 
 摘取自 [OS X 10.11 新增功能](https://developer.apple.com/library/prerelease/mac/releasenotes/MacOSX/WhatsNewInOSX/Articles/MacOSX10_11.html):
 
-> 一项新的安全政策，应用于每个正在运行的进程，包括特权代码和从沙盒中运行的代码。该策略对磁盘上和运行时的组件增加了额外的保护，只允许系统安装程序和软件更新修改系统二进制文件。不再允许代码注入和运行时附加系统二进制文件。
+> 一项新的安全政策，应用于每个正在运行的进程，包括特权代码和非沙盒中运行的代码。该策略对磁盘上和运行时的组件增加了额外的保护，只允许系统安装程序和软件更新修改系统二进制文件。不再允许代码注入和运行时附加系统二进制文件。
 
 看看 [What is the “rootless” feature in El Capitan, really?](https://apple.stackexchange.com/questions/193368/what-is-the-rootless-feature-in-el-capitan-really)。
 
@@ -1234,7 +1234,7 @@ macOS 上有很多本地提权漏洞，所以要小心那些从第三方网站�
 
 **Gatekeeper** 和 **quarantine** 系统试图阻止运行（打开）未签名或“坏”程序及文件。
 
-**XProtect** 防止已知的坏文件和执行过时的插件版本，但并不能清除或停止现有的恶意软件。
+**XProtect** 防止执行已知的坏文件和过时的版本插件，但并不能清除或停止现有的恶意软件。
 
 两者都提供了对常见风险的一些保护，默认设置就好。
 
@@ -1315,7 +1315,7 @@ $ xattr -l ~/Downloads/TorBrowser-6.0.5-osx64_en-US.dmg
 
 或者，可以自己用 GnuPG (基于 [drduh/pwd.sh](https://github.com/drduh/pwd.sh) 密码管理脚本的一个插件)管理一个加密的密码文件。
 
-除密码外，确保像 GitHub、 Google accounts、 银行，开启[两步验证](https://en.wikipedia.org/wiki/Two-factor_authentication)。
+除密码外，确保像 Github、 Google 账号、银行账户这些网上的账户，开启[两步验证](https://en.wikipedia.org/wiki/Two-factor_authentication)。
 
 看看 [Yubikey](https://www.yubico.com/products/yubikey-hardware/yubikey-neo/) 的两因素和私钥(如：ssh、gpg)硬件令牌。 阅读 [drduh/YubiKey-Guide](https://github.com/drduh/YubiKey-Guide) 和 [trmm.net/Yubikey](https://trmm.net/Yubikey)。两个 Yubikey 的插槽之一可以通过编程来生成一个长的，静态密码（例如可以与短的，记住的密码结合使用）。
 
@@ -1329,7 +1329,7 @@ $ xattr -l ~/Downloads/TorBrowser-6.0.5-osx64_en-US.dmg
 
     $ tar zcvf - ~/Downloads | gpg -c > ~/Desktop/backup-$(date +%F-%H%M).tar.gz.gpg
 
-加密一个文档:
+解密文档:
 
     $ gpg -o ~/Desktop/decrypted-backup.tar.gz -d ~/Desktop/backup-2015-01-01-0000.tar.gz.gpg && \
       tar zxvf ~/Desktop/decrypted-backup.tar.gz
@@ -1342,7 +1342,7 @@ $ xattr -l ~/Downloads/TorBrowser-6.0.5-osx64_en-US.dmg
 
 ## Wi-Fi
 
-macOS 会记住它连接过的接入点。比如所有无线设备，每次搜寻网络的时候，Mac 将会显示所有它记住的接入点名称(如，*MyHomeNetwork*) ，比如从休眠中唤醒的时候就会。
+macOS 会记住它连接过的接入点。比如所有无线设备，每次搜寻网络的时候，Mac 将会显示所有它记住的接入点名称(如，*MyHomeNetwork*) ，比如每次从休眠状态唤醒设备的时候。
 
 这就有泄漏隐私的风险，所有当不再需要的时候最好从列表中移除， 在 **System Preferences** > **Network** > **Advanced** 。
 
@@ -1364,7 +1364,7 @@ macOS 会记住它连接过的接入点。比如所有无线设备，每次搜�
 
 对于向外的 ssh 连接，使用硬件或密码保护的秘钥，[设置](http://nerderati.com/2011/03/17/simplify-your-life-with-an-ssh-config-file/)远程 hosts 并考虑对它们进行[哈希](http://nms.csail.mit.edu/projects/ssh/)，以增强安全性。
 
-这有些推荐的[配置项](https://www.freebsd.org/cgi/man.cgi?query=ssh_config&sektion=5)加到 `~/.ssh/config`:
+将这几个[配置项](https://www.freebsd.org/cgi/man.cgi?query=ssh_config&sektion=5)加到 `~/.ssh/config`:
 
     Host *
       PasswordAuthentication no
@@ -1373,7 +1373,7 @@ macOS 会记住它连接过的接入点。比如所有无线设备，每次搜�
 
 **注意** [macOS Sierra 默认永久记住 SSH 秘钥密码](https://openradar.appspot.com/28394826)。添加配置 `UseKeyChain no` 来关闭这项功能。
 
-你也可以用 ssh 创建一个[加密隧道](http://blog.trackets.com/2014/05/17/ssh-tunnel-local-and-remote-port-forwarding-explained-with-examples.html) 来发送流量，这有点类似于 VPN。
+你也可以用 ssh 创建一个[加密隧道](http://blog.trackets.com/2014/05/17/ssh-tunnel-local-and-remote-port-forwarding-explained-with-examples.html) 来发送数据，这有点类似于 VPN。
 
 例如，在一个远程主机上使用 Privoxy:
 
@@ -1453,7 +1453,7 @@ header,111,11,OpenSSH login,0,Thu Sep  1 12:00:00 2015, + 16 msec,subject_ex,drd
 
 `dtruss` 监控所有系统调用
 
-看看 `man -k dtrace` 了解更多信息。
+运行命令 `man -k dtrace` 去了解更多信息。
 
 **注意** [系统完整性保护](https://github.com/drduh/OS-X-Security-and-Privacy-Guide#system-integrity-protection)和 DTrace  [冲突](http://internals.exposed/blog/dtrace-vs-sip.html)， 所以这些工具可能用不上了。
 
@@ -1467,7 +1467,7 @@ header,111,11,OpenSSH login,0,Thu Sep  1 12:00:00 2015, + 16 msec,subject_ex,drd
 
 #### 网络
 
-列出开放的网络文件:
+列出公开网络文件:
 
     $ sudo lsof -Pni
 
@@ -1522,7 +1522,7 @@ $ tshark -Y "ssl.handshake.certificate" -Tfields \
 
 如果你想用 **torrents**， 使用免费、开源的 [Transmission](http://www.transmissionbt.com/download/)(注意：所有软件都一样，即使是开源项目，[恶意软件还是可能找到破解的方式](http://researchcenter.paloaltonetworks.com/2016/03/new-os-x-ransomware-keranger-infected-transmission-bittorrent-client-installer/))。你可能希望使用一个块列表来避免和那些已知的坏主机配对，了解下 [Transmission 上最好的块列表](https://giuliomac.wordpress.com/2014/02/19/best-blocklist-for-transmission/) 和 [johntyree/3331662](https://gist.github.com/johntyree/3331662)。
 
-用 [duti](http://duti.org/) 管理默认文件处理，可以通过 `brew install duti` 来安装。管理扩展的原因之一是为了防止远程文件系统在 Finder 中自动挂载。 ([保护自己免受 Sparkle 后门影响](https://www.taoeffect.com/blog/2016/02/apologies-sky-kinda-falling-protecting-yourself-from-sparklegate/))。这里有几个处理程序的建议：
+用 [duti](http://duti.org/) 管理默认文件处理，可以通过 `brew install duti` 来安装。管理扩展的原因之一是为了防止远程文件系统在 Finder 中自动挂载。 ([保护自己免受 Sparkle 后门影响](https://www.taoeffect.com/blog/2016/02/apologies-sky-kinda-falling-protecting-yourself-from-sparklegate/))。这里有几个推荐的管理指令：
 
 ```
 $ duti -s com.apple.Safari afp
@@ -1538,13 +1538,13 @@ $ duti -s com.apple.Safari smb
 
 在 macOS Sierra (10.12) 之前的系统，在 `/etc/sudoers`启用 [tty_tickets flag](https://derflounder.wordpress.com/2016/09/21/tty_tickets-option-now-on-by-default-for-macos-sierras-sudo-tool/) 来阻止 sudo 会话在其它终端生效。使用命令 `sudo visudo` 然后添加一行 `Defaults    tty_tickets` 就可以了。
 
-设置屏幕保护程序启动尽快锁定屏幕：
+设置进入休眠状态时马上启动屏幕保护程序：
 
     $ defaults write com.apple.screensaver askForPassword -int 1
 
     $ defaults write com.apple.screensaver askForPasswordDelay -int 0
 
-在 Finder 中暴露隐藏文件和文件夹：
+在 Finder 中显示隐藏文件和文件夹：
 
     $ defaults write com.apple.finder AppleShowAllFiles -bool true
 
@@ -1576,7 +1576,7 @@ $ duti -s com.apple.Safari smb
 
 ## 相关软件
 
-[Santa](https://github.com/google/santa/) - Mac OS X 上一个二进制白名单/黑名单系统。
+[Santa](https://github.com/google/santa/) - Mac OS X 上一个带二进制白名单/黑名单监控系统的软件。
 
 [kristovatlas/osx-config-check](https://github.com/kristovatlas/osx-config-check) - 检查你的 OSX 设备各种硬件配置设置。
 
