@@ -461,9 +461,9 @@ Programs such as [Little Snitch](https://www.obdev.at/products/littlesnitch/inde
 *Example of Little Snitch-monitored session*
 
 ```
-LittleSnitch-3.7.dmg
-SHA-256: 5c44d853dc4178fb227abd3e8eee19ef1bf0d576f49b5b6a9a7eddf6ae7ea951
-SHA-1:   1320ca9bcffb8ff8105b7365e792db6dc7b9f46a
+LittleSnitch-3.7.1.dmg
+SHA-256: e6332ee70385f459d9803b0a582d5344bb9dab28bcd56e247ae69866cc321802
+SHA-1:   d5d602c0f76cd73051792dff0ac334bbdc66ae32
 ```
 
 These programs are capable of monitoring and blocking **incoming** and **outgoing** network connections. However, they may require the use of a closed source [kernel extension](https://developer.apple.com/library/mac/documentation/Darwin/Conceptual/KernelProgramming/Extend/Extend.html).
