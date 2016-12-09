@@ -62,7 +62,7 @@ The standard best security practices apply:
 
 * Create a threat model
 	* What are you trying to protect and from whom? Is your adversary a [three letter agency](https://theintercept.com/document/2015/03/10/strawhorse-attacking-macos-ios-software-development-kit/) (if so, you may want to consider using [OpenBSD](http://www.openbsd.org/) instead), a nosy eavesdropper on the network, or determined [apt](https://en.wikipedia.org/wiki/Advanced_persistent_threat) orchestrating a campaign against you?
-	* Study and recognize threats and how to reduce attack surface.
+	* Study and [recognize threats](https://www.usenix.org/system/files/1401_08-12_mickens.pdf) and how to reduce attack surface against them.
 
 * Keep the system up to date
 	* Patch, patch, patch your system and software.
@@ -70,12 +70,13 @@ The standard best security practices apply:
 	* Subscribe to announcement mailing lists (e.g., [Apple security-announce](https://lists.apple.com/mailman/listinfo/security-announce)) for programs you use often.
 
 * Encrypt sensitive data
-	* In addition to full disk encryption, create one or many encrypted containers to store passwords, keys and personal documents.
+	* In addition to full disk encryption, create one or many encrypted containers to store passwords, keys, personal documents, and other data at rest.
 	* This will mitigate damage in case of compromise and data exfiltration.
 
 * Frequent backups
-	* Create regular backups of your data and be ready to reimage in case of compromise.
+	* Create [regular backups](https://www.amazon.com/o/ASIN/0596102461/backupcentral) of your data and be ready to reimage in case of compromise.
 	* Always encrypt before copying backups to external media or the "cloud".
+	* Verify backups work by testing them regularly, for example by accessing certain files or performing a hash based comparison.
 
 * Click carefully
 	* Ultimately, the security of a system can be reduced to its administrator.
@@ -172,6 +173,8 @@ To create a custom, installable image which can be [restored](https://en.wikiped
 With Finder, right click on the app, select **Show Package Contents** and navigate to **Contents** > **SharedSupport** to find the file `InstallESD.dmg`.
 
 You can [verify](https://support.apple.com/en-us/HT201259) the following cryptographic hashes to ensure you have the same copy with `openssl sha1 InstallESD.dmg` or `shasum -a 1 InstallESD.dmg` or `shasum -a 256 InstallESD.dmg` (in Finder, you can drag the file into a Terminal window to provide the full path).
+
+To determine which macOS versions and builds originally shipped with or are available for your Mac, see [HT204319](https://support.apple.com/en-us/HT204319).
 
 See [InstallESD_Hashes.csv](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/blob/master/InstallESD_Hashes.csv) in this repository for a list of current and previous file hashes. You can also Google the cryptographic hashes to ensure the file is genuine and has not been tampered with.
 
@@ -560,6 +563,8 @@ Also disable **Bing Web Searches** in the Spotlight preferences to avoid your se
 See [fix-macosx.com](https://fix-macosx.com/) for detailed instructions.
 
 > If you've upgraded to OS X 10.10 "Yosemite" and you're using the default settings, each time you start typing in Spotlight (to open an application or search for a file on your computer), your local search terms and location are sent to Apple and third parties (including Microsoft).
+
+ **Note** This Web site and instructions may no longer work on macOS Sierra - see [issue 164](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/164).
 
 To download, view and apply their suggested fixes:
 
@@ -1708,3 +1713,5 @@ Did you know Apple has not shipped a computer with TPM since [2006](http://osxbo
 [Auditing and Exploiting Apple IPC](https://googleprojectzero.blogspot.com/2015/09/revisiting-apple-ipc-1-distributed_28.html)
 
 [Mac OS X and iOS Internals: To the Apple's Core by Jonathan Levin](https://www.amazon.com/Mac-OS-iOS-Internals-Apples/dp/1118057651)
+
+[Demystifying the i-Device NVMe NAND (New storage used by Apple)](http://ramtin-amin.fr/#nvmepcie)
