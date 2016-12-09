@@ -52,6 +52,7 @@ If you wish to make a correction or improvement, please send a pull request or [
     - [DTrace](#dtrace)
     - [Execution](#execution)
     - [Network](#network)
+- [Binary Whitelisting](#binary-whitelisting)
 - [Miscellaneous](#miscellaneous)
 - [Related software](#related-software)
 - [Additional resources](#additional-resources)
@@ -1554,7 +1555,214 @@ $ tshark -Y "ssl.handshake.certificate" -Tfields \
   -Eseparator=/s -Equote=d
 ```
 
-Also see the simple networking monitoring application [BonzaiThePenguin/Loading](https://github.com/BonzaiThePenguin/Loading)
+Also see the simple networking monitoring application [BonzaiThePenguin/Loading](https://github.com/BonzaiThePenguin/Loading).
+
+## Binary Whitelisting
+
+[google/santa](https://github.com/google/santa/) is a security software developed for Google's corporate Macintosh fleet and open sourced.
+
+> Santa is a binary whitelisting/blacklisting system for macOS. It consists of a kernel extension that monitors for executions, a userland daemon that makes execution decisions based on the contents of a SQLite database, a GUI agent that notifies the user in case of a block decision and a command-line utility for managing the system and synchronizing the database with a server.
+
+Santa uses the [Kernel Authorization API](https://developer.apple.com/library/content/technotes/tn2127/_index.html) to monitor and allow/disallow binaries from executing in the kernel. Binaries can be white- or black-listed by unique hash or signing developer certificate. Santa can be used to only allow trusted code execution, or to blacklist known malware from executing on a Mac, similar to Bit9 software for Windows.
+
+**Note** Santa does not currently have a graphical user interface for managing rules. The following instructions are for advanced users only!
+
+To install Santa, visit the [Releases](https://github.com/google/santa/releases) page and download the latest disk image, the mount it and install the contained package:
+
+```
+$ hdiutil mount ~/Downloads/santa-0.9.14.dmg
+
+$ sudo installer -pkg /Volumes/santa-0.9.14/santa-0.9.14.pkg -tgt /
+```
+
+By default, Santa installs in "Monitor" mode (meaning, nothing gets blocked, only logged) and comes with two rules: one for Apple binaries and another for Santa software itself.
+
+Verify Santa is running and its kernel module is loaded:
+
+```
+$ santactl status
+>>> Daemon Info
+  Mode                   | Monitor
+  File Logging           | No
+  Watchdog CPU Events    | 0  (Peak: 0.00%)
+  Watchdog RAM Events    | 0  (Peak: 0.00MB)
+>>> Kernel Info
+  Kernel cache count     | 0
+>>> Database Info
+  Binary Rules           | 0
+  Certificate Rules      | 2
+  Events Pending Upload  | 0
+
+$ ps -ef | grep "[s]anta"
+    0   786     1   0 10:01AM ??         0:00.39 /Library/Extensions/santa-driver.kext/Contents/MacOS/santad --syslog
+
+$ kextstat | grep santa
+  119    0 0xffffff7f822ff000 0x6000     0x6000     com.google.santa-driver (0.9.14) 693D8E4D-3161-30E0-B83D-66A273CAE026 <5 4 3 1>
+```
+
+Create a blacklist rule to prevent iTunes from executing:
+
+    $ sudo santactl rule --blacklist --path /Applications/iTunes.app/
+    Added rule for SHA-256: e1365b51d2cb2c8562e7f1de36bfb3d5248de586f40b23a2ed641af2072225b3.
+
+Try to launch iTunes - it will be blocked.
+
+    $ open /Applications/iTunes.app/
+    LSOpenURLsWithRole() failed with error -10810 for the file /Applications/iTunes.app.
+
+<img width="450" alt="Santa block dialog when attempting to run a blacklisted program" src="https://cloud.githubusercontent.com/assets/12475110/21062284/14ddde88-be1e-11e6-8e9b-32f8a44c0cf6.png">
+
+To remove the rule:
+
+    $ sudo santactl rule --remove --path /Applications/iTunes.app/
+    Removed rule for SHA-256: e1365b51d2cb2c8562e7f1de36bfb3d5248de586f40b23a2ed641af2072225b3.
+
+Open iTunes:
+
+    $ open /Applications/iTunes.app/
+    [iTunes will open successfully]
+
+Create a new, example C program:
+
+```
+$ cat <<EOF > foo.c
+> #include <stdio.h>
+> main() { printf("Hello World\n”); }
+> EOF
+```
+
+Compile the program with GCC (requires installation of Xcode or command-line tools):
+
+```
+$ gcc -o foo foo.c
+
+$ file foo
+foo: Mach-O 64-bit executable x86_64
+
+$ codesign -d foo
+foo: code object is not signed at all
+```
+
+Run it:
+
+```
+$ ./foo
+Hello World
+```
+
+Toggle Santa into “Lockdown” mode, which only allows whitelisted binaries to run:
+
+    $ sudo defaults write /var/db/santa/config.plist ClientMode -int 2
+
+Try to run the unsigned binary:
+
+```
+$ ./foo
+bash: ./foo: Operation not permitted
+
+Santa
+
+The following application has been blocked from executing
+because its trustworthiness cannot be determined.
+
+Path:       /Users/demouser/foo
+Identifier: 4e11da26feb48231d6e90b10c169b0f8ae1080f36c168ffe53b1616f7505baed
+Parent:     bash (701)
+```
+To whitelist a specific binary, determine its SHA-256 sum:
+
+```
+$ santactl fileinfo /Users/demouser/foo
+Path                 : /Users/demouser/foo
+SHA-256              : 4e11da26feb48231d6e90b10c169b0f8ae1080f36c168ffe53b1616f7505baed
+SHA-1                : 4506f3a8c0a5abe4cacb98e6267549a4d8734d82
+Type                 : Executable (x86-64)
+Code-signed          : No
+Rule                 : Blacklisted (Unknown)
+```
+
+Add a whitelist rule:
+
+    $ sudo santactl rule --whitelist --sha256 4e11da26feb48231d6e90b10c169b0f8ae1080f36c168ffe53b1616f7505baed
+    Added rule for SHA-256: 4e11da26feb48231d6e90b10c169b0f8ae1080f36c168ffe53b1616f7505baed.
+
+Run it:
+
+```
+$ ./foo 
+Hello World
+```
+
+It's allowed and works!
+
+Applications can also be whitelisted by developer certificate (so that new binary versions will not need to be manually whitelisted on each update). For example, download and run Google Chrome - it will be blocked by Santa in "Lockdown" mode:
+
+```
+$ curl -sO https://dl.google.com/chrome/mac/stable/GGRO/googlechrome.dmg
+
+$ hdiutil mount googlechrome.dmg 
+
+$ cp -r /Volumes/Google\ Chrome/Google\ Chrome.app /Applications/
+
+$ open /Applications/Google\ Chrome.app/
+LSOpenURLsWithRole() failed with error -10810 for the file /Applications/Google Chrome.app.
+```
+
+Whitelist the application by its developer certificate (first item in the Signing Chain):
+
+```
+$ santactl fileinfo /Applications/Google\ Chrome.app/
+Path                 : /Applications/Google Chrome.app/Contents/MacOS/Google Chrome
+SHA-256              : 0eb08224d427fb1d87d2276d911bbb6c4326ec9f74448a4d9a3cfce0c3413810
+SHA-1                : 9213cbc7dfaaf7580f3936a915faa56d40479f6a
+Bundle Name          : Google Chrome
+Bundle Version       : 2883.87
+Bundle Version Str   : 55.0.2883.87
+Type                 : Executable (x86-64)
+Code-signed          : Yes
+Rule                 : Blacklisted (Unknown)
+Signing Chain:
+     1. SHA-256             : 15b8ce88e10f04c88a5542234fbdfc1487e9c2f64058a05027c7c34fc4201153
+        SHA-1               : 85cee8254216185620ddc8851c7a9fc4dfe120ef
+        Common Name         : Developer ID Application: Google Inc.
+        Organization        : Google Inc.
+        Organizational Unit : EQHXZ8M8AV
+        Valid From          : 2012/04/26 07:10:10 -0700
+        Valid Until         : 2017/04/27 07:10:10 -0700
+
+     2. SHA-256             : 7afc9d01a62f03a2de9637936d4afe68090d2de18d03f29c88cfb0b1ba63587f
+        SHA-1               : 3b166c3b7dc4b751c9fe2afab9135641e388e186
+        Common Name         : Developer ID Certification Authority
+        Organization        : Apple Inc.
+        Organizational Unit : Apple Certification Authority
+        Valid From          : 2012/02/01 14:12:15 -0800
+        Valid Until         : 2027/02/01 14:12:15 -0800
+
+     3. SHA-256             : b0b1730ecbc7ff4505142c49f1295e6eda6bcaed7e2c68c5be91b5a11001f024
+        SHA-1               : 611e5b662c593a08ff58d14ae22452d198df6c60
+        Common Name         : Apple Root CA
+        Organization        : Apple Inc.
+        Organizational Unit : Apple Certification Authority
+        Valid From          : 2006/04/25 14:40:36 -0700
+        Valid Until         : 2035/02/09 13:40:36 -0800
+```
+
+In this case, `15b8ce88e10f04c88a5542234fbdfc1487e9c2f64058a05027c7c34fc4201153` is the SHA-256 of Google’s Apple developer certificate (team ID EQHXZ8M8AV). To whitelist it:
+
+```
+$ sudo santactl rule --whitelist --certificate --sha256 15b8ce88e10f04c88a5542234fbdfc1487e9c2f64058a05027c7c34fc4201153
+Added rule for SHA-256: 15b8ce88e10f04c88a5542234fbdfc1487e9c2f64058a05027c7c34fc4201153.
+```
+
+Google Chrome should now launch, and subsequent updates to the application will continue to work as long as the code signing certificate doesn’t change or expire.
+
+To disable “Lockdown” mode:
+
+    $ sudo defaults delete /var/db/santa/config.plist ClientMode
+
+See `/var/log/santa.log` to monitor ALLOW and DENY execution decisions.
+
+**Note** Python, Bash and other interpreters are whitelisted (since they are signed by Apple's developer certificate), so Santa will not be able to block such scripts from executing. Thus, a potential non-binary program which disables Santa is a weakness (not vulnerability, since it is so by design) to take note of.
 
 ## Miscellaneous
 
@@ -1715,3 +1923,4 @@ Did you know Apple has not shipped a computer with TPM since [2006](http://osxbo
 [Mac OS X and iOS Internals: To the Apple's Core by Jonathan Levin](https://www.amazon.com/Mac-OS-iOS-Internals-Apples/dp/1118057651)
 
 [Demystifying the i-Device NVMe NAND (New storage used by Apple)](http://ramtin-amin.fr/#nvmepcie)
+
