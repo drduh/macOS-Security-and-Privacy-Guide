@@ -2,65 +2,65 @@
 * 原文作者：[drduh](https://github.com/drduh)
 * 译文出自：[掘金翻译计划](https://github.com/xitu/gold-miner)
 * 译者：[Nicolas(Yifei) Li](https://github.com/yifili09), [MAYDAY1993](https://github.com/MAYDAY1993), [DeadLion](https://github.com/DeadLion)
-* 校对者：[lovelyCiTY](https://github.com/lovelyCiTY)
+* 校对者：[lovelyCiTY](https://github.com/lovelyCiTY), [sqrthree](https://github.com/sqrthree)
 
 这里汇集了一些想法，它们是有关如何保护运行了 10.12 "Sierra" 操作系统的苹果 mac 电脑，也包含了一些提高个人网络隐私的小贴士。  
 
-这份指南的目标读者是那些希望采用企业级安全标准的"高级用户"，但是也适用于那些想在 mac 上提高个人隐私和安全性的初级用户们使用。
+这份指南的目标读者是那些希望采用企业级安全标准的"高级用户"，但是也适用于那些想在 mac 上提高个人隐私和安全性的初级用户们。
 
 一个系统的安全与否完全取决于管理员的能力。没有一个单独的技术、软件，或者任何一个科技能保证计算机完全安全；现代的计算机和操作系统都是非常复杂的，并且需要大量的增量修改才能获得在安全性和隐私性上真正意义的提高。
 
-*免责声明*：若按照以下操作后对您的 mac 电脑造成损伤，*望您自行负责*。
+**免责声明**：若按照以下操作后对您的 mac 电脑造成损伤，**望您自行负责**。
 
 如果你发现了本文中的错误或者有待改进的内容，请提交 `pull request` 或者 [创建一个 `issue`](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues).
 
-- [Basics](#basics)
-- [Firmware](#firmware)
-- [Preparing and Installing macOS](#preparing-and-installing-macos)
-    - [Virtualization](#virtualization)
-- [First boot](#first-boot)
-- [Admin and standard user accounts](#admin-and-standard-user-accounts)
-- [Full disk encryption](#full-disk-encryption)
-- [Firewall](#firewall)
-    - [Application layer firewall](#application-layer-firewall)
-    - [Third party firewalls](#third-party-firewalls)
-    - [Kernel level packet filtering](#kernel-level-packet-filtering)
-- [Services](#services)
-- [Spotlight Suggestions](#spotlight-suggestions)
+- [基础知识](#基础知识)
+- [固件](#固件)
+- [准备和安装 macOS](#准备和安装-macos)
+    - [虚拟机](#虚拟机)
+- [首次启动](#首次启动)
+- [管理员和普通用户账号](#管理员和普通用户账号)
+- [对整个磁盘进行数据加密](#对整个磁盘进行数据加密)
+- [防火墙](#防火墙)
+    - [应用程序层的防火墙](#应用程序层的防火墙)
+    - [第三方防火墙](#第三方防火墙)
+    - [内核级的数据包过滤](#内核级的数据包过滤)
+- [系统服务](#系统服务)
+- [Spotlight 建议](#spotlight-建议)
 - [Homebrew](#homebrew)
 - [DNS](#dns)
-    - [Hosts file](#hosts-file)
+    - [Hosts 文件](#hosts-文件)
     - [Dnsmasq](#dnsmasq)
-      - [Test DNSSEC validation](#test-dnssec-validation)
+      - [检测 DNSSEC 验证](#检测-dnssec-验证)
     - [DNSCrypt](#dnscrypt)
 - [Captive portal](#captive-portal)
-- [Certificate authorities](#certificate-authorities)
+- [证书授权](#证书授权)
 - [OpenSSL](#openssl)
 - [Curl](#curl)
 - [Web](#web)
-    - [Privoxy](#privoxy)
-    - [Browser](#browser)
-    - [Plugins](#plugins)
+    - [代理](#代理)
+    - [浏览器](#浏览器)
+    - [插件](#插件)
 - [PGP/GPG](#pgpgpg)
 - [OTR](#otr)
 - [Tor](#tor)
 - [VPN](#vpn)
-- [Viruses and malware](#viruses-and-malware)
-- [System Integrity Protection](#system-integrity-protection)
-- [Gatekeeper and XProtect](#gatekeeper-and-xprotect)
-- [Passwords](#passwords)
-- [Backup](#backup)
+- [病毒和恶意软件](#病毒和恶意软件)
+- [系统完整性保护](#系统完整性保护)
+- [Gatekeeper 和 XProtect](#gatekeeper-和-xprotect)
+- [密码](#密码)
+- [备份](#备份)
 - [Wi-Fi](#wi-fi)
 - [SSH](#ssh)
-- [Physical access](#physical-access)
-- [System monitoring](#system-monitoring)
-    - [OpenBSM audit](#openbsm-audit)
+- [物理访问](#物理访问)
+- [系统监控](#系统监控)
+    - [OpenBSM 监测](#openbsm-监测)
     - [DTrace](#dtrace)
-    - [Execution](#execution)
-    - [Network](#network)
-- [Miscellaneous](#miscellaneous)
-- [Related software](#related-software)
-- [Additional resources](#additional-resources)
+    - [运行](#运行)
+    - [网络](#网络)
+- [其他](#其他)
+- [相关软件](#相关软件)
+- [其他资源](#其他资源)
 
 ## 基础知识
 
@@ -71,8 +71,8 @@
     * 研究并识别出那些威胁，想一想如何减少被攻击的面。
 
 * 保持系统更新
-    * 请为你的系统和软件持续更新补丁，更新补丁，更新补丁！（重要的事情说三遍）
-    * 可以使用 `App store` 应用程序来完成对 `macOS` 系统的更新，或者使用命令行工具 `softwareupdate`，这两个都不需要注册苹果账号。
+    * 请为你的系统和软件持续更新补丁，更新补丁，更新补丁！（重要的事情说三遍）。
+    * 可以使用 `App Store` 应用程序来完成对 `macOS` 系统的更新，或者使用命令行工具 `softwareupdate`，这两个都不需要注册苹果账号。
     * 请为那些你经常使用的程序，订阅公告邮件列表(例如，[Apple 安全公告](https://lists.apple.com/mailman/listinfo/security-announce))。
 
 * 对敏感数据进行加密
@@ -89,7 +89,7 @@
 
 ## 固件
 
-为固件设定一个密码能阻止任何其它设备启动你的 Mac 电脑，除了你的启动盘。它也能设定成每次启动的时候需要。
+为固件设定一个密码，它能阻止任何其它设备启动你的 Mac 电脑，除了你的启动盘。它也能设定成每次启动的时候需要。
 
 [当你的计算机被盗的时候，这个功能是非常有用的](https://www.ftc.gov/news-events/blogs/techftc/2015/08/virtues-strong-enduser-device-controls)，因为唯一能重置固件密码的方式是通过 `Apple Store`，或者使用一个 [SPI 程序](https://reverse.put.as/2016/06/25/apple-efi-firmware-passwords-and-the-scbo-myth/)，例如，[Bus Pirate](http://ho.ax/posts/2012/06/unbricking-a-macbook/) 或者其它刷新电路的程序。
 
@@ -109,7 +109,7 @@
 
 这个固件密码会在下一次启动后激活。为了验证这个密码，在启动过程中按住 `Alt` 键 - 按照提示输入密码。
 
-固件密码也能通过 `firmwarepasswd` 工具管理，当启动进操作系统以后。
+当启动进操作系统以后。固件密码也能通过 `firmwarepasswd` 工具管理。
 
 <img width="750" alt="Using a Dediprog SF600 to dump and flash a 2013 MacBook SPI Flash chip to remove a firmware password, sans Apple" src="https://cloud.githubusercontent.com/assets/12475110/17075918/0f851c0c-50e7-11e6-904d-0b56cf0080c1.png">
 
@@ -121,13 +121,13 @@
 
 有很多种方式来安装一个全新的 macOS 副本。
 
-最简单的方式是在启动过程中按住 `Command` 和 `R` 键进入 [Recovery Mode / 恢复模式](https://support.apple.com/en-us/HT201314)。系统镜像文件能够直接从苹官网上下载并且使用。然而，这样的方式会以明文形式直接在网络上暴露出你的机器识别码和其它的识别信息。
+最简单的方式是在启动过程中按住 `Command` 和 `R` 键进入 [Recovery Mode / 恢复模式](https://support.apple.com/en-us/HT201314)。系统镜像文件能够直接从 `Apple` 官网上下载并且使用。然而，这样的方式会以明文形式直接在网络上暴露出你的机器识别码和其它的识别信息。
 
 <img width="500" alt="PII is transmitted to Apple in plaintext when using macOS Recovery" src="https://cloud.githubusercontent.com/assets/12475110/20312189/8987c958-ab20-11e6-90fa-7fd7c8c1169e.png">
 
 **在 macOS 恢复过程中，捕获到未加密的 HTTP 会话包**
 
-另一种方式是，从 [App Store](https://itunes.apple.com/us/app/macos-sierra/id1127487414) 下载 **macOS Sierra** 安装程序或者从其它地方，之后创建一个自定义可安装的系统镜像。
+另一种方式是，从 [App Store](https://itunes.apple.com/us/app/macos-sierra/id1127487414) 或者其他地方下载 **macOS Sierra** 安装程序，之后创建一个自定义可安装的系统镜像。
 
 这个 macOS Sierra 安装应用程序是经过 [代码签名的](https://developer.apple.com/library/mac/documentation/Security/Conceptual/CodeSigningGuide/Procedures/Procedures.html#//apple_ref/doc/uid/TP40005929-CH4-SW6)，它可以使用 `code sign` 命令来验证并确保你接收到的是一个正版文件的拷贝。
 
@@ -177,11 +177,11 @@ Done.
 
 通过 `Finder` 找到，并在这个应用程序图标上点击鼠标右键，选择 **Show Package Contents / 显示包内容**，之后从 **Contents / 内容** 进入到 **SharedSupport / 共享支持**，找到 `InstallESD.dmg` 文件。
 
-你能通过 `openssl sha1 InstallESD.dmg` 、`shasum -a 1 InstallESD.dmg` 或者 `shasum -a 256 InstallESD.dmg` 得到的加密过的哈希值 [验证](https://support.apple.com/en-us/HT201259) 来确保你得到的是同一份正版拷贝(在 Finder 中，你能把文件直接拷贝到终端中，它能提供这个文件的完整路径地址)。
+你能通过 `openssl sha1 InstallESD.dmg` 、`shasum -a 1 InstallESD.dmg` 或者 `shasum -a 256 InstallESD.dmg` 得到的加密过的哈希值 [验证](https://support.apple.com/en-us/HT201259) 来确保你得到的是同一份正版拷贝（在 Finder 中，你能把文件直接拷贝到终端中，它能提供这个文件的完整路径地址）。
 
 可以参考 [InstallESD_Hashes.csv](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/blob/master/InstallESD_Hashes.csv) 这个在我代码仓库中的文件，它是现在和之前该版本文件的哈希值。你也可以使用 Google 搜索这些加密的哈希值，确保这个文件是正版且没有被修改过的。
 
-可以使用 [MagerValp/AutoDMG](https://github.com/MagerValp/AutoDMG) 来创建这个镜像文件，或者手动创建，挂载并且把这个操作系统安装到一个临时镜像中:
+可以使用 [MagerValp/AutoDMG](https://github.com/MagerValp/AutoDMG) 来创建这个镜像文件，或者手动创建、挂载和安装这个操作系统到一个临时镜像中:
 
     $ hdiutil attach -mountpoint /tmp/install_esd ./InstallESD.dmg
 
@@ -203,7 +203,7 @@ Done.
 
 遇到安装错误时，请参考 [MagerValp/AutoDMG/wiki/Packages-Suitable-for-Deployment](https://github.com/MagerValp/AutoDMG/wiki/Packages-Suitable-for-Deployment)，使用 [chilcote/outset](https://github.com/chilcote/outset) 来替代解决首次启动时候的包和脚本。
 
-当你完成的时候，分离，转换并且验证这个镜像:
+当你完成的时候，分离、转换并且验证这个镜像:
 
     $ hdiutil detach /tmp/os
 
@@ -223,7 +223,7 @@ Done.
 
 执行 `diskutil list` 来识别连接着的 Mac 磁盘，通常是 `/dev/disk2`
 
-**(可选项)** 一次性[安全清除](https://www.backblaze.com/blog/securely-erase-mac-ssd/) 磁盘（如果之前通过 FileVault 加密，该磁盘必须先要解锁，并且装载在 `/dev/disk3s2`）:
+**(可选项)** 一次性 [安全清除](https://www.backblaze.com/blog/securely-erase-mac-ssd/) 磁盘（如果之前通过 FileVault 加密，该磁盘必须先要解锁，并且装载在 `/dev/disk3s2`）:
 
     $ sudo diskutil secureErase freespace 1 /dev/disk3s2
 
@@ -245,7 +245,7 @@ Done.
 
 <img width="1280" alt="Finished restore install from USB recovery boot" src="https://cloud.githubusercontent.com/assets/12475110/14804078/f27293c8-0b2d-11e6-8e1f-0fb0ac2f1a4d.png">
 
-*完成从 USB 启动的还原安装*
+**完成从 USB 启动的还原安装**
 
 这里还没有大功告成！除非你使用 [AutoDMG](https://github.com/MagerValp/AutoDMG) 创建了镜像，或者把 macOS 安装在你 Mac 上的其它分区内，你需要创建一块还原分区（为了使用对整个磁盘加密的功能）。你能使用 [MagerValp/Create-Recovery-Partition-Installer](https://github.com/MagerValp/Create-Recovery-Partition-Installer) 或者按照以下步骤:
 
@@ -343,30 +343,30 @@ SHA-1:   37ec465673ab802a3f62388d119399cb94b05408
 
 ## 管理员和普通用户账号
 
-管理员账户始终是第一个账户。管理员账户是管理组中的成员并且有访问 `sudo` 的能力，允许它们修改其它账户，特别是 `root`，赋予它们对系统更高效的控制权。管理员执行的任何程序也有可能获得一样的权限，这就造成了一个安全风险。类似于 `sudo` 这样的工具 [都有一些能被利用的弱点](https://bogner.sh/2014/03/another-mac-os-x-sudo-password-bypass/)，例如在默认管理员账户运行的情况下，并行打开的程序或者很多系统的设定都是 [处于解锁的状态](http://csrc.nist.gov/publications/drafts/800-179/sp800_179_draft.pdf) [p. 61–62]。[Apple](https://help.apple.com/machelp/mac/10.12/index.html#/mh11389) 提供了一个最佳实践和 [其它一些](http://csrc.nist.gov/publications/drafts/800-179/sp800_179_draft.pdf) [p. 41–42]，例如，为每天基本的工作建立一个单独的账号，使用管理员账号仅为了安装软件和配置系统。
+管理员账户始终是第一个账户。管理员账户是管理组中的成员并且有访问 `sudo` 的能力，允许它们修改其它账户，特别是 `root`，赋予它们对系统更高效的控制权。管理员执行的任何程序也有可能获得一样的权限，这就造成了一个安全风险。类似于 `sudo` 这样的工具 [都有一些能被利用的弱点](https://bogner.sh/2014/03/another-mac-os-x-sudo-password-bypass/)，例如在默认管理员账户运行的情况下，并行打开的程序或者很多系统的设定都是 [处于解锁的状态](http://csrc.nist.gov/publications/drafts/800-179/sp800_179_draft.pdf) [p. 61–62]。[Apple](https://help.apple.com/machelp/mac/10.12/index.html#/mh11389) 提供了一个最佳实践和 [其它一些方案](http://csrc.nist.gov/publications/drafts/800-179/sp800_179_draft.pdf) [p. 41–42]，例如，为每天基本的工作建立一个单独的账号，使用管理员账号仅为了安装软件和配置系统。
 
 每一次都通过 OS X 登录界面进入管理员帐号并不是必须的。系统会在需要认证许可的时候弹出提示框，之后交给终端就行了。为了达到这个目的，Apple 为隐藏管理员账户和它的根目录提供了一些 [建议](https://support.apple.com/HT203998)。这对避免显示一个可见的 `影子` 账户来说是一个好办法。管理员账户也能 [从 FileVault 里移除](http://apple.stackexchange.com/a/94373)。
 
 #### 错误警告
 
-1. 只有管理员账户才能把应用程序安装在 `/Applications` 路径下 （本地目录）。Finder 和安装程序将为普通用户弹出一个许可对话框。然而，许多应用程序都能安装在 `~/Applications` （该目录能被手动创建） 路径下。经验之谈: 那些不需要管理员权限的应用程序 — 或者在不在 `/Applications` 目录下都没关系的应用程序 — 都应该安装在一般用户路径内，其它的应安装在本地目录。Mac App Store 上的应用程序任然会安装在 `/Applications` 并且不需要额外的管理员认证。
+1. 只有管理员账户才能把应用程序安装在 `/Applications` 路径下 （本地目录）。Finder 和安装程序将为普通用户弹出一个许可对话框。然而，许多应用程序都能安装在 `~/Applications` （该目录能被手动创建） 路径下。经验之谈: 那些不需要管理员权限的应用程序 — 或者在不在 `/Applications` 目录下都没关系的应用程序 — 都应该安装在用户目录内，其它的应安装在本地目录。Mac App Store 上的应用程序仍然会安装在 `/Applications` 并且不需要额外的管理员认证。
 
-2. `sudo` 无法在一般用户的 shell 内使用，它需要使用 `su` 或者 `login` 在 shell 内输入一个管理员账户。这需要很多技巧和一些命令行界面操作的经验。
+2. `sudo` 无法在普通用户的 shell 内使用，它需要使用 `su` 或者 `login` 在 shell 内输入一个管理员账户。这需要很多技巧和一些命令行界面操作的经验。
 
-3. 系统配置和一些系统工具 （比如，Wi-Fi 诊断器） 为了所有的功能都能执行会需要 root 权限。在系统配置界面中的一些面板都是上锁的，所以需要单独的解锁锁按钮。一些应用程序在打开的时候会提示认证对话框，其它一些则需要通过一个管理员账号直接打开才能获得全部功能的权限。（例如，Console。）
+3. 系统配置和一些系统工具 （比如，Wi-Fi 诊断器） 为了所有的功能都能执行会需要 root 权限。在系统配置界面中的一些面板都是上锁的，所以需要单独的解锁按钮。一些应用程序在打开的时候会提示认证对话框，其它一些则需要通过一个管理员账号直接打开才能获得全部功能的权限。（例如，Console。）
 
 4. 有些第三方应用程序无法正确运行，因为它们假设当前的用户是管理员账户。这些程序只能在登录管理员账户的情况下才能被执行，或者使用 `open` 工具。
 
 #### 设置
 
-账户能在系统设置中创建和管理。在一个已经建立的系统中，通常很容易就能创建第二个管理员账号并且把之前的管理员帐号降级。这就避免了数据迁移的问题。新安装的系统都能增加一般账号。对一个账号降级能通过新建立的管理员帐号中的系统设置 — 当然那个管理员账号必须已经注销 — 或者执行这个命令:
+账户能在系统设置中创建和管理。在一个已经建立的系统中，通常很容易就能创建第二个管理员账号并且把之前的管理员帐号降级。这就避免了数据迁移的问题。新安装的系统都能增加普通账号。对一个账号降级能通过新建立的管理员帐号中的系统设置 — 当然那个管理员账号必须已经注销 — 或者执行这个命令:
 ```
 sudo dscl . -delete /Groups/admin GroupMembership user_name
 ```
 
 ## 对整个磁盘进行数据加密
 
-[FileVault](https://en.wikipedia.org/wiki/FileVault) 提供了在 macOS 上对整个磁盘加密的能力（技术上来说，是_整个卷宗_。）
+[FileVault](https://en.wikipedia.org/wiki/FileVault) 提供了在 macOS 上对整个磁盘加密的能力（技术上来说，是**整个卷宗**。）
 
 FileVault 加密将在休眠的时候保护数据，并且阻止其它人通过物理访问形式偷取数据或者使用你的 Mac 修改数据。
 
@@ -382,7 +382,7 @@ FileVault 的安全性依赖于伪随机数生成器 (PRNG)。
 
 在开启 FileVault 之前，PRNG 也能通过写入 /dev/random 文件手动提供熵的种子。也就是说，在激活 FileVault 之前，我们能用这种方式撑一段时间。
 
-在启用 FileVault *之前*，手动配置种子熵:
+在启用 FileVault **之前**，手动配置种子熵:
 
     $ cat > /dev/random
     [Type random letters for a long while, then press Control-D]
@@ -391,7 +391,7 @@ FileVault 的安全性依赖于伪随机数生成器 (PRNG)。
 
 如果你能记住你的密码，那就没有理由不保存一个**还原秘钥**。然而，如果你忘记了密码或者还原秘钥，那意味着你加密的数据将永久丢失了。
 
-如果你想深入了解 FileVault 是如何工作得， 可以参考这篇论文 [Infiltrate the Vault: Security Analysis and Decryption of Lion Full Disk Encryption](https://eprint.iacr.org/2012/374.pdf) (pdf) 和 这篇相关的 [演讲文稿](http://www.cl.cam.ac.uk/~osc22/docs/slides_fv2_ifip_2013.pdf) (pdf)。也可以参阅 [IEEE Std 1619-2007 “The XTS-AES Tweakable Block Cipher”](http://libeccio.di.unisa.it/Crypto14/Lab/p1619.pdf) (pdf).
+如果你想深入了解 FileVault 是如何工作得， 可以参考这篇论文 [Infiltrate the Vault: Security Analysis and Decryption of Lion Full Disk Encryption](https://eprint.iacr.org/2012/374.pdf) (pdf) 和这篇相关的 [演讲文稿](http://www.cl.cam.ac.uk/~osc22/docs/slides_fv2_ifip_2013.pdf) (pdf)。也可以参阅 [IEEE Std 1619-2007 “The XTS-AES Tweakable Block Cipher”](http://libeccio.di.unisa.it/Crypto14/Lab/p1619.pdf) (pdf).
 
 你可能希望强制开启**休眠**并且从内存中删除 FileVault 的秘钥，而非一般情况下系统休眠对内存操作的处理方式:
 
@@ -476,7 +476,7 @@ SHA-1:   1320ca9bcffb8ff8105b7365e792db6dc7b9f46a
 
 若想了解更多有关 Little Snitch 是如何工作的，可参考以下两篇文章，[Network Kernel Extensions Programming Guide](https://developer.apple.com/library/mac/documentation/Darwin/Conceptual/NKEConceptual/socket_nke/socket_nke.html#//apple_ref/doc/uid/TP40001858-CH228-SW1) 和 [Shut up snitch! – reverse engineering and exploiting a critical Little Snitch vulnerability](https://reverse.put.as/2016/07/22/shut-up-snitch-reverse-engineering-and-exploiting-a-critical-little-snitch-vulnerability/).
 
-#### 内核等级的数据包过滤
+#### 内核级的数据包过滤
 
 有一个高度可定制化、功能强大，但的确也是最复杂的防火墙存在内核中。它能通过 `pfctl` 或者很多配置文件控制。
 
@@ -515,7 +515,7 @@ block log on en0 from {<blocklist>} to any
 
 ## 系统服务
 
-在你连接到互联网之前，你不妨禁用一些系统服务，它们会使用一些资源或者背景连接通讯到 Apple。
+在你连接到互联网之前，你不妨禁用一些系统服务，它们会使用一些资源或者后台连接通讯到 Apple。
 
 可参考这三个代码仓库获得更多建议，[fix-macosx/yosemite-phone-home](https://github.com/fix-macosx/yosemite-phone-home), [l1k/osxparanoia](https://github.com/l1k/osxparanoia) 和 [karek314/macOS-home-call-drop](https://github.com/karek314/macOS-home-call-drop)。
 
