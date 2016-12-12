@@ -1315,9 +1315,9 @@ $ xattr -l ~/Downloads/TorBrowser-6.0.5-osx64_en-US.dmg
 
 或者，可以自己用 GnuPG (基于 [drduh/pwd.sh](https://github.com/drduh/pwd.sh) 密码管理脚本的一个插件)管理一个加密的密码文件。
 
-除密码外，确保像 Github、 Google 账号、银行账户这些网上的账户，开启[两步验证](https://en.wikipedia.org/wiki/Two-factor_authentication)。
+除密码外，确保像 GitHub、 Google 账号、银行账户这些网上的账户，开启[两步验证](https://en.wikipedia.org/wiki/Two-factor_authentication)。
 
-看看 [Yubikey](https://www.yubico.com/products/yubikey-hardware/yubikey-neo/) 的两因素和私钥(如：ssh、gpg)硬件令牌。 阅读 [drduh/YubiKey-Guide](https://github.com/drduh/YubiKey-Guide) 和 [trmm.net/Yubikey](https://trmm.net/Yubikey)。两个 Yubikey 的插槽之一可以通过编程来生成一个长的，静态密码（例如可以与短的，记住的密码结合使用）。
+看看 [Yubikey](https://www.yubico.com/products/yubikey-hardware/yubikey-neo/) 的两因素和私钥(如：ssh、gpg)硬件令牌。 阅读 [drduh/YubiKey-Guide](https://github.com/drduh/YubiKey-Guide) 和 [trmm.net/Yubikey](https://trmm.net/Yubikey)。两个 Yubikey 的插槽之一可以通过编程来生成一个长的静态密码（例如可以与短的，记住的密码结合使用）。
 
 ## 备份
 
@@ -1387,7 +1387,7 @@ macOS 会记住它连接过的接入点。比如所有无线设备，每次搜�
 
     $ ssh -NCD 3000 you@remote-host.tld
 
-默认情况下， macOS **没有** sshd ，也不允许*远程登陆*。
+默认情况下， macOS **没有** sshd ，也不允许**远程登陆**。
 
 启用 sshd 且允许进入的 ssh 连接:
 
@@ -1415,7 +1415,7 @@ UsePAM no
 
 有一种攻击就是通过物理访问，通过注入引导 ROM 来安装键盘记录器，偷走你的密码。看看这个案例 [Thunderstrike](https://trmm.net/Thunderstrike)。
 
-有个工具 [usbkill](https://github.com/hephaest0s/usbkill) 可以帮助你，这是*"一个反监视断路开关，一旦发现 USB 端口发生改变就会关闭你的计算机"*。
+有个工具 [usbkill](https://github.com/hephaest0s/usbkill) 可以帮助你，这是**"一个反监视断路开关，一旦发现 USB 端口发生改变就会关闭你的计算机"**。
 
 考虑购买屏幕[隐私过滤器](https://www.amazon.com/s/ref=nb_sb_noss_2?url=node%3D15782001&field-keywords=macbook)防止别人偷瞄。
 
