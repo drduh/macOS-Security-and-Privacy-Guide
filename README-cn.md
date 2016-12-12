@@ -582,8 +582,7 @@ All done. Make sure to log out (and back in) for the changes to take effect.
 
 ## Homebrew
 
-考虑使用 [Homebrew](http://brew.sh/) 来让安装软件和更新 userland 工具 (查看 [Apple’s great GPL purge](http://meta.ath0.com/2012/02/05/apples-great-gpl-purge/)) 更简单。
-
+考虑使用 [Homebrew](http://brew.sh/) 来安装软件和更新用户工具 (查看 [Apple’s great GPL purge](http://meta.ath0.com/2012/02/05/apples-great-gpl-purge/))，这样更简单些。
 **注意** 如果你还没安装 Xcode 或命令行工具，用 `xcode-select --install` 来从 Apple 下载、安装。
 
 要 [安装 Homebrew] (https://github.com/Homebrew/brew/blob/master/docs/Installation.md#installation):
@@ -727,7 +726,7 @@ $ networksetup -getdnsservers "Wi-Fi"
 
 #### 检测 DNSSEC 验证
 
-检测 DNSSEC 验证需要有签过名的区域：
+测试已签名区域的 DNSSEC（域名系统安全扩展协议）验证是否成功
 
     $ dig +dnssec icann.org
 
@@ -747,7 +746,7 @@ $ networksetup -getdnsservers "Wi-Fi"
 
 #### dnscrypt
 
-使用 [dnscrypt](https://dnscrypt.org/) 来加密 DNS 流量（译者注：the provider of choice怎么翻啊求指教）。
+使用 [dnscrypt](https://dnscrypt.org/) 在可选的范围内加密 DNS 流量（译者注：原文为 ‘the provider of choice’）。
 
 如果你更喜欢一个 GUI 应用程序，看这里 [alterstep/dnscrypt-osxclient](https://github.com/alterstep/dnscrypt-osxclient)。
 
@@ -1189,7 +1188,7 @@ listening on pktap, link-type PKTAP (Apple DLT_PKTAP), capture size 262144 bytes
 
 用一个 VPN 是个好想法，它能用一个你信任的提供商加密 **所有** 输出的网络流量。举例说如何建立并拥有自己的 VPN，看 [drduh/Debian-Privacy-Server-Guide](https://github.com/drduh/Debian-Privacy-Server-Guide)。
 
-不要盲目地还没理解整个含义和流量的路由原理就为一个 VPN 服务签名。如果你不理解 VPN 是怎样工作的或不熟悉软件的使用，你就最好别用它。
+不要盲目地还没理解整个流程和流量将如何被传输就为一个 VPN 服务签名。如果你不理解 VPN 是怎样工作的或不熟悉软件的使用，你就最好别用它。
 
 当选择一个 VPN 服务或建立你自己的服务时，确保研究过协议，密钥交换算法，认证机制和使用的加密类型。一些协议，例如 [PPTP](https://en.wikipedia.org/wiki/Point-to-Point_Tunneling_Protocol#Security)，应该避免支持 [OpenVPN](https://en.wikipedia.org/wiki/OpenVPN)。
 
