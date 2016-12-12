@@ -1,135 +1,135 @@
 > * 原文地址：[macOS Security and Privacy Guide](https://github.com/drduh/macOS-Security-and-Privacy-Guide)
 * 原文作者：[drduh](https://github.com/drduh)
 * 译文出自：[掘金翻译计划](https://github.com/xitu/gold-miner)
-* 译者：
-* 校对者：
+* 译者：[Nicolas(Yifei) Li](https://github.com/yifili09), [MAYDAY1993](https://github.com/MAYDAY1993), [DeadLion](https://github.com/DeadLion)
+* 校对者：[lovelyCiTY](https://github.com/lovelyCiTY), [sqrthree](https://github.com/sqrthree)
 
-This is a collection of thoughts on securing a modern Apple Mac computer using macOS (formerly *"OS X"*) 10.12 "Sierra", as well as steps to improving online privacy.
+这里汇集了一些想法，它们是有关如何保护运行了 10.12 "Sierra" 操作系统的苹果 mac 电脑，也包含了一些提高个人网络隐私的小贴士。  
 
-This guide is targeted to “power users” who wish to adopt enterprise-standard security, but is also suitable for novice users with an interest in improving their privacy and security on a Mac.
+这份指南的目标读者是那些希望采用企业级安全标准的"高级用户"，但是也适用于那些想在 mac 上提高个人隐私和安全性的初级用户们。
 
-A system is only as secure as its administrator is capable of making it. There is no one single technology, software, nor technique to guarantee perfect computer security; a modern operating system and computer is very complex, and requires numerous incremental changes to meaningfully improve one's security and privacy posture.
+一个系统的安全与否完全取决于管理员的能力。没有一个单独的技术、软件，或者任何一个科技能保证计算机完全安全；现代的计算机和操作系统都是非常复杂的，并且需要大量的增量修改才能获得在安全性和隐私性上真正意义的提高。
 
-I am **not** responsible if you break a Mac by following any of these steps.
+**免责声明**：若按照以下操作后对您的 mac 电脑造成损伤，**望您自行负责**。
 
-If you wish to make a correction or improvement, please send a pull request or [open an issue](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues).
+如果你发现了本文中的错误或者有待改进的内容，请提交 `pull request` 或者 [创建一个 `issue`](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues).
 
-- [Basics](#basics)
-- [Firmware](#firmware)
-- [Preparing and Installing macOS](#preparing-and-installing-macos)
-    - [Virtualization](#virtualization)
-- [First boot](#first-boot)
-- [Admin and standard user accounts](#admin-and-standard-user-accounts)
-- [Full disk encryption](#full-disk-encryption)
-- [Firewall](#firewall)
-    - [Application layer firewall](#application-layer-firewall)
-    - [Third party firewalls](#third-party-firewalls)
-    - [Kernel level packet filtering](#kernel-level-packet-filtering)
-- [Services](#services)
-- [Spotlight Suggestions](#spotlight-suggestions)
+- [基础知识](#基础知识)
+- [固件](#固件)
+- [准备和安装 macOS](#准备和安装-macos)
+    - [虚拟机](#虚拟机)
+- [首次启动](#首次启动)
+- [管理员和普通用户账号](#管理员和普通用户账号)
+- [对整个磁盘进行数据加密](#对整个磁盘进行数据加密)
+- [防火墙](#防火墙)
+    - [应用程序层的防火墙](#应用程序层的防火墙)
+    - [第三方防火墙](#第三方防火墙)
+    - [内核级的数据包过滤](#内核级的数据包过滤)
+- [系统服务](#系统服务)
+- [Spotlight 建议](#spotlight-建议)
 - [Homebrew](#homebrew)
 - [DNS](#dns)
-    - [Hosts file](#hosts-file)
+    - [Hosts 文件](#hosts-文件)
     - [Dnsmasq](#dnsmasq)
-      - [Test DNSSEC validation](#test-dnssec-validation)
+      - [检测 DNSSEC 验证](#检测-dnssec-验证)
     - [DNSCrypt](#dnscrypt)
 - [Captive portal](#captive-portal)
-- [Certificate authorities](#certificate-authorities)
+- [证书授权](#证书授权)
 - [OpenSSL](#openssl)
 - [Curl](#curl)
 - [Web](#web)
-    - [Privoxy](#privoxy)
-    - [Browser](#browser)
-    - [Plugins](#plugins)
+    - [代理](#代理)
+    - [浏览器](#浏览器)
+    - [插件](#插件)
 - [PGP/GPG](#pgpgpg)
 - [OTR](#otr)
 - [Tor](#tor)
 - [VPN](#vpn)
-- [Viruses and malware](#viruses-and-malware)
-- [System Integrity Protection](#system-integrity-protection)
-- [Gatekeeper and XProtect](#gatekeeper-and-xprotect)
-- [Passwords](#passwords)
-- [Backup](#backup)
+- [病毒和恶意软件](#病毒和恶意软件)
+- [系统完整性保护](#系统完整性保护)
+- [Gatekeeper 和 XProtect](#gatekeeper-和-xprotect)
+- [密码](#密码)
+- [备份](#备份)
 - [Wi-Fi](#wi-fi)
 - [SSH](#ssh)
-- [Physical access](#physical-access)
-- [System monitoring](#system-monitoring)
-    - [OpenBSM audit](#openbsm-audit)
+- [物理访问](#物理访问)
+- [系统监控](#系统监控)
+    - [OpenBSM 监测](#openbsm-监测)
     - [DTrace](#dtrace)
-    - [Execution](#execution)
-    - [Network](#network)
-- [Miscellaneous](#miscellaneous)
-- [Related software](#related-software)
-- [Additional resources](#additional-resources)
+    - [运行](#运行)
+    - [网络](#网络)
+- [其他](#其他)
+- [相关软件](#相关软件)
+- [其他资源](#其他资源)
 
-## Basics
+## 基础知识
 
-The standard best security practices apply:
+安全标准的最佳实践适用于以下几点:
 
-* Create a threat model
-    * What are you trying to protect and from whom? Is your adversary a [three letter agency](https://theintercept.com/document/2015/03/10/strawhorse-attacking-macos-ios-software-development-kit/) (if so, you may want to consider using [OpenBSD](http://www.openbsd.org/) instead), a nosy eavesdropper on the network, or determined [apt](https://en.wikipedia.org/wiki/Advanced_persistent_threat) orchestrating a campaign against you?
-    * Study and recognize threats and how to reduce attack surface.
+* 创建一个威胁模型
+    *  考虑下什么是你需要保护的，避免谁的侵害？你的对手会是一个 [TLA](https://theintercept.com/document/2015/03/10/strawhorse-attacking-macos-ios-software-development-kit/) 机构么？（如果是的，你需要考虑替换使用 [OpenBSD](http://www.openbsd.org)），或者是一个在网络上好管闲事的偷听者，还是一起针对你精心策划的 [apt](https://en.wikipedia.org/wiki/Advanced_persistent_threat) 网络攻击？
+    * 研究并识别出那些威胁，想一想如何减少被攻击的面。
 
-* Keep the system up to date
-    * Patch, patch, patch your system and software.
-    * macOS system updates can be completed using the App Store application, or the `softwareupdate` command-line utility - neither requires registering an Apple account.
-    * Subscribe to announcement mailing lists (e.g., [Apple security-announce](https://lists.apple.com/mailman/listinfo/security-announce)) for programs you use often.
+* 保持系统更新
+    * 请为你的系统和软件持续更新补丁，更新补丁，更新补丁！（重要的事情说三遍）。
+    * 可以使用 `App Store` 应用程序来完成对 `macOS` 系统的更新，或者使用命令行工具 `softwareupdate`，这两个都不需要注册苹果账号。
+    * 请为那些你经常使用的程序，订阅公告邮件列表(例如，[Apple 安全公告](https://lists.apple.com/mailman/listinfo/security-announce))。
 
-* Encrypt sensitive data
-    * In addition to full disk encryption, create one or many encrypted containers to store passwords, keys and personal documents.
-    * This will mitigate damage in case of compromise and data exfiltration.
+* 对敏感数据进行加密
+    * 除了对整个磁盘加密之外，创建一个或者多个加密的容器，用它们来保存一些你的密码，秘钥和那些个人文件。
+    * 这有助于减少数据泄露造成的危害。
 
-* Frequent backups
-    * Create regular backups of your data and be ready to reimage in case of compromise.
-    * Always encrypt before copying backups to external media or the "cloud".
+* 经常备份数据
+    * 定期创建数据备份，并且做好遇到危机时候的数据恢复工作。 
+    * 在拷贝数据备份到外部存储介质或者 “云” 系统中之前，始终对它们进行加密。
 
-* Click carefully
-    * Ultimately, the security of a system can be reduced to its administrator.
-    * Care should be taken when installing new software. Always prefer [free](https://www.gnu.org/philosophy/free-sw.en.html) and open source software ([which macOS is not](https://superuser.com/questions/19492/is-mac-os-x-open-source)).
+* 注意钓鱼网站
+    * 最后，具有高安全意识的管理员能大大降低系统的安全风险。
+    * 在安装新软件的时候，请加倍小心。始终选择 [免费的软件](https://www.gnu.org/philosophy/free-sw.en.html) 和开源的软件（[macOS 当然不是开源的](https://superuser.com/questions/19492/is-mac-os-x-open-source))
 
-## Firmware
+## 固件
 
-Setting a firmware password prevents your Mac from starting up from any device other than your startup disk. It may also be set to be required on each boot.
+为固件设定一个密码，它能阻止任何其它设备启动你的 Mac 电脑，除了你的启动盘。它也能设定成每次启动的时候需要。
 
-This feature [can be helpful if your laptop is stolen](https://www.ftc.gov/news-events/blogs/techftc/2015/08/virtues-strong-enduser-device-controls), as the only way to reset the firmware password is through an Apple Store, or by using an [SPI programmer](https://reverse.put.as/2016/06/25/apple-efi-firmware-passwords-and-the-scbo-myth/), such as [Bus Pirate](http://ho.ax/posts/2012/06/unbricking-a-macbook/) or other flash IC programmer.
+[当你的计算机被盗的时候，这个功能是非常有用的](https://www.ftc.gov/news-events/blogs/techftc/2015/08/virtues-strong-enduser-device-controls)，因为唯一能重置固件密码的方式是通过 `Apple Store`，或者使用一个 [SPI 程序](https://reverse.put.as/2016/06/25/apple-efi-firmware-passwords-and-the-scbo-myth/)，例如，[Bus Pirate](http://ho.ax/posts/2012/06/unbricking-a-macbook/) 或者其它刷新电路的程序。
 
-1. Start up pressing `Command` `R` keys to boot to [Recovery Mode](https://support.apple.com/en-au/HT201314) mode.
+1. 开始时，按下 `Command` `R` 键来启动 [恢复模式 / Recovery Mode](https://support.apple.com/en-au/HT201314)。
 
-3. When the Recovery window appears, choose **Firmware Password Utility** from the Utilities menu.
+2. 当出现了恢复模式的界面，从 `Utilities / 工具` 菜单中选择 **Firmware Password Utility / 固件密码实用工具**。
 
-4. In the Firmware Utility window that appears, select **Turn On Firmware Password**.
+3. 在固件工具窗口中，选择 **Turn On Firmware Password / 打开固件密码**。
 
-5. Enter a new password, then enter the same password in the **Verify** field.
+4. 输入一个新的密码，之后在 **Verify / 验证** 处再次输入一样的密码。
 
-6. Select **Set Password**.
+5. 选择 **Set Password / 设定密码**。
 
-7. Select **Quit Firmware Utility** to close the Firmware Password Utility.
+6. 选择 **Quit Firmware Utility / 退出固件工具** 关闭固件密码实用工具。
 
-8. Select the Apple menu and choose Restart or Shutdown.
+7. 选择 Apple 菜单，并且选择重新启动或者关闭计算机。
 
-The firmware password will activate at next boot. To validate the password, hold `Alt` during boot - you should be prompted to enter the password.
+这个固件密码会在下一次启动后激活。为了验证这个密码，在启动过程中按住 `Alt` 键 - 按照提示输入密码。
 
-The firmware password can also be managed with the `firmwarepasswd` utility while booted into the OS.
+当启动进操作系统以后。固件密码也能通过 `firmwarepasswd` 工具管理。
 
 <img width="750" alt="Using a Dediprog SF600 to dump and flash a 2013 MacBook SPI Flash chip to remove a firmware password, sans Apple" src="https://cloud.githubusercontent.com/assets/12475110/17075918/0f851c0c-50e7-11e6-904d-0b56cf0080c1.png">
 
-*Using a [Dediprog SF600](http://www.dediprog.com/pd/spi-flash-solution/sf600) to dump and flash a 2013 MacBook SPI Flash chip to remove a firmware password, sans Apple*
+**在没有 Apple 技术支持下，使用 [Dediprog SF600](http://www.dediprog.com/pd/spi-flash-solution/sf600)来输出并且烧录一个 2013 款的 MacBook SPI 闪存芯片，或者移除一个固件密码**
 
-See [HT204455](https://support.apple.com/en-au/HT204455), [LongSoft/UEFITool](https://github.com/LongSoft/UEFITool) and [chipsec/chipsec](https://github.com/chipsec/chipsec) for more information.
+可参考 [HT204455](https://support.apple.com/en-au/HT204455), [LongSoft/UEFITool](https://github.com/LongSoft/UEFITool) 或者 [chipsec/chipsec](https://github.com/chipsec/chipsec) 了解更多信息。
 
-## Preparing and Installing macOS
+## 准备和安装 macOS
 
-There are several ways to install a fresh copy of macOS.
+有很多种方式来安装一个全新的 macOS 副本。
 
-The simplest way is to boot into [Recovery Mode](https://support.apple.com/en-us/HT201314) by holding `Command` `R` keys at boot. A system image can be downloaded and applied directly from Apple. However, this way exposes the serial number and other identifying information over the network in plaintext.
+最简单的方式是在启动过程中按住 `Command` 和 `R` 键进入 [Recovery Mode / 恢复模式](https://support.apple.com/en-us/HT201314)。系统镜像文件能够直接从 `Apple` 官网上下载并且使用。然而，这样的方式会以明文形式直接在网络上暴露出你的机器识别码和其它的识别信息。
 
 <img width="500" alt="PII is transmitted to Apple in plaintext when using macOS Recovery" src="https://cloud.githubusercontent.com/assets/12475110/20312189/8987c958-ab20-11e6-90fa-7fd7c8c1169e.png">
 
-*Packet capture of an unencrypted HTTP conversation during macOS recovery*
+**在 macOS 恢复过程中，捕获到未加密的 HTTP 会话包**
 
-Another way is to download **macOS Sierra** from the [App Store](https://itunes.apple.com/us/app/macos-sierra/id1127487414) or some other place and create a custom, installable system image.
+另一种方式是，从 [App Store](https://itunes.apple.com/us/app/macos-sierra/id1127487414) 或者其他地方下载 **macOS Sierra** 安装程序，之后创建一个自定义可安装的系统镜像。
 
-The macOS Sierra installer application is [code signed](https://developer.apple.com/library/mac/documentation/Security/Conceptual/CodeSigningGuide/Procedures/Procedures.html#//apple_ref/doc/uid/TP40005929-CH4-SW6), which should be verified to make sure you received a legitimate copy, using the `codesign` command:
+这个 macOS Sierra 安装应用程序是经过 [代码签名的](https://developer.apple.com/library/mac/documentation/Security/Conceptual/CodeSigningGuide/Procedures/Procedures.html#//apple_ref/doc/uid/TP40005929-CH4-SW6)，它可以使用 `code sign` 命令来验证并确保你接收到的是一个正版文件的拷贝。
 
 ```
 $ codesign -dvv /Applications/Install\ macOS\ Sierra.app
@@ -147,11 +147,11 @@ Sealed Resources version=2 rules=7 files=137
 Internal requirements count=1 size=124
 ```
 
-macOS installers can be made with the `createinstallmedia` utility included in `Install macOS Sierra.app/Contents/Resources/`. See [Create a bootable installer for OS X Yosemite](https://support.apple.com/en-us/HT201372), or run the utility without arguments to see how it works.
+macOS 安装程序也可以由 `createinstallmedia` 工具制作，它在 `Install macOS Sierra.app/Contents/Resources/` 文件路径中。请参考 [为 OS X Yosemite 制作一个启动安装程序](https://support.apple.com/en-us/HT201372)，或者直接运行这个命令（不需要输入任何参数），看看它是如何工作的。
 
-**Note** Apple's installer [does not appear to work](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/120) across OS versions. If you want to build a 10.12 image, for example, the following steps must be run on a 10.12 machine!
+**注意** Apple 的安装程序 [并不能跨版本工作](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/120)。如果你想要创造一个 10.12 的镜像，例如，以下指令也必须要在 10.12 的机器上运行!
 
-To create a **bootable USB macOS installer**, mount a USB drive, and erase and partition it, then use the `createinstallmedia` utility:
+为了创建一个 **mac OS USB 启动安装程序**，需要挂载一个 USB 驱动器，清空它的内容、进行重新分区，之后使用 `createinstallmedia` 工具:
 
 ```
 $ diskutil list
@@ -173,15 +173,15 @@ Copy complete.
 Done.
 ```
 
-To create a custom, installable image which can be [restored](https://en.wikipedia.org/wiki/Apple_Software_Restore) to a Mac, you will need to find the file `InstallESD.dmg`, which is also inside `Install macOS Sierra.app`.
+为了创建一个自定义、可安装的镜像，能用它恢复一台 Mac 电脑，你需要找到 `InstallESD.dmg`，这个文件也包含在 `Install macOS Sierra.app` 中。
 
-With Finder, right click on the app, select **Show Package Contents** and navigate to **Contents** > **SharedSupport** to find the file `InstallESD.dmg`.
+通过 `Finder` 找到，并在这个应用程序图标上点击鼠标右键，选择 **Show Package Contents / 显示包内容**，之后从 **Contents / 内容** 进入到 **SharedSupport / 共享支持**，找到 `InstallESD.dmg` 文件。
 
-You can [verify](https://support.apple.com/en-us/HT201259) the following cryptographic hashes to ensure you have the same copy with `openssl sha1 InstallESD.dmg` or `shasum -a 1 InstallESD.dmg` or `shasum -a 256 InstallESD.dmg` (in Finder, you can drag the file into a Terminal window to provide the full path).
+你能通过 `openssl sha1 InstallESD.dmg` 、`shasum -a 1 InstallESD.dmg` 或者 `shasum -a 256 InstallESD.dmg` 得到的加密过的哈希值 [验证](https://support.apple.com/en-us/HT201259) 来确保你得到的是同一份正版拷贝（在 Finder 中，你能把文件直接拷贝到终端中，它能提供这个文件的完整路径地址）。
 
-See [InstallESD_Hashes.csv](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/blob/master/InstallESD_Hashes.csv) in this repository for a list of current and previous file hashes. You can also Google the cryptographic hashes to ensure the file is genuine and has not been tampered with.
+可以参考 [InstallESD_Hashes.csv](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/blob/master/InstallESD_Hashes.csv) 这个在我代码仓库中的文件，它是现在和之前该版本文件的哈希值。你也可以使用 Google 搜索这些加密的哈希值，确保这个文件是正版且没有被修改过的。
 
-To create the image, use [MagerValp/AutoDMG](https://github.com/MagerValp/AutoDMG), or to create it manually, mount and install the operating system to a temporary image:
+可以使用 [MagerValp/AutoDMG](https://github.com/MagerValp/AutoDMG) 来创建这个镜像文件，或者手动创建、挂载和安装这个操作系统到一个临时镜像中:
 
     $ hdiutil attach -mountpoint /tmp/install_esd ./InstallESD.dmg
 
@@ -191,9 +191,9 @@ To create the image, use [MagerValp/AutoDMG](https://github.com/MagerValp/AutoDM
 
     $ sudo installer -pkg /tmp/install_esd/Packages/OSInstall.mpkg -tgt /tmp/os -verbose
 
-This part will take a while, so be patient. You can `tail -F /var/log/install.log` in another Terminal window to check progress.
+这一步需要花费一些时间，请耐心等待。你能使用 `tail -F /var/log/install.log` 命令在另一个终端的窗口内查看进度。
 
-**(Optional)** Install additional software, such as [Wireshark](https://www.wireshark.org/download.html):
+**(可选项)** 安装额外的软件，例如，[Wireshark](https://www.wireshark.org/download.html):
 
     $ hdiutil attach Wireshark\ 2.2.0\ Intel\ 64.dmg
 
@@ -201,9 +201,9 @@ This part will take a while, so be patient. You can `tail -F /var/log/install.lo
 
     $ hdiutil unmount /Volumes/Wireshark
 
-See [MagerValp/AutoDMG/wiki/Packages-Suitable-for-Deployment](https://github.com/MagerValp/AutoDMG/wiki/Packages-Suitable-for-Deployment) for caveats and [chilcote/outset](https://github.com/chilcote/outset) to instead processes packages and scripts at first boot.
+遇到安装错误时，请参考 [MagerValp/AutoDMG/wiki/Packages-Suitable-for-Deployment](https://github.com/MagerValp/AutoDMG/wiki/Packages-Suitable-for-Deployment)，使用 [chilcote/outset](https://github.com/chilcote/outset) 来替代解决首次启动时候的包和脚本。
 
-When you're done, detach, convert and verify the image:
+当你完成的时候，分离、转换并且验证这个镜像:
 
     $ hdiutil detach /tmp/os
 
@@ -213,43 +213,43 @@ When you're done, detach, convert and verify the image:
 
     $ asr imagescan --source ~/sierra.dmg
 
-Now `sierra.dmg` is ready to be applied to one or multiple Macs. One could futher customize the image to include premade users, applications, preferences, etc.
+现在，`sierra.dmg` 已经可以被用在一个或者多个 Mac 电脑上了。它能继续自定义化这个镜像，比如，包含预先定义的用户、应用程序、预置参数等。
 
-This image can be installed using another Mac in [Target Disk Mode](https://support.apple.com/en-us/HT201462) or from a bootable USB installer.
+这个镜像能使用另一个在 [Target Disk Mode / 目标磁盘模式](https://support.apple.com/en-us/HT201462) 下的 Mac 进行安装，或者从 USB 启动安装盘安装。 
 
-To use **Target Disk Mode**, boot up the Mac you wish to image while holding the `T` key and connect it to another Mac using a Firewire, Thunderbolt or USB-C cable.
+为了使用 **Target Disk Mode / 目标磁盘模式**，按住 `T` 键的同时启动 Mac 电脑，并且通过 `Firewire` 接口，`Thunderbolt` 接口或者 `USB-C` 线连接另外一台 Mac 电脑。
 
-If you don't have another Mac, boot to a USB installer, with `sierra.dmg` and other required files copied to it, by holding the *Option* key at boot.
+如果你没有其它 Mac 电脑，通过启动的时候，按住 *Option* 键用 USB 安装盘启动，把 `sierra.dmg` 和其它需要的文件拷贝到里面。
 
-Run `diskutil list` to identify the connected Mac's disk, usually `/dev/disk2`
+执行 `diskutil list` 来识别连接着的 Mac 磁盘，通常是 `/dev/disk2`
 
-**(Optional)** [Securely erase](https://www.backblaze.com/blog/securely-erase-mac-ssd/) the disk with a single pass (if previously FileVault-encrypted, the disk must first be unlocked and mounted as `/dev/disk3s2`):
+**(可选项)** 一次性 [安全清除](https://www.backblaze.com/blog/securely-erase-mac-ssd/) 磁盘（如果之前通过 FileVault 加密，该磁盘必须先要解锁，并且装载在 `/dev/disk3s2`）:
 
     $ sudo diskutil secureErase freespace 1 /dev/disk3s2
 
-Partition the disk to Journaled HFS+:
+把磁盘分区改成 `Journaled HFS+` 格式:
 
     $ sudo diskutil unmountDisk /dev/disk2
 
     $ sudo diskutil partitionDisk /dev/disk2 1 JHFS+ macOS 100%
 
-Restore the image to the new volume:
+把该镜像还原到新的卷中:
 
     $ sudo asr restore --source ~/sierra.dmg --target /Volumes/macOS --erase --buffersize 4m
 
-You can also use the **Disk Utility** application to erase the connected Mac's disk, then restore `sierra.dmg` to the newly created partition.
+你也能使用 **Disk Utility / 磁盘工具** 应用程序来清除连接着的 Mac 磁盘，之后将 `sierra.dmg` 还原到新创建的分区中。
 
-If you've followed these steps correctly, the target Mac should now have a new install of macOS Sierra.
+如果你正确按照这些步骤执行，该目标 Mac 电脑应该安装了新的 macOS Sierra 了。
 
-If you want to transfer any files, copy them to a shared folder like `/Users/Shared` on the mounted disk image, e.g. `cp Xcode_8.0.dmg /Volumes/macOS/Users/Shared`
+如果你想传送一些文件，把它们拷贝到一个共享文件夹，例如在挂载磁盘的镜像中， `/Users/Shared`，例如，`cp Xcode_8.0.dmg /Volumes/macOS/Users/Shared`
 
 <img width="1280" alt="Finished restore install from USB recovery boot" src="https://cloud.githubusercontent.com/assets/12475110/14804078/f27293c8-0b2d-11e6-8e1f-0fb0ac2f1a4d.png">
 
-*Finished restore install from USB recovery boot*
+**完成从 USB 启动的还原安装**
 
-We're not done yet! Unless you have built the image with [AutoDMG](https://github.com/MagerValp/AutoDMG), or installed macOS to a second partition on your Mac, you will need to create a recovery partition (in order to use full disk encryption). You can do so using [MagerValp/Create-Recovery-Partition-Installer](https://github.com/MagerValp/Create-Recovery-Partition-Installer) or using the following manual steps:
+这里还没有大功告成！除非你使用 [AutoDMG](https://github.com/MagerValp/AutoDMG) 创建了镜像，或者把 macOS 安装在你 Mac 上的其它分区内，你需要创建一块还原分区（为了使用对整个磁盘加密的功能）。你能使用 [MagerValp/Create-Recovery-Partition-Installer](https://github.com/MagerValp/Create-Recovery-Partition-Installer) 或者按照以下步骤:
 
-Download the file [RecoveryHDUpdate.dmg](https://support.apple.com/downloads/DL1464/en_US/RecoveryHDUpdate.dmg).
+请下载 [RecoveryHDUpdate.dmg](https://support.apple.com/downloads/DL1464/en_US/RecoveryHDUpdate.dmg) 这个文件。
 
 ```
 RecoveryHDUpdate.dmg
@@ -257,7 +257,7 @@ SHA-256: f6a4f8ac25eaa6163aa33ac46d40f223f40e58ec0b6b9bf6ad96bdbfc771e12c
 SHA-1:   1ac3b7059ae0fcb2877d22375121d4e6920ae5ba
 ```
 
-Attach and expand the installer, then run it:
+添加并且扩展这个安装程序，之后执行以下命令:
 
 ```
 $ hdiutil attach RecoveryHDUpdate.dmg
@@ -269,15 +269,15 @@ $ hdiutil attach /tmp/recovery/RecoveryHDUpdate.pkg/RecoveryHDMeta.dmg
 $ /tmp/recovery/RecoveryHDUpdate.pkg/Scripts/Tools/dmtest ensureRecoveryPartition /Volumes/macOS/ /Volumes/Recovery\ HD\ Update/BaseSystem.dmg 0 0 /Volumes/Recovery\ HD\ Update/BaseSystem.chunklist
 ```
 
-Replace `/Volumes/macOS` with the path to the target disk mode-booted Mac as necessary.
+必要的时候把 `/Volumes/macOS` 替换成以目标磁盘启动的 Mac 的路径。
 
-This step will take several minutes. Run `diskutil list` again to make sure **Recovery HD** now exists on `/dev/disk2` or equivalent identifier.
+这个步骤需要花几分钟才能完成。再次执行 `diskutil list` 来确保 **Recovery HD** 已经存在 `/dev/disk2` 或者相似的路径下。
 
-Once you're done, eject the disk with `hdiutil unmount /Volumes/macOS` and power down the target disk mode-booted Mac.
+一旦你完成了这些，执行 `hdituil unmount /Volumes/macOS` 命令弹出磁盘，之后关闭以目标磁盘模式启动的 Mac 电脑。
 
-### Virtualization
+### 虚拟机
 
-To install macOS as a virtual machine (vm) using [VMware Fusion](https://www.vmware.com/products/fusion.html), follow the instructions above to create an image. You will **not** need to download and create a recovery partition manually.
+在虚拟机内安装 macOS，可以使用 [VMware Fusion](https://www.vmware.com/products/fusion.html) 工具，按照上文中的说明来创建一个镜像。你**不需要**再下载，也不需要手动创建还原分区。
 
 ```
 VMware-Fusion-8.5.2-4635224.dmg
@@ -285,27 +285,27 @@ SHA-256: f6c54b98c9788d1df94d470661eedff3e5d24ca4fb8962fac5eb5dc56de63b77
 SHA-1:   37ec465673ab802a3f62388d119399cb94b05408
 ```
 
-For the Installation Method, select *Install OS X from the recovery partition*. Customize any memory or CPU requirements and complete setup. The guest vm should boot into [Recovery Mode](https://support.apple.com/en-us/HT201314) by default.
+选择 **Install OS X from the recovery parition** 这个安装方法。可自定义配置任意的内存和 CPU，之后完成设置。默认情况下，这个虚拟机应该进入 [Recovery Mode / 还原模式](https://support.apple.com/en-us/HT201314)。
 
-In Recovery Mode, select a language, then Utilities > Terminal from the menubar.
+在还原模式中，选择一个语言，之后在菜单条中由 Utilities 打开 Terminal。
 
-In the guest vm, type `ifconfig | grep inet` - you should see a private address like `172.16.34.129`
+在虚拟机内，输入 `ifconfig | grep inet` — 你应该能看到一个私有地址，比如 `172.16.34.129`
 
-On the host Mac, type `ifconfig | grep inet` - you should see a private gateway address like `172.16.34.1`
+在 Mac 宿主机内，输入 `ifconfig | grep inet` — 你应该能看到一个私有地址，比如 `172.16.34.1`
 
-From the host Mac, serve the installable image to the guest vm by editing `/etc/apache2/httpd.conf` and adding the following line to the top (using the gateway address assigned to the host Mac and port 80):
+通过修改 Mac 宿主机内的文件让可安装镜像对虚拟器起作用，比如，修改 `/etc/apache2/htpd.conf` 并且在该文件最上部增加以下内容：(使用网关分配给 Mac 宿主机的地址和端口号 80):
 
     Listen 172.16.34.1:80
 
-On the host Mac, link the image to the default Apache Web server directory:
+在 Mac 宿主机上，把镜像链接到 Apache 网络服务器目录:
 
     $ sudo ln ~/sierra.dmg /Library/WebServer/Documents
 
-From the host Mac, start Apache in the foreground:
+在 Mac 宿主机的前台运行 Apache:
 
     $ sudo httpd -X
 
-From the guest VM, install the disk image to the volume over the local network using `asr`:
+在虚拟机上通过本地网络命令 `asr`，安装镜像文件到卷分区内: 
 
 ```
 -bash-3.2# asr restore --source http://172.16.34.1/sierra.dmg --target /Volumes/Macintosh\ HD/ --erase --buffersize 4m
@@ -319,148 +319,148 @@ From the guest VM, install the disk image to the volume over the local network u
     Remounting target volume...done
 ```
 
-When it's finished, stop the Apache Web server on the host Mac by pressing `Control` `C` at the `sudo httpd -X` window and remove the image copy with `sudo rm /Library/WebServer/Documents/sierra.dmg`
+完成后，在 `sudo httpd -X` 窗口内通过 `Control` 和 `C` 组合键停止在宿主机 Mac 上运行的  Apache 网络服务器服务，并且通过命令 `sudo rm /Library/WebServer/Documents/sierra.dmg` 删除镜像备份文件。
 
-In the guest vm, select *Startup Disk* from the top-left corner Apple menu, select the hard drive and restart. You may wish to disable the Network Adapter in VMware for the initial guest vm boot.
+在虚拟机内，在左上角 Apple 菜单中选择 *Startup Disk*，选择硬件驱动器并重启你的电脑。你可能想在初始化虚拟机启动的时候禁用网络适配器。
 
-Take and Restore from saved guest vm snapshots before and after attempting risky browsing, for example, or use a guest vm to install and operate questionable software.
+例如，在访问某些有风险的网站之前保存虚拟机的快照，并在之后用它还原该虚拟机。或者使用一个虚拟机来安装和使用有潜在问题的软件。
 
-## First boot
+## 首次启动
 
-**Note** Before setting up macOS, consider disconnecting networking and configuring a firewall(s) first.
+**注意** 在设置 macOS 之前，请先断开网络连接并且配置一个防火墙。
 
-On first boot, hold `Command` `Option` `P` `R` keys to [clear NVRAM](https://support.apple.com/en-us/HT204063).
+在首次启动时，按住 `Command` `Option` `P` `R` 键位组合，它用于 [清除 NVRAM](https://support.apple.com/en-us/HT204063)。
 
-When macOS first starts, you'll be greeted by **Setup Assistant**.
+当 macOS 首次启动时，你会看到 **Setup Assistant / 设置助手** 的欢迎画面。
 
-When creating your account, use a [strong password](http://www.explainxkcd.com/wiki/index.php/936:_Password_Strength) without a hint.
+请在创建你个人账户的时候，使用一个没有任何提示的 [高安全性密码](http://www.explainxkcd.com/wiki/index.php/936:_Password_Strength)。
 
-If you enter your real name at the account setup process, be aware that your [computer's name and local hostname](https://support.apple.com/kb/PH18720) will be comprised of that name (e.g., *John Appleseed's MacBook*) and thus will appear on local networks and in various preference files. You can change them both in **System Preferences > Sharing** or with the following commands:
+如果你在设置账户的过程中使用了真实的名字，你得意识到，你的 [计算机的名字和局域网的主机名](https://support.apple.com/kb/PH18720) 将会因为这个名字而泄露 (例如，*John Applesseed's MacBook*)，所以这个名字会显示在局域网络和一些配置文件中。这两个名字都能在 **System Preferences / 系统配置 > Sharing / 共享** 菜单中或者以下命令来改变:
 
     $ sudo scutil --set ComputerName your_computer_name
 
     $ sudo scutil --set LocalHostName your_hostname
 
-## Admin and standard user accounts
+## 管理员和普通用户账号
 
-The first user account is always an admin account. Admin accounts are members of the admin group and have access to `sudo`, which allows them to usurp other accounts, in particular root, and gives them effective control over the system. Any program that the admin executes can potentially obtain the same access, making this a security risk. Utilities like `sudo` have [weaknesses that can be exploited](https://bogner.sh/2014/03/another-mac-os-x-sudo-password-bypass/) by concurrently running programs and many panes in System Preferences are [unlocked by default](http://csrc.nist.gov/publications/drafts/800-179/sp800_179_draft.pdf) [p. 61–62] for admin accounts. It is considered a best practice by [Apple](https://help.apple.com/machelp/mac/10.12/index.html#/mh11389) and [others](http://csrc.nist.gov/publications/drafts/800-179/sp800_179_draft.pdf) [p. 41–42] to use a separate standard account for day-to-day work and use the admin account for installations and system configuration.
+管理员账户始终是第一个账户。管理员账户是管理组中的成员并且有访问 `sudo` 的能力，允许它们修改其它账户，特别是 `root`，赋予它们对系统更高效的控制权。管理员执行的任何程序也有可能获得一样的权限，这就造成了一个安全风险。类似于 `sudo` 这样的工具 [都有一些能被利用的弱点](https://bogner.sh/2014/03/another-mac-os-x-sudo-password-bypass/)，例如在默认管理员账户运行的情况下，并行打开的程序或者很多系统的设定都是 [处于解锁的状态](http://csrc.nist.gov/publications/drafts/800-179/sp800_179_draft.pdf) [p. 61–62]。[Apple](https://help.apple.com/machelp/mac/10.12/index.html#/mh11389) 提供了一个最佳实践和 [其它一些方案](http://csrc.nist.gov/publications/drafts/800-179/sp800_179_draft.pdf) [p. 41–42]，例如，为每天基本的工作建立一个单独的账号，使用管理员账号仅为了安装软件和配置系统。
 
-It is not strictly required to ever log into the admin account via the OS X login screen. The system will prompt for authentication when required and Terminal can do the rest. To that end, Apple provides some [recommendations](https://support.apple.com/HT203998) for hiding the admin account and its home directory. This can be an elegant solution to avoid having a visible 'ghost' account. The admin account can also be [removed from FileVault](http://apple.stackexchange.com/a/94373).
+每一次都通过 OS X 登录界面进入管理员帐号并不是必须的。系统会在需要认证许可的时候弹出提示框，之后交给终端就行了。为了达到这个目的，Apple 为隐藏管理员账户和它的根目录提供了一些 [建议](https://support.apple.com/HT203998)。这对避免显示一个可见的 `影子` 账户来说是一个好办法。管理员账户也能 [从 FileVault 里移除](http://apple.stackexchange.com/a/94373)。
 
-#### Caveats
+#### 错误警告
 
-1. Only administrators can install applications in `/Applications` (local directory). Finder and Installer will prompt a standard user with an authentication dialog. Many applications can be installed in `~/Applications` instead (the directory can be created manually). As a rule of thumb: applications that do not require admin access – or do not complain about not being installed in `/Applications` – should be installed in the user directory, the rest in the local directory. Mac App Store applications are still installed in `/Applications` and require no additional authentication.
+1. 只有管理员账户才能把应用程序安装在 `/Applications` 路径下 （本地目录）。Finder 和安装程序将为普通用户弹出一个许可对话框。然而，许多应用程序都能安装在 `~/Applications` （该目录能被手动创建） 路径下。经验之谈: 那些不需要管理员权限的应用程序 — 或者在不在 `/Applications` 目录下都没关系的应用程序 — 都应该安装在用户目录内，其它的应安装在本地目录。Mac App Store 上的应用程序仍然会安装在 `/Applications` 并且不需要额外的管理员认证。
 
-2. `sudo` is not available in shells of the standard user, which requires using `su` or `login` to enter a shell of the admin account. This can make some maneuvers trickier and requires some basic experience with command-line interfaces.
+2. `sudo` 无法在普通用户的 shell 内使用，它需要使用 `su` 或者 `login` 在 shell 内输入一个管理员账户。这需要很多技巧和一些命令行界面操作的经验。
 
-3. System Preferences and several system utilities (e.g. Wi-Fi Diagnostics) will require root privileges for full functionality. Many panels in System Preferences are locked and need to be unlocked separately by clicking on the lock icon. Some applications will simply prompt for authentication upon opening, others must be opened by an admin account directly to get access to all functions (e.g. Console).
+3. 系统配置和一些系统工具 （比如，Wi-Fi 诊断器） 为了所有的功能都能执行会需要 root 权限。在系统配置界面中的一些面板都是上锁的，所以需要单独的解锁按钮。一些应用程序在打开的时候会提示认证对话框，其它一些则需要通过一个管理员账号直接打开才能获得全部功能的权限。（例如，Console。）
 
-4. There are third-party applications that will not work correctly because they assume that the user account is an admin. These programs may have to be executed by logging into the admin account, or by using the `open` utility.
+4. 有些第三方应用程序无法正确运行，因为它们假设当前的用户是管理员账户。这些程序只能在登录管理员账户的情况下才能被执行，或者使用 `open` 工具。
 
-#### Setup
+#### 设置
 
-Accounts can be created and managed in System Preferences. On settled systems, it is generally easier to create a second admin account and then demote the first account. This avoids data migration. Newly installed systems can also just add a standard account. Demoting an account can be done either from the the new admin account in System Preferences – the other account must be logged out – or by executing this command:
+账户能在系统设置中创建和管理。在一个已经建立的系统中，通常很容易就能创建第二个管理员账号并且把之前的管理员帐号降级。这就避免了数据迁移的问题。新安装的系统都能增加普通账号。对一个账号降级能通过新建立的管理员帐号中的系统设置 — 当然那个管理员账号必须已经注销 — 或者执行这个命令:
 ```
 sudo dscl . -delete /Groups/admin GroupMembership user_name
 ```
 
-## Full disk encryption
+## 对整个磁盘进行数据加密
 
-[FileVault](https://en.wikipedia.org/wiki/FileVault) provides full disk (technically, full _volume_) encryption on macOS.
+[FileVault](https://en.wikipedia.org/wiki/FileVault) 提供了在 macOS 上对整个磁盘加密的能力（技术上来说，是**整个卷宗**。）
 
-FileVault encryption will protect data at rest and prevent someone with physical access from stealing data or tampering with your Mac.
+FileVault 加密将在休眠的时候保护数据，并且阻止其它人通过物理访问形式偷取数据或者使用你的 Mac 修改数据。
 
-With much of the cryptographic operations happening [efficiently in hardware](https://software.intel.com/en-us/articles/intel-advanced-encryption-standard-aes-instructions-set/), the performance penalty for FileVault is not noticeable.
+因为大部分的加密操作都 [高效运作在硬件上](https://software.intel.com/en-us/articles/intel-advanced-encryption-standard-aes-instructions-set/)，性能上的损失对 FireVault 来说并不凸显。
 
-The security of FileVault greatly depends on the pseudo random number generator (PRNG).
+FileVault 的安全性依赖于伪随机数生成器 (PRNG)。
 
-> The random device implements the Yarrow pseudo random number generator algorithm and maintains its entropy pool.  Additional entropy is fed to the generator regularly by the SecurityServer daemon from random jitter measurements of the kernel.
+> 这个随机设备实现了 Yarrow 伪随机数生成器算法并且维护着它自己的熵池。额外的熵值通常由守护进程 SecurityServer 提供，它由内核测算得到的随机抖动决定。
 
-> SecurityServer is also responsible for periodically saving some entropy to disk and reloading it during startup to provide entropy in early system operation.
+> SecurityServer 也常常负责定期保存一些熵值到磁盘，并且在启动的时候重新加载它们，把这些熵值提供给早期的系统使用。
 
-See `man 4 random` for more information.
+参考 `man 4 random` 获得更多信息。
 
-The PRNG can be manually seeded with entropy by writing to /dev/random **before** enabling FileVault. This can be done by simply using the Mac for a little while before activating FileVault.
+在开启 FileVault 之前，PRNG 也能通过写入 /dev/random 文件手动提供熵的种子。也就是说，在激活 FileVault 之前，我们能用这种方式撑一段时间。
 
-To manually seed entropy *before* enabling FileVault:
+在启用 FileVault **之前**，手动配置种子熵:
 
     $ cat > /dev/random
     [Type random letters for a long while, then press Control-D]
 
-Enable FileVault with `sudo fdesetup enable` or through **System Preferences** > **Security & Privacy** and reboot.
+通过 `sudo fdsetup enable` 启用 FileVault 或者通过 **System Preferences** > **Security & Privacy** 之后重启电脑。
 
-If you can remember your password, there's no reason to save the **recovery key**. However, your encrypted data will be lost forever if you can't remember the password or recovery key.
+如果你能记住你的密码，那就没有理由不保存一个**还原秘钥**。然而，如果你忘记了密码或者还原秘钥，那意味着你加密的数据将永久丢失了。
 
-If you want to know more about how FileVault works, see the paper [Infiltrate the Vault: Security Analysis and Decryption of Lion Full Disk Encryption](https://eprint.iacr.org/2012/374.pdf) (pdf) and related [presentation](http://www.cl.cam.ac.uk/~osc22/docs/slides_fv2_ifip_2013.pdf) (pdf). Also see [IEEE Std 1619-2007 “The XTS-AES Tweakable Block Cipher”](http://libeccio.di.unisa.it/Crypto14/Lab/p1619.pdf) (pdf).
+如果你想深入了解 FileVault 是如何工作得， 可以参考这篇论文 [Infiltrate the Vault: Security Analysis and Decryption of Lion Full Disk Encryption](https://eprint.iacr.org/2012/374.pdf) (pdf) 和这篇相关的 [演讲文稿](http://www.cl.cam.ac.uk/~osc22/docs/slides_fv2_ifip_2013.pdf) (pdf)。也可以参阅 [IEEE Std 1619-2007 “The XTS-AES Tweakable Block Cipher”](http://libeccio.di.unisa.it/Crypto14/Lab/p1619.pdf) (pdf).
 
-You may wish to enforce **hibernation** and evict FileVault keys from memory instead of traditional sleep to memory:
+你可能希望强制开启**休眠**并且从内存中删除 FileVault 的秘钥，而非一般情况下系统休眠对内存操作的处理方式:
 
     $ sudo pmset -a destroyfvkeyonstandby 1
     $ sudo pmset -a hibernatemode 25
 
-> All computers have firmware of some type—EFI, BIOS—to help in the discovery of hardware components and ultimately to properly bootstrap the computer using the desired OS instance. In the case of Apple hardware and the use of EFI, Apple stores relevant information within EFI to aid in the functionality of OS X. For example, the FileVault key is stored in EFI to transparently come out of standby mode.
+> 所有计算机都有 EFI 或 BIOS 这类的固件，它们帮助发现其它硬件，最终使用所需的操作系统实例把计算机正确启动起来。以 Apple 硬件和 EFI 的使用来说，Apple 把有关的信息保存在 EFI 内，它辅助 OS X 的功能正确运行。举例来说，FileVault 的秘钥保存在 EFI 内，在待机模式的时候出现。
 
-> Organizations especially sensitive to a high-attack environment, or potentially exposed to full device access when the device is in standby mode, should mitigate this risk by destroying the FileVault key in firmware. Doing so doesn’t destroy the use of FileVault, but simply requires the user to enter the password in order for the system to come out of standby mode.
+> 那些容易被高频攻击的部件，或者那些待机模式下，容易被暴露给所有设备访问的设备，它们都应该销毁在固件中的 FileVault 秘钥来减少这个风险。这么干并不会影响 FileVault 的正常使用，但是系统需要用户在每次跳出待机模式的时候输入这个密码。
 
-If you choose to evict FileVault keys in standby mode, you should also modify your standby and power nap settings. Otherwise, your machine may wake while in standby mode and then power off due to the absence of the FileVault key. See [issue #124](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/124) for more information. These settings can be changed with:
+如果你选择在待机模式下删除 FileVault 秘钥，你也应该修改待机模式的设置。否则，你的机器可能无法正常进入待机模式，会因为缺少 FileVault 秘钥而关机。参考 [issue #124](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/124) 获得更多信息。可以通过以下命令修改这些设置:
 
     $ sudo pmset -a powernap 0
     $ sudo pmset -a standby 0
     $ sudo pmset -a standbydelay 0
     $ sudo pmset -a autopoweroff 0
 
-For more information, see [Best Practices for
-Deploying FileVault 2](http://training.apple.com/pdf/WP_FileVault2.pdf) (pdf) and paper [Lest We Remember: Cold Boot Attacks on Encryption Keys](https://www.usenix.org/legacy/event/sec08/tech/full_papers/halderman/halderman.pdf) (pdf)
+如果你想了解更多， 请参考 [Best Practices for Deploying FileVault 2](http://training.apple.com/pdf/WP_FileVault2.pdf) (pdf) 和这篇论文 [Lest We Remember: Cold Boot Attacks on Encryption Keys](https://www.usenix.org/legacy/event/sec08/tech/full_papers/halderman/halderman.pdf) (pdf)
 
-## Firewall
 
-Before connecting to the Internet, it's a good idea to first configure a firewall.
+## 防火墙
 
-There are several types of firewall available for macOS.
+在准备连接进入互联网之前，最好是先配置一个防火墙。
 
-#### Application layer firewall
+在 macOS 上有好几种防火墙。
 
-Built-in, basic firewall which blocks **incoming** connections only.
+#### 应用程序层的防火墙
 
-Note, this firewall does not have the ability to monitor, nor block **outgoing** connections.
+系统自带的那个基本的防火墙，它只阻止 **对内** 的连接。
 
-It can be controlled by the **Firewall** tab of **Security & Privacy** in **System Preferences**, or with the following commands.
+注意，这个防火墙没有监控的能力，也没有阻止 **对外** 连接的能力。
 
-Enable the firewall:
+它能在 **System Preferences** 中 **Security & Privacy** 标签中的 **Firewall**控制，或者使用以下的命令。
+
+开启防火墙:
 
     $ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on
 
-Enable logging:
+开启日志:
 
     $ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setloggingmode on
 
-You may also wish to enable stealth mode:
+你可能还想开启私密模式:
 
     $ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode on
 
-> Computer hackers scan networks so they can attempt to identify computers to attack. You can prevent your computer from responding to some of these scans by using **stealth mode**. When stealth mode is enabled, your computer does not respond to ICMP ping requests, and does not answer to connection attempts from a closed TCP or UDP port. This makes it more difficult for attackers to find your computer.
+> 计算机黑客会扫描网络，所以它们能标记计算机并且实施网络攻击。你能使用**私密模式**，避免你的计算机响应一些这样的恶意扫描。当开启了防火墙的私密模式后，你的计算机就不会响应 ICMP 请求，并且不响应那些已关闭的 TCP 或 UDP 端口的连接。这会让那些网络攻击者们很难发现你的计算机。
 
-Finally, you may wish to prevent *built-in software* as well as *code-signed, downloaded software from being whitelisted automatically*:
+最后，你可能会想阻止 **系统自带的软件**和**经过代码签名，下载过的软件自动加入白名单:**
 
     $ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setallowsigned off
 
     $ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setallowsignedapp off
 
-> Applications that are signed by a valid certificate authority are automatically added to the list of allowed apps, rather than prompting the user to authorize them. Apps included in OS X are signed by Apple and are allowed to receive incoming connections when this setting is enabled. For example, since iTunes is already signed by Apple, it is automatically allowed to receive incoming connections through the firewall.
+> 那些经过一个认证签名的应用程序会自动允许加入列表，而不是提示用户再对它们进行认证。包含在 OS X 内的应用程序都被 Apple 代码签名，并且都允许接对内的连接，当这个配置开启了。举例来说，因为 iTunes 已经被 Apple 代码签名，所以它能自动允许防火墙接收对内的连接。
 
-> If you run an unsigned app that is not listed in the firewall list, a dialog appears with options to Allow or Deny connections for the app. If you choose Allow, OS X signs the application and automatically adds it to the firewall list. If you choose Deny, OS X adds it to the list but denies incoming connections intended for this app.
+> 如果你执行一个未签名的应用程序，它也没有被纳入防火墙白名单，此时一个带允许或者拒绝该连接选项的对话框会出现。如果你选择允许连接，OS X 对这个应用程序签名并且自动把它增加进防火墙的白名单。如果你选择拒绝连接，OS X 也会把它加入名单中，但是会拒绝对这个应用程序的对内连接。
 
-After interacting with `socketfilterfw`, you may want to restart (or terminate) the process:
+在使用完 `socketfilterfw` 之后，你需要重新启动（或者结束）这个进程:
 
     $ sudo pkill -HUP socketfilterfw
 
-#### Third party firewalls
+#### 第三方防火墙
 
-Programs such as [Little Snitch](https://www.obdev.at/products/littlesnitch/index.html), [Hands Off](https://www.oneperiodic.com/products/handsoff/), [Radio Silence](http://radiosilenceapp.com/) and [Security Growler](https://pirate.github.io/security-growler/) provide a good balance of usability and security.
+例如 [Little Snitch](https://www.obdev.at/products/littlesnitch/index.html), [Hands Off](https://www.oneperiodic.com/products/handsoff/), [Radio Silence](http://radiosilenceapp.com/) 和 [Security Growler](https://pirate.github.io/security-growler/) 这样的程序都提供了一个方便、易用且安全的防火墙。
 
 <img width="349" alt="Example of Little Snitch monitored session" src="https://cloud.githubusercontent.com/assets/12475110/10596588/c0eed3c0-76b3-11e5-95b8-9ce7d51b3d82.png">
 
-*Example of Little Snitch-monitored session*
+**以下是一段 Little Snitch 监控会话的例子**
 
 ```
 LittleSnitch-3.7.dmg
@@ -468,23 +468,23 @@ SHA-256: 5c44d853dc4178fb227abd3e8eee19ef1bf0d576f49b5b6a9a7eddf6ae7ea951
 SHA-1:   1320ca9bcffb8ff8105b7365e792db6dc7b9f46a
 ```
 
-These programs are capable of monitoring and blocking **incoming** and **outgoing** network connections. However, they may require the use of a closed source [kernel extension](https://developer.apple.com/library/mac/documentation/Darwin/Conceptual/KernelProgramming/Extend/Extend.html).
+这些程序都具备有监控和阻拦**对内**和**对外**网络连接的能力。然而，它们可能会需要使用一个闭源的 [内核扩展](https://developer.apple.com/library/mac/documentation/Darwin/Conceptual/KernelProgramming/Extend/Extend.html)。
 
-If the number of choices of allowing/blocking network connections is overwhelming, use **Silent Mode** with connections allowed, then periodically check your settings to gain understanding of what various applications are doing.
+如果过多的允许或者阻拦网络连接的选择让你不堪重负，使用配置过白名单的**静谧模式**，之后定期检查你设定项，来了解这么多应用程序都在干什么。 
 
-It is worth noting that these firewalls can be bypassed by programs running as **root** or through [OS vulnerabilities](https://www.blackhat.com/docs/us-15/materials/us-15-Wardle-Writing-Bad-A-Malware-For-OS-X.pdf) (pdf), but they are still worth having - just don't expect absolute protection.
+需要指出的是，这些防火墙都会被以 **root** 权限运行的程序绕过，或者通过 [OS vulnerabilities](https://www.blackhat.com/docs/us-15/materials/us-15-Wardle-Writing-Bad-A-Malware-For-OS-X.pdf) (pdf)，但是它们还是值得拥有的 — 只是不要期待完全的保护。
 
-For more on how Little Snitch works, see the [Network Kernel Extensions Programming Guide](https://developer.apple.com/library/mac/documentation/Darwin/Conceptual/NKEConceptual/socket_nke/socket_nke.html#//apple_ref/doc/uid/TP40001858-CH228-SW1) and [Shut up snitch! – reverse engineering and exploiting a critical Little Snitch vulnerability](https://reverse.put.as/2016/07/22/shut-up-snitch-reverse-engineering-and-exploiting-a-critical-little-snitch-vulnerability/).
+若想了解更多有关 Little Snitch 是如何工作的，可参考以下两篇文章，[Network Kernel Extensions Programming Guide](https://developer.apple.com/library/mac/documentation/Darwin/Conceptual/NKEConceptual/socket_nke/socket_nke.html#//apple_ref/doc/uid/TP40001858-CH228-SW1) 和 [Shut up snitch! – reverse engineering and exploiting a critical Little Snitch vulnerability](https://reverse.put.as/2016/07/22/shut-up-snitch-reverse-engineering-and-exploiting-a-critical-little-snitch-vulnerability/).
 
-#### Kernel level packet filtering
+#### 内核级的数据包过滤
 
-A highly customizable, powerful, but also most complicated firewall exists in the kernel. It can be controlled with `pfctl` and various configuration files.
+有一个高度可定制化、功能强大，但的确也是最复杂的防火墙存在内核中。它能通过 `pfctl` 或者很多配置文件控制。
 
-pf can also be controlled with a GUI application such as [IceFloor](http://www.hanynet.com/icefloor/) or [Murus](http://www.murusfirewall.com/).
+pf 也能通过一个 GUI 应用程序控制，例如 [IceFloor](http://www.hanynet.com/icefloor/) 或者 [Murus](http://www.murusfirewall.com/)。
 
-There are many books and articles on the subject of pf firewall. Here's is just one example of blocking traffic by IP address.
+有很多书和文章介绍 pf 防火墙。这里，我们只介绍一个有关通过 IP 地址阻拦访问的例子。
 
-Add the following into a file called `pf.rules`:
+将以下内容增加到 `pf.rules` 文件中:
 
 ```
 set block-policy drop
@@ -500,62 +500,62 @@ pass out proto udp from any to any keep state
 block log on en0 from {<blocklist>} to any
 ```
 
-Use the following commands:
+使用以下命令:
 
-* `sudo pfctl -e -f pf.rules` to enable the firewall
-* `sudo pfctl -d` to disable the firewall
-* `sudo pfctl -t blocklist -T add 1.2.3.4` to add hosts to a blocklist
-* `sudo pfctl -t blocklist -T show` to view the blocklist
-* `sudo ifconfig pflog0 create` to create an interface for logging
-* `sudo tcpdump -ni pflog0` to dump the packets
+* `sudo pfctl -e -f pf.rules` — 开启防火墙
+* `sudo pfctl -d` — 禁用防火墙
+* `sudo pfctl -t blocklist -T add 1.2.3.4` — 把某个主机加入阻止清单中
+* `sudo pfctl -t blocklist -T show` — 查看阻止清单
+* `sudo ifconfig pflog0 create` — 为某个接口创建日志
+* `sudo tcpdump -ni pflog0` — 输出打印数据包
 
-Unless you're already familiar with packet filtering, spending too much time configuring pf is not recommended. It is also probably unnecessary if your Mac is behind a [NAT](https://www.grc.com/nat/nat.htm) on a secured home network, for example.
+我不建议你花大量时间在如何配置 pf 上，除非你对数据包过滤器非常熟悉。比如说，如果你的 Mac 计算机连接在一个 [NAT](https://www.grc.com/nat/nat.htm) 后面，它存在于一个安全的家庭网络中，那以上操作是完全没有必要的。
 
-For an example of using pf to audit "phone home" behavior of user and system-level processes, see [fix-macosx/net-monitor](https://github.com/fix-macosx/net-monitor).
+可以参考 [fix-macosx/net-monitor](https://github.com/fix-macosx/net-monitor) 来了解如何使用 pf 监控用户和系统级别对“背景连接通讯"的使用。
 
-## Services
+## 系统服务
 
-Before you connect to the Internet, you may wish to disable some system services, which use up resources or phone home to Apple.
+在你连接到互联网之前，你不妨禁用一些系统服务，它们会使用一些资源或者后台连接通讯到 Apple。
 
-See [fix-macosx/yosemite-phone-home](https://github.com/fix-macosx/yosemite-phone-home), [l1k/osxparanoia](https://github.com/l1k/osxparanoia) and [karek314/macOS-home-call-drop](https://github.com/karek314/macOS-home-call-drop) for further recommendations.
+可参考这三个代码仓库获得更多建议，[fix-macosx/yosemite-phone-home](https://github.com/fix-macosx/yosemite-phone-home), [l1k/osxparanoia](https://github.com/l1k/osxparanoia) 和 [karek314/macOS-home-call-drop](https://github.com/karek314/macOS-home-call-drop)。
 
-Services on macOS are managed by **launchd**. See (launchd.info)[http://launchd.info/], as well as [Apple's Daemons and Services Programming Guide](https://developer.apple.com/library/mac/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingLaunchdJobs.html) and [Technical Note TN2083](https://developer.apple.com/library/mac/technotes/tn2083/_index.html)
+在 macOS 上的系统服务都由 **launchd** 管理。可参考 [launchd.info](http://launchd.info/)，也可以参考以下两个材料，[Apple's Daemons and Services Programming Guide](https://developer.apple.com/library/mac/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingLaunchdJobs.html) 和 [Technical Note TN2083](https://developer.apple.com/library/mac/technotes/tn2083/_index.html)。
 
-You can also run [KnockKnock](https://github.com/synack/knockknock) that shows more information about startup items.
+你也可以运行 [KnockKnock](https://github.com/synack/knockknock)，它能展示出更多有关启动项的内容。
 
-* Use `launchctl list` to view running user agents
-* Use `sudo launchctl list` to view running system daemons
-* Specify the service name to examine it, e.g. `launchctl list com.apple.Maps.mapspushd`
-* Use `defaults read` to examine job plists in `/System/Library/LaunchDaemons` and `/System/Library/LaunchAgents`
-* Use `man`, `strings` and Google to learn about what the agent/daemon runs
+* 使用 `launchctl list` 查看正在运行的用户代理
+* 使用 `sudo launchctl list` 查看正在运行的系统守护进程
+* 通过指定服务名称查看，例如，`launchctl list com.apple.Maps.mapspushd`
+* 使用 `defaults read` 来检查在 `/System/Library/LaunchDaemons` 和 `/System/Library/LaunchAgents` 工作中的 plist
+* 使用 `man`，`strings` 和 Google 来学习运行中的代理和守护进程是什么
 
-For example, to learn what a system launch daemon or agent does, start with:
+举例来说，想要知道某个系统启动的守护进程或者代理干了什么，可以输入以下指令:
 
     $ defaults read /System/Library/LaunchDaemons/com.apple.apsd.plist
 
-Look at the `Program` or `ProgramArguments` section to see which binary is run, in this case `apsd`. To find more information about that, look at the man page with `man apsd`
+看一看 `Program` 或者 `ProgramArguments` 这两个部分的内容，你就知道哪个二进制文件在运行，此处是 `apsd`。可以通过 `man apsd` 查看更多有关它的信息。
 
-For example, if you're not interested in Apple Push Notifications, disable the service:
+再举一个例子，如果你对 `Apple Push Nofitications` 不感兴趣，可以禁止这个服务:
 
     $ sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.apsd.plist
 
-**Note** Unloading services may break usability of some applications. Read the manual pages and use Google to make sure you understand what you're doing first.
+**注意** 卸载某些服务可能造成某些应用程序无法使用。首先，请阅读手册或者使用 Google 检索确保你明白自己在干什么。
 
-Be careful about disabling any system daemons you don't understand, as it may render your system unbootable. If you break your Mac, use [single user mode](https://support.apple.com/en-us/HT201573) to fix it.
+禁用那些你不理解的系统进程的时候一定要万分小心，因为它可能会让你的系统瘫痪无法启动。如果你弄坏了你的 Mac，可以使用 [单一用户模式](https://support.apple.com/en-us/HT201573) 来修复。
 
-Use [Console](https://en.wikipedia.org/wiki/Console_(OS_X)) and [Activity Monitor](https://support.apple.com/en-us/HT201464) applications if you notice your Mac heating up, feeling sluggish, or generally misbehaving, as it may have resulted from your tinkering.
+如果你觉得 Mac 持续升温，感觉卡顿或者常常表现出诡异的行为，可以使用 [Console](https://en.wikipedia.org/wiki/Console_(OS_X)) 和 [Activity Monitor](https://support.apple.com/en-us/HT201464) 这两个应用程序，因为这可能是你不小心操作造成的。
 
-To view currently disabled services:
+以下指令可以查看现在已经禁用的服务:
 
     $ find /var/db/com.apple.xpc.launchd/ -type f -print -exec defaults read {} \; 2>/dev/null
 
-Annotated lists of launch daemons and agents, the respective program executed, and the programs' hash sums are included in this repository.
+有详细注释的启动系统守护进程和代理的列表，各自运行的程序和程序的哈希校验值都包含在这个代码仓库中了。
 
-**(Optional)** Run the `read_launch_plists.py` script and `diff` output to check for any discrepancies on your system, e.g.:
+**(可选项)** 运行 `read_launch_plists.py` 脚本，使用 `diff` 输出和你系统对比后产生的差异，例如:
 
     $ diff <(python read_launch_plists.py) <(cat 16A323_launchd.csv)
 
-See also [cirrusj.github.io/Yosemite-Stop-Launch](http://cirrusj.github.io/Yosemite-Stop-Launch/) for descriptions of services and [Provisioning OS X and Disabling Unnecessary Services](https://vilimpoc.org/blog/2014/01/15/provisioning-os-x-and-disabling-unnecessary-services/) for another explanation.
+你可以参考这篇 [cirrusj.github.io/Yosemite-Stop-Launch](http://cirrusj.github.io/Yosemite-Stop-Launch/)，它对具体服务进行了一些解释， 也可以看看这篇 [Provisioning OS X and Disabling Unnecessary Services](https://vilimpoc.org/blog/2014/01/15/provisioning-os-x-and-disabling-unnecessary-services/)，这篇是其它一些解释。
 
 ## Spotlight Suggestions
 
