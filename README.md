@@ -357,10 +357,18 @@ It is not strictly required to ever log into the admin account via the macOS log
 
 #### Setup
 
-Accounts can be created and managed in System Preferences. On settled systems, it is generally easier to create a second admin account and then demote the first account. This avoids data migration. Newly installed systems can also just add a standard account. Demoting an account can be done either from the the new admin account in System Preferences – the other account must be logged out – or by executing this command:
+Accounts can be created and managed in System Preferences. On settled systems, it is generally easier to create a second admin account and then demote the first account. This avoids data migration. Newly installed systems can also just add a standard account. Demoting an account can be done either from the the new admin account in System Preferences – the other account must be logged out – or by executing these commands (it may not be necessary to execute both, see [issue #179](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/179)):
 ```
-sudo dscl . -delete /Groups/admin GroupMembership user_name
+sudo dscl . -delete /Groups/admin GroupMembership <username>
+sudo dscl . -delete /Groups/admin GroupMembers <GeneratedUID>
 ```
+
+You can find the “GeneratedUID” of your account with:
+```
+dscl . -read /Users/<username> GeneratedUID
+```
+
+See also [this post](https://superuser.com/a/395738) for more information about how macOS determines group membership.
 
 ## Full disk encryption
 
@@ -1689,7 +1697,7 @@ Add a whitelist rule:
 Run it:
 
 ```
-$ ./foo 
+$ ./foo
 Hello World
 ```
 
@@ -1700,7 +1708,7 @@ Applications can also be whitelisted by developer certificate (so that new binar
 ```
 $ curl -sO https://dl.google.com/chrome/mac/stable/GGRO/googlechrome.dmg
 
-$ hdiutil mount googlechrome.dmg 
+$ hdiutil mount googlechrome.dmg
 
 $ cp -r /Volumes/Google\ Chrome/Google\ Chrome.app /Applications/
 
@@ -1923,4 +1931,3 @@ Did you know Apple has not shipped a computer with TPM since [2006](http://osxbo
 [Mac OS X and iOS Internals: To the Apple's Core by Jonathan Levin](https://www.amazon.com/Mac-OS-iOS-Internals-Apples/dp/1118057651)
 
 [Demystifying the i-Device NVMe NAND (New storage used by Apple)](http://ramtin-amin.fr/#nvmepcie)
-
