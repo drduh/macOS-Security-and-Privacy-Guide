@@ -1,3 +1,5 @@
+# MacOS 的安全和隐私指南
+
 > * 原文地址：[macOS Security and Privacy Guide](https://github.com/drduh/macOS-Security-and-Privacy-Guide)
 * 原文作者：[drduh](https://github.com/drduh)
 * 译文出自：[掘金翻译计划](https://github.com/xitu/gold-miner)
