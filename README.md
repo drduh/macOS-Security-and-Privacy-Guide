@@ -1,7 +1,3 @@
-# Translations
-
-- [简体中文](https://github.com/xitu/macOS-Security-and-Privacy-Guide/blob/master/README-cn.md)
-
 This is a collection of thoughts on securing a modern Apple Mac computer using macOS (formerly *OS X*) 10.12 "Sierra", as well as steps to improving online privacy.
 
 This guide is targeted to “power users” who wish to adopt enterprise-standard security, but is also suitable for novice users with an interest in improving their privacy and security on a Mac.
@@ -11,6 +7,8 @@ A system is only as secure as its administrator is capable of making it. There i
 I am **not** responsible if you break a Mac by following any of these steps.
 
 If you wish to make a correction or improvement, please send a pull request or [open an issue](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues).
+
+This guide is also available in [简体中文](https://github.com/xitu/macOS-Security-and-Privacy-Guide/blob/master/README-cn.md).
 
 - [Basics](#basics)
 - [Firmware](#firmware)
