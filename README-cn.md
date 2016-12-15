@@ -4,7 +4,7 @@
 * 译者：[Nicolas(Yifei) Li](https://github.com/yifili09), [MAYDAY1993](https://github.com/MAYDAY1993), [DeadLion](https://github.com/DeadLion)
 * 校对者：[lovelyCiTY](https://github.com/lovelyCiTY), [sqrthree](https://github.com/sqrthree)
 
-这里汇集了一些想法，它们是有关如何保护运行了 10.12 "Sierra" 操作系统的苹果 mac 电脑，也包含了一些提高个人网络隐私的小贴士。
+这里汇集了一些想法，它们是有关如何保护保护运行了 10.12 "Sierra" 操作系统（以前是 **OS X**）的现代化苹果 mac 电脑，也包含了一些提高个人网络隐私的小贴士。
 
 这份指南的目标读者是那些希望采用企业级安全标准的"高级用户"，但是也适用于那些想在 mac 上提高个人隐私和安全性的初级用户们。
 
@@ -69,7 +69,7 @@
 
 * 创建一个威胁模型
     *  考虑下什么是你需要保护的，避免谁的侵害？你的对手会是一个 [TLA](https://theintercept.com/document/2015/03/10/strawhorse-attacking-macos-ios-software-development-kit/) 机构么？（如果是的，你需要考虑替换使用 [OpenBSD](http://www.openbsd.org)），或者是一个在网络上好管闲事的偷听者，还是一起针对你精心策划的 [apt](https://en.wikipedia.org/wiki/Advanced_persistent_threat) 网络攻击？
-    * 研究并识别出那些威胁，想一想如何减少被攻击的面。
+    * 研究并识别出[那些威胁](https://www.usenix.org/system/files/1401_08-12_mickens.pdf)，想一想如何减少被攻击的面。
 
 * 保持系统更新
     * 请为你的系统和软件持续更新补丁，更新补丁，更新补丁！（重要的事情说三遍）。
@@ -77,12 +77,13 @@
     * 请为那些你经常使用的程序，订阅公告邮件列表(例如，[Apple 安全公告](https://lists.apple.com/mailman/listinfo/security-announce))。
 
 * 对敏感数据进行加密
-    * 除了对整个磁盘加密之外，创建一个或者多个加密的容器，用它们来保存一些你的密码，秘钥和那些个人文件。
+    * 除了对整个磁盘加密之外，创建一个或者多个加密的容器，用它们来保存一些你的密码、秘钥、那些个人文件和余下的其他数据。
     * 这有助于减少数据泄露造成的危害。
 
 * 经常备份数据
-    * 定期创建数据备份，并且做好遇到危机时候的数据恢复工作。
+    * 定期创建[数据备份](https://www.amazon.com/o/ASIN/0596102461/backupcentral)，并且做好遇到危机时候的数据恢复工作。
     * 在拷贝数据备份到外部存储介质或者 “云” 系统中之前，始终对它们进行加密。
+    * 定期对备份进行测试，验证它们是可以工作的，例如，访问某一部分文件或者对比哈希校验值。
 
 * 注意钓鱼网站
     * 最后，具有高安全意识的管理员能大大降低系统的安全风险。
@@ -148,7 +149,7 @@ Sealed Resources version=2 rules=7 files=137
 Internal requirements count=1 size=124
 ```
 
-macOS 安装程序也可以由 `createinstallmedia` 工具制作，它在 `Install macOS Sierra.app/Contents/Resources/` 文件路径中。请参考[为 OS X Yosemite 制作一个启动安装程序](https://support.apple.com/en-us/HT201372)，或者直接运行这个命令（不需要输入任何参数），看看它是如何工作的。
+macOS 安装程序也可以由 `createinstallmedia` 工具制作，它在 `Install macOS Sierra.app/Contents/Resources/` 文件路径中。请参考[为 macOS 制作一个启动安装程序](https://support.apple.com/en-us/HT201372)，或者直接运行这个命令（不需要输入任何参数），看看它是如何工作的。
 
 **注意** Apple 的安装程序[并不能跨版本工作](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/120)。如果你想要创造一个 10.12 的镜像，例如，以下指令也必须要在 10.12 的机器上运行!
 
@@ -179,6 +180,8 @@ Done.
 通过 `Finder` 找到，并在这个应用程序图标上点击鼠标右键，选择 **Show Package Contents / 显示包内容**，之后从 **Contents / 内容** 进入到 **SharedSupport / 共享支持**，找到 `InstallESD.dmg` 文件。
 
 你能通过 `openssl sha1 InstallESD.dmg` 、`shasum -a 1 InstallESD.dmg` 或者 `shasum -a 256 InstallESD.dmg` 得到的加密过的哈希值[验证](https://support.apple.com/en-us/HT201259)来确保你得到的是同一份正版拷贝（在 Finder 中，你能把文件直接拷贝到终端中，它能提供这个文件的完整路径地址）。
+
+可以参考 [HT204319](https://support.apple.com/en-us/HT204319)，它能确定你最初采购来的计算机使用了哪个版本的 macOS，或者哪个版本适合你的计算机。
 
 可以参考 [InstallESD_Hashes.csv](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/blob/master/InstallESD_Hashes.csv) 这个在我代码仓库中的文件，它是现在和之前该版本文件的哈希值。你也可以使用 Google 搜索这些加密的哈希值，确保这个文件是正版且没有被修改过的。
 
@@ -328,7 +331,7 @@ SHA-1:   37ec465673ab802a3f62388d119399cb94b05408
 
 ## 首次启动
 
-**注意** 在设置 macOS 之前，请先断开网络连接并且配置一个防火墙。
+**注意** 在设置 macOS 之前，请先断开网络连接并且配置一个防火墙。然而, 装备有触摸条（`Touch Bar`）的 [2016 最新款 MacBook](https://www.ifixit.com/Device/MacBook_Pro_15%22_Late_2016_Touch_Bar)，它 [需要在线激活系统](https://onemoreadmin.wordpress.com/2016/11/27/the-untouchables-apples-new-os-activation-for-touch-bar-macbook-pros/).
 
 在首次启动时，按住 `Command` `Option` `P` `R` 键位组合，它用于[清除 NVRAM](https://support.apple.com/en-us/HT204063)。
 
@@ -346,7 +349,7 @@ SHA-1:   37ec465673ab802a3f62388d119399cb94b05408
 
 管理员账户始终是第一个账户。管理员账户是管理组中的成员并且有访问 `sudo` 的能力，允许它们修改其它账户，特别是 `root`，赋予它们对系统更高效的控制权。管理员执行的任何程序也有可能获得一样的权限，这就造成了一个安全风险。类似于 `sudo` 这样的工具[都有一些能被利用的弱点](https://bogner.sh/2014/03/another-mac-os-x-sudo-password-bypass/)，例如在默认管理员账户运行的情况下，并行打开的程序或者很多系统的设定都是[处于解锁的状态](http://csrc.nist.gov/publications/drafts/800-179/sp800_179_draft.pdf) [p. 61–62]。[Apple](https://help.apple.com/machelp/mac/10.12/index.html#/mh11389) 提供了一个最佳实践和[其它一些方案](http://csrc.nist.gov/publications/drafts/800-179/sp800_179_draft.pdf) [p. 41–42]，例如，为每天基本的工作建立一个单独的账号，使用管理员账号仅为了安装软件和配置系统。
 
-每一次都通过 OS X 登录界面进入管理员帐号并不是必须的。系统会在需要认证许可的时候弹出提示框，之后交给终端就行了。为了达到这个目的，Apple 为隐藏管理员账户和它的根目录提供了一些[建议](https://support.apple.com/HT203998)。这对避免显示一个可见的 `影子` 账户来说是一个好办法。管理员账户也能[从 FileVault 里移除](http://apple.stackexchange.com/a/94373)。
+每一次都通过 macOS 登录界面进入管理员帐号并不是必须的。系统会在需要认证许可的时候弹出提示框，之后交给终端就行了。为了达到这个目的，Apple 为隐藏管理员账户和它的根目录提供了一些[建议](https://support.apple.com/HT203998)。这对避免显示一个可见的 `影子` 账户来说是一个好办法。管理员账户也能[从 FileVault 里移除](http://apple.stackexchange.com/a/94373)。
 
 #### 错误警告
 
@@ -360,10 +363,21 @@ SHA-1:   37ec465673ab802a3f62388d119399cb94b05408
 
 #### 设置
 
-账户能在系统设置中创建和管理。在一个已经建立的系统中，通常很容易就能创建第二个管理员账号并且把之前的管理员帐号降级。这就避免了数据迁移的问题。新安装的系统都能增加普通账号。对一个账号降级能通过新建立的管理员帐号中的系统设置 — 当然那个管理员账号必须已经注销 — 或者执行这个命令:
+账户能在系统设置中创建和管理。在一个已经建立的系统中，通常很容易就能创建第二个管理员账号并且把之前的管理员帐号降级。这就避免了数据迁移的问题。新安装的系统都能增加普通账号。对一个账号降级能通过新建立的管理员帐号中的系统设置 — 当然那个管理员账号必须已经注销 — 或者执行这些命令（这两个指令可能没有必要都执行，可以参考 [问题 #179](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/179)）:
+
 ```
-sudo dscl . -delete /Groups/admin GroupMembership user_name
+$ sudo dscl . -delete /Groups/admin GroupMembership <username>
+
+$ sudo dscl . -delete /Groups/admin GroupMembers <GeneratedUID>
 ```
+
+通过以下指令，你就能发现你账号的 “GeneratedUID”:
+
+```
+$ dscl . -read /Users/<username> GeneratedUID
+```
+
+也可以参考 [这篇文章](https://superuser.com/a/395738)，它能带给你有关更多 macOS 是如何确定组成员的内容。
 
 ## 对整个磁盘进行数据加密
 
@@ -399,7 +413,7 @@ FileVault 的安全性依赖于伪随机数生成器 (PRNG)。
     $ sudo pmset -a destroyfvkeyonstandby 1
     $ sudo pmset -a hibernatemode 25
 
-> 所有计算机都有 EFI 或 BIOS 这类的固件，它们帮助发现其它硬件，最终使用所需的操作系统实例把计算机正确启动起来。以 Apple 硬件和 EFI 的使用来说，Apple 把有关的信息保存在 EFI 内，它辅助 OS X 的功能正确运行。举例来说，FileVault 的秘钥保存在 EFI 内，在待机模式的时候出现。
+> 所有计算机都有 EFI 或 BIOS 这类的固件，它们帮助发现其它硬件，最终使用所需的操作系统实例把计算机正确启动起来。以 Apple 硬件和 EFI 的使用来说，Apple 把有关的信息保存在 EFI 内，它辅助 macOS 的功能正确运行。举例来说，FileVault 的秘钥保存在 EFI 内，在待机模式的时候出现。
 
 > 那些容易被高频攻击的部件，或者那些待机模式下，容易被暴露给所有设备访问的设备，它们都应该销毁在固件中的 FileVault 秘钥来减少这个风险。这么干并不会影响 FileVault 的正常使用，但是系统需要用户在每次跳出待机模式的时候输入这个密码。
 
@@ -449,7 +463,7 @@ FileVault 的安全性依赖于伪随机数生成器 (PRNG)。
 
 > 那些经过一个认证签名的应用程序会自动允许加入列表，而不是提示用户再对它们进行认证。包含在 OS X 内的应用程序都被 Apple 代码签名，并且都允许接对内的连接，当这个配置开启了。举例来说，因为 iTunes 已经被 Apple 代码签名，所以它能自动允许防火墙接收对内的连接。
 
-> 如果你执行一个未签名的应用程序，它也没有被纳入防火墙白名单，此时一个带允许或者拒绝该连接选项的对话框会出现。如果你选择允许连接，OS X 对这个应用程序签名并且自动把它增加进防火墙的白名单。如果你选择拒绝连接，OS X 也会把它加入名单中，但是会拒绝对这个应用程序的对内连接。
+> 如果你执行一个未签名的应用程序，它也没有被纳入防火墙白名单，此时一个带允许或者拒绝该连接选项的对话框会出现。如果你选择“允许连接”，macOS 对这个应用程序签名并且自动把它增加进防火墙的白名单。如果你选择“拒绝连接”，macOS 也会把它加入名单中，但是会拒绝对这个应用程序的对内连接。
 
 在使用完 `socketfilterfw` 之后，你需要重新启动（或者结束）这个进程:
 
@@ -464,16 +478,16 @@ FileVault 的安全性依赖于伪随机数生成器 (PRNG)。
 **以下是一段 Little Snitch 监控会话的例子**
 
 ```
-LittleSnitch-3.7.dmg
-SHA-256: 5c44d853dc4178fb227abd3e8eee19ef1bf0d576f49b5b6a9a7eddf6ae7ea951
-SHA-1:   1320ca9bcffb8ff8105b7365e792db6dc7b9f46a
+LittleSnitch-3.7.1.dmg
+SHA-256: e6332ee70385f459d9803b0a582d5344bb9dab28bcd56e247ae69866cc321802
+SHA-1:   d5d602c0f76cd73051792dff0ac334bbdc66ae32
 ```
 
 这些程序都具备有监控和阻拦**对内**和**对外**网络连接的能力。然而，它们可能会需要使用一个闭源的[内核扩展](https://developer.apple.com/library/mac/documentation/Darwin/Conceptual/KernelProgramming/Extend/Extend.html)。
 
 如果过多的允许或者阻拦网络连接的选择让你不堪重负，使用配置过白名单的**静谧模式**，之后定期检查你设定项，来了解这么多应用程序都在干什么。
 
-需要指出的是，这些防火墙都会被以 **root** 权限运行的程序绕过，或者通过 [OS vulnerabilities](https://www.blackhat.com/docs/us-15/materials/us-15-Wardle-Writing-Bad-A-Malware-For-OS-X.pdf) (pdf)，但是它们还是值得拥有的 — 只是不要期待完全的保护。
+需要指出的是，这些防火墙都会被以 **root** 权限运行的程序绕过，或者通过 [OS vulnerabilities](https://www.blackhat.com/docs/us-15/materials/us-15-Wardle-Writing-Bad-A-Malware-For-OS-X.pdf) (pdf)，但是它们还是值得拥有的 — 只是不要期待完全的保护。然而，一些恶意软件实际上能[自我删除](https://www.cnet.com/how-to/how-to-remove-the-flashback-malware-from-os-x/)，如果发现 `Little Snitch` 或者其他一些安全软件已经安装，它就根本不启动。
 
 若想了解更多有关 Little Snitch 是如何工作的，可参考以下两篇文章，[Network Kernel Extensions Programming Guide](https://developer.apple.com/library/mac/documentation/Darwin/Conceptual/NKEConceptual/socket_nke/socket_nke.html#//apple_ref/doc/uid/TP40001858-CH228-SW1) 和 [Shut up snitch! – reverse engineering and exploiting a critical Little Snitch vulnerability](https://reverse.put.as/2016/07/22/shut-up-snitch-reverse-engineering-and-exploiting-a-critical-little-snitch-vulnerability/).
 
@@ -567,6 +581,8 @@ block log on en0 from {<blocklist>} to any
 查看[fix-macosx.com]（https://fix-macosx.com/）获得更详细的信息。
 
 > 如果你已经更新到 Mac OS X Yosemite(10.10)并且在用默认的设置，每一次你开始在 Spotlight （去打开一个应用或在你的电脑中搜索一个文件）中打字，你本地的搜索词和位置会被发送给 Apple 和第三方（包括 Microsoft ）。
+
+ **注意** 这个网站和它的指导说明已不再适用于 macOS Sierra — 参考[问题 164](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/164).
 
 下载，查看并应用他们建议的补丁：
 
@@ -699,9 +715,9 @@ log-facility=/var/log/dnsmasq.log
 #dnssec-check-unsigned
 ```
 
-安装并启动程序：
+安装并启动程序(`sudo` 需要绑定在 [53 特权端口](https://unix.stackexchange.com/questions/16564/why-are-the-first-1024-ports-restricted-to-the-root-user-only)):
 
-    $ brew services start dnsmasq
+    $ sudo brew services start dnsmasq
 
 要设置 Dnsmasq 为本地的 DNS 服务器，打开**系统偏好设置** > **网络**并选择“高级”（译者注：原文为 ‘active interface’，实际上‘高级’），接着切换到 **DNS** 选项卡，选择 **+** 并 添加 `127.0.0.1`, 或使用：
 
@@ -1162,6 +1178,50 @@ $ hdiutil mount TorBrowser-6.0.5-osx64_en-US.dmg
 $ cp -rv /Volumes/Tor\ Browser/TorBrowser.app /Applications
 ```
 
+也可以验证是否这个 Tor 应用程序是由名为 **MADPSAYN6T** 的 Apple 开发者账号进行签名编译的:
+
+```
+$ codesign -dvv /Applications/TorBrowser.app
+Executable=/Applications/TorBrowser.app/Contents/MacOS/firefox
+Identifier=org.mozilla.tor browser
+Format=app bundle with Mach-O thin (x86_64)
+CodeDirectory v=20200 size=247 flags=0x0(none) hashes=5+3 location=embedded
+Library validation warning=OS X SDK version before 10.9 does not support Library Validation
+Signature size=4247
+Authority=Developer ID Application: The Tor Project, Inc (MADPSAYN6T)
+Authority=Developer ID Certification Authority
+Authority=Apple Root CA
+Signed Time=Nov 30, 2016, 10:40:34 AM
+Info.plist entries=21
+TeamIdentifier=MADPSAYN6T
+Sealed Resources version=2 rules=12 files=130
+Internal requirements count=1 size=184
+```
+
+为了查看证书的详细内容，可以使用 `codesign` 提取并且使用 `openssl` 对它进行解码:
+
+```
+$ codesign -d --extract-certificates /Applications/TorBrowser.app
+Executable=/Applications/TorBrowser.app/Contents/MacOS/firefox
+
+$ file codesign*
+codesign0: data
+codesign1: data
+codesign2: data
+
+$ openssl x509 -inform der -in codesign0 -subject -issuer -startdate -enddate -noout
+subject= /UID=MADPSAYN6T/CN=Developer ID Application: The Tor Project, Inc (MADPSAYN6T)/OU=MADPSAYN6T/O=The Tor Project, Inc/C=US
+issuer= /CN=Developer ID Certification Authority/OU=Apple Certification Authority/O=Apple Inc./C=US
+notBefore=Apr 12 22:40:13 2016 GMT
+notAfter=Apr 13 22:40:13 2021 GMT
+
+$ openssl x509 -inform der -in codesign0  -fingerprint -noout
+SHA1 Fingerprint=95:80:54:F1:54:66:F3:9C:C2:D8:27:7A:29:21:D9:61:11:93:B3:E8
+
+$ openssl x509 -inform der -in codesign0 -fingerprint -sha256 -noout
+SHA256 Fingerprint=B5:0D:47:F0:3E:CB:42:B6:68:1C:6F:38:06:2B:C2:9F:41:FA:D6:54:F1:29:D3:E4:DD:9C:C7:49:35:FF:F5:D9
+```
+
 Tor 流量对于[出口节点](https://en.wikipedia.org/wiki/Tor_anonymity_network#Exit_node_eavesdropping)（不能被一个网络窃听者读取）是**加密的**， Tor 是**可以**被发现的- 例如，TLS 握手“主机名”将会以明文显示：
 
 ```
@@ -1222,7 +1282,7 @@ macOS 上有很多本地提权漏洞，所以要小心那些从第三方网站�
 
 ## 系统完整性保护
 
-[System Integrity Protection](https://support.apple.com/en-us/HT204899) (SIP) 是 OS X 10.11 中一个新的安全特性。默认是开启的，不过[可以禁用](https://derflounder.wordpress.com/2015/10/01/system-integrity-protection-adding-another-layer-to-apples-security-model/)，这可能需要更改某些系统设置，如删除根证书颁发机构或卸载某些启动守护进程。保持这项功能默认开启状态。
+[System Integrity Protection](https://support.apple.com/en-us/HT204899) (SIP) 这个安全特性源于 OS X 10.11 "El Capitan"。默认是开启的，不过[可以禁用](https://derflounder.wordpress.com/2015/10/01/system-integrity-protection-adding-another-layer-to-apples-security-model/)，这可能需要更改某些系统设置，如删除根证书颁发机构或卸载某些启动守护进程。保持这项功能默认开启状态。
 
 摘取自 [OS X 10.11 新增功能](https://developer.apple.com/library/prerelease/mac/releasenotes/MacOSX/WhatsNewInOSX/Articles/MacOSX10_11.html):
 
@@ -1251,33 +1311,76 @@ macOS 上有很多本地提权漏洞，所以要小心那些从第三方网站�
 想永久禁用此项功能，[清除文件](https://superuser.com/questions/90008/how-to-clear-the-contents-of-a-file-from-the-command-line)和[让它不可更改](http://hints.macworld.com/article.php?story=20031017061722471)：
 
     $ :>~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2
+
     $ sudo chflags schg ~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2
 
-此外，macOS 附加元数据 ([HFS+ extended attributes](https://en.wikipedia.org/wiki/Extended_file_attributes#OS_X))来下载文件：
+此外，macOS 附加元数据 ([HFS+ extended attributes](https://en.wikipedia.org/wiki/Extended_file_attributes#OS_X))来下载文件，能通过 `mdls` 和 `xattr` 指令来观察：
 
 ```
-$ ls -l@ ~/Downloads/TorBrowser-6.0.5-osx64_en-US.dmg
--rw-r--r--@ 1 drduh  staff  59322237 Oct  9 15:20 TorBrowser-6.0.5-osx64_en-US.dmg
-com.apple.metadata:kMDItemWhereFroms         186
-com.apple.quarantine          68
+$ ls -l@ ~/Downloads/TorBrowser-6.0.8-osx64_en-US.dmg
+-rw-r--r--@ 1 drduh  staff  59322237 Dec  1 12:00 TorBrowser-6.0.8-osx64_en-US.dmg
+com.apple.metadata:kMDItemWhereFroms	     186
+com.apple.quarantine	      68
 
-$ xattr -l ~/Downloads/TorBrowser-6.0.5-osx64_en-US.dmg
+$ mdls ~/Downloads/TorBrowser-6.0.8-osx64_en-US.dmg
+_kMDItemOwnerUserID            = 501
+kMDItemContentCreationDate     = 2016-12-01 12:00:00 +0000
+kMDItemContentModificationDate = 2016-12-01 12:00:00 +0000
+kMDItemContentType             = "com.apple.disk-image-udif"
+kMDItemContentTypeTree         = (
+    "public.archive",
+    "public.item",
+    "public.data",
+    "public.disk-image",
+    "com.apple.disk-image",
+    "com.apple.disk-image-udif"
+)
+kMDItemDateAdded               = 2016-12-01 12:00:00 +0000
+kMDItemDisplayName             = "TorBrowser-6.0.8-osx64_en-US.dmg"
+kMDItemFSContentChangeDate     = 2016-12-01 12:00:00 +0000
+kMDItemFSCreationDate          = 2016-12-01 12:00:00 +0000
+kMDItemFSCreatorCode           = ""
+kMDItemFSFinderFlags           = 0
+kMDItemFSHasCustomIcon         = (null)
+kMDItemFSInvisible             = 0
+kMDItemFSIsExtensionHidden     = 0
+kMDItemFSIsStationery          = (null)
+kMDItemFSLabel                 = 0
+kMDItemFSName                  = "TorBrowser-6.0.8-osx64_en-US.dmg"
+kMDItemFSNodeCount             = (null)
+kMDItemFSOwnerGroupID          = 5000
+kMDItemFSOwnerUserID           = 501
+kMDItemFSSize                  = 60273898
+kMDItemFSTypeCode              = ""
+kMDItemKind                    = "Disk Image"
+kMDItemLogicalSize             = 60273898
+kMDItemPhysicalSize            = 60276736
+kMDItemWhereFroms              = (
+    "https://dist.torproject.org/torbrowser/6.0.8/TorBrowser-6.0.8-osx64_en-US.dmg",
+    "https://www.torproject.org/projects/torbrowser.html.en"
+)
+
+$ xattr -l TorBrowser-6.0.8-osx64_en-US.dmg
 com.apple.metadata:kMDItemWhereFroms:
-00000000  62 70 6C 69 73 74 30 30 A2 01 02 5F 10 4D 68 74  |bplist00..._.Mht|
-00000010  74 70 73 3A 2F 2F 64 69 73 74 2E 74 6F 72 70 72  |tps://dist.torpr|
-00000020  6F 6A 65 63 74 2E 6F 72 67 2F 74 6F 72 62 72 6F  |oject.org/torbro|
-00000030  77 73 65 72 2F 36 2E 30 2E 35 2F 54 6F 72 42 72  |wser/6.0.5/TorBr|
-00000040  6F 77 73 65 72 2D 36 2E 30 2E 35 2D 6F 73 78 36  |owser-6.0.5-osx6|
-00000050  34 5F 65 6E 2D 55 53 2E 64 6D 67 5F 10 39 68 74  |4_en-US.dmg_.9ht|
-00000060  74 70 73 3A 2F 2F 77 77 77 2E 74 6F 72 70 72 6F  |tps://www.torpro|
-00000070  6A 65 63 74 2E 6F 72 67 2F 64 6F 77 6E 6C 6F 61  |ject.org/downloa|
-00000080  64 2F 64 6F 77 6E 6C 6F 61 64 2D 65 61 73 79 2E  |d/download-easy.|
-00000090  68 74 6D 6C 2E 65 6E 08 0B 5B 00 00 00 00 00 00  |html.en..[......|
-000000A0  01 01 00 00 00 00 00 00 00 03 00 00 00 00 00 00  |................|
-000000B0  00 00 00 00 00 00 00 00 00 97                    |..........|
-000000ba
-com.apple.quarantine: 0081;52fb9173;Google Chrome.app;3AB6D46E-4AC5-3C3E-B427-32C7F804AAA3
+00000000  62 70 6C 69 73 74 30 30 A2 01 02 5F 10 4D 68 74  |bplist00..._.Mht|
+00000010  74 70 73 3A 2F 2F 64 69 73 74 2E 74 6F 72 70 72  |tps://dist.torpr|
+00000020  6F 6A 65 63 74 2E 6F 72 67 2F 74 6F 72 62 72 6F  |oject.org/torbro|
+00000030  77 73 65 72 2F 36 2E 30 2E 38 2F 54 6F 72 42 72  |wser/6.0.8/TorBr|
+00000040  6F 77 73 65 72 2D 36 2E 30 2E 38 2D 6F 73 78 36  |owser-6.0.8-osx6|
+00000050  34 5F 65 6E 2D 55 53 2E 64 6D 67 5F 10 36 68 74  |4_en-US.dmg_.6ht|
+00000060  74 70 73 3A 2F 2F 77 77 77 2E 74 6F 72 70 72 6F  |tps://www.torpro|
+00000070  6A 65 63 74 2E 6F 72 67 2F 70 72 6F 6A 65 63 74  |ject.org/project|
+00000080  73 2F 74 6F 72 62 72 6F 77 73 65 72 2E 68 74 6D  |s/torbrowser.htm|
+00000090  6C 2E 65 6E 08 0B 5B 00 00 00 00 00 00 01 01 00  |l.en..[.........|
+000000A0  00 00 00 00 00 00 03 00 00 00 00 00 00 00 00 00  |................|
+000000B0  00 00 00 00 00 00 94                             |.......|
+000000b7
+com.apple.quarantine: 0081;58519ffa;Google Chrome.app;1F032CAB-F5A1-4D92-84EB-CBECA971B7BC
+```
 
+可以使用 `-d` 指令标志移除原数据属性:
+
+```
 $ xattr -d com.apple.metadata:kMDItemWhereFroms ~/Downloads/TorBrowser-6.0.5-osx64_en-US.dmg
 
 $ xattr -d com.apple.quarantine ~/Downloads/TorBrowser-6.0.5-osx64_en-US.dmg
@@ -1785,7 +1888,7 @@ $ duti -s com.apple.Safari smb
 
 ## 相关软件
 
-[Santa](https://github.com/google/santa/) - Mac OS X 上一个带二进制白名单/黑名单监控系统的软件。
+[Santa](https://github.com/google/santa/) - macOS 上一个带二进制白名单/黑名单监控系统的软件。
 
 [kristovatlas/osx-config-check](https://github.com/kristovatlas/osx-config-check) - 检查你的 OSX 设备各种硬件配置设置。
 
@@ -1811,11 +1914,11 @@ $ duti -s com.apple.Safari smb
 
 *排名不分先后*
 
-[MacOS Hardening Guide - Appendix, Mac OS X and iOS Internals](http://newosxbook.com/files/moxii3/AppendixA.pdf)
+[MacOS Hardening Guide - Appendix of \*OS Internals: Volume III - Security & Insecurity Internals](http://newosxbook.com/files/moxii3/AppendixA.pdf) (pdf)
 
 [Mac Developer Library: Secure Coding Guide](https://developer.apple.com/library/mac/documentation/Security/Conceptual/SecureCodingGuide/Introduction.html)
 
-[OS X Core Technologies Overview White Paper](https://www.apple.com/osx/all-features/pdf/osx_elcapitan_core_technologies_overview.pdf)
+[OS X Core Technologies Overview White Paper](https://www.apple.com/osx/all-features/pdf/osx_elcapitan_core_technologies_overview.pdf) (pdf)
 
 [Reverse Engineering Mac OS X blog](https://reverse.put.as/)
 
@@ -1880,3 +1983,5 @@ $ duti -s com.apple.Safari smb
 [Auditing and Exploiting Apple IPC](https://googleprojectzero.blogspot.com/2015/09/revisiting-apple-ipc-1-distributed_28.html)
 
 [Mac OS X and iOS Internals: To the Apple's Core by Jonathan Levin](https://www.amazon.com/Mac-OS-iOS-Internals-Apples/dp/1118057651)
+
+[Demystifying the i-Device NVMe NAND (New storage used by Apple)](http://ramtin-amin.fr/#nvmepcie)
