@@ -8,6 +8,8 @@ I am **not** responsible if you break a Mac by following any of these steps.
 
 If you wish to make a correction or improvement, please send a pull request or [open an issue](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues).
 
+This guide is also available in [简体中文](https://github.com/xitu/macOS-Security-and-Privacy-Guide/blob/master/README-cn.md).
+
 - [Basics](#basics)
 - [Firmware](#firmware)
 - [Preparing and Installing macOS](#preparing-and-installing-macos)
