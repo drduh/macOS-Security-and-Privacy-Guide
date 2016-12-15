@@ -1,135 +1,135 @@
 > * 原文地址：[macOS Security and Privacy Guide](https://github.com/drduh/macOS-Security-and-Privacy-Guide)
 * 原文作者：[drduh](https://github.com/drduh)
 * 译文出自：[掘金翻译计划](https://github.com/xitu/gold-miner)
-* 译者：
-* 校对者：
+* 译者：[Nicolas(Yifei) Li](https://github.com/yifili09), [MAYDAY1993](https://github.com/MAYDAY1993), [DeadLion](https://github.com/DeadLion)
+* 校对者：[lovelyCiTY](https://github.com/lovelyCiTY), [sqrthree](https://github.com/sqrthree)
 
-This is a collection of thoughts on securing a modern Apple Mac computer using macOS (formerly *"OS X"*) 10.12 "Sierra", as well as steps to improving online privacy.
+这里汇集了一些想法，它们是有关如何保护运行了 10.12 "Sierra" 操作系统的苹果 mac 电脑，也包含了一些提高个人网络隐私的小贴士。  
 
-This guide is targeted to “power users” who wish to adopt enterprise-standard security, but is also suitable for novice users with an interest in improving their privacy and security on a Mac.
+这份指南的目标读者是那些希望采用企业级安全标准的"高级用户"，但是也适用于那些想在 mac 上提高个人隐私和安全性的初级用户们。
 
-A system is only as secure as its administrator is capable of making it. There is no one single technology, software, nor technique to guarantee perfect computer security; a modern operating system and computer is very complex, and requires numerous incremental changes to meaningfully improve one's security and privacy posture.
+一个系统的安全与否完全取决于管理员的能力。没有一个单独的技术、软件，或者任何一个科技能保证计算机完全安全；现代的计算机和操作系统都是非常复杂的，并且需要大量的增量修改才能获得在安全性和隐私性上真正意义的提高。
 
-I am **not** responsible if you break a Mac by following any of these steps.
+**免责声明**：若按照以下操作后对您的 mac 电脑造成损伤，**望您自行负责**。
 
-If you wish to make a correction or improvement, please send a pull request or [open an issue](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues).
+如果你发现了本文中的错误或者有待改进的内容，请提交 `pull request` 或者 [创建一个 `issue`](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues).
 
-- [Basics](#basics)
-- [Firmware](#firmware)
-- [Preparing and Installing macOS](#preparing-and-installing-macos)
-    - [Virtualization](#virtualization)
-- [First boot](#first-boot)
-- [Admin and standard user accounts](#admin-and-standard-user-accounts)
-- [Full disk encryption](#full-disk-encryption)
-- [Firewall](#firewall)
-    - [Application layer firewall](#application-layer-firewall)
-    - [Third party firewalls](#third-party-firewalls)
-    - [Kernel level packet filtering](#kernel-level-packet-filtering)
-- [Services](#services)
-- [Spotlight Suggestions](#spotlight-suggestions)
+- [基础知识](#基础知识)
+- [固件](#固件)
+- [准备和安装 macOS](#准备和安装-macos)
+    - [虚拟机](#虚拟机)
+- [首次启动](#首次启动)
+- [管理员和普通用户账号](#管理员和普通用户账号)
+- [对整个磁盘进行数据加密](#对整个磁盘进行数据加密)
+- [防火墙](#防火墙)
+    - [应用程序层的防火墙](#应用程序层的防火墙)
+    - [第三方防火墙](#第三方防火墙)
+    - [内核级的数据包过滤](#内核级的数据包过滤)
+- [系统服务](#系统服务)
+- [Spotlight 建议](#spotlight-建议)
 - [Homebrew](#homebrew)
 - [DNS](#dns)
-    - [Hosts file](#hosts-file)
+    - [Hosts 文件](#hosts-文件)
     - [Dnsmasq](#dnsmasq)
-      - [Test DNSSEC validation](#test-dnssec-validation)
+      - [检测 DNSSEC 验证](#检测-dnssec-验证)
     - [DNSCrypt](#dnscrypt)
 - [Captive portal](#captive-portal)
-- [Certificate authorities](#certificate-authorities)
+- [证书授权](#证书授权)
 - [OpenSSL](#openssl)
 - [Curl](#curl)
 - [Web](#web)
-    - [Privoxy](#privoxy)
-    - [Browser](#browser)
-    - [Plugins](#plugins)
+    - [代理](#代理)
+    - [浏览器](#浏览器)
+    - [插件](#插件)
 - [PGP/GPG](#pgpgpg)
 - [OTR](#otr)
 - [Tor](#tor)
 - [VPN](#vpn)
-- [Viruses and malware](#viruses-and-malware)
-- [System Integrity Protection](#system-integrity-protection)
-- [Gatekeeper and XProtect](#gatekeeper-and-xprotect)
-- [Passwords](#passwords)
-- [Backup](#backup)
+- [病毒和恶意软件](#病毒和恶意软件)
+- [系统完整性保护](#系统完整性保护)
+- [Gatekeeper 和 XProtect](#gatekeeper-和-xprotect)
+- [密码](#密码)
+- [备份](#备份)
 - [Wi-Fi](#wi-fi)
 - [SSH](#ssh)
-- [Physical access](#physical-access)
-- [System monitoring](#system-monitoring)
-    - [OpenBSM audit](#openbsm-audit)
+- [物理访问](#物理访问)
+- [系统监控](#系统监控)
+    - [OpenBSM 监测](#openbsm-监测)
     - [DTrace](#dtrace)
-    - [Execution](#execution)
-    - [Network](#network)
-- [Miscellaneous](#miscellaneous)
-- [Related software](#related-software)
-- [Additional resources](#additional-resources)
+    - [运行](#运行)
+    - [网络](#网络)
+- [其它](#其它)
+- [相关软件](#相关软件)
+- [其它资源](#其它资源)
 
-## Basics
+## 基础知识
 
-The standard best security practices apply:
+安全标准的最佳实践适用于以下几点:
 
-* Create a threat model
-    * What are you trying to protect and from whom? Is your adversary a [three letter agency](https://theintercept.com/document/2015/03/10/strawhorse-attacking-macos-ios-software-development-kit/) (if so, you may want to consider using [OpenBSD](http://www.openbsd.org/) instead), a nosy eavesdropper on the network, or determined [apt](https://en.wikipedia.org/wiki/Advanced_persistent_threat) orchestrating a campaign against you?
-    * Study and recognize threats and how to reduce attack surface.
+* 创建一个威胁模型
+    *  考虑下什么是你需要保护的，避免谁的侵害？你的对手会是一个 [TLA](https://theintercept.com/document/2015/03/10/strawhorse-attacking-macos-ios-software-development-kit/) 机构么？（如果是的，你需要考虑替换使用 [OpenBSD](http://www.openbsd.org)），或者是一个在网络上好管闲事的偷听者，还是一起针对你精心策划的 [apt](https://en.wikipedia.org/wiki/Advanced_persistent_threat) 网络攻击？
+    * 研究并识别出那些威胁，想一想如何减少被攻击的面。
 
-* Keep the system up to date
-    * Patch, patch, patch your system and software.
-    * macOS system updates can be completed using the App Store application, or the `softwareupdate` command-line utility - neither requires registering an Apple account.
-    * Subscribe to announcement mailing lists (e.g., [Apple security-announce](https://lists.apple.com/mailman/listinfo/security-announce)) for programs you use often.
+* 保持系统更新
+    * 请为你的系统和软件持续更新补丁，更新补丁，更新补丁！（重要的事情说三遍）。
+    * 可以使用 `App Store` 应用程序来完成对 `macOS` 系统的更新，或者使用命令行工具 `softwareupdate`，这两个都不需要注册苹果账号。
+    * 请为那些你经常使用的程序，订阅公告邮件列表(例如，[Apple 安全公告](https://lists.apple.com/mailman/listinfo/security-announce))。
 
-* Encrypt sensitive data
-    * In addition to full disk encryption, create one or many encrypted containers to store passwords, keys and personal documents.
-    * This will mitigate damage in case of compromise and data exfiltration.
+* 对敏感数据进行加密
+    * 除了对整个磁盘加密之外，创建一个或者多个加密的容器，用它们来保存一些你的密码，秘钥和那些个人文件。
+    * 这有助于减少数据泄露造成的危害。
 
-* Frequent backups
-    * Create regular backups of your data and be ready to reimage in case of compromise.
-    * Always encrypt before copying backups to external media or the "cloud".
+* 经常备份数据
+    * 定期创建数据备份，并且做好遇到危机时候的数据恢复工作。 
+    * 在拷贝数据备份到外部存储介质或者 “云” 系统中之前，始终对它们进行加密。
 
-* Click carefully
-    * Ultimately, the security of a system can be reduced to its administrator.
-    * Care should be taken when installing new software. Always prefer [free](https://www.gnu.org/philosophy/free-sw.en.html) and open source software ([which macOS is not](https://superuser.com/questions/19492/is-mac-os-x-open-source)).
+* 注意钓鱼网站
+    * 最后，具有高安全意识的管理员能大大降低系统的安全风险。
+    * 在安装新软件的时候，请加倍小心。始终选择[免费的软件](https://www.gnu.org/philosophy/free-sw.en.html)和开源的软件（[macOS 当然不是开源的](https://superuser.com/questions/19492/is-mac-os-x-open-source))
 
-## Firmware
+## 固件
 
-Setting a firmware password prevents your Mac from starting up from any device other than your startup disk. It may also be set to be required on each boot.
+为固件设定一个密码，它能阻止任何其它设备启动你的 Mac 电脑，除了你的启动盘。它也能设定成每次启动的时候需要。
 
-This feature [can be helpful if your laptop is stolen](https://www.ftc.gov/news-events/blogs/techftc/2015/08/virtues-strong-enduser-device-controls), as the only way to reset the firmware password is through an Apple Store, or by using an [SPI programmer](https://reverse.put.as/2016/06/25/apple-efi-firmware-passwords-and-the-scbo-myth/), such as [Bus Pirate](http://ho.ax/posts/2012/06/unbricking-a-macbook/) or other flash IC programmer.
+[当你的计算机被盗的时候，这个功能是非常有用的](https://www.ftc.gov/news-events/blogs/techftc/2015/08/virtues-strong-enduser-device-controls)，因为唯一能重置固件密码的方式是通过 `Apple Store`，或者使用一个 [SPI 程序](https://reverse.put.as/2016/06/25/apple-efi-firmware-passwords-and-the-scbo-myth/)，例如，[Bus Pirate](http://ho.ax/posts/2012/06/unbricking-a-macbook/) 或者其它刷新电路的程序。
 
-1. Start up pressing `Command` `R` keys to boot to [Recovery Mode](https://support.apple.com/en-au/HT201314) mode.
+1. 开始时，按下 `Command` 和 `R` 键来启动[恢复模式 / Recovery Mode](https://support.apple.com/en-au/HT201314)。
 
-3. When the Recovery window appears, choose **Firmware Password Utility** from the Utilities menu.
+2. 当出现了恢复模式的界面，从 `Utilities / 工具` 菜单中选择 **Firmware Password Utility / 固件密码实用工具**。
 
-4. In the Firmware Utility window that appears, select **Turn On Firmware Password**.
+3. 在固件工具窗口中，选择 **Turn On Firmware Password / 打开固件密码**。
 
-5. Enter a new password, then enter the same password in the **Verify** field.
+4. 输入一个新的密码，之后在 **Verify / 验证** 处再次输入一样的密码。
 
-6. Select **Set Password**.
+5. 选择 **Set Password / 设定密码**。
 
-7. Select **Quit Firmware Utility** to close the Firmware Password Utility.
+6. 选择 **Quit Firmware Utility / 退出固件工具** 关闭固件密码实用工具。
 
-8. Select the Apple menu and choose Restart or Shutdown.
+7. 选择 Apple 菜单，并且选择重新启动或者关闭计算机。
 
-The firmware password will activate at next boot. To validate the password, hold `Alt` during boot - you should be prompted to enter the password.
+这个固件密码会在下一次启动后激活。为了验证这个密码，在启动过程中按住 `Alt` 键 - 按照提示输入密码。
 
-The firmware password can also be managed with the `firmwarepasswd` utility while booted into the OS.
+当启动进操作系统以后。固件密码也能通过 `firmwarepasswd` 工具管理。
 
 <img width="750" alt="Using a Dediprog SF600 to dump and flash a 2013 MacBook SPI Flash chip to remove a firmware password, sans Apple" src="https://cloud.githubusercontent.com/assets/12475110/17075918/0f851c0c-50e7-11e6-904d-0b56cf0080c1.png">
 
-*Using a [Dediprog SF600](http://www.dediprog.com/pd/spi-flash-solution/sf600) to dump and flash a 2013 MacBook SPI Flash chip to remove a firmware password, sans Apple*
+**在没有 Apple 技术支持下，使用 [Dediprog SF600](http://www.dediprog.com/pd/spi-flash-solution/sf600) 来输出并且烧录一个 2013 款的 MacBook SPI 闪存芯片，或者移除一个固件密码**
 
-See [HT204455](https://support.apple.com/en-au/HT204455), [LongSoft/UEFITool](https://github.com/LongSoft/UEFITool) and [chipsec/chipsec](https://github.com/chipsec/chipsec) for more information.
+可参考 [HT204455](https://support.apple.com/en-au/HT204455), [LongSoft/UEFITool](https://github.com/LongSoft/UEFITool) 或者 [chipsec/chipsec](https://github.com/chipsec/chipsec) 了解更多信息。
 
-## Preparing and Installing macOS
+## 准备和安装 macOS
 
-There are several ways to install a fresh copy of macOS.
+有很多种方式来安装一个全新的 macOS 副本。
 
-The simplest way is to boot into [Recovery Mode](https://support.apple.com/en-us/HT201314) by holding `Command` `R` keys at boot. A system image can be downloaded and applied directly from Apple. However, this way exposes the serial number and other identifying information over the network in plaintext.
+最简单的方式是在启动过程中按住 `Command` 和 `R` 键进入 [Recovery Mode / 恢复模式](https://support.apple.com/en-us/HT201314)。系统镜像文件能够直接从 `Apple` 官网上下载并且使用。然而，这样的方式会以明文形式直接在网络上暴露出你的机器识别码和其它的识别信息。
 
 <img width="500" alt="PII is transmitted to Apple in plaintext when using macOS Recovery" src="https://cloud.githubusercontent.com/assets/12475110/20312189/8987c958-ab20-11e6-90fa-7fd7c8c1169e.png">
 
-*Packet capture of an unencrypted HTTP conversation during macOS recovery*
+**在 macOS 恢复过程中，捕获到未加密的 HTTP 会话包**
 
-Another way is to download **macOS Sierra** from the [App Store](https://itunes.apple.com/us/app/macos-sierra/id1127487414) or some other place and create a custom, installable system image.
+另一种方式是，从 [App Store](https://itunes.apple.com/us/app/macos-sierra/id1127487414) 或者其他地方下载 **macOS Sierra** 安装程序，之后创建一个自定义可安装的系统镜像。
 
-The macOS Sierra installer application is [code signed](https://developer.apple.com/library/mac/documentation/Security/Conceptual/CodeSigningGuide/Procedures/Procedures.html#//apple_ref/doc/uid/TP40005929-CH4-SW6), which should be verified to make sure you received a legitimate copy, using the `codesign` command:
+这个 macOS Sierra 安装应用程序是经过[代码签名的](https://developer.apple.com/library/mac/documentation/Security/Conceptual/CodeSigningGuide/Procedures/Procedures.html#//apple_ref/doc/uid/TP40005929-CH4-SW6)，它可以使用 `code sign` 命令来验证并确保你接收到的是一个正版文件的拷贝。
 
 ```
 $ codesign -dvv /Applications/Install\ macOS\ Sierra.app
@@ -147,11 +147,11 @@ Sealed Resources version=2 rules=7 files=137
 Internal requirements count=1 size=124
 ```
 
-macOS installers can be made with the `createinstallmedia` utility included in `Install macOS Sierra.app/Contents/Resources/`. See [Create a bootable installer for OS X Yosemite](https://support.apple.com/en-us/HT201372), or run the utility without arguments to see how it works.
+macOS 安装程序也可以由 `createinstallmedia` 工具制作，它在 `Install macOS Sierra.app/Contents/Resources/` 文件路径中。请参考[为 OS X Yosemite 制作一个启动安装程序](https://support.apple.com/en-us/HT201372)，或者直接运行这个命令（不需要输入任何参数），看看它是如何工作的。
 
-**Note** Apple's installer [does not appear to work](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/120) across OS versions. If you want to build a 10.12 image, for example, the following steps must be run on a 10.12 machine!
+**注意** Apple 的安装程序[并不能跨版本工作](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/120)。如果你想要创造一个 10.12 的镜像，例如，以下指令也必须要在 10.12 的机器上运行!
 
-To create a **bootable USB macOS installer**, mount a USB drive, and erase and partition it, then use the `createinstallmedia` utility:
+为了创建一个 **mac OS USB 启动安装程序**，需要挂载一个 USB 驱动器，清空它的内容、进行重新分区，之后使用 `createinstallmedia` 工具:
 
 ```
 $ diskutil list
@@ -173,15 +173,15 @@ Copy complete.
 Done.
 ```
 
-To create a custom, installable image which can be [restored](https://en.wikipedia.org/wiki/Apple_Software_Restore) to a Mac, you will need to find the file `InstallESD.dmg`, which is also inside `Install macOS Sierra.app`.
+为了创建一个自定义、可安装的镜像，能用它恢复一台 Mac 电脑，你需要找到 `InstallESD.dmg`，这个文件也包含在 `Install macOS Sierra.app` 中。
 
-With Finder, right click on the app, select **Show Package Contents** and navigate to **Contents** > **SharedSupport** to find the file `InstallESD.dmg`.
+通过 `Finder` 找到，并在这个应用程序图标上点击鼠标右键，选择 **Show Package Contents / 显示包内容**，之后从 **Contents / 内容** 进入到 **SharedSupport / 共享支持**，找到 `InstallESD.dmg` 文件。
 
-You can [verify](https://support.apple.com/en-us/HT201259) the following cryptographic hashes to ensure you have the same copy with `openssl sha1 InstallESD.dmg` or `shasum -a 1 InstallESD.dmg` or `shasum -a 256 InstallESD.dmg` (in Finder, you can drag the file into a Terminal window to provide the full path).
+你能通过 `openssl sha1 InstallESD.dmg` 、`shasum -a 1 InstallESD.dmg` 或者 `shasum -a 256 InstallESD.dmg` 得到的加密过的哈希值[验证](https://support.apple.com/en-us/HT201259)来确保你得到的是同一份正版拷贝（在 Finder 中，你能把文件直接拷贝到终端中，它能提供这个文件的完整路径地址）。
 
-See [InstallESD_Hashes.csv](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/blob/master/InstallESD_Hashes.csv) in this repository for a list of current and previous file hashes. You can also Google the cryptographic hashes to ensure the file is genuine and has not been tampered with.
+可以参考 [InstallESD_Hashes.csv](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/blob/master/InstallESD_Hashes.csv) 这个在我代码仓库中的文件，它是现在和之前该版本文件的哈希值。你也可以使用 Google 搜索这些加密的哈希值，确保这个文件是正版且没有被修改过的。
 
-To create the image, use [MagerValp/AutoDMG](https://github.com/MagerValp/AutoDMG), or to create it manually, mount and install the operating system to a temporary image:
+可以使用 [MagerValp/AutoDMG](https://github.com/MagerValp/AutoDMG) 来创建这个镜像文件，或者手动创建、挂载和安装这个操作系统到一个临时镜像中:
 
     $ hdiutil attach -mountpoint /tmp/install_esd ./InstallESD.dmg
 
@@ -191,9 +191,9 @@ To create the image, use [MagerValp/AutoDMG](https://github.com/MagerValp/AutoDM
 
     $ sudo installer -pkg /tmp/install_esd/Packages/OSInstall.mpkg -tgt /tmp/os -verbose
 
-This part will take a while, so be patient. You can `tail -F /var/log/install.log` in another Terminal window to check progress.
+这一步需要花费一些时间，请耐心等待。你能使用 `tail -F /var/log/install.log` 命令在另一个终端的窗口内查看进度。
 
-**(Optional)** Install additional software, such as [Wireshark](https://www.wireshark.org/download.html):
+**（可选项）** 安装额外的软件，例如，[Wireshark](https://www.wireshark.org/download.html):
 
     $ hdiutil attach Wireshark\ 2.2.0\ Intel\ 64.dmg
 
@@ -201,9 +201,9 @@ This part will take a while, so be patient. You can `tail -F /var/log/install.lo
 
     $ hdiutil unmount /Volumes/Wireshark
 
-See [MagerValp/AutoDMG/wiki/Packages-Suitable-for-Deployment](https://github.com/MagerValp/AutoDMG/wiki/Packages-Suitable-for-Deployment) for caveats and [chilcote/outset](https://github.com/chilcote/outset) to instead processes packages and scripts at first boot.
+遇到安装错误时，请参考 [MagerValp/AutoDMG/wiki/Packages-Suitable-for-Deployment](https://github.com/MagerValp/AutoDMG/wiki/Packages-Suitable-for-Deployment)，使用 [chilcote/outset](https://github.com/chilcote/outset) 来替代解决首次启动时候的包和脚本。
 
-When you're done, detach, convert and verify the image:
+当你完成的时候，分离、转换并且验证这个镜像:
 
     $ hdiutil detach /tmp/os
 
@@ -213,43 +213,43 @@ When you're done, detach, convert and verify the image:
 
     $ asr imagescan --source ~/sierra.dmg
 
-Now `sierra.dmg` is ready to be applied to one or multiple Macs. One could futher customize the image to include premade users, applications, preferences, etc.
+现在，`sierra.dmg` 已经可以被用在一个或者多个 Mac 电脑上了。它能继续自定义化这个镜像，比如，包含预先定义的用户、应用程序、预置参数等。
 
-This image can be installed using another Mac in [Target Disk Mode](https://support.apple.com/en-us/HT201462) or from a bootable USB installer.
+这个镜像能使用另一个在 [Target Disk Mode / 目标磁盘模式](https://support.apple.com/en-us/HT201462) 下的 Mac 进行安装，或者从 USB 启动安装盘安装。 
 
-To use **Target Disk Mode**, boot up the Mac you wish to image while holding the `T` key and connect it to another Mac using a Firewire, Thunderbolt or USB-C cable.
+为了使用 **Target Disk Mode / 目标磁盘模式**，按住 `T` 键的同时启动 Mac 电脑，并且通过 `Firewire` 接口，`Thunderbolt` 接口或者 `USB-C` 线连接另外一台 Mac 电脑。
 
-If you don't have another Mac, boot to a USB installer, with `sierra.dmg` and other required files copied to it, by holding the *Option* key at boot.
+如果你没有其它 Mac 电脑，通过启动的时候，按住 **Option** 键用 USB 安装盘启动，把 `sierra.dmg` 和其它需要的文件拷贝到里面。
 
-Run `diskutil list` to identify the connected Mac's disk, usually `/dev/disk2`
+执行 `diskutil list` 来识别连接着的 Mac 磁盘，通常是 `/dev/disk2`
 
-**(Optional)** [Securely erase](https://www.backblaze.com/blog/securely-erase-mac-ssd/) the disk with a single pass (if previously FileVault-encrypted, the disk must first be unlocked and mounted as `/dev/disk3s2`):
+**（可选项）** 一次性[安全清除](https://www.backblaze.com/blog/securely-erase-mac-ssd/)磁盘（如果之前通过 FileVault 加密，该磁盘必须先要解锁，并且装载在 `/dev/disk3s2`）:
 
     $ sudo diskutil secureErase freespace 1 /dev/disk3s2
 
-Partition the disk to Journaled HFS+:
+把磁盘分区改成 `Journaled HFS+` 格式:
 
     $ sudo diskutil unmountDisk /dev/disk2
 
     $ sudo diskutil partitionDisk /dev/disk2 1 JHFS+ macOS 100%
 
-Restore the image to the new volume:
+把该镜像还原到新的卷中:
 
     $ sudo asr restore --source ~/sierra.dmg --target /Volumes/macOS --erase --buffersize 4m
 
-You can also use the **Disk Utility** application to erase the connected Mac's disk, then restore `sierra.dmg` to the newly created partition.
+你也能使用 **Disk Utility / 磁盘工具** 应用程序来清除连接着的 Mac 磁盘，之后将 `sierra.dmg` 还原到新创建的分区中。
 
-If you've followed these steps correctly, the target Mac should now have a new install of macOS Sierra.
+如果你正确按照这些步骤执行，该目标 Mac 电脑应该安装了新的 macOS Sierra 了。
 
-If you want to transfer any files, copy them to a shared folder like `/Users/Shared` on the mounted disk image, e.g. `cp Xcode_8.0.dmg /Volumes/macOS/Users/Shared`
+如果你想传送一些文件，把它们拷贝到一个共享文件夹，例如在挂载磁盘的镜像中， `/Users/Shared`，例如，`cp Xcode_8.0.dmg /Volumes/macOS/Users/Shared`
 
 <img width="1280" alt="Finished restore install from USB recovery boot" src="https://cloud.githubusercontent.com/assets/12475110/14804078/f27293c8-0b2d-11e6-8e1f-0fb0ac2f1a4d.png">
 
-*Finished restore install from USB recovery boot*
+**完成从 USB 启动的还原安装**
 
-We're not done yet! Unless you have built the image with [AutoDMG](https://github.com/MagerValp/AutoDMG), or installed macOS to a second partition on your Mac, you will need to create a recovery partition (in order to use full disk encryption). You can do so using [MagerValp/Create-Recovery-Partition-Installer](https://github.com/MagerValp/Create-Recovery-Partition-Installer) or using the following manual steps:
+这里还没有大功告成！除非你使用 [AutoDMG](https://github.com/MagerValp/AutoDMG) 创建了镜像，或者把 macOS 安装在你 Mac 上的其它分区内，你需要创建一块还原分区（为了使用对整个磁盘加密的功能）。你能使用 [MagerValp/Create-Recovery-Partition-Installer](https://github.com/MagerValp/Create-Recovery-Partition-Installer) 或者按照以下步骤:
 
-Download the file [RecoveryHDUpdate.dmg](https://support.apple.com/downloads/DL1464/en_US/RecoveryHDUpdate.dmg).
+请下载 [RecoveryHDUpdate.dmg](https://support.apple.com/downloads/DL1464/en_US/RecoveryHDUpdate.dmg) 这个文件。
 
 ```
 RecoveryHDUpdate.dmg
@@ -257,7 +257,7 @@ SHA-256: f6a4f8ac25eaa6163aa33ac46d40f223f40e58ec0b6b9bf6ad96bdbfc771e12c
 SHA-1:   1ac3b7059ae0fcb2877d22375121d4e6920ae5ba
 ```
 
-Attach and expand the installer, then run it:
+添加并且扩展这个安装程序，之后执行以下命令:
 
 ```
 $ hdiutil attach RecoveryHDUpdate.dmg
@@ -269,15 +269,15 @@ $ hdiutil attach /tmp/recovery/RecoveryHDUpdate.pkg/RecoveryHDMeta.dmg
 $ /tmp/recovery/RecoveryHDUpdate.pkg/Scripts/Tools/dmtest ensureRecoveryPartition /Volumes/macOS/ /Volumes/Recovery\ HD\ Update/BaseSystem.dmg 0 0 /Volumes/Recovery\ HD\ Update/BaseSystem.chunklist
 ```
 
-Replace `/Volumes/macOS` with the path to the target disk mode-booted Mac as necessary.
+必要的时候把 `/Volumes/macOS` 替换成以目标磁盘启动的 Mac 的路径。
 
-This step will take several minutes. Run `diskutil list` again to make sure **Recovery HD** now exists on `/dev/disk2` or equivalent identifier.
+这个步骤需要花几分钟才能完成。再次执行 `diskutil list` 来确保 **Recovery HD** 已经存在 `/dev/disk2` 或者相似的路径下。
 
-Once you're done, eject the disk with `hdiutil unmount /Volumes/macOS` and power down the target disk mode-booted Mac.
+一旦你完成了这些，执行 `hdituil unmount /Volumes/macOS` 命令弹出磁盘，之后关闭以目标磁盘模式启动的 Mac 电脑。
 
-### Virtualization
+### 虚拟机
 
-To install macOS as a virtual machine (vm) using [VMware Fusion](https://www.vmware.com/products/fusion.html), follow the instructions above to create an image. You will **not** need to download and create a recovery partition manually.
+在虚拟机内安装 macOS，可以使用 [VMware Fusion](https://www.vmware.com/products/fusion.html) 工具，按照上文中的说明来创建一个镜像。你**不需要**再下载，也不需要手动创建还原分区。
 
 ```
 VMware-Fusion-8.5.2-4635224.dmg
@@ -285,27 +285,27 @@ SHA-256: f6c54b98c9788d1df94d470661eedff3e5d24ca4fb8962fac5eb5dc56de63b77
 SHA-1:   37ec465673ab802a3f62388d119399cb94b05408
 ```
 
-For the Installation Method, select *Install OS X from the recovery partition*. Customize any memory or CPU requirements and complete setup. The guest vm should boot into [Recovery Mode](https://support.apple.com/en-us/HT201314) by default.
+选择 **Install OS X from the recovery parition** 这个安装方法。可自定义配置任意的内存和 CPU，之后完成设置。默认情况下，这个虚拟机应该进入 [Recovery Mode / 还原模式](https://support.apple.com/en-us/HT201314)。
 
-In Recovery Mode, select a language, then Utilities > Terminal from the menubar.
+在还原模式中，选择一个语言，之后在菜单条中由 Utilities 打开 Terminal。
 
-In the guest vm, type `ifconfig | grep inet` - you should see a private address like `172.16.34.129`
+在虚拟机内，输入 `ifconfig | grep inet` — 你应该能看到一个私有地址，比如 `172.16.34.129`
 
-On the host Mac, type `ifconfig | grep inet` - you should see a private gateway address like `172.16.34.1`
+在 Mac 宿主机内，输入 `ifconfig | grep inet` — 你应该能看到一个私有地址，比如 `172.16.34.1`
 
-From the host Mac, serve the installable image to the guest vm by editing `/etc/apache2/httpd.conf` and adding the following line to the top (using the gateway address assigned to the host Mac and port 80):
+通过修改 Mac 宿主机内的文件让可安装镜像对虚拟器起作用，比如，修改 `/etc/apache2/htpd.conf` 并且在该文件最上部增加以下内容：(使用网关分配给 Mac 宿主机的地址和端口号 80):
 
     Listen 172.16.34.1:80
 
-On the host Mac, link the image to the default Apache Web server directory:
+在 Mac 宿主机上，把镜像链接到 Apache 网络服务器目录:
 
     $ sudo ln ~/sierra.dmg /Library/WebServer/Documents
 
-From the host Mac, start Apache in the foreground:
+在 Mac 宿主机的前台运行 Apache:
 
     $ sudo httpd -X
 
-From the guest VM, install the disk image to the volume over the local network using `asr`:
+在虚拟机上通过本地网络命令 `asr`，安装镜像文件到卷分区内: 
 
 ```
 -bash-3.2# asr restore --source http://172.16.34.1/sierra.dmg --target /Volumes/Macintosh\ HD/ --erase --buffersize 4m
@@ -319,148 +319,148 @@ From the guest VM, install the disk image to the volume over the local network u
     Remounting target volume...done
 ```
 
-When it's finished, stop the Apache Web server on the host Mac by pressing `Control` `C` at the `sudo httpd -X` window and remove the image copy with `sudo rm /Library/WebServer/Documents/sierra.dmg`
+完成后，在 `sudo httpd -X` 窗口内通过 `Control` 和 `C` 组合键停止在宿主机 Mac 上运行的  Apache 网络服务器服务，并且通过命令 `sudo rm /Library/WebServer/Documents/sierra.dmg` 删除镜像备份文件。
 
-In the guest vm, select *Startup Disk* from the top-left corner Apple menu, select the hard drive and restart. You may wish to disable the Network Adapter in VMware for the initial guest vm boot.
+在虚拟机内，在左上角 Apple 菜单中选择 **Startup Disk**，选择硬件驱动器并重启你的电脑。你可能想在初始化虚拟机启动的时候禁用网络适配器。
 
-Take and Restore from saved guest vm snapshots before and after attempting risky browsing, for example, or use a guest vm to install and operate questionable software.
+例如，在访问某些有风险的网站之前保存虚拟机的快照，并在之后用它还原该虚拟机。或者使用一个虚拟机来安装和使用有潜在问题的软件。
 
-## First boot
+## 首次启动
 
-**Note** Before setting up macOS, consider disconnecting networking and configuring a firewall(s) first.
+**注意** 在设置 macOS 之前，请先断开网络连接并且配置一个防火墙。
 
-On first boot, hold `Command` `Option` `P` `R` keys to [clear NVRAM](https://support.apple.com/en-us/HT204063).
+在首次启动时，按住 `Command` `Option` `P` `R` 键位组合，它用于[清除 NVRAM](https://support.apple.com/en-us/HT204063)。
 
-When macOS first starts, you'll be greeted by **Setup Assistant**.
+当 macOS 首次启动时，你会看到 **Setup Assistant / 设置助手** 的欢迎画面。
 
-When creating your account, use a [strong password](http://www.explainxkcd.com/wiki/index.php/936:_Password_Strength) without a hint.
+请在创建你个人账户的时候，使用一个没有任何提示的[高安全性密码](http://www.explainxkcd.com/wiki/index.php/936:_Password_Strength)。
 
-If you enter your real name at the account setup process, be aware that your [computer's name and local hostname](https://support.apple.com/kb/PH18720) will be comprised of that name (e.g., *John Appleseed's MacBook*) and thus will appear on local networks and in various preference files. You can change them both in **System Preferences > Sharing** or with the following commands:
+如果你在设置账户的过程中使用了真实的名字，你得意识到，你的[计算机的名字和局域网的主机名](https://support.apple.com/kb/PH18720)将会因为这个名字而泄露 (例如，**John Applesseed's MacBook**)，所以这个名字会显示在局域网络和一些配置文件中。这两个名字都能在 **System Preferences / 系统配置 > Sharing / 共享** 菜单中或者以下命令来改变:
 
     $ sudo scutil --set ComputerName your_computer_name
 
     $ sudo scutil --set LocalHostName your_hostname
 
-## Admin and standard user accounts
+## 管理员和普通用户账号
 
-The first user account is always an admin account. Admin accounts are members of the admin group and have access to `sudo`, which allows them to usurp other accounts, in particular root, and gives them effective control over the system. Any program that the admin executes can potentially obtain the same access, making this a security risk. Utilities like `sudo` have [weaknesses that can be exploited](https://bogner.sh/2014/03/another-mac-os-x-sudo-password-bypass/) by concurrently running programs and many panes in System Preferences are [unlocked by default](http://csrc.nist.gov/publications/drafts/800-179/sp800_179_draft.pdf) [p. 61–62] for admin accounts. It is considered a best practice by [Apple](https://help.apple.com/machelp/mac/10.12/index.html#/mh11389) and [others](http://csrc.nist.gov/publications/drafts/800-179/sp800_179_draft.pdf) [p. 41–42] to use a separate standard account for day-to-day work and use the admin account for installations and system configuration.
+管理员账户始终是第一个账户。管理员账户是管理组中的成员并且有访问 `sudo` 的能力，允许它们修改其它账户，特别是 `root`，赋予它们对系统更高效的控制权。管理员执行的任何程序也有可能获得一样的权限，这就造成了一个安全风险。类似于 `sudo` 这样的工具[都有一些能被利用的弱点](https://bogner.sh/2014/03/another-mac-os-x-sudo-password-bypass/)，例如在默认管理员账户运行的情况下，并行打开的程序或者很多系统的设定都是[处于解锁的状态](http://csrc.nist.gov/publications/drafts/800-179/sp800_179_draft.pdf) [p. 61–62]。[Apple](https://help.apple.com/machelp/mac/10.12/index.html#/mh11389) 提供了一个最佳实践和[其它一些方案](http://csrc.nist.gov/publications/drafts/800-179/sp800_179_draft.pdf) [p. 41–42]，例如，为每天基本的工作建立一个单独的账号，使用管理员账号仅为了安装软件和配置系统。
 
-It is not strictly required to ever log into the admin account via the OS X login screen. The system will prompt for authentication when required and Terminal can do the rest. To that end, Apple provides some [recommendations](https://support.apple.com/HT203998) for hiding the admin account and its home directory. This can be an elegant solution to avoid having a visible 'ghost' account. The admin account can also be [removed from FileVault](http://apple.stackexchange.com/a/94373).
+每一次都通过 OS X 登录界面进入管理员帐号并不是必须的。系统会在需要认证许可的时候弹出提示框，之后交给终端就行了。为了达到这个目的，Apple 为隐藏管理员账户和它的根目录提供了一些[建议](https://support.apple.com/HT203998)。这对避免显示一个可见的 `影子` 账户来说是一个好办法。管理员账户也能[从 FileVault 里移除](http://apple.stackexchange.com/a/94373)。
 
-#### Caveats
+#### 错误警告
 
-1. Only administrators can install applications in `/Applications` (local directory). Finder and Installer will prompt a standard user with an authentication dialog. Many applications can be installed in `~/Applications` instead (the directory can be created manually). As a rule of thumb: applications that do not require admin access – or do not complain about not being installed in `/Applications` – should be installed in the user directory, the rest in the local directory. Mac App Store applications are still installed in `/Applications` and require no additional authentication.
+1. 只有管理员账户才能把应用程序安装在 `/Applications` 路径下 （本地目录）。Finder 和安装程序将为普通用户弹出一个许可对话框。然而，许多应用程序都能安装在 `~/Applications` （该目录能被手动创建） 路径下。经验之谈: 那些不需要管理员权限的应用程序 — 或者在不在 `/Applications` 目录下都没关系的应用程序 — 都应该安装在用户目录内，其它的应安装在本地目录。Mac App Store 上的应用程序仍然会安装在 `/Applications` 并且不需要额外的管理员认证。
 
-2. `sudo` is not available in shells of the standard user, which requires using `su` or `login` to enter a shell of the admin account. This can make some maneuvers trickier and requires some basic experience with command-line interfaces.
+2. `sudo` 无法在普通用户的 shell 内使用，它需要使用 `su` 或者 `login` 在 shell 内输入一个管理员账户。这需要很多技巧和一些命令行界面操作的经验。
 
-3. System Preferences and several system utilities (e.g. Wi-Fi Diagnostics) will require root privileges for full functionality. Many panels in System Preferences are locked and need to be unlocked separately by clicking on the lock icon. Some applications will simply prompt for authentication upon opening, others must be opened by an admin account directly to get access to all functions (e.g. Console).
+3. 系统配置和一些系统工具 （比如，Wi-Fi 诊断器） 为了所有的功能都能执行会需要 root 权限。在系统配置界面中的一些面板都是上锁的，所以需要单独的解锁按钮。一些应用程序在打开的时候会提示认证对话框，其它一些则需要通过一个管理员账号直接打开才能获得全部功能的权限。（例如，Console。）
 
-4. There are third-party applications that will not work correctly because they assume that the user account is an admin. These programs may have to be executed by logging into the admin account, or by using the `open` utility.
+4. 有些第三方应用程序无法正确运行，因为它们假设当前的用户是管理员账户。这些程序只能在登录管理员账户的情况下才能被执行，或者使用 `open` 工具。
 
-#### Setup
+#### 设置
 
-Accounts can be created and managed in System Preferences. On settled systems, it is generally easier to create a second admin account and then demote the first account. This avoids data migration. Newly installed systems can also just add a standard account. Demoting an account can be done either from the the new admin account in System Preferences – the other account must be logged out – or by executing this command:
+账户能在系统设置中创建和管理。在一个已经建立的系统中，通常很容易就能创建第二个管理员账号并且把之前的管理员帐号降级。这就避免了数据迁移的问题。新安装的系统都能增加普通账号。对一个账号降级能通过新建立的管理员帐号中的系统设置 — 当然那个管理员账号必须已经注销 — 或者执行这个命令:
 ```
 sudo dscl . -delete /Groups/admin GroupMembership user_name
 ```
 
-## Full disk encryption
+## 对整个磁盘进行数据加密
 
-[FileVault](https://en.wikipedia.org/wiki/FileVault) provides full disk (technically, full _volume_) encryption on macOS.
+[FileVault](https://en.wikipedia.org/wiki/FileVault) 提供了在 macOS 上对整个磁盘加密的能力（技术上来说，是**整个卷宗**。）
 
-FileVault encryption will protect data at rest and prevent someone with physical access from stealing data or tampering with your Mac.
+FileVault 加密将在休眠的时候保护数据，并且阻止其它人通过物理访问形式偷取数据或者使用你的 Mac 修改数据。
 
-With much of the cryptographic operations happening [efficiently in hardware](https://software.intel.com/en-us/articles/intel-advanced-encryption-standard-aes-instructions-set/), the performance penalty for FileVault is not noticeable.
+因为大部分的加密操作都[高效地运作在硬件上](https://software.intel.com/en-us/articles/intel-advanced-encryption-standard-aes-instructions-set/)，性能上的损失对 FireVault 来说并不凸显。
 
-The security of FileVault greatly depends on the pseudo random number generator (PRNG).
+FileVault 的安全性依赖于伪随机数生成器 (PRNG)。
 
-> The random device implements the Yarrow pseudo random number generator algorithm and maintains its entropy pool.  Additional entropy is fed to the generator regularly by the SecurityServer daemon from random jitter measurements of the kernel.
+> 这个随机设备实现了 Yarrow 伪随机数生成器算法并且维护着它自己的熵池。额外的熵值通常由守护进程 SecurityServer 提供，它由内核测算得到的随机抖动决定。
 
-> SecurityServer is also responsible for periodically saving some entropy to disk and reloading it during startup to provide entropy in early system operation.
+> SecurityServer 也常常负责定期保存一些熵值到磁盘，并且在启动的时候重新加载它们，把这些熵值提供给早期的系统使用。
 
-See `man 4 random` for more information.
+参考 `man 4 random` 获得更多信息。
 
-The PRNG can be manually seeded with entropy by writing to /dev/random **before** enabling FileVault. This can be done by simply using the Mac for a little while before activating FileVault.
+在开启 FileVault 之前，PRNG 也能通过写入 /dev/random 文件手动提供熵的种子。也就是说，在激活 FileVault 之前，我们能用这种方式撑一段时间。
 
-To manually seed entropy *before* enabling FileVault:
+在启用 FileVault **之前**，手动配置种子熵:
 
     $ cat > /dev/random
     [Type random letters for a long while, then press Control-D]
 
-Enable FileVault with `sudo fdesetup enable` or through **System Preferences** > **Security & Privacy** and reboot.
+通过 `sudo fdsetup enable` 启用 FileVault 或者通过 **System Preferences** > **Security & Privacy** 之后重启电脑。
 
-If you can remember your password, there's no reason to save the **recovery key**. However, your encrypted data will be lost forever if you can't remember the password or recovery key.
+如果你能记住你的密码，那就没有理由不保存一个**还原秘钥**。然而，如果你忘记了密码或者还原秘钥，那意味着你加密的数据将永久丢失了。
 
-If you want to know more about how FileVault works, see the paper [Infiltrate the Vault: Security Analysis and Decryption of Lion Full Disk Encryption](https://eprint.iacr.org/2012/374.pdf) (pdf) and related [presentation](http://www.cl.cam.ac.uk/~osc22/docs/slides_fv2_ifip_2013.pdf) (pdf). Also see [IEEE Std 1619-2007 “The XTS-AES Tweakable Block Cipher”](http://libeccio.di.unisa.it/Crypto14/Lab/p1619.pdf) (pdf).
+如果你想深入了解 FileVault 是如何工作得， 可以参考这篇论文 [Infiltrate the Vault: Security Analysis and Decryption of Lion Full Disk Encryption](https://eprint.iacr.org/2012/374.pdf) (pdf) 和这篇相关的[演讲文稿](http://www.cl.cam.ac.uk/~osc22/docs/slides_fv2_ifip_2013.pdf) (pdf)。也可以参阅 [IEEE Std 1619-2007 “The XTS-AES Tweakable Block Cipher”](http://libeccio.di.unisa.it/Crypto14/Lab/p1619.pdf) (pdf).
 
-You may wish to enforce **hibernation** and evict FileVault keys from memory instead of traditional sleep to memory:
+你可能希望强制开启**休眠**并且从内存中删除 FileVault 的秘钥，而非一般情况下系统休眠对内存操作的处理方式:
 
     $ sudo pmset -a destroyfvkeyonstandby 1
     $ sudo pmset -a hibernatemode 25
 
-> All computers have firmware of some type—EFI, BIOS—to help in the discovery of hardware components and ultimately to properly bootstrap the computer using the desired OS instance. In the case of Apple hardware and the use of EFI, Apple stores relevant information within EFI to aid in the functionality of OS X. For example, the FileVault key is stored in EFI to transparently come out of standby mode.
+> 所有计算机都有 EFI 或 BIOS 这类的固件，它们帮助发现其它硬件，最终使用所需的操作系统实例把计算机正确启动起来。以 Apple 硬件和 EFI 的使用来说，Apple 把有关的信息保存在 EFI 内，它辅助 OS X 的功能正确运行。举例来说，FileVault 的秘钥保存在 EFI 内，在待机模式的时候出现。
 
-> Organizations especially sensitive to a high-attack environment, or potentially exposed to full device access when the device is in standby mode, should mitigate this risk by destroying the FileVault key in firmware. Doing so doesn’t destroy the use of FileVault, but simply requires the user to enter the password in order for the system to come out of standby mode.
+> 那些容易被高频攻击的部件，或者那些待机模式下，容易被暴露给所有设备访问的设备，它们都应该销毁在固件中的 FileVault 秘钥来减少这个风险。这么干并不会影响 FileVault 的正常使用，但是系统需要用户在每次跳出待机模式的时候输入这个密码。
 
-If you choose to evict FileVault keys in standby mode, you should also modify your standby and power nap settings. Otherwise, your machine may wake while in standby mode and then power off due to the absence of the FileVault key. See [issue #124](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/124) for more information. These settings can be changed with:
+如果你选择在待机模式下删除 FileVault 秘钥，你也应该修改待机模式的设置。否则，你的机器可能无法正常进入待机模式，会因为缺少 FileVault 秘钥而关机。参考 [issue #124](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/124) 获得更多信息。可以通过以下命令修改这些设置:
 
     $ sudo pmset -a powernap 0
     $ sudo pmset -a standby 0
     $ sudo pmset -a standbydelay 0
     $ sudo pmset -a autopoweroff 0
 
-For more information, see [Best Practices for
-Deploying FileVault 2](http://training.apple.com/pdf/WP_FileVault2.pdf) (pdf) and paper [Lest We Remember: Cold Boot Attacks on Encryption Keys](https://www.usenix.org/legacy/event/sec08/tech/full_papers/halderman/halderman.pdf) (pdf)
+如果你想了解更多， 请参考 [Best Practices for Deploying FileVault 2](http://training.apple.com/pdf/WP_FileVault2.pdf) (pdf) 和这篇论文 [Lest We Remember: Cold Boot Attacks on Encryption Keys](https://www.usenix.org/legacy/event/sec08/tech/full_papers/halderman/halderman.pdf) (pdf)
 
-## Firewall
 
-Before connecting to the Internet, it's a good idea to first configure a firewall.
+## 防火墙
 
-There are several types of firewall available for macOS.
+在准备连接进入互联网之前，最好是先配置一个防火墙。
 
-#### Application layer firewall
+在 macOS 上有好几种防火墙。
 
-Built-in, basic firewall which blocks **incoming** connections only.
+#### 应用程序层的防火墙
 
-Note, this firewall does not have the ability to monitor, nor block **outgoing** connections.
+系统自带的那个基本的防火墙，它只阻止**对内**的连接。
 
-It can be controlled by the **Firewall** tab of **Security & Privacy** in **System Preferences**, or with the following commands.
+注意，这个防火墙没有监控的能力，也没有阻止**对外**连接的能力。
 
-Enable the firewall:
+它能在 **System Preferences** 中 **Security & Privacy** 标签中的 **Firewall** 控制，或者使用以下的命令。
+
+开启防火墙:
 
     $ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on
 
-Enable logging:
+开启日志:
 
     $ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setloggingmode on
 
-You may also wish to enable stealth mode:
+你可能还想开启私密模式:
 
     $ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode on
 
-> Computer hackers scan networks so they can attempt to identify computers to attack. You can prevent your computer from responding to some of these scans by using **stealth mode**. When stealth mode is enabled, your computer does not respond to ICMP ping requests, and does not answer to connection attempts from a closed TCP or UDP port. This makes it more difficult for attackers to find your computer.
+> 计算机黑客会扫描网络，所以它们能标记计算机并且实施网络攻击。你能使用**私密模式**，避免你的计算机响应一些这样的恶意扫描。当开启了防火墙的私密模式后，你的计算机就不会响应 ICMP 请求，并且不响应那些已关闭的 TCP 或 UDP 端口的连接。这会让那些网络攻击者们很难发现你的计算机。
 
-Finally, you may wish to prevent *built-in software* as well as *code-signed, downloaded software from being whitelisted automatically*:
+最后，你可能会想阻止**系统自带的软件**和**经过代码签名，下载过的软件自动加入白名单:**
 
     $ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setallowsigned off
 
     $ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setallowsignedapp off
 
-> Applications that are signed by a valid certificate authority are automatically added to the list of allowed apps, rather than prompting the user to authorize them. Apps included in OS X are signed by Apple and are allowed to receive incoming connections when this setting is enabled. For example, since iTunes is already signed by Apple, it is automatically allowed to receive incoming connections through the firewall.
+> 那些经过一个认证签名的应用程序会自动允许加入列表，而不是提示用户再对它们进行认证。包含在 OS X 内的应用程序都被 Apple 代码签名，并且都允许接对内的连接，当这个配置开启了。举例来说，因为 iTunes 已经被 Apple 代码签名，所以它能自动允许防火墙接收对内的连接。
 
-> If you run an unsigned app that is not listed in the firewall list, a dialog appears with options to Allow or Deny connections for the app. If you choose Allow, OS X signs the application and automatically adds it to the firewall list. If you choose Deny, OS X adds it to the list but denies incoming connections intended for this app.
+> 如果你执行一个未签名的应用程序，它也没有被纳入防火墙白名单，此时一个带允许或者拒绝该连接选项的对话框会出现。如果你选择允许连接，OS X 对这个应用程序签名并且自动把它增加进防火墙的白名单。如果你选择拒绝连接，OS X 也会把它加入名单中，但是会拒绝对这个应用程序的对内连接。
 
-After interacting with `socketfilterfw`, you may want to restart (or terminate) the process:
+在使用完 `socketfilterfw` 之后，你需要重新启动（或者结束）这个进程:
 
     $ sudo pkill -HUP socketfilterfw
 
-#### Third party firewalls
+#### 第三方防火墙
 
-Programs such as [Little Snitch](https://www.obdev.at/products/littlesnitch/index.html), [Hands Off](https://www.oneperiodic.com/products/handsoff/), [Radio Silence](http://radiosilenceapp.com/) and [Security Growler](https://pirate.github.io/security-growler/) provide a good balance of usability and security.
+例如 [Little Snitch](https://www.obdev.at/products/littlesnitch/index.html), [Hands Off](https://www.oneperiodic.com/products/handsoff/), [Radio Silence](http://radiosilenceapp.com/) 和 [Security Growler](https://pirate.github.io/security-growler/) 这样的程序都提供了一个方便、易用且安全的防火墙。
 
 <img width="349" alt="Example of Little Snitch monitored session" src="https://cloud.githubusercontent.com/assets/12475110/10596588/c0eed3c0-76b3-11e5-95b8-9ce7d51b3d82.png">
 
-*Example of Little Snitch-monitored session*
+**以下是一段 Little Snitch 监控会话的例子**
 
 ```
 LittleSnitch-3.7.dmg
@@ -468,23 +468,23 @@ SHA-256: 5c44d853dc4178fb227abd3e8eee19ef1bf0d576f49b5b6a9a7eddf6ae7ea951
 SHA-1:   1320ca9bcffb8ff8105b7365e792db6dc7b9f46a
 ```
 
-These programs are capable of monitoring and blocking **incoming** and **outgoing** network connections. However, they may require the use of a closed source [kernel extension](https://developer.apple.com/library/mac/documentation/Darwin/Conceptual/KernelProgramming/Extend/Extend.html).
+这些程序都具备有监控和阻拦**对内**和**对外**网络连接的能力。然而，它们可能会需要使用一个闭源的[内核扩展](https://developer.apple.com/library/mac/documentation/Darwin/Conceptual/KernelProgramming/Extend/Extend.html)。
 
-If the number of choices of allowing/blocking network connections is overwhelming, use **Silent Mode** with connections allowed, then periodically check your settings to gain understanding of what various applications are doing.
+如果过多的允许或者阻拦网络连接的选择让你不堪重负，使用配置过白名单的**静谧模式**，之后定期检查你设定项，来了解这么多应用程序都在干什么。 
 
-It is worth noting that these firewalls can be bypassed by programs running as **root** or through [OS vulnerabilities](https://www.blackhat.com/docs/us-15/materials/us-15-Wardle-Writing-Bad-A-Malware-For-OS-X.pdf) (pdf), but they are still worth having - just don't expect absolute protection.
+需要指出的是，这些防火墙都会被以 **root** 权限运行的程序绕过，或者通过 [OS vulnerabilities](https://www.blackhat.com/docs/us-15/materials/us-15-Wardle-Writing-Bad-A-Malware-For-OS-X.pdf) (pdf)，但是它们还是值得拥有的 — 只是不要期待完全的保护。
 
-For more on how Little Snitch works, see the [Network Kernel Extensions Programming Guide](https://developer.apple.com/library/mac/documentation/Darwin/Conceptual/NKEConceptual/socket_nke/socket_nke.html#//apple_ref/doc/uid/TP40001858-CH228-SW1) and [Shut up snitch! – reverse engineering and exploiting a critical Little Snitch vulnerability](https://reverse.put.as/2016/07/22/shut-up-snitch-reverse-engineering-and-exploiting-a-critical-little-snitch-vulnerability/).
+若想了解更多有关 Little Snitch 是如何工作的，可参考以下两篇文章，[Network Kernel Extensions Programming Guide](https://developer.apple.com/library/mac/documentation/Darwin/Conceptual/NKEConceptual/socket_nke/socket_nke.html#//apple_ref/doc/uid/TP40001858-CH228-SW1) 和 [Shut up snitch! – reverse engineering and exploiting a critical Little Snitch vulnerability](https://reverse.put.as/2016/07/22/shut-up-snitch-reverse-engineering-and-exploiting-a-critical-little-snitch-vulnerability/).
 
-#### Kernel level packet filtering
+#### 内核级的数据包过滤
 
-A highly customizable, powerful, but also most complicated firewall exists in the kernel. It can be controlled with `pfctl` and various configuration files.
+有一个高度可定制化、功能强大，但的确也是最复杂的防火墙存在内核中。它能通过 `pfctl` 或者很多配置文件控制。
 
-pf can also be controlled with a GUI application such as [IceFloor](http://www.hanynet.com/icefloor/) or [Murus](http://www.murusfirewall.com/).
+pf 也能通过一个 GUI 应用程序控制，例如 [IceFloor](http://www.hanynet.com/icefloor/) 或者 [Murus](http://www.murusfirewall.com/)。
 
-There are many books and articles on the subject of pf firewall. Here's is just one example of blocking traffic by IP address.
+有很多书和文章介绍 pf 防火墙。这里，我们只介绍一个有关通过 IP 地址阻拦访问的例子。
 
-Add the following into a file called `pf.rules`:
+将以下内容增加到 `pf.rules` 文件中:
 
 ```
 set block-policy drop
@@ -500,74 +500,74 @@ pass out proto udp from any to any keep state
 block log on en0 from {<blocklist>} to any
 ```
 
-Use the following commands:
+使用以下命令:
 
-* `sudo pfctl -e -f pf.rules` to enable the firewall
-* `sudo pfctl -d` to disable the firewall
-* `sudo pfctl -t blocklist -T add 1.2.3.4` to add hosts to a blocklist
-* `sudo pfctl -t blocklist -T show` to view the blocklist
-* `sudo ifconfig pflog0 create` to create an interface for logging
-* `sudo tcpdump -ni pflog0` to dump the packets
+* `sudo pfctl -e -f pf.rules` — 开启防火墙
+* `sudo pfctl -d` — 禁用防火墙
+* `sudo pfctl -t blocklist -T add 1.2.3.4` — 把某个主机加入阻止清单中
+* `sudo pfctl -t blocklist -T show` — 查看阻止清单
+* `sudo ifconfig pflog0 create` — 为某个接口创建日志
+* `sudo tcpdump -ni pflog0` — 输出打印数据包
 
-Unless you're already familiar with packet filtering, spending too much time configuring pf is not recommended. It is also probably unnecessary if your Mac is behind a [NAT](https://www.grc.com/nat/nat.htm) on a secured home network, for example.
+我不建议你花大量时间在如何配置 pf 上，除非你对数据包过滤器非常熟悉。比如说，如果你的 Mac 计算机连接在一个 [NAT](https://www.grc.com/nat/nat.htm) 后面，它存在于一个安全的家庭网络中，那以上操作是完全没有必要的。
 
-For an example of using pf to audit "phone home" behavior of user and system-level processes, see [fix-macosx/net-monitor](https://github.com/fix-macosx/net-monitor).
+可以参考 [fix-macosx/net-monitor](https://github.com/fix-macosx/net-monitor) 来了解如何使用 pf 监控用户和系统级别对“背景连接通讯"的使用。
 
-## Services
+## 系统服务
 
-Before you connect to the Internet, you may wish to disable some system services, which use up resources or phone home to Apple.
+在你连接到互联网之前，你不妨禁用一些系统服务，它们会使用一些资源或者后台连接通讯到 Apple。
 
-See [fix-macosx/yosemite-phone-home](https://github.com/fix-macosx/yosemite-phone-home), [l1k/osxparanoia](https://github.com/l1k/osxparanoia) and [karek314/macOS-home-call-drop](https://github.com/karek314/macOS-home-call-drop) for further recommendations.
+可参考这三个代码仓库获得更多建议，[fix-macosx/yosemite-phone-home](https://github.com/fix-macosx/yosemite-phone-home), [l1k/osxparanoia](https://github.com/l1k/osxparanoia) 和 [karek314/macOS-home-call-drop](https://github.com/karek314/macOS-home-call-drop)。
 
-Services on macOS are managed by **launchd**. See (launchd.info)[http://launchd.info/], as well as [Apple's Daemons and Services Programming Guide](https://developer.apple.com/library/mac/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingLaunchdJobs.html) and [Technical Note TN2083](https://developer.apple.com/library/mac/technotes/tn2083/_index.html)
+在 macOS 上的系统服务都由 **launchd** 管理。可参考 [launchd.info](http://launchd.info/)，也可以参考以下两个材料，[Apple's Daemons and Services Programming Guide](https://developer.apple.com/library/mac/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingLaunchdJobs.html) 和 [Technical Note TN2083](https://developer.apple.com/library/mac/technotes/tn2083/_index.html)。
 
-You can also run [KnockKnock](https://github.com/synack/knockknock) that shows more information about startup items.
+你也可以运行 [KnockKnock](https://github.com/synack/knockknock)，它能展示出更多有关启动项的内容。
 
-* Use `launchctl list` to view running user agents
-* Use `sudo launchctl list` to view running system daemons
-* Specify the service name to examine it, e.g. `launchctl list com.apple.Maps.mapspushd`
-* Use `defaults read` to examine job plists in `/System/Library/LaunchDaemons` and `/System/Library/LaunchAgents`
-* Use `man`, `strings` and Google to learn about what the agent/daemon runs
+* 使用 `launchctl list` 查看正在运行的用户代理
+* 使用 `sudo launchctl list` 查看正在运行的系统守护进程
+* 通过指定服务名称查看，例如，`launchctl list com.apple.Maps.mapspushd`
+* 使用 `defaults read` 来检查在 `/System/Library/LaunchDaemons` 和 `/System/Library/LaunchAgents` 工作中的 plist
+* 使用 `man`，`strings` 和 Google 来学习运行中的代理和守护进程是什么
 
-For example, to learn what a system launch daemon or agent does, start with:
+举例来说，想要知道某个系统启动的守护进程或者代理干了什么，可以输入以下指令:
 
     $ defaults read /System/Library/LaunchDaemons/com.apple.apsd.plist
 
-Look at the `Program` or `ProgramArguments` section to see which binary is run, in this case `apsd`. To find more information about that, look at the man page with `man apsd`
+看一看 `Program` 或者 `ProgramArguments` 这两个部分的内容，你就知道哪个二进制文件在运行，此处是 `apsd`。可以通过 `man apsd` 查看更多有关它的信息。
 
-For example, if you're not interested in Apple Push Notifications, disable the service:
+再举一个例子，如果你对 `Apple Push Nofitications` 不感兴趣，可以禁止这个服务:
 
     $ sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.apsd.plist
 
-**Note** Unloading services may break usability of some applications. Read the manual pages and use Google to make sure you understand what you're doing first.
+**注意** 卸载某些服务可能造成某些应用程序无法使用。首先，请阅读手册或者使用 Google 检索确保你明白自己在干什么。
 
-Be careful about disabling any system daemons you don't understand, as it may render your system unbootable. If you break your Mac, use [single user mode](https://support.apple.com/en-us/HT201573) to fix it.
+禁用那些你不理解的系统进程的时候一定要万分小心，因为它可能会让你的系统瘫痪无法启动。如果你弄坏了你的 Mac，可以使用[单一用户模式](https://support.apple.com/en-us/HT201573)来修复。
 
-Use [Console](https://en.wikipedia.org/wiki/Console_(OS_X)) and [Activity Monitor](https://support.apple.com/en-us/HT201464) applications if you notice your Mac heating up, feeling sluggish, or generally misbehaving, as it may have resulted from your tinkering.
+如果你觉得 Mac 持续升温，感觉卡顿或者常常表现出诡异的行为，可以使用 [Console](https://en.wikipedia.org/wiki/Console_(OS_X)) 和 [Activity Monitor](https://support.apple.com/en-us/HT201464) 这两个应用程序，因为这可能是你不小心操作造成的。
 
-To view currently disabled services:
+以下指令可以查看现在已经禁用的服务:
 
     $ find /var/db/com.apple.xpc.launchd/ -type f -print -exec defaults read {} \; 2>/dev/null
 
-Annotated lists of launch daemons and agents, the respective program executed, and the programs' hash sums are included in this repository.
+有详细注释的启动系统守护进程和代理的列表，各自运行的程序和程序的哈希校验值都包含在这个代码仓库中了。
 
-**(Optional)** Run the `read_launch_plists.py` script and `diff` output to check for any discrepancies on your system, e.g.:
+**（可选项）** 运行 `read_launch_plists.py` 脚本，使用 `diff` 输出和你系统对比后产生的差异，例如:
 
     $ diff <(python read_launch_plists.py) <(cat 16A323_launchd.csv)
 
-See also [cirrusj.github.io/Yosemite-Stop-Launch](http://cirrusj.github.io/Yosemite-Stop-Launch/) for descriptions of services and [Provisioning OS X and Disabling Unnecessary Services](https://vilimpoc.org/blog/2014/01/15/provisioning-os-x-and-disabling-unnecessary-services/) for another explanation.
+你可以参考这篇 [cirrusj.github.io/Yosemite-Stop-Launch](http://cirrusj.github.io/Yosemite-Stop-Launch/)，它对具体服务进行了一些解释， 也可以看看这篇 [Provisioning OS X and Disabling Unnecessary Services](https://vilimpoc.org/blog/2014/01/15/provisioning-os-x-and-disabling-unnecessary-services/)，这篇是其它一些解释。
 
-## Spotlight Suggestions
+## Spotlight 建议
 
-Disable **Spotlight Suggestions** in both the Spotlight preferences and Safari's Search preferences to avoid your search queries being sent to Apple.
+在 Spotlight 偏好设置面板和 Safari 的搜索偏好设置中都禁用** Spotlight 建议**，来避免你的搜索查询项会发送给 Apple。
 
-Also disable **Bing Web Searches** in the Spotlight preferences to avoid your search queries being sent to Microsoft.
+在 Spotlight 偏好设置面板中也禁用**必应 Web 搜索**来避免你的搜索查询项会发送给 Microsoft。
 
-See [fix-macosx.com](https://fix-macosx.com/) for detailed instructions.
+查看[fix-macosx.com]（https://fix-macosx.com/）获得更详细的信息。
 
-> If you've upgraded to Mac OS X Yosemite (10.10) and you're using the default settings, each time you start typing in Spotlight (to open an application or search for a file on your computer), your local search terms and location are sent to Apple and third parties (including Microsoft).
+> 如果你已经更新到 Mac OS X Yosemite(10.10)并且在用默认的设置，每一次你开始在 Spotlight （去打开一个应用或在你的电脑中搜索一个文件）中打字，你本地的搜索词和位置会被发送给 Apple 和第三方（包括 Microsoft ）。
 
-To download, view and apply their suggested fixes:
+下载，查看并应用他们建议的补丁：
 
 ```
 $ curl -O https://fix-macosx.com/fix-macosx.py
@@ -578,45 +578,45 @@ $ python fix-macosx.py
 All done. Make sure to log out (and back in) for the changes to take effect.
 ```
 
-Speaking of Microsoft, you may want to see <https://fix10.isleaked.com/> just for fun.
+谈到 Microsoft，你可能还想看看<https://fix10.isleaked.com/>，挺有意思的。
 
 ## Homebrew
 
-Consider using [Homebrew](http://brew.sh/) to make software installations easier and to update userland tools (see [Apple’s great GPL purge](http://meta.ath0.com/2012/02/05/apples-great-gpl-purge/)).
+考虑使用[Homebrew]（http://brew.sh/）来安装软件和更新用户工具（查看[Apple’s great GPL purge]（http://meta.ath0.com/2012/02/05/apples-great-gpl-purge/））,这样更简单些。
+**注意** 如果你还没安装 Xcode 或命令行工具，用 `xcode-select --install` 来从 Apple 下载、安装。
 
-**Note** If you have not already installed Xcode or Command Line Tools, use `xcode-select --install` to download and install them from Apple.
-
-To [install Homebrew](https://github.com/Homebrew/brew/blob/master/docs/Installation.md#installation):
+要[安装 Homebrew]（https://github.com/Homebrew/brew/blob/master/docs/Installation.md#installation）:
 
     $ mkdir homebrew && curl -L https://github.com/Homebrew/brew/tarball/master | tar xz --strip 1 -C homebrew
 
-Edit `PATH` in your shell or shell rc file to use `~/homebrew/bin` and `~/homebrew/sbin`. For example, `echo 'PATH=$PATH:~/homebrew/sbin:~/homebrew/bin' >> .zshrc`, then change your login shell to Z shell with `chsh -s /bin/zsh`, open a new Terminal window and run `brew update`.
 
-Homebrew uses SSL/TLS to talk with GitHub and verifies checksums of downloaded packages, so it's [fairly secure](https://github.com/Homebrew/homebrew/issues/18036).
+在你的脚本或 rc 文件中编辑 `PATH` 来使用 `~/homebrew/bin` 和 `~/homebrew/sbin`。例如，先 `echo 'PATH=$PATH:~/homebrew/sbin:~/homebrew/bin' >> .zshrc`，然后用 `chsh -s /bin/zsh` 把登录脚本改为 Z shell,打开一个新的终端窗口并运行 `brew update`。
 
-Remember to periodically run `brew update` and `brew upgrade` on trusted and secure networks to download and install software updates. To get information on a package before installation, run `brew info <package>` and check its recipe online.
+Homebrew 使用 SSL/TLS 与 GitHub 通信并验证下载包的校验，所以它是[相当安全的]（https://github.com/Homebrew/homebrew/issues/18036）。
 
-According to [Homebrew's Anonymous Aggregate User Behaviour Analytics](https://github.com/Homebrew/brew/blob/master/docs/Analytics.md), Homebrew gathers anonymous aggregate user behaviour analytics and reporting these to Google Analytics.
+记得定期在可信任的、安全的网络上运行`brew update` 和 `brew upgrade`来下载、安装软件更新。想在安装前得到关于一个包的信息，运行`brew info <package>`在线查看。
 
-To opt out of Homebrew's analytics, you can set `export HOMEBREW_NO_ANALYTICS=1` in your environment or shell rc file, or use `brew analytics off`.
+依据[Homebrew 匿名汇总用户行为分析]（https://github.com/Homebrew/brew/blob/master/docs/Analytics.md）, Homebrew 获取匿名的汇总的用户行为分析数据并把它们报告给 Google Analytics。
 
-You may also wish to enable [additional security options](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/138), such as `HOMEBREW_NO_INSECURE_REDIRECT=1` and `HOMEBREW_CASK_OPTS=--require-sha`.
+你可以在你的（shell）环境或 rc 文件中设置 `export HOMEBREW_NO_ANALYTICS=1`,或使用 `brew analytics off` 来退出 Homebrew 的分析。
+
+可能你还希望启用[额外的安全选项]（https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/138），例如 `HOMEBREW_NO_INSECURE_REDIRECT=1` 和 `HOMEBREW_CASK_OPTS=--require-sha`。
 
 ## DNS
 
-#### Hosts file
+#### Hosts 文件
 
-Use the [hosts file](https://en.wikipedia.org/wiki/Hosts_(file)) to block known malware, advertising or otherwise unwanted domains.
+使用[Hosts 文件]（https://en.wikipedia.org/wiki/Hosts_(file)) 来屏蔽蔽已知的恶意软件、广告或那些不想访问的域名。
 
-Edit the hosts file as root, for example with `sudo vi /etc/hosts`. The hosts file can also be managed with the GUI app [2ndalpha/gasmask](https://github.com/2ndalpha/gasmask).
+用 root 用户编辑 hosts 文件，例如用 `sudo vi /etc/hosts`。hosts 文件也能用可视化的应用[2ndalpha/gasmask]（https://github.com/2ndalpha/gasmask）管理。
 
-To block a domain, append `0 example.com` or `0.0.0.0 example.com` or `127.0.0.1 example.com` to `/etc/hosts`
+要屏蔽一个域名，在 `/etc/hosts` 中加上 `0 example.com` 或 `0.0.0.0 example.com` 或 `127.0.0.1 example.com`。
 
-There are many lists of domains available online which you can paste in, just make sure each line starts with `0`, `0.0.0.0`, `127.0.0.1`, and the line `127.0.0.1 localhost` is included.
+网上有很多可用的域名列表，你可以直接复制过来，要确保每一行以 `0`, `0.0.0.0`, `127.0.0.1` 开始，并且 `127.0.0.1 localhost` 这一行包含在内。
 
-For hosts lists, see [someonewhocares.org](http://someonewhocares.org/hosts/zero/hosts), [l1k/osxparanoia/blob/master/hosts](https://github.com/l1k/osxparanoia/blob/master/hosts), [StevenBlack/hosts](https://github.com/StevenBlack/hosts) and [gorhill/uMatrix/hosts-files.json](https://github.com/gorhill/uMatrix/blob/master/assets/umatrix/hosts-files.json).
+对于主机列表，查看[someonewhocares.org]（http://someonewhocares.org/hosts/zero/hosts）， [l1k/osxparanoia/blob/master/hosts]（https://github.com/l1k/osxparanoia/blob/master/hosts）， [StevenBlack/hosts]（https://github.com/StevenBlack/hosts） 和 [gorhill/uMatrix/hosts-files.json]（https://github.com/gorhill/uMatrix/blob/master/assets/umatrix/hosts-files.json）。
 
-To append a raw list:
+要添加一个新的列表：
 
 ```
 $ curl "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts" | sudo tee -a /etc/hosts
@@ -630,29 +630,30 @@ fe80::1%lo0 localhost
 [should not return any other IP addresses]
 ```
 
-See `man hosts` and [FreeBSD Configuration Files](https://www.freebsd.org/doc/handbook/configtuning-configfiles.html) for more information.
+更多信息请查看 `man hosts` 和[FreeBSD 配置文件]（https://www.freebsd.org/doc/handbook/configtuning-configfiles.html）。
 
 #### Dnsmasq
 
-Among other features, [dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html) is able to cache replies, prevent upstreaming queries for unqualified names, and block entire TLDs.
+与其他特性相比，[dnsmasq]（http://www.thekelleys.org.uk/dnsmasq/doc.html）能缓存请求，避免无资格名单中的查询数据上传和屏蔽所有的顶级域名。
 
-Use in combination with DNSCrypt to additionally encrypt outgoing DNS traffic.
+另外，和 DNSCrypt 一起使用来加密输出的 DNS 流量。
 
-If you don't wish to use DNSCrypt, you should at least use DNS [not provided](http://bcn.boulder.co.us/~neal/ietf/verisign-abuse.html) [by your ISP](http://hackercodex.com/guide/how-to-stop-isp-dns-server-hijacking/). Two popular alternatives are [Google DNS](https://developers.google.com/speed/public-dns/) and [OpenDNS](https://www.opendns.com/home-internet-security/).
+如果你不想使用 DNSCrypt，再怎么滴也不要用 ISP 提供的 DNS（http://hackercodex.com/guide/how-to-stop-isp-dns-server-hijacking/）（http://bcn.boulder.co.us/~neal/ietf/verisign-abuse.html）。两个流行的选择是[Google DNS]（https://developers.google.com/speed/public-dns/）和 [OpenDNS]（https://www.opendns.com/home-internet-security/）。
 
-**(Optional)** [DNSSEC](https://en.wikipedia.org/wiki/Domain_Name_System_Security_Extensions) is a set of extensions to DNS which provide to DNS clients (resolvers) origin authentication of DNS data, authenticated denial of existence, and data integrity. All answers from DNSSEC protected zones are digitally signed. The signed records are authenticated via a chain of trust, starting with a set of verified public keys for the DNS root-zone. The current root-zone trust anchors may be downloaded [from IANA website](https://www.iana.org/dnssec/files). There are a number of resources on DNSSEC, but probably the best one is [dnssec.net website](http://www.dnssec.net).
+**(可选)**[DNSSEC]（https://en.wikipedia.org/wiki/Domain_Name_System_Security_Extensions）是一系列 DNS 的扩展,为 DNS 客户端提供 DNS 数据的来源验证、否定存在验证和数据完整性检验。所有来自 DNSSEC 保护区域的应答都是数字签名的。签名的记录通过一个信任链授权，以一系列验证过的 DNS 根区域的公钥开头。当前的根区域信任锚点可能下载下来[从 IANA 网站]（https://www.iana.org/dnssec/files）。关于 DNSSEC 有很多的资源，可能最好的一个是[dnssec.net 网站]（http://www.dnssec.net）。
 
-Install Dnsmasq (DNSSEC is optional):
+安装 Dnsmasq (DNSSEC 是可选的)：
 
     $ brew install dnsmasq --with-dnssec
 
     $ cp ~/homebrew/opt/dnsmasq/dnsmasq.conf.example ~/homebrew/etc/dnsmasq.conf
 
-Edit the configuration:
+
+编辑配置项：
 
     $ vim ~/homebrew/etc/dnsmasq.conf
 
-Examine all the options. Here are a few recommended settings to enable:
+检查所有的选项。这有一些推荐启用的设置：
 
 ```
 # Forward queries to DNSCrypt on localhost port 5355
@@ -697,15 +698,15 @@ log-facility=/var/log/dnsmasq.log
 #dnssec-check-unsigned
 ```
 
-Install and start the program:
+安装并启动程序：
 
     $ brew services start dnsmasq
 
-To set Dnsmasq as your local DNS server, open **System Preferences** > **Network** and select the active interface, then the **DNS** tab, select **+** and add `127.0.0.1`, or use:
+要设置 Dnsmasq 为本地的 DNS 服务器，打开 **系统偏好设置** > **网络** 并选择“高级”（译者注：原文为 ‘active interface’，实际上‘高级’），接着 **DNS** 选项卡，选择 **+** 并 添加 `127.0.0.1`, 或使用：
 
     $ sudo networksetup -setdnsservers "Wi-Fi" 127.0.0.1
 
-Make sure Dnsmasq is correctly configured:
+确保 Dnsmasq 正确配置：
 
 ```
 $ scutil --dns
@@ -721,70 +722,70 @@ $ networksetup -getdnsservers "Wi-Fi"
 127.0.0.1
 ```
 
-**Note** Some VPN software overrides DNS settings on connect. See [issue #24](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/24) for more information.
+**注意** 一些 VPN 软件一链接会覆盖 DNS 设置。更多信息查看[issue #24]（https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/24）。
 
-##### Test DNSSEC validation
+#### 检测 DNSSEC 验证
 
-Test DNSSEC validation succeeds for signed zones:
+测试已签名区域的 DNSSEC（域名系统安全扩展协议）验证是否成功
 
     $ dig +dnssec icann.org
 
-Reply should have `NOERROR` status and contain `ad` flag. For instance,
+应答应该有`NOERROR`状态并包含`ad`。例如：
 
     ;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 47039
     ;; flags: qr rd ra ad; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1
 
-Test DNSSEC validation fails for zones that are signed improperly:
+不恰当签名的区域会导致检测 DNSSEC 验证的失败：
 
     $ dig www.dnssec-failed.org
 
-Reply should have `SERVFAIL` status. For instance,
+应答应该包含`SERVFAIL`状态。例如：
 
     ;; ->>HEADER<<- opcode: QUERY, status: SERVFAIL, id: 15190
     ;; flags: qr rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 0, ADDITIONAL: 1
 
 #### dnscrypt
 
-Use [dnscrypt](https://dnscrypt.org/) to encrypt DNS traffic to the provider of choice.
+使用[dnscrypt]（https://dnscrypt.org/）在可选的范围内加密 DNS 流量（译者注：原文为 ‘the provider of choice’）。
 
-If you prefer a GUI application, see [alterstep/dnscrypt-osxclient](https://github.com/alterstep/dnscrypt-osxclient).
+如果你更喜欢一个 GUI 应用程序，看这里[alterstep/dnscrypt-osxclient]（https://github.com/alterstep/dnscrypt-osxclient）。
 
-Install DNSCrypt from Homebrew:
+从 Homebrew 安装 DNSCrypt：
 
     $ brew install dnscrypt-proxy
 
-If using in combination with Dnsmasq, find the file `homebrew.mxcl.dnscrypt-proxy.plist`
+如果要和 Dnsmasq 一起使用，找到这个文件`homebrew.mxcl.dnscrypt-proxy.plist`
 
 ```
 $ find ~/homebrew -name homebrew.mxcl.dnscrypt-proxy.plist
 /Users/drduh/homebrew/Cellar/dnscrypt-proxy/1.7.0/homebrew.mxcl.dnscrypt-proxy.plist
 ```
 
-Edit it to have the line:
+将下面一行编辑进去：
 
     <string>--local-address=127.0.0.1:5355</string>
 
-Below the line:
+接着写：
 
     <string>/usr/local/opt/dnscrypt-proxy/sbin/dnscrypt-proxy</string>
 
 <img width="1015" alt="dnscrypt" src="https://cloud.githubusercontent.com/assets/12475110/19222914/8e6f853e-8e31-11e6-8dd6-27c33cbfaea5.png">
 
-*Append a local-address line to use DNScrypt on a port other than 53, like 5355*
+*添加一行本地地址来使用 DNScrypt，使用 53 以外的端口，比如 5355*
 
-This can also be done using Homebrew, by installing `gnu-sed` and using the `gsed` command:
+用 Homebrew 也能实现上述过程，安装`gnu-sed`并使用`gsed`命令行：
 
     $ sudo gsed -i "/sbin\\/dnscrypt-proxy<\\/string>/a<string>--local-address=127.0.0.1:5355<\\/string>\n" $(find ~/homebrew -name homebrew.mxcl.dnscrypt-proxy.plist)
 
-By default, the `resolvers-list` will point to the dnscrypt version specific resolvers file. When dnscrypt is updated, this version may no longer exist, and if it does, may point to an outdated file. This can be fixed by changing the resolvers file in `/Library/LaunchDaemons/homebrew.mxcl.dnscrypt-proxy.plist` to the symlinked version in `/usr/local/share`:
+默认情况下，`resolvers-list`将会指向 dnscrypt 版本特定的 resolvers 文件。当更新了 dnscrypt，这一版本将不再存在，若它存在，可能指向一个过期的文件。在`/Library/LaunchDaemons/homebrew.mxcl.dnscrypt-proxy.plist`中把 resolvers 文件改为`/usr/local/share`中的符号链接的版本，能解决上述问题：
 
     <string>--resolvers-list=/usr/local/share/dnscrypt-proxy/dnscrypt-resolvers.csv</string>
 
-Start DNSCrypt:
+启用 DNSCrypt：
 
     $ brew services start dnscrypt-proxy
 
-Make sure DNSCrypt is running:
+确保 DNSCrypt 在运行：
 
 ```
 $ sudo lsof -Pni UDP:5355
@@ -795,15 +796,14 @@ $ ps A | grep '[d]nscrypt'
    83   ??  Ss     0:00.27 /Users/drduh/homebrew/opt/dnscrypt-proxy/sbin/dnscrypt-proxy --local-address=127.0.0.1:5355 --ephemeral-keys --resolvers-list=/Users/drduh/homebrew/opt/dnscrypt-proxy/share/dnscrypt-proxy/dnscrypt-resolvers.csv --resolver-name=dnscrypt.eu-dk --user=nobody
 ```
 
-> By default, dnscrypt-proxy runs on localhost (127.0.0.1), port 53,
-and under the "nobody" user using the dnscrypt.eu-dk DNSCrypt-enabled
-resolver. If you would like to change these settings, you will have to edit the plist file (e.g., --resolver-address, --provider-name, --provider-key, etc.)
+> 默认情况下，dnscrypt-proxy 运行在本地 (127.0.0.1) ，53 端口，并且 "nobody" 身份使用dnscrypt.eu-dk DNSCrypt-enabled
+resolver。如果你想改变这些设置，你得编辑 plist 文件 (例如, --resolver-address, --provider-name, --provider-key, 等。)
 
-This can be accomplished by editing `homebrew.mxcl.dnscrypt-proxy.plist`
+通过编辑`homebrew.mxcl.dnscrypt-proxy.plist`也能完成
 
-You can run your own [dnscrypt server](https://github.com/Cofyc/dnscrypt-wrapper) (see also [drduh/Debian-Privacy-Server-Guide#dnscrypt](https://github.com/drduh/Debian-Privacy-Server-Guide#dnscrypt)) from a trusted location or use one of many [public servers](https://github.com/jedisct1/dnscrypt-proxy/blob/master/dnscrypt-resolvers.csv) instead.
+你能从一个信任的位置或使用 [public servers](https://github.com/jedisct1/dnscrypt-proxy/blob/master/dnscrypt-resolvers.csv) 中的一个运行你自己的 [dnscrypt server](https://github.com/Cofyc/dnscrypt-wrapper)(也看看这个 [drduh/Debian-Privacy-Server-Guide#dnscrypt](https://github.com/drduh/Debian-Privacy-Server-Guide#dnscrypt))
 
-Confirm outgoing DNS traffic is encrypted:
+确保输出的 DNS 流量已加密：
 
 ```
 $ sudo tcpdump -qtni en0
@@ -814,41 +814,41 @@ $ dig +short -x 77.66.84.233
 resolver2.dnscrypt.eu
 ```
 
-See also [What is a DNS leak](https://dnsleaktest.com/what-is-a-dns-leak.html), the [mDNSResponder manual page](https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man8/mDNSResponder.8.html) and [ipv6-test.com](http://ipv6-test.com/).
+也读读[What is a DNS leak]（https://dnsleaktest.com/what-is-a-dns-leak.html）,[mDNSResponder manual page]（https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man8/mDNSResponder.8.html）和[ipv6-test.com]（http://ipv6-test.com/）。
 
 ## Captive portal
 
-When macOS connects to new networks, it **probes** the network and launches a Captive Portal assistant utility if connectivity can't be determined.
+当 macOS 连接到新的网络，它会 **检测** 网络，如果连接没有被接通，则会启动 Captive Portal assistant 功能。
 
-An attacker could trigger the utility and direct a Mac to a site with malware without user interaction, so it's best to disable this feature and log in to captive portals using your regular Web browser, provided you have first disable any custom dns and/or proxy settings.
+一个攻击者能触发这一功能，无需用户交互就将一台电脑定向到有恶意软件的网站，最好禁用这个功能并用你经常用的浏览器登录 captive portals， 前提是你必须首先禁用了任何的客户端/代理设置。
 
     $ sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.captive.control Active -bool false
 
-See also [Apple OS X Lion Security: Captive Portal Hijacking Attack](https://www.securestate.com/blog/2011/10/07/apple-os-x-lion-captive-portal-hijacking-attack), [Apple's secret "wispr" request](http://blog.erratasec.com/2010/09/apples-secret-wispr-request.html), [How to disable the captive portal window in Mac OS Lion](https://web.archive.org/web/20130407200745/http://www.divertednetworks.net/apple-captiveportal.html), and [An undocumented change to Captive Network Assistant settings in OS X 10.10 Yosemite](https://grpugh.wordpress.com/2014/10/29/an-undocumented-change-to-captive-network-assistant-settings-in-os-x-10-10-yosemite/).
+也可以看看[Apple OS X Lion Security: Captive Portal Hijacking Attack]（https://www.securestate.com/blog/2011/10/07/apple-os-x-lion-captive-portal-hijacking-attack）,[Apple's secret "wispr" request]（http://blog.erratasec.com/2010/09/apples-secret-wispr-request.html）,[How to disable the captive portal window in Mac OS Lion]（https://web.archive.org/web/20130407200745/http://www.divertednetworks.net/apple-captiveportal.html）, 和[An undocumented change to Captive Network Assistant settings in OS X 10.10 Yosemite]（https://grpugh.wordpress.com/2014/10/29/an-undocumented-change-to-captive-network-assistant-settings-in-os-x-10-10-yosemite/）.
 
-## Certificate authorities
+## 证书授权
 
-macOS comes with [over 200](https://support.apple.com/en-us/HT202858) root authority certificates installed from for-profit corporations like Apple, Verisign, Thawte, Digicert and government agencies from China, Japan, Netherlands, U.S., and more! These Certificate Authorities (CAs) are capable of issuing SSL/TLS certificates for any domain, code signing certificates, etc.
+macOS 上有从像 Apple, Verisign, Thawte, Digicert 这样的营利性公司和来自中国、日本、荷兰、美国等等的政府机关安装的[超过 200]（https://support.apple.com/en-us/HT202858）个可信任的根证书。这些证书授权(CAs)能够针对任一域名处理 SSL/TLS 认证，代码签名证书等等。
 
-For more information, see [Certification Authority Trust Tracker](https://github.com/kirei/catt), [Analysis of the HTTPS certificate ecosystem](http://conferences.sigcomm.org/imc/2013/papers/imc257-durumericAemb.pdf) (pdf), and [You Won’t Be Needing These Any More: On Removing Unused Certificates From Trust Stores](http://www.ifca.ai/fc14/papers/fc14_submission_100.pdf) (pdf).
+想要了解更多，看看[Certification Authority Trust Tracker]（https://github.com/kirei/catt）,[Analysis of the HTTPS certificate ecosystem]（http://conferences.sigcomm.org/imc/2013/papers/imc257-durumericAemb.pdf）(pdf), 和[You Won’t Be Needing These Any More: On Removing Unused Certificates From Trust Stores]（http://www.ifca.ai/fc14/papers/fc14_submission_100.pdf）(pdf)。
 
-You can inspect system root certificates in **Keychain Access**, under the **System Roots** tab or by using the `security` command line tool and `/System/Library/Keychains/SystemRootCertificates.keychain` file.
+你能在 **钥匙串访问**  中的 **系统根证书** 选项卡下检查系统根证书，或者使用 `security` 命令行工具和`/System/Library/Keychains/SystemRootCertificates.keychain`文件。
 
-You can disable certificate authorities through Keychain Access by marking them as **Never Trust** and closing the window:
+你能通过钥匙串访问将它们标记为 **永不信任** 禁用证书授权并关闭窗口：
 
 <img width="450" alt="A certificate authority certificate" src="https://cloud.githubusercontent.com/assets/12475110/19222972/6b7aabac-8e32-11e6-8efe-5d3219575a98.png">
 
-The risk of a [man in the middle](https://en.wikipedia.org/wiki/Man-in-the-middle_attack) attack in which a coerced or compromised certificate authority trusted by your system issues a fake/rogue SSL certificate is quite low, but still [possible](https://en.wikipedia.org/wiki/DigiNotar#Issuance_of_fraudulent_certificates).
+被你的系统信任的被迫或妥协的证书授权产生一个假的/欺骗的 SSL 证书，这样的一个[中间人攻击]（https://en.wikipedia.org/wiki/Man-in-the-middle_attack）的风险很低，但仍然是[可能的]（https://en.wikipedia.org/wiki/DigiNotar#Issuance_of_fraudulent_certificates）。
 
 ## OpenSSL
 
-The version of OpenSSL in Sierra is `0.9.8zh` which is [not current](https://apple.stackexchange.com/questions/200582/why-is-apple-using-an-older-version-of-openssl). It doesn't support TLS 1.1 or newer, elliptic curve ciphers, and [more](https://stackoverflow.com/questions/27502215/difference-between-openssl-09-8z-and-1-0-1).
+在 Sierra 中 OpenSSL 的版本是`0.9.8zh`，这[不是最新的]（https://apple.stackexchange.com/questions/200582/why-is-apple-using-an-older-version-of-openssl）。它不支持TLS 1.1或新的版本，elliptic curve ciphers ，[还有更多]（https://stackoverflow.com/questions/27502215/difference-between-openssl-09-8z-and-1-0-1）。
 
-Apple declares OpenSSL **deprecated** in their [Cryptographic Services Guide](https://developer.apple.com/library/mac/documentation/Security/Conceptual/cryptoservices/GeneralPurposeCrypto/GeneralPurposeCrypto.html) document. Their version also has patches which may [surprise you](https://hynek.me/articles/apple-openssl-verification-surprises/).
+Apple 在他们的[Cryptographic Services 指南]（https://developer.apple.com/library/mac/documentation/Security/Conceptual/cryptoservices/GeneralPurposeCrypto/GeneralPurposeCrypto.html）文档中宣布 **弃用** OpenSSL。他们的版本也有补丁，可能会[带来惊喜喔]（https://hynek.me/articles/apple-openssl-verification-surprises/）。
 
-If you're going to use OpenSSL on your Mac, download and install a recent version of OpenSSL with `brew install openssl`. Note, linking brew to be used in favor of `/usr/bin/openssl` may interfere with building software. See [issue #39](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/39).
+如果你要在你的 Mac 上用 OpenSSL，用`brew install openssl`下载并安装一个 OpenSSL 最近的版本。注意，brew 已经链接了 `/usr/bin/openssl` ，可能和构建软件冲突。查看[issue #39]（https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/39）。
 
-Compare the TLS protocol and cipher between the homebrew version and the system version of OpenSSL:
+在 homebrew 版本和 OpenSSL 系统版本之间比较 TLS 协议和密码：
 
 ```
 $ ~/homebrew/bin/openssl version; echo | ~/homebrew/bin openssl s_client -connect github.com:443 2>&1 | grep -A2 SSL-Session
@@ -864,15 +864,15 @@ SSL-Session:
     Cipher    : AES128-SHA
 ```
 
-See also [Comparison of TLS implementations](https://en.wikipedia.org/wiki/Comparison_of_TLS_implementations), [How's My SSL](https://www.howsmyssl.com/), [Qualys SSL Labs Tools](https://www.ssllabs.com/projects/) and for detailed explanations and with latest vulnerabilities tests [ssl-checker.online-domain-tools.com](http://ssl-checker.online-domain-tools.com).
+也看看[Comparison of TLS implementations]（https://en.wikipedia.org/wiki/Comparison_of_TLS_implementations）,[How's My SSL]（https://www.howsmyssl.com/），[Qualys SSL Labs Tools]（https://www.ssllabs.com/projects/）查看更详细的解释和最新的漏洞测试请看这里[ssl-checker.online-domain-tools.com]（http://ssl-checker.online-domain-tools.com）。
 
 ## Curl
 
-The version of Curl which comes with macOS uses [Secure Transport](https://developer.apple.com/library/mac/documentation/Security/Reference/secureTransportRef/) for SSL/TLS validation.
+macOS 中 Curl 的版本针对 SSL/TLS 验证使用[安全传输]（https://developer.apple.com/library/mac/documentation/Security/Reference/secureTransportRef/）。
 
-If you prefer to use OpenSSL, install with `brew install curl --with-openssl` and ensure it's the default with `brew link --force curl`
+如果你更愿意使用 OpenSSL，用`brew install curl --with-openssl`安装并通过 `brew link --force curl` 确保它是默认的。
 
-Here are several recommended [options](http://curl.haxx.se/docs/manpage.html) to add to `~/.curlrc` (see `man curl` for more):
+这里推荐几个向`~/.curlrc`中添加的[可选项]（http://curl.haxx.se/docs/manpage.html）（更多请查看 `man curl`）：
 
 ```
 user-agent = "Mozilla/5.0 (Windows NT 6.1; rv:45.0) Gecko/20100101 Firefox/45.0"
@@ -888,29 +888,31 @@ ipv4
 
 ## Web
 
-### Privoxy
+### 代理
 
-Consider using [Privoxy](http://www.privoxy.org/) as a local proxy to filter Web browsing traffic.
+考虑使用[Privoxy]（http://www.privoxy.org/）作为本地代理来过滤网络浏览内容。
 
-A signed installation package for privoxy can be downloaded from [silvester.org.uk](http://silvester.org.uk/privoxy/OSX/) or [Sourceforge](http://sourceforge.net/projects/ijbswa/files/Macintosh%20%28OS%20X%29/). The signed package is [more secure](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/65) than the Homebrew version, and attracts full support from the Privoxy project.
+一个已签名的 privoxy 安装包能从[silvester.org.uk]（http://silvester.org.uk/privoxy/OSX/）或[Sourceforge]（http://sourceforge.net/projects/ijbswa/files/Macintosh%20%28OS%20X%29/）下载。签过名的包比 Homebrew 版本[更安全]（https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/65），而且能得到 Privoxy 项目全面的支持。
 
-Alternatively, install and start privoxy using Homebrew:
+另外，用 Homebrew 安装、启动 privoxy：
 
     $ brew install privoxy
 
     $ brew services start privoxy
 
-By default, privoxy listens on local TCP port 8118.
 
-Set the system **http** proxy for your active network interface `127.0.0.1` and `8118` (This can be done through **System Preferences > Network > Advanced > Proxies**):
+默认情况下，privoxy 监听本地的 8118 端口。
+
+为你的网络接口设置系统 **http** 代理为`127.0.0.1` 和 `8118`（可以通过 **系统偏好设置 > 网络 > 高级 > 代理**）：
 
     $ sudo networksetup -setwebproxy "Wi-Fi" 127.0.0.1 8118
 
-**(Optional)** Set the system **https** proxy, which still allows for domain name filtering, with:
+
+**(可选)** 用下述方法设置系统 **https** 代理，这仍提供了域名过滤功能：
 
     $ sudo networksetup -setsecurewebproxy "Wi-Fi" 127.0.0.1 8118
 
-Confirm the proxy is set:
+确保代理设置好了：
 
 ```
 $ scutil --proxy
@@ -926,7 +928,7 @@ $ scutil --proxy
 }
 ```
 
-Visit <http://p.p/> in a browser, or with Curl:
+在一个浏览器里访问<http://p.p/>，或用 Curl 访问：
 
 ```
 $ ALL_PROXY=127.0.0.1:8118 curl -I http://p.p/
@@ -936,12 +938,11 @@ Content-Type: text/html
 Cache-Control: no-cache
 ```
 
-Privoxy already comes with many good rules, however you can also write your own.
+代理已经有很多好的规则，你也能自己定义。
 
-Edit `~/homebrew/etc/privoxy/user.action` to filter elements by domain or with regular expressions.
+编辑`~/homebrew/etc/privoxy/user.action`用域名或正则表达式来过滤。
 
-Here are some examples:
-
+示例如下：
 ```
 { +block{social networking} }
 www.facebook.com/(extern|plugins)/(login_status|like(box)?|activity|fan)\.php
@@ -964,7 +965,7 @@ code.jquery.com
 imgur.com
 ```
 
-Verify Privoxy is blocking and redirecting:
+验证 Privoxy 能够拦截和重定向：
 
 ```
 $ ALL_PROXY=127.0.0.1:8118 curl ads.foo.com/ -IL
@@ -983,67 +984,67 @@ HTTP/1.1 200 OK
 Content-Type: text/html; charset=utf-8
 ```
 
-You can replace ad images with pictures of kittens, for example, by starting the a local Web server and [redirecting blocked requests](https://www.privoxy.org/user-manual/actions-file.html#SET-IMAGE-BLOCKER) to localhost.
+你能用小猫的图片来代替广告图片，例如，通过启动一个本地的 Web 服务器然后[重定向屏蔽的请求]（https://www.privoxy.org/user-manual/actions-file.html#SET-IMAGE-BLOCKER）到本地。
 
-### Browser
+### 浏览器
 
-The Web browser poses the largest security and privacy risk, as its fundamental job is to download and execute untrusted code from the Internet.
+Web 浏览器引发最大的安全和隐私风险，因为它基本的工作是从因特网上下载和运行未信任的代码。
 
-Use [Google Chrome](https://www.google.com/chrome/browser/desktop/) for most of your browsing. It offers [separate profiles](https://www.chromium.org/user-experience/multi-profiles), [good sandboxing](https://www.chromium.org/developers/design-documents/sandbox), [frequent updates](http://googlechromereleases.blogspot.com/) (including Flash, although you should disable it - see below), and carries [impressive credentials](https://www.chromium.org/Home/chromium-security/brag-sheet).
+对于你的大部分浏览使用[Google Chrome]（https://www.google.com/chrome/browser/desktop/）。它提供了[独立的配置文件]（https://www.chromium.org/user-experience/multi-profiles），[好的沙盒处理]（https://www.chromium.org/developers/design-documents/sandbox），[经常更新]（http://googlechromereleases.blogspot.com/）（包括 Flash，尽管你应该禁用它 - 原因看下面），并且[自带牛哄哄的资历]（https://www.chromium.org/Home/chromium-security/brag-sheet）。
 
-Chrome also comes with a great [PDF viewer](http://0xdabbad00.com/2013/01/13/most-secure-pdf-viewer-chrome-pdf-viewer/).
+Chrome 也有一个很好的[PDF 阅读器]（http://0xdabbad00.com/2013/01/13/most-secure-pdf-viewer-chrome-pdf-viewer/）。
 
-If you don't want to use Chrome, [Firefox](https://www.mozilla.org/en-US/firefox/new/) is an excellent browser as well. Or simply use both. See discussion in issues [#2](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/2), [#90](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/90).
+如果你不想用 Chrome，[Firefox]（https://www.mozilla.org/en-US/firefox/new/）也是一个很好的浏览器。或两个都用。看这里的讨论[#2]（https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/2），[#90]（https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/90）。
 
-If using Firefox, see [TheCreeper/PrivacyFox](https://github.com/TheCreeper/PrivacyFox) for recommended privacy preferences. Also be sure to check out [NoScript](https://noscript.net/) for Mozilla-based browsers, which allows whitelist-based, pre-emptive script blocking.
+如果用 Firefox，查看[TheCreeper/PrivacyFox]（https://github.com/TheCreeper/PrivacyFox）里推荐的隐私偏好设置。也要确保为基于 Mozilla 的浏览器检查[NoScript]（https://noscript.net/），它允许基于白名单预先阻止脚本。
 
-Create at least three profiles, one for browsing **trusted** Web sites (email, banking), another for **mostly trusted** Web sites (link aggregators, news sites), and a third for a completely **cookie-less** and **script-less** experience.
+创建至少三个配置文件，一个用来浏览 **可信任的** 网站 (邮箱，银行)，另一个为了 **大部分是可信的** 网站（链路聚合，新闻站点），第三个是针对完全 **无 cookie** 和 **无脚本** 的体验。
 
-* One profile **without cookies or Javascript** enabled (e.g., turned off in `chrome://settings/content`) which should be the preferred profile to visiting untrusted Web sites. However, many pages will not load at all without Javascript enabled.
+* 一个启用了 **无 cookies 和 Javascript**（例如, 在`chrome://settings/content`中被关掉）的配置文件就应该用来访问未信任的网站。然而，如果不启用 Javascript，很多页面根本不会加载。
 
-* One profile with [uMatrix](https://github.com/gorhill/uMatrix) or [uBlock Origin](https://github.com/gorhill/uBlock) (or both). Use this profile for visiting **mostly trusted** Web sites. Take time to learn how these firewall extensions work. Other frequently recommended extensions are [Privacy Badger](https://www.eff.org/privacybadger), [HTTPSEverywhere](https://www.eff.org/https-everywhere) and [CertPatrol](http://patrol.psyced.org/) (Firefox only).
+* 一个有[uMatrix]（https://github.com/gorhill/uMatrix）或[uBlock Origin]（https://github.com/gorhill/uBlock）（或两个都有）的配置文件。用这个文件来访问 **大部分是可信的** 网站。花时间了解防火墙扩展程序是怎么工作的。其他经常被推荐的扩展程序是[Privacy Badger]（https://www.eff.org/privacybadger），[HTTPSEverywhere]（https://www.eff.org/https-everywhere）和[CertPatrol]（http://patrol.psyced.org/）（仅限 Firefox）。
 
-* One or more profile(s) for secure and trusted browsing needs, such as banking and email only.
+* 一个或更多的配置文件用来满足安全和可信任的浏览需求，例如仅限于银行和邮件。
 
-The idea is to separate and compartmentalize data, so that an exploit or privacy violation in one "session" does not necessarily affect data in another.
+想法是分隔并划分数据，那么如果一个“会话”出现漏洞或泄露隐私并不一定会影响其它数据。
 
-In each profile, visit `chrome://plugins/` and disable **Adobe Flash Player**. If you must use Flash, visit `chrome://settings/contents` to enable **Let me choose when to run plugin content**, under the Plugins section (also known as *click-to-play*).
+在每一个文件里，访问`chrome://plugins/`并禁用 **Adobe Flash Player**。如果你一定要用 Flash，访问`chrome://settings/contents`，在插件部分，启用在 **让我自行选择何时运行插件内容**（也叫做 *click-to-play*）。
 
-Take some time to read through [Chromium Security](https://www.chromium.org/Home/chromium-security) and [Chromium Privacy](https://www.chromium.org/Home/chromium-privacy).
+花时间阅读[Chromium 安全]（https://www.chromium.org/Home/chromium-security）和[Chromium 隐私]（https://www.chromium.org/Home/chromium-privacy）。
 
-For example you may wish to disable [DNS prefetching](https://www.chromium.org/developers/design-documents/dns-prefetching) (see also [DNS Prefetching and Its Privacy Implications](https://www.usenix.org/legacy/event/leet10/tech/full_papers/Krishnan.pdf) (pdf)).
+例如你可能希望禁用[DNS prefetching]（https://www.chromium.org/developers/design-documents/dns-prefetching）（也看看[DNS Prefetching and Its Privacy Implications]（https://www.usenix.org/legacy/event/leet10/tech/full_papers/Krishnan.pdf））pdf））。
 
-Also be aware of [WebRTC](https://en.wikipedia.org/wiki/WebRTC#Concerns), which may reveal your local or public (if connected to VPN) IP address(es). This can be disabled with extensions such as [uBlock Origin](https://github.com/gorhill/uBlock/wiki/Prevent-WebRTC-from-leaking-local-IP-address) and [rentamob/WebRTC-Leak-Prevent](https://github.com/rentamob/WebRTC-Leak-Prevent).
+你也应该知道[WebRTC]（https://en.wikipedia.org/wiki/WebRTC#Concerns），它能获取你本地或外网的（如果连到 VPN）IP 地址。这能用例如[uBlock Origin]（https://github.com/gorhill/uBlock/wiki/Prevent-WebRTC-from-leaking-local-IP-address）和[rentamob/WebRTC-Leak-Prevent]（https://github.com/rentamob/WebRTC-Leak-Prevent）的扩展程序禁用掉。
 
-Many Chromium-derived browsers are not recommended. They are usually [closed source](http://yro.slashdot.org/comments.pl?sid=4176879&cid=44774943), [poorly maintained](https://plus.google.com/+JustinSchuh/posts/69qw9wZVH8z), [have bugs](https://code.google.com/p/google-security-research/issues/detail?id=679), and make dubious claims to protect privacy. See [The Private Life of Chromium Browsers](http://thesimplecomputer.info/the-private-life-of-chromium-browsers).
+很多源于 Chromium 的浏览器这里不推荐。它们通常[不开源]（http://yro.slashdot.org/comments.pl?sid=4176879&cid=44774943），[维护性差]（https://plus.google.com/+JustinSchuh/posts/69qw9wZVH8z），[有很多 bug]（https://code.google.com/p/google-security-research/issues/detail?id=679），而且对保护隐私有可疑的声明。看这里[The Private Life of Chromium Browsers]（http://thesimplecomputer.info/the-private-life-of-chromium-browsers）。
 
-Safari is not recommended. The code is a mess and [security](https://nakedsecurity.sophos.com/2014/02/24/anatomy-of-a-goto-fail-apples-ssl-bug-explained-plus-an-unofficial-patch/) [vulnerabilities](https://vimeo.com/144872861) are frequent, and slower to patch (see [discussion on Hacker News](https://news.ycombinator.com/item?id=10150038)). Security does [not appear](https://discussions.apple.com/thread/5128209) to be a priority for Safari. If you do use it, at least [disable](https://thoughtsviewsopinions.wordpress.com/2013/04/26/how-to-stop-downloaded-files-opening-automatically/) the **Open "safe" files after downloading** option in Preferences, and be aware of other [privacy nuances](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/93).
+也不推荐 Safari。代码一团糟而且[安全问题]（https://nakedsecurity.sophos.com/2014/02/24/anatomy-of-a-goto-fail-apples-ssl-bug-explained-plus-an-unofficial-patch/）[漏洞]（https://vimeo.com/144872861）经常发生，并且打补丁很慢（看这里[Hacker News上的讨论]（https://news.ycombinator.com/item?id=10150038））。安全[并不是]（https://discussions.apple.com/thread/5128209）Safari 的一个优点。如果你硬要使用它，至少在偏好设置里[禁用]（https://thoughtsviewsopinions.wordpress.com/2013/04/26/how-to-stop-downloaded-files-opening-automatically/）**下载后打开"安全的文件**，也要了解其他的[隐私差别]（https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/93）。
 
-Other miscellaneous browsers, such as [Brave](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/94), are not evaluated in this guide, so are neither recommended nor actively discouraged from use.
+其他乱七八糟的浏览器，例如[Brave]（https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/94），在这个指南里没有评估，所以既不推荐也不反对使用。
 
-For more information about security conscious browsing, see [HowTo: Privacy & Security Conscious Browsing](https://gist.github.com/atcuno/3425484ac5cce5298932), [browserleaks.com](https://www.browserleaks.com/) and [EFF Panopticlick](https://panopticlick.eff.org/).
+想浏览更多安全方面的问题，看[HowTo: Privacy & Security Conscious Browsing]（https://gist.github.com/atcuno/3425484ac5cce5298932），[browserleaks.com]（https://www.browserleaks.com/）和[EFF Panopticlick]（https://panopticlick.eff.org/）。
 
-### Plugins
+### 插件
 
-**Adobe Flash**, **Oracle Java**, **Adobe Reader**, **Microsoft Silverlight** (Netflix now works with [HTML5](https://help.netflix.com/en/node/23742)) and other plugins are [security risks](https://news.ycombinator.com/item?id=9901480) and should not be installed.
+**Adobe Flash**, **Oracle Java**, **Adobe Reader**, **Microsoft Silverlight** (Netflix 现在使用[HTML5]（https://help.netflix.com/en/node/23742）和其他的插件有[安全风险]（https://news.ycombinator.com/item?id=9901480），不应该安装。
 
-If they are necessary, only use them in a disposable virtual machine and subscribe to security announcements to make sure you're always patched.
+如果它们是必须的，只在一个虚拟机里安装它们并且订阅安全通知以便确保你总能及时修补漏洞。
 
-See [Hacking Team Flash Zero-Day](http://blog.trendmicro.com/trendlabs-security-intelligence/hacking-team-flash-zero-day-integrated-into-exploit-kits/), [Java Trojan BackDoor.Flashback](https://en.wikipedia.org/wiki/Trojan_BackDoor.Flashback), [Acrobat Reader: Security Vulnerabilities](http://www.cvedetails.com/vulnerability-list/vendor_id-53/product_id-497/Adobe-Acrobat-Reader.html), and [Angling for Silverlight Exploits](https://blogs.cisco.com/security/angling-for-silverlight-exploits), for example.
+看[Hacking Team Flash Zero-Day]（http://blog.trendmicro.com/trendlabs-security-intelligence/hacking-team-flash-zero-day-integrated-into-exploit-kits/），[Java Trojan BackDoor.Flashback]（https://en.wikipedia.org/wiki/Trojan_BackDoor.Flashback），[Acrobat Reader: Security Vulnerabilities]（http://www.cvedetails.com/vulnerability-list/vendor_id-53/product_id-497/Adobe-Acrobat-Reader.html），和[Angling for Silverlight Exploits]（https://blogs.cisco.com/security/angling-for-silverlight-exploits）。
 
 ## PGP/GPG
 
-PGP is a standard for encrypting email end to end. That means only the chosen recipients can decrypt a message, unlike regular email which is read and forever archived by providers.
+PGP 是一个端对端邮件加密标准。这意味着只是选中的接收者能解密一条消息，不像通常的邮件被提供者永久阅读和保存。
 
-**GPG**, or **GNU Privacy Guard**, is a GPL licensed program compliant with the standard.
+**GPG**, 或 **GNU Privacy Guard**，是一个符合标准的 GPL 协议项目。
 
-**GPG** is used to verify signatures of software you download and install, as well as [symmetrically](https://en.wikipedia.org/wiki/Symmetric-key_algorithm) or [asymmetrically](https://en.wikipedia.org/wiki/Public-key_cryptography) encrypt files and text.
+**GPG** 被用来验证你下载和安装的软件签名，既可以[对称]（https://en.wikipedia.org/wiki/Symmetric-key_algorithm）也可以[非对称]（https://en.wikipedia.org/wiki/Public-key_cryptography）的加密文件和文本。
 
-Install from Homebrew with `brew install gnupg2`.
+从 Homebrew 上用`brew install gnupg2`安装。
 
-If you prefer a graphical application, download and install [GPG Suite](https://gpgtools.org/).
+如果你更喜欢图形化的应用，下载安装[GPG Suite]（https://gpgtools.org/）。
 
-Here are several [recommended options](https://github.com/drduh/config/blob/master/gpg.conf) to add to `~/.gnupg/gpg.conf`:
+这有几个往`~/.gnupg/gpg.conf`中添加的[推荐选项]（https://github.com/drduh/config/blob/master/gpg.conf）：
 
 ```
 auto-key-locate keyserver
@@ -1069,31 +1070,30 @@ verify-options show-uid-validity
 with-fingerprint
 ```
 
-Install the keyservers [CA certificate](https://sks-keyservers.net/verify_tls.php):
+安装 keyservers [CA 认证]（https://sks-keyservers.net/verify_tls.php）：
 
     $ curl -O https://sks-keyservers.net/sks-keyservers.netCA.pem
 
     $ sudo mv sks-keyservers.netCA.pem /etc
 
-These settings will configure GnuPG to use SSL when fetching new keys and prefer strong cryptographic primitives.
+这些设置将配置 GnuPG 在获取新密钥和想用强加密原语时使用 SSL。
 
-See also [ioerror/duraconf/configs/gnupg/gpg.conf](https://github.com/ioerror/duraconf/blob/master/configs/gnupg/gpg.conf). You should also take some time to read [OpenPGP Best Practices](https://help.riseup.net/en/security/message-security/openpgp/best-practices).
+也看看[ioerror/duraconf/configs/gnupg/gpg.conf]（https://github.com/ioerror/duraconf/blob/master/configs/gnupg/gpg.conf）。你也应该花时间读读[OpenPGP Best Practices]（https://help.riseup.net/en/security/message-security/openpgp/best-practices）。
 
-If you don't already have a keypair, create one using `gpg --gen-key`. Also see [drduh/YubiKey-Guide](https://github.com/drduh/YubiKey-Guide).
+如果你没有一个密钥对，用`gpg --gen-key`创建一个。也看看[drduh/YubiKey-Guide]（https://github.com/drduh/YubiKey-Guide）。
 
-Read [online](https://alexcabal.com/creating-the-perfect-gpg-keypair/) [guides](https://security.stackexchange.com/questions/31594/what-is-a-good-general-purpose-gnupg-key-setup) and practice encrypting and decrypting email to yourself and your friends. Get them interested in this stuff!
+读[在线的]（https://alexcabal.com/creating-the-perfect-gpg-keypair/）[指南]（https://security.stackexchange.com/questions/31594/what-is-a-good-general-purpose-gnupg-key-setup）并练习给你自己和朋友们加密解密邮件。让他们也对这篇文章感兴趣吧！
 
 ## OTR
 
-OTR stands for **off-the-record** and is a cryptographic protocol for encrypting and authenticating conversations over instant messaging.
+OTR 代表 **off-the-record** 并且是一个针对即时消息对话加密和授权的密码协议。
 
-You can use OTR on top of any existing [XMPP](https://xmpp.org/about) chat service, even Google Hangouts (which only encrypts conversations between users and the server using TLS).
+你能在任何一个已存在的[XMPP]（https://xmpp.org/about）聊天服务中使用 OTR，甚至是 Google Hangouts（它只在使用 TLS 的用户和服务器之间加密对话）。
 
-The first time you start a conversation with someone new, you'll be asked to verify their public key fingerprint. Make sure to do this in person or by some other secure means (e.g. GPG encrypted mail).
+你和某人第一次开始一段对话，你将被要求去验证他们的公钥指纹。确保是本人亲自操作或通过其它一些安全的方式(例如 GPG 加密过的邮件)。
+针对 XMPP 和其他的聊天协议，有一个流行的 macOS GUI 客户端是[Adium]（https://adium.im/）。
 
-A popular macOS GUI client for XMPP and other chat protocols is [Adium](https://adium.im/)
-
-Consider downloading the [beta version](https://beta.adium.im/) which uses OAuth2, making logging in to Google accounts [more](https://adium.im/blog/2015/04/) [secure](https://trac.adium.im/ticket/16161).
+考虑下载一个[beta]版本（https://beta.adium.im/） ，使用 OAuth2 验证，确保登录谷歌账号[更]（https://adium.im/blog/2015/04/）[安全]（https://trac.adium.im/ticket/16161）。
 
 ```
 Adium_1.5.11b3.dmg
@@ -1101,23 +1101,23 @@ SHA-256: 999e1931a52dc327b3a6e8492ffa9df724a837c88ad9637a501be2e3b6710078
 SHA-1:   ca804389412f9aeb7971ade6812f33ac739140e6
 ```
 
-Remember to [disable logging](https://trac.adium.im/ticket/15722) for OTR chats with Adium.
+记住对于 Adium 的 OTR 聊天[禁用登录]（https://trac.adium.im/ticket/15722）。
 
-A good console-based XMPP client is [profanity](http://www.profanity.im/), which can be installed with `brew install profanity`
+一个好的基于控制台的 XMPP 客户端是[profanity]（http://www.profanity.im/），它能用`brew install profanity`安装。
 
-For improved anonymity, check out [Tor Messenger](https://blog.torproject.org/blog/tor-messenger-beta-chat-over-tor-easily), although it is still in beta, as well as [Ricochet](https://ricochet.im/) (which has recently received a thorough [security audit](https://ricochet.im/files/ricochet-ncc-audit-2016-01.pdf) (pdf)), which both use the Tor network rather than relying on messaging servers.
+想增加匿名性的话，查看[Tor Messenger]（https://blog.torproject.org/blog/tor-messenger-beta-chat-over-tor-easily），尽管它还在测试中，[Ricochet]（https://ricochet.im/）（它最近接受了一个彻底的[安全 审查]（https://ricochet.im/files/ricochet-ncc-audit-2016-01.pdf）（pdf））也是，这两个都使用 Tor 网络而不是依赖于消息服务器。
 
-If you want to know how OTR works, read the paper [Off-the-Record Communication, or, Why Not To Use PGP](https://otr.cypherpunks.ca/otr-wpes.pdf) (pdf)
+如果你想了解 OTR 是如何工作的，读这篇论文[Off-the-Record Communication, or, Why Not To Use PGP]（https://otr.cypherpunks.ca/otr-wpes.pdf）（pdf）
 
 ## Tor
 
-Tor is an anonymizing proxy which can be used for browsing the Web.
+Tor 是一个用来浏览网页的匿名代理。
 
-Download Tor Browser from the [offical Tor Project Web site](https://www.torproject.org/projects/torbrowser.html).
+从[官方 Tor 项目网站]（https://www.torproject.org/projects/torbrowser.html）下载 Tor 浏览器。
 
-Do **not** attempt to configure other browsers or applications to use Tor as you will likely make a mistake which will compromise your anonymity.
+**不要** 尝试配置其他的浏览器或应用程序来使用 Tor，因为你可能会导致一个错误，危及你的匿名信息。
 
-Download both the `dmg` and `asc` signature files, then verify the disk image has been signed by Tor developers:
+下载`dmg` 和 `asc`签名文件，然后验证已经被 Tor 开发者签过名的磁盘镜像：
 
 ```
 $ cd Downloads
@@ -1148,11 +1148,11 @@ Primary key fingerprint: EF6E 286D DA85 EA2A 4BA7  DE68 4E2C 6E87 9329 8290
      Subkey fingerprint: BA1E E421 BBB4 5263 180E  1FC7 2E1A C68E D408 14E0
 ```
 
-Make sure `Good signature from "Tor Browser Developers (signing key) <torbrowser@torproject.org>"` appears in the output. The warning about the key not being certified is benign, as it has not yet been manually assigned trust.
+确保`Good signature from "Tor Browser Developers (signing key) <torbrowser@torproject.org>"`出现在输出结果中。关于密钥没被认证的警告不是坏的，因为它还没被手动分配信任。
 
-See [How to verify signatures for packages](https://www.torproject.org/docs/verifying-signatures.html) for more information.
+看[How to verify signatures for packages]（https://www.torproject.org/docs/verifying-signatures.html）获得更多信息。
 
-To finish installing Tor Browser, open the disk image and drag the it into the Applications folder, or with:
+要完成安装 Tor 浏览器，打开磁盘镜像，拖动它到应用文件夹里，或者这样：
 
 ```
 $ hdiutil mount TorBrowser-6.0.5-osx64_en-US.dmg
@@ -1160,41 +1160,41 @@ $ hdiutil mount TorBrowser-6.0.5-osx64_en-US.dmg
 $ cp -rv /Volumes/Tor\ Browser/TorBrowser.app /Applications
 ```
 
-Tor traffic is **encrypted** to the [exit node](https://en.wikipedia.org/wiki/Tor_(anonymity_network)#Exit_node_eavesdropping) (cannot be read by a passive network eavesdropper), but Tor use **can** be identified - for example, TLS handshake "hostnames" will show up in plaintext:
+Tor 流量对于[出口节点]（https://en.wikipedia.org/wiki/Tor_anonymity_network#Exit_node_eavesdropping）（不能被一个网络窃听者读取）是 **加密的**， Tor 是 **可以** 被发现的- 例如，TLS 握手“主机名”将会以明文显示：
 
 ```
 $ sudo tcpdump -An "tcp" | grep "www"
 listening on pktap, link-type PKTAP (Apple DLT_PKTAP), capture size 262144 bytes
 .............". ...www.odezz26nvv7jeqz1xghzs.com.........
 .............#.!...www.bxbko3qi7vacgwyk4ggulh.com.........
-.6....m.....>...:.........|../* Z....W....X=..6...C../....................................0...0..0.......'....F./0..    *.H........0%1#0!..U....www.b6zazzahl3h3faf4x2.com0...160402000000Z..170317000000Z0'1%0#..U....www.tm3ddrghe22wgqna5u8g.net0..0..
+.6....m.....>...:.........|../*	Z....W....X=..6...C../....................................0...0..0.......'....F./0..	*.H........0%1#0!..U....www.b6zazzahl3h3faf4x2.com0...160402000000Z..170317000000Z0'1%0#..U....www.tm3ddrghe22wgqna5u8g.net0..0..
 ```
 
-See [Tor Protocol Specification](https://gitweb.torproject.org/torspec.git/tree/tor-spec.txt) and [Tor/TLSHistory](https://trac.torproject.org/projects/tor/wiki/org/projects/Tor/TLSHistory) for more information.
+查看[Tor Protocol Specification]（https://gitweb.torproject.org/torspec.git/tree/tor-spec.txt）和[Tor/TLSHistory]（https://trac.torproject.org/projects/tor/wiki/org/projects/Tor/TLSHistory）获得更多信息。
 
-You may wish to additionally obfuscate Tor traffic using a [pluggable transport](https://www.torproject.org/docs/pluggable-transports.html), such as [Yawning/obfs4proxy](https://github.com/Yawning/obfs4) or [SRI-CSL/stegotorus](https://github.com/SRI-CSL/stegotorus).
+另外，你可能也希望使用一个[pluggable transport]（https://www.torproject.org/docs/pluggable-transports.html），例如[Yawning/obfs4proxy]（https://github.com/Yawning/obfs4）或[SRI-CSL/stegotorus]（https://github.com/SRI-CSL/stegotorus）来混淆 Tor 流量。
 
-This can be done by setting up your own [Tor relay](https://www.torproject.org/docs/tor-relay-debian.html) or finding an existing private or public [bridge](https://www.torproject.org/docs/bridges.html.en#RunningABridge) to serve as an obfuscating entry node.
+这能通过建立你自己的[Tor relay]（https://www.torproject.org/docs/tor-relay-debian.html）或找到一个已存在的私有或公用的[bridge]（https://www.torproject.org/docs/bridges.html.en#RunningABridge）来作为一个混淆入口节点来实现。
 
-For extra security, use Tor inside a [VirtualBox](https://www.virtualbox.org/wiki/Downloads) or [VMware](https://www.vmware.com/products/fusion) virtualized [GNU/Linux](http://www.brianlinkletter.com/installing-debian-linux-in-a-virtualbox-virtual-machine/) or [BSD](http://www.openbsd.org/faq/faq4.html) machine.
+对于额外的安全性，在[VirtualBox]（https://www.virtualbox.org/wiki/Downloads）或[VMware]（https://www.vmware.com/products/fusion），可视化的[GNU/Linux]（http://www.brianlinkletter.com/installing-debian-linux-in-a-virtualbox-virtual-machine/）或[BSD]（http://www.openbsd.org/faq/faq4.html）机器里用 Tor。
 
-Finally, remember the Tor network provides [anonymity](https://www.privateinternetaccess.com/blog/2013/10/how-does-privacy-differ-from-anonymity-and-why-are-both-important/), which is not necessarily synonymous with privacy. The Tor network does not guarantee protection against a global observer capable of traffic analysis and [correlation](https://blog.torproject.org/category/tags/traffic-correlation). See also [Seeking Anonymity in an Internet Panopticon](http://bford.info/pub/net/panopticon-cacm.pdf) (pdf) and [Traffic Correlation on Tor by Realistic Adversaries](http://www.ohmygodel.com/publications/usersrouted-ccs13.pdf) (pdf).
+最后，记得 Tor 网络提供了[匿名]（https://www.privateinternetaccess.com/blog/2013/10/how-does-privacy-differ-from-anonymity-and-why-are-both-important/），这并不等于隐私。Tor 网络不一定能防止一个全球的窃听者能获得流量统计和[相关性]（https://blog.torproject.org/category/tags/traffic-correlation）。也看看[Seeking Anonymity in an Internet Panopticon]（http://bford.info/pub/net/panopticon-cacm.pdf）（pdf）和[Traffic Correlation on Tor by Realistic Adversaries]（http://www.ohmygodel.com/publications/usersrouted-ccs13.pdf）（pdf）。
 
-Also see [Invisible Internet Project (I2P)](https://geti2p.net/en/about/intro) and its [Tor comparison](https://geti2p.net/en/comparison/tor).
+也看看[Invisible Internet Project (I2P)]（https://geti2p.net/en/about/intro）和它的[Tor 对比]（https://geti2p.net/en/comparison/tor）。
 
 ## VPN
 
-If you use your Mac on untrusted networks - airports, cafes, etc. - your network traffic is being monitored and possibly tampered with.
+如果你在未信任的网络使用 Mac - 机场，咖啡厅等 - 你的网络流量会被监控并可能被篡改。
 
-It is a good idea to use a VPN which encrypts **all** outgoing network traffic (i.e., not **split tunnel**) with a provider you trust. For an example of how to set up and host your own VPN, see [drduh/Debian-Privacy-Server-Guide](https://github.com/drduh/Debian-Privacy-Server-Guide).
+用一个 VPN 是个好想法，它能用一个你信任的提供商加密 **所有** 输出的网络流量。举例说如何建立并拥有自己的 VPN，看[drduh/Debian-Privacy-Server-Guide]（https://github.com/drduh/Debian-Privacy-Server-Guide）。
 
-Don't just blindly sign up for a VPN service without understanding the full implications and how your traffic will be routed. If you don't understand how the VPN works or are not familiar with the software used, you are probably better off without it.
+不要盲目地还没理解整个流程和流量将如何被传输就为一个 VPN 服务签名。如果你不理解 VPN 是怎样工作的或不熟悉软件的使用，你就最好别用它。
 
-When choosing a VPN service or setting up your own, be sure to research the protocols, key exchange algorithms, authentication mechanisms, and type of encryption being used. Some protocols, such as [PPTP](https://en.wikipedia.org/wiki/Point-to-Point_Tunneling_Protocol#Security), should be avoided in favor of [OpenVPN](https://en.wikipedia.org/wiki/OpenVPN), for example.
+当选择一个 VPN 服务或建立你自己的服务时，确保研究过协议，密钥交换算法，认证机制和使用的加密类型。一些协议，例如[PPTP]（https://en.wikipedia.org/wiki/Point-to-Point_Tunneling_Protocol#Security），应该避免支持[OpenVPN]（https://en.wikipedia.org/wiki/OpenVPN）。
 
-Some clients may send traffic over the next available interface when VPN is interrupted or disconnected. See [scy/8122924](https://gist.github.com/scy/8122924) for an example on how to allow traffic only over VPN.
+当 VPN 被中断或失去连接时，一些客户端可能通过下一个可用的接口发送流量。查看[scy/8122924]（https://gist.github.com/scy/8122924）研究下如何允许流量只通过VPN。
 
-Another set of scripts to lock down your system so it will only access the internet via a VPN can be found as part of the Voodoo Privacy project - [sarfata/voodooprivacy](https://github.com/sarfata/voodooprivacy) and there is an updated guide to setting up an IPSec VPN on a virtual machine ([hwdsl2/setup-ipsec-vpn](https://github.com/hwdsl2/setup-ipsec-vpn)) or a docker container ([hwdsl2/docker-ipsec-vpn-server](https://github.com/hwdsl2/docker-ipsec-vpn-server)).
+另一些脚本会关闭系统，所以只能通过 VPN 访问网络，这就是 the Voodoo Privacy project - [sarfata/voodooprivacy]（https://github.com/sarfata/voodooprivacy）的一部分，有一个更新的指南用来在一个虚拟机上（[hwdsl2/setup-ipsec-vpn]（https://github.com/hwdsl2/setup-ipsec-vpn））或一个 docker 容器（[hwdsl2/docker-ipsec-vpn-server]（https://github.com/hwdsl2/docker-ipsec-vpn-server））。建立一个 IPSec VPN。
 
 ## 病毒和恶意软件
 
