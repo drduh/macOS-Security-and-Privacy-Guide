@@ -105,7 +105,11 @@ This feature [can be helpful if your laptop is stolen](https://www.ftc.gov/news-
 
 The firmware password will activate at next boot. To validate the password, hold `Alt` during boot - you should be prompted to enter the password.
 
-The firmware password can also be managed with the `firmwarepasswd` utility while booted into the OS.
+The firmware password can also be managed with the `firmwarepasswd` utility while booted into the OS. For example, to prompt for the firmware password when attempting to boot from a different volume:
+
+    $ sudo firmwarepasswd -setpasswd -setmode command
+
+Enter a password and reboot.
 
 <img width="750" alt="Using a Dediprog SF600 to dump and flash a 2013 MacBook SPI Flash chip to remove a firmware password, sans Apple" src="https://cloud.githubusercontent.com/assets/12475110/17075918/0f851c0c-50e7-11e6-904d-0b56cf0080c1.png">
 
@@ -377,7 +381,7 @@ See also [this post](https://superuser.com/a/395738) for more information about 
 
 [FileVault](https://en.wikipedia.org/wiki/FileVault) provides full disk (technically, full _volume_) encryption on macOS.
 
-FileVault encryption will protect data at rest and prevent someone with physical access from stealing data or tampering with your Mac.
+FileVault encryption protects data at rest and hardens (but [not always prevents](http://blog.frizk.net/2016/12/filevault-password-retrieval.html)) someone with physical access from stealing data or tampering with your Mac.
 
 With much of the cryptographic operations happening [efficiently in hardware](https://software.intel.com/en-us/articles/intel-advanced-encryption-standard-aes-instructions-set/), the performance penalty for FileVault is not noticeable.
 
