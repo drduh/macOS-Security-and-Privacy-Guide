@@ -80,7 +80,7 @@
     * 这有助于减少数据泄露造成的危害。
 
 * 经常备份数据
-    * 定期创建数据备份，并且做好遇到危机时候的数据恢复工作。 
+    * 定期创建数据备份，并且做好遇到危机时候的数据恢复工作。
     * 在拷贝数据备份到外部存储介质或者 “云” 系统中之前，始终对它们进行加密。
 
 * 注意钓鱼网站
@@ -215,7 +215,7 @@ Done.
 
 现在，`sierra.dmg` 已经可以被用在一个或者多个 Mac 电脑上了。它能继续自定义化这个镜像，比如，包含预先定义的用户、应用程序、预置参数等。
 
-这个镜像能使用另一个在 [Target Disk Mode / 目标磁盘模式](https://support.apple.com/en-us/HT201462) 下的 Mac 进行安装，或者从 USB 启动安装盘安装。 
+这个镜像能使用另一个在 [Target Disk Mode / 目标磁盘模式](https://support.apple.com/en-us/HT201462) 下的 Mac 进行安装，或者从 USB 启动安装盘安装。
 
 为了使用 **Target Disk Mode / 目标磁盘模式**，按住 `T` 键的同时启动 Mac 电脑，并且通过 `Firewire` 接口，`Thunderbolt` 接口或者 `USB-C` 线连接另外一台 Mac 电脑。
 
@@ -305,7 +305,7 @@ SHA-1:   37ec465673ab802a3f62388d119399cb94b05408
 
     $ sudo httpd -X
 
-在虚拟机上通过本地网络命令 `asr`，安装镜像文件到卷分区内: 
+在虚拟机上通过本地网络命令 `asr`，安装镜像文件到卷分区内:
 
 ```
 -bash-3.2# asr restore --source http://172.16.34.1/sierra.dmg --target /Volumes/Macintosh\ HD/ --erase --buffersize 4m
@@ -470,7 +470,7 @@ SHA-1:   1320ca9bcffb8ff8105b7365e792db6dc7b9f46a
 
 这些程序都具备有监控和阻拦**对内**和**对外**网络连接的能力。然而，它们可能会需要使用一个闭源的[内核扩展](https://developer.apple.com/library/mac/documentation/Darwin/Conceptual/KernelProgramming/Extend/Extend.html)。
 
-如果过多的允许或者阻拦网络连接的选择让你不堪重负，使用配置过白名单的**静谧模式**，之后定期检查你设定项，来了解这么多应用程序都在干什么。 
+如果过多的允许或者阻拦网络连接的选择让你不堪重负，使用配置过白名单的**静谧模式**，之后定期检查你设定项，来了解这么多应用程序都在干什么。
 
 需要指出的是，这些防火墙都会被以 **root** 权限运行的程序绕过，或者通过 [OS vulnerabilities](https://www.blackhat.com/docs/us-15/materials/us-15-Wardle-Writing-Bad-A-Malware-For-OS-X.pdf) (pdf)，但是它们还是值得拥有的 — 只是不要期待完全的保护。
 
@@ -1513,6 +1513,213 @@ $ tshark -Y "ssl.handshake.certificate" -Tfields \
 ```
 
 也可以考虑简单的网络监控程序 [BonzaiThePenguin/Loading](https://github.com/BonzaiThePenguin/Loading)。
+
+## 二进制白名单
+
+[google/santa](https://github.com/google/santa/) 是一款为 Google 公司 Macintosh 团队开发的一款安全软件，而且是开源的。
+
+> Santa 是 macOS 上一个二进制白名单/黑名单系统。它由多个部分组成，一个是监控执行程序的内核扩展，基于 SQLite 数据库内容进行执行决策的用户级守护进程，决定拦截的情况下通知用户的一个 GUI 代理，以及用于管理系统和数据库同步服务的命令行实用程序。
+
+Santa 使用[内核授权 API](https://developer.apple.com/library/content/technotes/tn2127/_index.html) 来监视和允许/禁止在内核中执行二进制文件。二进制文件可以是经过唯一哈希或开发者证书签名的白/黑名单。Santa 可以用来只允许执行可信代码，或者阻止黑名单中已知恶意软件在 Mac 上运行，和 Windows 软件 Bit9 类似。
+
+**注意** Santa 目前还没有管理规则的用户图形界面。下面的教程是为高级用户准备的！
+
+安装 Santa，先访问[发布](https://github.com/google/santa/releases)页面，下载最新的磁盘镜像，挂载然后安装相关软件包：
+
+```
+$ hdiutil mount ~/Downloads/santa-0.9.14.dmg
+
+$ sudo installer -pkg /Volumes/santa-0.9.14/santa-0.9.14.pkg -tgt /
+```
+
+Santa 默认安装为 "Monitor" 模式 (不拦截，只记录)，有两个规则：一条是为了 Apple 二进制，另一条是为了 Santa 软件本身。
+
+验证 Santa 是否在运行，内核模块是否加载：
+
+```
+$ santactl status
+>>> Daemon Info
+  Mode                   | Monitor
+  File Logging           | No
+  Watchdog CPU Events    | 0  (Peak: 0.00%)
+  Watchdog RAM Events    | 0  (Peak: 0.00MB)
+>>> Kernel Info
+  Kernel cache count     | 0
+>>> Database Info
+  Binary Rules           | 0
+  Certificate Rules      | 2
+  Events Pending Upload  | 0
+
+$ ps -ef | grep "[s]anta"
+    0   786     1   0 10:01AM ??         0:00.39 /Library/Extensions/santa-driver.kext/Contents/MacOS/santad --syslog
+
+$ kextstat | grep santa
+  119    0 0xffffff7f822ff000 0x6000     0x6000     com.google.santa-driver (0.9.14) 693D8E4D-3161-30E0-B83D-66A273CAE026 <5 4 3 1>
+```
+
+创建一个黑名单规则来阻止 iTunes 运行：
+
+    $ sudo santactl rule --blacklist --path /Applications/iTunes.app/
+    Added rule for SHA-256: e1365b51d2cb2c8562e7f1de36bfb3d5248de586f40b23a2ed641af2072225b3.
+
+试试打开 iTunes ，它会被阻止运行。
+
+    $ open /Applications/iTunes.app/
+    LSOpenURLsWithRole() failed with error -10810 for the file /Applications/iTunes.app.
+
+<img width="450" alt="Santa block dialog when attempting to run a blacklisted program" src="https://cloud.githubusercontent.com/assets/12475110/21062284/14ddde88-be1e-11e6-8e9b-32f8a44c0cf6.png">
+
+移除规则：
+
+    $ sudo santactl rule --remove --path /Applications/iTunes.app/
+    Removed rule for SHA-256: e1365b51d2cb2c8562e7f1de36bfb3d5248de586f40b23a2ed641af2072225b3.
+
+打开 iTunes：
+
+    $ open /Applications/iTunes.app/
+    [iTunes will open successfully]
+
+创建一个新的 C 语言小程序：
+
+```
+$ cat <<EOF > foo.c
+> #include <stdio.h>
+> main() { printf("Hello World\n”); }
+> EOF
+```
+
+用 GCC 编译该程序(需要安装 Xcode 或者命令行工具)：
+
+```
+$ gcc -o foo foo.c
+
+$ file foo
+foo: Mach-O 64-bit executable x86_64
+
+$ codesign -d foo
+foo: code object is not signed at all
+```
+
+运行它：
+
+```
+$ ./foo
+Hello World
+```
+
+将 Santa 切换为 “Lockdown” 模式，这种情况下只允许白名单内二进制程序运行：
+
+    $ sudo defaults write /var/db/santa/config.plist ClientMode -int 2
+
+试试运行未签名的二进制：
+
+```
+$ ./foo
+bash: ./foo: Operation not permitted
+
+Santa
+
+The following application has been blocked from executing
+because its trustworthiness cannot be determined.
+
+Path:       /Users/demouser/foo
+Identifier: 4e11da26feb48231d6e90b10c169b0f8ae1080f36c168ffe53b1616f7505baed
+Parent:     bash (701)
+```
+想要在白名单中添加一个指定的二进制，确定其 SHA-256 值：
+
+```
+$ santactl fileinfo /Users/demouser/foo
+Path                 : /Users/demouser/foo
+SHA-256              : 4e11da26feb48231d6e90b10c169b0f8ae1080f36c168ffe53b1616f7505baed
+SHA-1                : 4506f3a8c0a5abe4cacb98e6267549a4d8734d82
+Type                 : Executable (x86-64)
+Code-signed          : No
+Rule                 : Blacklisted (Unknown)
+```
+
+增加一条白名单规则：
+
+    $ sudo santactl rule --whitelist --sha256 4e11da26feb48231d6e90b10c169b0f8ae1080f36c168ffe53b1616f7505baed
+    Added rule for SHA-256: 4e11da26feb48231d6e90b10c169b0f8ae1080f36c168ffe53b1616f7505baed.
+
+运行它：
+
+```
+$ ./foo
+Hello World
+```
+
+小程序没有被阻止，它成功的运行了。
+
+应用程序也可以通过开发者签名来加到白名单中（这样每次更新应用程序的时候，新版本的二进制文件就不用手动加到白名单中了）。例如，下载运行 Google Chrome ，  在 "Lockdown" 模式下 Santa 会阻止它运行：
+
+```
+$ curl -sO https://dl.google.com/chrome/mac/stable/GGRO/googlechrome.dmg
+
+$ hdiutil mount googlechrome.dmg
+
+$ cp -r /Volumes/Google\ Chrome/Google\ Chrome.app /Applications/
+
+$ open /Applications/Google\ Chrome.app/
+LSOpenURLsWithRole() failed with error -10810 for the file /Applications/Google Chrome.app.
+```
+
+通过它自己的开发者签名将应用加到白名单中（Signing Chain 中第一项）：
+
+```
+$ santactl fileinfo /Applications/Google\ Chrome.app/
+Path                 : /Applications/Google Chrome.app/Contents/MacOS/Google Chrome
+SHA-256              : 0eb08224d427fb1d87d2276d911bbb6c4326ec9f74448a4d9a3cfce0c3413810
+SHA-1                : 9213cbc7dfaaf7580f3936a915faa56d40479f6a
+Bundle Name          : Google Chrome
+Bundle Version       : 2883.87
+Bundle Version Str   : 55.0.2883.87
+Type                 : Executable (x86-64)
+Code-signed          : Yes
+Rule                 : Blacklisted (Unknown)
+Signing Chain:
+     1. SHA-256             : 15b8ce88e10f04c88a5542234fbdfc1487e9c2f64058a05027c7c34fc4201153
+        SHA-1               : 85cee8254216185620ddc8851c7a9fc4dfe120ef
+        Common Name         : Developer ID Application: Google Inc.
+        Organization        : Google Inc.
+        Organizational Unit : EQHXZ8M8AV
+        Valid From          : 2012/04/26 07:10:10 -0700
+        Valid Until         : 2017/04/27 07:10:10 -0700
+
+     2. SHA-256             : 7afc9d01a62f03a2de9637936d4afe68090d2de18d03f29c88cfb0b1ba63587f
+        SHA-1               : 3b166c3b7dc4b751c9fe2afab9135641e388e186
+        Common Name         : Developer ID Certification Authority
+        Organization        : Apple Inc.
+        Organizational Unit : Apple Certification Authority
+        Valid From          : 2012/02/01 14:12:15 -0800
+        Valid Until         : 2027/02/01 14:12:15 -0800
+
+     3. SHA-256             : b0b1730ecbc7ff4505142c49f1295e6eda6bcaed7e2c68c5be91b5a11001f024
+        SHA-1               : 611e5b662c593a08ff58d14ae22452d198df6c60
+        Common Name         : Apple Root CA
+        Organization        : Apple Inc.
+        Organizational Unit : Apple Certification Authority
+        Valid From          : 2006/04/25 14:40:36 -0700
+        Valid Until         : 2035/02/09 13:40:36 -0800
+```
+
+这个例子中， `15b8ce88e10f04c88a5542234fbdfc1487e9c2f64058a05027c7c34fc4201153` 是 Google’s Apple 开发者证书的 SHA-256 (team ID EQHXZ8M8AV)。 将它加到白名单中：
+
+```
+$ sudo santactl rule --whitelist --certificate --sha256 15b8ce88e10f04c88a5542234fbdfc1487e9c2f64058a05027c7c34fc4201153
+Added rule for SHA-256: 15b8ce88e10f04c88a5542234fbdfc1487e9c2f64058a05027c7c34fc4201153.
+```
+
+Google Chrome 现在应该可以启动了，以后的更新也不会被阻止，除非签名证书修改了或过期了。
+
+关闭 “Lockdown” 模式：
+
+    $ sudo defaults delete /var/db/santa/config.plist ClientMode
+
+在 `/var/log/santa.log` 可以查看监控器**允许**和**拒绝**执行的决策记录。
+
+**注意** Python、Bash 和其它解释性语言是在白名单中的（因为它们是由苹果开发者证书签名的），所以 Santa 不会阻止这些脚本的运行。因此，要注意到 Santa 可能无法有效的拦截非二进制程序运行（这不算漏洞，因为它本身就这么设计的）。
 
 ## 其它
 
