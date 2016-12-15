@@ -855,7 +855,7 @@ macOS 上有从像 Apple、Verisign、Thawte、Digicert 这样的营利性公司
 
 <img width="450" alt="A certificate authority certificate" src="https://cloud.githubusercontent.com/assets/12475110/19222972/6b7aabac-8e32-11e6-8efe-5d3219575a98.png">
 
-被你的系统信任的被迫或妥协的证书授权产生一个假的/欺骗的 SSL 证书，这样的一个[中间人攻击]（https://en.wikipedia.org/wiki/Man-in-the-middle_attack）的风险很低，但仍然是[可能的]（https://en.wikipedia.org/wiki/DigiNotar#Issuance_of_fraudulent_certificates）。
+被你的系统信任的被迫或妥协的证书授权产生一个假的/欺骗的 SSL 证书，这样的一个[中间人攻击](https://en.wikipedia.org/wiki/Man-in-the-middle_attack)的风险很低，但仍然是[可能的](https://en.wikipedia.org/wiki/DigiNotar#Issuance_of_fraudulent_certificates)。
 
 ## OpenSSL
 
