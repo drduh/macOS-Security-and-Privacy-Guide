@@ -1088,7 +1088,7 @@ verify-options show-uid-validity
 with-fingerprint
 ```
 
-安装 keyservers [CA 认证]（https://sks-keyservers.net/verify_tls.php）：
+安装 keyservers [CA 认证](https://sks-keyservers.net/verify_tls.php)：
 
     $ curl -O https://sks-keyservers.net/sks-keyservers.netCA.pem
 
