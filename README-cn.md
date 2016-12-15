@@ -1200,23 +1200,23 @@ listening on pktap, link-type PKTAP (Apple DLT_PKTAP), capture size 262144 bytes
 
 面对[日益增长](https://www.documentcloud.org/documents/2459197-bit9-carbon-black-threat-research-report-2015.html)的恶意软件，Mac 还无法很好的防御这些病毒和恶意软件！
 
-一些恶意软件捆绑在正版软件上，比如 [Java bundling Ask Toolbar](http://www.zdnet.com/article/oracle-extends-its-adware-bundling-to-include-java-for-macs/)，还有 [Mac.BackDoor.iWorm](https://docs.google.com/document/d/1YOfXRUQJgMjJSLBSoLiUaSZfiaS_vU3aG4Bvjmz6Dxs/edit?pli=1) 这种和盗版软件捆绑到一块的。[Malwarebytes Anti-Malware for Mac](https://www.malwarebytes.com/antimalware/mac/) 是一款超棒的应用，它可以帮你摆脱种类繁多的垃圾软件和其他恶意程序的困扰。
+一些恶意软件捆绑在正版软件上，比如 [Java bundling Ask Toolbar](http://www.zdnet.com/article/oracle-extends-its-adware-bundling-to-include-java-for-macs/)，还有 [Mac.BackDoor.iWorm](https://docs.google.com/document/d/1YOfXRUQJgMjJSLBSoLiUaSZfiaS_vU3aG4Bvjmz6Dxs/edit?pli=1) 这种和盗版软件捆绑到一块的。 [Malwarebytes Anti-Malware for Mac](https://www.malwarebytes.com/antimalware/mac/) 是一款超棒的应用，它可以帮你摆脱种类繁多的垃圾软件和其他恶意程序的困扰。
 
 看看[恶意软件驻留在 Mac OS X 的方法](https://www.virusbtn.com/pdf/conference/vb2014/VB2014-Wardle.pdf) (pdf) 和[恶意软件在 OS X Yosemite 后台运行](https://www.rsaconference.com/events/us15/agenda/sessions/1591/malware-persistence-on-os-x-yosemite)了解各种恶意软件的功能和危害。
 
 你可以定期运行 [Knock Knock](https://github.com/synack/knockknock) 这样的工具来检查在持续运行的应用(比如脚本，二进制程序)。但这种方法可能已经过时了。[Block Block](https://objective-see.com/products/blockblock.html) 和 [Ostiarius](https://objective-see.com/products/ostiarius.html) 这样的应用可能还有些帮助。可以在 [issue #90](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/90) 中查看相关警告。除此之外，使用 [Little Flocker](https://www.littleflocker.com/) 也能保护部分文件系统免遭非法写入，类似 Little Snitch 保护网络 (注意，该软件目前是 beat 版本，[谨慎使用](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/pull/128))。
 
-**反病毒** 软件是把双刃剑 -- 对于**高级**用户没什么用，却可能面临更多复杂攻击的威胁。然而对于 Mac **新手**用户可能是有用的，可以检测到“各种”恶意软件。不过也要考到额外的处理开销。
+**反病毒**软件是把双刃剑 -- 对于**高级**用户没什么用，却可能面临更多复杂攻击的威胁。然而对于 Mac **新手**用户可能是有用的，可以检测到“各种”恶意软件。不过也要考到额外的处理开销。
 
 看看 [Sophail: Applied attacks against Antivirus](https://lock.cmpxchg8b.com/sophailv2.pdf) (pdf), [Analysis and Exploitation of an ESET Vulnerability](http://googleprojectzero.blogspot.ro/2015/06/analysis-and-exploitation-of-eset.html), [a trivial Avast RCE](https://code.google.com/p/google-security-research/issues/detail?id=546), [Popular Security Software Came Under Relentless NSA and GCHQ Attacks](https://theintercept.com/2015/06/22/nsa-gchq-targeted-kaspersky/), 和 [AVG: "Web TuneUP" extension multiple critical vulnerabilities](https://code.google.com/p/google-security-research/issues/detail?id=675).
 
-因此，最好的防病毒方式是日常地防范。看看 [issue #44](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/44)中的讨论。
+因此，最好的防病毒方式是日常地防范。看看 [issue #44](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/44) 中的讨论。
 
-macOS 上有很多本地提权漏洞，所以要小心那些从第三方网站或 HTTP([案例](http://arstechnica.com/security/2015/08/0-day-bug-in-fully-patched-os-x-comes-under-active-exploit-to-hijack-macs/)) 下载且运行受信或不受信的程序。
+macOS 上有很多本地提权漏洞，所以要小心那些从第三方网站或 HTTP([案例](http://arstechnica.com/security/2015/08/0-day-bug-in-fully-patched-os-x-comes-under-active-exploit-to-hijack-macs/))下载且运行受信或不受信的程序。
 
 看看 [The Safe Mac](http://www.thesafemac.com/) 上过去和目前的 Mac 安全新闻。
 
-也检查下 [Hacking Team](https://www.schneier.com/blog/archives/2015/07/hacking_team_is.html) 为 Mac OS 开发的恶意软件：[root installation for MacOS](https://github.com/hackedteam/vector-macos-root)、 [Support driver for Mac Agent](https://github.com/hackedteam/driver-macos) 和 [RCS Agent for Mac](https://github.com/hackedteam/core-macos)， 这是一个很好的示例，一些高级的恶意程序是如何在 **用户空间** 隐藏自己的(例如 `ps`、`ls`)。 想了解更多的话，看看 [A Brief Analysis of an RCS Implant Installer](https://objective-see.com/blog/blog_0x0D.html) 和 [reverse.put.as](https://reverse.put.as/2016/02/29/the-italian-morons-are-back-what-are-they-up-to-this-time/)
+也检查下 [Hacking Team](https://www.schneier.com/blog/archives/2015/07/hacking_team_is.html) 为 Mac OS 开发的恶意软件：[root installation for MacOS](https://github.com/hackedteam/vector-macos-root)、 [Support driver for Mac Agent](https://github.com/hackedteam/driver-macos) 和 [RCS Agent for Mac](https://github.com/hackedteam/core-macos)，这是一个很好的示例，一些高级的恶意程序是如何在**用户空间**隐藏自己的(例如 `ps`、`ls`)。想了解更多的话，看看 [A Brief Analysis of an RCS Implant Installer](https://objective-see.com/blog/blog_0x0D.html) 和 [reverse.put.as](https://reverse.put.as/2016/02/29/the-italian-morons-are-back-what-are-they-up-to-this-time/)。  
 
 ## 系统完整性保护
 
@@ -1226,9 +1226,9 @@ macOS 上有很多本地提权漏洞，所以要小心那些从第三方网站�
 
 > 一项新的安全政策，应用于每个正在运行的进程，包括特权代码和非沙盒中运行的代码。该策略对磁盘上和运行时的组件增加了额外的保护，只允许系统安装程序和软件更新修改系统二进制文件。不再允许代码注入和运行时附加系统二进制文件。
 
-看看 [What is the “rootless” feature in El Capitan, really?](https://apple.stackexchange.com/questions/193368/what-is-the-rootless-feature-in-el-capitan-really)。
+看看 [What is the “rootless” feature in El Capitan, really?](https://apple.stackexchange.com/questions/193368/what-is-the-rootless-feature-in-el-capitan-really)
 
-[禁用 SIP](http://appleinsider.com/articles/16/11/17/system-integrity-protection-disabled-by-default-on-some-touch-bar-macbook-pros) 的一些 MacBook 已经售出。要验证 SIP 是否已启用，请使用命令 `csrutil status`，该命令应返回: `System Integrity Protection status: enabled.`。 否则，通过恢复模式[启用 SIP](https://developer.apple.com/library/content/documentation/Security/Conceptual/System_Integrity_Protection_Guide/ConfiguringSystemIntegrityProtection/ConfiguringSystemIntegrityProtection.html)。
+[禁用 SIP](http://appleinsider.com/articles/16/11/17/system-integrity-protection-disabled-by-default-on-some-touch-bar-macbook-pros) 的一些 MacBook 已经售出。要验证 SIP 是否已启用，请使用命令 `csrutil status`，该命令应返回：`System Integrity Protection status: enabled.`。否则，通过恢复模式[启用 SIP](https://developer.apple.com/library/content/documentation/Security/Conceptual/System_Integrity_Protection_Guide/ConfiguringSystemIntegrityProtection/ConfiguringSystemIntegrityProtection.html)。
 
 ## Gatekeeper 和 XProtect
 
@@ -1244,9 +1244,9 @@ macOS 上有很多本地提权漏洞，所以要小心那些从第三方网站�
 
     $ echo 'SELECT datetime(LSQuarantineTimeStamp + 978307200, "unixepoch") as LSQuarantineTimeStamp, LSQuarantineAgentName, LSQuarantineOriginURLString, LSQuarantineDataURLString from LSQuarantineEvent;' | sqlite3 /Users/$USER/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2
 
-看看[这篇文章](http://www.zoharbabin.com/hey-mac-i-dont-appreciate-you-spying-on-me-hidden-downloads-log-in-os-x/) 了解更多信息。
+看看[这篇文章](http://www.zoharbabin.com/hey-mac-i-dont-appreciate-you-spying-on-me-hidden-downloads-log-in-os-x/)了解更多信息。
 
-想永久禁用此项功能，[清除文件](https://superuser.com/questions/90008/how-to-clear-the-contents-of-a-file-from-the-command-line) 和 [让它不可更改](http://hints.macworld.com/article.php?story=20031017061722471)：
+想永久禁用此项功能，[清除文件](https://superuser.com/questions/90008/how-to-clear-the-contents-of-a-file-from-the-command-line)和[让它不可更改](http://hints.macworld.com/article.php?story=20031017061722471)：
 
     $ :>~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2
     $ sudo chflags schg ~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2
@@ -1296,7 +1296,7 @@ $ xattr -l ~/Downloads/TorBrowser-6.0.5-osx64_en-US.dmg
     $ gpg --gen-random -a 0 30
     4/bGZL+yUEe8fOqQhF5V01HpGwFSpUPwFcU3aOWQ
 
-或 `/dev/urandom` output：
+或 `/dev/urandom` 输出：
 
     $ dd if=/dev/urandom bs=1 count=30 2>/dev/null | base64
     CbRGKASFI4eTa96NMrgyamj8dLZdFYBaqtWUSxKe
@@ -1342,7 +1342,7 @@ $ xattr -l ~/Downloads/TorBrowser-6.0.5-osx64_en-US.dmg
 
 ## Wi-Fi
 
-macOS 会记住它连接过的接入点。比如所有无线设备，每次搜寻网络的时候，Mac 将会显示所有它记住的接入点名称(如，*MyHomeNetwork*) ，比如每次从休眠状态唤醒设备的时候。
+macOS 会记住它连接过的接入点。比如所有无线设备，每次搜寻网络的时候，Mac 将会显示所有它记住的接入点名称(如 *MyHomeNetwork*) ，比如每次从休眠状态唤醒设备的时候。
 
 这就有泄漏隐私的风险，所以当不再需要的时候最好从列表中移除这些连接过的网络， 在 **System Preferences** > **Network** > **Advanced** 。
 
@@ -1373,9 +1373,9 @@ macOS 会记住它连接过的接入点。比如所有无线设备，每次搜�
 
 **注意** [macOS Sierra 默认永久记住 SSH 秘钥密码](https://openradar.appspot.com/28394826)。添加配置 `UseKeyChain no` 来关闭这项功能。
 
-你也可以用 ssh 创建一个[加密隧道](http://blog.trackets.com/2014/05/17/ssh-tunnel-local-and-remote-port-forwarding-explained-with-examples.html) 来发送数据，这有点类似于 VPN。
+你也可以用 ssh 创建一个[加密隧道](http://blog.trackets.com/2014/05/17/ssh-tunnel-local-and-remote-port-forwarding-explained-with-examples.html)来发送数据，这有点类似于 VPN。
 
-例如，在一个远程主机上使用 Privoxy:
+例如，在一个远程主机上使用 Privoxy：
 
     $ ssh -C -L 5555:127.0.0.1:8118 you@remote-host.tld
 
@@ -1383,13 +1383,13 @@ macOS 会记住它连接过的接入点。比如所有无线设备，每次搜�
 
     $ sudo networksetup -setsecurewebproxy "Wi-Fi" 127.0.0.1 5555
 
-或者使用 ssh 连接作为 [SOCKS 代理](https://www.mikeash.com/ssh_socks.html):
+或者使用 ssh 连接作为 [SOCKS 代理](https://www.mikeash.com/ssh_socks.html)：
 
     $ ssh -NCD 3000 you@remote-host.tld
 
 默认情况下， macOS **没有** sshd ，也不允许**远程登陆**。
 
-启用 sshd 且允许进入的 ssh 连接:
+启用 sshd 且允许进入的 ssh 连接：
 
     $ sudo launchctl load -w /System/Library/LaunchDaemons/ssh.plist
 
@@ -1397,7 +1397,7 @@ macOS 会记住它连接过的接入点。比如所有无线设备，每次搜�
 
 如果你准备使用 sshd，至少禁用密码身份验证并考虑进一步[强化](https://stribika.github.io/2015/01/04/secure-secure-shell.html)配置。
 
-找到 `/etc/sshd_config`，添加:
+找到 `/etc/sshd_config`，添加：
 
 ```
 PasswordAuthentication no
@@ -1426,7 +1426,7 @@ UsePAM no
 
 macOS 具有强大的 OpenBSM 审计功能。你可以使用它来监视进程执行，网络活动等等。
 
-跟踪监测日志，使用 `praudit` 工具:
+跟踪监测日志，使用 `praudit` 工具：
 
 ```
 $ sudo praudit -l /dev/auditpipe
@@ -1437,7 +1437,7 @@ header,111,11,OpenSSH login,0,Thu Sep  1 12:00:00 2015, + 16 msec,subject_ex,drd
 
 看看 `audit`、`praudit`、`audit_control` 的操作手册，其它文件在 `/etc/security`目录下。
 
-**注意** 虽然 `audit 手册` 上说 `-s` 标签会立即同步到配置中，实际上需要重启才能生效。
+**注意**虽然 `audit 手册` 上说 `-s` 标签会立即同步到配置中，实际上需要重启才能生效。
 
 更多信息请看 [ilostmynotes.blogspot.com](http://ilostmynotes.blogspot.com/2013/10/openbsm-auditd-on-os-x-these-are-logs.html) 和 [derflounder.wordpress.com](https://derflounder.wordpress.com/2012/01/30/openbsm-auditing-on-mac-os-x/) 上的文章。
 
@@ -1455,7 +1455,7 @@ header,111,11,OpenSSH login,0,Thu Sep  1 12:00:00 2015, + 16 msec,subject_ex,drd
 
 运行命令 `man -k dtrace` 去了解更多信息。
 
-**注意** [系统完整性保护](https://github.com/drduh/OS-X-Security-and-Privacy-Guide#system-integrity-protection)和 DTrace  [冲突](http://internals.exposed/blog/dtrace-vs-sip.html)， 所以这些工具可能用不上了。
+**注意**[系统完整性保护](https://github.com/drduh/OS-X-Security-and-Privacy-Guide#system-integrity-protection)和 DTrace [冲突](http://internals.exposed/blog/dtrace-vs-sip.html)，所以这些工具可能用不上了。
 
 #### 运行
 
@@ -1467,7 +1467,7 @@ header,111,11,OpenSSH login,0,Thu Sep  1 12:00:00 2015, + 16 msec,subject_ex,drd
 
 #### 网络
 
-列出公开网络文件:
+列出公开网络文件：
 
     $ sudo lsof -Pni
 
@@ -1592,7 +1592,7 @@ $ duti -s com.apple.Safari smb
 
 [yelp/osxcollector](https://github.com/yelp/osxcollector) - 证据收集 & OS X 分析工具包。
 
-[jipegit/OSXAuditor](https://github.com/jipegit/OSXAuditor) - 分析运行系统时的部件，比如隔离的文件， Safari、 Chrome 和 Firefox 历史记录， 下载， HTML5 数据库和本地存储、社交媒体、电子邮件帐户、和 Wi-Fi 接入点的名称。
+[jipegit/OSXAuditor](https://github.com/jipegit/OSXAuditor) - 分析运行系统时的部件，比如隔离的文件， Safari、 Chrome 和 Firefox 历史记录， 下载，HTML5 数据库和本地存储、社交媒体、电子邮件帐户、和 Wi-Fi 接入点的名称。
 
 [libyal/libfvde](https://github.com/libyal/libfvde) - 访问 FileVault Drive Encryption (FVDE) (或 FileVault2) 加密卷的库。
 
