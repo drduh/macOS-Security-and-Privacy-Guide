@@ -6,7 +6,7 @@
 * 译者：[Nicolas(Yifei) Li](https://github.com/yifili09), [MAYDAY1993](https://github.com/MAYDAY1993), [DeadLion](https://github.com/DeadLion)
 * 校对者：[lovelyCiTY](https://github.com/lovelyCiTY), [sqrthree](https://github.com/sqrthree)
 
-这里汇集了一些想法，它们是有关如何保护保护运行了 macOS 10.12 "Sierra" 操作系统（以前是 **OS X**）的现代化苹果 Mac 电脑，也包含了一些提高个人网络隐私的小贴士。
+这里汇集了一些想法，它们是有关如何保护运行了 macOS 10.12 "Sierra" 操作系统（以前是 **OS X**）的现代化苹果 Mac 电脑，也包含了一些提高个人网络隐私的小贴士。
 
 这份指南的目标读者是那些希望采用企业级安全标准的"高级用户"，但是也适用于那些想在 Mac 上提高个人隐私和安全性的初级用户们。
 
