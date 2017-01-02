@@ -868,7 +868,7 @@ If you're going to use OpenSSL on your Mac, download and install a recent versio
 Compare the TLS protocol and cipher between the homebrew version and the system version of OpenSSL:
 
 ```
-$ ~/homebrew/bin/openssl version; echo | ~/homebrew/bin openssl s_client -connect github.com:443 2>&1 | grep -A2 SSL-Session
+$ ~/homebrew/bin/openssl version; echo | ~/homebrew/bin/openssl s_client -connect github.com:443 2>&1 | grep -A2 SSL-Session
 OpenSSL 1.0.2j  26 Sep 2016
 SSL-Session:
     Protocol  : TLSv1.2
