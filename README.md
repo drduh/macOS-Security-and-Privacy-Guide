@@ -534,7 +534,7 @@ Before you connect to the Internet, you may wish to disable some system services
 
 See [fix-macosx/yosemite-phone-home](https://github.com/fix-macosx/yosemite-phone-home), [l1k/osxparanoia](https://github.com/l1k/osxparanoia) and [karek314/macOS-home-call-drop](https://github.com/karek314/macOS-home-call-drop) for further recommendations.
 
-Services on macOS are managed by **launchd**. See (launchd.info)[http://launchd.info/], as well as [Apple's Daemons and Services Programming Guide](https://developer.apple.com/library/mac/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingLaunchdJobs.html) and [Technical Note TN2083](https://developer.apple.com/library/mac/technotes/tn2083/_index.html)
+Services on macOS are managed by **launchd**. See [launchd.info](http://launchd.info/), as well as [Apple's Daemons and Services Programming Guide](https://developer.apple.com/library/mac/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingLaunchdJobs.html) and [Technical Note TN2083](https://developer.apple.com/library/mac/technotes/tn2083/_index.html)
 
 You can also run [KnockKnock](https://github.com/synack/knockknock) that shows more information about startup items.
 
