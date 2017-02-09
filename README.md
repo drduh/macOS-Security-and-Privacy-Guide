@@ -793,13 +793,17 @@ This can also be done using Homebrew, by installing `gnu-sed` and using the `gse
 
     $ sudo gsed -i "/sbin\\/dnscrypt-proxy<\\/string>/a<string>--local-address=127.0.0.1:5355<\\/string>\n" $(find ~/homebrew -name homebrew.mxcl.dnscrypt-proxy.plist)
 
-By default, the `resolvers-list` will point to the dnscrypt version specific resolvers file. When dnscrypt is updated, this version may no longer exist, and if it does, may point to an outdated file. This can be fixed by changing the resolvers file in `/Library/LaunchDaemons/homebrew.mxcl.dnscrypt-proxy.plist` to the symlinked version in `/usr/local/share`:
+By default, the `resolvers-list` will point to the dnscrypt version specific resolvers file. When dnscrypt is updated, this version may no longer exist, and if it does, may point to an outdated file. This can be fixed by changing the resolvers file in `homebrew.mxcl.dnscrypt-proxy.plist` (found earlier using find) to the symlinked version in `/usr/local/share`:
 
     <string>--resolvers-list=/usr/local/share/dnscrypt-proxy/dnscrypt-resolvers.csv</string>
+    
+Below the line:
+
+    <string>/usr/local/opt/dnscrypt-proxy/sbin/dnscrypt-proxy</string>
 
 Start DNSCrypt:
 
-    $ brew services start dnscrypt-proxy
+    $ sudo brew services start dnscrypt-proxy
 
 Make sure DNSCrypt is running:
 
