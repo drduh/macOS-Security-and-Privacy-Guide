@@ -1822,6 +1822,9 @@ To disable “Lockdown” mode:
 
 See `/var/log/santa.log` to monitor ALLOW and DENY execution decisions.
 
+A log and configuration server for Santa is available in [Zentral](https://github.com/zentralopensource/zentral), an open source event monitoring solution and TLS server for osquery and Santa.
+Zentral will support Santa in both MONITORING and LOCKDOWN operation mode. Clients need to be enrolled with a TLS connection to sync Santa Rules, all Santa events from endpoints are aggregated and logged back in Zentral. Santa events can trigger actions and notifications from within the Zentral Framework.
+
 **Note** Python, Bash and other interpreters are whitelisted (since they are signed by Apple's developer certificate), so Santa will not be able to block such scripts from executing. Thus, a potential non-binary program which disables Santa is a weakness (not vulnerability, since it is so by design) to take note of.
 
 ## Miscellaneous
@@ -1907,6 +1910,8 @@ Did you know Apple has not shipped a computer with TPM since [2006](http://osxbo
 [libyal/libfvde](https://github.com/libyal/libfvde) - library to access FileVault Drive Encryption (FVDE) (or FileVault2) encrypted volumes.
 
 [CISOfy/lynis](https://github.com/CISOfy/lynis) - cross-platform security auditing tool and assists with compliance testing and system hardening.
+
+[Zentral](https://github.com/zentralopensource/zentral) - a log and configuration server for santa and osquery. Run audit and probes on inventory, events, logfiles, combine with point-in-time alerting. A full Framework and Django web server build on top of the elastic stack (formerly known as ELK stack).
 
 ## Additional resources
 
