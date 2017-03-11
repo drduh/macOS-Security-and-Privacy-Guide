@@ -534,7 +534,7 @@ Before you connect to the Internet, you may wish to disable some system services
 
 See [fix-macosx/yosemite-phone-home](https://github.com/fix-macosx/yosemite-phone-home), [l1k/osxparanoia](https://github.com/l1k/osxparanoia) and [karek314/macOS-home-call-drop](https://github.com/karek314/macOS-home-call-drop) for further recommendations.
 
-Services on macOS are managed by **launchd**. See (launchd.info)[http://launchd.info/], as well as [Apple's Daemons and Services Programming Guide](https://developer.apple.com/library/mac/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingLaunchdJobs.html) and [Technical Note TN2083](https://developer.apple.com/library/mac/technotes/tn2083/_index.html)
+Services on macOS are managed by **launchd**. See [launchd.info](http://launchd.info/), as well as [Apple's Daemons and Services Programming Guide](https://developer.apple.com/library/mac/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingLaunchdJobs.html) and [Technical Note TN2083](https://developer.apple.com/library/mac/technotes/tn2083/_index.html)
 
 You can also run [KnockKnock](https://github.com/synack/knockknock) that shows more information about startup items.
 
@@ -793,13 +793,17 @@ This can also be done using Homebrew, by installing `gnu-sed` and using the `gse
 
     $ sudo gsed -i "/sbin\\/dnscrypt-proxy<\\/string>/a<string>--local-address=127.0.0.1:5355<\\/string>\n" $(find ~/homebrew -name homebrew.mxcl.dnscrypt-proxy.plist)
 
-By default, the `resolvers-list` will point to the dnscrypt version specific resolvers file. When dnscrypt is updated, this version may no longer exist, and if it does, may point to an outdated file. This can be fixed by changing the resolvers file in `/Library/LaunchDaemons/homebrew.mxcl.dnscrypt-proxy.plist` to the symlinked version in `/usr/local/share`:
+By default, the `resolvers-list` will point to the dnscrypt version specific resolvers file. When dnscrypt is updated, this version may no longer exist, and if it does, may point to an outdated file. This can be fixed by changing the resolvers file in `homebrew.mxcl.dnscrypt-proxy.plist` (found earlier using find) to the symlinked version in `/usr/local/share`:
 
     <string>--resolvers-list=/usr/local/share/dnscrypt-proxy/dnscrypt-resolvers.csv</string>
+    
+Below the line:
+
+    <string>/usr/local/opt/dnscrypt-proxy/sbin/dnscrypt-proxy</string>
 
 Start DNSCrypt:
 
-    $ brew services start dnscrypt-proxy
+    $ sudo brew services start dnscrypt-proxy
 
 Make sure DNSCrypt is running:
 
@@ -1822,6 +1826,9 @@ To disable “Lockdown” mode:
 
 See `/var/log/santa.log` to monitor ALLOW and DENY execution decisions.
 
+A log and configuration server for Santa is available in [Zentral](https://github.com/zentralopensource/zentral), an open source event monitoring solution and TLS server for osquery and Santa.
+Zentral will support Santa in both MONITORING and LOCKDOWN operation mode. Clients need to be enrolled with a TLS connection to sync Santa Rules, all Santa events from endpoints are aggregated and logged back in Zentral. Santa events can trigger actions and notifications from within the Zentral Framework.
+
 **Note** Python, Bash and other interpreters are whitelisted (since they are signed by Apple's developer certificate), so Santa will not be able to block such scripts from executing. Thus, a potential non-binary program which disables Santa is a weakness (not vulnerability, since it is so by design) to take note of.
 
 ## Miscellaneous
@@ -1907,6 +1914,8 @@ Did you know Apple has not shipped a computer with TPM since [2006](http://osxbo
 [libyal/libfvde](https://github.com/libyal/libfvde) - library to access FileVault Drive Encryption (FVDE) (or FileVault2) encrypted volumes.
 
 [CISOfy/lynis](https://github.com/CISOfy/lynis) - cross-platform security auditing tool and assists with compliance testing and system hardening.
+
+[Zentral](https://github.com/zentralopensource/zentral) - a log and configuration server for santa and osquery. Run audit and probes on inventory, events, logfiles, combine with point-in-time alerting. A full Framework and Django web server build on top of the elastic stack (formerly known as ELK stack).
 
 ## Additional resources
 
