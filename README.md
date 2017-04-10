@@ -284,9 +284,9 @@ Once you're done, eject the disk with `hdiutil unmount /Volumes/macOS` and power
 To install macOS as a virtual machine (vm) using [VMware Fusion](https://www.vmware.com/products/fusion.html), follow the instructions above to create an image. You will **not** need to download and create a recovery partition manually.
 
 ```
-VMware-Fusion-8.5.2-4635224.dmg
-SHA-256: f6c54b98c9788d1df94d470661eedff3e5d24ca4fb8962fac5eb5dc56de63b77
-SHA-1:   37ec465673ab802a3f62388d119399cb94b05408
+VMware-Fusion-8.5.6-5234762.dmg
+SHA-256: 57a879095c9fcce0066bea0d3c203571689fb53205915fda156c0d742f7c7ad2
+SHA-1:   b7315d00a7c92dbad280d0f01f42dd8b56d96040
 ```
 
 For the Installation Method, select *Install OS X from the recovery partition*. Customize any memory or CPU requirements and complete setup. The guest vm should boot into [Recovery Mode](https://support.apple.com/en-us/HT201314) by default.
@@ -478,9 +478,9 @@ Programs such as [Little Snitch](https://www.obdev.at/products/littlesnitch/inde
 *Example of Little Snitch-monitored session*
 
 ```
-LittleSnitch-3.7.1.dmg
-SHA-256: e6332ee70385f459d9803b0a582d5344bb9dab28bcd56e247ae69866cc321802
-SHA-1:   d5d602c0f76cd73051792dff0ac334bbdc66ae32
+LittleSnitch-3.7.4.dmg
+SHA-256: b0ce3519d72affbc7910c24c264efa94aa91c9ad9b1a905c52baa9769156ea22
+SHA-1:   868ad75623c60cb9ad428c7c1d3e5ae449a9033e
 ```
 
 These programs are capable of monitoring and blocking **incoming** and **outgoing** network connections. However, they may require the use of a closed source [kernel extension](https://developer.apple.com/library/mac/documentation/Darwin/Conceptual/KernelProgramming/Extend/Extend.html).
