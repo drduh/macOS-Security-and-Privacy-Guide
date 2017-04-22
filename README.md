@@ -591,7 +591,7 @@ $ curl -O https://fix-macosx.com/fix-macosx.py
 
 $ less fix-macosx.py
 
-$ python fix-macosx.py
+$ /usr/bin/python fix-macosx.py
 All done. Make sure to log out (and back in) for the changes to take effect.
 ```
 
