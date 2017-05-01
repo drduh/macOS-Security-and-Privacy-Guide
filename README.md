@@ -663,7 +663,7 @@ Install Dnsmasq (DNSSEC is optional):
 
     $ brew install dnsmasq --with-dnssec
 
-    $ cp ~/homebrew/opt/dnsmasq/dnsmasq.conf.example ~/homebrew/etc/dnsmasq.conf
+    $ cp /usr/local/opt/dnsmasq/dnsmasq.conf.example /usr/local/etc/dnsmasq.conf
 
 Edit the configuration:
 
