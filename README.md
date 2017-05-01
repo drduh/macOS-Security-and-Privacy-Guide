@@ -667,7 +667,7 @@ Install Dnsmasq (DNSSEC is optional):
 
 Edit the configuration:
 
-    $ vim ~/homebrew/etc/dnsmasq.conf
+    $ vim /usr/local/etc/dnsmasq.conf
 
 Examine all the options. Here are a few recommended settings to enable:
 
