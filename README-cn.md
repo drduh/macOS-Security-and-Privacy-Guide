@@ -21,7 +21,7 @@
 - [准备和安装 macOS](#准备和安装-macos)
     - [虚拟机](#虚拟机)
 - [首次启动](#首次启动)
-- [管理员和普通用户账号](#管理员和普通用户账号)
+- [管理员和普通用户账号](#管理员和普通用户账号) 
 - [对整个磁盘进行数据加密](#对整个磁盘进行数据加密)
 - [防火墙](#防火墙)
     - [应用程序层的防火墙](#应用程序层的防火墙)
@@ -113,7 +113,11 @@
 
 这个固件密码会在下一次启动后激活。为了验证这个密码，在启动过程中按住 `Alt` 键 - 按照提示输入密码。
 
-当启动进操作系统以后。固件密码也能通过 `firmwarepasswd` 工具管理。
+当启动进操作系统以后。固件密码也能通过 `firmwarepasswd` 工具管理。例如，从另一个模式启动的时候可以这样：
+
+$ sudo firmwarepasswd -setpasswd -setmode command
+
+输入一个密码然后重启。
 
 <img width="750" alt="Using a Dediprog SF600 to dump and flash a 2013 MacBook SPI Flash chip to remove a firmware password, sans Apple" src="https://cloud.githubusercontent.com/assets/12475110/17075918/0f851c0c-50e7-11e6-904d-0b56cf0080c1.png">
 
@@ -286,11 +290,11 @@ $ /tmp/recovery/RecoveryHDUpdate.pkg/Scripts/Tools/dmtest ensureRecoveryPartitio
 在虚拟机内安装 macOS，可以使用 [VMware Fusion](https://www.vmware.com/products/fusion.html) 工具，按照上文中的说明来创建一个镜像。你**不需要**再下载，也不需要手动创建还原分区。
 
 ```
-VMware-Fusion-8.5.2-4635224.dmg
-SHA-256: f6c54b98c9788d1df94d470661eedff3e5d24ca4fb8962fac5eb5dc56de63b77
-SHA-1:   37ec465673ab802a3f62388d119399cb94b05408
-```
-
+VMware-Fusion-8.5.6-5234762.dmg		
+SHA-256: 57a879095c9fcce0066bea0d3c203571689fb53205915fda156c0d742f7c7ad2	
+SHA-1:   b7315d00a7c92dbad280d0f01f42dd8b56d96040
+ ```
+ 
 选择 **Install OS X from the recovery parition** 这个安装方法。可自定义配置任意的内存和 CPU，之后完成设置。默认情况下，这个虚拟机应该进入 [Recovery Mode / 还原模式](https://support.apple.com/en-us/HT201314)。
 
 在还原模式中，选择一个语言，之后在菜单条中由 Utilities 打开 Terminal。
@@ -385,7 +389,7 @@ $ dscl . -read /Users/<username> GeneratedUID
 
 [FileVault](https://en.wikipedia.org/wiki/FileVault) 提供了在 macOS 上对整个磁盘加密的能力（技术上来说，是**整个卷宗**。）
 
-FileVault 加密将在休眠的时候保护数据，并且阻止其它人通过物理访问形式偷取数据或者使用你的 Mac 修改数据。
+FileVault 加密在休眠的时候保护数据，并且使通过物理访问形式偷取数据或者使用你的 Mac 修改数据的某人更为艰难(但[不总是阻止](http://blog.frizk.net/2016/12/filevault-password-retrieval.html))。
 
 因为大部分的加密操作都[高效地运作在硬件上](https://software.intel.com/en-us/articles/intel-advanced-encryption-standard-aes-instructions-set/)，性能上的损失对 FireVault 来说并不凸显。
 
@@ -480,10 +484,10 @@ FileVault 的安全性依赖于伪随机数生成器 (PRNG)。
 **以下是一段 Little Snitch 监控会话的例子**
 
 ```
-LittleSnitch-3.7.1.dmg
-SHA-256: e6332ee70385f459d9803b0a582d5344bb9dab28bcd56e247ae69866cc321802
-SHA-1:   d5d602c0f76cd73051792dff0ac334bbdc66ae32
-```
+LittleSnitch-3.7.4.dmg
+SHA-256: b0ce3519d72affbc7910c24c264efa94aa91c9ad9b1a905c52baa9769156ea22
+SHA-1:   868ad75623c60cb9ad428c7c1d3e5ae449a9033e
+ ```
 
 这些程序都具备有监控和阻拦**对内**和**对外**网络连接的能力。然而，它们可能会需要使用一个闭源的[内核扩展](https://developer.apple.com/library/mac/documentation/Darwin/Conceptual/KernelProgramming/Extend/Extend.html)。
 
@@ -593,7 +597,7 @@ $ curl -O https://fix-macosx.com/fix-macosx.py
 
 $ less fix-macosx.py
 
-$ python fix-macosx.py
+$ /usr/bin/python fix-macosx.py
 All done. Make sure to log out (and back in) for the changes to take effect.
 ```
 
@@ -796,13 +800,13 @@ $ find ~/homebrew -name homebrew.mxcl.dnscrypt-proxy.plist
 
     $ sudo gsed -i "/sbin\\/dnscrypt-proxy<\\/string>/a<string>--local-address=127.0.0.1:5355<\\/string>\n" $(find ~/homebrew -name homebrew.mxcl.dnscrypt-proxy.plist)
 
-默认情况下，`resolvers-list` 将会指向 dnscrypt 版本特定的 resolvers 文件。当更新了 dnscrypt，这一版本将不再存在，若它存在，可能指向一个过期的文件。在 `/Library/LaunchDaemons/homebrew.mxcl.dnscrypt-proxy.plist` 中把 resolvers 文件改为 `/usr/local/share` 中的符号链接的版本，能解决上述问题：
+默认情况下，`resolvers-list` 将会指向 dnscrypt 版本特定的 resolvers 文件。当更新了 dnscrypt，这一版本将不再存在，若它存在，可能指向一个过期的文件。在 `homebrew.mxcl.dnscrypt-proxy.plist` 中把 resolvers 文件改为 `/usr/local/share` 中的符号链接的版本，能解决上述问题：
 
     <string>--resolvers-list=/usr/local/share/dnscrypt-proxy/dnscrypt-resolvers.csv</string>
 
 启用 DNSCrypt：
 
-    $ brew services start dnscrypt-proxy
+    $ sudo brew services start dnscrypt-proxy
 
 确保 DNSCrypt 在运行：
 
@@ -865,12 +869,12 @@ macOS 上有从像 Apple、Verisign、Thawte、Digicert 这样的营利性公司
 
 Apple 在他们的 [Cryptographic Services 指南](https://developer.apple.com/library/mac/documentation/Security/Conceptual/cryptoservices/GeneralPurposeCrypto/GeneralPurposeCrypto.html)文档中宣布**弃用** OpenSSL。他们的版本也有补丁，可能会[带来惊喜喔](https://hynek.me/articles/apple-openssl-verification-surprises/)。
 
-如果你要在你的 Mac 上用 OpenSSL，用 `brew install openssl` 下载并安装一个 OpenSSL 最近的版本。注意，brew 已经链接了 `/usr/bin/openssl` ，可能和构建软件冲突。查看 [issue #39](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/39)。
+如果你要在你的 Mac 上用 OpenSSL，用 `brew install openssl` 下载并安装一个 OpenSSL 最近的版本。注意，brew 已经链接了 `/usr/bin/openssl` ，可能和内置软件冲突。查看 [issue #39](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/39)。
 
 在 homebrew 版本和 OpenSSL 系统版本之间比较 TLS 协议和密码：
 
 ```
-$ ~/homebrew/bin/openssl version; echo | ~/homebrew/bin openssl s_client -connect github.com:443 2>&1 | grep -A2 SSL-Session
+$ ~/homebrew/bin/openssl version; echo | ~/homebrew/bin/openssl s_client -connect github.com:443 2>&1 | grep -A2 SSL-Session
 OpenSSL 1.0.2j  26 Sep 2016
 SSL-Session:
     Protocol  : TLSv1.2
@@ -1426,6 +1430,8 @@ $ xattr -l ~/Downloads/TorBrowser-6.0.5-osx64_en-US.dmg
 
 看看 [Yubikey](https://www.yubico.com/products/yubikey-hardware/yubikey-neo/) 的两因素和私钥(如：ssh、gpg)硬件令牌。 阅读 [drduh/YubiKey-Guide](https://github.com/drduh/YubiKey-Guide) 和 [trmm.net/Yubikey](https://trmm.net/Yubikey)。两个 Yubikey 的插槽之一可以通过编程来生成一个长的静态密码（例如可以与短的，记住的密码结合使用）。
 
+除了登录和其他 PAM 模块，也能用 Yubikey 来使你的登录和 sudo 更安全，这里有份来自[Yubico](https://www.yubico.com/wp-content/uploads/2016/02/Yubico_YubiKeyMacOSXLogin_en.pdf)的 pdf 文档。Yubikey 有点贵，这有个更便宜的替代品，但是没有它好，[U2F Zero](https://www.u2fzero.com/)。这有份文档来[启动它](https://microamps.gibsjose.com/u2f-authentication-on-os-x/)。
+
 ## 备份
 
 备份到外部介质或在线服务之前，总是先对本地文件进行加密。
@@ -1826,6 +1832,10 @@ Google Chrome 现在应该可以启动了，以后的更新也不会被阻止，
 
 在 `/var/log/santa.log` 可以查看监控器**允许**和**拒绝**执行的决策记录。
 
+[Zentral](https://github.com/zentralopensource/zentral)里有针对 Santa 的一个日志和配置框架，Zentral 是一个开源的事件监控框架和针对osquery 和 Santa 的 TLS 服务器。
+
+Zentral 会在监控和锁定模式支持 Santa。客户端需要建立一个 TLS 连接来同步 Santa 规则。所有来自终端的 Santa 事件会汇总并记录在 Zentral 里。Santa 事件能从 Zentral 框架内部触发行为和通知。
+
 **注意** Python、Bash 和其它解释性语言是在白名单中的（因为它们是由苹果开发者证书签名的），所以 Santa 不会阻止这些脚本的运行。因此，要注意到 Santa 可能无法有效的拦截非二进制程序运行（这不算漏洞，因为它本身就这么设计的）。
 
 ## 其它
@@ -1911,6 +1921,9 @@ $ duti -s com.apple.Safari smb
 [libyal/libfvde](https://github.com/libyal/libfvde) - 访问 FileVault Drive Encryption (FVDE) (或 FileVault2) 加密卷的库。
 
 [CISOfy/lynis](https://github.com/CISOfy/lynis) - 跨平台安全审计工具，并协助合规性测试和系统强化。
+
+[Zentral](https://github.com/zentralopensource/zentral)- 一个针对 santa 和 osquery 的日志和配置框架。在盘点、事件
+日志文件，结合时点的提醒上运行排查和探测。一个完整的框架和 Django web 服务器搭建在 elastic stack（通常叫 ELK stack）基础上。
 
 ## 其它资源
 
