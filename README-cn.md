@@ -1,10 +1,11 @@
 # MacOS 的安全和隐私指南
 
 > * 原文地址：[macOS Security and Privacy Guide](https://github.com/drduh/macOS-Security-and-Privacy-Guide)
-* 原文作者：[drduh](https://github.com/drduh)
-* 译文出自：[掘金翻译计划](https://github.com/xitu/gold-miner)
-* 译者：[Nicolas(Yifei) Li](https://github.com/yifili09), [MAYDAY1993](https://github.com/MAYDAY1993), [DeadLion](https://github.com/DeadLion)
-* 校对者：[lovelyCiTY](https://github.com/lovelyCiTY), [sqrthree](https://github.com/sqrthree)
+> * 原文作者：[drduh](https://github.com/drduh)
+> * 译文出自：[掘金翻译计划](https://github.com/xitu/gold-miner)
+> * 译者：[Nicolas(Yifei) Li](https://github.com/yifili09), [MAYDAY1993](https://github.com/MAYDAY1993), [DeadLion](https://github.com/DeadLion)
+> * 校对者：[lovelyCiTY](https://github.com/lovelyCiTY), [sqrthree](https://github.com/sqrthree)
+> * 这个 [链接](https://github.com/xitu/macOS-Security-and-Privacy-Guide/compare/master...drduh:master) 用来查看本翻译与英文版是否有差别（如果你没有看到 README.md 发生变化，那就意味着这份翻译文档是最新的）。
 
 这里汇集了一些想法，它们是有关如何保护运行了 macOS 10.12 "Sierra" 操作系统（以前是 **OS X**）的现代化苹果 Mac 电脑，也包含了一些提高个人网络隐私的小贴士。
 
@@ -803,6 +804,10 @@ $ find ~/homebrew -name homebrew.mxcl.dnscrypt-proxy.plist
 默认情况下，`resolvers-list` 将会指向 dnscrypt 版本特定的 resolvers 文件。当更新了 dnscrypt，这一版本将不再存在，若它存在，可能指向一个过期的文件。在 `homebrew.mxcl.dnscrypt-proxy.plist` 中把 resolvers 文件改为 `/usr/local/share` 中的符号链接的版本，能解决上述问题：
 
     <string>--resolvers-list=/usr/local/share/dnscrypt-proxy/dnscrypt-resolvers.csv</string>
+
+还有下面这一行:
+
+    <string>/usr/local/opt/dnscrypt-proxy/sbin/dnscrypt-proxy</string>
 
 启用 DNSCrypt：
 
