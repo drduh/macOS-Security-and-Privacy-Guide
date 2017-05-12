@@ -1152,9 +1152,9 @@ gpg: assuming signed data in `TorBrowser-6.0.5-osx64_en-US.dmg'
 gpg: Signature made Fri Sep 16 07:51:52 2016 EDT using RSA key ID D40814E0
 gpg: Can't check signature: public key not found
 
-$ gpg --recv 0xD40814E0
-gpg: requesting key D40814E0 from hkp server keys.gnupg.net
-gpg: key 93298290: public key "Tor Browser Developers (signing key) <torbrowser@torproject.org>" imported
+$ gpg --recv 0x4E2C6E8793298290
+gpg: requesting key 0x4E2C6E8793298290 from hkp server keys.gnupg.net
+gpg: key 0x4E2C6E8793298290: public key "Tor Browser Developers (signing key) <torbrowser@torproject.org>" imported
 gpg: no ultimately trusted keys found
 gpg: Total number processed: 1
 gpg:               imported: 1  (RSA: 1)
