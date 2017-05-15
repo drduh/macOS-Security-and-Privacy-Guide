@@ -22,7 +22,7 @@
 - [准备和安装 macOS](#准备和安装-macos)
     - [虚拟机](#虚拟机)
 - [首次启动](#首次启动)
-- [管理员和普通用户账号](#管理员和普通用户账号) 
+- [管理员和普通用户账号](#管理员和普通用户账号)
 - [对整个磁盘进行数据加密](#对整个磁盘进行数据加密)
 - [防火墙](#防火墙)
     - [应用程序层的防火墙](#应用程序层的防火墙)
@@ -96,7 +96,7 @@
 
 为固件设定一个密码，它能阻止除了你的启动盘之外的任何其它设备启动你的 Mac 电脑。它也能设定成每次启动时为必选项。
 
-[当你的计算机被盗的时候，这个功能是非常有用的](https://www.ftc.gov/news-events/blogs/techftc/2015/08/virtues-strong-enduser-device-controls)，因为唯一能重置固件密码的方式是通过 `Apple Store`，或者使用一个 [SPI 程序](https://reverse.put.as/2016/06/25/apple-efi-firmware-passwords-and-the-scbo-myth/)，例如 [Bus Pirate](http://ho.ax/posts/2012/06/unbricking-a-macbook/) 或者其它刷新电路的程序。
+[当你的计算机被盗或者丢失的时候，这个功能是非常有用的](https://www.ftc.gov/news-events/blogs/techftc/2015/08/virtues-strong-enduser-device-controls)，该功能可以防止直接内存访问从而可以读取您的 FileVault 密码并注入诸如 [pcileech](https://github.com/ufrisk/pcileech) 之类的内核模块这种攻击方式，因为唯一能重置固件密码的方式是通过 `Apple Store`，或者使用一个 [SPI 程序](https://reverse.put.as/2016/06/25/apple-efi-firmware-passwords-and-the-scbo-myth/)，例如 [Bus Pirate](http://ho.ax/posts/2012/06/unbricking-a-macbook/) 或者其它刷新电路的程序。
 
 1. 开始时，按下 `Command` 和 `R` 键来启动[恢复模式 / Recovery Mode](https://support.apple.com/en-au/HT201314)。
 
@@ -291,11 +291,11 @@ $ /tmp/recovery/RecoveryHDUpdate.pkg/Scripts/Tools/dmtest ensureRecoveryPartitio
 在虚拟机内安装 macOS，可以使用 [VMware Fusion](https://www.vmware.com/products/fusion.html) 工具，按照上文中的说明来创建一个镜像。你**不需要**再下载，也不需要手动创建还原分区。
 
 ```
-VMware-Fusion-8.5.6-5234762.dmg		
-SHA-256: 57a879095c9fcce0066bea0d3c203571689fb53205915fda156c0d742f7c7ad2	
+VMware-Fusion-8.5.6-5234762.dmg
+SHA-256: 57a879095c9fcce0066bea0d3c203571689fb53205915fda156c0d742f7c7ad2
 SHA-1:   b7315d00a7c92dbad280d0f01f42dd8b56d96040
  ```
- 
+
 选择 **Install OS X from the recovery parition** 这个安装方法。可自定义配置任意的内存和 CPU，之后完成设置。默认情况下，这个虚拟机应该进入 [Recovery Mode / 还原模式](https://support.apple.com/en-us/HT201314)。
 
 在还原模式中，选择一个语言，之后在菜单条中由 Utilities 打开 Terminal。
@@ -670,12 +670,12 @@ fe80::1%lo0 localhost
 
     $ brew install dnsmasq --with-dnssec
 
-    $ cp ~/homebrew/opt/dnsmasq/dnsmasq.conf.example ~/homebrew/etc/dnsmasq.conf
+    $ cp /usr/local/opt/dnsmasq/dnsmasq.conf.example /usr/local/etc/dnsmasq.conf
 
 
 编辑配置项：
 
-    $ vim ~/homebrew/etc/dnsmasq.conf
+    $ vim /usr/local/etc/dnsmasq.conf
 
 检查所有的选项。这有一些推荐启用的设置：
 
@@ -1160,9 +1160,9 @@ gpg: assuming signed data in `TorBrowser-6.0.5-osx64_en-US.dmg'
 gpg: Signature made Fri Sep 16 07:51:52 2016 EDT using RSA key ID D40814E0
 gpg: Can't check signature: public key not found
 
-$ gpg --recv 0xD40814E0
-gpg: requesting key D40814E0 from hkp server keys.gnupg.net
-gpg: key 93298290: public key "Tor Browser Developers (signing key) <torbrowser@torproject.org>" imported
+$ gpg --recv 0x4E2C6E8793298290
+gpg: requesting key 0x4E2C6E8793298290 from hkp server keys.gnupg.net
+gpg: key 0x4E2C6E8793298290: public key "Tor Browser Developers (signing key) <torbrowser@torproject.org>" imported
 gpg: no ultimately trusted keys found
 gpg: Total number processed: 1
 gpg:               imported: 1  (RSA: 1)
