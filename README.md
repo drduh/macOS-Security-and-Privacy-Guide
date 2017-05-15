@@ -89,7 +89,7 @@ The standard best security practices apply:
 
 Setting a firmware password prevents your Mac from starting up from any device other than your startup disk. It may also be set to be required on each boot.
 
-This feature [can be helpful if your laptop is stolen](https://www.ftc.gov/news-events/blogs/techftc/2015/08/virtues-strong-enduser-device-controls), as the only way to reset the firmware password is through an Apple Store, or by using an [SPI programmer](https://reverse.put.as/2016/06/25/apple-efi-firmware-passwords-and-the-scbo-myth/), such as [Bus Pirate](http://ho.ax/posts/2012/06/unbricking-a-macbook/) or other flash IC programmer.
+This feature [can be helpful if your laptop is lost or stolen](https://www.ftc.gov/news-events/blogs/techftc/2015/08/virtues-strong-enduser-device-controls), protects against Direct Memory Access (DMA) attacks which can read your FileVault passwords and inject kernel modules such as [pcileech](https://github.com/ufrisk/pcileech), as the only way to reset the firmware password is through an Apple Store, or by using an [SPI programmer](https://reverse.put.as/2016/06/25/apple-efi-firmware-passwords-and-the-scbo-myth/), such as [Bus Pirate](http://ho.ax/posts/2012/06/unbricking-a-macbook/) or other flash IC programmer.
 
 1. Start up pressing `Command` `R` keys to boot to [Recovery Mode](https://support.apple.com/en-au/HT201314) mode.
 
@@ -663,11 +663,11 @@ Install Dnsmasq (DNSSEC is optional):
 
     $ brew install dnsmasq --with-dnssec
 
-    $ cp ~/homebrew/opt/dnsmasq/dnsmasq.conf.example ~/homebrew/etc/dnsmasq.conf
+    $ cp /usr/local/opt/dnsmasq/dnsmasq.conf.example /usr/local/etc/dnsmasq.conf
 
 Edit the configuration:
 
-    $ vim ~/homebrew/etc/dnsmasq.conf
+    $ vim /usr/local/etc/dnsmasq.conf
 
 Examine all the options. Here are a few recommended settings to enable:
 
@@ -1152,9 +1152,9 @@ gpg: assuming signed data in `TorBrowser-6.0.5-osx64_en-US.dmg'
 gpg: Signature made Fri Sep 16 07:51:52 2016 EDT using RSA key ID D40814E0
 gpg: Can't check signature: public key not found
 
-$ gpg --recv 0xD40814E0
-gpg: requesting key D40814E0 from hkp server keys.gnupg.net
-gpg: key 93298290: public key "Tor Browser Developers (signing key) <torbrowser@torproject.org>" imported
+$ gpg --recv 0x4E2C6E8793298290
+gpg: requesting key 0x4E2C6E8793298290 from hkp server keys.gnupg.net
+gpg: key 0x4E2C6E8793298290: public key "Tor Browser Developers (signing key) <torbrowser@torproject.org>" imported
 gpg: no ultimately trusted keys found
 gpg: Total number processed: 1
 gpg:               imported: 1  (RSA: 1)
