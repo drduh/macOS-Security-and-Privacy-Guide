@@ -1060,7 +1060,7 @@ PGP is a standard for encrypting email end to end. That means only the chosen re
 
 **GPG** is used to verify signatures of software you download and install, as well as [symmetrically](https://en.wikipedia.org/wiki/Symmetric-key_algorithm) or [asymmetrically](https://en.wikipedia.org/wiki/Public-key_cryptography) encrypt files and text.
 
-Install from Homebrew with `brew install gnupg2`.
+Install from Homebrew with `brew install gnupg`.
 
 If you prefer a graphical application, download and install [GPG Suite](https://gpgtools.org/).
 
@@ -1070,10 +1070,6 @@ Here are several [recommended options](https://github.com/drduh/config/blob/mast
 auto-key-locate keyserver
 keyserver hkps://hkps.pool.sks-keyservers.net
 keyserver-options no-honor-keyserver-url
-keyserver-options ca-cert-file=/etc/sks-keyservers.netCA.pem
-keyserver-options no-honor-keyserver-url
-keyserver-options debug
-keyserver-options verbose
 personal-cipher-preferences AES256 AES192 AES CAST5
 personal-digest-preferences SHA512 SHA384 SHA256 SHA224
 default-preference-list SHA512 SHA384 SHA256 SHA224 AES256 AES192 AES CAST5 ZLIB BZIP2 ZIP Uncompressed
@@ -1089,13 +1085,6 @@ list-options show-uid-validity
 verify-options show-uid-validity
 with-fingerprint
 ```
-
-Install the keyservers [CA certificate](https://sks-keyservers.net/verify_tls.php):
-
-    $ curl -O https://sks-keyservers.net/sks-keyservers.netCA.pem
-
-    $ sudo mv sks-keyservers.netCA.pem /etc
-
 These settings will configure GnuPG to use SSL when fetching new keys and prefer strong cryptographic primitives.
 
 See also [ioerror/duraconf/configs/gnupg/gpg.conf](https://github.com/ioerror/duraconf/blob/master/configs/gnupg/gpg.conf). You should also take some time to read [OpenPGP Best Practices](https://help.riseup.net/en/security/message-security/openpgp/best-practices).
