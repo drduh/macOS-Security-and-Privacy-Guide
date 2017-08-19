@@ -1266,6 +1266,8 @@ See [Sophail: Applied attacks against  Antivirus](https://lock.cmpxchg8b.com/sop
 
 Therefore, the best anti-virus is **Common Sense 2017**. See more discussion in [issue #44](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/44).
 
+CylancePROTECT may be worth running for the exploit mitigation features and (when locked down) is much harder to locally bypass than traditional AV, but it's effectiveness at detecting malware on MacOS is questionable.
+
 Local privilege escalation bugs are plenty on macOS, so always be careful when downloading and running untrusted programs or trusted programs from third party websites or downloaded over HTTP ([example](http://arstechnica.com/security/2015/08/0-day-bug-in-fully-patched-os-x-comes-under-active-exploit-to-hijack-macs/)).
 
 Have a look at [The Safe Mac](http://www.thesafemac.com/) for past and current Mac security news.
