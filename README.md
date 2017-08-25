@@ -915,7 +915,9 @@ ipv4
 
 Consider using [Privoxy](http://www.privoxy.org/) as a local proxy to filter Web browsing traffic.
 
-A signed installation package for privoxy can be downloaded from [silvester.org.uk](http://silvester.org.uk/privoxy/OSX/) or [Sourceforge](http://sourceforge.net/projects/ijbswa/files/Macintosh%20%28OS%20X%29/). The signed package is [more secure](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/65) than the Homebrew version, and attracts full support from the Privoxy project.
+**Note** macOS proxy settings are not universal; apps and services may or may not honor system proxy settings. Ensure the app you wish to proxy is correctly configured and manually verify connections don't leak. Additionally, it may be possible to configure the *pf* firewall to transparently proxy all traffic.
+
+A signed installation package for privoxy can be downloaded from [silvester.org.uk](https://silvester.org.uk/privoxy/OSX/) or [Sourceforge](https://sourceforge.net/projects/ijbswa/files/Macintosh%20%28OS%20X%29/). The signed package is [more secure](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/65) than the Homebrew version, and attracts full support from the Privoxy project.
 
 Alternatively, install and start privoxy using Homebrew:
 
@@ -925,11 +927,11 @@ Alternatively, install and start privoxy using Homebrew:
 
 By default, privoxy listens on local TCP port 8118.
 
-Set the system **http** proxy for your active network interface `127.0.0.1` and `8118` (This can be done through **System Preferences > Network > Advanced > Proxies**):
+Set the system **HTTP** proxy for your active network interface `127.0.0.1` and `8118` (This can be done through **System Preferences > Network > Advanced > Proxies**):
 
     $ sudo networksetup -setwebproxy "Wi-Fi" 127.0.0.1 8118
 
-**(Optional)** Set the system **https** proxy, which still allows for domain name filtering, with:
+**(Optional)** Set the system **HTTPS** proxy, which still allows for domain name filtering, with:
 
     $ sudo networksetup -setsecurewebproxy "Wi-Fi" 127.0.0.1 8118
 
