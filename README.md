@@ -131,7 +131,25 @@ The simplest way is to boot into [Recovery Mode](https://support.apple.com/en-us
 
 Another way is to download **macOS Sierra** from the [App Store](https://itunes.apple.com/us/app/macos-sierra/id1127487414) or some other place and create a custom, installable system image.
 
-The macOS Sierra installer application is [code signed](https://developer.apple.com/library/mac/documentation/Security/Conceptual/CodeSigningGuide/Procedures/Procedures.html#//apple_ref/doc/uid/TP40005929-CH4-SW6), which should be verified to make sure you received a legitimate copy, using the `codesign` command:
+The macOS Sierra installer application is [code signed](https://developer.apple.com/library/mac/documentation/Security/Conceptual/CodeSigningGuide/Procedures/Procedures.html#//apple_ref/doc/uid/TP40005929-CH4-SW6), which should be verified to make sure you received a legitimate copy, using the `spctl -a -v` or `pkgutil --check-signature` commands:
+
+```
+$ pkgutil --check-signature /Applications/Install\ macOS\ Sierra.app
+Package "Install macOS Sierra.app":
+   Status: signed by a certificate trusted by Mac OS X
+   Certificate Chain:
+    1. Apple Mac OS Application Signing
+       SHA1 fingerprint: B9 3B DA AA F1 A8 84 6B 34 BA 32 33 26 35 CB 2B 84 85 3D A8
+       -----------------------------------------------------------------------------
+    2. Apple Worldwide Developer Relations Certification Authority
+       SHA1 fingerprint: FF 67 97 79 3A 3C D7 98 DC 5B 2A BE F5 6F 73 ED C9 F8 3A 64
+       -----------------------------------------------------------------------------
+    3. Apple Root CA
+       SHA1 fingerprint: 61 1E 5B 66 2C 59 3A 08 FF 58 D1 4A E2 24 52 D1 98 DF 6C 60
+
+```
+
+You may also use the `codesign` command to examine an application's code signature:
 
 ```
 $ codesign -dvv /Applications/Install\ macOS\ Sierra.app
@@ -1174,27 +1192,49 @@ $ hdiutil mount TorBrowser-6.0.5-osx64_en-US.dmg
 $ cp -rv /Volumes/Tor\ Browser/TorBrowser.app /Applications
 ```
 
-It is also possible to verify the Tor application's code signature was made by with The Tor Project's Apple developer ID **MADPSAYN6T**:
+Verify the Tor application's code signature was made by with The Tor Project's Apple developer ID **MADPSAYN6T**, using the `spctl -a -v` and/or `pkgutil --check-signature` commands:
+
+```
+$ spctl -a -vv /Applications/TorBrowser.app
+/Applications/TorBrowser.app: accepted
+source=Developer ID
+origin=Developer ID Application: The Tor Project, Inc (MADPSAYN6T)
+
+$ pkgutil --check-signature /Applications/TorBrowser.app
+Package "TorBrowser.app":
+   Status: signed by a certificate trusted by Mac OS X
+   Certificate Chain:
+    1. Developer ID Application: The Tor Project, Inc (MADPSAYN6T)
+       SHA1 fingerprint: 95 80 54 F1 54 66 F3 9C C2 D8 27 7A 29 21 D9 61 11 93 B3 E8
+       -----------------------------------------------------------------------------
+    2. Developer ID Certification Authority
+       SHA1 fingerprint: 3B 16 6C 3B 7D C4 B7 51 C9 FE 2A FA B9 13 56 41 E3 88 E1 86
+       -----------------------------------------------------------------------------
+    3. Apple Root CA
+       SHA1 fingerprint: 61 1E 5B 66 2C 59 3A 08 FF 58 D1 4A E2 24 52 D1 98 DF 6C 60
+```
+
+You may also use the `codesign` command to examine an application's code signature:
 
 ```
 $ codesign -dvv /Applications/TorBrowser.app
 Executable=/Applications/TorBrowser.app/Contents/MacOS/firefox
-Identifier=org.mozilla.tor browser
+Identifier=org.torproject.torbrowser
 Format=app bundle with Mach-O thin (x86_64)
-CodeDirectory v=20200 size=247 flags=0x0(none) hashes=5+3 location=embedded
+CodeDirectory v=20200 size=249 flags=0x0(none) hashes=5+3 location=embedded
 Library validation warning=OS X SDK version before 10.9 does not support Library Validation
 Signature size=4247
 Authority=Developer ID Application: The Tor Project, Inc (MADPSAYN6T)
 Authority=Developer ID Certification Authority
 Authority=Apple Root CA
-Signed Time=Nov 30, 2016, 10:40:34 AM
-Info.plist entries=21
+Signed Time=Aug 7, 2017, 1:43:17 AM
+Info.plist entries=22
 TeamIdentifier=MADPSAYN6T
 Sealed Resources version=2 rules=12 files=130
-Internal requirements count=1 size=184
+Internal requirements count=1 size=188
 ```
 
-To view certificate details, extract it with `codesign` and decode it with `openssl`:
+To view full certificate details, extract them with `codesign` and decode it with `openssl`:
 
 ```
 $ codesign -d --extract-certificates /Applications/TorBrowser.app
