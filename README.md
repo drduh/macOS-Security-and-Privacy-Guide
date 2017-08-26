@@ -39,6 +39,7 @@ This guide is also available in [简体中文](https://github.com/xitu/macOS-Sec
       - [Google Chrome](#google-chrome)
       - [Firefox](#firefox)
       - [Safari](#safari)
+      - [Web Browsers and Privacy](#web-browsers-and-privacy)
     - [Plugins](#plugins)
 - [PGP/GPG](#pgpgpg)
 - [OTR](#otr)
