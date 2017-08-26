@@ -36,6 +36,9 @@ This guide is also available in [简体中文](https://github.com/xitu/macOS-Sec
 - [Web](#web)
     - [Privoxy](#privoxy)
     - [Browser](#browser)
+      - [Google Chrome](#google-chrome)
+      - [Firefox](#firefox)
+      - [Safari](#safari)
     - [Plugins](#plugins)
 - [PGP/GPG](#pgpgpg)
 - [OTR](#otr)
@@ -1038,7 +1041,7 @@ Another important consideration about Web Browser security is Web Extensions. We
 
 [Google Chrome](https://www.google.com/chrome/browser/desktop/) , [Firefox](https://www.mozilla.org/en-US/firefox/new/) and [Safari](https://www.apple.com/safari/) are the Web Browsers that are being covered in this guide. Each Web Browser offers certain benefits and drawbacks regarding their security and privacy. It is best to make an informed choice before committing to one.
 
-#### Chrome
+#### Google Chrome
 
 [Google Chrome](https://www.google.com/chrome/browser/desktop/) is based on the Open Source [Chromium project](http://www.chromium.org/Home) with certain proprietary components. The proprietary components are the [following](https://fossbytes.com/difference-google-chrome-vs-chromium-browser/):
   1. Automatic updates through the GoogleSoftwareUpdateDaemon.
