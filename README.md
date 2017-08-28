@@ -1266,32 +1266,7 @@ See [Sophail: Applied attacks against  Antivirus](https://lock.cmpxchg8b.com/sop
 
 Therefore, the best anti-virus is **Common Sense 2017**. See more discussion in [issue #44](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/44).
 
-CylancePROTECT may be worth running for the exploit mitigation features and (when locked down) is much harder to locally bypass than traditional AV, but it's effectiveness at detecting malware on MacOS is questionable.  It's core feature is an algorithm derived from a machine-learning process which aims to identify malware based on various characteristics of a binary executable.  Cylance have a [whitepaper](https://www.cylance.com/content/dam/cylance/pdfs/data_sheets/CylancePROTECT.pdf) with information about how it works.  Single licenses are available from third party resellers such as [Cyberforce](https://cybrforce.com) or [Malware Managed](https://www.malwaremanaged.com).  On MacOS it complements Apple's built-in XProtect by continuously vmmap'ing the memory of active processes to watch for patterns that indicate bad things happening.  At the time of writing it is able to detect and block the following list of events, all of which can be controlled via the Cylance console:
-
-Exploitation:
-
-  - Stack pivot
-  - Stack protect
-  - Overwrite code
-  - RAM scraping
-  - Malicious payload
-
-Process injection:
-
-  - Remote allocation of memory
-  - Remote mapping of memory
-  - Remote write to memory
-  - Remote write PE to memory
-  - Remote overwrite code
-  - Remote unmap of memory
-  - Remote thread creation
-  - Remote APC scheduled
-  - DYLD injection (MacOS only)
-
-Escalation:
-
-  - LSASS read
-  - Zero allocate
+CylancePROTECT may be worth running for the exploit mitigation features and (when locked down) is much harder to locally bypass than traditional AV, but it's effectiveness at detecting malware on MacOS is questionable.  It's core feature is an algorithm derived from a machine-learning process which aims to identify malware based on various characteristics of a binary executable.  Cylance have a [whitepaper](https://www.cylance.com/content/dam/cylance/pdfs/data_sheets/CylancePROTECT.pdf) with information about how it works.  Single licenses are available from third party resellers such as [Cyberforce](https://cybrforce.com) or [Malware Managed](https://www.malwaremanaged.com) and there is also a home/personal edition in the works but it is currently only available for companies to make available to their employees.  On MacOS it complements Apple's built-in XProtect by continuously vmmap'ing the memory of active processes to watch for patterns that indicate bad things happening.
 
 Local privilege escalation bugs are plenty on macOS, so always be careful when downloading and running untrusted programs or trusted programs from third party websites or downloaded over HTTP ([example](http://arstechnica.com/security/2015/08/0-day-bug-in-fully-patched-os-x-comes-under-active-exploit-to-hijack-macs/)).
 
