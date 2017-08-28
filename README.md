@@ -1057,7 +1057,7 @@ Chrome offers [separate profiles](https://www.chromium.org/user-experience/multi
 
 Chrome offers account sync between multiple devices. Part of the sync data are stored website logins. The login passwords are encrypted and in order to access them, a user's Google account password is required. You can use your Google account to sign to your Chrome customized settings from other devices while retaining your the security of your passwords.
 
-Chrome's Web store for extensions requires a [$5 dollar lifetime fee](https://developer.chrome.com/webstore/publish#pay-the-developer-signup-fee)in order to submit extensions. The low cost allows the development of many quality Open Source Web Extensions that do not aim to monetize through usage.
+Chrome's Web store for extensions requires a [$5 dollar lifetime fee](https://developer.chrome.com/webstore/publish#pay-the-developer-signup-fee) in order to submit extensions. The low cost allows the development of many quality Open Source Web Extensions that do not aim to monetize through usage.
 
 Chrome has the largest share of global usage and is the preferred target platform for the majority of developers. Major technologies are based on Chrome's Open Source components, such as [node.js](https://nodejs.org/en/) which uses [Chrome's V8](https://developers.google.com/v8/) Engine and the [Electron](https://electron.atom.io/) framework, which is based on Chromium and node.js. Chrome's vast user base makes it the most attractive target for threat actors and security researchers. Despite under constants attacks, Chrome has retained an impressive security track record over the years. This is not a small feat.
 
