@@ -1130,8 +1130,6 @@ Since Web Browsers execute untrusted code from the server, it is important to un
 
 To hinder third party trackers, it is recommended to disable third-party cookies from your Web Browser settings. A third party cookie is a cookie associated with a file requested by different domain than the one the user is currently viewing. Most of the time third party are used to create browsing profiles by tracking a user's movement in the web. Disabling third-party cookies prevents HTTP responses and scripts from other domains from setting cookies. Moreover, cookies are removed from requests to domains that are not the document origin domain, so cookies are only sent to the current site that is being viewed.
 
-A great step to improve privacy is to replace your default search engine to [duckduckgo](https://duckduckgo.com/), which is committed to user privacy. Moreover, it offers some unique features, such as color Themes and direct site search through the use of [bangs](https://duckduckgo.com/bang).
-
 Also be aware of [WebRTC](https://en.wikipedia.org/wiki/WebRTC#Concerns), which may reveal your local or public (if connected to VPN) IP address(es). This can be disabled with extensions such as [uBlock Origin](https://github.com/gorhill/uBlock/wiki/Prevent-WebRTC-from-leaking-local-IP-address) and [rentamob/WebRTC-Leak-Prevent](https://github.com/rentamob/WebRTC-Leak-Prevent).
 
 ### Plugins
