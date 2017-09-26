@@ -665,7 +665,7 @@ $ curl "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts" | sudo
 $ wc -l /etc/hosts
 31998
 
-$ egrep -ve "^#|^255.255.255|^0.0.0.0|^127.0.0.0|^0 " /etc/hosts
+$ egrep -ve "^#|^255.255.255|^0.0.0.0|^127.0.0.1|^0 " /etc/hosts
 ::1 localhost
 fe80::1%lo0 localhost
 [should not return any other IP addresses]
