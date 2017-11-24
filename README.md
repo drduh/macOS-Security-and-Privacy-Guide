@@ -502,9 +502,9 @@ Programs such as [Little Snitch](https://www.obdev.at/products/littlesnitch/inde
 *Example of Little Snitch-monitored session*
 
 ```
-LittleSnitch-3.7.4.dmg
-SHA-256: b0ce3519d72affbc7910c24c264efa94aa91c9ad9b1a905c52baa9769156ea22
-SHA-1:   868ad75623c60cb9ad428c7c1d3e5ae449a9033e
+LittleSnitch-4.0.3.dmg
+SHA-256: af93abb070cbac96cdda7e150668115c34447f2779dc707f8a79879c60f4c3bf
+SHA-1:   63f1cf6c47def2774040b26add388068ae4b00f5
 ```
 
 These programs are capable of monitoring and blocking **incoming** and **outgoing** network connections. However, they may require the use of a closed source [kernel extension](https://developer.apple.com/library/mac/documentation/Darwin/Conceptual/KernelProgramming/Extend/Extend.html).
@@ -1189,17 +1189,15 @@ You can use OTR on top of any existing [XMPP](https://xmpp.org/about) chat servi
 
 The first time you start a conversation with someone new, you'll be asked to verify their public key fingerprint. Make sure to do this in person or by some other secure means (e.g. GPG encrypted mail).
 
-A popular macOS GUI client for XMPP and other chat protocols is [Adium](https://adium.im/)
-
-Consider downloading the [beta version](https://beta.adium.im/) which uses OAuth2, making logging in to Google accounts [more](https://adium.im/blog/2015/04/) [secure](https://trac.adium.im/ticket/16161).
+A popular macOS GUI client for XMPP and other chat protocols is [Adium](https://adium.im/).
 
 ```
-Adium_1.5.11b3.dmg
-SHA-256: 999e1931a52dc327b3a6e8492ffa9df724a837c88ad9637a501be2e3b6710078
-SHA-1:   ca804389412f9aeb7971ade6812f33ac739140e6
+Adium_1.5.10.4.dmg
+SHA-256: 31fa3fd32b86dd3381b60e0d5aafbc2a9452036f0fb4963bffbc2a6c64a9458b
+SHA-1:   8a674a642447839ea287aed528194e4fd32763b8
 ```
 
-Remember to [disable logging](https://trac.adium.im/ticket/15722) for OTR chats with Adium.
+Remember to [disable logging](https://trac.adium.im/ticket/15722) for off the record chats with Adium.
 
 A good console-based XMPP client is [profanity](http://www.profanity.im/), which can be installed with `brew install profanity`
 
@@ -1218,32 +1216,33 @@ Do **not** attempt to configure other browsers or applications to use Tor as you
 Download both the `dmg` and `asc` signature files, then verify the disk image has been signed by Tor developers:
 
 ```
-$ cd Downloads
+$ cd ~/Downloads
 
 $ file Tor*
-TorBrowser-6.0.5-osx64_en-US.dmg:     bzip2 compressed data, block size = 900k
-TorBrowser-6.0.5-osx64_en-US.dmg.asc: PGP signature Signature (old)
+TorBrowser-7.0.10-osx64_en-US.dmg:     bzip2 compressed data, block size = 900k
+TorBrowser-7.0.10-osx64_en-US.dmg.asc: PGP signature Signature (old)
 
 $ gpg Tor*asc
-gpg: assuming signed data in `TorBrowser-6.0.5-osx64_en-US.dmg'
-gpg: Signature made Fri Sep 16 07:51:52 2016 EDT using RSA key ID D40814E0
-gpg: Can't check signature: public key not found
+gpg: assuming signed data in 'TorBrowser-7.0.10-osx64_en-US.dmg'
+gpg: Signature made Thu Nov  9 08:58:11 2017 PST
+gpg:                using RSA key 0xD1483FA6C3C07136
+gpg: Can't check signature: No public key
 
 $ gpg --recv 0x4E2C6E8793298290
-gpg: requesting key 0x4E2C6E8793298290 from hkp server keys.gnupg.net
 gpg: key 0x4E2C6E8793298290: public key "Tor Browser Developers (signing key) <torbrowser@torproject.org>" imported
 gpg: no ultimately trusted keys found
 gpg: Total number processed: 1
-gpg:               imported: 1  (RSA: 1)
+gpg:               imported: 1
 
-$ gpg Tor*asc
-gpg: assuming signed data in 'TorBrowser-6.0.5-osx64_en-US.dmg'
-gpg: Signature made Fri Sep 16 07:51:52 2016 EDT using RSA key ID D40814E0
+$ gpg --verify Tor*asc
+gpg: assuming signed data in 'TorBrowser-7.0.10-osx64_en-US.dmg'
+gpg: Signature made Thu Nov  9 08:58:11 2017 PST
+gpg:                using RSA key 0xD1483FA6C3C07136
 gpg: Good signature from "Tor Browser Developers (signing key) <torbrowser@torproject.org>" [unknown]
 gpg: WARNING: This key is not certified with a trusted signature!
 gpg:          There is no indication that the signature belongs to the owner.
 Primary key fingerprint: EF6E 286D DA85 EA2A 4BA7  DE68 4E2C 6E87 9329 8290
-     Subkey fingerprint: BA1E E421 BBB4 5263 180E  1FC7 2E1A C68E D408 14E0
+     Subkey fingerprint: A430 0A6B C93C 0877 A445  1486 D148 3FA6 C3C0 7136
 ```
 
 Make sure `Good signature from "Tor Browser Developers (signing key) <torbrowser@torproject.org>"` appears in the output. The warning about the key not being certified is benign, as it has not yet been manually assigned trust.
@@ -1253,7 +1252,7 @@ See [How to verify signatures for packages](https://www.torproject.org/docs/veri
 To finish installing Tor Browser, open the disk image and drag the it into the Applications folder, or with:
 
 ```
-$ hdiutil mount TorBrowser-6.0.5-osx64_en-US.dmg
+$ hdiutil mount TorBrowser-7.0.10-osx64_en-US.dmg
 
 $ cp -rv /Volumes/Tor\ Browser/TorBrowser.app /Applications
 ```
@@ -1293,7 +1292,7 @@ Signature size=4247
 Authority=Developer ID Application: The Tor Project, Inc (MADPSAYN6T)
 Authority=Developer ID Certification Authority
 Authority=Apple Root CA
-Signed Time=Aug 7, 2017, 1:43:17 AM
+Signed Time=Nov 9, 2017, 12:47:58 AM
 Info.plist entries=22
 TeamIdentifier=MADPSAYN6T
 Sealed Resources version=2 rules=12 files=130
@@ -1737,9 +1736,9 @@ Santa uses the [Kernel Authorization API](https://developer.apple.com/library/co
 To install Santa, visit the [Releases](https://github.com/google/santa/releases) page and download the latest disk image, the mount it and install the contained package:
 
 ```
-$ hdiutil mount ~/Downloads/santa-0.9.14.dmg
+$ hdiutil mount ~/Downloads/santa-0.9.20.dmg
 
-$ sudo installer -pkg /Volumes/santa-0.9.14/santa-0.9.14.pkg -tgt /
+$ sudo installer -pkg /Volumes/santa-0.9.20/santa-0.9.20.pkg -tgt /
 ```
 
 By default, Santa installs in "Monitor" mode (meaning, nothing gets blocked, only logged) and comes with two rules: one for Apple binaries and another for Santa software itself.
