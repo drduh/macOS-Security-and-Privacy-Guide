@@ -1,10 +1,10 @@
-This is a collection of thoughts on securing a modern Apple Mac computer using macOS (formerly *OS X*) 10.12 "Sierra", as well as steps to improving online privacy.
+This guide is a collection of thoughts on and techniques for securing a modern Apple Mac computer ("MacBook") using macOS (formerly known as *OS X*) version 10.12 "Sierra", as well as steps to generally improving privacy.
 
 This guide is targeted to “power users” who wish to adopt enterprise-standard security, but is also suitable for novice users with an interest in improving their privacy and security on a Mac.
 
 A system is only as secure as its administrator is capable of making it. There is no one single technology, software, nor technique to guarantee perfect computer security; a modern operating system and computer is very complex, and requires numerous incremental changes to meaningfully improve one's security and privacy posture.
 
-I am **not** responsible if you break a Mac by following any of these steps.
+This guide is provided on an 'as is' basis without any warranties of any kind. Only **you** are responsible if you break a Mac by following any of the steps herein.
 
 If you wish to make a correction or improvement, please send a pull request or [open an issue](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues).
 
