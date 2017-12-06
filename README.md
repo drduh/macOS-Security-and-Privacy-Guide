@@ -1993,6 +1993,21 @@ Consider [sandboxing](https://developer.apple.com/library/mac/documentation/Darw
 
 Did you know Apple has not shipped a computer with TPM since [2006](http://osxbook.com/book/bonus/chapter10/tpm/)?
 
+MacOS comes with this line in /etc/sudoers:
+
+````
+Defaults env_keep += "HOME MAIL"
+````
+
+Which stops sudo from changing the HOME variable when you elevate privileges. This means it will execute as root the bash dotfiles in the non-root user's home directory when you run "sudo bash". It is adviseable to comment this line out to avoid a potentially easy way for malware or a local attacker to escalate privileges to root.
+
+If you want to retain the convenience of the root user having a non-root user's home directory, you can append an export line to /var/root/.bashrc, eg:
+
+````
+export HOME=/Users/blah
+````
+
+
 ## Related software
 
 [Santa](https://github.com/google/santa/) - A binary whitelisting/blacklisting system for macOS.
