@@ -1,12 +1,10 @@
-This is a collection of thoughts on securing a modern Apple Mac computer using macOS (formerly *OS X*) 10.12 "Sierra", as well as steps to improving online privacy. Though certain configurations may still work on macOS 10.13 "High Sierra" (beta), this guide doesn't provide any guarantee on the compatibility for macOS 10.13.
+This guide is a collection of thoughts on and techniques for securing a modern Apple Mac computer ("MacBook") using macOS (formerly known as *OS X*) version 10.12 "Sierra", as well as steps to generally improving privacy.
 
 This guide is targeted to “power users” who wish to adopt enterprise-standard security, but is also suitable for novice users with an interest in improving their privacy and security on a Mac.
 
 A system is only as secure as its administrator is capable of making it. There is no one single technology, software, nor technique to guarantee perfect computer security; a modern operating system and computer is very complex, and requires numerous incremental changes to meaningfully improve one's security and privacy posture.
 
-Make sure you understand each changes you made to your system. The official manual/documentation are usually sufficient for readers to understnad the what each command/program is doing.
-
-I am **not** responsible if you break a Mac by following any of these steps.
+This guide is provided on an 'as is' basis without any warranties of any kind. Only **you** are responsible if you break a Mac by following any of the steps herein.
 
 If you wish to make a correction or improvement, please send a pull request or [open an issue](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues).
 
@@ -38,6 +36,10 @@ This guide is also available in [简体中文](https://github.com/xitu/macOS-Sec
 - [Web](#web)
     - [Privoxy](#privoxy)
     - [Browser](#browser)
+      - [Google Chrome](#google-chrome)
+      - [Firefox](#firefox)
+      - [Safari](#safari)
+      - [Web Browsers and Privacy](#web-browsers-and-privacy)
     - [Plugins](#plugins)
 - [PGP/GPG](#pgpgpg)
 - [OTR](#otr)
@@ -91,7 +93,7 @@ The standard best security practices apply:
 
 Setting a firmware password prevents your Mac from starting up from any device other than your startup disk. It may also be set to be required on each boot.
 
-This feature [can be helpful if your laptop is stolen](https://www.ftc.gov/news-events/blogs/techftc/2015/08/virtues-strong-enduser-device-controls), as the only way to reset the firmware password is through an Apple Store, or by using an [SPI programmer](https://reverse.put.as/2016/06/25/apple-efi-firmware-passwords-and-the-scbo-myth/), such as [Bus Pirate](http://ho.ax/posts/2012/06/unbricking-a-macbook/) or other flash IC programmer.
+This feature [can be helpful if your laptop is lost or stolen](https://www.ftc.gov/news-events/blogs/techftc/2015/08/virtues-strong-enduser-device-controls), protects against Direct Memory Access (DMA) attacks which can read your FileVault passwords and inject kernel modules such as [pcileech](https://github.com/ufrisk/pcileech), as the only way to reset the firmware password is through an Apple Store, or by using an [SPI programmer](https://reverse.put.as/2016/06/25/apple-efi-firmware-passwords-and-the-scbo-myth/), such as [Bus Pirate](http://ho.ax/posts/2012/06/unbricking-a-macbook/) or other flash IC programmer.
 
 1. Start up pressing `Command` `R` keys to boot to [Recovery Mode](https://support.apple.com/en-au/HT201314) mode.
 
@@ -133,7 +135,25 @@ The simplest way is to boot into [Recovery Mode](https://support.apple.com/en-us
 
 Another way is to download **macOS Sierra** from the [App Store](https://itunes.apple.com/us/app/macos-sierra/id1127487414) or some other place and create a custom, installable system image.
 
-The macOS Sierra installer application is [code signed](https://developer.apple.com/library/mac/documentation/Security/Conceptual/CodeSigningGuide/Procedures/Procedures.html#//apple_ref/doc/uid/TP40005929-CH4-SW6), which should be verified to make sure you received a legitimate copy, using the `codesign` command:
+The macOS Sierra installer application is [code signed](https://developer.apple.com/library/mac/documentation/Security/Conceptual/CodeSigningGuide/Procedures/Procedures.html#//apple_ref/doc/uid/TP40005929-CH4-SW6), which should be verified to make sure you received a legitimate copy, using the `spctl -a -v` or `pkgutil --check-signature` commands:
+
+```
+$ pkgutil --check-signature /Applications/Install\ macOS\ Sierra.app
+Package "Install macOS Sierra.app":
+   Status: signed by a certificate trusted by Mac OS X
+   Certificate Chain:
+    1. Apple Mac OS Application Signing
+       SHA1 fingerprint: B9 3B DA AA F1 A8 84 6B 34 BA 32 33 26 35 CB 2B 84 85 3D A8
+       -----------------------------------------------------------------------------
+    2. Apple Worldwide Developer Relations Certification Authority
+       SHA1 fingerprint: FF 67 97 79 3A 3C D7 98 DC 5B 2A BE F5 6F 73 ED C9 F8 3A 64
+       -----------------------------------------------------------------------------
+    3. Apple Root CA
+       SHA1 fingerprint: 61 1E 5B 66 2C 59 3A 08 FF 58 D1 4A E2 24 52 D1 98 DF 6C 60
+
+```
+
+You may also use the `codesign` command to examine an application's code signature:
 
 ```
 $ codesign -dvv /Applications/Install\ macOS\ Sierra.app
@@ -286,9 +306,9 @@ Once you're done, eject the disk with `hdiutil unmount /Volumes/macOS` and power
 To install macOS as a virtual machine (vm) using [VMware Fusion](https://www.vmware.com/products/fusion.html), follow the instructions above to create an image. You will **not** need to download and create a recovery partition manually.
 
 ```
-VMware-Fusion-8.5.2-4635224.dmg
-SHA-256: f6c54b98c9788d1df94d470661eedff3e5d24ca4fb8962fac5eb5dc56de63b77
-SHA-1:   37ec465673ab802a3f62388d119399cb94b05408
+VMware-Fusion-8.5.6-5234762.dmg
+SHA-256: 57a879095c9fcce0066bea0d3c203571689fb53205915fda156c0d742f7c7ad2
+SHA-1:   b7315d00a7c92dbad280d0f01f42dd8b56d96040
 ```
 
 For the Installation Method, select *Install OS X from the recovery partition*. Customize any memory or CPU requirements and complete setup. The guest vm should boot into [Recovery Mode](https://support.apple.com/en-us/HT201314) by default.
@@ -389,7 +409,7 @@ FileVault encryption protects data at rest and hardens (but [not always prevents
 
 With much of the cryptographic operations happening [efficiently in hardware](https://software.intel.com/en-us/articles/intel-advanced-encryption-standard-aes-instructions-set/), the performance penalty for FileVault is not noticeable.
 
-The security of FileVault greatly depends on the pseudo random number generator (PRNG).
+Like all cryptosystems, the security of FileVault greatly depends on the quality of the pseudo random number generator (PRNG).
 
 > The random device implements the Yarrow pseudo random number generator algorithm and maintains its entropy pool.  Additional entropy is fed to the generator regularly by the SecurityServer daemon from random jitter measurements of the kernel.
 
@@ -397,7 +417,9 @@ The security of FileVault greatly depends on the pseudo random number generator 
 
 See `man 4 random` for more information.
 
-The PRNG can be manually seeded with entropy by writing to /dev/random **before** enabling FileVault. This can be done by simply using the Mac for a little while before activating FileVault.
+Turning on FileVault in System Preferences **after** installing macOS, rather than creating an encrypted partition for the installation first, is [more secure](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/230), because more PRNG entropy is available then.
+
+Additionally, the PRNG can be manually seeded with entropy by writing to /dev/random **before** enabling FileVault. This can be done by simply using the Mac for a little while before activating FileVault.
 
 To manually seed entropy *before* enabling FileVault:
 
@@ -480,9 +502,9 @@ Programs such as [Little Snitch](https://www.obdev.at/products/littlesnitch/inde
 *Example of Little Snitch-monitored session*
 
 ```
-LittleSnitch-3.7.1.dmg
-SHA-256: e6332ee70385f459d9803b0a582d5344bb9dab28bcd56e247ae69866cc321802
-SHA-1:   d5d602c0f76cd73051792dff0ac334bbdc66ae32
+LittleSnitch-4.0.3.dmg
+SHA-256: af93abb070cbac96cdda7e150668115c34447f2779dc707f8a79879c60f4c3bf
+SHA-1:   63f1cf6c47def2774040b26add388068ae4b00f5
 ```
 
 These programs are capable of monitoring and blocking **incoming** and **outgoing** network connections. However, they may require the use of a closed source [kernel extension](https://developer.apple.com/library/mac/documentation/Darwin/Conceptual/KernelProgramming/Extend/Extend.html).
@@ -593,7 +615,7 @@ $ curl -O https://fix-macosx.com/fix-macosx.py
 
 $ less fix-macosx.py
 
-$ python fix-macosx.py
+$ /usr/bin/python fix-macosx.py
 All done. Make sure to log out (and back in) for the changes to take effect.
 ```
 
@@ -643,7 +665,7 @@ $ curl "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts" | sudo
 $ wc -l /etc/hosts
 31998
 
-$ egrep -ve "^#|^255.255.255|^0.0.0.0|^127.0.0.0|^0 " /etc/hosts
+$ egrep -ve "^#|^255.255.255|^0.0.0.0|^127.0.0.1|^0 " /etc/hosts
 ::1 localhost
 fe80::1%lo0 localhost
 [should not return any other IP addresses]
@@ -744,12 +766,12 @@ Install Dnsmasq (DNSSEC is optional):
 
 ```
 $ brew install dnsmasq --with-dnssec
-$ cp ~/homebrew/opt/dnsmasq/dnsmasq.conf.example ~/homebrew/etc/dnsmasq.conf
+$ cp /usr/local/etc/dnsmasq.conf.default /usr/local/etc/dnsmasq.conf
 ```
 
 Edit the configuration:
 ```
-$ vim ~/homebrew/etc/dnsmasq.conf
+$ vim /usr/local/etc/dnsmasq.conf
 ```
 
 Examine all the options. Here are a few recommended settings to enable:
@@ -879,7 +901,7 @@ The version of OpenSSL in Sierra is `0.9.8zh` which is [not current](https://app
 
 Apple declares OpenSSL **deprecated** in their [Cryptographic Services Guide](https://developer.apple.com/library/mac/documentation/Security/Conceptual/cryptoservices/GeneralPurposeCrypto/GeneralPurposeCrypto.html) document. Their version also has patches which may [surprise you](https://hynek.me/articles/apple-openssl-verification-surprises/).
 
-If you're going to use OpenSSL on your Mac, download and install a recent version of OpenSSL with `brew install openssl`. Note, linking brew to be used in favor of `/usr/bin/openssl` may interfere with building software. See [issue #39](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/39).
+If you're going to use OpenSSL on your Mac, download and install a recent version of OpenSSL with `brew install openssl`. Note, linking brew to be used in favor of `/usr/bin/openssl` may interfere with built-in software. See [issue #39](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/39).
 
 Compare the TLS protocol and cipher between the homebrew version and the system version of OpenSSL:
 
@@ -925,7 +947,9 @@ ipv4
 
 Consider using [Privoxy](http://www.privoxy.org/) as a local proxy to filter Web browsing traffic.
 
-A signed installation package for privoxy can be downloaded from [silvester.org.uk](http://silvester.org.uk/privoxy/OSX/) or [Sourceforge](http://sourceforge.net/projects/ijbswa/files/Macintosh%20%28OS%20X%29/). The signed package is [more secure](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/65) than the Homebrew version, and attracts full support from the Privoxy project.
+**Note** macOS proxy settings are not universal; apps and services may or may not honor system proxy settings. Ensure the app you wish to proxy is correctly configured and manually verify connections don't leak. Additionally, it may be possible to configure the *pf* firewall to transparently proxy all traffic.
+
+A signed installation package for privoxy can be downloaded from [silvester.org.uk](https://silvester.org.uk/privoxy/OSX/) or [Sourceforge](https://sourceforge.net/projects/ijbswa/files/Macintosh%20%28OS%20X%29/). The signed package is [more secure](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/65) than the Homebrew version, and attracts full support from the Privoxy project.
 
 Alternatively, install and start privoxy using Homebrew:
 
@@ -935,11 +959,11 @@ Alternatively, install and start privoxy using Homebrew:
 
 By default, privoxy listens on local TCP port 8118.
 
-Set the system **http** proxy for your active network interface `127.0.0.1` and `8118` (This can be done through **System Preferences > Network > Advanced > Proxies**):
+Set the system **HTTP** proxy for your active network interface `127.0.0.1` and `8118` (This can be done through **System Preferences > Network > Advanced > Proxies**):
 
     $ sudo networksetup -setwebproxy "Wi-Fi" 127.0.0.1 8118
 
-**(Optional)** Set the system **https** proxy, which still allows for domain name filtering, with:
+**(Optional)** Set the system **HTTPS** proxy, which still allows for domain name filtering, with:
 
     $ sudo networksetup -setsecurewebproxy "Wi-Fi" 127.0.0.1 8118
 
@@ -1020,17 +1044,34 @@ You can replace ad images with pictures of kittens, for example, by starting the
 
 ### Browser
 
-The Web browser poses the largest security and privacy risk, as its fundamental job is to download and execute untrusted code from the Internet.
+The Web browser poses the largest security and privacy risk, as its fundamental job is to download and execute untrusted code from the Internet. This is an important statement. The unique use case of Web Browsers of operation in hostile environments, has forced them to adopt certain impressive security features. The cornerstone of Web Browser security is the Same Origin Policy ([SOP](https://en.wikipedia.org/wiki/Same-origin_policy)). In a few words, SOP prevents a malicious script on one page from obtaining access to sensitive data on another web page through that page's Document Object Model (DOM). If SOP is compromised, the security of the whole Web Browser is compromised.
 
-Use [Google Chrome](https://www.google.com/chrome/browser/desktop/) for most of your browsing. It offers [separate profiles](https://www.chromium.org/user-experience/multi-profiles), [good sandboxing](https://www.chromium.org/developers/design-documents/sandbox), [frequent updates](http://googlechromereleases.blogspot.com/) (including Flash, although you should disable it - see below), and carries [impressive credentials](https://www.chromium.org/Home/chromium-security/brag-sheet).
+The best tip to ensure secure browsing regardless your choice of Web Browser is proper security hygiene. The majority of Web Browser exploits require social engineering attacks to achieve native code execution. Always be mindful of the links you click and be extra careful when websites ask you to download and install software. 99% percent of the time that software is malware.
 
-Chrome also comes with a great [PDF viewer](http://0xdabbad00.com/2013/01/13/most-secure-pdf-viewer-chrome-pdf-viewer/).
+Another important consideration about Web Browser security is Web Extensions. Web Extensions greatly increase the attack surface of the Web Browser. This is an issue that plagues Firefox and [Chrome](https://courses.csail.mit.edu/6.857/2016/files/24.pdf) alike. Luckily, Web Extensions can only access specific browser APIs that are being governed by their manifest. That means we can quickly audit their behavior and remove them if they request access to information they shouldn't (why would an Ad blocker require camera access?). In the interest of security, it is best to limit your use of Web Extensions.
 
-If you don't want to use Chrome, [Firefox](https://www.mozilla.org/en-US/firefox/new/) is an excellent browser as well. Or simply use both. See discussion in issues [#2](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/2), [#90](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/90).
+[Google Chrome](https://www.google.com/chrome/browser/desktop/) , [Firefox](https://www.mozilla.org/en-US/firefox/new/) and [Safari](https://www.apple.com/safari/) are the Web Browsers that are being covered in this guide. Each Web Browser offers certain benefits and drawbacks regarding their security and privacy. It is best to make an informed choice before committing to one.
 
-If using Firefox, see [TheCreeper/PrivacyFox](https://github.com/TheCreeper/PrivacyFox) for recommended privacy preferences. Also be sure to check out [NoScript](https://noscript.net/) for Mozilla-based browsers, which allows whitelist-based, pre-emptive script blocking.
+#### Google Chrome
 
-Create at least three profiles, one for browsing **trusted** Web sites (email, banking), another for **mostly trusted** Web sites (link aggregators, news sites), and a third for a completely **cookie-less** and **script-less** experience.
+[Google Chrome](https://www.google.com/chrome/browser/desktop/) is based on the Open Source [Chromium project](http://www.chromium.org/Home) with certain proprietary components. The proprietary components are the [following](https://fossbytes.com/difference-google-chrome-vs-chromium-browser/):
+  1. Automatic updates through the GoogleSoftwareUpdateDaemon.
+  1. Usage tracking and crash reporting, which can be disabled through Chrome's settings.
+  1. Chrome Web Store
+  1. Non-optional tracking. Google Chrome installer includes a randomly generated token. The token is sent to Google after the installation completes in order to measure the success rate. The RLZ identifier stores information – in the form of encoded strings – like the source of chrome download and installation week. It doesn’t include any personal information and it’s used to measure the effectiveness of a promotional campaign. **Chrome downloaded from Google’s website doesn’t have the RLZ identifier**. The source code to decode the strings is made open by Google.
+  1. Adobe Flash Plugin. Google Chrome supports a Pepper API version of Adobe Flash which gets updated automatically with Chrome.
+  1. Media Codec support. Adds support for proprietary codecs.
+  1. Chrome's [PDF viewer](http://0xdabbad00.com/2013/01/13/most-secure-pdf-viewer-chrome-pdf-viewer/).
+
+Chrome offers [separate profiles](https://www.chromium.org/user-experience/multi-profiles), [sandboxing](https://www.chromium.org/developers/design-documents/sandbox), [frequent updates](http://googlechromereleases.blogspot.com/) (including Flash, although you should disable it - see below), and carries [impressive credentials](https://www.chromium.org/Home/chromium-security/brag-sheet). In addition, Google offers a very lucrative [bounty](https://www.google.com/about/appsecurity/chrome-rewards/) program for reporting vulnerabilities along with its own [Project Zero](https://googleprojectzero.blogspot.com). This means that a large number of highly talented and motivated people are constantly auditing Chrome's code base.
+
+Chrome offers account sync between multiple devices. Part of the sync data are stored website logins. The login passwords are encrypted and in order to access them, a user's Google account password is required. You can use your Google account to sign to your Chrome customized settings from other devices while retaining your the security of your passwords.
+
+Chrome's Web store for extensions requires a [$5 dollar lifetime fee](https://developer.chrome.com/webstore/publish#pay-the-developer-signup-fee) in order to submit extensions. The low cost allows the development of many quality Open Source Web Extensions that do not aim to monetize through usage.
+
+Chrome has the largest share of global usage and is the preferred target platform for the majority of developers. Major technologies are based on Chrome's Open Source components, such as [node.js](https://nodejs.org/en/) which uses [Chrome's V8](https://developers.google.com/v8/) Engine and the [Electron](https://electron.atom.io/) framework, which is based on Chromium and node.js. Chrome's vast user base makes it the most attractive target for threat actors and security researchers. Despite under constants attacks, Chrome has retained an impressive security track record over the years. This is not a small feat.
+
+To improve the privacy and security posture of the browser, create at least three profiles, one for browsing **trusted** Web sites (email, banking), another for **mostly trusted** Web sites (link aggregators, news sites), and a third for a completely **cookie-less** and **script-less** experience.
 
 * One profile **without cookies or Javascript** enabled (e.g., turned off in `chrome://settings/content`) which should be the preferred profile to visiting untrusted Web sites. However, many pages will not load at all without Javascript enabled.
 
@@ -1038,23 +1079,68 @@ Create at least three profiles, one for browsing **trusted** Web sites (email, b
 
 * One or more profile(s) for secure and trusted browsing needs, such as banking and email only.
 
-The idea is to separate and compartmentalize data, so that an exploit or privacy violation in one "session" does not necessarily affect data in another.
+The idea is to separate and compartmentalize data so that an exploit or privacy violation in one "session" does not necessarily affect data in another.
 
 In each profile, visit `chrome://plugins/` and disable **Adobe Flash Player**. If you must use Flash, visit `chrome://settings/contents` to enable **Let me choose when to run plugin content**, under the Plugins section (also known as *click-to-play*).
 
+[Incognito](https://support.google.com/chrome/answer/7440301) mode in Chrome disables extensions, since extensions such as Ad blockers have access to Chrome's network requests. Extensions have to be enabled manually. Moreover, while in Incognito mode, Chrome does not use session data from previous sessions. Incognito mode is another option if you want to access sensitive information without setting up separate profiles.
+
 Take some time to read through [Chromium Security](https://www.chromium.org/Home/chromium-security) and [Chromium Privacy](https://www.chromium.org/Home/chromium-privacy).
 
-For example you may wish to disable [DNS prefetching](https://www.chromium.org/developers/design-documents/dns-prefetching) (see also [DNS Prefetching and Its Privacy Implications](https://www.usenix.org/legacy/event/leet10/tech/full_papers/Krishnan.pdf) (pdf)).
+For example, you may wish to disable [DNS prefetching](https://www.chromium.org/developers/design-documents/dns-prefetching) (see also [DNS Prefetching and Its Privacy Implications](https://www.usenix.org/legacy/event/leet10/tech/full_papers/Krishnan.pdf) (pdf)).
 
-Also be aware of [WebRTC](https://en.wikipedia.org/wiki/WebRTC#Concerns), which may reveal your local or public (if connected to VPN) IP address(es). This can be disabled with extensions such as [uBlock Origin](https://github.com/gorhill/uBlock/wiki/Prevent-WebRTC-from-leaking-local-IP-address) and [rentamob/WebRTC-Leak-Prevent](https://github.com/rentamob/WebRTC-Leak-Prevent).
+It is best to remember that Google is an advertising company and its major source of revenue is AdSense. It makes sense that an advertising company would leverage its services to collect [information](https://www.google.com/policies/privacy/#infocollect) and [use](https://www.google.com/policies/privacy/#infouse) that information to maximize its profit. That means that while using [Google services](https://www.google.com/services/#?modal_active=none) certain personal information are being stored. Google is open about the data it stores and how it used them. Users can opt out from many of those services and see what type of information Google has stored from their [account settings](https://myaccount.google.com/privacy?pli=1).
+
+#### Firefox
+
+[Firefox](https://www.mozilla.org/en-US/firefox/new/) is an excellent browser as well as being completely open source. Currently, Firefox is in a renaissance period. It replaces major parts of its infrastructure and code base under projects [Quantum](https://wiki.mozilla.org/Quantum) and [Photon](https://wiki.mozilla.org/Firefox/Photon/Updates). Part of the Quantum project is to replace C++ code with [Rust](https://www.rust-lang.org/en-US/). Rust is a systems programming language with a focus on security and thread safety. It is expected that Rust adoption will greatly improve the overall security posture of Firefox.
+
+Firefox offers a similar security model to Chrome. It offers
+[bounty](https://www.mozilla.org/en-US/security/bug-bounty/) program, although it is not a lucrative as Chrome's. Firefox follows a six-week release cycle similar to Chrome.
+
+See discussion in issues [#2](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/2), [#90](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/90) for more information about certain differences in Firefox and Chrome.
+
+If using Firefox, see [TheCreeper/PrivacyFox](https://github.com/TheCreeper/PrivacyFox) for recommended privacy preferences. Also be sure to check out [NoScript](https://noscript.net/) for Mozilla-based browsers, which allows whitelist-based, pre-emptive script blocking.
+
+Firefox is focussed on user privacy. It supports [tracking protection](https://developer.mozilla.org/en-US/Firefox/Privacy/Tracking_Protection) during Private browsing by default. The tracking protection can be enabled for the default account, although it may break the browsing experience on some websites. Another feature for added privacy unique to Firefox is [Containers](https://testpilot.firefox.com/experiments/containers). Containers lets you create profiles in Firefox for different activities, such as online shopping, travel planning, or checking work email. Containers store cookies separately, you can log into the same site with a different account in each Container, and online trackers can’t connect your browsing in one container to another.
+
+Previous versions of Firefox used a [Web Extension SDK](https://developer.mozilla.org/en-US/Add-ons/Legacy_add_ons) that was quite invasive and offered immense freedom to developers. Sadly, that freedom also introduced a number of vulnerabilities in Firefox that greatly affected its users. You can find more information about vulnerabilities introduced by Firefox's legacy extensions in this [paper](https://www.exploit-db.com/docs/24541.pdf). Currently, Firefox only supports Web Extensions through the [Web Extension Api](https://developer.mozilla.org/en-US/Add-ons/WebExtensions), which is very similar to Chrome's.
+
+Submission of Web Extensions is Firefox is free. Web Extensions in Firefox most of the time are Open Source, although certain Web Extensions are proprietary.
+
+**Note**. Similar to Chrome and Safari, Firefox allows account sync across multiple devices. While stored login passwords are encrypted, Firefox does not require a password to reveal their plain text format. Firefox only displays as yes/no prompt. This is an important security issue. Keep that in mind if you sign in to your Firefox account from devices that do not belong to you and leave them unattended. The [issue](https://bugzilla.mozilla.org/show_bug.cgi?id=1393493) has been raised among the Firefox community and hopefully will be resolved in the coming versions.
+
+#### Safari
+
+[Safari](https://www.apple.com/safari/) is the default Web Browser of macOS. It is also the most optimized browser for reducing battery use. Safari, like Chrome, has both Open Source and proprietary components. Safari is based on the open source Web Engine [WebKit](https://en.wikipedia.org/wiki/WebKit), which is ubiquitous among the macOS ecosystem. WebKit is used by Apple apps such as Mail, iTunes, iBooks, and the App store. Chrome's [Blink](https://www.chromium.org/blink) engine is a fork of WebKit and both engines share a number of similarities.
+
+Safari supports certain unique features that benefit user security and privacy. [Content blockers](https://webkit.org/blog/3476/content-blockers-first-look/) enables the creation of content blocking rules without using Javascript. This rule based approach greatly improves memory user, security, and privacy. Safari 11 will introduce an [Intelligent Tracking Prevention](https://webkit.org/blog/7675/intelligent-tracking-prevention/) system. This feature will automatically remove tracking data stored in Safari after a period of non-interaction by the user from the tracker's website.
+
+Similar to Chrome and Firefox, Safari offers an invite only [bounty program](https://developer.apple.com/bug-reporting/) for bug reporting to a select number of security researchers. The bounty program was announced during Apple's [presentation](https://www.blackhat.com/docs/us-16/materials/us-16-Krstic.pdf) at [BlackHat](https://www.blackhat.com/us-16/briefings.html#behind-the-scenes-of-ios-security) 2016.
+
+Web Extensions in Safari have an additional option to use native code in the Safari's sandbox environment, in addition to Web Extension APIs. Web Extensions in Safari are also distributed through Apple's App store. App store submission comes with the added benefit of Web Extension code being audited by Apple. On the other hand App store submission comes at a steep cost. Yearly [developer subscription](https://developer.apple.com/support/compare-memberships/) fee costs $100 (in contrast to Chrome's $5 lifetime fee and Firefox's free submission). The high cost is prohibitive for the majority of Open Source developers. As a result, Safari has very few extensions to choose from. However, you should keep the high cost in mind when installing extensions. It is expected that most Web Extensions will have some way of monetizing usage in order to cover developer costs. And be extra careful when the Web Extension's source code is not Open Source. On a side note, some Safari extensions are Open Source and freely available. Be grateful to those developers.
+
+Safari syncs user's preferences and stored logins through the iCloud Keychain. Stored passwords are [encrypted](https://support.apple.com/en-gb/HT202303) with 256-bit AES . In order to be viewed in plain text, a user must input the account password of the current device. This means that users can sync data across devices with added security.
+
+Safari follows a slower release cycle than Chrome and Firefox (3-4 minor releases, 1 major release, per year). Newer features are slower to be adopted to the stable channel. Although security updates in Safari are handled independent of the stable release schedule and issued automatically through the App store. The Safari channel that follows a six-week release cycle (similar to as Chrome and Firefox) is called [Safari Technology Preview](https://developer.apple.com/safari/technology-preview/) and it is the recommended option instead of the stable channel of Safari.
+
+An excellent open source ad blocker for Safari that fully leverages Content blockers is [Ka-Block](http://kablock.com/). Ka-Block is focussed on user privacy. The only time the extension makes a network connection is when a new version of the extension is released. You can view the extension's repository [here](https://github.com/dgraham/Ka-Block).
+
+#### Other Web Browsers
 
 Many Chromium-derived browsers are not recommended. They are usually [closed source](http://yro.slashdot.org/comments.pl?sid=4176879&cid=44774943), [poorly maintained](https://plus.google.com/+JustinSchuh/posts/69qw9wZVH8z), [have bugs](https://code.google.com/p/google-security-research/issues/detail?id=679), and make dubious claims to protect privacy. See [The Private Life of Chromium Browsers](http://thesimplecomputer.info/the-private-life-of-chromium-browsers).
 
-Safari is not recommended. The code is a mess and [security](https://nakedsecurity.sophos.com/2014/02/24/anatomy-of-a-goto-fail-apples-ssl-bug-explained-plus-an-unofficial-patch/) [vulnerabilities](https://vimeo.com/144872861) are frequent, and slower to patch (see [discussion on Hacker News](https://news.ycombinator.com/item?id=10150038)). Security does [not appear](https://discussions.apple.com/thread/5128209) to be a priority for Safari. If you do use it, at least [disable](https://thoughtsviewsopinions.wordpress.com/2013/04/26/how-to-stop-downloaded-files-opening-automatically/) the **Open "safe" files after downloading** option in Preferences, and be aware of other [privacy nuances](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/93).
-
 Other miscellaneous browsers, such as [Brave](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/94), are not evaluated in this guide, so are neither recommended nor actively discouraged from use.
 
-For more information about security conscious browsing, see [HowTo: Privacy & Security Conscious Browsing](https://gist.github.com/atcuno/3425484ac5cce5298932), [browserleaks.com](https://www.browserleaks.com/) and [EFF Panopticlick](https://panopticlick.eff.org/).
+#### Web Browsers and Privacy
+
+All Web Browsers retain certain information about our browsing habits. That information is used for a number of reasons. One of them is to improve the overall performance of the Web Browser. Most Web Browsers offer predictions services to resolve typos or URL redirections, store analytics data of browsing patterns, crash reports and black listing of known malicious servers. Those options can be turned on and off from each Web Browser's settings panel.
+
+Since Web Browsers execute untrusted code from the server, it is important to understand what type of information can be accessed. The [Navigator](https://developer.mozilla.org/en-US/docs/Web/API/Navigator) interface gives access to information about the Web Browsers user agent. Those include information such as the operating system, Websites' permissions, and the device's battery level. For more information about security conscious browsing and what type of information is being "leaked" by your browser, see [HowTo: Privacy & Security Conscious Browsing](https://gist.github.com/atcuno/3425484ac5cce5298932), [browserleaks.com](https://www.browserleaks.com/) and [EFF Panopticlick](https://panopticlick.eff.org/).
+
+To hinder third party trackers, it is recommended to disable third-party cookies from your Web Browser settings. A third party cookie is a cookie associated with a file requested by different domain than the one the user is currently viewing. Most of the time third party are used to create browsing profiles by tracking a user's movement on the web. Disabling third-party cookies prevents HTTP responses and scripts from other domains from setting cookies. Moreover, cookies are removed from requests to domains that are not the document origin domain, so cookies are only sent to the current site that is being viewed.
+
+Also be aware of [WebRTC](https://en.wikipedia.org/wiki/WebRTC#Concerns), which may reveal your local or public (if connected to VPN) IP address(es). This can be disabled with extensions such as [uBlock Origin](https://github.com/gorhill/uBlock/wiki/Prevent-WebRTC-from-leaking-local-IP-address) and [rentamob/WebRTC-Leak-Prevent](https://github.com/rentamob/WebRTC-Leak-Prevent).
 
 ### Plugins
 
@@ -1072,7 +1158,7 @@ PGP is a standard for encrypting email end to end. That means only the chosen re
 
 **GPG** is used to verify signatures of software you download and install, as well as [symmetrically](https://en.wikipedia.org/wiki/Symmetric-key_algorithm) or [asymmetrically](https://en.wikipedia.org/wiki/Public-key_cryptography) encrypt files and text.
 
-Install from Homebrew with `brew install gnupg2`.
+Install from Homebrew with `brew install gnupg`.
 
 If you prefer a graphical application, download and install [GPG Suite](https://gpgtools.org/).
 
@@ -1082,10 +1168,6 @@ Here are several [recommended options](https://github.com/drduh/config/blob/mast
 auto-key-locate keyserver
 keyserver hkps://hkps.pool.sks-keyservers.net
 keyserver-options no-honor-keyserver-url
-keyserver-options ca-cert-file=/etc/sks-keyservers.netCA.pem
-keyserver-options no-honor-keyserver-url
-keyserver-options debug
-keyserver-options verbose
 personal-cipher-preferences AES256 AES192 AES CAST5
 personal-digest-preferences SHA512 SHA384 SHA256 SHA224
 default-preference-list SHA512 SHA384 SHA256 SHA224 AES256 AES192 AES CAST5 ZLIB BZIP2 ZIP Uncompressed
@@ -1101,13 +1183,6 @@ list-options show-uid-validity
 verify-options show-uid-validity
 with-fingerprint
 ```
-
-Install the keyservers [CA certificate](https://sks-keyservers.net/verify_tls.php):
-
-    $ curl -O https://sks-keyservers.net/sks-keyservers.netCA.pem
-
-    $ sudo mv sks-keyservers.netCA.pem /etc
-
 These settings will configure GnuPG to use SSL when fetching new keys and prefer strong cryptographic primitives.
 
 See also [ioerror/duraconf/configs/gnupg/gpg.conf](https://github.com/ioerror/duraconf/blob/master/configs/gnupg/gpg.conf). You should also take some time to read [OpenPGP Best Practices](https://help.riseup.net/en/security/message-security/openpgp/best-practices).
@@ -1124,17 +1199,15 @@ You can use OTR on top of any existing [XMPP](https://xmpp.org/about) chat servi
 
 The first time you start a conversation with someone new, you'll be asked to verify their public key fingerprint. Make sure to do this in person or by some other secure means (e.g. GPG encrypted mail).
 
-A popular macOS GUI client for XMPP and other chat protocols is [Adium](https://adium.im/)
-
-Consider downloading the [beta version](https://beta.adium.im/) which uses OAuth2, making logging in to Google accounts [more](https://adium.im/blog/2015/04/) [secure](https://trac.adium.im/ticket/16161).
+A popular macOS GUI client for XMPP and other chat protocols is [Adium](https://adium.im/).
 
 ```
-Adium_1.5.11b3.dmg
-SHA-256: 999e1931a52dc327b3a6e8492ffa9df724a837c88ad9637a501be2e3b6710078
-SHA-1:   ca804389412f9aeb7971ade6812f33ac739140e6
+Adium_1.5.10.4.dmg
+SHA-256: 31fa3fd32b86dd3381b60e0d5aafbc2a9452036f0fb4963bffbc2a6c64a9458b
+SHA-1:   8a674a642447839ea287aed528194e4fd32763b8
 ```
 
-Remember to [disable logging](https://trac.adium.im/ticket/15722) for OTR chats with Adium.
+Remember to [disable logging](https://trac.adium.im/ticket/15722) for off the record chats with Adium.
 
 A good console-based XMPP client is [profanity](http://www.profanity.im/), which can be installed with `brew install profanity`
 
@@ -1153,32 +1226,33 @@ Do **not** attempt to configure other browsers or applications to use Tor as you
 Download both the `dmg` and `asc` signature files, then verify the disk image has been signed by Tor developers:
 
 ```
-$ cd Downloads
+$ cd ~/Downloads
 
 $ file Tor*
-TorBrowser-6.0.5-osx64_en-US.dmg:     bzip2 compressed data, block size = 900k
-TorBrowser-6.0.5-osx64_en-US.dmg.asc: PGP signature Signature (old)
+TorBrowser-7.0.10-osx64_en-US.dmg:     bzip2 compressed data, block size = 900k
+TorBrowser-7.0.10-osx64_en-US.dmg.asc: PGP signature Signature (old)
 
 $ gpg Tor*asc
-gpg: assuming signed data in `TorBrowser-6.0.5-osx64_en-US.dmg'
-gpg: Signature made Fri Sep 16 07:51:52 2016 EDT using RSA key ID D40814E0
-gpg: Can't check signature: public key not found
+gpg: assuming signed data in 'TorBrowser-7.0.10-osx64_en-US.dmg'
+gpg: Signature made Thu Nov  9 08:58:11 2017 PST
+gpg:                using RSA key 0xD1483FA6C3C07136
+gpg: Can't check signature: No public key
 
-$ gpg --recv 0xD40814E0
-gpg: requesting key D40814E0 from hkp server keys.gnupg.net
-gpg: key 93298290: public key "Tor Browser Developers (signing key) <torbrowser@torproject.org>" imported
+$ gpg --recv 0x4E2C6E8793298290
+gpg: key 0x4E2C6E8793298290: public key "Tor Browser Developers (signing key) <torbrowser@torproject.org>" imported
 gpg: no ultimately trusted keys found
 gpg: Total number processed: 1
-gpg:               imported: 1  (RSA: 1)
+gpg:               imported: 1
 
-$ gpg Tor*asc
-gpg: assuming signed data in 'TorBrowser-6.0.5-osx64_en-US.dmg'
-gpg: Signature made Fri Sep 16 07:51:52 2016 EDT using RSA key ID D40814E0
+$ gpg --verify Tor*asc
+gpg: assuming signed data in 'TorBrowser-7.0.10-osx64_en-US.dmg'
+gpg: Signature made Thu Nov  9 08:58:11 2017 PST
+gpg:                using RSA key 0xD1483FA6C3C07136
 gpg: Good signature from "Tor Browser Developers (signing key) <torbrowser@torproject.org>" [unknown]
 gpg: WARNING: This key is not certified with a trusted signature!
 gpg:          There is no indication that the signature belongs to the owner.
 Primary key fingerprint: EF6E 286D DA85 EA2A 4BA7  DE68 4E2C 6E87 9329 8290
-     Subkey fingerprint: BA1E E421 BBB4 5263 180E  1FC7 2E1A C68E D408 14E0
+     Subkey fingerprint: A430 0A6B C93C 0877 A445  1486 D148 3FA6 C3C0 7136
 ```
 
 Make sure `Good signature from "Tor Browser Developers (signing key) <torbrowser@torproject.org>"` appears in the output. The warning about the key not being certified is benign, as it has not yet been manually assigned trust.
@@ -1188,32 +1262,54 @@ See [How to verify signatures for packages](https://www.torproject.org/docs/veri
 To finish installing Tor Browser, open the disk image and drag the it into the Applications folder, or with:
 
 ```
-$ hdiutil mount TorBrowser-6.0.5-osx64_en-US.dmg
+$ hdiutil mount TorBrowser-7.0.10-osx64_en-US.dmg
 
 $ cp -rv /Volumes/Tor\ Browser/TorBrowser.app /Applications
 ```
 
-It is also possible to verify the Tor application's code signature was made by with The Tor Project's Apple developer ID **MADPSAYN6T**:
+Verify the Tor application's code signature was made by with The Tor Project's Apple developer ID **MADPSAYN6T**, using the `spctl -a -v` and/or `pkgutil --check-signature` commands:
+
+```
+$ spctl -a -vv /Applications/TorBrowser.app
+/Applications/TorBrowser.app: accepted
+source=Developer ID
+origin=Developer ID Application: The Tor Project, Inc (MADPSAYN6T)
+
+$ pkgutil --check-signature /Applications/TorBrowser.app
+Package "TorBrowser.app":
+   Status: signed by a certificate trusted by Mac OS X
+   Certificate Chain:
+    1. Developer ID Application: The Tor Project, Inc (MADPSAYN6T)
+       SHA1 fingerprint: 95 80 54 F1 54 66 F3 9C C2 D8 27 7A 29 21 D9 61 11 93 B3 E8
+       -----------------------------------------------------------------------------
+    2. Developer ID Certification Authority
+       SHA1 fingerprint: 3B 16 6C 3B 7D C4 B7 51 C9 FE 2A FA B9 13 56 41 E3 88 E1 86
+       -----------------------------------------------------------------------------
+    3. Apple Root CA
+       SHA1 fingerprint: 61 1E 5B 66 2C 59 3A 08 FF 58 D1 4A E2 24 52 D1 98 DF 6C 60
+```
+
+You may also use the `codesign` command to examine an application's code signature:
 
 ```
 $ codesign -dvv /Applications/TorBrowser.app
 Executable=/Applications/TorBrowser.app/Contents/MacOS/firefox
-Identifier=org.mozilla.tor browser
+Identifier=org.torproject.torbrowser
 Format=app bundle with Mach-O thin (x86_64)
-CodeDirectory v=20200 size=247 flags=0x0(none) hashes=5+3 location=embedded
+CodeDirectory v=20200 size=249 flags=0x0(none) hashes=5+3 location=embedded
 Library validation warning=OS X SDK version before 10.9 does not support Library Validation
 Signature size=4247
 Authority=Developer ID Application: The Tor Project, Inc (MADPSAYN6T)
 Authority=Developer ID Certification Authority
 Authority=Apple Root CA
-Signed Time=Nov 30, 2016, 10:40:34 AM
-Info.plist entries=21
+Signed Time=Nov 9, 2017, 12:47:58 AM
+Info.plist entries=22
 TeamIdentifier=MADPSAYN6T
 Sealed Resources version=2 rules=12 files=130
-Internal requirements count=1 size=184
+Internal requirements count=1 size=188
 ```
 
-To view certificate details, extract it with `codesign` and decode it with `openssl`:
+To view full certificate details, extract them with `codesign` and decode it with `openssl`:
 
 ```
 $ codesign -d --extract-certificates /Applications/TorBrowser.app
@@ -1281,13 +1377,15 @@ Some malware comes bundled with both legitimate software, such as the [Java bund
 
 See [Methods of malware persistence on Mac OS X](https://www.virusbtn.com/pdf/conference/vb2014/VB2014-Wardle.pdf) (pdf) and [Malware Persistence on OS X Yosemite](https://www.rsaconference.com/events/us15/agenda/sessions/1591/malware-persistence-on-os-x-yosemite) to learn about how garden-variety malware functions.
 
-You could periodically run a tool like [Knock Knock](https://github.com/synack/knockknock) to examine persistent applications (e.g. scripts, binaries). But by then, it is probably too late. Maybe applications such as [Block Block](https://objective-see.com/products/blockblock.html) and [Ostiarius](https://objective-see.com/products/ostiarius.html) will help. See warnings and caveats in [issue #90](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/90) first, however.  Using an application such as [Little Flocker](https://www.littleflocker.com/) can also protect parts of the filesystem from unauthorized writes similar to how Little Snitch protects the network (note, however, the software is still in beta and should be [used with caution](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/pull/128)).
+You could periodically run a tool like [Knock Knock](https://github.com/synack/knockknock) to examine persistent applications (e.g. scripts, binaries). But by then, it is probably too late. Maybe applications such as [Block Block](https://objective-see.com/products/blockblock.html) and [Ostiarius](https://objective-see.com/products/ostiarius.html) will help. See warnings and caveats in [issue #90](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/90) first, however.
 
 **Anti-virus** programs are a double-edged sword -- not useful for **advanced** users and will likely increase attack surface against sophisticated threats, however possibly useful for catching "garden variety" malware on **novice** users' Macs. There is also the additional processing overhead to consider.
 
-See [Sophail: Applied attacks against  Antivirus](https://lock.cmpxchg8b.com/sophailv2.pdf) (pdf), [Analysis and Exploitation of an ESET Vulnerability](http://googleprojectzero.blogspot.ro/2015/06/analysis-and-exploitation-of-eset.html), [a trivial Avast RCE](https://code.google.com/p/google-security-research/issues/detail?id=546), [Popular Security Software Came Under Relentless NSA and GCHQ Attacks](https://theintercept.com/2015/06/22/nsa-gchq-targeted-kaspersky/), and [AVG: "Web TuneUP" extension multiple critical vulnerabilities](https://code.google.com/p/google-security-research/issues/detail?id=675).
+See [Sophail: Applied attacks against  Antivirus](https://lock.cmpxchg8b.com/sophailv2.pdf) (pdf), [Analysis and Exploitation of an ESET Vulnerability](http://googleprojectzero.blogspot.ro/2015/06/analysis-and-exploitation-of-eset.html), [a trivial Avast RCE](https://code.google.com/p/google-security-research/issues/detail?id=546), [Popular Security Software Came Under Relentless NSA and GCHQ Attacks](https://theintercept.com/2015/06/22/nsa-gchq-targeted-kaspersky/), [How Israel Caught Russian Hackers Scouring the World for U.S. Secrets](https://www.nytimes.com/2017/10/10/technology/kaspersky-lab-israel-russia-hacking.html) and [AVG: "Web TuneUP" extension multiple critical vulnerabilities](https://code.google.com/p/google-security-research/issues/detail?id=675).
 
 Therefore, the best anti-virus is **Common Sense 2017**. See more discussion in [issue #44](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/44).
+
+CylancePROTECT may be worth running for the exploit mitigation features and (when locked down) is much harder to locally bypass than traditional AV, but it's effectiveness at detecting malware on MacOS is questionable.  It's core feature is an algorithm derived from a machine-learning process which aims to identify malware based on various characteristics of a binary executable.  Cylance have a [whitepaper](https://www.cylance.com/content/dam/cylance/pdfs/data_sheets/CylancePROTECT.pdf) with information about how it works.  Single licenses are available from third party resellers such as [Cyberforce](https://cybrforce.com) or [Malware Managed](https://www.malwaremanaged.com) and there is also a home/personal edition in the works but it is currently only available for companies to make available to their employees.  On MacOS it complements Apple's built-in XProtect by continuously vmmap'ing the memory of active processes to watch for patterns that indicate bad things happening.
 
 Local privilege escalation bugs are plenty on macOS, so always be careful when downloading and running untrusted programs or trusted programs from third party websites or downloaded over HTTP ([example](http://arstechnica.com/security/2015/08/0-day-bug-in-fully-patched-os-x-comes-under-active-exploit-to-hijack-macs/)).
 
@@ -1438,6 +1536,8 @@ Alternatively, you can manage an encrypted passwords file yourself with GnuPG (s
 In addition to passwords, ensure eligible online accounts, such as GitHub, Google accounts, banking, have [two factor authentication](https://en.wikipedia.org/wiki/Two-factor_authentication) enabled.
 
 Look to [Yubikey](https://www.yubico.com/products/yubikey-hardware/yubikey-neo/) for a two factor and private key (e.g., ssh, gpg) hardware token. See [drduh/YubiKey-Guide](https://github.com/drduh/YubiKey-Guide) and [trmm.net/Yubikey](https://trmm.net/Yubikey). One of two Yubikey's slots can also be programmed to emit a long, static password (which can be used in combination with a short, memorized password, for example).
+
+In Addition to Login and other pam modules you can use Yubikey to secure your login and sudo, here is a pdf guide from [Yubico](https://www.yubico.com/wp-content/uploads/2016/02/Yubico_YubiKeyMacOSXLogin_en.pdf). Yubikey are a bit pricey, there is cheaper alternative, but not as capable, [U2F Zero](https://www.u2fzero.com/). Here is a great guide to [set it up](https://microamps.gibsjose.com/u2f-authentication-on-os-x/)
 
 ## Backup
 
@@ -1646,9 +1746,9 @@ Santa uses the [Kernel Authorization API](https://developer.apple.com/library/co
 To install Santa, visit the [Releases](https://github.com/google/santa/releases) page and download the latest disk image, the mount it and install the contained package:
 
 ```
-$ hdiutil mount ~/Downloads/santa-0.9.14.dmg
+$ hdiutil mount ~/Downloads/santa-0.9.20.dmg
 
-$ sudo installer -pkg /Volumes/santa-0.9.14/santa-0.9.14.pkg -tgt /
+$ sudo installer -pkg /Volumes/santa-0.9.20/santa-0.9.20.pkg -tgt /
 ```
 
 By default, Santa installs in "Monitor" mode (meaning, nothing gets blocked, only logged) and comes with two rules: one for Apple binaries and another for Santa software itself.
@@ -1902,6 +2002,21 @@ Disable Bonjour [multicast advertisements](https://www.trustwave.com/Resources/S
 Consider [sandboxing](https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man1/sandbox-exec.1.html) your applications. See [fG! Sandbox Guide](https://reverse.put.as/wp-content/uploads/2011/09/Apple-Sandbox-Guide-v0.1.pdf) (pdf) and [s7ephen/OSX-Sandbox--Seatbelt--Profiles](https://github.com/s7ephen/OSX-Sandbox--Seatbelt--Profiles).
 
 Did you know Apple has not shipped a computer with TPM since [2006](http://osxbook.com/book/bonus/chapter10/tpm/)?
+
+MacOS comes with this line in /etc/sudoers:
+
+````
+Defaults env_keep += "HOME MAIL"
+````
+
+Which stops sudo from changing the HOME variable when you elevate privileges. This means it will execute as root the bash dotfiles in the non-root user's home directory when you run "sudo bash". It is adviseable to comment this line out to avoid a potentially easy way for malware or a local attacker to escalate privileges to root.
+
+If you want to retain the convenience of the root user having a non-root user's home directory, you can append an export line to /var/root/.bashrc, eg:
+
+````
+export HOME=/Users/blah
+````
+
 
 ## Related software
 
