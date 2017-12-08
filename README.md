@@ -26,9 +26,9 @@ This guide is also available in [简体中文](https://github.com/xitu/macOS-Sec
 - [Homebrew](#homebrew)
 - [DNS](#dns)
     - [Hosts file](#hosts-file)
+    - [DNSCrypt](#dnscrypt)
     - [Dnsmasq](#dnsmasq)
       - [Test DNSSEC validation](#test-dnssec-validation)
-    - [DNSCrypt](#dnscrypt)
 - [Captive portal](#captive-portal)
 - [Certificate authorities](#certificate-authorities)
 - [OpenSSL](#openssl)
@@ -673,6 +673,85 @@ fe80::1%lo0 localhost
 
 See `man hosts` and [FreeBSD Configuration Files](https://www.freebsd.org/doc/handbook/configtuning-configfiles.html) for more information.
 
+#### dnscrypt
+
+Use [dnscrypt](https://dnscrypt.org/) to encrypt DNS traffic to the provider of choice. In combination with Dnsmasq and DNSSEC, the security of both outbounding and inbounding dns traffic are strengthened.
+
+If you prefer a GUI application, see [alterstep/dnscrypt-osxclient](https://github.com/alterstep/dnscrypt-osxclient). Below are the guide for installation and configuration of the command-line DNSCrypt.
+
+Install DNSCrypt from Homebrew:
+
+```
+$ brew install dnscrypt-proxy
+```
+
+If using in combination with Dnsmasq, find the file `homebrew.mxcl.dnscrypt-proxy.plist` by running
+
+```
+$ brew info dnscrypt-proxy
+```
+which will shows the location like "/usr/local/Cellar/dnscrypt-proxy/1.9.5_1" and `homebrew.mxcl.dnscrypt-proxy.plist` is in this folder.
+
+Edit it to have the line:
+
+    <string>--local-address=127.0.0.1:5355</string>
+
+Below the line:
+
+    <string>/usr/local/opt/dnscrypt-proxy/sbin/dnscrypt-proxy</string>
+
+<img width="1015" alt="dnscrypt" src="https://cloud.githubusercontent.com/assets/12475110/19222914/8e6f853e-8e31-11e6-8dd6-27c33cbfaea5.png">
+
+*Append a local-address line to use DNScrypt on a port other than 53, like 5355*
+
+This can also be done using Homebrew, by installing `gnu-sed` and using the `gsed` command:
+
+    $ sudo gsed -i "/sbin\\/dnscrypt-proxy<\\/string>/a<string>--local-address=127.0.0.1:5355<\\/string>\n" $(find ~/homebrew -name homebrew.mxcl.dnscrypt-proxy.plist)
+
+By default, the `resolvers-list` will point to the dnscrypt version specific resolvers file. When dnscrypt is updated, this version may no longer exist, and if it does, may point to an outdated file. This can be fixed by changing the resolvers file in `homebrew.mxcl.dnscrypt-proxy.plist` (found earlier using find) to the symlinked version in `/usr/local/share`:
+
+    <string>--resolvers-list=/usr/local/share/dnscrypt-proxy/dnscrypt-resolvers.csv</string>
+    
+Below the line:
+
+    <string>/usr/local/opt/dnscrypt-proxy/sbin/dnscrypt-proxy</string>
+
+Start DNSCrypt:
+
+    $ sudo brew services restart dnscrypt-proxy
+
+Make sure DNSCrypt is running:
+
+```
+$ sudo lsof -Pni UDP:5355
+COMMAND      PID   USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+dnscrypt-  13415 nobody    6u  IPv4 0x1773f85ff9f8bbef      0t0  UDP 127.0.0.1:5355
+
+$ ps A | grep '[d]nscrypt'
+13415   ??  Ss    13:57.21 /usr/local/opt/dnscrypt-proxy/sbin/dnscrypt-proxy --local-address=127.0.0.1:5355 --ephemeral-keys --resolvers-list=/usr/local/share/dnscrypt-proxy/dnscrypt-resolvers.csv --resolver-name=d0wn-us-ns4 --user=nobody
+```
+
+> By default, dnscrypt-proxy runs on localhost (127.0.0.1), port 53,
+and under the "nobody" user using the dnscrypt.eu-dk DNSCrypt-enabled
+resolver. If you would like to change these settings, you will have to edit the plist file (e.g., --resolver-address, --provider-name, --provider-key, etc.)
+
+This can be accomplished by editing `homebrew.mxcl.dnscrypt-proxy.plist`
+
+You can run your own [dnscrypt server](https://github.com/Cofyc/dnscrypt-wrapper) (see also [drduh/Debian-Privacy-Server-Guide#dnscrypt](https://github.com/drduh/Debian-Privacy-Server-Guide#dnscrypt)) from a trusted location or use one of many [public servers](https://github.com/jedisct1/dnscrypt-proxy/blob/master/dnscrypt-resolvers.csv) instead.
+
+Confirm outgoing DNS traffic is encrypted:
+
+```
+$ sudo tcpdump -qtni en0
+IP 10.8.8.8.59636 > 107.181.168.52: UDP, length 512
+IP 107.181.168.52 > 10.8.8.8.59636: UDP, length 368
+
+$ dig +short -x 128.180.155.106.49321
+d0wn-us-ns4
+```
+
+See also [What is a DNS leak](https://dnsleaktest.com/what-is-a-dns-leak.html), the [mDNSResponder manual page](https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man8/mDNSResponder.8.html) and [ipv6-test.com](http://ipv6-test.com/).
+
 #### Dnsmasq
 
 Among other features, [dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html) is able to cache replies, prevent upstreaming queries for unqualified names, and block entire TLDs.
@@ -685,13 +764,15 @@ If you don't wish to use DNSCrypt, you should at least use DNS [not provided](ht
 
 Install Dnsmasq (DNSSEC is optional):
 
-    $ brew install dnsmasq --with-dnssec
-
-    $ cp /usr/local/opt/dnsmasq/dnsmasq.conf.example /usr/local/etc/dnsmasq.conf
+```
+$ brew install dnsmasq --with-dnssec
+$ cp /usr/local/etc/dnsmasq.conf.default /usr/local/etc/dnsmasq.conf
+```
 
 Edit the configuration:
-
-    $ vim /usr/local/etc/dnsmasq.conf
+```
+$ vim /usr/local/etc/dnsmasq.conf
+```
 
 Examine all the options. Here are a few recommended settings to enable:
 
@@ -699,17 +780,18 @@ Examine all the options. Here are a few recommended settings to enable:
 # Forward queries to DNSCrypt on localhost port 5355
 server=127.0.0.1#5355
 
-# Uncomment to forward queries to Google Public DNS
+# Uncomment to forward queries to Google Public DNS, if DNSCrypt is not used
+# You may also use your own DNS server or other public DNS server you trust
 #server=8.8.8.8
 
 # Never forward plain names
 domain-needed
 
 # Examples of blocking TLDs or subdomains
-address=/.onion/0.0.0.0
-address=/.local/0.0.0.0
-address=/.mycoolnetwork/0.0.0.0
-address=/.facebook.com/0.0.0.0
+#address=/.onion/0.0.0.0
+#address=/.local/0.0.0.0
+#address=/.mycoolnetwork/0.0.0.0
+#address=/.facebook.com/0.0.0.0
 
 # Never forward addresses in the non-routed address spaces
 bogus-priv
@@ -733,6 +815,7 @@ log-facility=/var/log/dnsmasq.log
 #log-queries
 
 # Uncomment to enable DNSSEC
+# The latest trust-anchor could be found on its official website
 #dnssec
 #trust-anchor=.,19036,8,2,49AAC11D7B6F6446702E54A1607371607A1A41855200FD2CE1CDDE32F24E8FB5
 #dnssec-check-unsigned
@@ -740,11 +823,15 @@ log-facility=/var/log/dnsmasq.log
 
 Install and start the program (sudo is required to bind to [privileged port](https://unix.stackexchange.com/questions/16564/why-are-the-first-1024-ports-restricted-to-the-root-user-only) 53):
 
-    $ sudo brew services start dnsmasq
+```
+$ sudo brew services start dnsmasq
+```
 
 To set Dnsmasq as your local DNS server, open **System Preferences** > **Network** and select the active interface, then the **DNS** tab, select **+** and add `127.0.0.1`, or use:
 
-    $ sudo networksetup -setdnsservers "Wi-Fi" 127.0.0.1
+```
+$ sudo networksetup -setdnsservers "Wi-Fi" 127.0.0.1
+```
 
 Make sure Dnsmasq is correctly configured:
 
@@ -783,83 +870,6 @@ Reply should have `SERVFAIL` status. For instance,
 
     ;; ->>HEADER<<- opcode: QUERY, status: SERVFAIL, id: 15190
     ;; flags: qr rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 0, ADDITIONAL: 1
-
-#### dnscrypt
-
-Use [dnscrypt](https://dnscrypt.org/) to encrypt DNS traffic to the provider of choice.
-
-If you prefer a GUI application, see [alterstep/dnscrypt-osxclient](https://github.com/alterstep/dnscrypt-osxclient).
-
-Install DNSCrypt from Homebrew:
-
-    $ brew install dnscrypt-proxy
-
-If using in combination with Dnsmasq, find the file `homebrew.mxcl.dnscrypt-proxy.plist`
-
-```
-$ find ~/homebrew -name homebrew.mxcl.dnscrypt-proxy.plist
-/Users/drduh/homebrew/Cellar/dnscrypt-proxy/1.7.0/homebrew.mxcl.dnscrypt-proxy.plist
-```
-
-Edit it to have the line:
-
-    <string>--local-address=127.0.0.1:5355</string>
-
-Below the line:
-
-    <string>/usr/local/opt/dnscrypt-proxy/sbin/dnscrypt-proxy</string>
-
-<img width="1015" alt="dnscrypt" src="https://cloud.githubusercontent.com/assets/12475110/19222914/8e6f853e-8e31-11e6-8dd6-27c33cbfaea5.png">
-
-*Append a local-address line to use DNScrypt on a port other than 53, like 5355*
-
-This can also be done using Homebrew, by installing `gnu-sed` and using the `gsed` command:
-
-    $ sudo gsed -i "/sbin\\/dnscrypt-proxy<\\/string>/a<string>--local-address=127.0.0.1:5355<\\/string>\n" $(find ~/homebrew -name homebrew.mxcl.dnscrypt-proxy.plist)
-
-By default, the `resolvers-list` will point to the dnscrypt version specific resolvers file. When dnscrypt is updated, this version may no longer exist, and if it does, may point to an outdated file. This can be fixed by changing the resolvers file in `homebrew.mxcl.dnscrypt-proxy.plist` (found earlier using find) to the symlinked version in `/usr/local/share`:
-
-    <string>--resolvers-list=/usr/local/share/dnscrypt-proxy/dnscrypt-resolvers.csv</string>
-
-Below the line:
-
-    <string>/usr/local/opt/dnscrypt-proxy/sbin/dnscrypt-proxy</string>
-
-Start DNSCrypt:
-
-    $ sudo brew services start dnscrypt-proxy
-
-Make sure DNSCrypt is running:
-
-```
-$ sudo lsof -Pni UDP:5355
-COMMAND   PID   USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
-dnscrypt-  83 nobody    7u  IPv4 0x1773f85ff9f8bbef      0t0  UDP 127.0.0.1:5355
-
-$ ps A | grep '[d]nscrypt'
-   83   ??  Ss     0:00.27 /Users/drduh/homebrew/opt/dnscrypt-proxy/sbin/dnscrypt-proxy --local-address=127.0.0.1:5355 --ephemeral-keys --resolvers-list=/Users/drduh/homebrew/opt/dnscrypt-proxy/share/dnscrypt-proxy/dnscrypt-resolvers.csv --resolver-name=dnscrypt.eu-dk --user=nobody
-```
-
-> By default, dnscrypt-proxy runs on localhost (127.0.0.1), port 53,
-and under the "nobody" user using the dnscrypt.eu-dk DNSCrypt-enabled
-resolver. If you would like to change these settings, you will have to edit the plist file (e.g., --resolver-address, --provider-name, --provider-key, etc.)
-
-This can be accomplished by editing `homebrew.mxcl.dnscrypt-proxy.plist`
-
-You can run your own [dnscrypt server](https://github.com/Cofyc/dnscrypt-wrapper) (see also [drduh/Debian-Privacy-Server-Guide#dnscrypt](https://github.com/drduh/Debian-Privacy-Server-Guide#dnscrypt)) from a trusted location or use one of many [public servers](https://github.com/jedisct1/dnscrypt-proxy/blob/master/dnscrypt-resolvers.csv) instead.
-
-Confirm outgoing DNS traffic is encrypted:
-
-```
-$ sudo tcpdump -qtni en0
-IP 10.8.8.8.59636 > 77.66.84.233.443: UDP, length 512
-IP 77.66.84.233.443 > 10.8.8.8.59636: UDP, length 368
-
-$ dig +short -x 77.66.84.233
-resolver2.dnscrypt.eu
-```
-
-See also [What is a DNS leak](https://dnsleaktest.com/what-is-a-dns-leak.html), the [mDNSResponder manual page](https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man8/mDNSResponder.8.html) and [ipv6-test.com](http://ipv6-test.com/).
 
 ## Captive portal
 
