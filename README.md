@@ -2067,7 +2067,6 @@ If you want to retain the convenience of the root user having a non-root user's 
 export HOME=/Users/blah
 ````
 
-
 ## Related software
 
 [Santa](https://github.com/google/santa/) - A binary whitelisting/blacklisting system for macOS.
@@ -2078,7 +2077,7 @@ export HOME=/Users/blah
 
 [Dylib Hijack Scanner](https://objective-see.com/products/dhs.html) - scan for applications that are either susceptible to dylib hijacking or have been hijacked.
 
-[Little Flocker](https://www.littleflocker.com/) - "Little Snitch for files"; prevents applications from accessing files.
+[F-Secure XFENCE](https://campaigns.f-secure.com/xfence/) (formerly [Little Flocker](https://github.com/drduh/macOS-Security-and-Privacy-Guide/pull/237)) - "Little Snitch for files"; prevents applications from accessing files.
 
 [facebook/osquery](https://github.com/facebook/osquery) - can be used to retrieve low level system information.  Users can write SQL queries to retrieve system information.
 
