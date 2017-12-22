@@ -48,6 +48,7 @@ This guide is also available in [简体中文](https://github.com/xitu/macOS-Sec
 - [Viruses and malware](#viruses-and-malware)
 - [System Integrity Protection](#system-integrity-protection)
 - [Gatekeeper and XProtect](#gatekeeper-and-xprotect)
+- [Metadata and artifacts](#metadata-and-artifacts)
 - [Passwords](#passwords)
 - [Backup](#backup)
 - [Wi-Fi](#wi-fi)
@@ -1477,7 +1478,9 @@ To permanently disable this feature, [clear the file](https://superuser.com/ques
 
     $ sudo chflags schg ~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2
 
-Furthermore, macOS attaches metadata ([HFS+ extended attributes](https://en.wikipedia.org/wiki/Extended_file_attributes#OS_X)) to downloaded files, which can be viewed with the `mdls` and `xattr` commands:
+## Metadata and artifacts
+
+macOS attaches metadata ([HFS+ extended attributes](https://en.wikipedia.org/wiki/Extended_file_attributes#OS_X)) to downloaded files, which can be viewed with the `mdls` and `xattr` commands:
 
 ```
 $ ls -l@ ~/Downloads/TorBrowser-6.0.8-osx64_en-US.dmg
@@ -1551,6 +1554,167 @@ $ xattr -d com.apple.quarantine ~/Downloads/TorBrowser-6.0.5-osx64_en-US.dmg
 $ xattr -l ~/Downloads/TorBrowser-6.0.5-osx64_en-US.dmg
 [No output after removal.]
 ```
+
+Other metadata and artifacts may be found in the directories including, but not limited to, `~/Library/Preferences/`, `~/Library/Containers/<APP>/Data/Library/Preferences`, `/Library/Preferences`, some of which is detailed below.
+
+`~/Library/Preferences/com.apple.sidebarlists.plist` contains historical list of volumes attached. To clear it, use the command `/usr/libexec/PlistBuddy -c "delete :systemitems:VolumesList" ~/Library/Preferences/com.apple.sidebarlists.plist`
+
+`/Library/Preferences/com.apple.Bluetooth.plist` contains Bluetooth metadata, including device history. If Bluetooth is not used, the metadata can be cleared with:
+
+````
+sudo defaults delete /Library/Preferences/com.apple.Bluetooth.plist DeviceCache
+sudo defaults delete /Library/Preferences/com.apple.Bluetooth.plist IDSPairedDevices
+sudo defaults delete /Library/Preferences/com.apple.Bluetooth.plist PANDevices
+sudo defaults delete /Library/Preferences/com.apple.Bluetooth.plist PANInterfaces
+sudo defaults delete /Library/Preferences/com.apple.Bluetooth.plist SCOAudioDevices
+````
+
+`/var/spool/cups` contains the CUPS printer job cache. To clear it, use the commands:
+
+````
+sudo rm -rfv /var/spool/cups/c0*
+sudo rm -rfv /var/spool/cups/tmp/*
+sudo rm -rfv /var/spool/cups/cache/job.cache*
+````
+
+To clear the list of iOS devices connected, use:
+
+````
+sudo defaults delete /Users/$USER/Library/Preferences/com.apple.iPod.plist "conn:128:Last Connect"
+sudo defaults delete /Users/$USER/Library/Preferences/com.apple.iPod.plist Devices 
+sudo defaults delete /Library/Preferences/com.apple.iPod.plist "conn:128:Last Connect"
+sudo defaults delete /Library/Preferences/com.apple.iPod.plist Devices
+sudo rm -rfv /var/db/lockdown/*
+````
+
+QuickLook thumbnail data can be cleared using the `qlmanage -r cache` command, but this writes to the file `resetreason` in the Quicklook directories, and states that the Quicklook cache was manually cleared. It can also be manually cleared by getting the directory names with `getconf DARWIN_USER_CACHE_DIR` and `sudo getconf DARWIN_USER_CACHE_DIR`, then removing them:
+
+````
+rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/exclusive 
+rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/index.sqlite 
+rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/index.sqlite-shm 
+rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/index.sqlite-wal 
+rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/resetreason 
+rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/thumbnails.data 
+````
+
+Similarly, for the root user:
+
+````
+sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/thumbnails.fraghandler 
+sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/exclusive 
+sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/index.sqlite 
+sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/index.sqlite-shm
+sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/index.sqlite-wal
+sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/resetreason
+sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/thumbnails.data
+sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/thumbnails.fraghandler
+````
+
+To clear Finder preferences:
+
+````
+defaults delete ~/Library/Preferences/com.apple.finder.plist FXDesktopVolumePositions
+defaults delete ~/Library/Preferences/com.apple.finder.plist FXRecentFolders
+defaults delete ~/Library/Preferences/com.apple.finder.plist RecentMoveAndCopyDestinations
+defaults delete ~/Library/Preferences/com.apple.finder.plist RecentSearches
+defaults delete ~/Library/Preferences/com.apple.finder.plist SGTRecentFileSearches
+````
+
+Additional diagnostic files may be found in the following directories - but caution should be taken before removing any, as it may break logging or cause other issues:
+
+````
+/var/db/CoreDuet/
+/var/db/diagnostics/
+/var/db/systemstats/
+/var/db/uuidtext/
+/var/log/DiagnosticMessages/
+````
+
+macOS stored preferred Wi-Fi data (including credentials) in nvram. To clear it, use the following commands:
+
+````
+sudo nvram -d 36C28AB5-6566-4C50-9EBD-CBB920F83843:current-network
+sudo nvram -d 36C28AB5-6566-4C50-9EBD-CBB920F83843:preferred-networks
+sudo nvram -d 36C28AB5-6566-4C50-9EBD-CBB920F83843:preferred-count 
+````
+
+macOS may collect sensitive information about what you type, even if user dictionary and suggestions are off. To remove them, and prevent them from being created again, use the following commands:
+
+````
+rm -rfv "~/Library/LanguageModeling/*" "~/Library/Spelling/*" "~/Library/Suggestions/*"
+chmod -R 000 ~/Library/LanguageModeling ~/Library/Spelling ~/Library/Suggestions
+chflags -R uchg ~/Library/LanguageModeling ~/Library/Spelling ~/Library/Suggestions
+````
+
+QuickLook application support metadata can be cleared and locked with the following commands:
+
+````
+rm -rfv "~/Library/Application Support/Quick Look/*"
+chmod -R 000 "~/Library/Application Support/Quick Look"
+chflags -R uchg "~/Library/Application Support/Quick Look"
+````
+	
+Document revision metadata is stored in `/.DocumentRevisions-V100` and can be cleared and locked with the following commands - caution should be taken as this may break some core Apple applications:
+
+````
+sudo rm -rfv /.DocumentRevisions-V100/*
+sudo chmod -R 000 /.DocumentRevisions-V100
+sudo chflags -R uchg /.DocumentRevisions-V100
+````
+
+Saved application state metadata may be cleared and locked with the following commands:
+
+````
+rm -rfv "~/Library/Saved Application State/*"
+rm -rfv "~/Library/Containers/<APPNAME>/Saved Application State"
+chmod -R 000 "~/Library/Saved Application State/"
+chmod -R 000 "~/Library/Containers/<APPNAME>/Saved Application State"
+chflags -R uchg "~/Library/Saved Application State/"
+chflags -R uchg "~/Library/Containers/<APPNAME>/Saved Application State"
+````
+
+Autosave metadata can be cleared and locked with the following commands:
+
+````
+rm -rfv "~/Library/Containers/<APP>/Data/Library/Autosave Information"
+rm -rfv "~/Library/Autosave Information"
+chmod -R 000 "~/Library/Containers/<APP>/Data/Library/Autosave Information"
+chmod -R 000 "~/Library/Autosave Information"
+chflags -R uchg "~/Library/Containers/<APP>/Data/Library/Autosave Information"
+chflags -R uchg "~/Library/Autosave Information"
+````
+
+The Siri analytics database, which is created even if the Siri launch agent disabled, can be cleared and locked with the following commands:
+
+````
+rm -rfv ~/Library/Assistant/SiriAnalytics.db
+chmod -R 000 ~/Library/Assistant/SiriAnalytics.db
+chflags -R uchg ~/Library/Assistant/SiriAnalytics.db
+````
+
+`~/Library/Preferences/com.apple.iTunes.plist` contains iTunes metadata. Recent iTunes search data may be cleared with the following command:
+
+````
+defaults delete ~/Library/Preferences/com.apple.iTunes.plist recentSearches
+````
+
+If you do not use Apple ID-linked services, the following keys may be cleared, too, using the following commands:
+
+````
+defaults delete ~/Library/Preferences/com.apple.iTunes.plist StoreUserInfo
+defaults delete ~/Library/Preferences/com.apple.iTunes.plist WirelessBuddyID
+````
+
+`~/Library/Containers/com.apple.QuickTimePlayerX/Data/Library/Preferences/com.apple.QuickTimePlayerX.plist` contains all media played in QuickTime Player.
+
+Additional metadata may exist in the following files:
+
+````
+~/Library/Containers/com.apple.appstore/Data/Library/Preferences/com.apple.commerce.knownclients.plist
+~/Library/Preferences/com.apple.commerce.plist
+~/Library/Preferences/com.apple.QuickTimePlayerX.plist 
+````
 
 ## Passwords
 
