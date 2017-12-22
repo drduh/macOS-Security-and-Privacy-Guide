@@ -523,7 +523,7 @@ pf can also be controlled with a GUI application such as [IceFloor](http://www.h
 
 There are many books and articles on the subject of pf firewall. Here's is just one example of blocking traffic by IP address.
 
-Add the following into a file called `pf.rules`:
+Add the following into a file called `pf.rules`, modifying `en0` to be your outbound network adapter:
 
 ```
 set block-policy drop
@@ -536,21 +536,67 @@ block in log
 block in log quick from no-route to any
 pass out proto tcp from any to any keep state
 pass out proto udp from any to any keep state
+pass out proto icmp from any to any keep state
 block log on en0 from {<blocklist>} to any
+block log on en0 from any to {<blocklist>}
 ```
 
-Use the following commands:
+Then use the following commands to manipulate the firewall:
 
 * `sudo pfctl -e -f pf.rules` to enable the firewall
 * `sudo pfctl -d` to disable the firewall
-* `sudo pfctl -t blocklist -T add 1.2.3.4` to add hosts to a blocklist
+* `sudo pfctl -t blocklist -T add 1.2.3.4` to an IP address to the blocklist
 * `sudo pfctl -t blocklist -T show` to view the blocklist
 * `sudo ifconfig pflog0 create` to create an interface for logging
-* `sudo tcpdump -ni pflog0` to dump the packets
+* `sudo tcpdump -ni pflog0` to view the filtered packets.
 
-Unless you're already familiar with packet filtering, spending too much time configuring pf is not recommended. It is also probably unnecessary if your Mac is behind a [NAT](https://www.grc.com/nat/nat.htm) on a secured home network, for example.
+Unless you're already familiar with packet filtering, spending too much time configuring pf is not recommended. It is also probably unnecessary if your Mac is behind a [NAT](https://www.grc.com/nat/nat.htm) on a secure home network.
 
-For an example of using pf to audit "phone home" behavior of user and system-level processes, see [fix-macosx/net-monitor](https://github.com/fix-macosx/net-monitor).
+It is possible to use the pf firewall to block network access to entire ranges of network addresses, for example to a whole organization:
+
+Query [Merit RADb](http://www.radb.net/) for the list of networks in use by an autonomous system, like [Facebook](https://ipinfo.io/AS32934):
+
+    $ whois -h whois.radb.net '!gAS32934'
+    
+Copy and paste the list of networks returned into the blocklist command:
+
+    $ sudo pfctl -t blocklist -T add 31.13.24.0/21 31.13.64.0/24 157.240.0.0/16
+
+Confirm the addresses were added:
+
+````
+$ sudo pfctl -t blocklist -T show
+No ALTQ support in kernel
+ALTQ related functions disabled
+   31.13.24.0/21
+   31.13.64.0/24
+   157.240.0.0/16
+````
+
+Confirm network traffic is blocked to those addresses (note that DNS requests will still work):
+
+````
+$ dig a +short facebook.com
+157.240.2.35
+
+$ curl --connect-timeout 5 -I http://facebook.com/
+*   Trying 157.240.2.35...
+* TCP_NODELAY set
+* Connection timed out after 5002 milliseconds
+* Closing connection 0
+curl: (28) Connection timed out after 5002 milliseconds
+
+$ sudo tcpdump -tqni pflog0 'host 157.240.2.35'
+IP 192.168.1.1.62771 > 157.240.2.35.80: tcp 0
+IP 192.168.1.1.62771 > 157.240.2.35.80: tcp 0
+IP 192.168.1.1.62771 > 157.240.2.35.80: tcp 0
+IP 192.168.1.1.62771 > 157.240.2.35.80: tcp 0
+IP 192.168.1.1.162771 > 157.240.2.35.80: tcp 0
+````
+
+Outgoing TCP SYN packets are blocked, so a TCP connection is not established and thus a Web site is effectively blocked at the IP layer.
+
+To use pf to audit "phone home" behavior of user and system-level processes, see [fix-macosx/net-monitor](https://github.com/fix-macosx/net-monitor).
 
 ## Services
 
@@ -653,25 +699,29 @@ Edit the hosts file as root, for example with `sudo vi /etc/hosts`. The hosts fi
 
 To block a domain, append `0 example.com` or `0.0.0.0 example.com` or `127.0.0.1 example.com` to `/etc/hosts`
 
+**Note** IPv6 uses the `AAAA` DNS record type, rather than `A` record type, so you may also want to block those connections by *also* including `::1 example.com` entries, like shown [here](http://someonewhocares.org/hosts/ipv6/).
+
 There are many lists of domains available online which you can paste in, just make sure each line starts with `0`, `0.0.0.0`, `127.0.0.1`, and the line `127.0.0.1 localhost` is included.
 
 For hosts lists, see [someonewhocares.org](http://someonewhocares.org/hosts/zero/hosts), [l1k/osxparanoia/blob/master/hosts](https://github.com/l1k/osxparanoia/blob/master/hosts), [StevenBlack/hosts](https://github.com/StevenBlack/hosts) and [gorhill/uMatrix/hosts-files.json](https://github.com/gorhill/uMatrix/blob/master/assets/umatrix/hosts-files.json).
 
-To append a raw list:
+To append a list of hosts from a list, use the `tee` command, then confirm by editing `/etc/hosts` or counting the number of lines in it:
 
 ```
 $ curl "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts" | sudo tee -a /etc/hosts
 
 $ wc -l /etc/hosts
-31998
+47476
 
-$ egrep -ve "^#|^255.255.255|^0.0.0.0|^127.0.0.1|^0 " /etc/hosts
+$ egrep -ve "^#|^255.255.255|^0.0.0.0|^127.0.0.1|^0 " /etc/hosts | sort | uniq | sort
 ::1 localhost
 fe80::1%lo0 localhost
 [should not return any other IP addresses]
 ```
 
 See `man hosts` and [FreeBSD Configuration Files](https://www.freebsd.org/doc/handbook/configtuning-configfiles.html) for more information.
+
+See the [dnsmasq](#dnsmasq) section of this guide for more hosts blocking options.
 
 #### dnscrypt
 
