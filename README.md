@@ -662,7 +662,7 @@ $ curl -O https://fix-macosx.com/fix-macosx.py
 
 $ less fix-macosx.py
 
-$ /usr/bin/python fix-macosx.py
+$ python fix-macosx.py
 All done. Make sure to log out (and back in) for the changes to take effect.
 ```
 
@@ -741,7 +741,8 @@ If using in combination with Dnsmasq, find the file `homebrew.mxcl.dnscrypt-prox
 ```
 $ brew info dnscrypt-proxy
 ```
-which will shows the location like "/usr/local/Cellar/dnscrypt-proxy/1.9.5_1" and `homebrew.mxcl.dnscrypt-proxy.plist` is in this folder.
+
+which will shows the location like `/usr/local/Cellar/dnscrypt-proxy/1.9.5_1` and `homebrew.mxcl.dnscrypt-proxy.plist` is in this folder.
 
 Edit it to have the line:
 
@@ -801,6 +802,15 @@ $ dig +short -x 128.180.155.106.49321
 d0wn-us-ns4
 ```
 
+dnscrypt-proxy also has the capability to blacklist domains, including the use of wildcards. See the [Sample configuration file for dnscrypt-proxy](https://raw.githubusercontent.com/jedisct1/dnscrypt-proxy/master/dnscrypt-proxy.conf) for the options.
+
+**Note** Applications and programs may resolve DNS using their own provided servers. If dnscrypt-proxy is used, it is possible to disable all other, non-dnscrypt DNS traffic with the following pf rules:
+
+````
+block drop quick on !lo0 proto udp from any to any port = 53
+block drop quick on !lo0 proto tcp from any to any port = 53
+````
+
 See also [What is a DNS leak](https://dnsleaktest.com/what-is-a-dns-leak.html), the [mDNSResponder manual page](https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man8/mDNSResponder.8.html) and [ipv6-test.com](http://ipv6-test.com/).
 
 #### Dnsmasq
@@ -834,8 +844,9 @@ server=127.0.0.1#5355
 # Uncomment to forward queries to Google Public DNS, if DNSCrypt is not used
 # You may also use your own DNS server or other public DNS server you trust
 #server=8.8.8.8
+#server=8.8.4.4
 
-# Never forward plain names
+# Never forward plain (local) names
 domain-needed
 
 # Examples of blocking TLDs or subdomains
@@ -843,6 +854,7 @@ domain-needed
 #address=/.local/0.0.0.0
 #address=/.mycoolnetwork/0.0.0.0
 #address=/.facebook.com/0.0.0.0
+#address=/.push.apple.com/0.0.0.0
 
 # Never forward addresses in the non-routed address spaces
 bogus-priv
@@ -862,11 +874,13 @@ log-async
 log-dhcp
 log-facility=/var/log/dnsmasq.log
 
-# Uncomment to log all queries
+# Log all queries
 #log-queries
 
-# Uncomment to enable DNSSEC
-# The latest trust-anchor could be found on its official website
+# Path to list of additional hosts
+#addn-hosts=/etc/blacklist
+
+# Enable DNSSEC (see https://www.iana.org/dnssec/files)
 #dnssec
 #trust-anchor=.,19036,8,2,49AAC11D7B6F6446702E54A1607371607A1A41855200FD2CE1CDDE32F24E8FB5
 #dnssec-check-unsigned
