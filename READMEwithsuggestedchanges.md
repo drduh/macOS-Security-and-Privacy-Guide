@@ -496,7 +496,14 @@ After interacting with `socketfilterfw`, you may want to restart (or terminate) 
 
 #### Third party firewalls
 
-Programs such as [Little Snitch](https://www.obdev.at/products/littlesnitch/index.html), [Hands Off](https://www.oneperiodic.com/products/handsoff/), [Radio Silence](http://radiosilenceapp.com/) and [Security Growler](https://pirate.github.io/security-growler/) provide a good balance of usability and security.
+
+***Suggested change***
+Apologies again, was not sure where to put this, but for further security Could also maybe include Red Hand - an anti-intrusion system lock also linkable to bluetooth and also takes a photo of whomever attempts to unlock the system. 
+
+http://www.soma-zone.com/RedHand/
+edHand supports macOS Snow Leopard (10.6), Lion (10.7), Mountain Lion (10.8), Mavericks (10.9), Yosemite (10.10) and El Capitan (10.11). It requires a 64bit Intel Mac. We are working on compatibility with macOS Sierra (10.12).
+
+Programs such as [Little ](https://www.obdev.at/products/littlesnitch/index.html), [Hands Off](https://www.oneperiodic.com/products/handsoff/), [Radio Silence](http://radiosilenceapp.com/) and [Security Growler](https://pirate.github.io/security-growler/) provide a good balance of usability and security.
 
 <img width="349" alt="Example of Little Snitch monitored session" src="https://cloud.githubusercontent.com/assets/12475110/10596588/c0eed3c0-76b3-11e5-95b8-9ce7d51b3d82.png">
 
@@ -628,6 +635,13 @@ For example, if you're not interested in Apple Push Notifications, disable the s
 **Note** Unloading services may break usability of some applications. Read the manual pages and use Google to make sure you understand what you're doing first.
 
 Be careful about disabling any system daemons you don't understand, as it may render your system unbootable. If you break your Mac, use [single user mode](https://support.apple.com/en-us/HT201573) to fix it.
+
+**SUGGESTED CHANGE Note**
+Apologies if this is the wrong way to do this, this is the first time I've tried this.
+Apps/Scripts to include
+1. Free: https://github.com/posixpascal/launch-agents - ruby launch agents manager
+2 http://www.soma-zone.com/LaunchControl/ - small cheap indie app, very easy to use, and comprehensive, LaunchControl supports macOS Lion (10.7), Mountain Lion (10.8), Mavericks (10.9), Yosemite (10.10), El Capitan (10.11), Sierra (10.12) and High Sierra (10.13). It requires a 64bit Intel Mac. 
+3. also might be an idea to link direct to the yosemite fork by jpf for some people on old machines - https://github.com/jpf/OS-X-Yosemite-Security-and-Privacy-Guide - 
 
 Use [Console](https://en.wikipedia.org/wiki/Console_(OS_X)) and [Activity Monitor](https://support.apple.com/en-us/HT201464) applications if you notice your Mac heating up, feeling sluggish, or generally misbehaving, as it may have resulted from your tinkering.
 
