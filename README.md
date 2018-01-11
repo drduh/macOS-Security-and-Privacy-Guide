@@ -636,7 +636,7 @@ For example, if you're not interested in Apple Push Notifications, disable the s
 
 Be careful about disabling any system daemons you don't understand, as it may render your system unbootable. If you break your Mac, use [single user mode](https://support.apple.com/en-us/HT201573) to fix it.
 
-**SUGGESTED CHANGE Note**
+***SUGGESTED CHANGE Note***
 Apologies if this is the wrong way to do this, this is the first time I've tried this.
 Apps/Scripts to include
 1. Free: https://github.com/posixpascal/launch-agents - ruby launch agents manager
