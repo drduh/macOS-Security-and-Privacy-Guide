@@ -176,7 +176,7 @@ macOS installers can be made with the `createinstallmedia` utility included in `
 
 **Note** Apple's installer [does not appear to work](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/120) across OS versions. If you want to build a 10.12 image, for example, the following steps must be run on a 10.12 machine!
 
-To create a **bootable USB macOS installer**, mount a USB drive, and erase and partition it, then use the `createinstallmedia` utility:
+To create a **bootable USB installer**, mount a USB drive, and erase and partition it, then use the `createinstallmedia` utility:
 
 ```
 $ diskutil list
@@ -198,7 +198,7 @@ Copy complete.
 Done.
 ```
 
-To create a custom, installable image which can be [restored](https://en.wikipedia.org/wiki/Apple_Software_Restore) to a Mac, you will need to find the file `InstallESD.dmg`, which is also inside `Install macOS Sierra.app`.
+To create a **custom installable image** which can be [restored](https://en.wikipedia.org/wiki/Apple_Software_Restore) to a Mac, you will need to find the file `InstallESD.dmg`, which is also inside `Install macOS Sierra.app`.
 
 With Finder, right click on the app, select **Show Package Contents** and navigate to **Contents** > **SharedSupport** to find the file `InstallESD.dmg`.
 
@@ -220,7 +220,7 @@ To create the image, use [MagerValp/AutoDMG](https://github.com/MagerValp/AutoDM
 
 This part will take a while, so be patient. You can `tail -F /var/log/install.log` in another Terminal window to check progress.
 
-**(Optional)** Install additional software, such as [Wireshark](https://www.wireshark.org/download.html):
+**(Optional)** Install additional software, for example [Wireshark](https://www.wireshark.org/download.html):
 
     $ hdiutil attach Wireshark\ 2.2.0\ Intel\ 64.dmg
 
@@ -240,7 +240,7 @@ When you're done, detach, convert and verify the image:
 
     $ asr imagescan --source ~/sierra.dmg
 
-Now `sierra.dmg` is ready to be applied to one or multiple Macs. One could futher customize the image to include premade users, applications, preferences, etc.
+Now `sierra.dmg` is ready to be applied to one or many Macs. One could futher customize the image to include premade users, applications, preferences, etc.
 
 This image can be installed using another Mac in [Target Disk Mode](https://support.apple.com/en-us/HT201462) or from a bootable USB installer.
 
@@ -307,18 +307,20 @@ Once you're done, eject the disk with `hdiutil unmount /Volumes/macOS` and power
 To install macOS as a virtual machine (vm) using [VMware Fusion](https://www.vmware.com/products/fusion.html), follow the instructions above to create an image. You will **not** need to download and create a recovery partition manually.
 
 ```
-VMware-Fusion-8.5.6-5234762.dmg
-SHA-256: 57a879095c9fcce0066bea0d3c203571689fb53205915fda156c0d742f7c7ad2
-SHA-1:   b7315d00a7c92dbad280d0f01f42dd8b56d96040
+VMware-Fusion-10.1.0-7370838.dmg
+SHA-256: 5e968c5f88eb929740115374e0162779cbccd0383bc70e7bc52a0a680bf8fe2b
+SHA-1:   ef694e2bba7205253d5fde6e68e8ba78fad82952
 ```
 
-For the Installation Method, select *Install OS X from the recovery partition*. Customize any memory or CPU requirements and complete setup. The guest vm should boot into [Recovery Mode](https://support.apple.com/en-us/HT201314) by default.
+For the Installation Method, select *Install macOS from the recovery partition*. Customize any memory or CPU requirements and complete setup. The guest vm should boot into [Recovery Mode](https://support.apple.com/en-us/HT201314) by default.
 
-In Recovery Mode, select a language, then Utilities > Terminal from the menubar.
+**Note** If the virtual machine does not boot due to a kernel panic, adjust the memory and process resource settings.
+
+In Recovery Mode, select a language, then select Utilities > Terminal from the menubar.
 
 In the guest vm, type `ifconfig | grep inet` - you should see a private address like `172.16.34.129`
 
-On the host Mac, type `ifconfig | grep inet` - you should see a private gateway address like `172.16.34.1`
+On the host Mac, type `ifconfig | grep inet` - you should see a private gateway address like `172.16.34.1`. From the host Mac, you should be able to `ping 172.16.34.129` or the equivalent guest vm address.
 
 From the host Mac, serve the installable image to the guest vm by editing `/etc/apache2/httpd.conf` and adding the following line to the top (using the gateway address assigned to the host Mac and port 80):
 
@@ -348,7 +350,7 @@ From the guest VM, install the disk image to the volume over the local network u
 
 When it's finished, stop the Apache Web server on the host Mac by pressing `Control` `C` at the `sudo httpd -X` window and remove the image copy with `sudo rm /Library/WebServer/Documents/sierra.dmg`
 
-In the guest vm, select *Startup Disk* from the top-left corner Apple menu, select the hard drive and restart. You may wish to disable the Network Adapter in VMware for the initial guest vm boot.
+In the guest vm, select *Startup Disk* from the menubar top-left, select the hard drive and restart. You may wish to disable the Network Adapter in VMware to configure the guest vm initially.
 
 Take and Restore from saved guest vm snapshots before and after attempting risky browsing, for example, or use a guest vm to install and operate questionable software.
 
@@ -365,12 +367,11 @@ When creating your account, use a [strong password](http://www.explainxkcd.com/w
 If you enter your real name at the account setup process, be aware that your [computer's name and local hostname](https://support.apple.com/kb/PH18720) will comprise that name (e.g., *John Appleseed's MacBook*) and thus will appear on local networks and in various preference files. You can change them both in **System Preferences > Sharing** or with the following commands:
 
 	$ sudo scutil --set ComputerName your_computer_name
-
 	$ sudo scutil --set LocalHostName your_hostname
 
 ## Admin and standard user accounts
 
-The first user account is always an admin account. Admin accounts are members of the admin group and have access to `sudo`, which allows them to usurp other accounts, in particular root, and gives them effective control over the system. Any program that the admin executes can potentially obtain the same access, making this a security risk. Utilities like `sudo` have [weaknesses that can be exploited](https://bogner.sh/2014/03/another-mac-os-x-sudo-password-bypass/) by concurrently running programs and many panes in System Preferences are [unlocked by default](http://csrc.nist.gov/publications/drafts/800-179/sp800_179_draft.pdf) [p. 61–62] for admin accounts. It is considered a best practice by [Apple](https://help.apple.com/machelp/mac/10.12/index.html#/mh11389) and [others](http://csrc.nist.gov/publications/drafts/800-179/sp800_179_draft.pdf) [p. 41–42] to use a separate standard account for day-to-day work and use the admin account for installations and system configuration.
+The first user account is always an admin account. Admin accounts are members of the admin group and have access to `sudo`, which allows them to usurp other accounts, in particular root, and gives them effective control over the system. Any program that the admin executes can potentially obtain the same access, making this a security risk. Utilities like `sudo` have [weaknesses that can be exploited](https://bogner.sh/2014/03/another-mac-os-x-sudo-password-bypass/) by concurrently running programs and many panes in System Preferences are [unlocked by default](http://csrc.nist.gov/publications/drafts/800-179/sp800_179_draft.pdf) (pdf) (p. 61–62) for admin accounts. It is considered a best practice by [Apple](https://help.apple.com/machelp/mac/10.12/index.html#/mh11389) and [others](http://csrc.nist.gov/publications/drafts/800-179/sp800_179_draft.pdf) (pdf) (p. 41–42) to use a separate standard account for day-to-day work and use the admin account for installations and system configuration.
 
 It is not strictly required to ever log into the admin account via the macOS login screen. The system will prompt for authentication when required and Terminal can do the rest. To that end, Apple provides some [recommendations](https://support.apple.com/HT203998) for hiding the admin account and its home directory. This can be an elegant solution to avoid having a visible 'ghost' account. The admin account can also be [removed from FileVault](http://apple.stackexchange.com/a/94373).
 
@@ -390,7 +391,6 @@ Accounts can be created and managed in System Preferences. On settled systems, i
 
 ```
 $ sudo dscl . -delete /Groups/admin GroupMembership <username>
-
 $ sudo dscl . -delete /Groups/admin GroupMembers <GeneratedUID>
 ```
 
@@ -503,9 +503,9 @@ Programs such as [Little Snitch](https://www.obdev.at/products/littlesnitch/inde
 *Example of Little Snitch-monitored session*
 
 ```
-LittleSnitch-4.0.3.dmg
-SHA-256: af93abb070cbac96cdda7e150668115c34447f2779dc707f8a79879c60f4c3bf
-SHA-1:   63f1cf6c47def2774040b26add388068ae4b00f5
+LittleSnitch-4.0.5.dmg
+SHA-256: a954a269596c9a8e9efb3efadf843a6ae419fe218145c5b8d877e2acb0692981
+SHA-1:   f642900c9c4f82a0fec38a0c826133e54cfbc0dc
 ```
 
 These programs are capable of monitoring and blocking **incoming** and **outgoing** network connections. However, they may require the use of a closed source [kernel extension](https://developer.apple.com/library/mac/documentation/Darwin/Conceptual/KernelProgramming/Extend/Extend.html).
@@ -666,7 +666,7 @@ $ python fix-macosx.py
 All done. Make sure to log out (and back in) for the changes to take effect.
 ```
 
-Speaking of Microsoft, you may want to see <https://fix10.isleaked.com/> just for fun.
+For comparison, also see <https://fix10.isleaked.com/>
 
 ## Homebrew
 
@@ -724,9 +724,9 @@ See `man hosts` and [FreeBSD Configuration Files](https://www.freebsd.org/doc/ha
 
 See the [dnsmasq](#dnsmasq) section of this guide for more hosts blocking options.
 
-#### dnscrypt
+#### DNSCrypt
 
-Use [dnscrypt](https://dnscrypt.org/) to encrypt DNS traffic to the provider of choice. In combination with Dnsmasq and DNSSEC, the security of both outbounding and inbounding dns traffic are strengthened.
+To encrypt outgoing DNS traffic, consider using [dnscrypt](https://dnscrypt.org/). In combination with Dnsmasq and DNSSEC, the security of both outbounding and inbounding dns traffic are strengthened.
 
 If you prefer a GUI application, see [alterstep/dnscrypt-osxclient](https://github.com/alterstep/dnscrypt-osxclient). Below are the guide for installation and configuration of the command-line DNSCrypt.
 
@@ -1448,13 +1448,13 @@ You could periodically run a tool like [Knock Knock](https://github.com/synack/k
 
 See [Sophail: Applied attacks against  Antivirus](https://lock.cmpxchg8b.com/sophailv2.pdf) (pdf), [Analysis and Exploitation of an ESET Vulnerability](http://googleprojectzero.blogspot.ro/2015/06/analysis-and-exploitation-of-eset.html), [a trivial Avast RCE](https://code.google.com/p/google-security-research/issues/detail?id=546), [Popular Security Software Came Under Relentless NSA and GCHQ Attacks](https://theintercept.com/2015/06/22/nsa-gchq-targeted-kaspersky/), [How Israel Caught Russian Hackers Scouring the World for U.S. Secrets](https://www.nytimes.com/2017/10/10/technology/kaspersky-lab-israel-russia-hacking.html) and [AVG: "Web TuneUP" extension multiple critical vulnerabilities](https://code.google.com/p/google-security-research/issues/detail?id=675).
 
-Therefore, the best anti-virus is **Common Sense 2017**. See more discussion in [issue #44](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/44).
+Therefore, the best anti-virus is **Common Sense 2018**. See more discussion in [issue #44](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/44).
 
 CylancePROTECT may be worth running for the exploit mitigation features and (when locked down) is much harder to locally bypass than traditional AV, but it's effectiveness at detecting malware on MacOS is questionable.  It's core feature is an algorithm derived from a machine-learning process which aims to identify malware based on various characteristics of a binary executable.  Cylance have a [whitepaper](https://www.cylance.com/content/dam/cylance/pdfs/data_sheets/CylancePROTECT.pdf) with information about how it works.  Single licenses are available from third party resellers such as [Cyberforce](https://cybrforce.com) or [Malware Managed](https://www.malwaremanaged.com) and there is also a home/personal edition in the works but it is currently only available for companies to make available to their employees.  On MacOS it complements Apple's built-in XProtect by continuously vmmap'ing the memory of active processes to watch for patterns that indicate bad things happening.
 
 Local privilege escalation bugs are plenty on macOS, so always be careful when downloading and running untrusted programs or trusted programs from third party websites or downloaded over HTTP ([example](http://arstechnica.com/security/2015/08/0-day-bug-in-fully-patched-os-x-comes-under-active-exploit-to-hijack-macs/)).
 
-Have a look at [The Safe Mac](http://www.thesafemac.com/) for past and current Mac security news.
+Have a look at [The Safe Mac](http://www.thesafemac.com/) for past and [Malwarebytes Blog](https://blog.malwarebytes.com/) for current Mac security news.
 
 Also check out [Hacking Team](https://www.schneier.com/blog/archives/2015/07/hacking_team_is.html) malware for Mac OS: [root installation for MacOS](https://github.com/hackedteam/vector-macos-root), [Support driver for Mac Agent](https://github.com/hackedteam/driver-macos) and [RCS Agent for Mac](https://github.com/hackedteam/core-macos), which is a good example of advanced malware with capabilities to hide from **userland** (e.g., `ps`, `ls`), for example. For more, see [A Brief Analysis of an RCS Implant Installer](https://objective-see.com/blog/blog_0x0D.html) and [reverse.put.as](https://reverse.put.as/2016/02/29/the-italian-morons-are-back-what-are-they-up-to-this-time/)
 
