@@ -1146,7 +1146,7 @@ To improve the privacy and security posture of the browser, create at least thre
 
 The idea is to separate and compartmentalize data so that an exploit or privacy violation in one "session" does not necessarily affect data in another.
 
-In each profile, visit `chrome://plugins/` and disable **Adobe Flash Player**. If you must use Flash, visit `chrome://settings/contents` to enable **Let me choose when to run plugin content**, under the Plugins section (also known as *click-to-play*).
+In each profile, visit `chrome://settings/content` and enable **Block sites from running Flash** so Flash applications do not run by default without explicit permission.
 
 [Incognito](https://support.google.com/chrome/answer/7440301) mode in Chrome disables extensions, since extensions such as Ad blockers have access to Chrome's network requests. Extensions have to be enabled manually. Moreover, while in Incognito mode, Chrome does not use session data from previous sessions. Incognito mode is another option if you want to access sensitive information without setting up separate profiles.
 
