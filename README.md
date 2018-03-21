@@ -2314,7 +2314,7 @@ export HOME=/Users/blah
 
 [DoD Security Technical Implementation Guides for Mac OS](http://iase.disa.mil/stigs/os/mac/Pages/mac-os.aspx)
 
-[The EFI boot process](http://homepage.ntlworld.com/jonathan.deboynepollard/FGA/efi-boot-process.html)
+[The EFI boot process](http://web.archive.org/web/20160508052211/http://homepage.ntlworld.com/jonathan.deboynepollard/FGA/efi-boot-process.html)
 
 [The Intel Mac boot process](http://refit.sourceforge.net/info/boot_process.html)
 
