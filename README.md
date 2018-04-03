@@ -747,11 +747,11 @@ See the [dnsmasq](#dnsmasq) section of this guide for more hosts blocking option
 
 #### DNSCrypt
 
-To encrypt outgoing DNS traffic, consider using [dnscrypt](https://dnscrypt.org/). In combination with Dnsmasq and DNSSEC, the security of both outbounding and inbounding dns traffic are strengthened.
+To encrypt outgoing DNS traffic, consider using [dnscrypt](https://dnscrypt.info). In combination with Dnsmasq and DNSSEC, the security of both outbounding and inbounding dns traffic are strengthened.
 
-If you prefer a GUI application, see [alterstep/dnscrypt-osxclient](https://github.com/alterstep/dnscrypt-osxclient). Below are the guide for installation and configuration of the command-line DNSCrypt.
+A GUI application is only available for the discontinued version 1 of `dnscrypt-proxy` ([alterstep/dnscrypt-osxclient](https://github.com/alterstep/dnscrypt-osxclient)). It is recommended to install the improved [`dnscrypt-proxy` version 2](https://github.com/jedisct1/dnscrypt-proxy) and use a BitBar plugin like [DNSCrypt Menu](https://github.com/JayBrown/DNSCrypt-Menu) or [dnscrypt-proxy-switcher](https://github.com/jedisct1/bitbar-dnscrypt-proxy-switcher) until an updated GUI application is available. Below are the guides for installation and configuration of the command-line DNSCrypt.
 
-Install DNSCrypt from Homebrew:
+Install DNSCrypt from Homebrew and follow the instructions to configure and start `dnscrypt-proxy`:
 
 ```
 $ brew install dnscrypt-proxy
@@ -763,7 +763,7 @@ If using in combination with Dnsmasq, find the file `homebrew.mxcl.dnscrypt-prox
 $ brew info dnscrypt-proxy
 ```
 
-which will shows the location like `/usr/local/Cellar/dnscrypt-proxy/1.9.5_1` and `homebrew.mxcl.dnscrypt-proxy.plist` is in this folder.
+which will show a location like `/usr/local/Cellar/dnscrypt-proxy/2.0.8`, and `homebrew.mxcl.dnscrypt-proxy.plist` is in this folder.
 
 Edit it to have the line:
 
@@ -1226,7 +1226,7 @@ Since Web Browsers execute untrusted code from the server, it is important to un
 
 To hinder third party trackers, it is recommended to disable third-party cookies from your Web Browser settings. A third party cookie is a cookie associated with a file requested by different domain than the one the user is currently viewing. Most of the time third party are used to create browsing profiles by tracking a user's movement on the web. Disabling third-party cookies prevents HTTP responses and scripts from other domains from setting cookies. Moreover, cookies are removed from requests to domains that are not the document origin domain, so cookies are only sent to the current site that is being viewed.
 
-Also be aware of [WebRTC](https://en.wikipedia.org/wiki/WebRTC#Concerns), which may reveal your local or public (if connected to VPN) IP address(es). This can be disabled with extensions such as [uBlock Origin](https://github.com/gorhill/uBlock/wiki/Prevent-WebRTC-from-leaking-local-IP-address) and [rentamob/WebRTC-Leak-Prevent](https://github.com/rentamob/WebRTC-Leak-Prevent).
+Also be aware of [WebRTC](https://en.wikipedia.org/wiki/WebRTC#Concerns), which may reveal your local or public (if connected to VPN) IP address(es). In Firefox and Chrome/Chromium this can be disabled with extensions such as [uBlock Origin](https://github.com/gorhill/uBlock/wiki/Prevent-WebRTC-from-leaking-local-IP-address) and [rentamob/WebRTC-Leak-Prevent](https://github.com/rentamob/WebRTC-Leak-Prevent). Disabling WebRTC in Safari is only possible with a [system hack](https://github.com/JayBrown/Disable-and-toggle-WebRTC-in-macOS-Safari).
 
 ### Plugins
 
