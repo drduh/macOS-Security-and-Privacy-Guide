@@ -1756,7 +1756,11 @@ defaults delete ~/Library/Preferences/com.apple.iTunes.plist StoreUserInfo
 defaults delete ~/Library/Preferences/com.apple.iTunes.plist WirelessBuddyID
 ```
 
-`~/Library/Containers/com.apple.QuickTimePlayerX/Data/Library/Preferences/com.apple.QuickTimePlayerX.plist` contains all media played in QuickTime Player.
+All media played in QuickTime Player can be found in:
+
+```shell
+~/Library/Containers/com.apple.QuickTimePlayerX/Data/Library/Preferences/com.apple.QuickTimePlayerX.plist
+```
 
 Additional metadata may exist in the following files:
 
