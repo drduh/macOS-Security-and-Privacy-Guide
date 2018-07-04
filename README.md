@@ -1856,6 +1856,8 @@ You may wish to [spoof the MAC address](https://en.wikipedia.org/wiki/MAC_spoofi
 $ sudo ifconfig en0 ether $(openssl rand -hex 6 | sed 's%\(..\)%\1:%g; s%.$%%')
 ```
 
+It is also good to know that macOS will store your Wi-FI SSID and passwords in NVRAM, because Recovery mode needs access to restore from the internet. When you need to pass your Mac along, be sure to either clear NVRAM or de-authenticate your Mac from your Apple account, which will clear the NVRAM. (Resetting the SMC will clear some of the NVRAM, but not all.)
+
 **Note** MAC addresses will reset to hardware defaults on each boot.
 
 Also see [feross/SpoofMAC](https://github.com/feross/SpoofMAC).
