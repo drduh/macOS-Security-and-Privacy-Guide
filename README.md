@@ -1766,33 +1766,39 @@ Additional metadata may exist in the following files:
 
 ## Passwords
 
-You can generate strong passwords with OpenSSL:
+Generate strong passwords with several programs or directly from [`/dev/urandom`](https://github.com/jedisct1/libsodium/issues/594):
 
 ```shell
 $ openssl rand -base64 30
 LK9xkjUEAemc1gV2Ux5xqku+PDmMmCbSTmwfiMRI
-```
 
-Or GPG:
-```shell
 $ gpg --gen-random -a 0 30
 4/bGZL+yUEe8fOqQhF5V01HpGwFSpUPwFcU3aOWQ
-```
 
-Or `/dev/urandom` output:
-```shell
-$ dd if=/dev/urandom bs=1 count=30 2>/dev/null | base64
-CbRGKASFI4eTa96NMrgyamj8dLZdFYBaqtWUSxKe
+$ cat /dev/urandom | base64 | fold -w40 | head -n5
+zAfhO1KGgyDwRUigYT+O1VZLnW9k5BIC8j3XYXAu
+Hkx2/3d/Tem6rUG7bGYQizU9ueWQYIb9WJD1lzO2
+d8MfMu4PkIns3hY6FTkMhTKTIYDaqAxwTbIktu1X
+ibd3+PKxRPY97nxQiIE45fzBLkjDnKcW3pfeaTNz
+e5dIbZidfuiOQrlRCDIj9pg2p0lp8BhTgz3IMCc7
 ```
 
 With control over character sets:
 
 ```shell
-$ LANG=C tr -dc 'a-zA-Z0-9' < /dev/urandom | fold -w 40 | head -n 1
-jm0iKn7ngQST8I0mMMCbbi6SKPcoUWwCb5lWEjxK
+$ LANG=C tr -dc 'a-zA-Z0-9' < /dev/urandom | fold -w 40 | head -n 5
+rgBaAV0N09FzsqFRWhC6UFMJSjeisRhDuyqcJQox
+ZG4NDhxBXlF1yHwdCMaanCRkFZKvQUrDRid9Hmop
+TtRn5YVENCQ5krapAZxxS1bXk2vYIABOutDa4q1n
+AHQMHD9ovOteWXVBLvLhccTaukOHLGUMhH7C6IPg
+9kz7Kf4KIKAGq3Jy4XpQoQVMy9YL34wQbuCzhr4O
 
-$ LANG=C tr -dc 'DrDuh0-9' < /dev/urandom | fold -w 40 | head -n 1
-686672u2Dh7r754209uD312hhh23uD7u41h3875D
+$ LANG=C tr -dc 'A-F0-9' < /dev/urandom | fold -w 40 | head -n 5
+45D0371481EE5E5A5C1F68EA59E69F9CA52CB321
+A30B37A00302643921F205621B145E7EAF520164
+B6EF38A2DA1D0586D20105502AFFF0468EA5F16A
+029D6EA9F76CD64D3356E342EA154BEFEBE23387
+07F468F0569579A0A06471247CABC4F4C1386E24
 ```
 
 You can also generate passwords, even memorable ones, using **Keychain Access** password assistant, or a command line equivalent like [anders/pwgen](https://github.com/anders/pwgen).
@@ -2233,15 +2239,17 @@ Zentral will support Santa in both MONITORING and LOCKDOWN operation mode. Clien
 
 ## Miscellaneous
 
-If you wish, disable [Diagnostics & Usage Data](https://github.com/fix-macosx/fix-macosx/wiki/Diagnostics-&-Usage-Data).
+Disable [Diagnostics & Usage Data](https://github.com/fix-macosx/fix-macosx/wiki/Diagnostics-&-Usage-Data).
 
 If you want to play **music** or watch **videos**, use [VLC media player](https://www.videolan.org/vlc/index.html) which is free and open source.
 
 If you want to use **torrents**, use [Transmission](http://www.transmissionbt.com/download/) which is free and open source (note: like all software, even open source projects, [malware may still find its way in](http://researchcenter.paloaltonetworks.com/2016/03/new-os-x-ransomware-keranger-infected-transmission-bittorrent-client-installer/)). You may also wish to use a block list to avoid peering with known bad hosts - see [Which is the best blocklist for Transmission](https://giuliomac.wordpress.com/2014/02/19/best-blocklist-for-transmission/) and [johntyree/3331662](https://gist.github.com/johntyree/3331662).
 
+If you're unsure about whether an application or file is safe to open, upload it to [VirusTotal](https://www.virustotal.com/#/home/upload) to be scanned and to examine its behavior.
+
 Manage default file handlers with [duti](http://duti.org/), which can be installed with `brew install duti`. One reason to manage extensions is to prevent auto-mounting of remote filesystems in Finder (see [Protecting Yourself From Sparklegate](https://www.taoeffect.com/blog/2016/02/apologies-sky-kinda-falling-protecting-yourself-from-sparklegate/)). Here are several recommended handlers to manage:
 
-```shellshell
+```shell
 $ duti -s com.apple.Safari afp
 
 $ duti -s com.apple.Safari ftp
