@@ -429,7 +429,7 @@ See also [this post](https://superuser.com/a/395738) for more information about 
 
 FileVault encryption protects data at rest and hardens (but [not always prevents](http://blog.frizk.net/2016/12/filevault-password-retrieval.html)) someone with physical access from stealing data or tampering with your Mac.
 
-With much of the cryptographic operations happening [efficiently in hardware](https://software.intel.com/en-us/articles/intel-advanced-encryption-standard-aes-instructions-set/), the performance penalty for FileVault is not noticeable.
+With much of the cryptographic operations happening [efficiently in hardware](http://web.archive.org/web/20180720195105/https://software.intel.com/sites/default/files/m/d/4/1/d/8/AES_WP_Rev_03_Final_2010_01_26.pdf), the performance penalty for FileVault is not noticeable.
 
 Like all cryptosystems, the security of FileVault greatly depends on the quality of the pseudo random number generator (PRNG).
 
