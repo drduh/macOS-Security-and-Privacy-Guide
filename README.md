@@ -1,22 +1,30 @@
-This guide is a collection of thoughts on and techniques for securing a modern Apple Mac computer ("MacBook") using macOS (formerly known as *OS X*) version 10.12 "Sierra", as well as steps to generally improving privacy.
+This guide is a collection of techniques for improving the security and privacy of a modern Apple Macintosh computer ("MacBook") and macOS (formerly known as "OS X").
 
 This guide is targeted to “power users” who wish to adopt enterprise-standard security, but is also suitable for novice users with an interest in improving their privacy and security on a Mac.
 
 A system is only as secure as its administrator is capable of making it. There is no one single technology, software, nor technique to guarantee perfect computer security; a modern operating system and computer is very complex, and requires numerous incremental changes to meaningfully improve one's security and privacy posture.
 
-This guide is provided on an 'as is' basis without any warranties of any kind. Only **you** are responsible if you break a Mac by following any of the steps herein.
+This guide is provided on an 'as is' basis without any warranties of any kind. Only **you** are responsible if you break anything or get in any sort of trouble by following this guide.
 
-If you wish to make a correction or improvement, please send a pull request or [open an issue](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues).
+If you wish to make a correction or improvement, please send a pull request or [open an issue](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues).
 
 This guide is also available in [简体中文](https://github.com/xitu/macOS-Security-and-Privacy-Guide/blob/master/README-cn.md).
 
 - [Basics](#basics)
 - [Firmware](#firmware)
 - [Preparing and Installing macOS](#preparing-and-installing-macos)
-    - [Virtualization](#virtualization)
+  - [Verifying Installation Integrity](#verifying-installation-integrity)
+  - [Creating a Bootable USB Installer](#creating-a-bootable-usb-installer)
+  - [Creating an Install Image](#creating-an-install-image)
+    - [Manual Way](#manual-way)
+  - [Target Disk Mode](#target-disk-mode)
+  - [Creating a Recovery Partition](#creating-a-recovery-partition)
+  - [Virtualization](#virtualization)
 - [First boot](#first-boot)
 - [System activation](#system-activation)
 - [Admin and standard user accounts](#admin-and-standard-user-accounts)
+    - [Caveats](#caveats)
+    - [Setup](#setup)
 - [Full disk encryption](#full-disk-encryption)
 - [Firewall](#firewall)
     - [Application layer firewall](#application-layer-firewall)
@@ -35,13 +43,14 @@ This guide is also available in [简体中文](https://github.com/xitu/macOS-Sec
 - [OpenSSL](#openssl)
 - [Curl](#curl)
 - [Web](#web)
-    - [Privoxy](#privoxy)
-    - [Browser](#browser)
-      - [Google Chrome](#google-chrome)
-      - [Firefox](#firefox)
-      - [Safari](#safari)
-      - [Web Browsers and Privacy](#web-browsers-and-privacy)
-    - [Plugins](#plugins)
+  - [Privoxy](#privoxy)
+  - [Browser](#browser)
+    - [Google Chrome](#google-chrome)
+    - [Firefox](#firefox)
+    - [Safari](#safari)
+    - [Other Web Browsers](#other-web-browsers)
+    - [Web Browsers and Privacy](#web-browsers-and-privacy)
+  - [Plugins](#plugins)
 - [PGP/GPG](#pgpgpg)
 - [OTR](#otr)
 - [Tor](#tor)
@@ -67,19 +76,19 @@ This guide is also available in [简体中文](https://github.com/xitu/macOS-Sec
 
 ## Basics
 
-The standard best security practices apply:
+Here is an overview of basic, standard best security practices which apply on macOS:
 
-* Create a threat model
-	* What are you trying to protect and from whom? Is your adversary a [three letter agency](https://theintercept.com/document/2015/03/10/strawhorse-attacking-macos-ios-software-development-kit/) (if so, you may want to consider using [OpenBSD](https://www.openbsd.org/) instead), a nosy eavesdropper on the network, or determined [apt](https://en.wikipedia.org/wiki/Advanced_persistent_threat) orchestrating a campaign against you?
-	* Study and [recognize threats](https://www.usenix.org/system/files/1401_08-12_mickens.pdf) and how to reduce attack surface against them.
+* Create a [threat model](https://www.owasp.org/index.php/Application_Threat_Modeling)
+	* What are you trying to protect and from whom? Is your adversary a [three letter agency](https://theintercept.com/document/2015/03/10/strawhorse-attacking-macos-ios-software-development-kit/) (if so, you may want to consider using [OpenBSD](https://www.openbsd.org/) instead); a nosy eavesdropper on the network; or a determined [apt](https://en.wikipedia.org/wiki/Advanced_persistent_threat) orchestrating a campaign against you?
+	* [Recognize threats](https://www.usenix.org/system/files/1401_08-12_mickens.pdf) and how to reduce attack surface against them.
 
 * Keep the system up to date
-	* Patch, patch, patch your system and software.
+	* Patch, patch, patch the base system and third party software.
 	* macOS system updates can be completed using the App Store application, or the `softwareupdate` command-line utility - neither requires registering an Apple account.
-	* Subscribe to announcement mailing lists (e.g., [Apple security-announce](https://lists.apple.com/mailman/listinfo/security-announce)) for programs you use often.
+	* Subscribe to announcement mailing lists like [Apple security-announce](https://lists.apple.com/mailman/listinfo/security-announce).
 
-* Encrypt sensitive data
-	* In addition to full disk encryption, create one or many encrypted containers to store passwords, keys, personal documents, and other data at rest.
+* Encrypt sensitive data at rest
+	* In addition to full disk encryption, consider creating one or several encrypted partitions or containers to store passwords, keys, personal documents, and other data, at rest.
 	* This will mitigate damage in case of compromise and data exfiltration.
 
 * Frequent backups
@@ -93,31 +102,36 @@ The standard best security practices apply:
 
 ## Firmware
 
-Setting a firmware password prevents your Mac from starting up from any device other than your startup disk. It may also be set to be required on each boot.
+Setting a firmware password prevents a Mac from starting up from any device other than your startup disk. It may also be set to be required on each boot. This may be useful for mitigating some attacks which require physical access to hardware.
 
 This feature [can be helpful if your laptop is lost or stolen](https://www.ftc.gov/news-events/blogs/techftc/2015/08/virtues-strong-enduser-device-controls), protects against Direct Memory Access (DMA) attacks which can read your FileVault passwords and inject kernel modules such as [pcileech](https://github.com/ufrisk/pcileech), as the only way to reset the firmware password is through an Apple Store, or by using an [SPI programmer](https://reverse.put.as/2016/06/25/apple-efi-firmware-passwords-and-the-scbo-myth/), such as [Bus Pirate](http://ho.ax/posts/2012/06/unbricking-a-macbook/) or other flash IC programmer.
 
-1. Start up pressing `Command` `R` keys to boot to [Recovery Mode](https://support.apple.com/en-au/HT201314) mode.
-
-3. When the Recovery window appears, choose **Firmware Password Utility** from the Utilities menu.
-
-4. In the Firmware Utility window that appears, select **Turn On Firmware Password**.
-
-5. Enter a new password, then enter the same password in the **Verify** field.
-
-6. Select **Set Password**.
-
-7. Select **Quit Firmware Utility** to close the Firmware Password Utility.
-
-8. Select the Apple menu and choose Restart or Shutdown.
+1. Start up pressing `Command` and `R` keys to boot to [Recovery Mode](https://support.apple.com/en-au/HT201314) mode.
+1. When the Recovery window appears, choose **Firmware Password Utility** from the Utilities menu.
+1. In the Firmware Utility window that appears, select **Turn On Firmware Password**.
+1. Enter a new password, then enter the same password in the **Verify** field.
+1. Select **Set Password**.
+1. Select **Quit Firmware Utility** to close the Firmware Password Utility.
+1. Select the Apple menu and select Restart or Shutdown.
 
 The firmware password will activate at next boot. To validate the password, hold `Alt` during boot - you should be prompted to enter the password.
 
 The firmware password can also be managed with the `firmwarepasswd` utility while booted into the OS. For example, to prompt for the firmware password when attempting to boot from a different volume:
 
-    $ sudo firmwarepasswd -setpasswd -setmode command
+```
+$ sudo firmwarepasswd -setpasswd -setmode command
+```
 
-Enter a password and reboot.
+To verify:
+
+```
+$ sudo firmwarepasswd -verify
+Verifying Firmware Password
+Enter password:
+Correct
+```
+
+Note, a firmware password may be bypassed by a determined attacker or Apple, with physical access to the computer.
 
 <img width="750" alt="Using a Dediprog SF600 to dump and flash a 2013 MacBook SPI Flash chip to remove a firmware password, sans Apple" src="https://cloud.githubusercontent.com/assets/12475110/17075918/0f851c0c-50e7-11e6-904d-0b56cf0080c1.png">
 
@@ -127,17 +141,21 @@ See [HT204455](https://support.apple.com/en-au/HT204455), [LongSoft/UEFITool](ht
 
 ## Preparing and Installing macOS
 
-There are several ways to install a fresh copy of macOS.
+There are several ways to install macOS.
 
-The simplest way is to boot into [Recovery Mode](https://support.apple.com/en-us/HT201314) by holding `Command` `R` keys at boot. A system image can be downloaded and applied directly from Apple. However, this way exposes the serial number and other identifying information over the network in plaintext.
+The simplest way is to boot into [Recovery Mode](https://support.apple.com/en-us/HT201314) by holding `Command` and `R` keys at boot. A system image can be downloaded and applied directly from Apple. However, this way exposes the serial number and other identifying information over the network in plaintext, which may not be desired for privacy reasons.
 
 <img width="500" alt="PII is transmitted to Apple in plaintext when using macOS Recovery" src="https://cloud.githubusercontent.com/assets/12475110/20312189/8987c958-ab20-11e6-90fa-7fd7c8c1169e.png">
 
 *Packet capture of an unencrypted HTTP conversation during macOS recovery*
 
-Another way is to download **macOS Sierra** from the [App Store](https://itunes.apple.com/us/app/macos-sierra/id1127487414) or some other place and create a custom, installable system image.
+An alternative way to install macOS is to first download **macOS High Sierra** from the [App Store](https://itunes.apple.com/us/app/macos-high-sierra/id1246284741) or elsewhere, and create a custom installable system image.
 
-The macOS Sierra installer application is [code signed](https://developer.apple.com/library/mac/documentation/Security/Conceptual/CodeSigningGuide/Procedures/Procedures.html#//apple_ref/doc/uid/TP40005929-CH4-SW6), which should be verified to make sure you received a legitimate copy, using the `spctl -a -v` or `pkgutil --check-signature` commands:
+### Verifying Installation Integrity
+
+The macOS installation application is [code signed](https://developer.apple.com/library/mac/documentation/Security/Conceptual/CodeSigningGuide/Procedures/Procedures.html#//apple_ref/doc/uid/TP40005929-CH4-SW6), which should be verified to make sure you received a legitimate copy, using the `spctl -a -v` or `pkgutil --check-signature` or `codesign -dvv` commands.
+
+Here are two example ways to verify the code signature and integrity of macOS application bundles:
 
 ```shell
 $ pkgutil --check-signature /Applications/Install\ macOS\ Sierra.app
@@ -173,9 +191,11 @@ Sealed Resources version=2 rules=7 files=137
 Internal requirements count=1 size=124
 ```
 
-macOS installers can be made with the `createinstallmedia` utility included in `Install macOS Sierra.app/Contents/Resources/`. See [Create a bootable installer for macOS](https://support.apple.com/en-us/HT201372), or run the utility without arguments to see how it works.
+### Creating a Bootable USB Installer
 
-**Note** Apple's installer [does not appear to work](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/120) across OS versions. If you want to build a 10.12 image, for example, the following steps must be run on a 10.12 machine!
+macOS installers can be made with the `createinstallmedia` utility included in `Contents/Resources` folder of the installer application bundle. See [Create a bootable installer for macOS](https://support.apple.com/en-us/HT201372), or run the utility without arguments to see how it works.
+
+**Note** Apple's installer [does not appear to work](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/120) across OS versions. If you want to build a 10.12 image, for example, the following steps must be run on macOS verison 10.12!
 
 To create a **bootable USB installer**, mount a USB drive, and erase and partition it, then use the `createinstallmedia` utility:
 
@@ -199,59 +219,65 @@ Copy complete.
 Done.
 ```
 
-To create a **custom installable image** which can be [restored](https://en.wikipedia.org/wiki/Apple_Software_Restore) to a Mac, you will need to find the file `InstallESD.dmg`, which is also inside `Install macOS Sierra.app`.
+### Creating an Install Image
 
-With Finder, right click on the app, select **Show Package Contents** and navigate to **Contents** > **SharedSupport** to find the file `InstallESD.dmg`.
+To create a **custom install image** which can be [restored](https://en.wikipedia.org/wiki/Apple_Software_Restore) to a Mac (using a USB-C cable and target disk mode, for example), use [MagerValp/AutoDMG](https://github.com/MagerValp/AutoDMG).
 
-You can [verify](https://support.apple.com/en-us/HT201259) the following cryptographic hashes to ensure you have the same copy with `openssl sha1 InstallESD.dmg` or `shasum -a 1 InstallESD.dmg` or `shasum -a 256 InstallESD.dmg` (in Finder, you can drag the file into a Terminal window to provide the full path).
+#### Manual Way
 
-To determine which macOS versions and builds originally shipped with or are available for your Mac, see [HT204319](https://support.apple.com/en-us/HT204319).
+*Note* The following instructions appear to work only on macOS versions before 10.13.
 
-See [InstallESD_Hashes.csv](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/blob/master/InstallESD_Hashes.csv) in this repository for a list of current and previous file hashes. You can also Google the cryptographic hashes to ensure the file is genuine and has not been tampered with.
+You will need to find the file `InstallESD.dmg`, which is also inside installation application.
 
-To create the image, use [MagerValp/AutoDMG](https://github.com/MagerValp/AutoDMG), or to create it manually, mount and install the operating system to a temporary image:
+Locate it in Terminal or with Finder, right click on the application bundle, select **Show Package Contents** and navigate to **Contents** > **SharedSupport** to find the file `InstallESD.dmg`
 
-    $ hdiutil attach -mountpoint /tmp/install_esd ./InstallESD.dmg
+Before continuing, [verify](https://support.apple.com/en-us/HT201259) the file's integrity by comparing its cryptographic hashes with either of the following commands:
 
-    $ hdiutil create -size 32g -type SPARSE -fs HFS+J -volname "macOS" -uid 0 -gid 80 -mode 1775 /tmp/output.sparseimage
+```
+$ shasum -a 256 InstallESD.dmg
 
-    $ hdiutil attach -mountpoint /tmp/os -owners on /tmp/output.sparseimage
+$ openssl sha256 InstallESD.dmg
+```
 
-    $ sudo installer -pkg /tmp/install_esd/Packages/OSInstall.mpkg -tgt /tmp/os -verbose
+Both results should match a verion of macOS in [InstallESD_Hashes.csv](https://github.com/drduh/macOS-Security-and-Privacy-Guide/blob/master/InstallESD_Hashes.csv). You can also search for hashes to ensure others are seeing the same. To determine which macOS versions and builds originally shipped with or are available for a Mac, see [HT204319](https://support.apple.com/en-us/HT204319).
 
-This part will take a while, so be patient. You can `tail -F /var/log/install.log` in another Terminal window to check progress.
+Mount and install the operating system to a temporary image:
 
-**(Optional)** Install additional software, for example [Wireshark](https://www.wireshark.org/download.html):
+```shell
+$ hdiutil attach -mountpoint /tmp/InstallESD ./InstallESD.dmg
 
-    $ hdiutil attach Wireshark\ 2.2.0\ Intel\ 64.dmg
+$ hdiutil create -size 32g -type SPARSE -fs HFS+J -volname "macOS" -uid 0 -gid 80 -mode 1775 /tmp/output.sparseimage
 
-    $ sudo installer -pkg /Volumes/Wireshark/Wireshark\ 2.2.0\ Intel\ 64.pkg -tgt /tmp/os
+$ hdiutil attach -mountpoint /tmp/os -owners on /tmp/output.sparseimage
 
-    $ hdiutil unmount /Volumes/Wireshark
+$ sudo installer -pkg /tmp/InstallESD/Packages/OSInstall.mpkg -tgt /tmp/os -verbose
+```
 
-See [MagerValp/AutoDMG/wiki/Packages-Suitable-for-Deployment](https://github.com/MagerValp/AutoDMG/wiki/Packages-Suitable-for-Deployment) for caveats and [chilcote/outset](https://github.com/chilcote/outset) to instead processes packages and scripts at first boot.
+The installation will take a while, so be patient. You can use the command `tail -F /var/log/install.log` in another Terminal window to monitor progress or check for any failures.
 
 When you're done, detach, convert and verify the image:
 
-    $ hdiutil detach /tmp/os
+```shell
+$ hdiutil detach /tmp/os
 
-    $ hdiutil detach /tmp/install_esd
+$ hdiutil detach /tmp/InstallESD
 
-    $ hdiutil convert -format UDZO /tmp/output.sparseimage -o ~/sierra.dmg
+$ hdiutil convert -format UDZO /tmp/output.sparseimage -o ~/sierra.dmg
 
-    $ asr imagescan --source ~/sierra.dmg
+$ asr imagescan --source ~/sierra.dmg
+```
 
-Now `sierra.dmg` is ready to be applied to one or many Macs. One could futher customize the image to include premade users, applications, preferences, etc.
+The file `sierra.dmg` is ready to be applied to any modern Macs. The image could be futher customized to include provisioned users, installed applications, preferences, for example. This image can be installed using another Mac in [Target Disk Mode](https://support.apple.com/en-us/HT201462) or from a bootable USB installer.
 
-This image can be installed using another Mac in [Target Disk Mode](https://support.apple.com/en-us/HT201462) or from a bootable USB installer.
+### Target Disk Mode
 
-To use **Target Disk Mode**, boot up the Mac you wish to image while holding the `T` key and connect it to another Mac using a Firewire, Thunderbolt or USB-C cable.
+To use **Target Disk Mode**, boot up the Mac you wish to image while holding the `T` key and connect it to another Mac using a USB-C, Thundrbolt or Firewire cable.
 
 If you don't have another Mac, boot to a USB installer, with `sierra.dmg` and other required files copied to it, by holding the *Option* key at boot.
 
-Run `diskutil list` to identify the connected Mac's disk, usually `/dev/disk2`
+Use the command `diskutil list` to identify the disk of the connected Mac, usually `/dev/disk2`
 
-**(Optional)** [Securely erase](https://www.backblaze.com/blog/securely-erase-mac-ssd/) the disk with a single pass (if previously FileVault-encrypted, the disk must first be unlocked and mounted as `/dev/disk3s2`):
+Optionally, [securely erase](https://www.backblaze.com/blog/securely-erase-mac-ssd/) the disk with a single pass (if previously FileVault-encrypted, the disk must first be unlocked and mounted as `/dev/disk3s2`):
 
     $ sudo diskutil secureErase freespace 1 /dev/disk3s2
 
@@ -275,9 +301,11 @@ If you want to transfer any files, copy them to a shared folder like `/Users/Sha
 
 *Finished restore install from USB recovery boot*
 
-We're not done yet! Unless you have built the image with [AutoDMG](https://github.com/MagerValp/AutoDMG), or installed macOS to a second partition on your Mac, you will need to create a recovery partition (in order to use full disk encryption). You can do so using [MagerValp/Create-Recovery-Partition-Installer](https://github.com/MagerValp/Create-Recovery-Partition-Installer) or using the following manual steps:
+### Creating a Recovery Partition
 
-Download the file [RecoveryHDUpdate.dmg](https://support.apple.com/downloads/DL1464/en_US/RecoveryHDUpdate.dmg).
+**Unless** you have built the image with [AutoDMG](https://github.com/MagerValp/AutoDMG), or installed macOS to a second partition on the same Mac, you will need to create a recovery partition in order to use full disk encryption. You can do so using [MagerValp/Create-Recovery-Partition-Installer](https://github.com/MagerValp/Create-Recovery-Partition-Installer) or manually by following these steps:
+
+Download [RecoveryHDUpdate.dmg](https://support.apple.com/downloads/DL1464/en_US/RecoveryHDUpdate.dmg) and verify its integrity:
 
 ```shell
 $ shasum -a 256 RecoveryHDUpdate.dmg
@@ -300,7 +328,7 @@ Replace `/Volumes/macOS` with the path to the target disk mode-booted Mac as nec
 
 This step will take several minutes. Run `diskutil list` again to make sure **Recovery HD** now exists on `/dev/disk2` or equivalent identifier.
 
-Once you're done, eject the disk with `hdiutil unmount /Volumes/macOS` and power down the target disk mode-booted Mac.
+Eject the disk with `hdiutil unmount /Volumes/macOS` and power down the target disk mode-booted Mac.
 
 ### Virtualization
 
@@ -441,7 +469,7 @@ To manually seed entropy *before* enabling FileVault:
 
 To test entropy and randomness quality, download and use [`ent`](http://www.fourmilab.ch/random/) with Homebrew, then:
 
-````shell
+```shell
 $ dd if=/dev/random of=/tmp/random count=8192
 
 $ ent /tmp/random
@@ -456,7 +484,7 @@ would exceed this value 14.64 percent of the times.
 Arithmetic mean value of data bytes is 127.4922 (127.5 = random).
 Monte Carlo value for Pi is 3.142499106 (error 0.03 percent).
 Serial correlation coefficient is 0.000508 (totally uncorrelated = 0.0)
-````
+```
 
 See [Entropy and Random Number Generators](https://calomel.org/entropy_random_number_generators.html) and [Fun with encryption and randomness](https://rsmith.home.xs4all.nl/howto/fun-with-encryption-and-randomness.html) for more information.
 
@@ -1163,7 +1191,7 @@ Chrome offers [separate profiles](https://www.chromium.org/user-experience/multi
 
 Chrome offers account sync between multiple devices. Part of the sync data are stored website logins. The login passwords are encrypted and in order to access them, a user's Google account password is required. You can use your Google account to sign to your Chrome customized settings from other devices while retaining your the security of your passwords.
 
-Chrome's Web store for extensions requires a [$5 dollar lifetime fee](https://developer.chrome.com/webstore/publish#pay-the-developer-signup-fee) in order to submit extensions. The low cost allows the development of many quality Open Source Web Extensions that do not aim to monetize through usage.
+Chrome's Web store for extensions requires a [5 dollar lifetime fee](https://developer.chrome.com/webstore/publish#pay-the-developer-signup-fee) in order to submit extensions. The low cost allows the development of many quality Open Source Web Extensions that do not aim to monetize through usage.
 
 Chrome has the largest share of global usage and is the preferred target platform for the majority of developers. Major technologies are based on Chrome's Open Source components, such as [node.js](https://nodejs.org/en/) which uses [Chrome's V8](https://developers.google.com/v8/) Engine and the [Electron](https://electron.atom.io/) framework, which is based on Chromium and node.js. Chrome's vast user base makes it the most attractive target for threat actors and security researchers. Despite under constants attacks, Chrome has retained an impressive security track record over the years. This is not a small feat.
 
@@ -1194,7 +1222,7 @@ It is best to remember that Google is an advertising company and its major sourc
 Firefox offers a similar security model to Chrome. It offers a
 [bounty](https://www.mozilla.org/en-US/security/bug-bounty/) program, although it is not a lucrative as Chrome's. Firefox follows a six-week release cycle similar to Chrome.
 
-See discussion in issues [#2](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/2), [#90](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/90) for more information about certain differences in Firefox and Chrome.
+See discussion in issues [#2](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/2), [#90](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/90) for more information about certain differences in Firefox and Chrome.
 
 If using Firefox, see [TheCreeper/PrivacyFox](https://github.com/TheCreeper/PrivacyFox), [pyllyukko/user.js](https://github.com/pyllyukko/user.js) and [ghacksuserjs/ghacks-user.js](https://github.com/ghacksuserjs/ghacks-user.js/) for recommended privacy preferences and other hardening measures. Also be sure to check out [NoScript](https://noscript.net/) for Mozilla-based browsers, which allows whitelist-based, pre-emptive script blocking.
 
@@ -1258,7 +1286,7 @@ Install from Homebrew with `brew install gnupg`.
 
 If you prefer a graphical application, download and install [GPG Suite](https://gpgtools.org/).
 
-Here are several [recommended options](https://github.com/drduh/config/blob/master/gpg.conf) to add to `~/.gnupg/gpg.conf`:
+Below are several recommended options to add to `~/.gnupg/gpg.conf` - these settings will configure GnuPG to use SSL when fetching new keys and prefer strong cryptographic primitives. Also see [drduh/config/gpg.conf](https://github.com/drduh/config/blob/master/gpg.conf):
 
 ```shell
 auto-key-locate keyserver
@@ -1279,13 +1307,10 @@ list-options show-uid-validity
 verify-options show-uid-validity
 with-fingerprint
 ```
-These settings will configure GnuPG to use SSL when fetching new keys and prefer strong cryptographic primitives.
 
-See also [ioerror/duraconf/configs/gnupg/gpg.conf](https://github.com/ioerror/duraconf/blob/master/configs/gnupg/gpg.conf). You should also take some time to read [OpenPGP Best Practices](https://help.riseup.net/en/security/message-security/openpgp/best-practices).
+If you don't already have a keypair, create one using `gpg --gen-key`. Also see [drduh/YubiKey-Guide](https://github.com/drduh/YubiKey-Guide) to secure store the private key on hardware.
 
-If you don't already have a keypair, create one using `gpg --gen-key`. Also see [drduh/YubiKey-Guide](https://github.com/drduh/YubiKey-Guide).
-
-Read [online](https://alexcabal.com/creating-the-perfect-gpg-keypair/) [guides](https://security.stackexchange.com/questions/31594/what-is-a-good-general-purpose-gnupg-key-setup) and practice encrypting and decrypting email to yourself and your friends. Get them interested in this stuff!
+Read [online](https://alexcabal.com/creating-the-perfect-gpg-keypair/) [guides](https://security.stackexchange.com/questions/31594/what-is-a-good-general-purpose-gnupg-key-setup) and [practice](https://help.riseup.net/en/security/message-security/openpgp/best-practices) encrypting and decrypting email to yourself and your friends. Get them interested in this stuff!
 
 ## OTR
 
