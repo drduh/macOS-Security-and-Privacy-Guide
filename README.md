@@ -1507,17 +1507,19 @@ Also see [Invisible Internet Project (I2P)](https://geti2p.net/en/about/intro) a
 
 ## VPN
 
-If you use your Mac on untrusted networks - airports, cafes, etc. - your network traffic is being monitored and possibly tampered with.
+Unencrypted network traffic is being actively monitored and possibly tampered with. Encrypted traffic still exposes [connection metadata](https://security.stackexchange.com/questions/142833/does-https-encrypt-metadata#142855) and could be used to infer behavior or specific actions.
 
-It is a good idea to use a VPN which encrypts **all** outgoing network traffic (i.e., not **split tunnel**) with a provider you trust. For an example of how to set up and host your own VPN, see [drduh/Debian-Privacy-Server-Guide](https://github.com/drduh/Debian-Privacy-Server-Guide).
+It is a good idea to use a VPN which outgoing network traffic (*not* **split tunnel**) with a trustworthy provider. [drduh/Debian-Privacy-Server-Guide](https://github.com/drduh/Debian-Privacy-Server-Guide) is one of many available guides for setting up a personal VPN server.
 
 Don't just blindly sign up for a VPN service without understanding the full implications and how your traffic will be routed. If you don't understand how the VPN works or are not familiar with the software used, you are probably better off without it.
 
-When choosing a VPN service or setting up your own, be sure to research the protocols, key exchange algorithms, authentication mechanisms, and type of encryption being used. Some protocols, such as [PPTP](https://en.wikipedia.org/wiki/Point-to-Point_Tunneling_Protocol#Security), should be avoided in favor of [OpenVPN](https://en.wikipedia.org/wiki/OpenVPN), for example.
+When choosing a VPN service or setting up your own, be sure to research the protocols, key exchange algorithms, authentication mechanisms, and type of encryption being used. Some protocols, such as [PPTP](https://en.wikipedia.org/wiki/Point-to-Point_Tunneling_Protocol#Security), should be avoided in favor of [OpenVPN](https://en.wikipedia.org/wiki/OpenVPN), for example. Strong cryptographic algorithms like AES-256, RSA-4096, SHA-256 should be preferred.
 
 Some clients may send traffic over the next available interface when VPN is interrupted or disconnected. See [scy/8122924](https://gist.github.com/scy/8122924) for an example on how to allow traffic only over VPN.
 
 Another set of scripts to lock down your system so it will only access the internet via a VPN can be found as part of the Voodoo Privacy project - [sarfata/voodooprivacy](https://github.com/sarfata/voodooprivacy) and there is an updated guide to setting up an IPSec VPN on a virtual machine ([hwdsl2/setup-ipsec-vpn](https://github.com/hwdsl2/setup-ipsec-vpn)) or a docker container ([hwdsl2/docker-ipsec-vpn-server](https://github.com/hwdsl2/docker-ipsec-vpn-server)).
+
+It may be worthwhile to consider the geographical location of the VPN provider. See further discussion in [issue #114](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/114).
 
 ## Viruses and malware
 
