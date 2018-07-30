@@ -1995,11 +1995,13 @@ $ sudo lsof -Pni TCP:22
 
 Keep your Mac physically secure at all times. Don't leave it unattended in hotels and such.
 
-A skilled attacker with unsupervised physical access to your computer can infect the boot ROM to install a keylogger and steal your password - see [Thunderstrike](https://trmm.net/Thunderstrike), for example.
+A skilled attacker with unsupervised physical access to your computer can infect the boot ROM to install a keylogger and steal your password - see [Thunderstrike](https://trmm.net/Thunderstrike) for an example.
 
 A helpful tool is [usbkill](https://github.com/hephaest0s/usbkill), which is *"an anti-forensic kill-switch that waits for a change on your USB ports and then immediately shuts down your computer"*.
 
 Consider purchasing a [privacy filter](https://www.amazon.com/s/ref=nb_sb_noss_2?url=node%3D15782001&field-keywords=macbook) for your screen to thwart shoulder surfers.
+
+Superglues or epoxy resins can also be used to disable physical access. [Nail polish](https://trmm.net/Glitter) and tamper-evidence seals can be applied to components to detect tampering.
 
 ## System monitoring
 
