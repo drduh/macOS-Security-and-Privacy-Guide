@@ -727,6 +727,19 @@ Annotated lists of launch daemons and agents, the respective program executed, a
 
 See also [cirrusj.github.io/Yosemite-Stop-Launch](https://cirrusj.github.io/Yosemite-Stop-Launch/) for descriptions of services and [Provisioning OS X and Disabling Unnecessary Services](https://vilimpoc.org/blog/2014/01/15/provisioning-os-x-and-disabling-unnecessary-services/) for another explanation.
 
+Other persistent login items may exist in these locations (see [Mac OSX Startup](http://www.malicious-streams.com/article/Mac_OSX_Startup.pdf) (pdf):
+
+* `/System/Library/LaunchAgents`
+* `/System/Library/LaunchDaemons`
+* `/Library/LaunchAgents`
+* `~/Library/LaunchAgents`
+* `/Library/LaunchDaemons`
+* `/System/Library/ScriptingAdditions`
+* `/Library/ScriptingAdditions`
+* `/System/Library/StartupItems`
+* `/Library/StartupItems`
+* `~/Library/Preferences/com.apple.loginitems.plist`
+
 ## Spotlight Suggestions
 
 Disable **Spotlight Suggestions** in both the Spotlight preferences and Safari's Search preferences to avoid your search queries being sent to Apple.
@@ -1520,6 +1533,8 @@ Some clients may send traffic over the next available interface when VPN is inte
 Another set of scripts to lock down your system so it will only access the internet via a VPN can be found as part of the Voodoo Privacy project - [sarfata/voodooprivacy](https://github.com/sarfata/voodooprivacy) and there is an updated guide to setting up an IPSec VPN on a virtual machine ([hwdsl2/setup-ipsec-vpn](https://github.com/hwdsl2/setup-ipsec-vpn)) or a docker container ([hwdsl2/docker-ipsec-vpn-server](https://github.com/hwdsl2/docker-ipsec-vpn-server)).
 
 It may be worthwhile to consider the geographical location of the VPN provider. See further discussion in [issue #114](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/114).
+
+Also see this [technical overview](https://blog.timac.org/2018/0717-macos-vpn-architecture/) of the macOS built-in VPN L2TP/IPSec and IKEv2 client.
 
 ## Viruses and malware
 
@@ -2403,7 +2418,7 @@ export HOME=/Users/blah
 
 [stronghold](https://github.com/alichtman/stronghold) - Securely and easily configure your Mac from the terminal. Inspired by this guide.
 
-[Santa](https://github.com/google/santa/) - A binary whitelisting/blacklisting system for macOS.
+[Santa](https://github.com/google/santa) - A binary whitelisting/blacklisting system for macOS.
 
 [kristovatlas/osx-config-check](https://github.com/kristovatlas/osx-config-check) - Checks your OSX machine against various hardened configuration settings.
 
