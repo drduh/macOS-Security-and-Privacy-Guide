@@ -727,7 +727,7 @@ Annotated lists of launch daemons and agents, the respective program executed, a
 
 See also [cirrusj.github.io/Yosemite-Stop-Launch](https://cirrusj.github.io/Yosemite-Stop-Launch/) for descriptions of services and [Provisioning OS X and Disabling Unnecessary Services](https://vilimpoc.org/blog/2014/01/15/provisioning-os-x-and-disabling-unnecessary-services/) for another explanation.
 
-Other persistent login items may exist in these locations (see [Mac OSX Startup](http://www.malicious-streams.com/article/Mac_OSX_Startup.pdf) (pdf):
+Other persistent login items may exist in these locations (see [Mac OSX Startup](http://www.malicious-streams.com/article/Mac_OSX_Startup.pdf) (pdf)):
 
 * `/System/Library/LaunchAgents`
 * `/System/Library/LaunchDaemons`
@@ -2441,6 +2441,8 @@ export HOME=/Users/blah
 [CISOfy/lynis](https://github.com/CISOfy/lynis) - Cross-platform security auditing tool and assists with compliance testing and system hardening.
 
 [Zentral](https://github.com/zentralopensource/zentral) - A log and configuration server for santa and osquery. Run audit and probes on inventory, events, logfiles, combine with point-in-time alerting. A full Framework and Django web server build on top of the elastic stack (formerly known as ELK stack).
+
+[The Eclectic Light Company - Downloads](https://eclecticlight.co/downloads/) - A collection of useful diagnostics and control applications and utilities for macOS.
 
 ## Additional resources
 
