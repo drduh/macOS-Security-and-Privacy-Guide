@@ -533,6 +533,8 @@ Note, a firmware password may be bypassed by a determined attacker or Apple, wit
 
 See [HT204455](https://support.apple.com/en-au/HT204455), [LongSoft/UEFITool](https://github.com/LongSoft/UEFITool) and [chipsec/chipsec](https://github.com/chipsec/chipsec) for more information.
 
+Newer Mac models now contain a T2 chip (Mac Pro, iMac Pro, Macbook with TouchBar, ...) that verifies the firmware that is being loaded, which alleviates EFI firmware attacks altogether if enabled. Read [this blog post](http://michaellynn.github.io/2018/07/27/booting-secure/) for more information.
+
 ## Firewall
 
 There are several types of firewalls available for macOS which should be enabled.
