@@ -797,10 +797,10 @@ For hosts lists, see [someonewhocares.org](https://someonewhocares.org/hosts/zer
 To append a list of hosts from a list, use the `tee` command, then confirm by editing `/etc/hosts` or counting the number of lines in it:
 
 ```shell
-$ curl "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts" | sudo tee -a /etc/hosts
+$ curl "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts" | sudo tee /etc/hosts
 
 $ wc -l /etc/hosts
-47476
+65580
 
 $ egrep -ve "^#|^255.255.255|^0.0.0.0|^127.0.0.1|^0 " /etc/hosts | sort | uniq | sort
 ::1 localhost
