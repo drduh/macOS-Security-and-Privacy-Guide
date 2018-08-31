@@ -25,7 +25,7 @@ def LoadPlist(filename):
     out_data, err_data = p.communicate()
   except IOError as e:
     # file could not be found
-    print e
+    print(e)
       
   if(p.returncode == 0):
       data = plistlib.readPlistFromString(out_data)
