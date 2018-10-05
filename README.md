@@ -1524,7 +1524,7 @@ Also see [Invisible Internet Project (I2P)](https://geti2p.net/en/about/intro) a
 
 Unencrypted network traffic is being actively monitored and possibly tampered with. Encrypted traffic still exposes [connection metadata](https://security.stackexchange.com/questions/142833/does-https-encrypt-metadata#142855) and could be used to infer behavior or specific actions.
 
-It is a good idea to use a VPN which outgoing network traffic (*not* **split tunnel**) with a trustworthy provider. [drduh/Debian-Privacy-Server-Guide](https://github.com/drduh/Debian-Privacy-Server-Guide) is one of many available guides for setting up a personal VPN server.
+It is a good idea to use a VPN with outgoing network traffic (*not* **split tunnel**) together with a trustworthy provider. [drduh/Debian-Privacy-Server-Guide](https://github.com/drduh/Debian-Privacy-Server-Guide) is one of many available guides for setting up a personal VPN server.
 
 Don't just blindly sign up for a VPN service without understanding the full implications and how your traffic will be routed. If you don't understand how the VPN works or are not familiar with the software used, you are probably better off without it.
 
@@ -1537,6 +1537,8 @@ Another set of scripts to lock down your system so it will only access the inter
 It may be worthwhile to consider the geographical location of the VPN provider. See further discussion in [issue #114](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/114).
 
 Also see this [technical overview](https://blog.timac.org/2018/0717-macos-vpn-architecture/) of the macOS built-in VPN L2TP/IPSec and IKEv2 client.
+
+Further, it is possible to run the contemporary Linux-based [Wireguard](https://www.wireguard.com/) VPN either [from a Linux VM](https://github.com/mrash/Wireguard-macOS-LinuxVM) or via a set of [cross platform tools](https://www.wireguard.com/xplatform/).
 
 ## Viruses and malware
 
