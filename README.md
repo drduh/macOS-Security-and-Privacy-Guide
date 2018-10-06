@@ -359,7 +359,7 @@ When macOS first starts, you'll be greeted by **Setup Assistant**.
 
 When creating the first account, use a [strong password](https://www.explainxkcd.com/wiki/index.php/936:_Password_Strength) without a hint.
 
-If you enter your real name at the account setup process, be aware that your [computer's name and local hostname](https://support.apple.com/kb/PH18720) will comprise that name (e.g., *John Appleseed's MacBook*) and thus will appear on local networks and in various preference files. 
+If you enter your real name at the account setup process, be aware that your [computer's name and local hostname](https://support.apple.com/kb/PH18720) will comprise that name (e.g., *John Appleseed's MacBook*) and thus will appear on local networks and in various preference files.
 
 Both should be verified and updated as needed in **System Preferences > Sharing** or with the following commands after installation:
 
@@ -1946,7 +1946,7 @@ You may wish to [spoof the MAC address](https://en.wikipedia.org/wiki/MAC_spoofi
 $ sudo ifconfig en0 ether $(openssl rand -hex 6 | sed 's%\(..\)%\1:%g; s%.$%%')
 ```
 
-It is also good to know that macOS will store Wi-FI SSIDs and passwords in NVRAM, because Recovery Mode needs access to restore from the Internet. Be sure to either clear NVRAM or de-authenticate your Mac from your Apple account, which will clear the NVRAM, before passing a Mac along. (Resetting the SMC will clear some of the NVRAM, but not all.)
+It is also good to know that macOS will store Wi-Fi SSIDs and passwords in NVRAM, because Recovery Mode needs access to restore from the Internet. Be sure to either clear NVRAM or de-authenticate your Mac from your Apple account, which will clear the NVRAM, before passing a Mac along. (Resetting the SMC will clear some of the NVRAM, but not all.)
 
 **Note** MAC addresses will reset to hardware defaults on each boot.
 
