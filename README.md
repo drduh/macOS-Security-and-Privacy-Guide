@@ -359,7 +359,7 @@ When macOS first starts, you'll be greeted by **Setup Assistant**.
 
 When creating the first account, use a [strong password](https://www.explainxkcd.com/wiki/index.php/936:_Password_Strength) without a hint.
 
-If you enter your real name at the account setup process, be aware that your [computer's name and local hostname](https://support.apple.com/kb/PH18720) will comprise that name (e.g., *John Appleseed's MacBook*) and thus will appear on local networks and in various preference files. 
+If you enter your real name at the account setup process, be aware that your [computer's name and local hostname](https://support.apple.com/kb/PH18720) will comprise that name (e.g., *John Appleseed's MacBook*) and thus will appear on local networks and in various preference files.
 
 Both should be verified and updated as needed in **System Preferences > Sharing** or with the following commands after installation:
 
@@ -1040,7 +1040,7 @@ When macOS connects to new networks, it **probes** the network and launches a Ca
 
 An attacker could trigger the utility and direct a Mac to a site with malware without user interaction, so it's best to disable this feature and log in to captive portals using your regular Web browser, provided you have first disable any custom dns and/or proxy settings.
 
-    $ sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.captive.control Active -bool false
+    $ sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.captive.control.plist Active -bool false
 
 Also see [Apple's secret "wispr" request](https://web.archive.org/web/20171008071031/http://blog.erratasec.com/2010/09/apples-secret-wispr-request.html), [How to disable the captive portal window in Mac OS Lion](https://web.archive.org/web/20130407200745/http://www.divertednetworks.net/apple-captiveportal.html) and [An undocumented change to Captive Network Assistant settings in OS X 10.10 Yosemite](https://web.archive.org/web/20170622064304/https://grpugh.wordpress.com/2014/10/29/an-undocumented-change-to-captive-network-assistant-settings-in-os-x-10-10-yosemite/).
 
@@ -1928,7 +1928,7 @@ You may also create encrypted volumes using **Disk Utility** or `hdiutil`:
 $ hdiutil create ~/Desktop/encrypted.dmg -encryption -size 1g -volname "Name" -fs JHFS+
 ```
 
-Also see the following applications and services: [SpiderOak](https://spideroak.com/), [Arq](https://www.arqbackup.com/), [Espionage](https://www.espionageapp.com/), and [restic](https://restic.github.io/).
+Also see the following applications and services: [Tresorit](https://www.tresorit.com), [SpiderOak](https://www.spideroak.com/), [Arq](https://www.arqbackup.com/), [Espionage](https://www.espionageapp.com/), and [restic](https://restic.github.io/).
 
 ## Wi-Fi
 
@@ -1946,7 +1946,7 @@ You may wish to [spoof the MAC address](https://en.wikipedia.org/wiki/MAC_spoofi
 $ sudo ifconfig en0 ether $(openssl rand -hex 6 | sed 's%\(..\)%\1:%g; s%.$%%')
 ```
 
-It is also good to know that macOS will store Wi-FI SSIDs and passwords in NVRAM, because Recovery Mode needs access to restore from the Internet. Be sure to either clear NVRAM or de-authenticate your Mac from your Apple account, which will clear the NVRAM, before passing a Mac along. (Resetting the SMC will clear some of the NVRAM, but not all.)
+It is also good to know that macOS will store Wi-Fi SSIDs and passwords in NVRAM, because Recovery Mode needs access to restore from the Internet. Be sure to either clear NVRAM or de-authenticate your Mac from your Apple account, which will clear the NVRAM, before passing a Mac along. (Resetting the SMC will clear some of the NVRAM, but not all.)
 
 **Note** MAC addresses will reset to hardware defaults on each boot.
 
