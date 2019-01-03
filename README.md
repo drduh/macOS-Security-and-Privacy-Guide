@@ -110,7 +110,7 @@ The simplest way is to boot into [Recovery Mode](https://support.apple.com/en-us
 
 *Packet capture of an unencrypted HTTP conversation during macOS recovery*
 
-An alternative way to install macOS is to first download **macOS High Sierra** from the [App Store](https://itunes.apple.com/us/app/macos-high-sierra/id1246284741) or elsewhere, and create a custom installable system image.
+An alternative way to install macOS is to first download **macOS Mojave** from the [App Store](https://itunes.apple.com/us/app/macos-mojave/id1398502828) or elsewhere, and create a custom installable system image.
 
 ### Verifying installation integrity
 
@@ -119,68 +119,66 @@ The macOS installation application is [code signed](https://developer.apple.com/
 Here are two example ways to verify the code signature and integrity of macOS application bundles:
 
 ```shell
-$ pkgutil --check-signature /Applications/Install\ macOS\ Sierra.app
-Package "Install macOS Sierra.app":
+$ pkgutil --check-signature /Applications/Install\ macOS\ Mojave.app
+Package "Install macOS Mojave":
    Status: signed by a certificate trusted by Mac OS X
    Certificate Chain:
-    1. Apple Mac OS Application Signing
-       SHA1 fingerprint: B9 3B DA AA F1 A8 84 6B 34 BA 32 33 26 35 CB 2B 84 85 3D A8
+    1. Software Signing
+       SHA1 fingerprint: 01 3E 27 87 74 8A 74 10 3D 62 D2 CD BF 77 A1 34 55 17 C4 82
        -----------------------------------------------------------------------------
-    2. Apple Worldwide Developer Relations Certification Authority
-       SHA1 fingerprint: FF 67 97 79 3A 3C D7 98 DC 5B 2A BE F5 6F 73 ED C9 F8 3A 64
+    2. Apple Code Signing Certification Authority
+       SHA1 fingerprint: 1D 01 00 78 A6 1F 4F A4 69 4A FF 4D B1 AC 26 6C E1 B4 59 46
        -----------------------------------------------------------------------------
     3. Apple Root CA
        SHA1 fingerprint: 61 1E 5B 66 2C 59 3A 08 FF 58 D1 4A E2 24 52 D1 98 DF 6C 60
-
 ```
 
 You may also use the `codesign` command to examine an application's code signature:
 
 ```shell
-$ codesign -dvv /Applications/Install\ macOS\ Sierra.app
-Executable=/Applications/Install macOS Sierra.app/Contents/MacOS/InstallAssistant
-Identifier=com.apple.InstallAssistant.Sierra
+$ codesign -dvv /Applications/Install\ macOS\ Mojave.app
+Executable=/Applications/Install macOS Mojave.app/Contents/MacOS/InstallAssistant_springboard
+Identifier=com.apple.InstallAssistant.Mojave
 Format=app bundle with Mach-O thin (x86_64)
-CodeDirectory v=20200 size=297 flags=0x200(kill) hashes=5+5 location=embedded
-Signature size=4167
-Authority=Apple Mac OS Application Signing
-Authority=Apple Worldwide Developer Relations Certification Authority
+CodeDirectory v=20100 size=274 flags=0x2000(library-validation) hashes=3+3 location=embedded
+Platform identifier=5
+Signature size=4535
+Authority=Software Signing
+Authority=Apple Code Signing Certification Authority
 Authority=Apple Root CA
-Info.plist entries=30
-TeamIdentifier=K36BKF7T3D
-Sealed Resources version=2 rules=7 files=137
-Internal requirements count=1 size=124
+Info.plist entries=34
+TeamIdentifier=not set
+Sealed Resources version=2 rules=13 files=194
+Internal requirements count=1 size=84
 ```
 
 ### Creating a bootable USB installer
 
 Instead of booting from the network or using target disk mode, a bootable macOS installer can be made with the `createinstallmedia` utility included in `Contents/Resources` folder of the installer application bundle. See [Create a bootable installer for macOS](https://support.apple.com/en-us/HT201372), or run the utility without arguments to see how it works.
 
-**Note** Apple's installer [does not appear to work](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/120) across OS versions. If you want to build a 10.12 image, for example, the following steps must be run on macOS verison 10.12!
-
 To create a **bootable USB installer**, mount a USB drive, and erase and partition it, then use the `createinstallmedia` utility:
 
 ```shell
 $ diskutil list
-[Find disk matching correct size, usually "disk2"]
+[Find disk matching correct size, usually the last disk. i.e. /dev/disk2]
 
 $ diskutil unmountDisk /dev/disk2
 
 $ diskutil partitionDisk /dev/disk2 1 JHFS+ Installer 100%
 
-$ cd /Applications/Install\ macOS\ Sierra.app
+$ cd /Applications/Install\ macOS\ Mojave.app
 
-$ sudo ./Contents/Resources/createinstallmedia --volume /Volumes/Installer --applicationpath /Applications/Install\ macOS\ Sierra.app --nointeraction
-Erasing Disk: 0%... 10%... 20%... 30%... 100%...
-Copying installer files to disk...
-Copy complete.
+$ sudo ./Contents/Resources/createinstallmedia --volume /Volumes/Installer --nointeraction
+Erasing disk: 0%... 10%... 20%... 30%... 100%
+Copying to disk: 0%... 10%... 20%... 30%... 40%... 50%... 60%... 70%... 80%... 90%... 100%
 Making disk bootable...
 Copying boot files...
-Copy complete.
-Done.
+Install media now available at "/Volumes/Install macOS Mojave"
 ```
 
 ### Creating an install image
+
+**Note** Apple's AutoDMG installer [does not appear to work](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/120) across OS versions. If you want to build a 10.14 image, for example, the following steps must be run on macOS verison 10.14!
 
 To create a **custom install image** which can be [restored](https://en.wikipedia.org/wiki/Apple_Software_Restore) to a Mac (using a USB-C cable and target disk mode, for example), use [MagerValp/AutoDMG](https://github.com/MagerValp/AutoDMG).
 
