@@ -1223,7 +1223,7 @@ Safari syncs user's preferences and stored logins through the iCloud Keychain. S
 
 Safari follows a slower release cycle than Chrome and Firefox (3-4 minor releases, 1 major release, per year). Newer features are slower to be adopted to the stable channel. Although security updates in Safari are handled independent of the stable release schedule and issued automatically through the App store. The Safari channel that follows a six-week release cycle (similar to as Chrome and Firefox) is called [Safari Technology Preview](https://developer.apple.com/safari/technology-preview/) and it is the recommended option instead of the stable channel of Safari.
 
-An excellent open source ad blocker for Safari that fully leverages Content blockers is [dgraham/Ka-Block](https://github.com/dgraham/Ka-Block). Ka-Block is focussed on user privacy. The only time the extension makes a network connection is when a new version of the extension is released.
+An excellent open source ad blocker for Safari that fully leverages Content blockers is [dgraham/Ka-Block](https://github.com/dgraham/Ka-Block). Ka-Block is focussed on user privacy. The only time the extension makes a network connection is when a new version of the extension is released. See also [el1t/uBlock-Safari](https://github.com/el1t/uBlock-Safari/wiki/Disable-hyperlink-auditing-beacon) to disable hyperlink auditing beacons.
 
 #### Other Web browsers
 
