@@ -496,6 +496,8 @@ $ sudo pmset -a autopoweroff 0
 For more information, see [Best Practices for
 Deploying FileVault 2](https://training.apple.com/pdf/WP_FileVault2.pdf) (pdf) and paper [Lest We Remember: Cold Boot Attacks on Encryption Keys](https://www.usenix.org/legacy/event/sec08/tech/full_papers/halderman/halderman.pdf) (pdf)
 
+**Note** APFS may make evicting FV keys redundant - see discussion and links in [issue #283](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/283).
+
 ## Firmware
 
 Setting a firmware password prevents a Mac from starting up from any device other than your startup disk. It may also be set to be required on each boot. This may be useful for mitigating some attacks which require physical access to hardware.  See [How to set a firmware password on your Mac](https://support.apple.com/en-au/HT204455) for official documentation.
@@ -508,7 +510,7 @@ This feature [can be helpful if your laptop is lost or stolen](https://www.ftc.g
 1. Enter a new password, then enter the same password in the **Verify** field.
 1. Select **Set Password**.
 1. Select **Quit Firmware Utility** to close the Firmware Password Utility.
-1. Select the Apple menu and select Restart or Shutdown.
+1. Select Restart or Shutdown from the Apple menu in the top-left corner.
 
 The firmware password will activate at next boot. To validate the password, hold `Alt` during boot - you should be prompted to enter the password.
 
@@ -795,10 +797,10 @@ There are many lists of domains available online which you can paste in, just ma
 
 For hosts lists, see [someonewhocares.org](https://someonewhocares.org/hosts/zero/hosts), [l1k/osxparanoia/blob/master/hosts](https://github.com/l1k/osxparanoia/blob/master/hosts) and [StevenBlack/hosts](https://github.com/StevenBlack/hosts).
 
-To append a list of hosts from a list, use the `tee` command, then confirm by editing `/etc/hosts` or counting the number of lines in it:
+Append a list of hosts with the `tee` command and confirm only non-routable addresses or comments were added:
 
 ```console
-$ curl "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts" | sudo tee /etc/hosts
+$ curl https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts | sudo tee -a /etc/hosts
 
 $ wc -l /etc/hosts
 65580
@@ -1195,7 +1197,7 @@ It is best to remember that Google is an advertising company and its major sourc
 Firefox offers a similar security model to Chrome. It offers a
 [bounty](https://www.mozilla.org/en-US/security/bug-bounty/) program, although it is not a lucrative as Chrome's. Firefox follows a six-week release cycle similar to Chrome.
 
-See discussion in issues [#2](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/2), [#90](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/90) for more information about certain differences in Firefox and Chrome.
+See discussion in issues [#2](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/2) and [#90](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/90) for more information about certain differences in Firefox and Chrome.
 
 If using Firefox, see [TheCreeper/PrivacyFox](https://github.com/TheCreeper/PrivacyFox), [pyllyukko/user.js](https://github.com/pyllyukko/user.js) and [ghacksuserjs/ghacks-user.js](https://github.com/ghacksuserjs/ghacks-user.js/) for recommended privacy preferences and other hardening measures. Also be sure to check out [NoScript](https://noscript.net/) for Mozilla-based browsers, which allows whitelist-based, pre-emptive script blocking.
 
@@ -1251,9 +1253,9 @@ See [Hacking Team Flash Zero-Day](https://blog.trendmicro.com/trendlabs-security
 
 PGP is a standard for encrypting email end to end. That means only the chosen recipients can decrypt a message, unlike regular email which is read and forever archived by providers.
 
-**GPG**, or **GNU Privacy Guard**, is a GPL licensed program compliant with the standard.
+GPG, or **GNU Privacy Guard**, is a GPL licensed program compliant with the standard.
 
-**GPG** is used to verify signatures of software you download and install, as well as [symmetrically](https://en.wikipedia.org/wiki/Symmetric-key_algorithm) or [asymmetrically](https://en.wikipedia.org/wiki/Public-key_cryptography) encrypt files and text.
+GPG is used to verify signatures of software you download and install, as well as [symmetrically](https://en.wikipedia.org/wiki/Symmetric-key_algorithm) or [asymmetrically](https://en.wikipedia.org/wiki/Public-key_cryptography) encrypt files and text.
 
 Install from Homebrew with `brew install gnupg`.
 
@@ -1626,14 +1628,14 @@ $ rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/th
 Similarly, for the root user:
 
 ```console
-sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/thumbnails.fraghandler
-sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/exclusive
-sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/index.sqlite
-sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/index.sqlite-shm
-sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/index.sqlite-wal
-sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/resetreason
-sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/thumbnails.data
-sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/thumbnails.fraghandler
+$ sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/thumbnails.fraghandler
+$ sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/exclusive
+$ sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/index.sqlite
+$ sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/index.sqlite-shm
+$ sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/index.sqlite-wal
+$ sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/resetreason
+$ sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/thumbnails.data
+$ sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/thumbnails.fraghandler
 ```
 
 Also see ['quicklook' cache may leak encrypted data](https://objective-see.com/blog/blog_0x30.html).
@@ -1641,16 +1643,16 @@ Also see ['quicklook' cache may leak encrypted data](https://objective-see.com/b
 To clear Finder preferences:
 
 ```console
-defaults delete ~/Library/Preferences/com.apple.finder.plist FXDesktopVolumePositions
-defaults delete ~/Library/Preferences/com.apple.finder.plist FXRecentFolders
-defaults delete ~/Library/Preferences/com.apple.finder.plist RecentMoveAndCopyDestinations
-defaults delete ~/Library/Preferences/com.apple.finder.plist RecentSearches
-defaults delete ~/Library/Preferences/com.apple.finder.plist SGTRecentFileSearches
+$ defaults delete ~/Library/Preferences/com.apple.finder.plist FXDesktopVolumePositions
+$ defaults delete ~/Library/Preferences/com.apple.finder.plist FXRecentFolders
+$ defaults delete ~/Library/Preferences/com.apple.finder.plist RecentMoveAndCopyDestinations
+$ defaults delete ~/Library/Preferences/com.apple.finder.plist RecentSearches
+$ defaults delete ~/Library/Preferences/com.apple.finder.plist SGTRecentFileSearches
 ```
 
 Additional diagnostic files may be found in the following directories - but caution should be taken before removing any, as it may break logging or cause other issues:
 
-```console
+```
 /var/db/CoreDuet/
 /var/db/diagnostics/
 /var/db/systemstats/
@@ -1661,87 +1663,87 @@ Additional diagnostic files may be found in the following directories - but caut
 macOS stored preferred Wi-Fi data (including credentials) in nvram. To clear it, use the following commands:
 
 ```console
-sudo nvram -d 36C28AB5-6566-4C50-9EBD-CBB920F83843:current-network
-sudo nvram -d 36C28AB5-6566-4C50-9EBD-CBB920F83843:preferred-networks
-sudo nvram -d 36C28AB5-6566-4C50-9EBD-CBB920F83843:preferred-count
+$ sudo nvram -d 36C28AB5-6566-4C50-9EBD-CBB920F83843:current-network
+$ sudo nvram -d 36C28AB5-6566-4C50-9EBD-CBB920F83843:preferred-networks
+$ sudo nvram -d 36C28AB5-6566-4C50-9EBD-CBB920F83843:preferred-count
 ```
 
 macOS may collect sensitive information about what you type, even if user dictionary and suggestions are off. To remove them, and prevent them from being created again, use the following commands:
 
 ```console
-rm -rfv "~/Library/LanguageModeling/*" "~/Library/Spelling/*" "~/Library/Suggestions/*"
-chmod -R 000 ~/Library/LanguageModeling ~/Library/Spelling ~/Library/Suggestions
-chflags -R uchg ~/Library/LanguageModeling ~/Library/Spelling ~/Library/Suggestions
+$ rm -rfv "~/Library/LanguageModeling/*" "~/Library/Spelling/*" "~/Library/Suggestions/*"
+$ chmod -R 000 ~/Library/LanguageModeling ~/Library/Spelling ~/Library/Suggestions
+$ chflags -R uchg ~/Library/LanguageModeling ~/Library/Spelling ~/Library/Suggestions
 ```
 
 QuickLook application support metadata can be cleared and locked with the following commands:
 
 ```console
-rm -rfv "~/Library/Application Support/Quick Look/*"
-chmod -R 000 "~/Library/Application Support/Quick Look"
-chflags -R uchg "~/Library/Application Support/Quick Look"
+$ rm -rfv "~/Library/Application Support/Quick Look/*"
+$ chmod -R 000 "~/Library/Application Support/Quick Look"
+$ chflags -R uchg "~/Library/Application Support/Quick Look"
 ```
 
 Document revision metadata is stored in `/.DocumentRevisions-V100` and can be cleared and locked with the following commands - caution should be taken as this may break some core Apple applications:
 
 ```console
-sudo rm -rfv /.DocumentRevisions-V100/*
-sudo chmod -R 000 /.DocumentRevisions-V100
-sudo chflags -R uchg /.DocumentRevisions-V100
+$ sudo rm -rfv /.DocumentRevisions-V100/*
+$ sudo chmod -R 000 /.DocumentRevisions-V100
+$ sudo chflags -R uchg /.DocumentRevisions-V100
 ```
 
 Saved application state metadata may be cleared and locked with the following commands:
 
 ```console
-rm -rfv "~/Library/Saved Application State/*"
-rm -rfv "~/Library/Containers/<APPNAME>/Saved Application State"
-chmod -R 000 "~/Library/Saved Application State/"
-chmod -R 000 "~/Library/Containers/<APPNAME>/Saved Application State"
-chflags -R uchg "~/Library/Saved Application State/"
-chflags -R uchg "~/Library/Containers/<APPNAME>/Saved Application State"
+$ rm -rfv "~/Library/Saved Application State/*"
+$ rm -rfv "~/Library/Containers/<APPNAME>/Saved Application State"
+$ chmod -R 000 "~/Library/Saved Application State/"
+$ chmod -R 000 "~/Library/Containers/<APPNAME>/Saved Application State"
+$ chflags -R uchg "~/Library/Saved Application State/"
+$ chflags -R uchg "~/Library/Containers/<APPNAME>/Saved Application State"
 ```
 
 Autosave metadata can be cleared and locked with the following commands:
 
 ```console
-rm -rfv "~/Library/Containers/<APP>/Data/Library/Autosave Information"
-rm -rfv "~/Library/Autosave Information"
-chmod -R 000 "~/Library/Containers/<APP>/Data/Library/Autosave Information"
-chmod -R 000 "~/Library/Autosave Information"
-chflags -R uchg "~/Library/Containers/<APP>/Data/Library/Autosave Information"
-chflags -R uchg "~/Library/Autosave Information"
+$ rm -rfv "~/Library/Containers/<APP>/Data/Library/Autosave Information"
+$ rm -rfv "~/Library/Autosave Information"
+$ chmod -R 000 "~/Library/Containers/<APP>/Data/Library/Autosave Information"
+$ chmod -R 000 "~/Library/Autosave Information"
+$ chflags -R uchg "~/Library/Containers/<APP>/Data/Library/Autosave Information"
+$ chflags -R uchg "~/Library/Autosave Information"
 ```
 
 The Siri analytics database, which is created even if the Siri launch agent disabled, can be cleared and locked with the following commands:
 
 ```console
-rm -rfv ~/Library/Assistant/SiriAnalytics.db
-chmod -R 000 ~/Library/Assistant/SiriAnalytics.db
-chflags -R uchg ~/Library/Assistant/SiriAnalytics.db
+$ rm -rfv ~/Library/Assistant/SiriAnalytics.db
+$ chmod -R 000 ~/Library/Assistant/SiriAnalytics.db
+$ chflags -R uchg ~/Library/Assistant/SiriAnalytics.db
 ```
 
 `~/Library/Preferences/com.apple.iTunes.plist` contains iTunes metadata. Recent iTunes search data may be cleared with the following command:
 
 ```console
-defaults delete ~/Library/Preferences/com.apple.iTunes.plist recentSearches
+$ defaults delete ~/Library/Preferences/com.apple.iTunes.plist recentSearches
 ```
 
 If you do not use Apple ID-linked services, the following keys may be cleared, too, using the following commands:
 
 ```console
-defaults delete ~/Library/Preferences/com.apple.iTunes.plist StoreUserInfo
-defaults delete ~/Library/Preferences/com.apple.iTunes.plist WirelessBuddyID
+$ defaults delete ~/Library/Preferences/com.apple.iTunes.plist StoreUserInfo
+$ defaults delete ~/Library/Preferences/com.apple.iTunes.plist WirelessBuddyID
 ```
 
 All media played in QuickTime Player can be found in:
 
-```console
+```
 ~/Library/Containers/com.apple.QuickTimePlayerX/Data/Library/Preferences/com.apple.QuickTimePlayerX.plist
 ```
 
 Additional metadata may exist in the following files:
 
-```console
+```
 ~/Library/Containers/com.apple.appstore/Data/Library/Preferences/com.apple.commerce.knownclients.plist
 ~/Library/Preferences/com.apple.commerce.plist
 ~/Library/Preferences/com.apple.QuickTimePlayerX.plist
