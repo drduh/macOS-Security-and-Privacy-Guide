@@ -133,7 +133,7 @@ Package "Install macOS Mojave":
        SHA1 fingerprint: 61 1E 5B 66 2C 59 3A 08 FF 58 D1 4A E2 24 52 D1 98 DF 6C 60
 ```
 
-You may also use the `codesign` command to examine an application's code signature:
+Use the `codesign` command to examine an application's code signature:
 
 ```console
 $ codesign -dvv /Applications/Install\ macOS\ Mojave.app
@@ -406,14 +406,14 @@ Accounts can be created and managed in System Preferences. On settled systems, i
 
 Demoting an account can be done either from the the new admin account in System Preferences – the other account must be logged out – or by executing these commands (it may not be necessary to execute both, see [issue #179](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/179)):
 
-```shell
+```console
 $ sudo dscl . -delete /Groups/admin GroupMembership <username>
 $ sudo dscl . -delete /Groups/admin GroupMembers <GeneratedUID>
 ```
 
 You can find the “GeneratedUID” of an account with:
 
-```shell
+```console
 $ dscl . -read /Users/<username> GeneratedUID
 ```
 
@@ -439,8 +439,10 @@ Additionally, the PRNG can be manually seeded with entropy by writing to /dev/ra
 
 To manually seed entropy *before* enabling FileVault:
 
-    $ cat > /dev/random
-    [Type random letters for a long while, then press Control-D]
+```console
+$ cat > /dev/random
+[Type random letters for a long while, then press Control-D]
+```
 
 To test entropy and randomness quality, download and use [`ent`](http://www.fourmilab.ch/random/) with Homebrew, then:
 
@@ -471,10 +473,12 @@ If you can remember your password, there's no reason to save the **recovery key*
 
 To learn about how FileVault works, see the paper [Infiltrate the Vault: Security Analysis and Decryption of Lion Full Disk Encryption](https://eprint.iacr.org/2012/374.pdf) (pdf) and related [presentation](http://www.cl.cam.ac.uk/~osc22/docs/slides_fv2_ifip_2013.pdf) (pdf). Also see [IEEE Std 1619-2007 “The XTS-AES Tweakable Block Cipher”](http://libeccio.di.unisa.it/Crypto14/Lab/p1619.pdf) (pdf).
 
-You may wish to enforce **hibernation** and evict FileVault keys from memory instead of traditional sleep to memory:
+**Optional** Enforce **hibernation** and evict FileVault keys from memory instead of traditional sleep to memory:
 
-    $ sudo pmset -a destroyfvkeyonstandby 1
-    $ sudo pmset -a hibernatemode 25
+```console
+$ sudo pmset -a destroyfvkeyonstandby 1
+$ sudo pmset -a hibernatemode 25
+```
 
 > All computers have firmware of some type—EFI, BIOS—to help in the discovery of hardware components and ultimately to properly bootstrap the computer using the desired OS instance. In the case of Apple hardware and the use of EFI, Apple stores relevant information within EFI to aid in the functionality of macOS. For example, the FileVault key is stored in EFI to transparently come out of standby mode.
 
@@ -572,7 +576,7 @@ Disabled allow signed downloaded applications automatically
 
 > If you run an unsigned app that is not listed in the firewall list, a dialog appears with options to Allow or Deny connections for the app. If you choose "Allow", macOS signs the application and automatically adds it to the firewall list. If you choose "Deny", macOS adds it to the list but denies incoming connections intended for this app.
 
-After interacting with `socketfilterfw`, you may want to restart (or terminate) the process:
+After interacting with `socketfilterfw`, restart the process by sending a line hangup signal:
 
 ```console
 $ sudo pkill -HUP socketfilterfw
@@ -675,13 +679,11 @@ IP 192.168.1.1.162771 > 157.240.2.35.80: tcp 0
 
 Outgoing TCP SYN packets are blocked, so a TCP connection is not established and thus a Web site is effectively blocked at the IP layer.
 
-To use pf to audit "phone home" behavior of user and system-level processes, see [fix-macosx/net-monitor](https://github.com/fix-macosx/net-monitor).
+To use pf to audit "phone home" behavior of user and system-level processes, see [fix-macosx/net-monitor](https://github.com/fix-macosx/net-monitor). See [drduh/config/scripts/pf-blocklist.sh](https://github.com/drduh/config/blob/master/scripts/pf-blocklist.sh) for more inspiration.
 
 ## Services
 
-Before you connect to the Internet, you may wish to disable some system services, which use up resources or phone home to Apple.
-
-**Note** [System Integrity Protection](https://github.com/drduh/macOS-Security-and-Privacy-Guide#system-integrity-protection) does not allow disabling system services on recent macOS versions. Either temporarily disable SIP or turn them off from Recovery Mode.
+**Note** [System Integrity Protection](https://github.com/drduh/macOS-Security-and-Privacy-Guide#system-integrity-protection) does not allow disabling system services on recent macOS versions. Either temporarily disable SIP or disable services from Recovery Mode.
 
 See [fix-macosx/yosemite-phone-home](https://github.com/fix-macosx/yosemite-phone-home), [l1k/osxparanoia](https://github.com/l1k/osxparanoia) and [karek314/macOS-home-call-drop](https://github.com/karek314/macOS-home-call-drop) for further recommendations.
 
@@ -742,7 +744,7 @@ Disable **Spotlight Suggestions** in both the Spotlight preferences and Safari's
 
 Also disable **Bing Web Searches** in the Spotlight preferences to avoid your search queries being sent to Microsoft.
 
-See [fix-macosx.com](https://fix-macosx.com/) for detailed instructions.
+See [fix-macosx.com](https://web.archive.org/web/20180817061520/https://fix-macosx.com/) for detailed instructions.
 
 > If you've upgraded to OS X 10.10 "Yosemite" and you're using the default settings, each time you start typing in Spotlight (to open an application or search for a file on your computer), your local search terms and location are sent to Apple and third parties (including Microsoft).
 
@@ -762,7 +764,7 @@ To [install Homebrew](https://github.com/Homebrew/brew/blob/master/docs/Installa
 
 Edit `PATH` in your shell or shell rc file to use `~/homebrew/bin` and `~/homebrew/sbin`. For example, `echo 'PATH=$PATH:~/homebrew/sbin:~/homebrew/bin' >> .zshrc`, then change your login shell to Z shell with `chsh -s /bin/zsh`, open a new Terminal window and run `brew update`.
 
-Homebrew uses SSL/TLS to talk with GitHub and verifies checksums of downloaded packages, so it's [fairly secure](https://github.com/Homebrew/homebrew/issues/18036).
+Homebrew uses SSL/TLS to talk with GitHub and verifies integrity of downloaded packages, so it's [fairly secure](https://github.com/Homebrew/homebrew/issues/18036).
 
 Remember to periodically run `brew update` and `brew upgrade` on trusted and secure networks to download and install software updates. To get information on a package before installation, run `brew info <package>` and check its recipe online.
 
@@ -780,7 +782,12 @@ Use the [hosts file](https://en.wikipedia.org/wiki/Hosts_(file)) to block known 
 
 Edit the hosts file as root, for example with `sudo vi /etc/hosts`. The hosts file can also be managed with the GUI app [2ndalpha/gasmask](https://github.com/2ndalpha/gasmask).
 
-To block a domain, append `0 example.com` or `0.0.0.0 example.com` or `127.0.0.1 example.com` to `/etc/hosts`
+To block a domain `A` record, append one of the following lines to `/etc/hosts`:
+```
+0 example.com
+0.0.0.0 example.com
+127.0.0.1 example.com
+```
 
 **Note** IPv6 uses the `AAAA` DNS record type, rather than `A` record type, so you may also want to block those connections by *also* including `::1 example.com` entries, like shown [here](https://someonewhocares.org/hosts/ipv6/).
 
@@ -790,7 +797,7 @@ For hosts lists, see [someonewhocares.org](https://someonewhocares.org/hosts/zer
 
 To append a list of hosts from a list, use the `tee` command, then confirm by editing `/etc/hosts` or counting the number of lines in it:
 
-```shell
+```console
 $ curl "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts" | sudo tee /etc/hosts
 
 $ wc -l /etc/hosts
@@ -814,13 +821,13 @@ A GUI application is only available for the discontinued version 1 of `dnscrypt-
 
 Install DNSCrypt from Homebrew and follow the instructions to configure and start `dnscrypt-proxy`:
 
-```shell
+```console
 $ brew install dnscrypt-proxy
 ```
 
 If using in combination with Dnsmasq, find the file `homebrew.mxcl.dnscrypt-proxy.plist` by running
 
-```shell
+```console
 $ brew info dnscrypt-proxy
 ```
 
@@ -828,13 +835,13 @@ which will show a location like `/usr/local/Cellar/dnscrypt-proxy/2.0.8`, and `h
 
 Edit it to have the line:
 
-```shell
+```
 <string>--local-address=127.0.0.1:5355</string>
 ```
 
 Below the line:
 
-```shell
+```
 <string>/usr/local/opt/dnscrypt-proxy/sbin/dnscrypt-proxy</string>
 ```
 
@@ -844,22 +851,24 @@ Below the line:
 
 This can also be done using Homebrew, by installing `gnu-sed` and using the `gsed` command:
 
-```shell
+```console
 $ sudo gsed -i "/sbin\\/dnscrypt-proxy<\\/string>/a<string>--local-address=127.0.0.1:5355<\\/string>\n" $(find ~/homebrew -name homebrew.mxcl.dnscrypt-proxy.plist)
 ```
 By default, the `resolvers-list` will point to the dnscrypt version specific resolvers file. When dnscrypt is updated, this version may no longer exist, and if it does, may point to an outdated file. This can be fixed by changing the resolvers file in `homebrew.mxcl.dnscrypt-proxy.plist` (found earlier using find) to the symlinked version in `/usr/local/share`:
 
-```shell
+```console
 <string>--resolvers-list=/usr/local/share/dnscrypt-proxy/dnscrypt-resolvers.csv</string>
 ```
 
 Below the line:
+
 ```shell
 <string>/usr/local/opt/dnscrypt-proxy/sbin/dnscrypt-proxy</string>
 ```
 
 Start DNSCrypt:
-```shell
+
+```console
 $ sudo brew services restart dnscrypt-proxy
 ```
 
@@ -884,7 +893,7 @@ You can run your own [dnscrypt server](https://github.com/Cofyc/dnscrypt-wrapper
 
 Confirm outgoing DNS traffic is encrypted:
 
-```shell
+```console
 $ sudo tcpdump -qtni en0
 IP 10.8.8.8.59636 > 107.181.168.52: UDP, length 512
 IP 107.181.168.52 > 10.8.8.8.59636: UDP, length 368
@@ -916,91 +925,41 @@ If you don't wish to use DNSCrypt, you should at least use DNS [not provided](ht
 
 Install Dnsmasq (DNSSEC is optional):
 
-```shell
+```console
 $ brew install dnsmasq --with-dnssec
 ```
 
-Edit the default configuration:
+Download [drduh/config/dnsmasq.conf](https://github.com/drduh/config/blob/master/dnsmasq.conf):
 
-```shell
-$ vim homebrew/etc/dnsmasq.conf
+```
+$ curl -o homebrew/etc/dnsmasq.conf https://raw.githubusercontent.com/drduh/config/master/dnsmasq.conf
 ```
 
-Examine all the options. Here are several [recommended settings](https://github.com/drduh/config/blob/master/dnsmasq.conf) to enable:
-
-```shell
-# Forward queries to DNSCrypt on localhost port 5355
-server=127.0.0.1#5355
-
-# Uncomment to forward queries to Google Public DNS, if DNSCrypt is not used
-# You may also use your own DNS server or other public DNS server you trust
-#server=8.8.8.8
-#server=8.8.4.4
-
-# Never forward plain (local) names
-domain-needed
-
-# Examples of blocking TLDs or subdomains
-#address=/.onion/0.0.0.0
-#address=/.local/0.0.0.0
-#address=/.mycoolnetwork/0.0.0.0
-#address=/.facebook.com/0.0.0.0
-#address=/.push.apple.com/0.0.0.0
-
-# Never forward addresses in the non-routed address spaces
-bogus-priv
-
-# Reject private addresses from upstream nameservers
-stop-dns-rebind
-
-# Query servers in order
-strict-order
-
-# Set the size of the cache
-# The default is to keep 150 hostnames
-cache-size=8192
-
-# Optional logging directives
-log-async
-log-dhcp
-log-facility=/var/log/dnsmasq.log
-
-# Log all queries
-#log-queries
-
-# Path to list of additional hosts
-#addn-hosts=/etc/blacklist
-
-# Enable DNSSEC (see https://www.iana.org/dnssec/files)
-#dnssec
-#trust-anchor=.,19036,8,2,49AAC11D7B6F6446702E54A1607371607A1A41855200FD2CE1CDDE32F24E8FB5
-#trust-anchor=.,20326,8,2,E06D44B80B8F1D39A95C0B0D7C65D08458E880409BBC683457104237C7F8EC8D
-#dnssec-check-unsigned
-```
+Edit the file and examine all the options. To block entire levels of domains, append [drduh/config/domains](https://github.com/drduh/config/tree/master/domains) or your own rules.
 
 Install and start the program (sudo is required to bind to [privileged port](https://unix.stackexchange.com/questions/16564/why-are-the-first-1024-ports-restricted-to-the-root-user-only) 53):
 
-```shell
+```console
 $ sudo brew services start dnsmasq
 ```
 
 To set Dnsmasq as your local DNS server, open **System Preferences** > **Network** and select the active interface, then the **DNS** tab, select **+** and add `127.0.0.1`, or use:
 
-```shell
+```console
 $ sudo networksetup -setdnsservers "Wi-Fi" 127.0.0.1
 ```
 
 Make sure Dnsmasq is correctly configured:
 
-```shell
-$ scutil --dns
+```console
+$ scutil --dns | head
 DNS configuration
 
 resolver #1
   search domain[0] : whatever
   nameserver[0] : 127.0.0.1
   flags    : Request A records, Request AAAA records
-  reach    : Reachable, Local Address, Directly Reachable Address
+  reach    : 0x00030002 (Reachable,Local Address,Directly Reachable Address)
 
 $ networksetup -getdnsservers "Wi-Fi"
 127.0.0.1
@@ -1010,33 +969,34 @@ $ networksetup -getdnsservers "Wi-Fi"
 
 ##### Test DNSSEC validation
 
-Test DNSSEC validation succeeds for signed zones:
+Test DNSSEC validation succeeds for signed zones - the reply should have `NOERROR` status and contain `ad` flag:
 
-    $ dig +dnssec icann.org
+```console
+$ dig +dnssec icann.org
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 47039
+;; flags: qr rd ra ad; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1
+```
 
-Reply should have `NOERROR` status and contain `ad` flag. For instance,
+Test DNSSEC validation fails for zones that are signed improperly - the reply should have `SERVFAIL` status:
 
-    ;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 47039
-    ;; flags: qr rd ra ad; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1
-
-Test DNSSEC validation fails for zones that are signed improperly:
-
-    $ dig www.dnssec-failed.org
-
-Reply should have `SERVFAIL` status. For instance,
-
-    ;; ->>HEADER<<- opcode: QUERY, status: SERVFAIL, id: 15190
-    ;; flags: qr rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 0, ADDITIONAL: 1
+```console
+$ dig www.dnssec-failed.org
+;; ->>HEADER<<- opcode: QUERY, status: SERVFAIL, id: 15190
+;; flags: qr rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 0, ADDITIONAL: 1
+```
 
 ## Captive portal
 
-When macOS connects to new networks, it **probes** the network and launches a Captive Portal assistant utility if connectivity can't be determined.
+When macOS connects to new networks, it checks for Internet connectivity and may launch a Captive Portal assistant utility application.
 
-An attacker could trigger the utility and direct a Mac to a site with malware without user interaction, so it's best to disable this feature and log in to captive portals using your regular Web browser, provided you have first disable any custom dns and/or proxy settings.
+An attacker could trigger the utility and direct a Mac to a site with malware without user interaction, so it's best to disable this feature and log in to captive portals using your regular Web browser by navigating to a non-secure HTTP page and accepting a redirect to the captive portal login interface (after disabling any custom proxy or DNS settings).
 
-    $ sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.captive.control.plist Active -bool false
+```console
+$ sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.captive.control.plist Active -bool false
+```
 
 Also see [Apple's secret "wispr" request](https://web.archive.org/web/20171008071031/http://blog.erratasec.com/2010/09/apples-secret-wispr-request.html), [How to disable the captive portal window in Mac OS Lion](https://web.archive.org/web/20130407200745/http://www.divertednetworks.net/apple-captiveportal.html) and [An undocumented change to Captive Network Assistant settings in OS X 10.10 Yosemite](https://web.archive.org/web/20170622064304/https://grpugh.wordpress.com/2014/10/29/an-undocumented-change-to-captive-network-assistant-settings-in-os-x-10-10-yosemite/).
+
 
 ## Certificate authorities
 
@@ -1044,9 +1004,9 @@ macOS comes with [over 200](https://support.apple.com/en-us/HT202858) root autho
 
 For more information, see [Certification Authority Trust Tracker](https://github.com/kirei/catt), [Analysis of the HTTPS certificate ecosystem](https://conferences.sigcomm.org/imc/2013/papers/imc257-durumericAemb.pdf) (pdf), and [You Won’t Be Needing These Any More: On Removing Unused Certificates From Trust Stores](https://www.ifca.ai/fc14/papers/fc14_submission_100.pdf) (pdf).
 
-You can inspect system root certificates in **Keychain Access**, under the **System Roots** tab or by using the `security` command line tool and `/System/Library/Keychains/SystemRootCertificates.keychain` file.
+Inspect system root certificates in **Keychain Access**, under the **System Roots** tab or by using the `security` command line tool and `/System/Library/Keychains/SystemRootCertificates.keychain` file.
 
-You can disable certificate authorities through Keychain Access by marking them as **Never Trust** and closing the window:
+Disable certificate authorities through Keychain Access by marking them as **Never Trust** and closing the window:
 
 <img width="450" alt="A certificate authority certificate" src="https://cloud.githubusercontent.com/assets/12475110/19222972/6b7aabac-8e32-11e6-8efe-5d3219575a98.png">
 
@@ -1062,7 +1022,7 @@ If you're going to use OpenSSL on your Mac, download and install a recent versio
 
 Compare the TLS protocol and cipher between the homebrew version and the system version of OpenSSL:
 
-```shell
+```console
 $ ~/homebrew/bin/openssl version; echo | ~/homebrew/bin/openssl s_client -connect github.com:443 2>&1 | grep -A2 SSL-Session
 OpenSSL 1.0.2j  26 Sep 2016
 SSL-Session:
@@ -1084,18 +1044,10 @@ The version of Curl which comes with macOS uses [Secure Transport](https://devel
 
 If you prefer to use OpenSSL, install with `brew install curl --with-openssl` and ensure it's the default with `brew link --force curl`
 
-Here are several recommended [options](https://curl.haxx.se/docs/manpage.html) to add to `~/.curlrc` (see `man curl` for more):
+Download [drduh/config/curlrc](https://github.com/drduh/config/blob/master/curlrc) or see the [man page](https://curl.haxx.se/docs/manpage.html):
 
-```shell
-user-agent = "Mozilla/5.0 (Windows NT 6.1; rv:52.0) Gecko/20100101 Firefox/52.0"
-referer = ";auto"
-connect-timeout = 10
-progress-bar
-max-time = 90
-verbose
-show-error
-remote-time
-ipv4
+```console
+$ curl -o ~/.curlrc https://raw.githubusercontent.com/drduh/config/master/curlrc
 ```
 
 ## Web
@@ -1109,29 +1061,30 @@ Consider using [Privoxy](https://www.privoxy.org/) as a local proxy to filter We
 A signed installation package for privoxy can be downloaded from [silvester.org.uk](https://silvester.org.uk/privoxy/OSX/) or [Sourceforge](https://sourceforge.net/projects/ijbswa/files/Macintosh%20%28OS%20X%29/). The signed package is [more secure](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/65) than the Homebrew version, and attracts full support from the Privoxy project.
 
 Alternatively, install and start privoxy using Homebrew:
-```shell
+
+```console
 $ brew install privoxy
 
 $ brew services start privoxy
 ```
 
-By default, privoxy listens on local TCP port 8118.
+By default, privoxy listens on localhost, TCP port 8118.
 
 Set the system **HTTP** proxy for your active network interface `127.0.0.1` and `8118` (This can be done through **System Preferences > Network > Advanced > Proxies**):
 
-```shell
+```console
 $ sudo networksetup -setwebproxy "Wi-Fi" 127.0.0.1 8118
 ```
 
 **(Optional)** Set the system **HTTPS** proxy, which still allows for domain name filtering, with:
 
-```shell
+```console
 $ sudo networksetup -setsecurewebproxy "Wi-Fi" 127.0.0.1 8118
 ```
 
 Confirm the proxy is set:
 
-```shell
+```console
 $ scutil --proxy
 <dictionary> {
   ExceptionsList : <array> {
@@ -1147,7 +1100,7 @@ $ scutil --proxy
 
 Visit <http://p.p/> in a browser, or with Curl:
 
-```shell
+```console
 $ ALL_PROXY=127.0.0.1:8118 curl -I http://p.p/
 HTTP/1.1 200 OK
 Content-Length: 2401
@@ -1157,35 +1110,19 @@ Cache-Control: no-cache
 
 Privoxy already comes with many good rules, however you can also write your own.
 
-Edit `~/homebrew/etc/privoxy/user.action` to filter elements by domain or with regular expressions.
+Download [drduh/config/privoxy/config](https://github.com/drduh/config/blob/master/privoxy/config) and [drduh/config/privoxy/user.action](https://github.com/drduh/config/blob/master/privoxy/user.action) to get started:
 
-Here are some examples:
+```console
+$ curl -o homebrew/etc/privoxy/config https://raw.githubusercontent.com/drduh/config/master/privoxy/config
 
-```shell
-{ +block{social networking} }
-www.facebook.com/(extern|plugins)/(login_status|like(box)?|activity|fan)\.php
-.facebook.com
-
-{ +block{unwanted images} +handle-as-image }
-.com/ads/
-/.*1x1.gif
-/.*fb-icon.[jpg|gif|png]
-/assets/social-.*
-/cleardot.gif
-/img/social.*
-ads.*.co.*/
-ads.*.com/
-
-{ +redirect{s@http://@https://@} }
-.google.com
-.wikipedia.org
-code.jquery.com
-imgur.com
+$ curl -o homebrew/etc/privoxy/user.action https://raw.githubusercontent.com/drduh/config/master/privoxy/user.action
 ```
 
-Verify Privoxy is blocking and redirecting:
+Restart Privoxy: and verify it's blocking and redirecting traffic:
 
-```shell
+```console
+$ sudo brew services restart privoxy
+
 $ ALL_PROXY=127.0.0.1:8118 curl ads.foo.com/ -IL
 HTTP/1.1 403 Request blocked by Privoxy
 Content-Type: image/gif
@@ -1301,7 +1238,7 @@ All Web Browsers retain certain information about our browsing habits. That info
 
 Since Web browsers execute untrusted code from the server, it is important to understand what type of information can be accessed. The [Navigator](https://developer.mozilla.org/en-US/docs/Web/API/Navigator) interface gives access to information about the Web Browser's user agent. Those include information such as the operating system, Web sites' permissions, and the device's battery level. For more information about security conscious browsing and what type of information is being "leaked" by your browser, see [HowTo: Privacy & Security Conscious Browsing](https://gist.github.com/atcuno/3425484ac5cce5298932), [browserleaks.com](https://www.browserleaks.com/) and [EFF Panopticlick](https://panopticlick.eff.org/).
 
-To hinder third party trackers, it is recommended to disable third-party cookies from your Web browser settings. A third party cookie is a cookie associated with a file requested by a different domain than the one the user is currently viewing. Most of the time third-party cookies are used to create browsing profiles by tracking a user's movement on the web. Disabling third-party cookies prevents HTTP responses and scripts from other domains from setting cookies. Moreover, cookies are removed from requests to domains that are not the document origin domain, so cookies are only sent to the current site that is being viewed.
+To hinder third party trackers, it is recommended to **disable third-party cookies** in Web browser settings. A third party cookie is a cookie associated with a file requested by a different domain than the one the user is currently viewing. Most of the time third-party cookies are used to create browsing profiles by tracking a user's movement on the web. Disabling third-party cookies prevents HTTP responses and scripts from other domains from setting cookies. Moreover, cookies are removed from requests to domains that are not the document origin domain, so cookies are only sent to the current site that is being viewed.
 
 Also be aware of [WebRTC](https://en.wikipedia.org/wiki/WebRTC#Concerns), which may reveal your local or public (if connected to VPN) IP address(es). In Firefox and Chrome/Chromium this can be disabled with extensions such as [uBlock Origin](https://github.com/gorhill/uBlock/wiki/Prevent-WebRTC-from-leaking-local-IP-address) and [rentamob/WebRTC-Leak-Prevent](https://github.com/rentamob/WebRTC-Leak-Prevent). Disabling WebRTC in Safari is only possible with a [system hack](https://github.com/JayBrown/Disable-and-toggle-WebRTC-in-macOS-Safari).
 
@@ -1325,29 +1262,13 @@ Install from Homebrew with `brew install gnupg`.
 
 If you prefer a graphical application, download and install [GPG Suite](https://gpgtools.org/).
 
-Below are several recommended options to add to `~/.gnupg/gpg.conf` - these settings will configure GnuPG to use SSL when fetching new keys and prefer strong cryptographic primitives. Also see [drduh/config/gpg.conf](https://github.com/drduh/config/blob/master/gpg.conf):
+Download [drduh/config/gpg.conf](https://github.com/drduh/config/blob/master/gpg.conf) to use recommended settings:
 
-```shell
-auto-key-locate keyserver
-keyserver hkps://hkps.pool.sks-keyservers.net
-keyserver-options no-honor-keyserver-url
-personal-cipher-preferences AES256 AES192 AES CAST5
-personal-digest-preferences SHA512 SHA384 SHA256 SHA224
-default-preference-list SHA512 SHA384 SHA256 SHA224 AES256 AES192 AES CAST5 ZLIB BZIP2 ZIP Uncompressed
-cert-digest-algo SHA512
-s2k-digest-algo SHA512
-s2k-cipher-algo AES256
-charset utf-8
-fixed-list-mode
-no-comments
-no-emit-version
-keyid-format 0xlong
-list-options show-uid-validity
-verify-options show-uid-validity
-with-fingerprint
+```console
+$ curl -o ~/.gnupg/gpg.conf https://raw.githubusercontent.com/drduh/config/master/gpg.conf
 ```
 
-If you don't already have a keypair, create one using `gpg --gen-key`. Also see [drduh/YubiKey-Guide](https://github.com/drduh/YubiKey-Guide) to secure store the private key on hardware.
+See [drduh/YubiKey-Guide](https://github.com/drduh/YubiKey-Guide) to securely generate and store GPG keys.
 
 Read [online](https://alexcabal.com/creating-the-perfect-gpg-keypair/) [guides](https://security.stackexchange.com/questions/31594/what-is-a-good-general-purpose-gnupg-key-setup) and [practice](https://help.riseup.net/en/security/message-security/openpgp/best-practices) encrypting and decrypting email to yourself and your friends. Get them interested in this stuff!
 
@@ -1361,7 +1282,7 @@ The first time you start a conversation with someone new, you'll be asked to ver
 
 A popular macOS GUI client for XMPP and other chat protocols is [Adium](https://adium.im/).
 
-```shell
+```console
 $ shasum -a 256 Adium_1.5.10.4.dmg
 31fa3fd32b86dd3381b60e0d5aafbc2a9452036f0fb4963bffbc2a6c64a9458b  Adium_1.5.10.4.dmg
 ```
@@ -1384,17 +1305,15 @@ Do **not** attempt to configure other browsers or applications to use Tor as you
 
 Download both the `dmg` and `asc` signature files, then verify the disk image has been signed by Tor developers:
 
-```shell
+```console
 $ cd ~/Downloads
 
 $ file Tor*
-TorBrowser-7.0.10-osx64_en-US.dmg:     bzip2 compressed data, block size = 900k
-TorBrowser-7.0.10-osx64_en-US.dmg.asc: PGP signature Signature (old)
+TorBrowser-8.0.4-osx64_en-US.dmg:     bzip2 compressed data, block size = 900k
+TorBrowser-8.0.4-osx64_en-US.dmg.asc: PGP signature Signature (old)
 
 $ gpg Tor*asc
-gpg: assuming signed data in 'TorBrowser-7.0.10-osx64_en-US.dmg'
-gpg: Signature made Thu Nov  9 08:58:11 2017 PST
-gpg:                using RSA key 0xD1483FA6C3C07136
+[...]
 gpg: Can't check signature: No public key
 
 $ gpg --recv 0x4E2C6E8793298290
@@ -1404,14 +1323,14 @@ gpg: Total number processed: 1
 gpg:               imported: 1
 
 $ gpg --verify Tor*asc
-gpg: assuming signed data in 'TorBrowser-7.0.10-osx64_en-US.dmg'
-gpg: Signature made Thu Nov  9 08:58:11 2017 PST
-gpg:                using RSA key 0xD1483FA6C3C07136
+gpg: assuming signed data in 'TorBrowser-8.0.4-osx64_en-US.dmg'
+gpg: Signature made Mon Dec 10 07:16:22 2018 PST
+gpg:                using RSA key 0xEB774491D9FF06E2
 gpg: Good signature from "Tor Browser Developers (signing key) <torbrowser@torproject.org>" [unknown]
 gpg: WARNING: This key is not certified with a trusted signature!
 gpg:          There is no indication that the signature belongs to the owner.
 Primary key fingerprint: EF6E 286D DA85 EA2A 4BA7  DE68 4E2C 6E87 9329 8290
-     Subkey fingerprint: A430 0A6B C93C 0877 A445  1486 D148 3FA6 C3C0 7136
+     Subkey fingerprint: 1107 75B5 D101 FB36 BC6C  911B EB77 4491 D9FF 06E2
 ```
 
 Make sure `Good signature from "Tor Browser Developers (signing key) <torbrowser@torproject.org>"` appears in the output. The warning about the key not being certified is benign, as it has not yet been manually assigned trust.
@@ -1421,21 +1340,22 @@ See [How to verify signatures for packages](https://www.torproject.org/docs/veri
 To finish installing Tor Browser, open the disk image and drag the it into the Applications folder, or with:
 
 ```console
-$ hdiutil mount TorBrowser-7.0.10-osx64_en-US.dmg
+$ hdiutil mount TorBrowser-8.0.4-osx64_en-US.dmg
 
-$ cp -rv /Volumes/Tor\ Browser/TorBrowser.app /Applications
+$ cp -r /Volumes/Tor\ Browser/Tor\ Browser.app/ ~/Applications/
+
 ```
 
 Verify the Tor application's code signature was made by with The Tor Project's Apple developer ID **MADPSAYN6T**, using the `spctl -a -v` and/or `pkgutil --check-signature` commands:
 
 ```console
-$ spctl -a -vv /Applications/TorBrowser.app
-/Applications/TorBrowser.app: accepted
+$ spctl -a -vv ~/Applications/Tor\ Browser.app
+/Users/drduh/Applications/Tor Browser.app: accepted
 source=Developer ID
 origin=Developer ID Application: The Tor Project, Inc (MADPSAYN6T)
 
-$ pkgutil --check-signature /Applications/TorBrowser.app
-Package "TorBrowser.app":
+$ pkgutil --check-signature ~/Applications/Tor\ Browser.app
+Package "Tor Browser.app":
    Status: signed by a certificate trusted by Mac OS X
    Certificate Chain:
     1. Developer ID Application: The Tor Project, Inc (MADPSAYN6T)
@@ -1448,31 +1368,31 @@ Package "TorBrowser.app":
        SHA1 fingerprint: 61 1E 5B 66 2C 59 3A 08 FF 58 D1 4A E2 24 52 D1 98 DF 6C 60
 ```
 
-You may also use the `codesign` command to examine an application's code signature:
+You can also use the `codesign` command to examine an application's code signature:
 
 ```console
-$ codesign -dvv /Applications/TorBrowser.app
-Executable=/Applications/TorBrowser.app/Contents/MacOS/firefox
+$ codesign -dvv ~/Applications/Tor\ Browser.app
+Executable=/Users/drduh/Applications/Tor Browser.app/Contents/MacOS/firefox
 Identifier=org.torproject.torbrowser
 Format=app bundle with Mach-O thin (x86_64)
-CodeDirectory v=20200 size=249 flags=0x0(none) hashes=5+3 location=embedded
+CodeDirectory v=20200 size=229 flags=0x0(none) hashes=4+3 location=embedded
 Library validation warning=OS X SDK version before 10.9 does not support Library Validation
 Signature size=4247
 Authority=Developer ID Application: The Tor Project, Inc (MADPSAYN6T)
 Authority=Developer ID Certification Authority
 Authority=Apple Root CA
-Signed Time=Nov 9, 2017, 12:47:58 AM
-Info.plist entries=22
+Signed Time=Dec 10, 2018 at 12:18:45 AM
+Info.plist entries=24
 TeamIdentifier=MADPSAYN6T
-Sealed Resources version=2 rules=12 files=130
+Sealed Resources version=2 rules=12 files=128
 Internal requirements count=1 size=188
 ```
 
-To view full certificate details, extract them with `codesign` and decode it with `openssl`:
+To view full certificate details for a signed application, extract them with `codesign` and decode it with `openssl`:
 
-```shell
-$ codesign -d --extract-certificates /Applications/TorBrowser.app
-Executable=/Applications/TorBrowser.app/Contents/MacOS/firefox
+```console
+$ codesign -d --extract-certificates ~/Applications/Tor\ Browser.app
+Executable=/Users/drduh/Applications/Tor Browser.app/Contents/MacOS/firefox
 
 $ file codesign*
 codesign0: data
@@ -1494,7 +1414,7 @@ SHA256 Fingerprint=B5:0D:47:F0:3E:CB:42:B6:68:1C:6F:38:06:2B:C2:9F:41:FA:D6:54:F
 
 Tor traffic is **encrypted** to the [exit node](https://en.wikipedia.org/wiki/Tor_(anonymity_network)#Exit_node_eavesdropping) (i.e., cannot be read by a passive network eavesdropper), but Tor use **can** be identified - for example, TLS handshake "hostnames" will show up in plaintext:
 
-```shell
+```console
 $ sudo tcpdump -An "tcp" | grep "www"
 listening on pktap, link-type PKTAP (Apple DLT_PKTAP), capture size 262144 bytes
 .............". ...www.odezz26nvv7jeqz1xghzs.com.........
@@ -1548,7 +1468,7 @@ You could periodically run a tool like [Knock Knock](https://github.com/synack/k
 
 See [Sophail: Applied attacks against Antivirus](https://lock.cmpxchg8b.com/sophailv2.pdf) (pdf), [Analysis and Exploitation of an ESET Vulnerability](https://googleprojectzero.blogspot.ro/2015/06/analysis-and-exploitation-of-eset.html), [a trivial Avast RCE](https://code.google.com/p/google-security-research/issues/detail?id=546), [Popular Security Software Came Under Relentless NSA and GCHQ Attacks](https://theintercept.com/2015/06/22/nsa-gchq-targeted-kaspersky/), [How Israel Caught Russian Hackers Scouring the World for U.S. Secrets](https://www.nytimes.com/2017/10/10/technology/kaspersky-lab-israel-russia-hacking.html) and [AVG: "Web TuneUP" extension multiple critical vulnerabilities](https://code.google.com/p/google-security-research/issues/detail?id=675).
 
-Therefore, the best anti-virus is **Common Sense 2018**. See more discussion in [issue #44](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/44).
+Therefore, the best anti-virus is **Common Sense 2019**. See discussion in [issue #44](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/44).
 
 CylancePROTECT may be worth running for the exploit mitigation features and (when locked down) is much harder to locally bypass than traditional AV, but it's effectiveness at detecting malware on macOS is questionable. It's core feature is an algorithm derived from a machine-learning process which aims to identify malware based on various characteristics of a binary executable. Cylance have a [whitepaper](https://www.cylance.com/content/dam/cylance/pdfs/data_sheets/CylancePROTECT.pdf) (pdf) with information about how it works. Single licenses are available from third party resellers such as [Cyberforce](https://cybrforce.com) or [Malware Managed](https://www.malwaremanaged.com) and there is also a home/personal edition in the works but it is currently only available for companies to make available to their employees. On macOS it complements Apple's built-in XProtect by continuously vmmap'ing the memory of active processes to watch for patterns that indicate bad things happening.
 
@@ -1584,15 +1504,17 @@ See also [Mac Malware Guide : How does Mac OS X protect me?](http://www.thesafem
 
 **Note** Quarantine stores information about downloaded files in `~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2`, which may pose a privacy risk. To examine the file, simply use `strings` or the following command:
 
-```shell
-$ echo 'SELECT datetime(LSQuarantineTimeStamp + 978307200, "unixepoch") as LSQuarantineTimeStamp, LSQuarantineAgentName, LSQuarantineOriginURLString, LSQuarantineDataURLString from LSQuarantineEvent;' | sqlite3 /Users/$USER/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2
+```console
+$ echo 'SELECT datetime(LSQuarantineTimeStamp + 978307200, "unixepoch") as LSQuarantineTimeStamp, ' \
+  'LSQuarantineAgentName, LSQuarantineOriginURLString, LSQuarantineDataURLString from LSQuarantineEvent;' | \
+  sqlite3 /Users/$USER/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2
 ```
 
 See [here](https://www.zoharbabin.com/hey-mac-i-dont-appreciate-you-spying-on-me-hidden-downloads-log-in-os-x/) for more information.
 
 To permanently disable this feature, [clear the file](https://superuser.com/questions/90008/how-to-clear-the-contents-of-a-file-from-the-command-line) and [make it immutable](http://hints.macworld.com/article.php?story=20031017061722471):
 
-```shell
+```console
 $ :>~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2
 
 $ sudo chflags schg ~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2
@@ -1602,18 +1524,18 @@ $ sudo chflags schg ~/Library/Preferences/com.apple.LaunchServices.QuarantineEve
 
 macOS attaches metadata ([HFS+ extended attributes](https://en.wikipedia.org/wiki/Extended_file_attributes#OS_X)) to downloaded files, which can be viewed with the `mdls` and `xattr` commands:
 
-```shell
-$ ls -l@ ~/Downloads/TorBrowser-6.0.8-osx64_en-US.dmg
--rw-r--r--@ 1 drduh  staff  59322237 Dec  1 12:00 TorBrowser-6.0.8-osx64_en-US.dmg
-com.apple.metadata:kMDItemWhereFroms	     186
-com.apple.quarantine	      68
+```console
+$ ls -l@ ~/Downloads/TorBrowser-8.0.4-osx64_en-US.dmg
+-rw-r--r--@ 1 drduh staff 63M Jan 1 12:00 TorBrowser-8.0.4-osx64_en-US.dmg
+	com.apple.metadata:kMDItemWhereFroms	  46B
+	com.apple.quarantine	  57B
 
-$ mdls ~/Downloads/TorBrowser-6.0.8-osx64_en-US.dmg
-_kMDItemOwnerUserID            = 501
-kMDItemContentCreationDate     = 2016-12-01 12:00:00 +0000
-kMDItemContentModificationDate = 2016-12-01 12:00:00 +0000
-kMDItemContentType             = "com.apple.disk-image-udif"
-kMDItemContentTypeTree         = (
+$ mdls ~/Downloads/TorBrowser-8.0.4-osx64_en-US.dmg
+kMDItemContentCreationDate         = 2019-01-01 00:00:00 +0000
+kMDItemContentCreationDate_Ranking = 2019-01-01 00:00:00 +0000
+kMDItemContentModificationDate     = 2019-01-01 00:00:00 +0000
+kMDItemContentType                 = "com.apple.disk-image-udif"
+kMDItemContentTypeTree             = (
     "public.archive",
     "public.item",
     "public.data",
@@ -1621,58 +1543,49 @@ kMDItemContentTypeTree         = (
     "com.apple.disk-image",
     "com.apple.disk-image-udif"
 )
-kMDItemDateAdded               = 2016-12-01 12:00:00 +0000
-kMDItemDisplayName             = "TorBrowser-6.0.8-osx64_en-US.dmg"
-kMDItemFSContentChangeDate     = 2016-12-01 12:00:00 +0000
-kMDItemFSCreationDate          = 2016-12-01 12:00:00 +0000
-kMDItemFSCreatorCode           = ""
-kMDItemFSFinderFlags           = 0
-kMDItemFSHasCustomIcon         = (null)
-kMDItemFSInvisible             = 0
-kMDItemFSIsExtensionHidden     = 0
-kMDItemFSIsStationery          = (null)
-kMDItemFSLabel                 = 0
-kMDItemFSName                  = "TorBrowser-6.0.8-osx64_en-US.dmg"
-kMDItemFSNodeCount             = (null)
-kMDItemFSOwnerGroupID          = 5000
-kMDItemFSOwnerUserID           = 501
-kMDItemFSSize                  = 60273898
-kMDItemFSTypeCode              = ""
-kMDItemKind                    = "Disk Image"
-kMDItemLogicalSize             = 60273898
-kMDItemPhysicalSize            = 60276736
-kMDItemWhereFroms              = (
-    "https://dist.torproject.org/torbrowser/6.0.8/TorBrowser-6.0.8-osx64_en-US.dmg",
+kMDItemDateAdded                   = 2019-01-01 00:00:00 +0000
+kMDItemDateAdded_Ranking           = 2019-01-01 00:00:00 +0000
+kMDItemDisplayName                 = "TorBrowser-8.0.4-osx64_en-US.dmg"
+kMDItemFSContentChangeDate         = 2019-01-01 00:00:00 +0000
+kMDItemFSCreationDate              = 2019-01-01 00:00:00 +0000
+kMDItemFSCreatorCode               = ""
+kMDItemFSFinderFlags               = 0
+kMDItemFSHasCustomIcon             = (null)
+kMDItemFSInvisible                 = 0
+kMDItemFSIsExtensionHidden         = 0
+kMDItemFSIsStationery              = (null)
+kMDItemFSLabel                     = 0
+kMDItemFSName                      = "TorBrowser-8.0.4-osx64_en-US.dmg"
+kMDItemFSNodeCount                 = (null)
+kMDItemFSOwnerGroupID              = 5000
+kMDItemFSOwnerUserID               = 501
+kMDItemFSSize                      = 65840402
+kMDItemFSTypeCode                  = ""
+kMDItemInterestingDate_Ranking     = 2019-01-01 00:00:00 +0000
+kMDItemKind                        = "Disk Image"
+kMDItemWhereFroms                  = (
+    "https://dist.torproject.org/torbrowser/8.0.4/TorBrowser-8.0.4-osx64_en-US.dmg",
     "https://www.torproject.org/projects/torbrowser.html.en"
 )
 
-$ xattr -l TorBrowser-6.0.8-osx64_en-US.dmg
+$ xattr -l ~/Downloads/TorBrowser-8.0.4-osx64_en-US.dmg
 com.apple.metadata:kMDItemWhereFroms:
 00000000  62 70 6C 69 73 74 30 30 A2 01 02 5F 10 4D 68 74  |bplist00..._.Mht|
 00000010  74 70 73 3A 2F 2F 64 69 73 74 2E 74 6F 72 70 72  |tps://dist.torpr|
 00000020  6F 6A 65 63 74 2E 6F 72 67 2F 74 6F 72 62 72 6F  |oject.org/torbro|
-00000030  77 73 65 72 2F 36 2E 30 2E 38 2F 54 6F 72 42 72  |wser/6.0.8/TorBr|
-00000040  6F 77 73 65 72 2D 36 2E 30 2E 38 2D 6F 73 78 36  |owser-6.0.8-osx6|
-00000050  34 5F 65 6E 2D 55 53 2E 64 6D 67 5F 10 36 68 74  |4_en-US.dmg_.6ht|
-00000060  74 70 73 3A 2F 2F 77 77 77 2E 74 6F 72 70 72 6F  |tps://www.torpro|
-00000070  6A 65 63 74 2E 6F 72 67 2F 70 72 6F 6A 65 63 74  |ject.org/project|
-00000080  73 2F 74 6F 72 62 72 6F 77 73 65 72 2E 68 74 6D  |s/torbrowser.htm|
-00000090  6C 2E 65 6E 08 0B 5B 00 00 00 00 00 00 01 01 00  |l.en..[.........|
-000000A0  00 00 00 00 00 00 03 00 00 00 00 00 00 00 00 00  |................|
-000000B0  00 00 00 00 00 00 94                             |.......|
-000000b7
+[...]
 com.apple.quarantine: 0081;58519ffa;Google Chrome.app;1F032CAB-F5A1-4D92-84EB-CBECA971B7BC
 ```
 
 Metadata attributes can also be removed with the `-d` flag:
 
-```shell
-$ xattr -d com.apple.metadata:kMDItemWhereFroms ~/Downloads/TorBrowser-6.0.5-osx64_en-US.dmg
+```console
+$ xattr -d com.apple.metadata:kMDItemWhereFroms ~/Downloads/TorBrowser-8.0.4-osx64_en-US.dmg
 
-$ xattr -d com.apple.quarantine ~/Downloads/TorBrowser-6.0.5-osx64_en-US.dmg
+$ xattr -d com.apple.quarantine ~/Downloads/TorBrowser-8.0.4-osx64_en-US.dmg
 
-$ xattr -l ~/Downloads/TorBrowser-6.0.5-osx64_en-US.dmg
-[No output after removal.]
+$ xattr -l ~/Downloads/TorBrowser-8.0.4-osx64_en-US.dmg
+[No output expected]
 ```
 
 Other metadata and artifacts may be found in the directories including, but not limited to, `~/Library/Preferences/`, `~/Library/Containers/<APP>/Data/Library/Preferences`, `/Library/Preferences`, some of which is detailed below.
@@ -1681,48 +1594,48 @@ Other metadata and artifacts may be found in the directories including, but not 
 
 `/Library/Preferences/com.apple.Bluetooth.plist` contains Bluetooth metadata, including device history. If Bluetooth is not used, the metadata can be cleared with:
 
-```shell
-sudo defaults delete /Library/Preferences/com.apple.Bluetooth.plist DeviceCache
-sudo defaults delete /Library/Preferences/com.apple.Bluetooth.plist IDSPairedDevices
-sudo defaults delete /Library/Preferences/com.apple.Bluetooth.plist PANDevices
-sudo defaults delete /Library/Preferences/com.apple.Bluetooth.plist PANInterfaces
-sudo defaults delete /Library/Preferences/com.apple.Bluetooth.plist SCOAudioDevices
+```console
+$ sudo defaults delete /Library/Preferences/com.apple.Bluetooth.plist DeviceCache
+$ sudo defaults delete /Library/Preferences/com.apple.Bluetooth.plist IDSPairedDevices
+$ sudo defaults delete /Library/Preferences/com.apple.Bluetooth.plist PANDevices
+$ sudo defaults delete /Library/Preferences/com.apple.Bluetooth.plist PANInterfaces
+$ sudo defaults delete /Library/Preferences/com.apple.Bluetooth.plist SCOAudioDevices
 ```
 
 `/var/spool/cups` contains the CUPS printer job cache. To clear it, use the commands:
 
-```shell
-sudo rm -rfv /var/spool/cups/c0*
-sudo rm -rfv /var/spool/cups/tmp/*
-sudo rm -rfv /var/spool/cups/cache/job.cache*
+```console
+$ sudo rm -rfv /var/spool/cups/c0*
+$ sudo rm -rfv /var/spool/cups/tmp/*
+$ sudo rm -rfv /var/spool/cups/cache/job.cache*
 ```
 
 To clear the list of iOS devices connected, use:
 
-```shell
-sudo defaults delete /Users/$USER/Library/Preferences/com.apple.iPod.plist "conn:128:Last Connect"
-sudo defaults delete /Users/$USER/Library/Preferences/com.apple.iPod.plist Devices
-sudo defaults delete /Library/Preferences/com.apple.iPod.plist "conn:128:Last Connect"
-sudo defaults delete /Library/Preferences/com.apple.iPod.plist Devices
-sudo rm -rfv /var/db/lockdown/*
+```console
+$ sudo defaults delete /Users/$USER/Library/Preferences/com.apple.iPod.plist "conn:128:Last Connect"
+$ sudo defaults delete /Users/$USER/Library/Preferences/com.apple.iPod.plist Devices
+$ sudo defaults delete /Library/Preferences/com.apple.iPod.plist "conn:128:Last Connect"
+$ sudo defaults delete /Library/Preferences/com.apple.iPod.plist Devices
+$ sudo rm -rfv /var/db/lockdown/*
 ```
 
 QuickLook thumbnail data can be cleared using the `qlmanage -r cache` command, but this writes to the file `resetreason` in the Quicklook directories, and states that the Quicklook cache was manually cleared. Disable the thumbnail cache with `qlmanage -r disablecache`
 
 It can also be manually cleared by getting the directory names with `getconf DARWIN_USER_CACHE_DIR` and `sudo getconf DARWIN_USER_CACHE_DIR`, then removing them:
 
-```shell
-rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/exclusive
-rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/index.sqlite
-rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/index.sqlite-shm
-rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/index.sqlite-wal
-rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/resetreason
-rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/thumbnails.data
+```console
+$ rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/exclusive
+$ rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/index.sqlite
+$ rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/index.sqlite-shm
+$ rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/index.sqlite-wal
+$ rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/resetreason
+$ rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/thumbnails.data
 ```
 
 Similarly, for the root user:
 
-```shell
+```console
 sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/thumbnails.fraghandler
 sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/exclusive
 sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/index.sqlite
@@ -1737,7 +1650,7 @@ Also see ['quicklook' cache may leak encrypted data](https://objective-see.com/b
 
 To clear Finder preferences:
 
-```shell
+```console
 defaults delete ~/Library/Preferences/com.apple.finder.plist FXDesktopVolumePositions
 defaults delete ~/Library/Preferences/com.apple.finder.plist FXRecentFolders
 defaults delete ~/Library/Preferences/com.apple.finder.plist RecentMoveAndCopyDestinations
@@ -1747,7 +1660,7 @@ defaults delete ~/Library/Preferences/com.apple.finder.plist SGTRecentFileSearch
 
 Additional diagnostic files may be found in the following directories - but caution should be taken before removing any, as it may break logging or cause other issues:
 
-```shell
+```console
 /var/db/CoreDuet/
 /var/db/diagnostics/
 /var/db/systemstats/
@@ -1757,7 +1670,7 @@ Additional diagnostic files may be found in the following directories - but caut
 
 macOS stored preferred Wi-Fi data (including credentials) in nvram. To clear it, use the following commands:
 
-```shell
+```console
 sudo nvram -d 36C28AB5-6566-4C50-9EBD-CBB920F83843:current-network
 sudo nvram -d 36C28AB5-6566-4C50-9EBD-CBB920F83843:preferred-networks
 sudo nvram -d 36C28AB5-6566-4C50-9EBD-CBB920F83843:preferred-count
@@ -1765,7 +1678,7 @@ sudo nvram -d 36C28AB5-6566-4C50-9EBD-CBB920F83843:preferred-count
 
 macOS may collect sensitive information about what you type, even if user dictionary and suggestions are off. To remove them, and prevent them from being created again, use the following commands:
 
-```shell
+```console
 rm -rfv "~/Library/LanguageModeling/*" "~/Library/Spelling/*" "~/Library/Suggestions/*"
 chmod -R 000 ~/Library/LanguageModeling ~/Library/Spelling ~/Library/Suggestions
 chflags -R uchg ~/Library/LanguageModeling ~/Library/Spelling ~/Library/Suggestions
@@ -1773,7 +1686,7 @@ chflags -R uchg ~/Library/LanguageModeling ~/Library/Spelling ~/Library/Suggesti
 
 QuickLook application support metadata can be cleared and locked with the following commands:
 
-```shell
+```console
 rm -rfv "~/Library/Application Support/Quick Look/*"
 chmod -R 000 "~/Library/Application Support/Quick Look"
 chflags -R uchg "~/Library/Application Support/Quick Look"
@@ -1781,7 +1694,7 @@ chflags -R uchg "~/Library/Application Support/Quick Look"
 
 Document revision metadata is stored in `/.DocumentRevisions-V100` and can be cleared and locked with the following commands - caution should be taken as this may break some core Apple applications:
 
-```shell
+```console
 sudo rm -rfv /.DocumentRevisions-V100/*
 sudo chmod -R 000 /.DocumentRevisions-V100
 sudo chflags -R uchg /.DocumentRevisions-V100
@@ -1789,7 +1702,7 @@ sudo chflags -R uchg /.DocumentRevisions-V100
 
 Saved application state metadata may be cleared and locked with the following commands:
 
-```shell
+```console
 rm -rfv "~/Library/Saved Application State/*"
 rm -rfv "~/Library/Containers/<APPNAME>/Saved Application State"
 chmod -R 000 "~/Library/Saved Application State/"
@@ -1800,7 +1713,7 @@ chflags -R uchg "~/Library/Containers/<APPNAME>/Saved Application State"
 
 Autosave metadata can be cleared and locked with the following commands:
 
-```shell
+```console
 rm -rfv "~/Library/Containers/<APP>/Data/Library/Autosave Information"
 rm -rfv "~/Library/Autosave Information"
 chmod -R 000 "~/Library/Containers/<APP>/Data/Library/Autosave Information"
@@ -1811,7 +1724,7 @@ chflags -R uchg "~/Library/Autosave Information"
 
 The Siri analytics database, which is created even if the Siri launch agent disabled, can be cleared and locked with the following commands:
 
-```shell
+```console
 rm -rfv ~/Library/Assistant/SiriAnalytics.db
 chmod -R 000 ~/Library/Assistant/SiriAnalytics.db
 chflags -R uchg ~/Library/Assistant/SiriAnalytics.db
@@ -1819,26 +1732,26 @@ chflags -R uchg ~/Library/Assistant/SiriAnalytics.db
 
 `~/Library/Preferences/com.apple.iTunes.plist` contains iTunes metadata. Recent iTunes search data may be cleared with the following command:
 
-```shell
+```console
 defaults delete ~/Library/Preferences/com.apple.iTunes.plist recentSearches
 ```
 
 If you do not use Apple ID-linked services, the following keys may be cleared, too, using the following commands:
 
-```shell
+```console
 defaults delete ~/Library/Preferences/com.apple.iTunes.plist StoreUserInfo
 defaults delete ~/Library/Preferences/com.apple.iTunes.plist WirelessBuddyID
 ```
 
 All media played in QuickTime Player can be found in:
 
-```shell
+```console
 ~/Library/Containers/com.apple.QuickTimePlayerX/Data/Library/Preferences/com.apple.QuickTimePlayerX.plist
 ```
 
 Additional metadata may exist in the following files:
 
-```shell
+```console
 ~/Library/Containers/com.apple.appstore/Data/Library/Preferences/com.apple.commerce.knownclients.plist
 ~/Library/Preferences/com.apple.commerce.plist
 ~/Library/Preferences/com.apple.QuickTimePlayerX.plist
@@ -1848,33 +1761,14 @@ Additional metadata may exist in the following files:
 
 Generate strong passwords with several programs or directly from [`/dev/urandom`](https://github.com/jedisct1/libsodium/issues/594):
 
-```shell
+```console
 $ openssl rand -base64 30
-LK9xkjUEAemc1gV2Ux5xqku+PDmMmCbSTmwfiMRI
+qb8ZWbUU2Ri3FOAPY/1wKSFAJwMXmpQM4mZU4YbO
 
-$ gpg --gen-random -a 0 60 | fold -w 20
-oYekhlKAtw4e+Ak032bi
-fDNAN9laYKG/+59QJKve
-zxMV8nVtnoI+NdyhUp+5
-x5BjEk/xxkWvd4Hf3iRG
-
-$ cat /dev/urandom | openssl base64 | fold -w40 | head -n5
-zAfhO1KGgyDwRUigYT+O1VZLnW9k5BIC8j3XYXAu
-Hkx2/3d/Tem6rUG7bGYQizU9ueWQYIb9WJD1lzO2
-d8MfMu4PkIns3hY6FTkMhTKTIYDaqAxwTbIktu1X
-ibd3+PKxRPY97nxQiIE45fzBLkjDnKcW3pfeaTNz
-e5dIbZidfuiOQrlRCDIj9pg2p0lp8BhTgz3IMCc7
-```
-
-With control over character sets:
-
-```shell
-$ LANG=C tr -dc 'a-zA-Z0-9' < /dev/urandom | fold -w 40 | head -n 5
-rgBaAV0N09FzsqFRWhC6UFMJSjeisRhDuyqcJQox
-ZG4NDhxBXlF1yHwdCMaanCRkFZKvQUrDRid9Hmop
-TtRn5YVENCQ5krapAZxxS1bXk2vYIABOutDa4q1n
-AHQMHD9ovOteWXVBLvLhccTaukOHLGUMhH7C6IPg
-9kz7Kf4KIKAGq3Jy4XpQoQVMy9YL34wQbuCzhr4O
+$ gpg --gen-random -a 0 90 | fold -w 40
+3e+kfHOvovHVXxZYPgu+OOWQ1g1ttbljr+kNGv7f
+loD//RsjUXYGIjfPM/bT0itsoEstyGLVUsFns8wP
+zYM8VRBga+TsnxWrS7lWKfH1uvVPowzkq9kXCdvJ
 
 $ LANG=C tr -dc 'A-F0-9' < /dev/urandom | fold -w 40 | head -n 5
 45D0371481EE5E5A5C1F68EA59E69F9CA52CB321
@@ -1882,6 +1776,34 @@ A30B37A00302643921F205621B145E7EAF520164
 B6EF38A2DA1D0586D20105502AFFF0468EA5F16A
 029D6EA9F76CD64D3356E342EA154BEFEBE23387
 07F468F0569579A0A06471247CABC4F4C1386E24
+
+$ tr -dc '[:alnum:]' < /dev/urandom | fold -w 40 | head -n5
+zmj8S0iuxud8y8YHjzdg7Hefu6U1KAYBiLl3aE8v
+nCNpuMkWohTjQHntTzbiLQJG5zLzEHWSWaYSwjtm
+R2L6M909S3ih852IkJqQFMDawCiHcpPBxlllAPrt
+aZOXKVUmxhzQwVSYb6nqAbGTVMFSJOLf094bFZAb
+HfgwSNlkVBXwIPQST6E6x6vDNCCasMLSSOoTUfSK
+
+$ tr -dc '[:lower:]' < /dev/urandom | fold -w 40 | head -n5
+gfvkanntxutzwxficgvavbwdvttexdezdftvvtmn
+lgrsuiugwkqbtbkyggcbpbqlynwbiyxzlabstqcf
+ufctdlsbyonkowzpmotxiksnsbwdzkjrjsupoqvr
+hjwibdjxtmuvqricljayzkgdfztcmapsgwsubggr
+bjstlmvwjczakgeetkbmwbjnidbeaerhaonpkacg
+
+$ tr -dc '[:upper:]' < /dev/urandom | fold -w 40 | head -n5
+EUHZMAOBOLNFXUNNDSTLJTPDCPVQBPUEQOLRZUQZ
+HVNVKBEPAAYMXRCGVCNEZLFHNUYMRYPTWPWOOZVM
+TAHEUPQJTSYQVJVYSKLURESMKWEZONXLUDHWQODB
+PRDITWMAXXZLTRXEEOGOSGAWUXYDGDRJYRHUWICM
+VHERIQBLBPHSIUZSGYZRDHTNAPUGJMRODIKBWZRJ
+
+$ tr -dc '[:graph:]' < /dev/urandom | fold -w 40 | head -n5
+n\T2|zUz:\C,@z9!#p3!B/[t6m:B94}q&t(^)Ol~
+J%MMDbAgGdP}zrSQO!3mrP3$w!.[Ng_xx-_[C<3g
+^)6V&*<2"ZOgU.mBd]iInvFKiT<dq~y\O[cdDK`V
++RE]UYPIf3:StX`y#w,.iG~g"urD)'FnDIFI_q^)
+6?HRillpgvvFDBAr4[:H{^oAL<`Em7$roF=2w;1~
 ```
 
 You can also generate passwords, even memorable ones, using **Keychain Access** password assistant, or a command line equivalent like [anders/pwgen](https://github.com/anders/pwgen).
@@ -1902,24 +1824,42 @@ Always encrypt files locally before backing them up to external media or online 
 
 One way is to use a symmetric cipher with GPG and a password of your choosing. Files can also be encrypted to a public key with GPG, with the private key stored on [YubiKey](https://github.com/drduh/YubiKey-Guide).
 
-To encrypt a directory:
+To compress and encrypt a directory:
 
-```shell
+```console
 $ tar zcvf - ~/Downloads | gpg -c > ~/Desktop/backup-$(date +%F-%H%M).tar.gz.gpg
+tar: Removing leading '/' from member names
+a Users/drduh/Downloads
+a Users/drduh/Downloads/.DS_Store
+a Users/drduh/Downloads/.localized
+a Users/drduh/Downloads/TorBrowser-8.0.4-osx64_en-US.dmg.asc
+a Users/drduh/Downloads/TorBrowser-8.0.4-osx64_en-US.dmg
 ```
 
-To decrypt a compressed directory:
+To decrypt and decompress the directory:
 
-```shell
+```console
 $ gpg -o ~/Desktop/decrypted-backup.tar.gz -d ~/Desktop/backup-2015-01-01-0000.tar.gz.gpg
+gpg: AES256 encrypted data
+gpg: encrypted with 1 passphrase
 
 $ tar zxvf ~/Desktop/decrypted-backup.tar.gz
+tar: Removing leading '/' from member names
+x Users/drduh/._Downloads
+x Users/drduh/Downloads/
+x Users/drduh/Downloads/._.DS_Store
+x Users/drduh/Downloads/.DS_Store
+x Users/drduh/Downloads/.localized
+x Users/drduh/Downloads/._TorBrowser-8.0.4-osx64_en-US.dmg.asc
+x Users/drduh/Downloads/TorBrowser-8.0.4-osx64_en-US.dmg.asc
+x Users/drduh/Downloads/._TorBrowser-8.0.4-osx64_en-US.dmg
+x Users/drduh/Downloads/TorBrowser-8.0.4-osx64_en-US.dmg
 ```
 
 You can also create and use encrypted volumes using **Disk Utility** or `hdiutil`:
 
-```shell
-$ hdiutil create ~/Desktop/encrypted.dmg -encryption -size 20M -volname "secretStuff" -fs JHFS+
+```console
+$ hdiutil create ~/Desktop/encrypted.dmg -encryption -size 50M -volname "secretStuff" -fs JHFS+
 Enter a new password to secure "encrypted.dmg":
 Re-enter new password:
 ....................................
@@ -2024,7 +1964,7 @@ Confirm whether sshd is enabled or disabled:
 $ sudo lsof -Pni TCP:22
 ```
 
-See also [drduh/config/ssh_config](https://github.com/drduh/config/ssh_config) and [drduh/config/sshd_config](https://github.com/drduh/config/sshd_config).
+See also [drduh/config/ssh_config](https://github.com/drduh/config/blob/master/ssh_config) and [drduh/config/sshd_config](https://github.com/drduh/config/blob/master/sshd_config).
 
 ## Physical access
 
@@ -2040,9 +1980,9 @@ Superglues or epoxy resins can also be used to disable physical access. [Nail po
 
 ## System monitoring
 
-#### OpenBSM audit
+### OpenBSM audit
 
-macOS has a powerful OpenBSM auditing capability. You can use it to monitor process execution, network activity, and much more.
+macOS has a powerful OpenBSM (Basic Security Module) auditing capability. You can use it to monitor process execution, network activity, and much more.
 
 To tail audit logs, use the `praudit` utility:
 
@@ -2059,7 +1999,7 @@ See the manual pages for `audit`, `praudit`, `audit_control` and other files in 
 
 See articles on [ilostmynotes.blogspot.com](https://ilostmynotes.blogspot.com/2013/10/openbsm-auditd-on-os-x-these-are-logs.html) and [derflounder.wordpress.com](https://derflounder.wordpress.com/2012/01/30/openbsm-auditing-on-mac-os-x/) for more information.
 
-#### DTrace
+### DTrace
 
 **Note** [System Integrity Protection](https://github.com/drduh/macOS-Security-and-Privacy-Guide#system-integrity-protection) [interferes](https://internals.exposed/blog/dtrace-vs-sip.html) with DTrace, so it is not possible to use it in recent macOS versions without disabling SIP.
 
@@ -2075,7 +2015,7 @@ See articles on [ilostmynotes.blogspot.com](https://ilostmynotes.blogspot.com/20
 
 See `man -k dtrace` for more information.
 
-#### Execution
+### Execution
 
 `ps -ef` lists information about all running processes.
 
@@ -2083,17 +2023,21 @@ You can also view processes with **Activity Monitor**.
 
 `launchctl list` and `sudo launchctl list` list loaded and running user and system launch daemons and agents.
 
-#### Network
+### Network
 
 List open network files:
 
-    $ sudo lsof -Pni
+```console
+$ sudo lsof -Pni
+```
 
 List contents of various network-related data structures:
 
-    $ sudo netstat -atln
+```console
+$ sudo netstat -atln
+```
 
-You can also use [Wireshark](https://www.wireshark.org/) from the command line.
+You can also use [Wireshark](https://www.wireshark.org/) from the command line with `tshark`.
 
 Monitor DNS queries and replies:
 
@@ -2374,6 +2318,8 @@ $ duti -s com.apple.Safari ftp
 $ duti -s com.apple.Safari nfs
 
 $ duti -s com.apple.Safari smb
+
+$ duti -s com.apple.TextEdit public.unix-executable
 ```
 
 Monitor system logs with the **Console** application or `syslog -w` or `/usr/bin/log stream` commands.
@@ -2382,7 +2328,7 @@ In systems prior to macOS Sierra (10.12), enable the [tty_tickets flag](https://
 
 Set your screen to lock as soon as the screensaver starts:
 
-```shell
+```console
 $ defaults write com.apple.screensaver askForPassword -int 1
 
 $ defaults write com.apple.screensaver askForPasswordDelay -int 0
@@ -2390,7 +2336,7 @@ $ defaults write com.apple.screensaver askForPasswordDelay -int 0
 
 Expose hidden files and Library folder in Finder:
 
-```shell
+```console
 $ defaults write com.apple.finder AppleShowAllFiles -bool true
 
 $ chflags nohidden ~/Library
@@ -2398,13 +2344,13 @@ $ chflags nohidden ~/Library
 
 Show all filename extensions (so that "Evil.jpg.app" cannot masquerade easily).
 
-```shell
+```console
 $ defaults write NSGlobalDomain AppleShowAllExtensions -bool true
 ```
 
 Don't default to saving documents to iCloud:
 
-```shell
+```console
 $ defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
 ```
 
@@ -2412,13 +2358,13 @@ Enable [Secure Keyboard Entry](https://security.stackexchange.com/questions/4774
 
 Disable crash reporter (the dialog which appears after an application crashes and prompts to report the problem to Apple):
 
-```shell
+```console
 $ defaults write com.apple.CrashReporter DialogType none
 ```
 
 Disable Bonjour [multicast advertisements](https://www.trustwave.com/Resources/SpiderLabs-Blog/mDNS---Telling-the-world-about-you-(and-your-device)/):
 
-```shell
+```console
 $ sudo defaults write /Library/Preferences/com.apple.mDNSResponder.plist NoMulticastAdvertisements -bool YES
 ```
 
@@ -2428,9 +2374,9 @@ Consider [sandboxing](https://developer.apple.com/legacy/library/documentation/D
 
 Did you know Apple has not shipped a computer with TPM since [2006](http://osxbook.com/book/bonus/chapter10/tpm/)?
 
-MacOS comes with this line in /etc/sudoers:
+macOS comes with this line in `/etc/sudoers`:
 
-```shell
+```
 Defaults env_keep += "HOME MAIL"
 ```
 
@@ -2438,7 +2384,7 @@ Which stops sudo from changing the HOME variable when you elevate privileges. Th
 
 If you want to retain the convenience of the root user having a non-root user's home directory, you can append an export line to /var/root/.bashrc, eg:
 
-```shell
+```
 export HOME=/Users/blah
 ```
 
