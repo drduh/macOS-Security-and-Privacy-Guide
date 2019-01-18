@@ -118,7 +118,7 @@ The macOS installation application is [code signed](https://developer.apple.com/
 
 Here are two example ways to verify the code signature and integrity of macOS application bundles:
 
-```shell
+```console
 $ pkgutil --check-signature /Applications/Install\ macOS\ Mojave.app
 Package "Install macOS Mojave":
    Status: signed by a certificate trusted by Mac OS X
@@ -135,7 +135,7 @@ Package "Install macOS Mojave":
 
 You may also use the `codesign` command to examine an application's code signature:
 
-```shell
+```console
 $ codesign -dvv /Applications/Install\ macOS\ Mojave.app
 Executable=/Applications/Install macOS Mojave.app/Contents/MacOS/InstallAssistant_springboard
 Identifier=com.apple.InstallAssistant.Mojave
@@ -158,9 +158,9 @@ Instead of booting from the network or using target disk mode, a bootable macOS 
 
 To create a **bootable USB installer**, mount a USB drive, and erase and partition it, then use the `createinstallmedia` utility:
 
-```shell
+```console
 $ diskutil list
-[Find disk matching correct size, usually the last disk. i.e. /dev/disk2]
+[Find disk matching correct size, usually the last disk, e.g. /dev/disk2]
 
 $ diskutil unmountDisk /dev/disk2
 
@@ -190,19 +190,17 @@ You will need to find the file `InstallESD.dmg`, which is also inside installati
 
 Locate it in Terminal or with Finder, right click on the application bundle, select **Show Package Contents** and navigate to **Contents** > **SharedSupport** to find the file `InstallESD.dmg`
 
-Before continuing, [verify](https://support.apple.com/en-us/HT201259) the file's integrity by comparing its cryptographic hashes with either of the following commands:
+Before continuing, [verify](https://support.apple.com/en-us/HT201259) the file's integrity by comparing its SHA-256 hash with others found in this repository or elsewhere online.
 
-```
+```console
 $ shasum -a 256 InstallESD.dmg
-
-$ openssl sha256 InstallESD.dmg
 ```
 
 Both results should match a version of macOS in [InstallESD_Hashes.csv](https://github.com/drduh/macOS-Security-and-Privacy-Guide/blob/master/InstallESD_Hashes.csv). You can also search for hashes to ensure others are seeing the same. To determine which macOS versions and builds originally shipped with or are available for a Mac, see [HT204319](https://support.apple.com/en-us/HT204319).
 
 Mount and install the operating system to a temporary image:
 
-```shell
+```console
 $ hdiutil attach -mountpoint /tmp/InstallESD ./InstallESD.dmg
 
 $ hdiutil create -size 32g -type SPARSE -fs HFS+J -volname "macOS" -uid 0 -gid 80 -mode 1775 /tmp/macos.sparseimage
@@ -219,7 +217,7 @@ The installation will take a while, so be patient. You can use the command `tail
 
 Once the installation completes successfully, detach, convert and verify the image:
 
-```shell
+```console
 $ hdiutil detach /tmp/macos
 "disk4" unmounted.
 "disk4" ejected.
@@ -251,7 +249,7 @@ Optionally, [securely erase](https://www.backblaze.com/blog/securely-erase-mac-s
 
 Partition the disk to Journaled HFS+:
 
-```
+```console
 $ sudo diskutil unmountDisk /dev/disk2
 
 $ sudo diskutil partitionDisk /dev/disk2 1 JHFS+ macOS 100%
@@ -259,7 +257,7 @@ $ sudo diskutil partitionDisk /dev/disk2 1 JHFS+ macOS 100%
 
 Restore the image to the new volume, making sure `/dev/disk2` is the disk being erased:
 
-```
+```console
 $ sudo asr restore --source ~/sierra.dmg --target /Volumes/macOS --erase --buffersize 4m
 [...]
 Erase contents of /dev/disk2s2 (/Volumes/macOS)? [ny]:y
@@ -280,14 +278,14 @@ To transfer any files, copy them to a shared folder like `/Users/Shared` on the 
 
 Download [RecoveryHDUpdate.dmg](https://support.apple.com/downloads/DL1464/en_US/RecoveryHDUpdate.dmg) and verify its integrity:
 
-```shell
+```console
 $ shasum -a 256 RecoveryHDUpdate.dmg
 f6a4f8ac25eaa6163aa33ac46d40f223f40e58ec0b6b9bf6ad96bdbfc771e12c  RecoveryHDUpdate.dmg
 ```
 
 Attach and expand the installer, then run it - again ensuring `/Volumes/macOS` path is the newly created partition on the connected disk:
 
-```shell
+```console
 $ hdiutil attach RecoveryHDUpdate.dmg
 
 $ pkgutil --expand /Volumes/Mac\ OS\ X\ Lion\ Recovery\ HD\ Update/RecoveryHDUpdate.pkg /tmp/recovery
@@ -329,7 +327,7 @@ From the host Mac, start Apache in the foreground:
 
 From the guest VM, install the disk image to the volume over the local network using `asr`:
 
-```shell
+```console
 -bash-3.2# asr restore --source http://172.16.34.1/sierra.dmg --target /Volumes/Macintosh\ HD/ --erase --buffersize 4m
 	Validating target...done
 	Validating source...done
@@ -446,7 +444,7 @@ To manually seed entropy *before* enabling FileVault:
 
 To test entropy and randomness quality, download and use [`ent`](http://www.fourmilab.ch/random/) with Homebrew, then:
 
-```shell
+```console
 $ dd if=/dev/random of=/tmp/random count=8192
 
 $ ent /tmp/random
@@ -484,10 +482,12 @@ You may wish to enforce **hibernation** and evict FileVault keys from memory ins
 
 If you choose to evict FileVault keys in standby mode, you should also modify your standby and power nap settings. Otherwise, your machine may wake while in standby mode and then power off due to the absence of the FileVault key. See [issue #124](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/124) for more information. These settings can be changed with:
 
-    $ sudo pmset -a powernap 0
-    $ sudo pmset -a standby 0
-    $ sudo pmset -a standbydelay 0
-    $ sudo pmset -a autopoweroff 0
+```console
+$ sudo pmset -a powernap 0
+$ sudo pmset -a standby 0
+$ sudo pmset -a standbydelay 0
+$ sudo pmset -a autopoweroff 0
+```
 
 For more information, see [Best Practices for
 Deploying FileVault 2](https://training.apple.com/pdf/WP_FileVault2.pdf) (pdf) and paper [Lest We Remember: Cold Boot Attacks on Encryption Keys](https://www.usenix.org/legacy/event/sec08/tech/full_papers/halderman/halderman.pdf) (pdf)
@@ -510,13 +510,13 @@ The firmware password will activate at next boot. To validate the password, hold
 
 The firmware password can also be managed with the `firmwarepasswd` utility while booted into the OS. For example, to prompt for the firmware password when attempting to boot from a different volume:
 
-```
+```console
 $ sudo firmwarepasswd -setpasswd -setmode command
 ```
 
 To verify:
 
-```
+```console
 $ sudo firmwarepasswd -verify
 Verifying Firmware Password
 Enter password:
@@ -543,19 +543,15 @@ Built-in, basic firewall which blocks **incoming** connections only. This firewa
 
 It can be controlled by the **Firewall** tab of **Security & Privacy** in **System Preferences**, or with the following commands.
 
-Enable the firewall with logging:
+Enable the firewall with logging and stealth mode:
 
-```
+```console
 $ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on
 Firewall is enabled. (State = 1)
 
 $ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setloggingmode on
 Turning on log mode
-```
 
-You may also wish to enable stealth mode:
-
-```
 $ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode on
 Stealth mode enabled
 ```
@@ -564,7 +560,7 @@ Stealth mode enabled
 
 To prevent *built-in software* as well as *code-signed, downloaded software from being whitelisted automatically*:
 
-```
+```console
 $ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setallowsigned off
 Disabled allow signed built-in applications automatically
 
@@ -578,7 +574,7 @@ Disabled allow signed downloaded applications automatically
 
 After interacting with `socketfilterfw`, you may want to restart (or terminate) the process:
 
-```
+```console
 $ sudo pkill -HUP socketfilterfw
 ```
 
@@ -608,7 +604,7 @@ There are many books and articles on the subject of pf firewall. Here's is just 
 
 Add the following into a file called `pf.rules`, modifying `en0` to be your outbound network adapter:
 
-```shell
+```
 set block-policy drop
 set fingerprints "/etc/pf.os"
 set ruleset-optimization basic
@@ -647,7 +643,7 @@ Copy and paste the list of networks returned into the blocklist command:
 
 Confirm the addresses were added:
 
-```shell
+```console
 $ sudo pfctl -t blocklist -T show
 No ALTQ support in kernel
 ALTQ related functions disabled
@@ -658,7 +654,7 @@ ALTQ related functions disabled
 
 Confirm network traffic is blocked to those addresses (note that DNS requests will still work):
 
-```shell
+```console
 $ dig a +short facebook.com
 157.240.2.35
 
@@ -1424,7 +1420,7 @@ See [How to verify signatures for packages](https://www.torproject.org/docs/veri
 
 To finish installing Tor Browser, open the disk image and drag the it into the Applications folder, or with:
 
-```shell
+```console
 $ hdiutil mount TorBrowser-7.0.10-osx64_en-US.dmg
 
 $ cp -rv /Volumes/Tor\ Browser/TorBrowser.app /Applications
@@ -1432,7 +1428,7 @@ $ cp -rv /Volumes/Tor\ Browser/TorBrowser.app /Applications
 
 Verify the Tor application's code signature was made by with The Tor Project's Apple developer ID **MADPSAYN6T**, using the `spctl -a -v` and/or `pkgutil --check-signature` commands:
 
-```shell
+```console
 $ spctl -a -vv /Applications/TorBrowser.app
 /Applications/TorBrowser.app: accepted
 source=Developer ID
@@ -1454,7 +1450,7 @@ Package "TorBrowser.app":
 
 You may also use the `codesign` command to examine an application's code signature:
 
-```shell
+```console
 $ codesign -dvv /Applications/TorBrowser.app
 Executable=/Applications/TorBrowser.app/Contents/MacOS/firefox
 Identifier=org.torproject.torbrowser
@@ -1920,13 +1916,29 @@ $ gpg -o ~/Desktop/decrypted-backup.tar.gz -d ~/Desktop/backup-2015-01-01-0000.t
 $ tar zxvf ~/Desktop/decrypted-backup.tar.gz
 ```
 
-You may also create encrypted volumes using **Disk Utility** or `hdiutil`:
+You can also create and use encrypted volumes using **Disk Utility** or `hdiutil`:
 
 ```shell
-$ hdiutil create ~/Desktop/encrypted.dmg -encryption -size 1g -volname "Name" -fs JHFS+
+$ hdiutil create ~/Desktop/encrypted.dmg -encryption -size 20M -volname "secretStuff" -fs JHFS+
+Enter a new password to secure "encrypted.dmg":
+Re-enter new password:
+....................................
+Created: /Users/drduh/Desktop/encrypted.img
+
+$ hdiutil mount ~/Desktop/encrypted.dmg
+Enter password to access "encrypted.dmg":
+[...]
+/Volumes/secretStuff
+
+$ cp -v ~/Documents/passwords.txt /Volumes/secretStuff
+[...]
+
+$ hdiutil eject /Volumes/secretStuff
+"disk4" unmounted.
+"disk4" ejected.
 ```
 
-Also see the following applications and services: [Tresorit](https://www.tresorit.com), [SpiderOak](https://www.spideroak.com/), [Arq](https://www.arqbackup.com/), [Espionage](https://www.espionageapp.com/), and [restic](https://restic.github.io/).
+See also the following applications and services: [Tresorit](https://www.tresorit.com), [SpiderOak](https://www.spideroak.com/), [Arq](https://www.arqbackup.com/), [Espionage](https://www.espionageapp.com/), and [restic](https://restic.github.io/).
 
 ## Wi-Fi
 
@@ -1936,11 +1948,13 @@ This is a privacy risk, so remove networks from the list in **System Preferences
 
 Also see [Signals from the Crowd: Uncovering Social Relationships through Smartphone Probes](https://conferences.sigcomm.org/imc/2013/papers/imc148-barberaSP106.pdf) (pdf) and [Wi-Fi told me everything about you](http://confiance-numerique.clermont-universite.fr/Slides/M-Cunche-2014.pdf) (pdf).
 
-Saved Wi-Fi information (SSID, last connection, etc.) can be found in `/Library/Preferences/SystemConfiguration/com.apple.airport.preferences.plist`
+Saved Wi-Fi information (SSID, last connection, etc.) can be found in:
 
-You may wish to [spoof the MAC address](https://en.wikipedia.org/wiki/MAC_spoofing) of the network card before connecting to new and untrusted wireless networks to mitigate passive fingerprinting:
+    /Library/Preferences/SystemConfiguration/com.apple.airport.preferences.plist
 
-```shell
+You may want to [spoof the MAC address](https://en.wikipedia.org/wiki/MAC_spoofing) of the network card before connecting to new and untrusted wireless networks to mitigate passive fingerprinting:
+
+```console
 $ sudo ifconfig en0 ether $(openssl rand -hex 6 | sed 's%\(..\)%\1:%g; s%.$%%')
 ```
 
@@ -1956,9 +1970,9 @@ Finally, WEP protection on wireless networks is [not secure](http://www.howtogee
 
 For outgoing ssh connections, use hardware or password-protected keys, [set up](http://nerderati.com/2011/03/17/simplify-your-life-with-an-ssh-config-file/) remote hosts and consider [hashing](http://nms.csail.mit.edu/projects/ssh/) them for added privacy.
 
-Here are several recommended [options](https://www.freebsd.org/cgi/man.cgi?query=ssh_config&sektion=5) to add to  `~/.ssh/config`:
+Here are several [recommended options](https://www.freebsd.org/cgi/man.cgi?query=ssh_config&sektion=5) to add to  `~/.ssh/config`:
 
-```shell
+```
 Host *
   PasswordAuthentication no
   ChallengeResponseAuthentication no
@@ -1972,7 +1986,7 @@ You can also use ssh to create an [encrypted tunnel](http://blog.trackets.com/20
 
 For example, to use Privoxy on a remote host:
 
-```shell
+```console
 $ ssh -C -L 5555:127.0.0.1:8118 you@remote-host.tld
 $ sudo networksetup -setwebproxy "Wi-Fi" 127.0.0.1 5555
 $ sudo networksetup -setsecurewebproxy "Wi-Fi" 127.0.0.1 5555
@@ -1980,7 +1994,7 @@ $ sudo networksetup -setsecurewebproxy "Wi-Fi" 127.0.0.1 5555
 
 Or to use an ssh connection as a [SOCKS proxy](https://www.mikeash.com/ssh_socks.html):
 
-```shell
+```console
 $ ssh -NCD 3000 you@remote-host.tld
 ```
 
@@ -1988,7 +2002,7 @@ By default, macOS does **not** have sshd or *Remote Login* enabled.
 
 To enable sshd and allow incoming ssh connections:
 
-```shell
+```console
 $ sudo launchctl load -w /System/Library/LaunchDaemons/ssh.plist
 ```
 
@@ -1998,7 +2012,7 @@ If you are going to enable sshd, at least disable password authentication and co
 
 To `/etc/sshd_config`, add:
 
-```shell
+```
 PasswordAuthentication no
 ChallengeResponseAuthentication no
 UsePAM no
@@ -2006,9 +2020,11 @@ UsePAM no
 
 Confirm whether sshd is enabled or disabled:
 
-```shell
+```console
 $ sudo lsof -Pni TCP:22
 ```
+
+See also [drduh/config/ssh_config](https://github.com/drduh/config/ssh_config) and [drduh/config/sshd_config](https://github.com/drduh/config/sshd_config).
 
 ## Physical access
 
@@ -2030,7 +2046,7 @@ macOS has a powerful OpenBSM auditing capability. You can use it to monitor proc
 
 To tail audit logs, use the `praudit` utility:
 
-```shell
+```console
 $ sudo praudit -l /dev/auditpipe
 header,201,11,execve(2),0,Thu Sep  1 12:00:00 2015, + 195 msec,exec arg,/Applications/.evilapp/rootkit,path,/Applications/.evilapp/rootkit,path,/Applications/.evilapp/rootkit,attribute,100755,root,wheel,16777220,986535,0,subject,drduh,root,wheel,root,wheel,412,100005,50511731,0.0.0.0,return,success,0,trailer,201,
 header,88,11,connect(2),0,Thu Sep  1 12:00:00 2015, + 238 msec,argument,1,0x5,fd,socket-inet,2,443,173.194.74.104,subject,drduh,root,wheel,root,wheel,326,100005,50331650,0.0.0.0,return,failure : Operation now in progress,4354967105,trailer,88
@@ -2081,7 +2097,7 @@ You can also use [Wireshark](https://www.wireshark.org/) from the command line.
 
 Monitor DNS queries and replies:
 
-```shell
+```console
 $ tshark -Y "dns.flags.response == 1" -Tfields \
   -e frame.time_delta \
   -e dns.qry.name \
@@ -2091,7 +2107,7 @@ $ tshark -Y "dns.flags.response == 1" -Tfields \
 
 Monitor HTTP requests and responses:
 
-```shell
+```console
 $ tshark -Y "http.request or http.response" -Tfields \
   -e ip.dst \
   -e http.request.full_uri \
@@ -2101,9 +2117,9 @@ $ tshark -Y "http.request or http.response" -Tfields \
   -Eseparator=/s
 ```
 
-Monitor x509 certificates:
+Monitor x509 (SSL/TLS) certificates:
 
-```shell
+```console
 $ tshark -Y "ssl.handshake.certificate" -Tfields \
   -e ip.src \
   -e x509sat.uTF8String \
@@ -2128,7 +2144,7 @@ Santa uses the [Kernel Authorization API](https://developer.apple.com/library/co
 
 To install Santa, visit the [Releases](https://github.com/google/santa/releases) page and download the latest disk image, the mount it and install the contained package:
 
-```shell
+```console
 $ hdiutil mount ~/Downloads/santa-0.9.20.dmg
 
 $ sudo installer -pkg /Volumes/santa-0.9.20/santa-0.9.20.pkg -tgt /
@@ -2138,7 +2154,7 @@ By default, Santa installs in "Monitor" mode (meaning, nothing gets blocked, onl
 
 Verify Santa is running and its kernel module is loaded:
 
-```shell
+```console
 $ santactl status
 >>> Daemon Info
   Mode                   | Monitor
@@ -2161,29 +2177,37 @@ $ kextstat | grep santa
 
 Create a blacklist rule to prevent iTunes from executing:
 
-    $ sudo santactl rule --blacklist --path /Applications/iTunes.app/
-    Added rule for SHA-256: e1365b51d2cb2c8562e7f1de36bfb3d5248de586f40b23a2ed641af2072225b3.
+```console
+$ sudo santactl rule --blacklist --path /Applications/iTunes.app/
+Added rule for SHA-256: e1365b51d2cb2c8562e7f1de36bfb3d5248de586f40b23a2ed641af2072225b3.
+```
 
 Try to launch iTunes - it will be blocked.
 
-    $ open /Applications/iTunes.app/
-    LSOpenURLsWithRole() failed with error -10810 for the file /Applications/iTunes.app.
+```console
+$ open /Applications/iTunes.app/
+LSOpenURLsWithRole() failed with error -10810 for the file /Applications/iTunes.app.
+```
 
 <img width="450" alt="Santa block dialog when attempting to run a blacklisted program" src="https://cloud.githubusercontent.com/assets/12475110/21062284/14ddde88-be1e-11e6-8e9b-32f8a44c0cf6.png">
 
 To remove the rule:
 
-    $ sudo santactl rule --remove --path /Applications/iTunes.app/
-    Removed rule for SHA-256: e1365b51d2cb2c8562e7f1de36bfb3d5248de586f40b23a2ed641af2072225b3.
+```console
+$ sudo santactl rule --remove --path /Applications/iTunes.app/
+Removed rule for SHA-256: e1365b51d2cb2c8562e7f1de36bfb3d5248de586f40b23a2ed641af2072225b3.
+```
 
 Open iTunes:
 
-    $ open /Applications/iTunes.app/
-    [iTunes will open successfully]
+```console
+$ open /Applications/iTunes.app/
+[iTunes will open successfully]
+```
 
 Create a new, example C program:
 
-```shell
+```console
 $ cat <<EOF > foo.c
 > #include <stdio.h>
 > main() { printf("Hello World\n”); }
@@ -2192,7 +2216,7 @@ $ cat <<EOF > foo.c
 
 Compile the program with GCC (requires installation of Xcode or command-line tools):
 
-```shell
+```console
 $ gcc -o foo foo.c
 
 $ file foo
@@ -2204,18 +2228,18 @@ foo: code object is not signed at all
 
 Run it:
 
-```shell
+```console
 $ ./foo
 Hello World
 ```
 
-Toggle Santa into “Lockdown” mode, which only allows whitelisted binaries to run:
+Toggle Santa into "Lockdown" mode, which only allows whitelisted binaries to run:
 
     $ sudo defaults write /var/db/santa/config.plist ClientMode -int 2
 
 Try to run the unsigned binary:
 
-```shell
+```console
 $ ./foo
 bash: ./foo: Operation not permitted
 
@@ -2231,7 +2255,7 @@ Parent:     bash (701)
 
 To whitelist a specific binary, determine its SHA-256 sum:
 
-```shell
+```console
 $ santactl fileinfo /Users/demouser/foo
 Path                 : /Users/demouser/foo
 SHA-256              : 4e11da26feb48231d6e90b10c169b0f8ae1080f36c168ffe53b1616f7505baed
@@ -2243,14 +2267,14 @@ Rule                 : Blacklisted (Unknown)
 
 Add a whitelist rule:
 
-```shell
+```console
 $ sudo santactl rule --whitelist --sha256 4e11da26feb48231d6e90b10c169b0f8ae1080f36c168ffe53b1616f7505baed
 Added rule for SHA-256: 4e11da26feb48231d6e90b10c169b0f8ae1080f36c168ffe53b1616f7505baed.
 ```
 
 Run it:
 
-```shell
+```console
 $ ./foo
 Hello World
 ```
@@ -2259,7 +2283,7 @@ It's allowed and works!
 
 Applications can also be whitelisted by developer certificate (so that new binary versions will not need to be manually whitelisted on each update). For example, download and run Google Chrome - it will be blocked by Santa in "Lockdown" mode:
 
-```shell
+```console
 $ curl -sO https://dl.google.com/chrome/mac/stable/GGRO/googlechrome.dmg
 
 $ hdiutil mount googlechrome.dmg
@@ -2272,7 +2296,7 @@ LSOpenURLsWithRole() failed with error -10810 for the file /Applications/Google 
 
 Whitelist the application by its developer certificate (first item in the Signing Chain):
 
-```shell
+```console
 $ santactl fileinfo /Applications/Google\ Chrome.app/
 Path                 : /Applications/Google Chrome.app/Contents/MacOS/Google Chrome
 SHA-256              : 0eb08224d427fb1d87d2276d911bbb6c4326ec9f74448a4d9a3cfce0c3413810
@@ -2311,16 +2335,18 @@ Signing Chain:
 
 In this case, `15b8ce88e10f04c88a5542234fbdfc1487e9c2f64058a05027c7c34fc4201153` is the SHA-256 of Google’s Apple developer certificate (team ID EQHXZ8M8AV). To whitelist it:
 
-```shell
+```console
 $ sudo santactl rule --whitelist --certificate --sha256 15b8ce88e10f04c88a5542234fbdfc1487e9c2f64058a05027c7c34fc4201153
 Added rule for SHA-256: 15b8ce88e10f04c88a5542234fbdfc1487e9c2f64058a05027c7c34fc4201153.
 ```
 
 Google Chrome should now launch, and subsequent updates to the application will continue to work as long as the code signing certificate doesn’t change or expire.
 
-To disable “Lockdown” mode:
+To disable "Lockdown" mode:
 
-    $ sudo defaults delete /var/db/santa/config.plist ClientMode
+```console
+$ sudo defaults delete /var/db/santa/config.plist ClientMode
+```
 
 See `/var/log/santa.log` to monitor ALLOW and DENY execution decisions.
 
@@ -2340,7 +2366,7 @@ If you want to use **torrents**, use [Transmission](https://www.transmissionbt.c
 
 Manage default file handlers with [duti](http://duti.org/), which can be installed with `brew install duti`. One reason to manage extensions is to prevent auto-mounting of remote filesystems in Finder (see [Protecting Yourself From Sparklegate](https://www.taoeffect.com/blog/2016/02/apologies-sky-kinda-falling-protecting-yourself-from-sparklegate/)). Here are several recommended handlers to manage:
 
-```shell
+```console
 $ duti -s com.apple.Safari afp
 
 $ duti -s com.apple.Safari ftp
@@ -2535,3 +2561,4 @@ export HOME=/Users/blah
 [How to make macOS Spotlight fuck the fuck off and do your bidding](https://m4.rkw.io/blog/how-to-make-macos-spotlight-fuck-the-fuck-off-and-do-your-bidding.html)
 
 [Fuzzing the macOS WindowServer for Exploitable Vulnerabilities](http://blog.ret2.io/2018/07/25/pwn2own-2018-safari-sandbox/)
+
