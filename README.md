@@ -35,8 +35,8 @@ This guide is also available in [简体中文](https://github.com/xitu/macOS-Sec
 - [Homebrew](#homebrew)
 - [DNS](#dns)
     - [Hosts file](#hosts-file)
-    - [DNSCrypt](#dnscrypt)
-    - [Dnsmasq](#dnsmasq)
+    - [dnscrypt](#dnscrypt)
+    - [dnsmasq](#dnsmasq)
       - [Test DNSSEC validation](#test-dnssec-validation)
 - [Captive portal](#captive-portal)
 - [Certificate authorities](#certificate-authorities)
@@ -813,13 +813,13 @@ See `man hosts` and [FreeBSD Configuration Files](https://www.freebsd.org/doc/ha
 
 See the [dnsmasq](#dnsmasq) section of this guide for more hosts blocking options.
 
-#### DNSCrypt
+#### dnscrypt
 
-To encrypt outgoing DNS traffic, consider using [dnscrypt](https://dnscrypt.info). In combination with Dnsmasq and DNSSEC, the security of both outbounding and inbounding dns traffic are strengthened.
+To encrypt outgoing DNS traffic, consider using [jedisct1/dnscrypt-proxy](https://github.com/jedisct1/dnscrypt-proxy). In combination with dnsmasq and DNSSEC, the integrity and authenticity of DNS traffic is greatly improved.
 
-A GUI application is only available for the discontinued version 1 of `dnscrypt-proxy` ([alterstep/dnscrypt-osxclient](https://github.com/alterstep/dnscrypt-osxclient)). It is recommended to install the improved [dnscrypt-proxy version 2](https://github.com/jedisct1/dnscrypt-proxy) and use a BitBar plugin like [DNSCrypt Menu](https://github.com/JayBrown/DNSCrypt-Menu) or [dnscrypt-proxy-switcher](https://github.com/jedisct1/bitbar-dnscrypt-proxy-switcher) until an updated GUI application is available. Below are the guides for installation and configuration of the command-line DNSCrypt.
+[JayBrown/DNSCrypt-Menu](https://github.com/JayBrown/DNSCrypt-Menu) and [jedisct1/bitbar-dnscrypt-proxy-switcher](https://github.com/jedisct1/bitbar-dnscrypt-proxy-switcher) provide a graphical user interface to dnscrypt.
 
-Install DNSCrypt from Homebrew and follow the instructions to configure and start `dnscrypt-proxy`:
+Install dnscrypt from Homebrew and follow the instructions to configure and start `dnscrypt-proxy`:
 
 ```console
 $ brew install dnscrypt-proxy
@@ -856,13 +856,13 @@ $ sudo gsed -i "/sbin\\/dnscrypt-proxy<\\/string>/a<string>--local-address=127.0
 ```
 By default, the `resolvers-list` will point to the dnscrypt version specific resolvers file. When dnscrypt is updated, this version may no longer exist, and if it does, may point to an outdated file. This can be fixed by changing the resolvers file in `homebrew.mxcl.dnscrypt-proxy.plist` (found earlier using find) to the symlinked version in `/usr/local/share`:
 
-```console
+```
 <string>--resolvers-list=/usr/local/share/dnscrypt-proxy/dnscrypt-resolvers.csv</string>
 ```
 
 Below the line:
 
-```shell
+```
 <string>/usr/local/opt/dnscrypt-proxy/sbin/dnscrypt-proxy</string>
 ```
 
@@ -874,13 +874,10 @@ $ sudo brew services restart dnscrypt-proxy
 
 Make sure DNSCrypt is running:
 
-```shell
+```console
 $ sudo lsof -Pni UDP:5355
 COMMAND      PID   USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
 dnscrypt-  13415 nobody    6u  IPv4 0x1773f85ff9f8bbef      0t0  UDP 127.0.0.1:5355
-
-$ ps A | grep '[d]nscrypt'
-13415   ??  Ss    13:57.21 /usr/local/opt/dnscrypt-proxy/sbin/dnscrypt-proxy --local-address=127.0.0.1:5355 --ephemeral-keys --resolvers-list=/usr/local/share/dnscrypt-proxy/dnscrypt-resolvers.csv --resolver-name=d0wn-us-ns4 --user=nobody
 ```
 
 > By default, dnscrypt-proxy runs on localhost (127.0.0.1), port 53,
