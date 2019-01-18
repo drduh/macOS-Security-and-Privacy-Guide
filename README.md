@@ -1282,16 +1282,9 @@ The first time you start a conversation with someone new, you'll be asked to ver
 
 A popular macOS GUI client for XMPP and other chat protocols is [Adium](https://adium.im/).
 
-```console
-$ shasum -a 256 Adium_1.5.10.4.dmg
-31fa3fd32b86dd3381b60e0d5aafbc2a9452036f0fb4963bffbc2a6c64a9458b  Adium_1.5.10.4.dmg
-```
+**Important** While popular, Adium does not appear to be actively developed and may have vulnerabilities. See additional discussion in [issue #299](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/299).
 
-Remember to [disable logging](https://trac.adium.im/ticket/15722) for off the record chats with Adium.
-
-A good console-based XMPP client is [profanity](http://www.profanity.im/), which can be installed with `brew install profanity`
-
-For improved anonymity, check out [Tor Messenger](https://blog.torproject.org/blog/tor-messenger-beta-chat-over-tor-easily), although it is still in beta, as well as [Ricochet](https://ricochet.im/) (which has recently received a thorough [security audit](https://ricochet.im/files/ricochet-ncc-audit-2016-01.pdf) (pdf)), which both use the Tor network rather than relying on messaging servers.
+Other XMPP clients include [profanity](http://www.profanity.im/) and [agl/xmpp-client](https://github.com/agl/xmpp-client).
 
 If you want to know how OTR works, read the paper [Off-the-Record Communication, or, Why Not To Use PGP](https://otr.cypherpunks.ca/otr-wpes.pdf) (pdf)
 
@@ -2388,35 +2381,36 @@ If you want to retain the convenience of the root user having a non-root user's 
 export HOME=/Users/blah
 ```
 
+Set a [custom umask](https://support.apple.com/en-us/HT201684):
+
+```console
+sudo launchctl config user umask 077
+```
+
+Reboot, create a file in Finder and verify its permissions (macOS default allows 'group/other' read access):
+
+```console
+$ ls -ld umask*
+drwx------  2 kevin  staff       64 Dec  4 12:27 umask_testing_dir
+-rw-------@ 1 kevin  staff  2026566 Dec  4 12:28 umask_testing_file
+```
+
 ## Related software
 
-[stronghold](https://github.com/alichtman/stronghold) - Securely and easily configure your Mac from the terminal. Inspired by this guide.
-
-[Santa](https://github.com/google/santa) - A binary whitelisting/blacklisting system for macOS.
-
-[kristovatlas/osx-config-check](https://github.com/kristovatlas/osx-config-check) - Checks your OSX machine against various hardened configuration settings.
-
-[Lockdown](https://objective-see.com/products/lockdown.html) - Audits and remediates security configuration settings.
-
-[Dylib Hijack Scanner](https://objective-see.com/products/dhs.html) - Scan for applications that are either susceptible to dylib hijacking or have been hijacked.
-
-[F-Secure XFENCE](https://campaigns.f-secure.com/xfence/) (formerly [Little Flocker](https://github.com/drduh/macOS-Security-and-Privacy-Guide/pull/237)) - "Little Snitch for files"; prevents applications from accessing files.
-
-[facebook/osquery](https://github.com/facebook/osquery) - Can be used to retrieve low level system information.  Users can write SQL queries to retrieve system information.
-
-[google/grr](https://github.com/google/grr) - Incident response framework focused on remote live forensics.
-
-[yelp/osxcollector](https://github.com/yelp/osxcollector) - Forensic evidence collection & analysis toolkit for OS X.
-
-[jipegit/OSXAuditor](https://github.com/jipegit/OSXAuditor) - Analyzes artifacts on a running system, such as quarantined files, Safari, Chrome and Firefox history, downloads, HTML5 databases and localstore, social media and email accounts, and Wi-Fi access point names.
-
-[libyal/libfvde](https://github.com/libyal/libfvde) - Library to access FileVault Drive Encryption (FVDE) (or FileVault2) encrypted volumes.
-
-[CISOfy/lynis](https://github.com/CISOfy/lynis) - Cross-platform security auditing tool and assists with compliance testing and system hardening.
-
-[Zentral](https://github.com/zentralopensource/zentral) - A log and configuration server for santa and osquery. Run audit and probes on inventory, events, logfiles, combine with point-in-time alerting. A full Framework and Django web server build on top of the elastic stack (formerly known as ELK stack).
-
-[The Eclectic Light Company - Downloads](https://eclecticlight.co/downloads/) - A collection of useful diagnostics and control applications and utilities for macOS.
+* [CISOfy/lynis](https://github.com/CISOfy/lynis) - Cross-platform security auditing tool and assists with compliance testing and system hardening.
+* [Dylib Hijack Scanner](https://objective-see.com/products/dhs.html) - Scan for applications that are either susceptible to dylib hijacking or have been hijacked.
+* [F-Secure XFENCE](https://campaigns.f-secure.com/xfence/) (formerly [Little Flocker](https://github.com/drduh/macOS-Security-and-Privacy-Guide/pull/237)) - "Little Snitch for files"; prevents applications from accessing files.
+* [Lockdown](https://objective-see.com/products/lockdown.html) - Audits and remediates security configuration settings.
+* [Santa](https://github.com/google/santa) - A binary whitelisting/blacklisting system for macOS.
+* [The Eclectic Light Company - Downloads](https://eclecticlight.co/downloads/) - A collection of useful diagnostics and control applications and utilities for macOS.
+* [Zentral](https://github.com/zentralopensource/zentral) - A log and configuration server for santa and osquery. Run audit and probes on inventory, events, logfiles, combine with point-in-time alerting. A full Framework and Django web server build on top of the elastic stack (formerly known as ELK stack).
+* [facebook/osquery](https://github.com/facebook/osquery) - Can be used to retrieve low level system information.  Users can write SQL queries to retrieve system information.
+* [google/grr](https://github.com/google/grr) - Incident response framework focused on remote live forensics.
+* [jipegit/OSXAuditor](https://github.com/jipegit/OSXAuditor) - Analyzes artifacts on a running system, such as quarantined files, Safari, Chrome and Firefox history, downloads, HTML5 databases and localstore, social media and email accounts, and Wi-Fi access point names.
+* [kristovatlas/osx-config-check](https://github.com/kristovatlas/osx-config-check) - Checks your OSX machine against various hardened configuration settings.
+* [libyal/libfvde](https://github.com/libyal/libfvde) - Library to access FileVault Drive Encryption (FVDE) (or FileVault2) encrypted volumes.
+* [stronghold](https://github.com/alichtman/stronghold) - Securely and easily configure your Mac from the terminal. Inspired by this guide.
+* [yelp/osxcollector](https://github.com/yelp/osxcollector) - Forensic evidence collection & analysis toolkit for OS X.
 
 ## Additional resources
 
