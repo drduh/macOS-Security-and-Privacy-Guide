@@ -586,7 +586,7 @@ $ sudo pkill -HUP socketfilterfw
 
 ### Third party firewalls
 
-Programs such as [Little Snitch](https://www.obdev.at/products/littlesnitch/index.html), [Hands Off](https://www.oneperiodic.com/products/handsoff/), [Radio Silence](https://radiosilenceapp.com/) and [Security Growler](https://pirate.github.io/security-growler/) provide a good balance of usability and security.
+Programs such as [Little Snitch](https://www.obdev.at/products/littlesnitch/index.html), [Hands Off](https://www.oneperiodic.com/products/handsoff/), [Radio Silence](https://radiosilenceapp.com/), [LuLu](https://objective-see.com/products/lulu.html) and [Security Growler](https://pirate.github.io/security-growler/) provide a good balance of usability and security.
 
 <img width="349" alt="Example of Little Snitch monitored session" src="https://cloud.githubusercontent.com/assets/12475110/10596588/c0eed3c0-76b3-11e5-95b8-9ce7d51b3d82.png">
 
