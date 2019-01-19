@@ -1446,6 +1446,8 @@ Also see this [technical overview](https://blog.timac.org/2018/0717-macos-vpn-ar
 
 Further, it is possible to run the contemporary Linux-based [Wireguard](https://www.wireguard.com/) VPN either [from a Linux VM](https://github.com/mrash/Wireguard-macOS-LinuxVM) or via a set of [cross platform tools](https://www.wireguard.com/xplatform/).
 
+Other Open Source OpenVPN clients/GUI: [Eddie](https://github.com/AirVPN/Eddie), [Pritunl](https://client.pritunl.com) are not evaluated in this guide, so are neither recommended nor actively discouraged from use.
+
 ## Viruses and malware
 
 There is an [ever-increasing](https://www.documentcloud.org/documents/2459197-bit9-carbon-black-threat-research-report-2015.html) amount of Mac malware in the wild. Macs aren't immune from viruses and malicious software!
