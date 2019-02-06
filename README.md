@@ -810,39 +810,12 @@ If using in combination with Dnsmasq, find the file `homebrew.mxcl.dnscrypt-prox
 $ brew info dnscrypt-proxy
 ```
 
-which will show a location like `/usr/local/Cellar/dnscrypt-proxy/2.0.8`, and `homebrew.mxcl.dnscrypt-proxy.plist` is in this folder.
+which will show a location like `/usr/local/etc/dnscrypt-proxy.toml`
 
-Edit it to have the line:
-
-```
-<string>--local-address=127.0.0.1:5355</string>
-```
-
-Below the line:
+Open it in a text editor, find the line starting with `listen_addresses =` and edit that line to use DNScrypt on a port other than 53, like 5355:
 
 ```
-<string>/usr/local/opt/dnscrypt-proxy/sbin/dnscrypt-proxy</string>
-```
-
-<img width="1015" alt="dnscrypt" src="https://cloud.githubusercontent.com/assets/12475110/19222914/8e6f853e-8e31-11e6-8dd6-27c33cbfaea5.png">
-
-*Append a local-address line to use DNScrypt on a port other than 53, like 5355*
-
-This can also be done using Homebrew, by installing `gnu-sed` and using the `gsed` command:
-
-```console
-$ sudo gsed -i "/sbin\\/dnscrypt-proxy<\\/string>/a<string>--local-address=127.0.0.1:5355<\\/string>\n" $(find ~/homebrew -name homebrew.mxcl.dnscrypt-proxy.plist)
-```
-By default, the `resolvers-list` will point to the dnscrypt version specific resolvers file. When dnscrypt is updated, this version may no longer exist, and if it does, may point to an outdated file. This can be fixed by changing the resolvers file in `homebrew.mxcl.dnscrypt-proxy.plist` (found earlier using find) to the symlinked version in `/usr/local/share`:
-
-```
-<string>--resolvers-list=/usr/local/share/dnscrypt-proxy/dnscrypt-resolvers.csv</string>
-```
-
-Below the line:
-
-```
-<string>/usr/local/opt/dnscrypt-proxy/sbin/dnscrypt-proxy</string>
+listen_addresses = ['127.0.0.1:5355', '[::1]:5355']
 ```
 
 Start DNSCrypt:
@@ -854,16 +827,18 @@ $ sudo brew services restart dnscrypt-proxy
 Make sure DNSCrypt is running:
 
 ```console
-$ sudo lsof -Pni UDP:5355
-COMMAND      PID   USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
-dnscrypt-  13415 nobody    6u  IPv4 0x1773f85ff9f8bbef      0t0  UDP 127.0.0.1:5355
+$ sudo lsof +c 15 -Pni UDP:5355
+COMMAND          PID   USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+dnscrypt-proxy 15244 nobody    7u  IPv4 0x1337f85ff9f8beef      0t0  UDP 127.0.0.1:5355
+dnscrypt-proxy 15244 nobody   10u  IPv6 0x1337f85ff9f8beef      0t0  UDP [::1]:5355
+dnscrypt-proxy 15244 nobody   12u  IPv4 0x1337f85ff9f8beef      0t0  UDP 127.0.0.1:5355
+dnscrypt-proxy 15244 nobody   14u  IPv6 0x1337f85ff9f8beef      0t0  UDP [::1]:5355
 ```
 
 > By default, dnscrypt-proxy runs on localhost (127.0.0.1), port 53,
-and under the "nobody" user using the dnscrypt.eu-dk DNSCrypt-enabled
-resolver. If you would like to change these settings, you will have to edit the plist file (e.g., --resolver-address, --provider-name, --provider-key, etc.)
+and under the "nobody" user using the resolvers specified in https://raw.githubusercontent.com/DNSCrypt/dnscrypt-resolvers/master/v2/public-resolvers.md. If you would like to change these settings, you will have to edit the configuration file (e.g. listen_addresses, user_name, urls, etc.)
 
-This can be accomplished by editing `homebrew.mxcl.dnscrypt-proxy.plist`
+This can be accomplished by editing `/usr/local/etc/dnscrypt-proxy.toml` as described above.
 
 You can run your own [dnscrypt server](https://github.com/Cofyc/dnscrypt-wrapper) (see also [drduh/Debian-Privacy-Server-Guide#dnscrypt](https://github.com/drduh/Debian-Privacy-Server-Guide#dnscrypt)) from a trusted location or use one of many [public servers](https://github.com/jedisct1/dnscrypt-proxy/blob/master/dnscrypt-resolvers.csv) instead.
 
