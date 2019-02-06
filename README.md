@@ -827,9 +827,12 @@ $ sudo brew services restart dnscrypt-proxy
 Make sure DNSCrypt is running:
 
 ```console
-$ sudo lsof -Pni UDP:5355
-COMMAND      PID   USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
-dnscrypt-  13415 nobody    6u  IPv4 0x1773f85ff9f8bbef      0t0  UDP 127.0.0.1:5355
+$ sudo lsof +c 15 -Pni UDP:5355
+COMMAND          PID   USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+dnscrypt-proxy 15244 nobody    7u  IPv4 0x1337f85ff9f8beef      0t0  UDP 127.0.0.1:5355
+dnscrypt-proxy 15244 nobody   10u  IPv6 0x1337f85ff9f8beef      0t0  UDP [::1]:5355
+dnscrypt-proxy 15244 nobody   12u  IPv4 0x1337f85ff9f8beef      0t0  UDP 127.0.0.1:5355
+dnscrypt-proxy 15244 nobody   14u  IPv6 0x1337f85ff9f8beef      0t0  UDP [::1]:5355
 ```
 
 > By default, dnscrypt-proxy runs on localhost (127.0.0.1), port 53,
