@@ -90,7 +90,7 @@
 
 * 注意钓鱼网站
     * 最后，具有高安全意识的管理员能大大降低系统的安全风险。
-    * 在安装新软件的时候，请加倍小心。始终选择[免费的软件](https://www.gnu.org/philosophy/free-sw.en.html)和开源的软件（[当然了，macOS 不是开源的](https://superuser.com/questions/19492/is-mac-os-x-open-source))
+    * 在安装新软件的时候，请加倍小心。始终选择[自由的软件](https://www.gnu.org/philosophy/free-sw.en.html)和开源的软件（[当然了，macOS 不是开源的](https://superuser.com/questions/19492/is-mac-os-x-open-source))
 
 ## 固件
 
