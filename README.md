@@ -6,52 +6,52 @@ A system is only as secure as its administrator is capable of making it. There i
 
 This guide is provided on an 'as is' basis without any warranties of any kind. Only **you** are responsible if you break anything or get in any sort of trouble by following this guide.
 
-If you wish to make a correction or improvement, please send a pull request or [open an issue](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues).
+To suggest an improvement, please send a pull request or [open an issue](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues).
 
 This guide is also available in [简体中文](https://github.com/drduh/macOS-Security-and-Privacy-Guide/blob/master/README-cn.md).
 
 - [Basics](#basics)
 - [Preparing and installing macOS](#preparing-and-installing-macos)
-  - [Verifying installation integrity](#verifying-installation-integrity)
-  - [Creating a bootable USB installer](#creating-a-bootable-usb-installer)
-  - [Creating an install image](#creating-an-install-image)
-    - [Manual way](#manual-way)
-  - [Target disk mode](#target-disk-mode)
-  - [Creating a recovery partition](#creating-a-recovery-partition)
-  - [Virtualization](#virtualization)
+  * [Verifying installation integrity](#verifying-installation-integrity)
+  * [Creating a bootable USB installer](#creating-a-bootable-usb-installer)
+  * [Creating an install image](#creating-an-install-image)
+    + [Manual way](#manual-way)
+  * [Target disk mode](#target-disk-mode)
+  * [Creating a recovery partition](#creating-a-recovery-partition)
+  * [Virtualization](#virtualization)
 - [First boot](#first-boot)
 - [System activation](#system-activation)
 - [Admin and standard user accounts](#admin-and-standard-user-accounts)
-    - [Caveats](#caveats)
-    - [Setup](#setup)
+  * [Caveats](#caveats)
+  * [Setup](#setup)
 - [Full disk encryption](#full-disk-encryption)
 - [Firmware](#firmware)
 - [Firewall](#firewall)
-    - [Application layer firewall](#application-layer-firewall)
-    - [Third party firewalls](#third-party-firewalls)
-    - [Kernel level packet filtering](#kernel-level-packet-filtering)
+  * [Application layer firewall](#application-layer-firewall)
+  * [Third party firewalls](#third-party-firewalls)
+  * [Kernel level packet filtering](#kernel-level-packet-filtering)
 - [Services](#services)
 - [Spotlight Suggestions](#spotlight-suggestions)
 - [Homebrew](#homebrew)
 - [DNS](#dns)
-    - [Hosts file](#hosts-file)
-    - [dnscrypt](#dnscrypt)
-    - [dnsmasq](#dnsmasq)
+    + [Hosts file](#hosts-file)
+    + [dnscrypt](#dnscrypt)
+    + [Dnsmasq](#dnsmasq)
       - [Test DNSSEC validation](#test-dnssec-validation)
 - [Captive portal](#captive-portal)
 - [Certificate authorities](#certificate-authorities)
 - [OpenSSL](#openssl)
 - [Curl](#curl)
 - [Web](#web)
-  - [Privoxy](#privoxy)
-  - [Browser](#browser)
-    - [Chrome](#chrome)
-    - [Firefox](#firefox)
-    - [Safari](#safari)
-    - [Other Web browsers](#other-web-browsers)
-    - [Web browsers and privacy](#web-browsers-and-privacy)
-  - [Plugins](#plugins)
-- [PGP/GPG](#pgpgpg)
+  * [Privoxy](#privoxy)
+  * [Browser](#browser)
+    + [Chrome](#chrome)
+    + [Firefox](#firefox)
+    + [Safari](#safari)
+    + [Other Web browsers](#other-web-browsers)
+    + [Web browsers and privacy](#web-browsers-and-privacy)
+  * [Plugins](#plugins)
+- [PGP/GPG](#pgp-gpg)
 - [OTR](#otr)
 - [Tor](#tor)
 - [VPN](#vpn)
@@ -65,10 +65,10 @@ This guide is also available in [简体中文](https://github.com/drduh/macOS-Se
 - [SSH](#ssh)
 - [Physical access](#physical-access)
 - [System monitoring](#system-monitoring)
-    - [OpenBSM audit](#openbsm-audit)
-    - [DTrace](#dtrace)
-    - [Execution](#execution)
-    - [Network](#network)
+  * [OpenBSM audit](#openbsm-audit)
+  * [DTrace](#dtrace)
+  * [Execution](#execution)
+  * [Network](#network)
 - [Binary Whitelisting](#binary-whitelisting)
 - [Miscellaneous](#miscellaneous)
 - [Related software](#related-software)
@@ -1114,27 +1114,21 @@ Another important consideration about Web Browser security is Web Extensions. We
 * Chrome [PDF viewer](http://0xdabbad00.com/2013/01/13/most-secure-pdf-viewer-chrome-pdf-viewer/).
 * Non-optional tracking. Google Chrome installer includes a randomly generated token. The token is sent to Google after the installation completes in order to measure the success rate. The RLZ identifier stores information – in the form of encoded strings – like the source of chrome download and installation week. It doesn’t include any personal information and it’s used to measure the effectiveness of a promotional campaign. **Chrome downloaded from Google’s website doesn’t have the RLZ identifier**. The source code to decode the strings is made open by Google.
 
-Chrome offers [separate profiles](https://www.chromium.org/user-experience/multi-profiles), [sandboxing](https://www.chromium.org/developers/design-documents/sandbox), [frequent updates](https://googlechromereleases.blogspot.com/) (including Flash, although you should disable it - see below), and carries [impressive credentials](https://www.chromium.org/Home/chromium-security/brag-sheet). In addition, Google offers a very lucrative [bounty](https://www.google.com/about/appsecurity/chrome-rewards/) program for reporting vulnerabilities along with its own [Project Zero](https://googleprojectzero.blogspot.com). This means that a large number of highly talented and motivated people are constantly auditing Chrome's code base.
-
-Chrome offers account sync between multiple devices. Part of the sync data are stored website logins. The login passwords are encrypted and in order to access them, a user's Google account password is required. You can use your Google account to sign to your Chrome customized settings from other devices while retaining your the security of your passwords.
+Chrome offers account sync between multiple devices. Part of the sync data are stored website credentials. The login passwords are encrypted and in order to access them, a user's Google account password is required. You can use your Google account to sign to your Chrome customized settings from other devices while retaining your the security of your passwords.
 
 Chrome's Web store for extensions requires a [5 dollar lifetime fee](https://developer.chrome.com/webstore/publish#pay-the-developer-signup-fee) in order to submit extensions. The low cost allows the development of many quality Open Source Web Extensions that do not aim to monetize through usage.
 
 Chrome has the largest share of global usage and is the preferred target platform for the majority of developers. Major technologies are based on Chrome's Open Source components, such as [node.js](https://nodejs.org/en/) which uses [Chrome's V8](https://developers.google.com/v8/) Engine and the [Electron](https://electron.atom.io/) framework, which is based on Chromium and node.js. Chrome's vast user base makes it the most attractive target for threat actors and security researchers. Despite under constants attacks, Chrome has retained an impressive security track record over the years. This is not a small feat.
 
-To improve the privacy and security posture of the browser, create at least three profiles, one for browsing **trusted** Web sites (email, banking), another for **mostly trusted** Web sites (link aggregators, news sites), and a third for a completely **cookie-less** and **script-less** experience.
+Chrome offers [separate profiles](https://www.chromium.org/user-experience/multi-profiles), [sandboxing](https://www.chromium.org/developers/design-documents/sandbox), [frequent updates](https://googlechromereleases.blogspot.com/) (including Flash, although you should disable it - see below), and carries [impressive credentials](https://www.chromium.org/Home/chromium-security/brag-sheet). In addition, Google offers a very lucrative [bounty](https://www.google.com/about/appsecurity/chrome-rewards/) program for reporting vulnerabilities along with its own [Project Zero](https://googleprojectzero.blogspot.com). This means that a large number of highly talented and motivated people are constantly auditing Chrome's code base.
 
-* One profile **without cookies or Javascript** enabled (e.g., turned off in `chrome://settings/content`) which should be the preferred profile to visiting untrusted Web sites. However, many pages will not load at all without Javascript enabled.
-* One profile with [uBlock Origin](https://github.com/gorhill/uBlock). Use this profile for visiting sites which require Javascript and/or cookies. Other recommended extensions are [Privacy Badger](https://www.eff.org/privacybadger), [HTTPSEverywhere](https://www.eff.org/https-everywhere).
-* One profile for secure and trusted browsing needs, such as banking and email only.
+Create separate Chrome profiles to reduce XSS risk and compartmentalize cookies/identities. In each profile, either disable Javascript in Chrome settings and manually whitelist allowed origins - or use [uBlock Origin](https://github.com/gorhill/uBlock) to manage Javascript and/or disable third-party scripts/frames. Also install [HTTPSEverywhere](https://www.eff.org/https-everywhere) to upgrade insecure connections.
 
-The idea is to separate and compartmentalize data so that an exploit or privacy violation in one "profile" does not necessarily affect data in another.
-
-In each profile, visit `chrome://settings/content` and enable **Block sites from running Flash** and disable any other undesired features.
-
-Read [Chromium Security](https://www.chromium.org/Home/chromium-security) and [Chromium Privacy](https://www.chromium.org/Home/chromium-privacy) for more detailed, technical information.
+Change the default search engine from Google to reduce additional tracking.
 
 Disable [DNS prefetching](https://www.chromium.org/developers/design-documents/dns-prefetching) (see also [DNS Prefetching and Its Privacy Implications](https://www.usenix.org/legacy/event/leet10/tech/full_papers/Krishnan.pdf) (pdf)).
+
+Read [Chromium Security](https://www.chromium.org/Home/chromium-security) and [Chromium Privacy](https://www.chromium.org/Home/chromium-privacy) for more detailed, technical information.
 
 Read [Google's privacy policy](https://www.google.com/policies/privacy/) and learn which [Google services](https://www.google.com/services/) collect personal information. Google is open about the data it stores and how it used them. Users can opt out from many of those services and see what type of information Google has stored from their [account settings](https://myaccount.google.com/privacy).
 
@@ -1192,7 +1186,7 @@ Also be aware of [WebRTC](https://en.wikipedia.org/wiki/WebRTC#Concerns), which 
 
 If they are necessary, only use them in a disposable virtual machine and subscribe to security announcements to make sure you're always patched.
 
-See [Hacking Team Flash Zero-Day](https://blog.trendmicro.com/trendlabs-security-intelligence/hacking-team-flash-zero-day-integrated-into-exploit-kits/), [Java Trojan BackDoor.Flashback](https://en.wikipedia.org/wiki/Trojan_BackDoor.Flashback), [Acrobat Reader: Security Vulnerabilities](https://www.cvedetails.com/vulnerability-list/vendor_id-53/product_id-497/Adobe-Acrobat-Reader.html), and [Angling for Silverlight Exploits](https://blogs.cisco.com/security/angling-for-silverlight-exploits), for example.
+See [Hacking Team Flash Zero-Day](https://blog.trendmicro.com/trendlabs-security-intelligence/hacking-team-flash-zero-day-integrated-into-exploit-kits/), [Java Trojan BackDoor.Flashback](https://en.wikipedia.org/wiki/Trojan_BackDoor.Flashback), [Acrobat Reader: Security Vulnerabilities](https://www.cvedetails.com/vulnerability-list/vendor_id-53/product_id-497/Adobe-Acrobat-Reader.html), and [Angling for Silverlight Exploits](https://blogs.cisco.com/security/angling-for-silverlight-exploits) for examples.
 
 ## PGP/GPG
 
