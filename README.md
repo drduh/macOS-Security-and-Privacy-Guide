@@ -119,8 +119,8 @@ The macOS installation application is [code signed](https://developer.apple.com/
 To verify the code signature and integrity of macOS application bundles:
 
 ```console
-$ pkgutil --check-signature /Applications/Install\ macOS\ Mojave.app
-Package "Install macOS Mojave":
+$ pkgutil --check-signature /Applications/Install\ macOS\ Catalina.app
+Package "Install macOS Catalina":
    Status: signed by a certificate trusted by Mac OS X
    Certificate Chain:
     1. Software Signing
@@ -136,19 +136,19 @@ Package "Install macOS Mojave":
 Use the `codesign` command to examine an application's code signature:
 
 ```console
-$ codesign -dvv /Applications/Install\ macOS\ Mojave.app
-Executable=/Applications/Install macOS Mojave.app/Contents/MacOS/InstallAssistant_springboard
-Identifier=com.apple.InstallAssistant.Mojave
+$ codesign -dvv /Applications/Install\ macOS\ Catalina.app
+Executable=/Applications/Install macOS Catalina.app/Contents/MacOS/InstallAssistant_springboard
+Identifier=com.apple.InstallAssistant.Catalina
 Format=app bundle with Mach-O thin (x86_64)
-CodeDirectory v=20100 size=274 flags=0x2000(library-validation) hashes=3+3 location=embedded
-Platform identifier=5
-Signature size=4535
+CodeDirectory v=20100 size=276 flags=0x2000(library-validation) hashes=3+3 location=embedded
+Platform identifier=9
+Signature size=4628
 Authority=Software Signing
 Authority=Apple Code Signing Certification Authority
 Authority=Apple Root CA
-Info.plist entries=34
+Info.plist entries=33
 TeamIdentifier=not set
-Sealed Resources version=2 rules=13 files=194
+Sealed Resources version=2 rules=13 files=234
 Internal requirements count=1 size=84
 ```
 
@@ -166,14 +166,14 @@ $ diskutil unmountDisk /dev/disk2
 
 $ diskutil partitionDisk /dev/disk2 1 JHFS+ Installer 100%
 
-$ cd /Applications/Install\ macOS\ Mojave.app
+$ cd /Applications/Install\ macOS\ Catalina.app
 
 $ sudo ./Contents/Resources/createinstallmedia --volume /Volumes/Installer --nointeraction
 Erasing disk: 0%... 10%... 20%... 30%... 100%
 Copying to disk: 0%... 10%... 20%... 30%... 40%... 50%... 60%... 70%... 80%... 90%... 100%
 Making disk bootable...
 Copying boot files...
-Install media now available at "/Volumes/Install macOS Mojave"
+Install media now available at "/Volumes/Install macOS Catalina"
 ```
 
 ### Creating an install image
