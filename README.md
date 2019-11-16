@@ -1390,11 +1390,9 @@ You can use OTR on top of any existing [XMPP](https://xmpp.org/about) chat servi
 
 The first time you start a conversation with someone new, you'll be asked to verify their public key fingerprint. Make sure to do this in person or by some other secure means (e.g. GPG encrypted mail).
 
-A popular macOS GUI client for XMPP and other chat protocols is [Adium](https://adium.im/).
+A popular macOS GUI client for XMPP and other chat protocols is [Adium](https://adium.im/). 
 
-**Important** While popular, Adium does not appear to be actively developed and may have vulnerabilities. See additional discussion in [issue #299](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/299).
-
-Other XMPP clients include [profanity](http://www.profanity.im/) and [agl/xmpp-client](https://github.com/agl/xmpp-client).
+Other XMPP clients include [profanity](http://www.profanity.im/) and [agl/xmpp-client](https://github.com/agl/xmpp-client). Another relatively new XMPP chat client is [CoyIM](https://coy.im/), it's focused and security and has built-in support for OTR and Tor.
 
 If you want to know how OTR works, read the paper [Off-the-Record Communication, or, Why Not To Use PGP](https://otr.cypherpunks.ca/otr-wpes.pdf) (pdf)
 
