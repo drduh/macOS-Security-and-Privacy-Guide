@@ -923,7 +923,7 @@ $ networksetup -getdnsservers "Wi-Fi"
 127.0.0.1
 ```
 
-**Note** Some VPN software overrides DNS settings on connect. See [issue #24](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/24) and [drduh/config/scripts/macos-dns.sh](https://github.com/drduh/config/).
+**Note** Some VPN software overrides DNS settings on connect. See [issue #24](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/24) and [drduh/config/scripts/macos-dns.sh](https://github.com/drduh/config/blob/master/scripts/macos-dns.sh).
 
 ##### Test DNSSEC validation
 

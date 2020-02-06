@@ -1,6 +1,8 @@
-#!/usr/bin/env python
-#
-# This script reads system launch daemon and agent plists.
+"""
+https://github.com/drduh/macOS-Security-and-Privacy-Guide/blob/master/launchd/read_launch_plists.py
+
+Reads macOS system launch daemon and agent property lists.
+"""
 
 import glob
 import hashlib
@@ -9,99 +11,94 @@ import plistlib
 import subprocess
 import csv
 
-header ='filename,label,program,sha256,runatload,comment'
-location = '/System/Library/Launch%s/*.plist'
-comments = {}
+HEADER = "filename,label,program,sha256,runatload,comment"
+PLIST_LOCATION = "/System/Library/Launch%s/*.plist"
+PLIST_TYPES = ["Daemons", "Agents"]
+
 
 def LoadPlist(filename):
-  """Plists can be read with plistlib."""
-  # creating our own data
-  data = None
-  
-  try:
-    p = subprocess.Popen(
-        ['/usr/bin/plutil', '-convert', 'xml1', '-o', '-', filename],
-        stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    out_data, err_data = p.communicate()
-  except IOError as e:
-    # file could not be found
-    print(e)
-      
-  if(p.returncode == 0):
-      data = plistlib.readPlistFromString(out_data)
-  
-  return data
+    """Returns plists read with plistlib."""
+    try:
+        proc = subprocess.Popen(
+            ["/usr/bin/plutil", "-convert", "xml1", "-o", "-", filename],
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        out_data, err_data = proc.communicate()
+    except IOError as io_error:
+        print(io_error, err_data)
+
+    if proc.returncode == 0:
+        return plistlib.readPlistFromString(out_data)
+
+    return None
 
 
-def GetStatus(plist):
-  """Plists may have a RunAtLoad key."""
-  try:
-    return plist['RunAtLoad']
-  except KeyError:
-    return 'False'
-
-
-def GetLabel(plist):
-  """Plists have a label."""
-  try:
-    return plist['Label']
-  except KeyError:
-    return 'False'
+def GetPlistValue(plist, value):
+    """Returns the value of a plist dictionary, or False."""
+    try:
+        return plist[value]
+    except KeyError:
+        return False
 
 
 def GetProgram(plist):
-  """Plists have either a Program or ProgramArguments key,
-     if the executable requires command line options.
-  """
-  try:
-    return "['%s']" % plist['Program'], HashFile(plist['Program'])
-  except KeyError:
-    return plist['ProgramArguments'], HashFile(plist['ProgramArguments'])
+    """Returns a plist's Program or ProgramArguments key and hash."""
+    try:
+        return "['%s']" % plist["Program"], HashFile(plist["Program"])
+    except KeyError:
+        try:
+            return plist["ProgramArguments"], HashFile(plist["ProgramArguments"])
+        except KeyError:
+            return ("NO PROGRAM DEFINED", "UNKNOWN FILE HASH")
+    return None
 
 
-def HashFile(f):
-  """Returns SHA-256 hash of a given file."""
-  if type(f) is list:
-    f = f[0]
-  try:
-    return hashlib.sha256(open(f,'rb').read()).hexdigest()
-  except:
-    return 'UNKNOWN'
+def HashFile(filename):
+    """Returns SHA-256 hash of a given file."""
+    if isinstance(filename, list):
+        filename = filename[0]
+    try:
+        return hashlib.sha256(
+            open(filename, "rb").read()).hexdigest()
+    except IOError:
+        return "UNKNOWN FILE HASH"
 
 
-def GetComment(plist):
-  """docstring for GetComment"""
-  global comments
-  label = plist['Label']
-  comment = None
-  if label in comments:
-    comment = comments[label]
-  return comment
+def GetComment(plist, comments):
+    """Get comment for a given property list."""
+    try:
+        label = plist["Label"]
+    except KeyError:
+        return None
+
+    if label in comments:
+        return comments[label]
+    return None
 
 
 def main():
-  """Main function."""
-  print(header)
-  
-  global comments
+    """Main function."""
+    print(HEADER)
 
-  csvfile = os.path.join(os.path.dirname(
-      os.path.realpath(__file__)), 'comments.csv')
+    comments_file = os.path.join(
+        os.path.dirname(os.path.realpath(__file__)), "comments.csv")
 
-  with open(csvfile, 'rb') as f:
-      reader = csv.reader(f)
-      comments = {rows[0]:rows[1] for rows in reader}
-  
-  for kind in ['Daemons', 'Agents']:
-    for filename in glob.glob(location % kind):
-      if not filename.endswith('com.apple.jetsamproperties.Mac.plist'):
-        p = LoadPlist(filename)
-        if p:
-          e = (filename, GetLabel(p), '"%s",%s' % GetProgram(p), GetStatus(p), '"%s"' % GetComment(p))
-          print('%s,%s,%s,%s,%s' % e)
-        else:
-          print('Could not load %s' % filename)
+    with open(comments_file, "rb") as c_file:
+        reader = csv.reader(c_file)
+        comments = {rows[0]:rows[1] for rows in reader}
+
+    for ptype in PLIST_TYPES:
+        for filename in glob.glob(PLIST_LOCATION % ptype):
+            prop = LoadPlist(filename)
+            if prop:
+                print("%s,%s,%s,%s,%s" % (
+                    filename,
+                    GetPlistValue(prop, "Label"),
+                    '"%s",%s' % GetProgram(prop),
+                    GetPlistValue(prop, "RunAtLoad"),
+                    '"%s"' % GetComment(prop, comments)))
+            else:
+                print("Could not load %s" % filename)
 
 
-if __name__ == '__main__':
-  main()
+if __name__ == "__main__":
+    main()
