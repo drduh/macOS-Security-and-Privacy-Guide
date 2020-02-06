@@ -1457,6 +1457,14 @@ $ xattr -l ~/Downloads/TorBrowser-6.0.5-osx64_en-US.dmg
 
     $ hdiutil create ~/Desktop/encrypted.dmg -encryption -size 1g -volname "Name" -fs JHFS+
 
+这个 `hdiutil` 也会用 `-type SPARSE-BUNDLE` 模式。这一些sparse bundle可以让你加快备份。应为第一次所有的数据要传过去。但是第二、三等次只用传你改变的数据。
+
+你可以用 `rsync` 传你的加密过的数据：
+
+```console
+rsync --recursive --times --progress --delete --verbose --stats MyEncryptedDrive.sparsebundle user@server:/path/to/backup
+```
+ 
 也可以考虑使用下面的应用和服务：[SpiderOak](https://spideroak.com/)、[Arq](https://www.arqbackup.com/)、[Espionage](https://www.espionageapp.com/) 和 [restic](https://restic.github.io/)。
 
 ## Wi-Fi
