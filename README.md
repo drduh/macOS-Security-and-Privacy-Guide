@@ -499,11 +499,15 @@ Enter password:
 Correct
 ```
 
-Note, a firmware password may be bypassed by a determined attacker or Apple, with physical access to the computer.
+A firmware password may be bypassed by a determined attacker or Apple, with physical access to the computer.
 
 <img width="750" alt="Using a Dediprog SF600 to dump and flash a 2013 MacBook SPI Flash chip to remove a firmware password, sans Apple" src="https://cloud.githubusercontent.com/assets/12475110/17075918/0f851c0c-50e7-11e6-904d-0b56cf0080c1.png">
 
 *Using a [Dediprog SF600](http://www.dediprog.com/pd/spi-flash-solution/sf600) to dump and flash a 2013 MacBook SPI Flash chip to remove a firmware password, sans Apple*
+
+As of macOS 10.15 Catalina, the `firmwarepasswd` program has a new option `-disable-reset-capability`. According to [Apple's new Platform Security page](https://support.apple.com/en-gb/guide/security/sec28382c9ca/web), this effectively prevents any firmware password resets, even by Apple themselves:
+
+> For users who want no one but themselves to remove their Firmware Password by software means, the -disable-reset-capability option has been added to the firmwarepasswd command-line tool in macOS 10.15. Before setting this option, users must to acknowledge that if the password is forgotten and needs removal, the user must bear the cost of the motherboard replacement necessary to achieve this.
 
 Newer Mac models (Mac Pro, iMac Pro, Macbook with TouchBar) with [Apple T2](https://en.wikipedia.org/wiki/Apple-designed_processors#Apple_T2) chips, which provide a secure enclave for encrypted keys, lessen the risk of EFI firmware attacks. See [this blog post](http://michaellynn.github.io/2018/07/27/booting-secure/) for more information.
 
@@ -1150,7 +1154,7 @@ Create separate Chrome profiles to reduce XSS risk and compartmentalize cookies/
 
 Change the default search engine from Google to reduce additional tracking.
 
-Disable [DNS prefetching](https://www.chromium.org/developers/design-documents/dns-prefetching) (see also [DNS Prefetching and Its Privacy Implications](https://www.usenix.org/legacy/event/leet10/tech/full_papers/Krishnan.pdf) (pdf)).
+Disable [DNS prefetching](https://www.chromium.org/developers/design-documents/dns-prefetching) (see also [DNS Prefetching and Its Privacy Implications](https://www.usenix.org/legacy/event/leet10/tech/full_papers/Krishnan.pdf) (pdf)). Note that Chrome [may attempt](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/350) to resolve DNS using Google's `8.8.8.8` and `8.8.4.4` public nameservers.
 
 Read [Chromium Security](https://www.chromium.org/Home/chromium-security) and [Chromium Privacy](https://www.chromium.org/Home/chromium-privacy) for more detailed, technical information.
 
