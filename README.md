@@ -1817,6 +1817,14 @@ $ hdiutil eject /Volumes/secretStuff
 "disk4" ejected.
 ```
 
+With `hdiutil` you are also able to add the option `-type SPARSE-BUNDLE`. With these sparse bundles you may achieve faster backups because after the first run, the updated information and some padding needs to be transferred.
+
+A simple way to synchronize this encrypted folder to another server is using rsync:
+
+```console
+rsync --recursive --times --progress --delete --verbose --stats MyEncryptedDrive.sparsebundle user@server:/path/to/backup
+```
+
 See also the following applications and services: [Tresorit](https://www.tresorit.com), [SpiderOak](https://www.spideroak.com/), [Arq](https://www.arqbackup.com/), [Espionage](https://www.espionageapp.com/), and [restic](https://restic.github.io/).
 
 ## Wi-Fi
