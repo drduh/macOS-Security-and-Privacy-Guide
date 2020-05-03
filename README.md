@@ -785,7 +785,13 @@ To block a domain by `A` record, append any one of the following lines to `/etc/
 
 There are many lists of domains available online which you can paste in, just make sure each line starts with `0`, `0.0.0.0`, `127.0.0.1`, and the line `127.0.0.1 localhost` is included.
 
-For hosts lists, see [someonewhocares.org](https://someonewhocares.org/hosts/zero/hosts), [l1k/osxparanoia/blob/master/hosts](https://github.com/l1k/osxparanoia/blob/master/hosts) and [StevenBlack/hosts](https://github.com/StevenBlack/hosts).
+Here are some popular and useful hosts lists:
+
+* [jmdugan/blocklists](https://github.com/jmdugan/blocklists)
+* [l1k/osxparanoia](https://github.com/l1k/osxparanoia/blob/master/hosts)
+* [Sinfonietta/hostfiles](https://github.com/Sinfonietta/hostfiles)
+* [StevenBlack/hosts](https://github.com/StevenBlack/hosts)
+* [someonewhocares.org](https://someonewhocares.org/hosts/zero/hosts)
 
 Append a list of hosts with the `tee` command and confirm only non-routable addresses or comments were added:
 
@@ -976,6 +982,8 @@ The risk of a [man in the middle](https://en.wikipedia.org/wiki/Man-in-the-middl
 
 ## OpenSSL
 
+**Note** This section [may be out of date](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/356).
+
 The version of OpenSSL in Sierra is `0.9.8zh` which is [not current](https://apple.stackexchange.com/questions/200582/why-is-apple-using-an-older-version-of-openssl). It doesn't support TLS 1.1 or newer, elliptic curve ciphers, and [more](https://stackoverflow.com/questions/27502215/difference-between-openssl-09-8z-and-1-0-1).
 
 Since Apple's official supported TLS library on macOS is [Secure Transport](https://developer.apple.com/documentation/security/secure_transport), OpenSSL **deprecated** is considered deprecated (according to the [Cryptographic Services Guide](https://developer.apple.com/library/mac/documentation/Security/Conceptual/cryptoservices/GeneralPurposeCrypto/GeneralPurposeCrypto.html). Apple's version of OpenSSL may also have patches which may [surprise you](https://hynek.me/articles/apple-openssl-verification-surprises/).
@@ -1020,7 +1028,7 @@ Consider using [Privoxy](https://www.privoxy.org/) as a local proxy to filter We
 
 **Note** macOS proxy settings are not universal; apps and services may not honor system proxy settings. Ensure the application you wish to proxy is correctly configured and manually verify connections don't leak. Additionally, it may be possible to configure the *pf* firewall to transparently proxy all traffic.
 
-A signed installation package for privoxy can be downloaded from [silvester.org.uk](https://silvester.org.uk/privoxy/OSX/) or [Sourceforge](https://sourceforge.net/projects/ijbswa/files/Macintosh%20%28OS%20X%29/). The signed package is [more secure](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/65) than the Homebrew version, and attracts full support from the Privoxy project.
+A signed installation package for privoxy can be downloaded from [silvester.org.uk](https://silvester.org.uk/privoxy/Macintosh%20%28OS%20X%29/) or [Sourceforge](https://sourceforge.net/projects/ijbswa/files/Macintosh%20%28OS%20X%29/). The signed package is [more secure](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/65) than the Homebrew version, and attracts full support from the Privoxy project.
 
 Alternatively, install and start privoxy using Homebrew:
 
@@ -1893,9 +1901,9 @@ $ sudo lsof -Pni TCP:22
 
 ## Physical access
 
-Keep your Mac physically secure at all times. Don't leave it unattended in hotels and other public spaces.
+Keep your Mac physically secure at all times. Don't leave it unattended in public spaces, such as hotels.
 
-A skilled attacker with unsupervised physical access to your computer can infect the boot ROM to install a keylogger and steal your password - see [Thunderstrike](https://trmm.net/Thunderstrike) for an example.
+A skilled attacker with unsupervised physical access to your computer can infect the boot ROM to install a keylogger and steal your password, for example - see [Thunderstrike](https://trmm.net/Thunderstrike).
 
 A helpful tool is [usbkill](https://github.com/hephaest0s/usbkill), which is an anti-forensic kill-switch that waits for a change on your USB ports and then immediately shuts down your computer.
 
