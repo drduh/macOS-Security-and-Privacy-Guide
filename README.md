@@ -1083,10 +1083,12 @@ Privoxy already comes with many good rules, however you can also write your own.
 Download [drduh/config/privoxy/config](https://github.com/drduh/config/blob/master/privoxy/config) and [drduh/config/privoxy/user.action](https://github.com/drduh/config/blob/master/privoxy/user.action) to get started:
 
 ```console
-$ curl -o homebrew/etc/privoxy/config https://raw.githubusercontent.com/drduh/config/master/privoxy/config
+$ curl -o /usr/local/etc/privoxy/config https://raw.githubusercontent.com/drduh/config/master/privoxy/config
 
-$ curl -o homebrew/etc/privoxy/user.action https://raw.githubusercontent.com/drduh/config/master/privoxy/user.action
+$ curl -o /usr/local/etc/privoxy/user.action https://raw.githubusercontent.com/drduh/config/master/privoxy/user.action
 ```
+
+If you installed with Homebrew, make sure to set `confdir /usr/local/etc/privoxy` in `/usr/local/etc/privoxy/config`.
 
 Restart Privoxy and verify traffic is blocked or redirected:
 
