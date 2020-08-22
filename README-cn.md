@@ -112,11 +112,11 @@
 
 7. 选择 Apple 菜单，并且选择重新启动或者关闭计算机。
 
-这个固件密码会在下一次启动后激活。为了验证这个密码，在启动过程中按住 `Alt` 键 - 按照提示输入密码。
+这个固件密码会在下一次启动后激活。为了验证这个密码，在启动过程中按住 `Option` 键 - 按照提示输入密码。
 
 当启动进操作系统以后。固件密码也能通过 `firmwarepasswd` 工具管理。例如，从另一个模式启动的时候可以这样：
 
-$ sudo firmwarepasswd -setpasswd -setmode command
+`$ sudo firmwarepasswd -setpasswd -setmode command`
 
 输入一个密码然后重启。
 
@@ -1278,7 +1278,7 @@ listening on pktap, link-type PKTAP (Apple DLT_PKTAP), capture size 262144 bytes
 
 看看[恶意软件驻留在 Mac OS X 的方法](https://www.virusbtn.com/pdf/conference/vb2014/VB2014-Wardle.pdf) (pdf) 和[恶意软件在 OS X Yosemite 后台运行](https://www.rsaconference.com/events/us15/agenda/sessions/1591/malware-persistence-on-os-x-yosemite)了解各种恶意软件的功能和危害。
 
-你可以定期运行 [Knock Knock](https://github.com/synack/knockknock) 这样的工具来检查在持续运行的应用(比如脚本，二进制程序)。但这种方法可能已经过时了。[Block Block](https://objective-see.com/products/blockblock.html) 和 [Ostiarius](https://objective-see.com/products/ostiarius.html) 这样的应用可能还有些帮助。可以在 [issue #90](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/90) 中查看相关警告。除此之外，使用 [Little Flocker](https://www.littleflocker.com/) 也能保护部分文件系统免遭非法写入，类似 Little Snitch 保护网络 (注意，该软件目前是 beat 版本，[谨慎使用](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/pull/128))。
+你可以定期运行 [Knock Knock](https://github.com/synack/knockknock) 这样的工具来检查在持续运行的应用(比如脚本，二进制程序)。但这种方法可能已经过时了。[Block Block](https://objective-see.com/products/blockblock.html) 和 [Ostiarius](https://objective-see.com/products/ostiarius.html) 这样的应用可能还有些帮助。可以在 [issue #90](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/issues/90) 中查看相关警告。除此之外，使用 [Little Flocker](https://www.littleflocker.com/) 也能保护部分文件系统免遭非法写入，类似 Little Snitch 保护网络 (注意，该软件目前是 beta 版本，[谨慎使用](https://github.com/drduh/OS-X-Security-and-Privacy-Guide/pull/128))。
 
 **反病毒**软件是把双刃剑 -- 对于**高级**用户没什么用，却可能面临更多复杂攻击的威胁。然而对于 Mac **新手**用户可能是有用的，可以检测到“各种”恶意软件。不过也要考到额外的处理开销。
 
