@@ -692,7 +692,7 @@ $ sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.apsd.plist
 
 **Note** Unloading services may break usability of some applications. Read the manual pages and use Google to make sure you understand what you're doing first.
 
-Be careful about disabling any system daemons you don't understand, as it may render your system unbootable. If you break your Mac, use [single user mode](https://support.apple.com/en-us/HT201573) to fix it.
+Be careful about disabling any system daemons you don't understand, as it may render your system unbootable. If you break your Mac, use [single user mode](https://support.apple.com/guide/mac-help/start-up-your-mac-in-single-user-mode-mchlp1720/mac) to fix it.
 
 Use [Console](https://en.wikipedia.org/wiki/List_of_macOS_components#Console) and [Activity Monitor](https://support.apple.com/en-us/HT201464) applications if you notice your Mac heating up, feeling sluggish, or generally misbehaving, as it may have resulted from your tinkering.
 
