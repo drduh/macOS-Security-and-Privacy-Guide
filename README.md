@@ -668,7 +668,7 @@ See [fix-macosx/yosemite-phone-home](https://github.com/fix-macosx/yosemite-phon
 
 Services on macOS are managed by **launchd**. See [launchd.info](http://launchd.info/), as well as [Apple's Daemons and Services Programming Guide](https://developer.apple.com/library/mac/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingLaunchdJobs.html) and [Technical Note TN2083](https://developer.apple.com/library/mac/technotes/tn2083/_index.html)
 
-You can also run [KnockKnock](https://github.com/synack/knockknock) that shows more information about startup items.
+You can also run [KnockKnock](https://objective-see.com/products/knockknock.html) that shows more information about startup items.
 
 * Use `launchctl list` to view running user agents
 * Use `sudo launchctl list` to view running system daemons
