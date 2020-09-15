@@ -53,7 +53,7 @@ This guide is also available in [简体中文](https://github.com/drduh/macOS-Se
   * [Plugins](#plugins)
 - [Tor](#tor)
 - [VPN](#vpn)
-- [PGP/GPG](#pgp-gpg)
+- [PGP/GPG](#pgpgpg)
 - [OTR](#otr)
 - [Viruses and malware](#viruses-and-malware)
 - [System Integrity Protection](#system-integrity-protection)
