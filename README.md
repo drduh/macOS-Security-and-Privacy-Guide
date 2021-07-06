@@ -1467,6 +1467,12 @@ $ :>~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2
 $ sudo chflags schg ~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2
 ```
 
+Alternatively, you can also disable Gatekeeper using the following command: 
+
+```sudo spctl --master-disable```
+
+(See <https://disable-gatekeeper.github.io/> and <https://objective-see.com/blog/blog_0x64.html> for reference)
+
 ## Metadata and artifacts
 
 macOS attaches metadata ([HFS+ extended attributes](https://en.wikipedia.org/wiki/Extended_file_attributes#OS_X)) to downloaded files, which can be viewed with the `mdls` and `xattr` commands:
