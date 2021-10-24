@@ -2352,7 +2352,7 @@ drwx------  2 kevin  staff       64 Dec  4 12:27 umask_testing_dir
 * [stronghold](https://github.com/alichtman/stronghold) - Securely and easily configure your Mac from the terminal. Inspired by this guide.
 * [yelp/osxcollector](https://github.com/yelp/osxcollector) - Forensic evidence collection & analysis toolkit for OS X.
 * [The Eclectic Light Company - Downloads](https://eclecticlight.co/downloads/) - A collection of useful diagnostics and control applications and utilities for macOS.
-* [Pareto Security](https://github.com/paretoSecurity/pareto-mac/) - A MenuBar app to automatically audit your Mac for basic security hygiene.
+* [Pareto Security](https://paretosecurity.app/) - A MenuBar app to automatically audit your Mac for basic security hygiene.
 
 ## Additional resources
 
