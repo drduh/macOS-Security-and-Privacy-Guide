@@ -2353,6 +2353,7 @@ drwx------  2 kevin  staff       64 Dec  4 12:27 umask_testing_dir
 * [yelp/osxcollector](https://github.com/yelp/osxcollector) - Forensic evidence collection & analysis toolkit for OS X.
 * [The Eclectic Light Company - Downloads](https://eclecticlight.co/downloads/) - A collection of useful diagnostics and control applications and utilities for macOS.
 * [Pareto Security](https://paretosecurity.app/) - A MenuBar app to automatically audit your Mac for basic security hygiene.
+* [Mana Security](https://www.manasecurity.com/) - macOS vulnerability management app for individuals.
 
 ## Additional resources
 
