@@ -110,7 +110,19 @@ The simplest way is to boot into [Recovery Mode](https://support.apple.com/en-us
 
 *Packet capture of an unencrypted HTTP conversation during macOS recovery*
 
-An alternative way to install macOS is to first download **macOS Mojave** from the [App Store](https://itunes.apple.com/us/app/macos-mojave/id1398502828) or elsewhere, and create a custom installable system image.
+An alternative way to install macOS is to first download the latest version of macOS (**Latest: macOS Monterey**) from Apple via the [App Store](https://apps.apple.com/us/app/macos-monterey/id1576738294) and create a custom installable system image.
+
+### Getting macOS
+
+Apple's [documentation](https://support.apple.com/en-us/HT211683) provides details for getting older versions of macOS.
+
+* macOS Monterey (12): (App Store)[https://apps.apple.com/us/app/macos-monterey/id1576738294]
+* macOS Big Sur (11): (App Store)[https://apps.apple.com/us/app/macos-big-sur/id1526878132]
+* macOS Catalina (10.15): (App Store)[https://apps.apple.com/us/app/macos-catalina/id1466841314]
+* macOS Mojave(10.14): (App Store)[https://apps.apple.com/us/app/macos-mojave/id1398502828]
+* macOS High Sierra(10.13): (App Store)[https://apps.apple.com/us/app/macos-high-sierra/id1246284741]
+* macOS Sierra (10.12): (Direct Link)[http://updates-http.cdn-apple.com/2019/cert/061-39476-20191023-48f365f4-0015-4c41-9f44-39d3d2aca067/InstallOS.dmg]
+
 
 ### Verifying installation integrity
 
@@ -119,37 +131,47 @@ The macOS installation application is [code signed](https://developer.apple.com/
 To verify the code signature and integrity of macOS application bundles:
 
 ```console
-$ pkgutil --check-signature /Applications/Install\ macOS\ Catalina.app
-Package "Install macOS Catalina":
-   Status: signed by a certificate trusted by Mac OS X
+$ pkgutil --check-signature /Applications/Install\ macOS\ Monterey.app
+Package "Install macOS Monterey":
+   Status: signed by a certificate trusted by macOS
    Certificate Chain:
     1. Software Signing
-       SHA1 fingerprint: 01 3E 27 87 74 8A 74 10 3D 62 D2 CD BF 77 A1 34 55 17 C4 82
-       -----------------------------------------------------------------------------
+       Expires: 2026-10-24 17:39:41 +0000
+       SHA256 Fingerprint:
+           D8 4D B9 6A F8 C2 E6 0A C4 C8 51 A2 1E C4 60 F6 F8 4E 02 35 BE B1
+           7D 24 A7 87 12 B9 B0 21 ED 57
+       ------------------------------------------------------------------------
     2. Apple Code Signing Certification Authority
-       SHA1 fingerprint: 1D 01 00 78 A6 1F 4F A4 69 4A FF 4D B1 AC 26 6C E1 B4 59 46
-       -----------------------------------------------------------------------------
+       Expires: 2026-10-24 17:39:41 +0000
+       SHA256 Fingerprint:
+           5B DA B1 28 8F C1 68 92 FE F5 0C 65 8D B5 4F 1E 2E 19 CF 8F 71 CC
+           55 F7 7D E2 B9 5E 05 1E 25 62
+       ------------------------------------------------------------------------
     3. Apple Root CA
-       SHA1 fingerprint: 61 1E 5B 66 2C 59 3A 08 FF 58 D1 4A E2 24 52 D1 98 DF 6C 60
+       Expires: 2035-02-09 21:40:36 +0000
+       SHA256 Fingerprint:
+           B0 B1 73 0E CB C7 FF 45 05 14 2C 49 F1 29 5E 6E DA 6B CA ED 7E 2C
+           68 C5 BE 91 B5 A1 10 01 F0 24
 ```
 
 Use the `codesign` command to examine an application's code signature:
 
 ```console
-$ codesign -dvv /Applications/Install\ macOS\ Catalina.app
-Executable=/Applications/Install macOS Catalina.app/Contents/MacOS/InstallAssistant_springboard
-Identifier=com.apple.InstallAssistant.Catalina
-Format=app bundle with Mach-O thin (x86_64)
-CodeDirectory v=20100 size=276 flags=0x2000(library-validation) hashes=3+3 location=embedded
-Platform identifier=9
-Signature size=4628
+$ codesign -dvv /Applications/Install\ macOS\ Monterey.app
+Executable=/Applications/Install macOS Monterey.app/Contents/MacOS/InstallAssistant_springboard
+Identifier=com.apple.InstallAssistant.macOSMonterey
+Format=app bundle with Mach-O universal (x86_64 arm64)
+CodeDirectory v=20400 size=641 flags=0x2000(library-validation) hashes=13+3 location=embedded
+Platform identifier=13
+Signature size=4523
 Authority=Software Signing
 Authority=Apple Code Signing Certification Authority
 Authority=Apple Root CA
-Info.plist entries=33
+Signed Time=Dec 1, 2021 at 1:10:31 AM
+Info.plist entries=32
 TeamIdentifier=not set
-Sealed Resources version=2 rules=13 files=234
-Internal requirements count=1 size=84
+Sealed Resources version=2 rules=2 files=0
+Internal requirements count=1 size=88
 ```
 
 ### Creating a bootable USB installer
@@ -166,7 +188,7 @@ $ diskutil unmountDisk /dev/disk2
 
 $ diskutil partitionDisk /dev/disk2 1 JHFS+ Installer 100%
 
-$ cd /Applications/Install\ macOS\ Catalina.app
+$ cd /Applications/Install\ macOS\ Monterey.app
 
 $ sudo ./Contents/Resources/createinstallmedia --volume /Volumes/Installer --nointeraction
 Erasing disk: 0%... 10%... 20%... 30%... 100%
@@ -175,6 +197,8 @@ Making disk bootable...
 Copying boot files...
 Install media now available at "/Volumes/Install macOS Catalina"
 ```
+
+Apple also has [guide](https://support.apple.com/guide/disk-utility/erase-and-reformat-a-storage-device-dskutl14079/mac) on doing this via the GUI Disk Utility
 
 ### Creating an install image
 
