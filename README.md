@@ -116,13 +116,14 @@ An alternative way to install macOS is to first download the latest version of m
 
 Apple's [documentation](https://support.apple.com/en-us/HT211683) provides details for getting older versions of macOS.
 
-* macOS Monterey (12): (App Store)[https://apps.apple.com/us/app/macos-monterey/id1576738294]
-* macOS Big Sur (11): (App Store)[https://apps.apple.com/us/app/macos-big-sur/id1526878132]
-* macOS Catalina (10.15): (App Store)[https://apps.apple.com/us/app/macos-catalina/id1466841314]
-* macOS Mojave(10.14): (App Store)[https://apps.apple.com/us/app/macos-mojave/id1398502828]
-* macOS High Sierra(10.13): (App Store)[https://apps.apple.com/us/app/macos-high-sierra/id1246284741]
-* macOS Sierra (10.12): (Direct Link)[http://updates-http.cdn-apple.com/2019/cert/061-39476-20191023-48f365f4-0015-4c41-9f44-39d3d2aca067/InstallOS.dmg]
-
+* macOS Monterey (12): [App Store](https://apps.apple.com/us/app/macos-monterey/id1576738294)
+* macOS Big Sur (11): [App Store](https://apps.apple.com/us/app/macos-big-sur/id1526878132)
+* macOS Catalina (10.15): [App Store](https://apps.apple.com/us/app/macos-catalina/id1466841314)
+* macOS Mojave (10.14): [App Store](https://apps.apple.com/us/app/macos-mojave/id1398502828)
+* macOS High Sierra (10.13): [App Store](https://apps.apple.com/us/app/macos-high-sierra/id1246284741)
+* macOS Sierra (10.12): [Direct Link](http://updates-http.cdn-apple.com/2019/cert/061-39476-20191023-48f365f4-0015-4c41-9f44-39d3d2aca067/InstallOS.dmg)
+* OS X El Capitan (10.11): [Direct Link](http://updates-http.cdn-apple.com/2019/cert/061-41424-20191024-218af9ec-cf50-4516-9011-228c78eda3d2/InstallMacOSX.dmg)
+* OS X Yosemite (10.10): [Direct Link](http://updates-http.cdn-apple.com/2019/cert/061-41343-20191023-02465f92-3ab5-4c92-bfe2-b725447a070d/InstallMacOSX.dmg)
 
 ### Verifying installation integrity
 
