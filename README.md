@@ -112,6 +112,13 @@ The simplest way is to boot into [Recovery Mode](https://support.apple.com/en-us
 
 An alternative way to install macOS is to first download the latest version of macOS (**Latest: macOS Monterey**) from Apple via the [App Store](https://apps.apple.com/us/app/macos-monterey/id1576738294) and create a custom installable system image.
 
+This can also be done from the Terminal using the commands outlined in [OSXDaily](https://osxdaily.com/2020/04/13/how-download-full-macos-installer-terminal/).
+
+```
+softwareupdate --list-full-installers
+softwareupdate --fetch-full-installer --full-installer-version x.x.x
+```
+
 ### Getting macOS
 
 Apple's [documentation](https://support.apple.com/en-us/HT211683) provides details for getting older versions of macOS.
