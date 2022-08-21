@@ -379,7 +379,7 @@ Take and Restore from saved guest VM snapshots before and after attempting risky
 
 **Note** Before setting up macOS, consider disconnecting networking and configuring a firewall(s) first. However, [late 2016 MacBooks](https://www.ifixit.com/Device/MacBook_Pro_15%22_Late_2016_Touch_Bar) with Touch Bar hardware [require online OS activation](https://onemoreadmin.wordpress.com/2016/11/27/the-untouchables-apples-new-os-activation-for-touch-bar-macbook-pros/) (also see next section).
 
-On first boot, hold `Command` `Option` `P` `R` keys to [clear NVRAM](https://support.apple.com/en-us/HT204063).
+(Intel-based Mac only) On first boot, hold `Command` `Option` `P` `R` keys to [clear NVRAM](https://support.apple.com/en-us/HT204063).
 
 When macOS first starts, you'll be greeted by **Setup Assistant**.
 
