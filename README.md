@@ -799,47 +799,29 @@ You may also wish to enable [additional security options](https://github.com/drd
 
 ## DNS
 
-#### Hosts file
+#### DNS profiles
 
-Use the [hosts file](https://en.wikipedia.org/wiki/Hosts_(file)) to block known malware, advertising or otherwise unwanted domains.
+Since macOS 11 there is a very simple solution via "DNS configuration profiles" to:
+- to be able to use encrypted DNS
+- filter malware etc. via DNS
+- use of DNSSEC
+- easy recovery to default settings
 
-Edit the hosts file as root, for example with `sudo vi /etc/hosts`. The hosts file can also be managed with the GUI app [2ndalpha/gasmask](https://github.com/2ndalpha/gasmask).
+and all this without having to install a program or make cumbersome lists or settings.
 
-To block a domain by `A` record, append any one of the following lines to `/etc/hosts`:
 
-```
-0 example.com
-0.0.0.0 example.com
-127.0.0.1 example.com
-```
+you can use ready-made profiles that can be easily installed via double-click and do not require any further work.
+Providers of such profiles are e.g::
+- [Quad9](https://support.quad9.net/hc/en-us/articles/4814293189773-Setup-MacOS-and-DNS-over-HTTPS-or-DNS-over-TLS) (Malware filtering only + DNSSEC)
+- [AdGuard](https://adguard-dns.io/en/public-dns.html) - see Method #2: Configure AdGuard DNS manually -> macOS (filtering depends on your choice)
+- [NextDNS](https://nextdns.io/) (filtering depends on your choice)
 
-**Note** IPv6 uses the `AAAA` DNS record type, rather than `A` record type, so you may also want to block those connections by *also* including `::1 example.com` entries, like shown [here](https://someonewhocares.org/hosts/ipv6/).
+**Note:** all three offer digitally signed profiles, but only Quad9 offers an Apple signed profile.
 
-There are many lists of domains available online which you can paste in, just make sure each line starts with `0`, `0.0.0.0`, `127.0.0.1`, and the line `127.0.0.1 localhost` is included.
+besides the ready-made profiles, you can also assemble [one yourself](https://dns.notjakob.com).
+However, these profiles then do not have a signature and this is also criticized by macOS - even if the function of the profile is not affected.
 
-Here are some popular and useful hosts lists:
 
-* [jmdugan/blocklists](https://github.com/jmdugan/blocklists)
-* [l1k/osxparanoia](https://github.com/l1k/osxparanoia/blob/master/hosts)
-* [Sinfonietta/hostfiles](https://github.com/Sinfonietta/hostfiles)
-* [StevenBlack/hosts](https://github.com/StevenBlack/hosts)
-* [someonewhocares.org](https://someonewhocares.org/hosts/zero/hosts)
-
-Append a list of hosts with the `tee` command and confirm only non-routable addresses or comments were added:
-
-```console
-$ curl https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts | sudo tee -a /etc/hosts
-
-$ wc -l /etc/hosts
-65580
-
-$ egrep -ve "^#|^255.255.255.255|^127.|^0.|^::1|^ff..::|^fe80::" /etc/hosts | sort | uniq | egrep -e "[1,2]|::"
-[No output]
-```
-
-See `man hosts` and [FreeBSD Configuration Files](https://www.freebsd.org/doc/handbook/configtuning-configfiles.html) for more information.
-
-See the [dnsmasq](#dnsmasq) section of this guide for more hosts blocking options.
 
 #### dnscrypt
 
