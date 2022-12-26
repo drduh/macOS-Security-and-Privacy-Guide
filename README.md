@@ -420,7 +420,7 @@ Utilities like `sudo` have [weaknesses that can be exploited](https://bogner.sh/
 
 It is considered a best practice by [Apple](https://help.apple.com/machelp/mac/10.12/index.html#/mh11389) and [others](https://csrc.nist.gov/publications/drafts/800-179/sp800_179_draft.pdf) (pdf) (p. 41–42) to use a separate standard account for day-to-day work and use the admin account for installations and system configuration.
 
-It is not strictly required to ever log into the admin account via the macOS login screen. The system will prompt for authentication when required and Terminal can do the rest. To that end, Apple provides some [recommendations](https://support.apple.com/HT203998) for hiding the admin account and its home directory. This can be an elegant solution to avoid having a visible 'ghost' account. The admin account can also be [removed from FileVault](https://apple.stackexchange.com/a/94373) for additional hardening.
+It is not strictly required to ever log into the admin account via the macOS login screen. When a Terminal command requires administrator privileges, the system will prompt for authentication and Terminal then continues using those privileges. To that end, Apple provides some [recommendations](https://support.apple.com/HT203998) for hiding the admin account and its home directory. This can be an elegant solution to avoid having a visible 'ghost' account.
 
 ### Caveats
 
@@ -1429,7 +1429,7 @@ You can use OTR on top of any existing [XMPP](https://xmpp.org/about) chat servi
 
 The first time you start a conversation with someone new, you'll be asked to verify their public key fingerprint. Make sure to do this in person or by some other secure means (e.g. GPG encrypted mail).
 
-A popular macOS GUI client for XMPP and other chat protocols is [Adium](https://adium.im/). 
+A popular macOS GUI client for XMPP and other chat protocols is [Adium](https://adium.im/).
 
 Other XMPP clients include [profanity](http://www.profanity.im/) and [agl/xmpp-client](https://github.com/agl/xmpp-client). Another relatively new XMPP chat client is [CoyIM](https://coy.im/), it's focused and security and has built-in support for OTR and Tor.
 
@@ -1499,7 +1499,7 @@ $ :>~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2
 $ sudo chflags schg ~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2
 ```
 
-Alternatively, you can also disable Gatekeeper using the following command: 
+Alternatively, you can also disable Gatekeeper using the following command:
 
 ```sudo spctl --master-disable```
 
