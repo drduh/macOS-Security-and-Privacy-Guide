@@ -68,7 +68,7 @@ This guide is also available in [简体中文](https://github.com/drduh/macOS-Se
   * [OpenBSM audit](#openbsm-audit)
   * [DTrace](#dtrace)
   * [Execution](#execution)
-  * [Network](#network)
+  * [Network](#network)This
 - [Binary Whitelisting](#binary-whitelisting)
 - [Miscellaneous](#miscellaneous)
 - [Related software](#related-software)
@@ -206,13 +206,13 @@ Copying boot files...
 Install media now available at "/Volumes/Install macOS Catalina"
 ```
 
-Apple also has [guide](https://support.apple.com/guide/disk-utility/erase-and-reformat-a-storage-device-dskutl14079/mac) on doing this via the GUI Disk Utility
+Apple also has a [guide](https://support.apple.com/guide/disk-utility/erase-and-reformat-a-storage-device-dskutl14079/mac) on doing this via the GUI Disk Utility
 
 ### Creating an install image
 
 **Note** Apple's AutoDMG installer [does not appear to work](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/120) across OS versions. If you want to build a 10.14 image, for example, the following steps must be performed on macOS 10.14!
 
-To create a **custom install image** which can be [restored](https://en.wikipedia.org/wiki/Apple_Software_Restore) to a Mac (using a USB-C cable and target disk mode, for example), use [MagerValp/AutoDMG](https://github.com/MagerValp/AutoDMG).
+To create a **custom install image** that can be [restored](https://en.wikipedia.org/wiki/Apple_Software_Restore) to a Mac (using a USB-C cable and target disk mode, for example), use [MagerValp/AutoDMG](https://github.com/MagerValp/AutoDMG).
 
 #### Manual way
 
@@ -333,7 +333,7 @@ Run `diskutil list` again to make sure `Recovery HD` now exists on `/dev/disk2`.
 
 To install macOS as a virtual machine (VM) using [VMware Fusion](https://www.vmware.com/products/fusion.html), follow the instructions above to create an image. You will **not** need to download and create a recovery partition manually.
 
-For the Installation Method, select *Install macOS from the recovery partition*. Customize any memory or CPU requirements and complete setup. The guest VM should boot into [Recovery Mode](https://support.apple.com/en-us/HT201314) by default.
+For the Installation Method, select *Install macOS from the recovery partition*. Customize any memory or CPU requirements and complete the setup. The guest VM should boot into [Recovery Mode](https://support.apple.com/en-us/HT201314) by default.
 
 **Note** If the virtual machine does not boot due to a kernel panic, adjust the memory and process resource settings.
 
@@ -379,13 +379,13 @@ Take and Restore from saved guest VM snapshots before and after attempting risky
 
 **Note** Before setting up macOS, consider disconnecting networking and configuring a firewall(s) first. However, [late 2016 MacBooks](https://www.ifixit.com/Device/MacBook_Pro_15%22_Late_2016_Touch_Bar) with Touch Bar hardware [require online OS activation](https://onemoreadmin.wordpress.com/2016/11/27/the-untouchables-apples-new-os-activation-for-touch-bar-macbook-pros/) (also see next section).
 
-(Intel-based Mac only) On first boot, hold `Command` `Option` `P` `R` keys to [clear NVRAM](https://support.apple.com/en-us/HT204063).
+(Intel-based Mac only) On the first boot, hold `Command` `Option` `P` `R` keys to [clear NVRAM](https://support.apple.com/en-us/HT204063).
 
 When macOS first starts, you'll be greeted by **Setup Assistant**.
 
 When creating the first account, use a [strong password](https://www.explainxkcd.com/wiki/index.php/936:_Password_Strength) without a hint.
 
-If you enter your real name at the account setup process, be aware that your [computer's name and local hostname](https://support.apple.com/kb/PH18720) will comprise that name (e.g., *John Appleseed's MacBook*) and thus will appear on local networks and in various preference files.
+If you enter your real name during the account setup process, be aware that your [computer's name and local hostname](https://support.apple.com/kb/PH18720) will comprise that name (e.g., *John Appleseed's MacBook*) and thus will appear on local networks and in various preference files.
 
 Both should be verified and updated as needed in **System Preferences > Sharing** or with the following commands after installation:
 
@@ -396,9 +396,9 @@ Both should be verified and updated as needed in **System Preferences > Sharing*
 
 A few words on the privacy implications of activating "Touch Bar" MacBook devices from your friendly anonymous security researcher:
 
-> Apple increasingly seems (despite vague claims to the contrary) increasingly interested in merging or "unifying" the two OSes, and there are constantly rumors of fundamental changes to macOS that make it far more like iOS than the macOS of old. Apple's introduction of ARM-based coprocessors running iOS/sepOS, first with the T1 processor on the TouchBar MacBook Pros (run the TouchBar, implement NFC/ApplePay, add biometric login using sep, and verify firmware integrity) and the iMac Pro's T2 (implements/verifies embedded device firmware, implements secure boot, etc) seems to cement this concern and basically renders using macOS devices without sending metadata to Apple difficult to impossible.
+> Apple increasingly seems (despite vague claims to the contrary) increasingly interested in merging or "unifying" the two OSes, and there are constant rumors of fundamental changes to macOS that make it far more like iOS than the macOS of old. Apple's introduction of ARM-based coprocessors running iOS/sepOS, first with the T1 processor on the TouchBar MacBook Pros (run the TouchBar, implement NFC/ApplePay, add biometric login using sep, and verify firmware integrity) and the iMac Pro's T2 (implements/verifies embedded device firmware, implements secure boot, etc) seems to cement this concern and basically renders using macOS devices without sending metadata to Apple difficult to impossible.
 >
-> iOS devices have always required "activation" on first boot and when the battery has gone dead which initializes sepOS to proceed with verified boot. First boot activation not only initializes sepOS as discussed below, but sends metadata to Apple (and carriers via Apple with cellular devices) to activate the baseband and SIM. In activation processes after first boot, just as with first boot, a long list of highly sensitive metadata are sent hashed (note hashing does not give you any privacy from Apple here since they link this exact metadata to payment information at purchase) to Apple so it can return the personalized response required for secure boot to complete. What is particularly worrying about this process is that it is a network-linked secure boot process where centralized external servers have the power to dictate what the device should boot. Equally there are significant privacy concerns with devices constantly sending metadata (both during activation and other Apple-linked/-hosted activities) and linking IP addresses very strongly with real identities based on purchase payment information and if a cellular device, metadata collected about SIM, etc unless such connections are blocked at the network level (which is only possible on self-managed infrastructure, i.e. not cellular) and doing this basically renders using the device impossible since simply installing an application requires sending device metadata to Apple.
+> iOS devices have always required "activation" on the first boot and when the battery has gone dead it initializes sepOS to proceed with the verified boot. First boot activation not only initializes sepOS as discussed below, but sends metadata to Apple (and carriers via Apple with cellular devices) to activate the baseband and SIM. In the activation processes after the first boot, just as with the first boot, a long list of highly sensitive metadata are sent hashed (note hashing does not give you any privacy from Apple here since they link this exact metadata to payment information at purchase) to Apple so it can return the personalized response required for secure boot to complete. What is particularly worrying about this process is that it is a network-linked secure boot process where centralized external servers have the power to dictate what the device should boot. Equally, there are significant privacy concerns with devices constantly sending metadata (both during activation and other Apple-linked/-hosted activities) and linking IP addresses very strongly with real identities based on purchase payment information and if a cellular device, metadata collected about SIM, etc unless such connections are blocked at the network level (which is only possible on self-managed infrastructure, i.e. not cellular) and doing this basically renders using the device impossible since simply installing an application requires sending device metadata to Apple.
 >
 > That the activation verification mechanism is designed specifically to rely on unique device identifiers that are associated with payment information at purchase and actively associated on a continuing basis by Apple for every Apple-hosted service that the device interacts with (Apple ID-based services, softwareupdate, iMessage, FaceTime, etc.) the ability (and invitation) for Apple to silently send targeted malicious updates to devices matching specific unique ID criteria is a valid concern, and something that should not be dismissed as unlikely, especially given Apple's full compliance with recently implemented Chinese (and other authoritarian and "non-authoritarian" countries') national security laws.
 >
@@ -408,7 +408,7 @@ A few words on the privacy implications of activating "Touch Bar" MacBook device
 >
 > The lack of configurability is the key issue. Apple could have introduced secure boot and firmware protection without making it require network access, without making verification linked to device-unique IDs and without introducing an enormous amount of potentially exploitable code to protect against a much smaller, but highly exploitable codebase, while running on a coprocessor with a highly privileged position on the board which gives immense power to an adversary with manufacturer compliance for targeted attacks.
 >
-> This is an ongoing concern and in the worst case scenario could potentially represent the end of macs as independent, end-user controllable and relatively secure systems appropriate for sensitive environments with strict network and security policies.
+> This is an ongoing concern and in the worst case scenario could potentially represent the end of Macs as independent, end-user controllable and relatively secure systems appropriate for sensitive environments with strict network and security policies.
 
 From [iOS, The Future Of macOS, Freedom, Security And Privacy In An Increasingly Hostile Global Environment](https://gist.github.com/iosecure/357e724811fe04167332ef54e736670d).
 
@@ -420,7 +420,7 @@ Utilities like `sudo` have [weaknesses that can be exploited](https://bogner.sh/
 
 It is considered a best practice by [Apple](https://help.apple.com/machelp/mac/10.12/index.html#/mh11389) and [others](https://csrc.nist.gov/publications/drafts/800-179/sp800_179_draft.pdf) (pdf) (p. 41–42) to use a separate standard account for day-to-day work and use the admin account for installations and system configuration.
 
-It is not strictly required to ever log into the admin account via the macOS login screen. When a Terminal command requires administrator privileges, the system will prompt for authentication and Terminal then continues using those privileges. To that end, Apple provides some [recommendations](https://support.apple.com/HT203998) for hiding the admin account and its home directory. This can be an elegant solution to avoid having a visible 'ghost' account.
+It is not strictly required to ever log into the admin account via the macOS login screen. When a Terminal command requires administrator privileges, the system will prompt for authentication and the Terminal then continues using those privileges. To that end, Apple provides some [recommendations](https://support.apple.com/HT203998) for hiding the admin account and its home directory. This can be an elegant solution to avoid having a visible 'ghost' account.
 
 ### Caveats
 
@@ -434,7 +434,7 @@ It is not strictly required to ever log into the admin account via the macOS log
 
 Accounts can be created and managed in System Preferences. On settled systems, it is generally easier to create a second admin account and then demote the first account. This avoids data migration. Newly installed systems can also just add a standard account.
 
-Demoting an account can be done either from the the new admin account in System Preferences – the other account must be logged out – or by executing these commands (it may not be necessary to execute both, see [issue #179](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/179)):
+Demoting an account can be done either from the new admin account in System Preferences – the other account must be logged out – or by executing these commands (it may not be necessary to execute both, see [issue #179](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/179)):
 
 ```console
 $ sudo dscl . -delete /Groups/admin GroupMembership <username>
@@ -506,7 +506,7 @@ Setting a firmware password prevents a Mac from starting up from any device othe
 
 This feature [can be helpful if your laptop is lost or stolen](https://www.ftc.gov/news-events/blogs/techftc/2015/08/virtues-strong-enduser-device-controls), protects against Direct Memory Access (DMA) attacks which can read your FileVault passwords and inject kernel modules such as [pcileech](https://github.com/ufrisk/pcileech), as the only way to reset the firmware password is through an Apple Store, or by using an [SPI programmer](https://reverse.put.as/2016/06/25/apple-efi-firmware-passwords-and-the-scbo-myth/), such as [Bus Pirate](http://ho.ax/posts/2012/06/unbricking-a-macbook/) or other flash IC programmer.
 
-1. Start up pressing `Command` and `R` keys to boot to [Recovery Mode](https://support.apple.com/en-au/HT201314) mode.
+1. Start up by pressing `Command` and `R` keys to boot to [Recovery Mode](https://support.apple.com/en-au/HT201314) mode.
 1. When the Recovery window appears, choose **Firmware Password Utility** from the Utilities menu.
 1. In the Firmware Utility window that appears, select **Turn On Firmware Password**.
 1. Enter a new password, then enter the same password in the **Verify** field.
@@ -514,7 +514,7 @@ This feature [can be helpful if your laptop is lost or stolen](https://www.ftc.g
 1. Select **Quit Firmware Utility** to close the Firmware Password Utility.
 1. Select Restart or Shutdown from the Apple menu in the top-left corner.
 
-The firmware password will activate at next boot. To validate the password, hold `Alt` during boot - you should be prompted to enter the password.
+The firmware password will activate at the next boot. To validate the password, hold `Alt` during boot - you should be prompted to enter the password.
 
 The firmware password can also be managed with the `firmwarepasswd` utility while booted into the OS. For example, to prompt for the firmware password when attempting to boot from a different volume:
 
@@ -541,7 +541,7 @@ As of macOS 10.15 Catalina, the `firmwarepasswd` program has a new option `-disa
 
 > For users who want no one but themselves to remove their Firmware Password by software means, the -disable-reset-capability option has been added to the firmwarepasswd command-line tool in macOS 10.15. Before setting this option, users must to acknowledge that if the password is forgotten and needs removal, the user must bear the cost of the motherboard replacement necessary to achieve this.
 
-Newer Mac models (Mac Pro, iMac Pro, Macbook with TouchBar) with [Apple T2](https://en.wikipedia.org/wiki/Apple-designed_processors#Apple_T2) chips, which provide a secure enclave for encrypted keys, lessen the risk of EFI firmware attacks. See [this blog post](http://michaellynn.github.io/2018/07/27/booting-secure/) for more information.
+Newer Mac models (Mac Pro, iMac Pro, MacBook with TouchBar) with [Apple T2](https://en.wikipedia.org/wiki/Apple-designed_processors#Apple_T2) chips, which provide a secure enclave for encrypted keys, lessen the risk of EFI firmware attacks. See [this blog post](http://michaellynn.github.io/2018/07/27/booting-secure/) for more information.
 
 See [LongSoft/UEFITool](https://github.com/LongSoft/UEFITool), [chipsec/chipsec](https://github.com/chipsec/chipsec) and discussion in [issue #213](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/213) for more information.
 
@@ -700,7 +700,7 @@ See [fix-macosx/yosemite-phone-home](https://github.com/fix-macosx/yosemite-phon
 
 Services on macOS are managed by **launchd**. See [launchd.info](http://launchd.info/), as well as [Apple's Daemons and Services Programming Guide](https://developer.apple.com/library/mac/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingLaunchdJobs.html) and [Technical Note TN2083](https://developer.apple.com/library/mac/technotes/tn2083/_index.html)
 
-You can also run [KnockKnock](https://objective-see.com/products/knockknock.html) that shows more information about startup items.
+You can also run [KnockKnock](https://objective-see.com/products/knockknock.html) which shows more information about startup items.
 
 * Use `launchctl list` to view running user agents
 * Use `sudo launchctl list` to view running system daemons
@@ -763,7 +763,7 @@ See [Mac OSX Startup](http://www.malicious-streams.com/article/Mac_OSX_Startup.p
 
 Disable **Spotlight Suggestions** in both the Spotlight preferences and Safari's Search preferences to avoid your search queries being sent to Apple.
 
-Also disable **Bing Web Searches** in the Spotlight preferences to avoid your search queries being sent to Microsoft.
+Also, disable **Bing Web Searches** in the Spotlight preferences to avoid your search queries being sent to Microsoft.
 
 See [fix-macosx.com](https://web.archive.org/web/20180817061520/https://fix-macosx.com/) for detailed instructions.
 
@@ -771,7 +771,7 @@ See [fix-macosx.com](https://web.archive.org/web/20180817061520/https://fix-maco
 
  **Note** This Web site and instructions may no longer work on macOS Sierra - see [issue 164](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/164).
 
-For comparison to Windows 10, see <https://fix10.isleaked.com/>
+For acomparison to Windows 10, see <https://fix10.isleaked.com/>
 
 ## Homebrew
 
@@ -787,11 +787,11 @@ $ mkdir homebrew && curl -L https://github.com/Homebrew/brew/tarball/master | ta
 
 Edit `PATH` in your shell or shell rc file to use `~/homebrew/bin` and `~/homebrew/sbin`. For example, `echo 'PATH=$PATH:~/homebrew/sbin:~/homebrew/bin' >> .zshrc`, then change your login shell to Z shell with `chsh -s /bin/zsh`, open a new Terminal window and run `brew update`.
 
-Homebrew uses SSL/TLS to talk with GitHub and verifies integrity of downloaded packages, so it's [fairly secure](https://github.com/Homebrew/homebrew/issues/18036).
+Homebrew uses SSL/TLS to talk with GitHub and verifies the integrity of downloaded packages, so it's [fairly secure](https://github.com/Homebrew/homebrew/issues/18036).
 
 Remember to periodically run `brew update` and `brew upgrade` on trusted and secure networks to download and install software updates. To get information on a package before installation, run `brew info <package>` and check its recipe online.
 
-According to [Homebrew's Anonymous Aggregate User Behaviour Analytics](https://github.com/Homebrew/brew/blob/master/docs/Analytics.md), Homebrew gathers anonymous aggregate user behaviour analytics and reporting these to Google Analytics.
+According to [Homebrew's Anonymous Aggregate User Behaviour Analytics](https://github.com/Homebrew/brew/blob/master/docs/Analytics.md), Homebrew gathers anonymous aggregate user behaviour analytics and reports these to Google Analytics.
 
 To opt out of Homebrew's analytics, you can set `export HOMEBREW_NO_ANALYTICS=1` in your environment or shell rc file, or use `brew analytics off`.
 
@@ -921,7 +921,7 @@ Use in combination with DNSCrypt to additionally encrypt outgoing DNS traffic.
 
 If you don't wish to use DNSCrypt, you should at least use DNS [not provided](http://bcn.boulder.co.us/~neal/ietf/verisign-abuse.html) [by your ISP](http://hackercodex.com/guide/how-to-stop-isp-dns-server-hijacking/). Two popular alternatives are [Google DNS](https://developers.google.com/speed/public-dns/) and [OpenDNS](https://www.opendns.com/home-internet-security/).
 
-**(Optional)** [DNSSEC](https://en.wikipedia.org/wiki/Domain_Name_System_Security_Extensions) is a set of extensions to DNS which provide to DNS clients (resolvers) origin authentication of DNS data, authenticated denial of existence, and data integrity. All answers from DNSSEC protected zones are digitally signed. The signed records are authenticated via a chain of trust, starting with a set of verified public keys for the DNS root-zone. The current root-zone trust anchors may be downloaded [from IANA website](https://www.iana.org/dnssec/files). There are a number of resources on DNSSEC, but probably the best one is [dnssec.net website](http://www.dnssec.net).
+**(Optional)** [DNSSEC](https://en.wikipedia.org/wiki/Domain_Name_System_Security_Extensions) is a set of extensions to DNS that provide to DNS clients (resolvers) origin authentication of DNS data, authenticated denial of existence, and data integrity. All answers from DNSSEC protected zones are digitally signed. The signed records are authenticated via a chain of trust, starting with a set of verified public keys for the DNS root-zone. The current root-zone trust anchors may be downloaded [from IANA website](https://www.iana.org/dnssec/files). There are a number of resources on DNSSEC, but probably the best one is [dnssec.net website](http://www.dnssec.net).
 
 Install Dnsmasq (DNSSEC is optional):
 
@@ -1018,7 +1018,7 @@ The risk of a [man in the middle](https://en.wikipedia.org/wiki/Man-in-the-middl
 
 The version of OpenSSL in Sierra is `0.9.8zh` which is [not current](https://apple.stackexchange.com/questions/200582/why-is-apple-using-an-older-version-of-openssl). It doesn't support TLS 1.1 or newer, elliptic curve ciphers, and [more](https://stackoverflow.com/questions/27502215/difference-between-openssl-09-8z-and-1-0-1).
 
-Since Apple's official supported TLS library on macOS is [Secure Transport](https://developer.apple.com/documentation/security/secure_transport), OpenSSL **deprecated** is considered deprecated (according to the [Cryptographic Services Guide](https://developer.apple.com/library/mac/documentation/Security/Conceptual/cryptoservices/GeneralPurposeCrypto/GeneralPurposeCrypto.html). Apple's version of OpenSSL may also have patches which may [surprise you](https://hynek.me/articles/apple-openssl-verification-surprises/).
+Since Apple's official supported TLS library on macOS is [Secure Transport](https://developer.apple.com/documentation/security/secure_transport), OpenSSL **deprecated** is considered deprecated (according to the [Cryptographic Services Guide](https://developer.apple.com/library/mac/documentation/Security/Conceptual/cryptoservices/GeneralPurposeCrypto/GeneralPurposeCrypto.html). Apple's version of OpenSSL may also have patches that may [surprise you](https://hynek.me/articles/apple-openssl-verification-surprises/).
 
 If you're going to use OpenSSL on your Mac, download and install a recent version of OpenSSL with `brew install openssl`. Note, linking brew to be used in favor of `/usr/bin/openssl` may interfere with built-in software. See [issue #39](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/39).
 
@@ -1146,7 +1146,7 @@ You can replace ad images with pictures of kittens, for example, by starting a l
 
 The Web browser poses the largest security and privacy risk, as its fundamental job is to download and execute untrusted code from the Internet. This is an important statement. The unique use case of Web Browsers of operation in hostile environments, has forced them to adopt certain impressive security features. The cornerstone of Web Browser security is the Same Origin Policy ([SOP](https://en.wikipedia.org/wiki/Same-origin_policy)). In a few words, SOP prevents a malicious script on one page from obtaining access to sensitive data on another web page through that page's Document Object Model (DOM). If SOP is compromised, the security of the whole Web Browser is compromised.
 
-The best tip to ensure secure browsing regardless your choice of Web Browser is proper security hygiene. The majority of Web Browser exploits require social engineering attacks to achieve native code execution. Always be mindful of the links you click and be extra careful when websites ask you to download and install software. 99% percent of the time that software is malware.
+The best tip to ensure secure browsing regardless of your choice of Web Browser is proper security hygiene. The majority of Web Browser exploits require social engineering attacks to achieve native code execution. Always be mindful of the links you click and be extra careful when websites ask you to download and install software. 99% percent of the time that software is malware.
 
 Another important consideration about Web Browser security is Web Extensions. Web Extensions greatly increase the attack surface of the Web Browser. This is an issue that plagues Firefox and [Chrome](https://courses.csail.mit.edu/6.857/2016/files/24.pdf) alike. Luckily, Web Extensions can only access specific browser APIs that are being governed by their manifest. That means we can quickly audit their behavior and remove them if they request access to information they shouldn't (why would an Ad blocker require camera access?). In the interest of security, it is best to limit your use of Web Extensions.
 
@@ -1156,9 +1156,9 @@ Another important consideration about Web Browser security is Web Extensions. We
 
 [Mozilla Firefox](https://www.mozilla.org/en-US/firefox/new/) is an excellent browser as well as being completely open source. Currently, Firefox is in a renaissance period. It replaces major parts of its infrastructure and code base under projects [Quantum](https://wiki.mozilla.org/Quantum) and [Photon](https://wiki.mozilla.org/Firefox/Photon/Updates). Part of the Quantum project is to replace C++ code with [Rust](https://www.rust-lang.org/en-US/). Rust is a systems programming language with a focus on security and thread safety. It is expected that Rust adoption will greatly improve the overall security posture of Firefox.
 
-Firefox offers a similar security model to Chrome: it has a [bug bounty program](https://www.mozilla.org/en-US/security/bug-bounty/), although it is not a lucrative as Chrome's. Firefox follows a six-week release cycle similar to Chrome. See discussion in issues [#2](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/2) and [#90](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/90) for more information about certain differences in Firefox and Chrome.
+Firefox offers a similar security model to Chrome: it has a [bug bounty program](https://www.mozilla.org/en-US/security/bug-bounty/), although it is not as lucrative as Chrome's. Firefox follows a six-week release cycle similar to Chrome. See discussion in issues [#2](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/2) and [#90](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/90) for more information about certain differences in Firefox and Chrome.
 
-Firefox supports user-supplied configuration files. See [drduh/config/user.js](https://github.com/drduh/config/blob/master/user.js), [pyllyukko/user.js](https://github.com/pyllyukko/user.js) and [ghacksuserjs/ghacks-user.js](https://github.com/ghacksuserjs/ghacks-user.js) for recommended preferences and hardening measures. Also see [NoScript](https://noscript.net/), an extension which allows whitelist-based, pre-emptive script blocking.
+Firefox supports user-supplied configuration files. See [drduh/config/user.js](https://github.com/drduh/config/blob/master/user.js), [pyllyukko/user.js](https://github.com/pyllyukko/user.js) and [ghacksuserjs/ghacks-user.js](https://github.com/ghacksuserjs/ghacks-user.js) for recommended preferences and hardening measures. Also see [NoScript](https://noscript.net/), an extension that allows whitelist-based, pre-emptive script blocking.
 
 Firefox is focused on user privacy. It supports [tracking protection](https://developer.mozilla.org/en-US/Firefox/Privacy/Tracking_Protection) in Private Browsing mode. The tracking protection can be enabled for the default account, although it may break the browsing experience on some websites. Another feature for added privacy unique to Firefox is [Containers](https://testpilot.firefox.com/experiments/containers), similar to Chrome profiles.
 
@@ -1166,7 +1166,7 @@ Previous versions of Firefox used a [Web Extension SDK](https://developer.mozill
 
 Submission of Web Extensions in Firefox is free. Web Extensions in Firefox most of the time are open source, although certain Web Extensions are proprietary.
 
-**Note** Similar to Chrome and Safari, Firefox allows account sync across multiple devices. While stored login passwords are encrypted, Firefox does not require a password to reveal their plain text format. Firefox only displays as yes/no prompt. This is an important security issue. Keep that in mind if you sign in to your Firefox account from devices that do not belong to you and leave them unattended. The [issue](https://bugzilla.mozilla.org/show_bug.cgi?id=1393493) has been raised among the Firefox community and hopefully will be resolved in the coming versions.
+**Note** Similar to Chrome and Safari, Firefox allows account sync across multiple devices. While stored login passwords are encrypted, Firefox does not require a password to reveal their plain text format. Firefox only displays as a yes/no prompt. This is an important security issue. Keep that in mind if you sign in to your Firefox account from devices that do not belong to you and leave them unattended. The [issue](https://bugzilla.mozilla.org/show_bug.cgi?id=1393493) has been raised among the Firefox community and hopefully will be resolved in the coming versions.
 
 See [drduh/config/firefox.user.js](https://github.com/drduh/config/blob/master/firefox.user.js) for additional Firefox configuration options to improve security and privacy.
 
@@ -1182,15 +1182,15 @@ See [drduh/config/firefox.user.js](https://github.com/drduh/config/blob/master/f
 * Chrome [PDF viewer](http://0xdabbad00.com/2013/01/13/most-secure-pdf-viewer-chrome-pdf-viewer/).
 * Non-optional tracking. Google Chrome installer includes a randomly generated token. The token is sent to Google after the installation completes in order to measure the success rate. The RLZ identifier stores information – in the form of encoded strings – like the source of chrome download and installation week. It doesn’t include any personal information and it’s used to measure the effectiveness of a promotional campaign. **Chrome downloaded from Google’s website doesn’t have the RLZ identifier**. The source code to decode the strings is made open by Google.
 
-Chrome offers account sync between multiple devices. Part of the sync data are stored website credentials. The login passwords are encrypted and in order to access them, a user's Google account password is required. You can use your Google account to sign to your Chrome customized settings from other devices while retaining your the security of your passwords.
+Chrome offers account sync between multiple devices. Part of the sync data is stored in website credentials. The login passwords are encrypted and in order to access them, a user's Google account password is required. You can use your Google account to sign into your Chrome customized settings from other devices while retaining the security of your passwords.
 
 Chrome's Web store for extensions requires a [5 dollar lifetime fee](https://developer.chrome.com/webstore/publish#pay-the-developer-signup-fee) in order to submit extensions. The low cost allows the development of many quality Open Source Web Extensions that do not aim to monetize through usage.
 
-Chrome has the largest share of global usage and is the preferred target platform for the majority of developers. Major technologies are based on Chrome's Open Source components, such as [node.js](https://nodejs.org/en/) which uses [Chrome's V8](https://developers.google.com/v8/) Engine and the [Electron](https://electron.atom.io/) framework, which is based on Chromium and node.js. Chrome's vast user base makes it the most attractive target for threat actors and security researchers. Despite under constants attacks, Chrome has retained an impressive security track record over the years. This is not a small feat.
+Chrome has the largest share of global usage and is the preferred target platform for the majority of developers. Major technologies are based on Chrome's Open Source components, such as [node.js](https://nodejs.org/en/) which uses [Chrome's V8](https://developers.google.com/v8/) Engine and the [Electron](https://electron.atom.io/) framework, which is based on Chromium and node.js. Chrome's vast user base makes it the most attractive target for threat actors and security researchers. Despite under constant attacks, Chrome has retained an impressive security track record over the years. This is not a small feat.
 
 Chrome offers [separate profiles](https://www.chromium.org/user-experience/multi-profiles), [sandboxing](https://www.chromium.org/developers/design-documents/sandbox), [frequent updates](https://googlechromereleases.blogspot.com/) (including Flash, although you should disable it - see below), and carries [impressive credentials](https://www.chromium.org/Home/chromium-security/brag-sheet). In addition, Google offers a very lucrative [bounty](https://www.google.com/about/appsecurity/chrome-rewards/) program for reporting vulnerabilities along with its own [Project Zero](https://googleprojectzero.blogspot.com). This means that a large number of highly talented and motivated people are constantly auditing Chrome's code base.
 
-Create separate Chrome profiles to reduce XSS risk and compartmentalize cookies/identities. In each profile, either disable Javascript in Chrome settings and manually whitelist allowed origins - or use [uBlock Origin](https://github.com/gorhill/uBlock) to manage Javascript and/or disable third-party scripts/frames. Also install [HTTPSEverywhere](https://www.eff.org/https-everywhere) to upgrade insecure connections.
+Create separate Chrome profiles to reduce XSS risk and compartmentalize cookies/identities. In each profile, either disable Javascript in Chrome settings and manually whitelist allowed origins - or use [uBlock Origin](https://github.com/gorhill/uBlock) to manage Javascript and/or disable third-party scripts/frames. Also, install [HTTPSEverywhere](https://www.eff.org/https-everywhere) to upgrade insecure connections.
 
 Change the default search engine from Google to reduce additional tracking.
 
@@ -1204,15 +1204,15 @@ Read [Google's privacy policy](https://www.google.com/policies/privacy/) and lea
 
 [Safari](https://www.apple.com/safari/) is the default Web browser of macOS. It is also the most optimized browser for reducing battery use. Safari, like Chrome, has both Open Source and proprietary components. Safari is based on the open source Web Engine [WebKit](https://en.wikipedia.org/wiki/WebKit), which is ubiquitous among the macOS ecosystem. WebKit is used by Apple apps such as Mail, iTunes, iBooks, and the App Store. Chrome's [Blink](https://www.chromium.org/blink) engine is a fork of WebKit and both engines share a number of similarities.
 
-Safari supports certain unique features that benefit user security and privacy. [Content blockers](https://webkit.org/blog/3476/content-blockers-first-look/) enables the creation of content blocking rules without using Javascript. This rule based approach greatly improves memory use, security, and privacy. Safari 11 introduced an [Intelligent Tracking Prevention](https://webkit.org/blog/7675/intelligent-tracking-prevention/) system. This feature automatically removes tracking data stored in Safari after a period of non-interaction by the user from the tracker's website.
+Safari supports certain unique features that benefit user security and privacy. [Content blockers](https://webkit.org/blog/3476/content-blockers-first-look/) enable the creation of content blocking rules without using Javascript. This rule based approach greatly improves memory use, security, and privacy. Safari 11 introduced an [Intelligent Tracking Prevention](https://webkit.org/blog/7675/intelligent-tracking-prevention/) system. This feature automatically removes tracking data stored in Safari after a period of non-interaction by the user from the tracker's website.
 
 Similar to Chrome and Firefox, Safari offers an invite only [bounty program](https://developer.apple.com/bug-reporting/) for bug reporting to a select number of security researchers. The bounty program was announced during Apple's [presentation](https://www.blackhat.com/docs/us-16/materials/us-16-Krstic.pdf) at [BlackHat](https://www.blackhat.com/us-16/briefings.html#behind-the-scenes-of-ios-security) 2016.
 
-Web Extensions in Safari have an additional option to use native code in the Safari's sandbox environment, in addition to Web Extension APIs. Web Extensions in Safari are also distributed through Apple's App store. App store submission comes with the added benefit of Web Extension code being audited by Apple. On the other hand App store submission comes at a steep cost. Yearly [developer subscription](https://developer.apple.com/support/compare-memberships/) fee costs 100 USD (in contrast to Chrome's 5 dollar lifetime fee and Firefox's free submission). The high cost is prohibitive for the majority of Open Source developers. As a result, Safari has very few extensions to choose from. However, you should keep the high cost in mind when installing extensions. It is expected that most Web Extensions will have some way of monetizing usage in order to cover developer costs. Be wary of Web Extensions whose source code is not open.
+Web Extensions in Safari have an additional option to use native code in Safari's sandbox environment, in addition to Web Extension APIs. Web Extensions in Safari are also distributed through Apple's App store. App store submission comes with the added benefit of Web Extension code being audited by Apple. On the other hand App store submission comes at a steep cost. Yearly [developer subscription](https://developer.apple.com/support/compare-memberships/) fee costs 100 USD (in contrast to Chrome's 5 dollar lifetime fee and Firefox's free submission). The high cost is prohibitive for the majority of Open Source developers. As a result, Safari has very few extensions to choose from. However, you should keep the high cost in mind when installing extensions. It is expected that most Web Extensions will have some way of monetizing usage in order to cover developer costs. Be wary of Web Extensions whose source code is not open.
 
 Safari syncs user preferences and saved passwords with [iCloud Keychain](https://support.apple.com/en-gb/HT202303). In order to be viewed in plain text, a user must input the account password of the current device. This means that users can sync data across devices with added security.
 
-Safari follows a slower release cycle than Chrome and Firefox (3-4 minor releases, 1 major release, per year). Newer features are slower to be adopted to the stable channel. Although security updates in Safari are handled independent of the stable release schedule and issued automatically through the App store. The Safari channel that follows a six-week release cycle (similar to as Chrome and Firefox) is called [Safari Technology Preview](https://developer.apple.com/safari/technology-preview/) and it is the recommended option instead of the stable channel of Safari.
+Safari follows a slower release cycle than Chrome and Firefox (3-4 minor releases, 1 major release, per year). Newer features are slower to be adopted to the stable channel. Although security updates in Safari are handled independent of the stable release schedule and issued automatically through the App store. The Safari channel that follows a six-week release cycle (similar to Chrome and Firefox) is called [Safari Technology Preview](https://developer.apple.com/safari/technology-preview/) and it is the recommended option instead of the stable channel of Safari.
 
 An excellent open source ad blocker for Safari that fully leverages content blockers is [dgraham/Ka-Block](https://github.com/dgraham/Ka-Block). See also [el1t/uBlock-Safari](https://github.com/el1t/uBlock-Safari/wiki/Disable-hyperlink-auditing-beacon) to disable hyperlink auditing beacons.
 
@@ -1242,7 +1242,7 @@ See [Hacking Team Flash Zero-Day](https://blog.trendmicro.com/trendlabs-security
 
 ## Tor
 
-Tor is an anonymizing proxy which can be used for browsing the Web.
+Tor is an anonymizing proxy that can be used for browsing the Web.
 
 Download Tor Browser from [Tor Project](https://www.torproject.org/download/).
 
@@ -1377,7 +1377,7 @@ For extra security, use Tor inside a [VirtualBox](https://www.virtualbox.org/wik
 
 Finally, remember the Tor network provides [anonymity](https://www.privateinternetaccess.com/blog/2013/10/how-does-privacy-differ-from-anonymity-and-why-are-both-important/), which is not necessarily synonymous with privacy. The Tor network does not guarantee protection against a global observer capable of traffic analysis and [correlation](https://blog.torproject.org/category/tags/traffic-correlation). See also [Seeking Anonymity in an Internet Panopticon](http://bford.info/pub/net/panopticon-cacm.pdf) (pdf) and [Traffic Correlation on Tor by Realistic Adversaries](http://www.ohmygodel.com/publications/usersrouted-ccs13.pdf) (pdf).
 
-Also see [Invisible Internet Project (I2P)](https://geti2p.net/en/about/intro) and its [Tor comparison](https://geti2p.net/en/comparison/tor).
+Also, see [Invisible Internet Project (I2P)](https://geti2p.net/en/about/intro) and its [Tor comparison](https://geti2p.net/en/comparison/tor).
 
 ## VPN
 
@@ -1389,13 +1389,13 @@ Don't just blindly sign up for a VPN service without understanding the full impl
 
 When choosing a VPN service or setting up your own, be sure to research the protocols, key exchange algorithms, authentication mechanisms, and type of encryption being used. Some protocols, such as [PPTP](https://en.wikipedia.org/wiki/Point-to-Point_Tunneling_Protocol#Security), should be avoided in favor of [OpenVPN](https://en.wikipedia.org/wiki/OpenVPN) or Linux-based [Wireguard](https://www.wireguard.com/) [on a Linux VM](https://github.com/mrash/Wireguard-macOS-LinuxVM) or via a set of [cross platform tools](https://www.wireguard.com/xplatform/).
 
-Some clients may send traffic over the next available interface when VPN is interrupted or disconnected. See [scy/8122924](https://gist.github.com/scy/8122924) for an example on how to allow traffic only over VPN.
+Some clients may send traffic over the next available interface when VPN is interrupted or disconnected. See [scy/8122924](https://gist.github.com/scy/8122924) for an example of how to allow traffic only over VPN.
 
 Another set of scripts to lock down your system so it will only access the internet via a VPN can be found as part of the Voodoo Privacy project - [sarfata/voodooprivacy](https://github.com/sarfata/voodooprivacy) and there is an updated guide to setting up an IPSec VPN on a virtual machine ([hwdsl2/setup-ipsec-vpn](https://github.com/hwdsl2/setup-ipsec-vpn)) or a docker container ([hwdsl2/docker-ipsec-vpn-server](https://github.com/hwdsl2/docker-ipsec-vpn-server)).
 
 It may be worthwhile to consider the geographical location of the VPN provider. See further discussion in [issue #114](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/114).
 
-Also see this [technical overview](https://blog.timac.org/2018/0717-macos-vpn-architecture/) of the macOS built-in VPN L2TP/IPSec and IKEv2 client.
+Also, see this [technical overview](https://blog.timac.org/2018/0717-macos-vpn-architecture/) of the macOS built-in VPN L2TP/IPSec and IKEv2 client.
 
 Other open source OpenVPN clients/GUI: [Eddie](https://github.com/AirVPN/Eddie), [Pritunl](https://client.pritunl.com) are not evaluated in this guide, so are neither recommended nor actively discouraged from use.
 
@@ -1793,7 +1793,7 @@ J%MMDbAgGdP}zrSQO!3mrP3$w!.[Ng_xx-_[C<3g
 
 You can also generate passwords, even memorable ones, using **Keychain Access** password assistant, or a command line equivalent like [anders/pwgen](https://github.com/anders/pwgen).
 
-Keychains are encrypted with a [PBKDF2 derived key](https://en.wikipedia.org/wiki/PBKDF2) and are a _pretty safe_ place to store credentials. See also [Breaking into the OS X keychain](http://juusosalonen.com/post/30923743427/breaking-into-the-os-x-keychain). Also be aware that Keychain [does not encrypt](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/118) the names corresponding to password entries.
+Keychains are encrypted with a [PBKDF2 derived key](https://en.wikipedia.org/wiki/PBKDF2) and are a _pretty safe_ place to store credentials. See also [Breaking into the OS X keychain](http://juusosalonen.com/post/30923743427/breaking-into-the-os-x-keychain). Also, be aware that Keychain [does not encrypt](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/118) the names corresponding to password entries.
 
 Alternatively, you can manage an encrypted passwords file yourself with GnuPG (see [drduh/Purse](https://github.com/drduh/Purse) and [drduh/pwd.sh](https://github.com/drduh/pwd.sh) for example).
 
@@ -1801,7 +1801,7 @@ In addition to passwords, ensure eligible online accounts, such as GitHub, Googl
 
 [Yubikey](https://www.yubico.com/products/yubikey-hardware/) offers affordable hardware tokens. See [drduh/YubiKey-Guide](https://github.com/drduh/YubiKey-Guide) and [trmm.net/Yubikey](https://trmm.net/Yubikey). One of two Yubikey's slots can also be programmed to emit a long, static password (which can be used in combination with a short, memorized password, for example).
 
-In Addition to Login and other PAMs, you can use Yubikey to secure your login and sudo, here is a pdf guide from [Yubico](https://www.yubico.com/wp-content/uploads/2016/02/Yubico_YubiKeyMacOSXLogin_en.pdf). Yubikey are a bit pricey, there is cheaper alternative, but not as capable, [U2F Zero](https://www.u2fzero.com/). Here is a great guide to [set it up](https://microamps.gibsjose.com/u2f-authentication-on-os-x/)
+In Addition to Login and other PAMs, you can use Yubikey to secure your login and sudo, here is a pdf guide from [Yubico](https://www.yubico.com/wp-content/uploads/2016/02/Yubico_YubiKeyMacOSXLogin_en.pdf). Yubikey is a bit pricey, there is a cheaper alternative, but not as capable, [U2F Zero](https://www.u2fzero.com/). Here is a great guide to [set it up](https://microamps.gibsjose.com/u2f-authentication-on-os-x/)
 
 ## Backup
 
@@ -2049,11 +2049,11 @@ Also see the simple networking monitoring application [BonzaiThePenguin/Loading]
 
 > Santa is a binary whitelisting/blacklisting system for macOS. It consists of a kernel extension that monitors for executions, a userland daemon that makes execution decisions based on the contents of a SQLite database, a GUI agent that notifies the user in case of a block decision and a command-line utility for managing the system and synchronizing the database with a server.
 
-Santa uses the [Kernel Authorization API](https://developer.apple.com/library/content/technotes/tn2127/_index.html) to monitor and allow/disallow binaries from executing in the kernel. Binaries can be white- or black-listed by unique hash or signing developer certificate. Santa can be used to only allow trusted code execution, or to blacklist known malware from executing on a Mac, similar to Bit9 software for Windows.
+Santa uses the [Kernel Authorization API](https://developer.apple.com/library/content/technotes/tn2127/_index.html) to monitor and allow/disallow binaries from executing in the kernel. Binaries can be white- or black-listed by a unique hash or signing developer certificate. Santa can be used to only allow trusted code execution, or to blacklist known malware from executing on a Mac, similar to Bit9 software for Windows.
 
 **Note** Santa does not currently have a graphical user interface for managing rules. The following instructions are for advanced users only!
 
-To install Santa, visit the [Releases](https://github.com/google/santa/releases) page and download the latest disk image, the mount it and install the contained package:
+To install Santa, visit the [Releases](https://github.com/google/santa/releases) page and download the latest disk image, then mount it and install the contained package:
 
 ```console
 $ hdiutil mount ~/Downloads/santa-0.9.20.dmg
