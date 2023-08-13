@@ -110,19 +110,21 @@ The simplest way is to boot into [Recovery Mode](https://support.apple.com/en-us
 
 *Packet capture of an unencrypted HTTP conversation during macOS recovery*
 
-An alternative way to install macOS is to first download the latest version of macOS (**Latest: macOS Monterey**) from Apple via the [App Store](https://apps.apple.com/us/app/macos-monterey/id1576738294) and create a custom installable system image.
+An alternative way to install macOS is to first download the latest version of macOS (**Latest: macOS Ventura**) from Apple via the [App Store](https://apps.apple.com/us/app/macos-ventura/id1638787999) and create a custom installable system image.
 
 This can also be done from the Terminal using the commands outlined in [OSXDaily](https://osxdaily.com/2020/04/13/how-download-full-macos-installer-terminal/).
 
 ```
 softwareupdate --list-full-installers
-softwareupdate --fetch-full-installer --full-installer-version x.x.x
+# latest is 13.3.1
+softwareupdate -d --fetch-full-installer --full-installer-version 13.3.1
 ```
 
 ### Getting macOS
 
 Apple's [documentation](https://support.apple.com/en-us/HT211683) provides details for getting older versions of macOS.
 
+* macOS Ventura (13): [App Store](https://apps.apple.com/us/app/macos-ventura/id1638787999)
 * macOS Monterey (12): [App Store](https://apps.apple.com/us/app/macos-monterey/id1576738294)
 * macOS Big Sur (11): [App Store](https://apps.apple.com/us/app/macos-big-sur/id1526878132)
 * macOS Catalina (10.15): [App Store](https://apps.apple.com/us/app/macos-catalina/id1466841314)
@@ -139,8 +141,8 @@ The macOS installation application is [code signed](https://developer.apple.com/
 To verify the code signature and integrity of macOS application bundles:
 
 ```console
-$ pkgutil --check-signature /Applications/Install\ macOS\ Monterey.app
-Package "Install macOS Monterey":
+$ pkgutil --check-signature /Applications/Install\ macOS\ Ventura.app
+Package "Install macOS Ventura":
    Status: signed by a certificate trusted by macOS
    Certificate Chain:
     1. Software Signing
@@ -165,17 +167,17 @@ Package "Install macOS Monterey":
 Use the `codesign` command to examine an application's code signature:
 
 ```console
-$ codesign -dvv /Applications/Install\ macOS\ Monterey.app
-Executable=/Applications/Install macOS Monterey.app/Contents/MacOS/InstallAssistant_springboard
-Identifier=com.apple.InstallAssistant.macOSMonterey
+$ codesign -dvv /Applications/Install\ macOS\ Ventura.app
+Executable=/Applications/Install macOS Ventura.app/Contents/MacOS/InstallAssistant_springboard
+Identifier=com.apple.InstallAssistant.macOSVentura
 Format=app bundle with Mach-O universal (x86_64 arm64)
-CodeDirectory v=20400 size=641 flags=0x2000(library-validation) hashes=13+3 location=embedded
-Platform identifier=13
+CodeDirectory v=20400 size=640 flags=0x2000(library-validation) hashes=13+3 location=embedded
+Platform identifier=14
 Signature size=4523
 Authority=Software Signing
 Authority=Apple Code Signing Certification Authority
 Authority=Apple Root CA
-Signed Time=Dec 1, 2021 at 1:10:31 AM
+Signed Time=Mar 22, 2023 at 16:09:45
 Info.plist entries=32
 TeamIdentifier=not set
 Sealed Resources version=2 rules=2 files=0
@@ -196,7 +198,7 @@ $ diskutil unmountDisk /dev/disk2
 
 $ diskutil partitionDisk /dev/disk2 1 JHFS+ Installer 100%
 
-$ cd /Applications/Install\ macOS\ Monterey.app
+$ cd /Applications/Install\ macOS\ Ventura.app
 
 $ sudo ./Contents/Resources/createinstallmedia --volume /Volumes/Installer --nointeraction
 Erasing disk: 0%... 10%... 20%... 30%... 100%
