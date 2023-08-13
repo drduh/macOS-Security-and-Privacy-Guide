@@ -759,7 +759,7 @@ Persistent login items may also exist in these directories:
 * `~/Library/LaunchAgents`
 * `~/Library/Preferences/com.apple.loginitems.plist`
 
-See [Mac OSX Startup](http://www.malicious-streams.com/article/Mac_OSX_Startup.pdf) (pdf) for more information.
+See [Mac OSX Startup](https://web.archive.org/web/20200415041603/http://www.malicious-streams.com/article/Mac_OSX_Startup.pdf) (pdf) for more information.
 
 ## Spotlight Suggestions
 
