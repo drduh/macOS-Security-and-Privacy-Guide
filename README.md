@@ -68,7 +68,7 @@ This guide is also available in [简体中文](https://github.com/drduh/macOS-Se
   * [OpenBSM audit](#openbsm-audit)
   * [DTrace](#dtrace)
   * [Execution](#execution)
-  * [Network](#network)This
+  * [Network](#network)
 - [Binary Whitelisting](#binary-whitelisting)
 - [Miscellaneous](#miscellaneous)
 - [Related software](#related-software)
@@ -771,7 +771,7 @@ See [fix-macosx.com](https://web.archive.org/web/20180817061520/https://fix-maco
 
  **Note** This Web site and instructions may no longer work on macOS Sierra - see [issue 164](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/164).
 
-For acomparison to Windows 10, see <https://fix10.isleaked.com/>
+For a comparison to Windows 10, see <https://fix10.isleaked.com/>
 
 ## Homebrew
 
