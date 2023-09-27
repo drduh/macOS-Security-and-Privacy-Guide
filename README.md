@@ -1945,7 +1945,7 @@ Keep your Mac physically secure at all times. Don't leave it unattended in publi
 
 A skilled attacker with unsupervised physical access to your computer can infect the boot ROM to install a keylogger and steal your password, for example - see [Thunderstrike](https://trmm.net/Thunderstrike).
 
-To protect against physical theft during use, you can use an anti-forensic tool like [BusKill](https://github.com/buskill/buskill-app) or [usbkill](https://github.com/hephaest0s/usbkill). Both respond to USB events and can immediately shutdown your computer if your device is physically separated from you.
+To protect against physical theft during use, you can use an anti-forensic tool like [BusKill](https://github.com/buskill/buskill-app), [usbkill](https://github.com/hephaest0s/usbkill) or [swiftGuard](https://github.com/Lennolium/swiftGuard) (updated usbkill, with graphical user interface). All respond to USB events and can immediately shutdown your computer if your device is physically separated from you or an unauthorized device is connected.
 
 Consider purchasing a [privacy filter](https://www.amazon.com/s/ref=nb_sb_noss_2?url=node%3D15782001&field-keywords=macbook) for your screen to thwart shoulder surfers.
 
