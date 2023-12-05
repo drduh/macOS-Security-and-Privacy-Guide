@@ -1119,6 +1119,16 @@ $ scutil --proxy
 }
 ```
 
+Visit <http://p.p/> in a browser, or with Curl:
+
+```console
+$ ALL_PROXY=127.0.0.1:8118 curl -I http://p.p/
+HTTP/1.1 200 OK
+Content-Length: 2401
+Content-Type: text/html
+Cache-Control: no-cache
+```
+
 Privoxy already comes with many good rules, however you can also write your own.
 
 Download [drduh/config/privoxy/config](https://github.com/drduh/config/blob/master/privoxy/config) and [drduh/config/privoxy/user.action](https://github.com/drduh/config/blob/master/privoxy/user.action) to get started:
