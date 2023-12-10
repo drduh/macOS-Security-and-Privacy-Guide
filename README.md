@@ -473,7 +473,7 @@ Enable FileVault with `sudo fdesetup enable` or through **System Preferences** >
 
 If you can remember the password, there's no reason to save the **recovery key**. However, all encrypted data will be lost forever if without either the password or recovery key.
 
-To learn about how FileVault works, see the paper [Infiltrate the Vault: Security Analysis and Decryption of Lion Full Disk Encryption](https://eprint.iacr.org/2012/374.pdf) (pdf) and related [presentation](http://www.cl.cam.ac.uk/~osc22/docs/slides_fv2_ifip_2013.pdf) (pdf). Also see IEEE Std 1619-2007: The XTS-AES Tweakable Block Cipher.
+To learn about how FileVault works, see the paper [Infiltrate the Vault: Security Analysis and Decryption of Lion Full Disk Encryption](https://eprint.iacr.org/2012/374.pdf) (pdf) and related [presentation](http://www.cl.cam.ac.uk/~osc22/docs/slides_fv2_ifip_2013.pdf) (pdf).
 
 **Optional** Enforce system hibernation and evict FileVault keys from memory instead of traditional sleep to memory:
 
