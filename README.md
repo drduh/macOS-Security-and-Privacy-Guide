@@ -222,7 +222,7 @@ To create a **custom install image** which can be [restored](https://en.wikipedi
 
 Find `InstallESD.dmg` which is inside the installation application. Locate it in Terminal or with Finder, right click on the application bundle, select **Show Package Contents** and navigate to **Contents** > **SharedSupport** to find the file `InstallESD.dmg`
 
-Verify file integrity by comparing its SHA-256 hash with others found in [InstallESD_Hashes.csv](https://github.com/drduh/macOS-Security-and-Privacy-Guide/blob/master/InstallESD_Hashes.csv) or [notpeter/apple-installer-checksums](https://github.com/notpeter/apple-installer-checksums).
+[Verify](https://support.apple.com/en-us/102130) file integrity by comparing its SHA-256 hash with others found in [InstallESD_Hashes.csv](https://github.com/drduh/macOS-Security-and-Privacy-Guide/blob/master/InstallESD_Hashes.csv) or [notpeter/apple-installer-checksums](https://github.com/notpeter/apple-installer-checksums).
 
 ```console
 $ shasum -a 256 InstallESD.dmg
