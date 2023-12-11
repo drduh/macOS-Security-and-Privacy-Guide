@@ -216,55 +216,6 @@ Apple also has [guide](https://support.apple.com/guide/disk-utility/erase-and-re
 
 To create a **custom install image** which can be [restored](https://en.wikipedia.org/wiki/Apple_Software_Restore) to a Mac (using a USB-C cable and target disk mode, for example), use [MagerValp/AutoDMG](https://github.com/MagerValp/AutoDMG).
 
-#### Manual way
-
-**Note** The following instructions appear to work only on macOS versions before 10.13.
-
-Find `InstallESD.dmg` which is inside the installation application. Locate it in Terminal or with Finder, right click on the application bundle, select **Show Package Contents** and navigate to **Contents** > **SharedSupport** to find the file `InstallESD.dmg`
-
-[Verify](https://support.apple.com/en-us/102130) file integrity by comparing its SHA-256 hash with others found in [InstallESD_Hashes.csv](https://github.com/drduh/macOS-Security-and-Privacy-Guide/blob/master/InstallESD_Hashes.csv) or [notpeter/apple-installer-checksums](https://github.com/notpeter/apple-installer-checksums).
-
-```console
-$ shasum -a 256 InstallESD.dmg
-```
-
-Mount and install the operating system to a temporary image:
-
-```console
-$ hdiutil attach -mountpoint /tmp/InstallESD ./InstallESD.dmg
-
-$ hdiutil create -size 32g -type SPARSE -fs HFS+J -volname "macOS" -uid 0 -gid 80 -mode 1775 /tmp/macos.sparseimage
-
-$ hdiutil attach -mountpoint /tmp/macos -owners on /tmp/macos.sparseimage
-
-$ sudo installer -pkg /tmp/InstallESD/Packages/OSInstall.mpkg -tgt /tmp/macos -verbose
-installer: OS Install started.
-#############
-[...]
-```
-
-The installation will take a while, so be patient. Use `tail -F /var/log/install.log` in another terminal to monitor progress and check for errors.
-
-Once the installation is complete, detach, convert and verify the image:
-
-```console
-$ hdiutil detach /tmp/macos
-"disk4" unmounted.
-"disk4" ejected.
-
-$ hdiutil detach /tmp/InstallESD
-"disk3" unmounted.
-"disk3" ejected.
-
-$ hdiutil convert -format UDZO /tmp/macos.sparseimage -o ~/sierra.dmg
-Preparing imaging engine...
-[...]
-
-$ asr imagescan --source ~/sierra.dmg
-```
-
-The file `sierra.dmg` is now ready to be applied over [Target Disk Mode](https://support.apple.com/en-us/HT201462), from a bootable USB installer, booting from the network or recovery mode. The image could be further customized to include provisioned users, installed applications, preferences, for example.
-
 ### Target disk mode
 
 To use **Target Disk Mode**, boot up the Mac you wish to image while holding the `T` key and connect it to another Mac using a USB-C, Thunderbolt or Firewire cable.
