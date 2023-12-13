@@ -15,7 +15,6 @@ This guide is also available in [简体中文](https://github.com/drduh/macOS-Se
   * [Verifying installation integrity](#verifying-installation-integrity)
   * [Creating a bootable USB installer](#creating-a-bootable-usb-installer)
   * [Creating an install image](#creating-an-install-image)
-    + [Manual way](#manual-way)
   * [Target disk mode](#target-disk-mode)
   * [Creating a recovery partition](#creating-a-recovery-partition)
   * [Virtualization](#virtualization)
