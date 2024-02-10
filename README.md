@@ -40,7 +40,6 @@ This guide is also available in [简体中文](https://github.com/drduh/macOS-Se
 - [Captive portal](#captive-portal)
 - [Certificate authorities](#certificate-authorities)
 - [OpenSSL](#openssl)
-- [Curl](#curl)
 - [Web](#web)
   * [Privoxy](#privoxy)
   * [Browser](#browser)
@@ -135,7 +134,7 @@ Apple's [documentation](https://support.apple.com/en-us/HT211683) provides detai
 
 ### Verifying installation integrity
 
-The macOS installation application is [code signed](https://developer.apple.com/library/mac/documentation/Security/Conceptual/CodeSigningGuide/Procedures/Procedures.html#//apple_ref/doc/uid/TP40005929-CH4-SW6), which should be verified to make sure you received a legitimate copy, using the `pkgutil --check-signature` or `codesign -dvv` commands.
+The macOS installation application is [code signed](https://developer.apple.com/library/mac/documentation/Security/Conceptual/CodeSigningGuide/Procedures/Procedures.html#//apple_ref/doc/uid/TP40005929-CH4-SW6), which should be verified using the commands `pkgutil --check-signature` or `codesign -dvv`
 
 To verify the code signature and integrity of macOS application bundles:
 
@@ -277,7 +276,7 @@ $ /tmp/recovery/RecoveryHDUpdate.pkg/Scripts/Tools/dmtest ensureRecoveryPartitio
 Creating recovery partition: finished
 ```
 
-Run `diskutil list` again to make sure `Recovery HD` now exists on `/dev/disk2`
+Run `diskutil list` again to confirm `Recovery HD` now exists on `/dev/disk2`
 
 Eject the disk with `hdiutil unmount /Volumes/macOS` and power down the target disk mode-booted Mac.
 
@@ -484,13 +483,13 @@ A firmware password may be bypassed by a determined attacker or Apple, with phys
 
 <img width="750" alt="Using a Dediprog SF600 to dump and flash a 2013 MacBook SPI Flash chip to remove a firmware password, sans Apple" src="https://cloud.githubusercontent.com/assets/12475110/17075918/0f851c0c-50e7-11e6-904d-0b56cf0080c1.png">
 
-*Using a [Dediprog SF600](http://www.dediprog.com/pd/spi-flash-solution/sf600) to dump and flash a 2013 MacBook SPI Flash chip to remove a firmware password, sans Apple*
+*Using a [Dediprog SF600](https://www.dediprog.com/product/sf600) to dump and flash a 2013 MacBook SPI Flash chip to remove a firmware password, sans Apple*
 
-As of macOS 10.15 Catalina, the `firmwarepasswd` program has a new option `-disable-reset-capability`. According to [Apple's new Platform Security page](https://support.apple.com/en-gb/guide/security/sec28382c9ca/web), this effectively prevents any firmware password resets, even by Apple themselves:
+As of macOS 10.15, the `firmwarepasswd` program has a new option `-disable-reset-capability`. According to [Apple's new Platform Security page](https://support.apple.com/en-gb/guide/security/sec28382c9ca/web), this effectively prevents any firmware password resets, even by Apple themselves:
 
 > For users who want no one but themselves to remove their Firmware Password by software means, the -disable-reset-capability option has been added to the firmwarepasswd command-line tool in macOS 10.15. Before setting this option, users must to acknowledge that if the password is forgotten and needs removal, the user must bear the cost of the motherboard replacement necessary to achieve this.
 
-Newer Mac models (Mac Pro, iMac Pro, Macbook with TouchBar) with [Apple T2](https://en.wikipedia.org/wiki/Apple-designed_processors#Apple_T2) chips, which provide a secure enclave for encrypted keys, lessen the risk of EFI firmware attacks. See [this blog post](http://michaellynn.github.io/2018/07/27/booting-secure/) for more information.
+Newer Mac models (Mac Pro, iMac Pro, Macbook with TouchBar) with [Apple T2](https://en.wikipedia.org/wiki/Apple-designed_processors#Apple_T2) chips, which provide a secure enclave for encrypted keys, lessen the risk of EFI firmware attacks. See [this blog post](https://michaellynn.github.io/2018/07/27/booting-secure/) for more information.
 
 See [LongSoft/UEFITool](https://github.com/LongSoft/UEFITool), [chipsec/chipsec](https://github.com/chipsec/chipsec) and discussion in [issue #213](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/213) for more information.
 
@@ -760,29 +759,29 @@ DNS profiles [can be created](https://dns.notjakob.com/) or obtained from provid
  127.0.0.1 example.com
  ```
 
- **Note** IPv6 uses the `AAAA` DNS record type, rather than `A` record type, so you may also want to block those connections by *also* including `::1 example.com` entries, like shown [here](https://someonewhocares.org/hosts/ipv6/).
+**Note** IPv6 uses the `AAAA` DNS record type, rather than `A` record type, so you may also want to block those connections by *also* including `::1 example.com` entries, like shown [here](https://someonewhocares.org/hosts/ipv6/).
 
- There are many lists of domains available online which you can paste in, just make sure each line starts with `0`, `0.0.0.0`, `127.0.0.1`, and the line `127.0.0.1 localhost` is included.
+There are many lists of domains available online which you can paste in, just make sure each line starts with `0`, `0.0.0.0`, `127.0.0.1`, and the line `127.0.0.1 localhost` is included.
 
- Here are some popular and useful hosts lists:
+Here are some popular and useful hosts lists:
 
- * [jmdugan/blocklists](https://github.com/jmdugan/blocklists)
- * [l1k/osxparanoia](https://github.com/l1k/osxparanoia/blob/master/hosts)
- * [Sinfonietta/hostfiles](https://github.com/Sinfonietta/hostfiles)
- * [StevenBlack/hosts](https://github.com/StevenBlack/hosts)
- * [someonewhocares.org](https://someonewhocares.org/hosts/zero/hosts)
+* [jmdugan/blocklists](https://github.com/jmdugan/blocklists)
+* [l1k/osxparanoia](https://github.com/l1k/osxparanoia/blob/master/hosts)
+* [Sinfonietta/hostfiles](https://github.com/Sinfonietta/hostfiles)
+* [StevenBlack/hosts](https://github.com/StevenBlack/hosts)
+* [someonewhocares.org](https://someonewhocares.org/hosts/zero/hosts)
 
- Append a list of hosts with the `tee` command and confirm only non-routable addresses or comments were added:
+Append a list of hosts with the `tee` command and confirm only non-routable addresses or comments were added:
 
- ```console
- $ curl https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts | sudo tee -a /etc/hosts
+```console
+$ curl https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts | sudo tee -a /etc/hosts
 
- $ wc -l /etc/hosts
- 65580
+$ wc -l /etc/hosts
+65580
 
- $ egrep -ve "^#|^255.255.255.255|^127.|^0.|^::1|^ff..::|^fe80::" /etc/hosts | sort | uniq | egrep -e "[1,2]|::"
- [No output]
- ```
+$ egrep -ve "^#|^255.255.255.255|^127.|^0.|^::1|^ff..::|^fe80::" /etc/hosts | sort | uniq | egrep -e "[1,2]|::"
+[No output]
+```
 
 #### dnscrypt
 
@@ -816,7 +815,7 @@ Start DNSCrypt:
 $ sudo brew services restart dnscrypt-proxy
 ```
 
-Make sure DNSCrypt is running:
+Confirm DNSCrypt is running:
 
 ```console
 $ sudo lsof +c 15 -Pni UDP:5355
@@ -842,7 +841,7 @@ See also [What is a DNS leak](https://dnsleaktest.com/what-is-a-dns-leak.html) a
 
 Among other features, [dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html) is able to cache replies, prevent upstream queries for unqualified names, and block entire top-level domain names.
 
-Use in combination with DNSCrypt to additionally encrypt outgoing DNS traffic.
+Use in combination with DNSCrypt to additionally encrypt DNS traffic.
 
 If you don't wish to use DNSCrypt, you should at least use DNS [not provided](http://bcn.boulder.co.us/~neal/ietf/verisign-abuse.html) [by your ISP](http://hackercodex.com/guide/how-to-stop-isp-dns-server-hijacking/). Two popular alternatives are [Google DNS](https://developers.google.com/speed/public-dns/) and [OpenDNS](https://www.opendns.com/home-internet-security/).
 
@@ -874,7 +873,7 @@ To set Dnsmasq as your local DNS server, open **System Preferences** > **Network
 $ sudo networksetup -setdnsservers "Wi-Fi" 127.0.0.1
 ```
 
-Make sure Dnsmasq is correctly configured:
+Confirm Dnsmasq is configured:
 
 ```console
 $ scutil --dns | head
@@ -914,7 +913,7 @@ $ dig www.dnssec-failed.org
 
 When macOS connects to new networks, it checks for Internet connectivity and may launch a Captive Portal assistant utility application.
 
-An attacker could trigger the utility and direct a Mac to a site with malware without user interaction, so it's best to disable this feature and log in to captive portals using your regular Web browser by navigating to a non-secure HTTP page and accepting a redirect to the captive portal login interface (after disabling any custom proxy or DNS settings).
+It is possible to trigger the utility and direct a Mac to malware without user interaction, so it's best to disable this feature and log in to captive portals using your regular Web browser by navigating to a non-secure HTTP page and accepting a redirect to the captive portal login interface (after disabling any custom proxy or DNS settings).
 
 ```console
 $ sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.captive.control.plist Active -bool false
@@ -964,18 +963,6 @@ SSL-Session:
 ```
 
 See also [Comparison of TLS implementations](https://en.wikipedia.org/wiki/Comparison_of_TLS_implementations), [How's My SSL](https://www.howsmyssl.com/) and [Qualys SSL Labs Tools](https://www.ssllabs.com/projects/).
-
-## Curl
-
-The version of Curl which comes with macOS uses [Secure Transport](https://developer.apple.com/library/mac/documentation/Security/Reference/secureTransportRef/) for SSL/TLS validation.
-
-If you prefer to use OpenSSL, install with `brew install curl --with-openssl` and ensure it's the default with `brew link --force curl`
-
-Download [drduh/config/curlrc](https://github.com/drduh/config/blob/master/curlrc) or see the [man page](https://curl.haxx.se/docs/manpage.html):
-
-```console
-$ curl -o ~/.curlrc https://raw.githubusercontent.com/drduh/config/master/curlrc
-```
 
 ## Web
 
@@ -1308,8 +1295,6 @@ Also see [Invisible Internet Project (I2P)](https://geti2p.net/en/about/intro) a
 
 Unencrypted network traffic is being actively monitored and possibly tampered with. Encrypted traffic still exposes [connection metadata](https://security.stackexchange.com/questions/142833/does-https-encrypt-metadata#142855) and could be used to infer behavior or specific actions.
 
-It is a good idea to use a VPN with outgoing network traffic (*not* **split tunnel**) together with a trustworthy provider. [drduh/Debian-Privacy-Server-Guide](https://github.com/drduh/Debian-Privacy-Server-Guide) is one of many available guides for setting up a personal VPN server.
-
 Don't just blindly sign up for a VPN service without understanding the full implications and how your traffic will be routed. If you don't understand how the VPN works or are not familiar with the software used, you are probably better off without it.
 
 When choosing a VPN service or setting up your own, be sure to research the protocols, key exchange algorithms, authentication mechanisms, and type of encryption being used. Some protocols, such as [PPTP](https://en.wikipedia.org/wiki/Point-to-Point_Tunneling_Protocol#Security), should be avoided in favor of [OpenVPN](https://en.wikipedia.org/wiki/OpenVPN) or Linux-based [Wireguard](https://www.wireguard.com/) [on a Linux VM](https://github.com/mrash/Wireguard-macOS-LinuxVM) or via a set of [cross platform tools](https://www.wireguard.com/xplatform/).
@@ -1352,7 +1337,7 @@ OTR stands for **off-the-record** and is a cryptographic protocol for encrypting
 
 You can use OTR on top of any existing [XMPP](https://xmpp.org/about) chat service, even Google Hangouts (which only encrypts conversations between users and the server using TLS).
 
-The first time you start a conversation with someone new, you'll be asked to verify their public key fingerprint. Make sure to do this in person or by some other secure means (e.g. GPG encrypted mail).
+The first time you start a conversation with someone new, you'll be asked to verify their public key fingerprint. Do this in person or by other secure means, such as GPG.
 
 A popular macOS GUI client for XMPP and other chat protocols is [Adium](https://adium.im/).
 
