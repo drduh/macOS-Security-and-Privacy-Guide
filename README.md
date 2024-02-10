@@ -90,22 +90,18 @@ Standard security best practices apply:
 
 * Assure data availability
 	* Create [regular backups](https://www.amazon.com/o/ASIN/0596102461/backupcentral) of your data and be ready to format and re-install the operating system in case of compromise.
-	* Always encrypt locally before copying backups to external media or the "cloud".
-	* Verify backups work by testing them regularly, for example by accessing certain files or performing a hash based comparison.
+	* Encrypt locally before copying backups to external media or the "cloud".
+	* Verify backups by accessing them regularly.
 
 * Click carefully
-	* Ultimately, the security of a system can be reduced to its administrator.
+	* Ultimately, the security of a system depends on the capabilities of its administrator.
 	* Care should be taken when installing new software. Always prefer [free](https://www.gnu.org/philosophy/free-sw.en.html) and open source software ([which macOS is not](https://superuser.com/questions/19492/is-mac-os-x-open-source)).
 
 ## Preparing and installing macOS
 
 There are several ways to install macOS.
 
-The simplest way is to boot into [Recovery Mode](https://support.apple.com/en-us/HT201314) by holding `Command` and `R` keys at boot. A system image can be downloaded and applied directly from Apple. However, this way exposes the serial number and other identifying information over the network in plain text, which may not be desired for privacy reasons.
-
-<img width="500" alt="PII is transmitted to Apple in plain text when using macOS Recovery" src="https://cloud.githubusercontent.com/assets/12475110/20312189/8987c958-ab20-11e6-90fa-7fd7c8c1169e.png">
-
-*Packet capture of an unencrypted HTTP conversation during macOS recovery*
+The simplest way is to boot into [Recovery Mode](https://support.apple.com/en-us/HT201314) by holding `Command` and `R` keys at boot. A system image can be downloaded and applied directly from Apple. However, this may expose identifying information.
 
 An alternative way to install macOS is to first download the latest version of macOS (**Latest: macOS Ventura**) from Apple via the [App Store](https://apps.apple.com/us/app/macos-ventura/id1638787999) and create a custom installable system image.
 
@@ -185,24 +181,19 @@ Internal requirements count=1 size=88
 
 Instead of booting from the network or using target disk mode, a bootable macOS installer can be made with the `createinstallmedia` utility included in `Contents/Resources` folder of the installer application bundle. See [Create a bootable installer for macOS](https://support.apple.com/en-us/HT201372), or run the utility without arguments to see how it works.
 
-To create a **bootable USB installer**, mount a USB drive, and erase and partition it, then use the `createinstallmedia` utility:
+To create a bootable USB installer, mount a USB drive, erase and partition it, then use the `createinstallmedia` utility:
 
 ```console
-$ diskutil list
+diskutil list
 [Find disk matching correct size, usually the last disk, e.g. /dev/disk2]
 
-$ diskutil unmountDisk /dev/disk2
+diskutil unmountDisk /dev/disk2
 
-$ diskutil partitionDisk /dev/disk2 1 JHFS+ Installer 100%
+diskutil partitionDisk /dev/disk2 1 JHFS+ Installer 100%
 
-$ cd /Applications/Install\ macOS\ Ventura.app
+cd /Applications/Install\ macOS\ Ventura.app
 
-$ sudo ./Contents/Resources/createinstallmedia --volume /Volumes/Installer --nointeraction
-Erasing disk: 0%... 10%... 20%... 30%... 100%
-Copying to disk: 0%... 10%... 20%... 30%... 40%... 50%... 60%... 70%... 80%... 90%... 100%
-Making disk bootable...
-Copying boot files...
-Install media now available at "/Volumes/Install macOS Catalina"
+sudo ./Contents/Resources/createinstallmedia --volume /Volumes/Installer --nointeraction
 ```
 
 [Disk Utility](https://support.apple.com/guide/disk-utility/erase-and-reformat-a-storage-device-dskutl14079/mac) can also be used to configure the storage device.
@@ -221,25 +212,22 @@ If you don't have another Mac, boot to a USB installer, with `sierra.dmg` and ot
 
 Use the command `diskutil list` to identify the disk of the connected Mac, usually `/dev/disk2`
 
-Optionally, [securely erase](https://www.backblaze.com/blog/securely-erase-mac-ssd/) the disk with a single pass (if previously FileVault-encrypted, the disk must first be unlocked and mounted as `/dev/disk3s2`):
+**Optional** [securely erase](https://www.backblaze.com/blog/how-to-wipe-a-mac-hard-drive/) the disk with a single pass (if previously FileVault-encrypted, the disk must first be unlocked and mounted as `/dev/disk3s2`):
 
-    $ sudo diskutil secureErase freespace 1 /dev/disk3s2
+    sudo diskutil secureErase freespace 1 /dev/disk3s2
 
 Partition the disk to Journaled HFS+:
 
 ```console
-$ sudo diskutil unmountDisk /dev/disk2
+sudo diskutil unmountDisk /dev/disk2
 
-$ sudo diskutil partitionDisk /dev/disk2 1 JHFS+ macOS 100%
+sudo diskutil partitionDisk /dev/disk2 1 JHFS+ macOS 100%
 ```
 
 Restore the image to the new volume, making sure `/dev/disk2` is the disk being erased:
 
 ```console
-$ sudo asr restore --source ~/sierra.dmg --target /Volumes/macOS --erase --buffersize 4m
-[...]
-Erase contents of /dev/disk2s2 (/Volumes/macOS)? [ny]:y
-[...]
+sudo asr restore --source ~/sierra.dmg --target /Volumes/macOS --erase --buffersize 4m
 ```
 
 The **Disk Utility** application may also be used to erase the connected disk and restore `sierra.dmg` to the newly created partition.
@@ -264,15 +252,13 @@ f6a4f8ac25eaa6163aa33ac46d40f223f40e58ec0b6b9bf6ad96bdbfc771e12c  RecoveryHDUpda
 Attach and expand the installer, then run it - again ensuring `/Volumes/macOS` path is the newly created partition on the connected disk:
 
 ```console
-$ hdiutil attach RecoveryHDUpdate.dmg
+hdiutil attach RecoveryHDUpdate.dmg
 
-$ pkgutil --expand /Volumes/Mac\ OS\ X\ Lion\ Recovery\ HD\ Update/RecoveryHDUpdate.pkg /tmp/recovery
+pkgutil --expand /Volumes/Mac\ OS\ X\ Lion\ Recovery\ HD\ Update/RecoveryHDUpdate.pkg /tmp/recovery
 
-$ hdiutil attach /tmp/recovery/RecoveryHDUpdate.pkg/RecoveryHDMeta.dmg
+hdiutil attach /tmp/recovery/RecoveryHDUpdate.pkg/RecoveryHDMeta.dmg
 
-$ /tmp/recovery/RecoveryHDUpdate.pkg/Scripts/Tools/dmtest ensureRecoveryPartition /Volumes/macOS/ /Volumes/Recovery\ HD\ Update/BaseSystem.dmg 0 0 /Volumes/Recovery\ HD\ Update/BaseSystem.chunklist
-[...]
-Creating recovery partition: finished
+/tmp/recovery/RecoveryHDUpdate.pkg/Scripts/Tools/dmtest ensureRecoveryPartition /Volumes/macOS/ /Volumes/Recovery\ HD\ Update/BaseSystem.dmg 0 0 /Volumes/Recovery\ HD\ Update/BaseSystem.chunklist
 ```
 
 Run `diskutil list` again to confirm `Recovery HD` now exists on `/dev/disk2`
@@ -299,11 +285,11 @@ From the host Mac, serve the installable image to the guest VM by editing `/etc/
 
 On the host Mac, link the image to the default Apache Web server directory:
 
-	$ sudo ln ~/sierra.dmg /Library/WebServer/Documents
+	sudo ln ~/sierra.dmg /Library/WebServer/Documents
 
 From the host Mac, start Apache in the foreground:
 
-	$ sudo httpd -X
+	sudo httpd -X
 
 From the guest VM, install the disk image to the volume over the local network using `asr`:
 
@@ -339,8 +325,10 @@ If you enter your real name at the account setup process, be aware that your com
 
 Both should be verified and updated as needed in **System Preferences > Sharing** or with the following commands after installation:
 
-	$ sudo scutil --set ComputerName MacBook
-	$ sudo scutil --set LocalHostName MacBook
+```console
+sudo scutil --set ComputerName MacBook
+sudo scutil --set LocalHostName MacBook
+```
 
 ## System activation
 
@@ -387,14 +375,14 @@ Accounts can be created and managed in System Preferences. On settled systems, i
 Demoting an account can be done either from the the new admin account in System Preferences – the other account must be logged out – or by executing these commands (it may not be necessary to execute both, see [issue #179](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/179)):
 
 ```console
-$ sudo dscl . -delete /Groups/admin GroupMembership <username>
-$ sudo dscl . -delete /Groups/admin GroupMembers <GeneratedUID>
+sudo dscl . -delete /Groups/admin GroupMembership <username>
+sudo dscl . -delete /Groups/admin GroupMembers <GeneratedUID>
 ```
 
 To find the **GeneratedUID** of an account:
 
 ```console
-$ dscl . -read /Users/<username> GeneratedUID
+dscl . -read /Users/<username> GeneratedUID
 ```
 
 See also [this post](https://superuser.com/a/395738) for more information about how macOS determines group membership.
@@ -426,8 +414,8 @@ To learn about how FileVault works, see the paper [Infiltrate the Vault: Securit
 **Optional** Enforce system hibernation and evict FileVault keys from memory instead of traditional sleep to memory:
 
 ```console
-$ sudo pmset -a destroyfvkeyonstandby 1
-$ sudo pmset -a hibernatemode 25
+sudo pmset -a destroyfvkeyonstandby 1
+sudo pmset -a hibernatemode 25
 ```
 
 > All computers have firmware of some type - EFI, BIOS - to help in the discovery of hardware components and ultimately to properly bootstrap the computer using the desired OS instance. In the case of Apple hardware and the use of EFI, Apple stores relevant information within EFI to aid in the functionality of macOS. For example, the FileVault key is stored in EFI to transparently come out of standby mode.
@@ -437,10 +425,10 @@ $ sudo pmset -a hibernatemode 25
 If you choose to evict FileVault keys in standby mode, you should also modify your standby and power nap settings. Otherwise, your machine may wake while in standby mode and then power off due to the absence of the FileVault key. See [issue #124](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/124) for more information. These settings can be changed with:
 
 ```console
-$ sudo pmset -a powernap 0
-$ sudo pmset -a standby 0
-$ sudo pmset -a standbydelay 0
-$ sudo pmset -a autopoweroff 0
+sudo pmset -a powernap 0
+sudo pmset -a standby 0
+sudo pmset -a standbydelay 0
+sudo pmset -a autopoweroff 0
 ```
 
 For more information, see paper [Lest We Remember: Cold Boot Attacks on Encryption Keys](https://www.usenix.org/legacy/event/sec08/tech/full_papers/halderman/halderman.pdf) (pdf)
@@ -466,16 +454,13 @@ The firmware password will activate at next boot. To validate the password, hold
 The firmware password can also be managed with the `firmwarepasswd` utility while booted into the OS. For example, to prompt for the firmware password when attempting to boot from a different volume:
 
 ```console
-$ sudo firmwarepasswd -setpasswd -setmode command
+sudo firmwarepasswd -setpasswd -setmode command
 ```
 
 To verify the firmware password:
 
 ```console
-$ sudo firmwarepasswd -verify
-Verifying Firmware Password
-Enter password:
-Correct
+sudo firmwarepasswd -verify
 ```
 
 A firmware password may be bypassed by a determined attacker or Apple, with physical access to the computer.
@@ -505,14 +490,11 @@ It can be controlled by the **Firewall** tab of **Security & Privacy** in **Syst
 Enable the firewall with logging and stealth mode:
 
 ```console
-$ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on
-Firewall is enabled. (State = 1)
+sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on
 
-$ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setloggingmode on
-Turning on log mode
+sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setloggingmode on
 
-$ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode on
-Stealth mode enabled
+sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode on
 ```
 
 > Computer hackers scan networks so they can attempt to identify computers to attack. You can prevent your computer from responding to some of these scans by using **stealth mode**. When stealth mode is enabled, your computer does not respond to ICMP ping requests, and does not answer to connection attempts from a closed TCP or UDP port. This makes it more difficult for attackers to find your computer.
@@ -520,11 +502,9 @@ Stealth mode enabled
 To prevent *built-in software* as well as *code-signed, downloaded software from being whitelisted automatically*:
 
 ```console
-$ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setallowsigned off
-Disabled allow signed built-in applications automatically
+sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setallowsigned off
 
-$ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setallowsignedapp off
-Disabled allow signed downloaded applications automatically
+sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setallowsignedapp off
 ```
 
 > Applications that are signed by a valid certificate authority are automatically added to the list of allowed apps, rather than prompting the user to authorize them. Apps included in macOS are signed by Apple and are allowed to receive incoming connections when this setting is enabled. For example, since iTunes is already signed by Apple, it is automatically allowed to receive incoming connections through the firewall.
@@ -534,7 +514,7 @@ Disabled allow signed downloaded applications automatically
 After interacting with `socketfilterfw`, restart the process by sending a line hangup signal:
 
 ```console
-$ sudo pkill -HUP socketfilterfw
+sudo pkill -HUP socketfilterfw
 ```
 
 ### Third party firewalls
@@ -594,13 +574,13 @@ It is possible to use the pf firewall to block network access to entire ranges o
 Query [Merit RADb](https://www.radb.net/) for the list of networks in use by an autonomous system, like [Facebook](https://ipinfo.io/AS32934):
 
 ```console
-$ whois -h whois.radb.net '!gAS32934'
+whois -h whois.radb.net '!gAS32934'
 ```
 
 Copy and paste the list of networks returned into the blocklist command:
 
 ```console
-$ sudo pfctl -t blocklist -T add 31.13.24.0/21 31.13.64.0/24 157.240.0.0/16
+sudo pfctl -t blocklist -T add 31.13.24.0/21 31.13.64.0/24 157.240.0.0/16
 ```
 
 Confirm the addresses were added:
@@ -658,7 +638,7 @@ You can also run [KnockKnock](https://objective-see.com/products/knockknock.html
 For example, to learn what a system launch daemon or agent does, start with:
 
 ```console
-$ defaults read /System/Library/LaunchDaemons/com.apple.apsd.plist
+defaults read /System/Library/LaunchDaemons/com.apple.apsd.plist
 ```
 
 Look at the `Program` or `ProgramArguments` section to see which binary is run, in this case `apsd`. To find more information about that, look at the man page with `man apsd`
@@ -666,7 +646,7 @@ Look at the `Program` or `ProgramArguments` section to see which binary is run, 
 For example, if you're not interested in Apple Push Notifications, disable the service:
 
 ```console
-$ sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.apsd.plist
+sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.apsd.plist
 ```
 
 **Note** Unloading services may break usability of some applications. Read the manual pages and use Google to make sure you understand what you're doing first.
@@ -678,7 +658,7 @@ Use [Console](https://en.wikipedia.org/wiki/List_of_macOS_components#Console) an
 To view the status of services:
 
 ```console
-$ find /var/db/com.apple.xpc.launchd/ -type f -print -exec defaults read {} \; 2>/dev/null
+find /var/db/com.apple.xpc.launchd/ -type f -print -exec defaults read {} \; 2>/dev/null
 ```
 
 Annotated lists of launch daemons and agents, the respective program executed, and the programs' hash sums are included in this repository.
@@ -721,7 +701,7 @@ Consider using [Homebrew](https://brew.sh/) to make software installations easie
 [Install Homebrew](https://github.com/Homebrew/brew/blob/master/docs/Installation.md#installation):
 
 ```console
-$ mkdir homebrew && curl -L https://github.com/Homebrew/brew/tarball/master | tar xz --strip 1 -C homebrew
+mkdir homebrew && curl -L https://github.com/Homebrew/brew/tarball/master | tar xz --strip 1 -C homebrew
 ```
 
 Edit `PATH` in your shell or shell rc file to use `~/homebrew/bin` and `~/homebrew/sbin`. For example, `echo 'PATH=$PATH:~/homebrew/sbin:~/homebrew/bin' >> .zshrc`, then change your login shell to Z shell with `chsh -s /bin/zsh`, open a new Terminal window and run `brew update`.
@@ -772,16 +752,10 @@ Here are some popular and useful hosts lists:
 * [StevenBlack/hosts](https://github.com/StevenBlack/hosts)
 * [someonewhocares.org](https://someonewhocares.org/hosts/zero/hosts)
 
-Append a list of hosts with the `tee` command and confirm only non-routable addresses or comments were added:
+Append a list of hosts with `tee`:
 
 ```console
-$ curl https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts | sudo tee -a /etc/hosts
-
-$ wc -l /etc/hosts
-65580
-
-$ egrep -ve "^#|^255.255.255.255|^127.|^0.|^::1|^ff..::|^fe80::" /etc/hosts | sort | uniq | egrep -e "[1,2]|::"
-[No output]
+curl https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts | sudo tee -a /etc/hosts
 ```
 
 #### dnscrypt
@@ -793,13 +767,13 @@ To encrypt DNS traffic, consider using [DNSCrypt/dnscrypt-proxy](https://github.
 Install DNSCrypt from Homebrew and follow the instructions to configure and start `dnscrypt-proxy`:
 
 ```console
-$ brew install dnscrypt-proxy
+brew install dnscrypt-proxy
 ```
 
 If using in combination with Dnsmasq, find the file `homebrew.mxcl.dnscrypt-proxy.plist` by running
 
 ```console
-$ brew info dnscrypt-proxy
+brew info dnscrypt-proxy
 ```
 
 which will show a location like `/usr/local/etc/dnscrypt-proxy.toml`
@@ -813,7 +787,7 @@ listen_addresses = ['127.0.0.1:5355', '[::1]:5355']
 Start DNSCrypt:
 
 ```console
-$ sudo brew services restart dnscrypt-proxy
+sudo brew services restart dnscrypt-proxy
 ```
 
 Confirm DNSCrypt is running:
@@ -846,18 +820,18 @@ Use in combination with DNSCrypt to additionally encrypt DNS traffic.
 
 If you don't wish to use DNSCrypt, you should at least use DNS [not provided](https://bcn.boulder.co.us/~neal/ietf/verisign-abuse.html) [by your ISP](https://hackercodex.com/guide/how-to-stop-isp-dns-server-hijacking/). Two popular alternatives are [Google DNS](https://developers.google.com/speed/public-dns/) and [OpenDNS](https://www.opendns.com/home-internet-security/).
 
-**(Optional)** [DNSSEC](https://en.wikipedia.org/wiki/Domain_Name_System_Security_Extensions) is a set of extensions to DNS which provide to DNS clients (resolvers) origin authentication of DNS data, authenticated denial of existence, and data integrity. All answers from DNSSEC protected zones are digitally signed. The signed records are authenticated via a chain of trust, starting with a set of verified public keys for the DNS root-zone. The current root-zone trust anchors may be downloaded [from IANA website](https://www.iana.org/dnssec/files). There are a number of resources on DNSSEC, but probably the best one is [dnssec.net website](https://www.dnssec.net).
+**Optional** [DNSSEC](https://en.wikipedia.org/wiki/Domain_Name_System_Security_Extensions) is a set of extensions to DNS which provide to DNS clients (resolvers) origin authentication of DNS data, authenticated denial of existence, and data integrity. All answers from DNSSEC protected zones are digitally signed. The signed records are authenticated via a chain of trust, starting with a set of verified public keys for the DNS root-zone. The current root-zone trust anchors may be downloaded [from IANA website](https://www.iana.org/dnssec/files). There are a number of resources on DNSSEC, but probably the best one is [dnssec.net website](https://www.dnssec.net).
 
 Install Dnsmasq (DNSSEC is optional):
 
 ```console
-$ brew install dnsmasq --with-dnssec
+brew install dnsmasq --with-dnssec
 ```
 
 Download [drduh/config/dnsmasq.conf](https://github.com/drduh/config/blob/master/dnsmasq.conf):
 
 ```
-$ curl -o homebrew/etc/dnsmasq.conf https://raw.githubusercontent.com/drduh/config/master/dnsmasq.conf
+curl -o homebrew/etc/dnsmasq.conf https://raw.githubusercontent.com/drduh/config/master/dnsmasq.conf
 ```
 
 Edit the file and examine all the options. To block entire levels of domains, append [drduh/config/domains](https://github.com/drduh/config/tree/master/domains) or your own rules.
@@ -865,13 +839,13 @@ Edit the file and examine all the options. To block entire levels of domains, ap
 Install and start the program (sudo is required to bind to [privileged port](https://unix.stackexchange.com/questions/16564/why-are-the-first-1024-ports-restricted-to-the-root-user-only) 53):
 
 ```console
-$ sudo brew services start dnsmasq
+sudo brew services start dnsmasq
 ```
 
 To set Dnsmasq as your local DNS server, open **System Preferences** > **Network** and select the active interface, then the **DNS** tab, select **+** and add `127.0.0.1`, or use:
 
 ```console
-$ sudo networksetup -setdnsservers "Wi-Fi" 127.0.0.1
+sudo networksetup -setdnsservers "Wi-Fi" 127.0.0.1
 ```
 
 Confirm Dnsmasq is configured:
@@ -917,7 +891,7 @@ When macOS connects to new networks, it checks for Internet connectivity and may
 It is possible to trigger the utility and direct a Mac to malware without user interaction, so it's best to disable this feature and log in to captive portals using your regular Web browser by navigating to a non-secure HTTP page and accepting a redirect to the captive portal login interface (after disabling any custom proxy or DNS settings).
 
 ```console
-$ sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.captive.control.plist Active -bool false
+sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.captive.control.plist Active -bool false
 ```
 
 Also see [Apple's secret "wispr" request](https://web.archive.org/web/20171008071031/http://blog.erratasec.com/2010/09/apples-secret-wispr-request.html), [How to disable the captive portal window in Mac OS Lion](https://web.archive.org/web/20130407200745/http://www.divertednetworks.net/apple-captiveportal.html) and [An undocumented change to Captive Network Assistant settings in OS X 10.10 Yosemite](https://web.archive.org/web/20170622064304/https://grpugh.wordpress.com/2014/10/29/an-undocumented-change-to-captive-network-assistant-settings-in-os-x-10-10-yosemite/).
@@ -950,9 +924,9 @@ A signed installation package for privoxy can be downloaded from [silvester.org.
 Alternatively, install and start privoxy using Homebrew:
 
 ```console
-$ brew install privoxy
+brew install privoxy
 
-$ brew services start privoxy
+brew services start privoxy
 ```
 
 Privoxy listens on local TCP port 8118 by default.
@@ -960,13 +934,13 @@ Privoxy listens on local TCP port 8118 by default.
 Set the system **HTTP** proxy for your active network interface `127.0.0.1` and `8118` (This can be done through **System Preferences > Network > Advanced > Proxies**):
 
 ```console
-$ sudo networksetup -setwebproxy "Wi-Fi" 127.0.0.1 8118
+sudo networksetup -setwebproxy "Wi-Fi" 127.0.0.1 8118
 ```
 
-**(Optional)** Set the system **HTTPS** proxy, which still allows for domain name filtering, with:
+**Optional** Set the system **HTTPS** proxy, which still allows for domain name filtering, with:
 
 ```console
-$ sudo networksetup -setsecurewebproxy "Wi-Fi" 127.0.0.1 8118
+sudo networksetup -setsecurewebproxy "Wi-Fi" 127.0.0.1 8118
 ```
 
 Confirm the proxy is set:
@@ -1000,9 +974,9 @@ Privoxy already comes with many good rules, however you can also write your own.
 Download [drduh/config/privoxy/config](https://github.com/drduh/config/blob/master/privoxy/config) and [drduh/config/privoxy/user.action](https://github.com/drduh/config/blob/master/privoxy/user.action) to get started:
 
 ```console
-$ curl -o homebrew/etc/privoxy/config https://raw.githubusercontent.com/drduh/config/master/privoxy/config
+curl -o homebrew/etc/privoxy/config https://raw.githubusercontent.com/drduh/config/master/privoxy/config
 
-$ curl -o homebrew/etc/privoxy/user.action https://raw.githubusercontent.com/drduh/config/master/privoxy/user.action
+curl -o homebrew/etc/privoxy/user.action https://raw.githubusercontent.com/drduh/config/master/privoxy/user.action
 ```
 
 Restart Privoxy and verify traffic is blocked or redirected:
@@ -1082,9 +1056,9 @@ Read [Chromium Security](https://www.chromium.org/Home/chromium-security) and [C
 
 [Safari](https://www.apple.com/safari/) is the default browser on macOS. It is also the most optimized browser for reducing battery use. Safari, like Chrome, has both Open Source and proprietary components. Safari is based on the open source Web Engine [WebKit](https://en.wikipedia.org/wiki/WebKit), which is ubiquitous among the macOS ecosystem. WebKit is used by Apple apps such as Mail, iTunes, iBooks, and the App Store. Chrome's [Blink](https://www.chromium.org/blink) engine is a fork of WebKit and both engines share a number of similarities.
 
-Safari supports certain unique features that benefit user security and privacy. [Content blockers](https://webkit.org/blog/3476/content-blockers-first-look/) enables the creation of content blocking rules without using Javascript. This rule based approach greatly improves memory use, security, and privacy. Safari 11 introduced [Intelligent Tracking Prevention](https://webkit.org/blog/7675/intelligent-tracking-prevention/), whihc removes tracking data stored in Safari after a period of non-interaction by the user from the tracker's website.
+Safari supports certain unique features that benefit user security and privacy. [Content blockers](https://webkit.org/blog/3476/content-blockers-first-look/) enables the creation of content blocking rules without using Javascript. This rule based approach greatly improves memory use, security, and privacy. Safari 11 introduced [Intelligent Tracking Prevention](https://webkit.org/blog/7675/intelligent-tracking-prevention/), which removes tracking data stored in Safari after a period of non-interaction by the user from the tracker's website.
 
-Similar to Chrome and Firefox, Safari offers an invite-only [bounty program](https://developer.apple.com/bug-reporting/) for bug reporting to a select number of security researchers. The bounty program was announced during Apple's [presentation](https://www.blackhat.com/docs/us-16/materials/us-16-Krstic.pdf) at [BlackHat](https://www.blackhat.com/us-16/briefings.html#behind-the-scenes-of-ios-security) 2016.
+Safari offers an invite-only [bounty program](https://developer.apple.com/bug-reporting/) for bug reporting to a select number of security researchers. The bounty program was announced during Apple's [presentation](https://www.blackhat.com/docs/us-16/materials/us-16-Krstic.pdf) at [BlackHat](https://www.blackhat.com/us-16/briefings.html#behind-the-scenes-of-ios-security) 2016.
 
 Web Extensions in Safari have an additional option to use native code in the Safari's sandbox environment, in addition to Web Extension APIs. Web Extensions in Safari are also distributed through Apple's App store. App store submission comes with the added benefit of Web Extension code being audited by Apple. On the other hand App store submission comes at a steep cost. Yearly [developer subscription](https://developer.apple.com/support/compare-memberships/) fee costs 100 USD (in contrast to Chrome's 5 USD fee and Firefox's free submission). The high cost is prohibitive for the majority of Open Source developers. As a result, Safari has very few extensions to choose from. However, you should keep the high cost in mind when installing extensions. It is expected that most Web Extensions will have some way of monetizing usage in order to cover developer costs. Be wary of Web Extensions whose source code is not open.
 
@@ -1165,9 +1139,9 @@ See [How can I verify Tor Browser's signature?](https://support.torproject.org/)
 To finish installing Tor Browser, open the disk image and drag the it into the Applications folder, or with:
 
 ```console
-$ hdiutil mount TorBrowser-8.0.4-osx64_en-US.dmg
+hdiutil mount TorBrowser-8.0.4-osx64_en-US.dmg
 
-$ cp -r /Volumes/Tor\ Browser/Tor\ Browser.app/ ~/Applications/
+cp -r /Volumes/Tor\ Browser/Tor\ Browser.app/ ~/Applications/
 
 ```
 
@@ -1286,7 +1260,7 @@ If you prefer a graphical application, download and install [GPG Suite](https://
 Download [drduh/config/gpg.conf](https://github.com/drduh/config/blob/master/gpg.conf) to use recommended settings:
 
 ```console
-$ curl -o ~/.gnupg/gpg.conf https://raw.githubusercontent.com/drduh/config/master/gpg.conf
+curl -o ~/.gnupg/gpg.conf https://raw.githubusercontent.com/drduh/config/master/gpg.conf
 ```
 
 See [drduh/YubiKey-Guide](https://github.com/drduh/YubiKey-Guide) to securely generate and store GPG keys.
@@ -1346,7 +1320,7 @@ See also [Gatekeeper, XProtect and the Quarantine attribute](https://ilostmynote
 **Note** Quarantine stores information about downloaded files in `~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2`, which may pose a privacy risk. To examine the file, simply use `strings` or the following command:
 
 ```console
-$ echo 'SELECT datetime(LSQuarantineTimeStamp + 978307200, "unixepoch") as LSQuarantineTimeStamp, ' \
+echo 'SELECT datetime(LSQuarantineTimeStamp + 978307200, "unixepoch") as LSQuarantineTimeStamp, ' \
   'LSQuarantineAgentName, LSQuarantineOriginURLString, LSQuarantineDataURLString from LSQuarantineEvent;' | \
   sqlite3 /Users/$USER/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2
 ```
@@ -1354,9 +1328,9 @@ $ echo 'SELECT datetime(LSQuarantineTimeStamp + 978307200, "unixepoch") as LSQua
 To permanently disable this feature, [clear the file](https://superuser.com/questions/90008/how-to-clear-the-contents-of-a-file-from-the-command-line) and make it immutable:
 
 ```console
-$ :>~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2
+:>~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2
 
-$ sudo chflags schg ~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2
+sudo chflags schg ~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2
 ```
 
 Alternatively, you can also disable Gatekeeper using the following command:
@@ -1425,12 +1399,11 @@ com.apple.quarantine: 0081;58519ffa;Google Chrome.app;1F032CAB-F5A1-4D92-84EB-CB
 Metadata attributes can also be removed with the `-d` flag:
 
 ```console
-$ xattr -d com.apple.metadata:kMDItemWhereFroms ~/Downloads/TorBrowser-8.0.4-osx64_en-US.dmg
+xattr -d com.apple.metadata:kMDItemWhereFroms ~/Downloads/TorBrowser-8.0.4-osx64_en-US.dmg
 
-$ xattr -d com.apple.quarantine ~/Downloads/TorBrowser-8.0.4-osx64_en-US.dmg
+xattr -d com.apple.quarantine ~/Downloads/TorBrowser-8.0.4-osx64_en-US.dmg
 
-$ xattr -l ~/Downloads/TorBrowser-8.0.4-osx64_en-US.dmg
-[No output expected]
+xattr -l ~/Downloads/TorBrowser-8.0.4-osx64_en-US.dmg
 ```
 
 Other metadata and artifacts may be found in the directories including, but not limited to, `~/Library/Preferences/`, `~/Library/Containers/<APP>/Data/Library/Preferences`, `/Library/Preferences`, some of which is detailed below.
@@ -1707,7 +1680,7 @@ Saved Wi-Fi information (SSID, last connection, etc.) can be found in `/Library/
 You may want to [spoof the MAC address](https://en.wikipedia.org/wiki/MAC_spoofing) of the network card before connecting to new and untrusted wireless networks to mitigate passive fingerprinting:
 
 ```console
-$ sudo ifconfig en0 ether $(openssl rand -hex 6 | sed 's%\(..\)%\1:%g; s%.$%%')
+sudo ifconfig en0 ether $(openssl rand -hex 6 | sed 's%\(..\)%\1:%g; s%.$%%')
 ```
 
 macOS stores Wi-Fi SSIDs and passwords in NVRAM in order for Recovery Mode to access the Internet. Be sure to either clear NVRAM or de-authenticate your Mac from your Apple account, which will clear the NVRAM, before passing a Mac along. Resetting the SMC will clear some of the NVRAM, but not all.
@@ -1725,17 +1698,17 @@ You can also use ssh to create an [encrypted tunnel](http://blog.trackets.com/20
 For example, to use Privoxy running on a remote host port 8118:
 
 ```console
-$ ssh -C -L 5555:127.0.0.1:8118 you@remote-host.tld
+ssh -C -L 5555:127.0.0.1:8118 you@remote-host.tld
 
-$ sudo networksetup -setwebproxy "Wi-Fi" 127.0.0.1 5555
+sudo networksetup -setwebproxy "Wi-Fi" 127.0.0.1 5555
 
-$ sudo networksetup -setsecurewebproxy "Wi-Fi" 127.0.0.1 5555
+sudo networksetup -setsecurewebproxy "Wi-Fi" 127.0.0.1 5555
 ```
 
 Or to use an ssh connection as a [SOCKS proxy](https://www.mikeash.com/ssh_socks.html):
 
 ```console
-$ ssh -NCD 3000 you@remote-host.tld
+ssh -NCD 3000 you@remote-host.tld
 ```
 
 By default, macOS does **not** have sshd or *Remote Login* enabled.
@@ -1743,7 +1716,7 @@ By default, macOS does **not** have sshd or *Remote Login* enabled.
 To enable sshd and allow incoming ssh connections:
 
 ```console
-$ sudo launchctl load -w /System/Library/LaunchDaemons/ssh.plist
+sudo launchctl load -w /System/Library/LaunchDaemons/ssh.plist
 ```
 
 Or use the **System Preferences** > **Sharing** menu.
@@ -1753,7 +1726,7 @@ If enabling sshd, be sure to disable password authentication and consider furthe
 Confirm whether sshd is running:
 
 ```console
-$ sudo lsof -Pni TCP:22
+sudo lsof -Pni TCP:22
 ```
 
 ## Physical access
@@ -1814,13 +1787,13 @@ You can also view processes with **Activity Monitor**.
 List open network files:
 
 ```console
-$ sudo lsof -Pni
+sudo lsof -Pni
 ```
 
 List contents of various network-related data structures:
 
 ```console
-$ sudo netstat -atln
+sudo netstat -atln
 ```
 
 [Wireshark](https://www.wireshark.org/) can be used from the command line with `tshark`.
@@ -1828,7 +1801,7 @@ $ sudo netstat -atln
 Monitor DNS queries and replies:
 
 ```console
-$ tshark -Y "dns.flags.response == 1" -Tfields \
+tshark -Y "dns.flags.response == 1" -Tfields \
   -e frame.time_delta \
   -e dns.qry.name \
   -e dns.a \
@@ -1838,7 +1811,7 @@ $ tshark -Y "dns.flags.response == 1" -Tfields \
 Monitor HTTP requests and responses:
 
 ```console
-$ tshark -Y "http.request or http.response" -Tfields \
+tshark -Y "http.request or http.response" -Tfields \
   -e ip.dst \
   -e http.request.full_uri \
   -e http.request.method \
@@ -1850,7 +1823,7 @@ $ tshark -Y "http.request or http.response" -Tfields \
 Monitor x509 (SSL/TLS) certificates:
 
 ```console
-$ tshark -Y "ssl.handshake.certificate" -Tfields \
+tshark -Y "ssl.handshake.certificate" -Tfields \
   -e ip.src \
   -e x509sat.uTF8String \
   -e x509sat.printableString \
@@ -1875,9 +1848,9 @@ Santa uses the [Kernel Authorization API](https://developer.apple.com/library/co
 To install Santa, visit the [Releases](https://github.com/google/santa/releases) page and download the latest disk image, the mount it and install the contained package:
 
 ```console
-$ hdiutil mount ~/Downloads/santa-0.9.20.dmg
+hdiutil mount ~/Downloads/santa-0.9.20.dmg
 
-$ sudo installer -pkg /Volumes/santa-0.9.20/santa-0.9.20.pkg -tgt /
+sudo installer -pkg /Volumes/santa-0.9.20/santa-0.9.20.pkg -tgt /
 ```
 
 By default, Santa installs in "Monitor" mode (meaning, nothing gets blocked, only logged) and comes with two rules: one for Apple binaries and another for Santa software itself.
