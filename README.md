@@ -1344,11 +1344,9 @@ See [Methods of malware persistence on Mac OS X](https://www.virusbtn.com/pdf/co
 
 You could periodically run a tool like [KnockKnock](https://objective-see.org/products/knockknock.html) to examine persistent applications (e.g. scripts, binaries). But by then, it is probably too late. Maybe applications such as [BlockBlock](https://objective-see.com/products/blockblock.html) and [Ostiarius](https://objective-see.com/products/ostiarius.html) will help. See warnings and caveats in [issue #90](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/90) first, however. An open-source alternative could be [maclaunch.sh](https://github.com/hazcod/maclaunch).
 
-**Anti-virus** programs are a double-edged sword -- not so useful for **advanced** users and will likely increase attack surface against sophisticated threats; however possibly useful for catching "garden variety" malware on **novice** users' Macs. There is also the additional processing overhead to consider when using "active" scanning features.
+**Anti-virus** programs are generally a double-edged sword: they may catch "garden variety" malware, but also may increase the attack surface for sophisticated adversaries due to their privileged operating mode.
 
 See [Sophail: Applied attacks against Antivirus](https://lock.cmpxchg8b.com/sophailv2.pdf) (pdf), [Analysis and Exploitation of an ESET Vulnerability](https://googleprojectzero.blogspot.ro/2015/06/analysis-and-exploitation-of-eset.html), [a trivial Avast RCE](https://code.google.com/p/google-security-research/issues/detail?id=546), [Popular Security Software Came Under Relentless NSA and GCHQ Attacks](https://theintercept.com/2015/06/22/nsa-gchq-targeted-kaspersky/), [How Israel Caught Russian Hackers Scouring the World for U.S. Secrets](https://www.nytimes.com/2017/10/10/technology/kaspersky-lab-israel-russia-hacking.html) and [AVG: "Web TuneUP" extension multiple critical vulnerabilities](https://code.google.com/p/google-security-research/issues/detail?id=675).
-
-Therefore, the best anti-virus is **Common Sense 2020**. See discussion in [issue #44](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/44).
 
 Local privilege escalation bugs are plenty on macOS, so always be careful when downloading and running untrusted programs or trusted programs from third party websites or downloaded over HTTP ([example](https://arstechnica.com/security/2015/08/0-day-bug-in-fully-patched-os-x-comes-under-active-exploit-to-hijack-macs/)).
 
@@ -1360,23 +1358,13 @@ Also check out [Hacking Team](https://www.schneier.com/blog/archives/2015/07/hac
 
 ## System Integrity Protection
 
-[System Integrity Protection](https://support.apple.com/en-us/HT204899) (SIP) is a security feature since OS X 10.11 "El Capitan". It is enabled by default, but [can be disabled](https://derflounder.wordpress.com/2015/10/01/system-integrity-protection-adding-another-layer-to-apples-security-model/), which may be necessary to change some system settings, such as deleting root certificate authorities or unloading certain launch daemons. Keep this feature on, as it is by default.
-
-From [What's New in OS X 10.11](https://developer.apple.com/library/prerelease/mac/releasenotes/MacOSX/WhatsNewInOSX/Articles/MacOSX10_11.html):
-
-> A new security policy that applies to every running process, including privileged code and code that runs out of the sandbox. The policy extends additional protections to components on disk and at run-time, only allowing system binaries to be modified by the system installer and software updates. Code injection and runtime attachments to system binaries are no longer permitted.
-
-Also see [What is the “rootless” feature in El Capitan, really?](https://apple.stackexchange.com/questions/193368/what-is-the-rootless-feature-in-el-capitan-really)
-
-Some MacBook hardware has shipped with [SIP disabled](https://appleinsider.com/articles/16/11/17/system-integrity-protection-disabled-by-default-on-some-touch-bar-macbook-pros). To verify SIP is enabled, use the command `csrutil status`, which should return: `System Integrity Protection status: enabled.` Otherwise, [enable SIP](https://developer.apple.com/library/content/documentation/Security/Conceptual/System_Integrity_Protection_Guide/ConfiguringSystemIntegrityProtection/ConfiguringSystemIntegrityProtection.html) through Recovery Mode.
+To verify SIP is enabled, use the command `csrutil status`, which should return: `System Integrity Protection status: enabled.` Otherwise, [enable SIP](https://developer.apple.com/library/content/documentation/Security/Conceptual/System_Integrity_Protection_Guide/ConfiguringSystemIntegrityProtection/ConfiguringSystemIntegrityProtection.html) through Recovery Mode.
 
 ## Gatekeeper and XProtect
 
 **Gatekeeper** and the **quarantine** system try to prevent unsigned or "bad" programs and files from running and opening.
 
 **XProtect** prevents the execution of known bad files and outdated plugin versions, but does nothing to cleanup or stop existing malware.
-
-Both offer trivial protection against common risks and are fine at default settings.
 
 See also [Gatekeeper, XProtect and the Quarantine attribute](https://ilostmynotes.blogspot.com/2012/06/gatekeeper-xprotect-and-quarantine.html).
 
@@ -1487,19 +1475,19 @@ $ sudo defaults delete /Library/Preferences/com.apple.Bluetooth.plist SCOAudioDe
 `/var/spool/cups` contains the CUPS printer job cache. To clear it, use the commands:
 
 ```console
-$ sudo rm -rfv /var/spool/cups/c0*
-$ sudo rm -rfv /var/spool/cups/tmp/*
-$ sudo rm -rfv /var/spool/cups/cache/job.cache*
+sudo rm -rfv /var/spool/cups/c0*
+sudo rm -rfv /var/spool/cups/tmp/*
+sudo rm -rfv /var/spool/cups/cache/job.cache*
 ```
 
 To clear the list of iOS devices connected, use:
 
 ```console
-$ sudo defaults delete /Users/$USER/Library/Preferences/com.apple.iPod.plist "conn:128:Last Connect"
-$ sudo defaults delete /Users/$USER/Library/Preferences/com.apple.iPod.plist Devices
-$ sudo defaults delete /Library/Preferences/com.apple.iPod.plist "conn:128:Last Connect"
-$ sudo defaults delete /Library/Preferences/com.apple.iPod.plist Devices
-$ sudo rm -rfv /var/db/lockdown/*
+sudo defaults delete /Users/$USER/Library/Preferences/com.apple.iPod.plist "conn:128:Last Connect"
+sudo defaults delete /Users/$USER/Library/Preferences/com.apple.iPod.plist Devices
+sudo defaults delete /Library/Preferences/com.apple.iPod.plist "conn:128:Last Connect"
+sudo defaults delete /Library/Preferences/com.apple.iPod.plist Devices
+sudo rm -rfv /var/db/lockdown/*
 ```
 
 Quicklook thumbnail data can be cleared using the `qlmanage -r cache` command, but this writes to the file `resetreason` in the Quicklook directories, and states that the Quicklook cache was manually cleared. Disable the thumbnail cache with `qlmanage -r disablecache`
@@ -1507,25 +1495,25 @@ Quicklook thumbnail data can be cleared using the `qlmanage -r cache` command, b
 It can also be cleared by getting the directory names with `getconf DARWIN_USER_CACHE_DIR` and `sudo getconf DARWIN_USER_CACHE_DIR`, then removing them:
 
 ```console
-$ rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/exclusive
-$ rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/index.sqlite
-$ rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/index.sqlite-shm
-$ rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/index.sqlite-wal
-$ rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/resetreason
-$ rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/thumbnails.data
+rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/exclusive
+rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/index.sqlite
+rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/index.sqlite-shm
+rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/index.sqlite-wal
+rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/resetreason
+rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/thumbnails.data
 ```
 
 Similarly, for the root user:
 
 ```console
-$ sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/thumbnails.fraghandler
-$ sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/exclusive
-$ sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/index.sqlite
-$ sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/index.sqlite-shm
-$ sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/index.sqlite-wal
-$ sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/resetreason
-$ sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/thumbnails.data
-$ sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/thumbnails.fraghandler
+sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/thumbnails.fraghandler
+sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/exclusive
+sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/index.sqlite
+sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/index.sqlite-shm
+sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/index.sqlite-wal
+sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/resetreason
+sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/thumbnails.data
+sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/thumbnails.fraghandler
 ```
 
 Also see ['quicklook' cache may leak encrypted data](https://objective-see.com/blog/blog_0x30.html).
@@ -1533,11 +1521,11 @@ Also see ['quicklook' cache may leak encrypted data](https://objective-see.com/b
 To clear Finder preferences:
 
 ```console
-$ defaults delete ~/Library/Preferences/com.apple.finder.plist FXDesktopVolumePositions
-$ defaults delete ~/Library/Preferences/com.apple.finder.plist FXRecentFolders
-$ defaults delete ~/Library/Preferences/com.apple.finder.plist RecentMoveAndCopyDestinations
-$ defaults delete ~/Library/Preferences/com.apple.finder.plist RecentSearches
-$ defaults delete ~/Library/Preferences/com.apple.finder.plist SGTRecentFileSearches
+defaults delete ~/Library/Preferences/com.apple.finder.plist FXDesktopVolumePositions
+defaults delete ~/Library/Preferences/com.apple.finder.plist FXRecentFolders
+defaults delete ~/Library/Preferences/com.apple.finder.plist RecentMoveAndCopyDestinations
+defaults delete ~/Library/Preferences/com.apple.finder.plist RecentSearches
+defaults delete ~/Library/Preferences/com.apple.finder.plist SGTRecentFileSearches
 ```
 
 Additional diagnostic files may be found in the following directories - but caution should be taken before removing any, as it may break logging or cause other issues:
@@ -1553,76 +1541,76 @@ Additional diagnostic files may be found in the following directories - but caut
 macOS stored preferred Wi-Fi data (including credentials) in NVRAM. To clear it, use the following commands:
 
 ```console
-$ sudo nvram -d 36C28AB5-6566-4C50-9EBD-CBB920F83843:current-network
-$ sudo nvram -d 36C28AB5-6566-4C50-9EBD-CBB920F83843:preferred-networks
-$ sudo nvram -d 36C28AB5-6566-4C50-9EBD-CBB920F83843:preferred-count
+sudo nvram -d 36C28AB5-6566-4C50-9EBD-CBB920F83843:current-network
+sudo nvram -d 36C28AB5-6566-4C50-9EBD-CBB920F83843:preferred-networks
+sudo nvram -d 36C28AB5-6566-4C50-9EBD-CBB920F83843:preferred-count
 ```
 
 macOS may collect sensitive information about what you type, even if user dictionary and suggestions are off. To remove them, and prevent them from being created again, use the following commands:
 
 ```console
-$ rm -rfv "~/Library/LanguageModeling/*" "~/Library/Spelling/*" "~/Library/Suggestions/*"
-$ chmod -R 000 ~/Library/LanguageModeling ~/Library/Spelling ~/Library/Suggestions
-$ chflags -R uchg ~/Library/LanguageModeling ~/Library/Spelling ~/Library/Suggestions
+rm -rfv "~/Library/LanguageModeling/*" "~/Library/Spelling/*" "~/Library/Suggestions/*"
+chmod -R 000 ~/Library/LanguageModeling ~/Library/Spelling ~/Library/Suggestions
+chflags -R uchg ~/Library/LanguageModeling ~/Library/Spelling ~/Library/Suggestions
 ```
 
 QuickLook application support metadata can be cleared and locked with the following commands:
 
 ```console
-$ rm -rfv "~/Library/Application Support/Quick Look/*"
-$ chmod -R 000 "~/Library/Application Support/Quick Look"
-$ chflags -R uchg "~/Library/Application Support/Quick Look"
+rm -rfv "~/Library/Application Support/Quick Look/*"
+chmod -R 000 "~/Library/Application Support/Quick Look"
+chflags -R uchg "~/Library/Application Support/Quick Look"
 ```
 
 Document revision metadata is stored in `/.DocumentRevisions-V100` and can be cleared and locked with the following commands - caution should be taken as this may break some core Apple applications:
 
 ```console
-$ sudo rm -rfv /.DocumentRevisions-V100/*
-$ sudo chmod -R 000 /.DocumentRevisions-V100
-$ sudo chflags -R uchg /.DocumentRevisions-V100
+sudo rm -rfv /.DocumentRevisions-V100/*
+sudo chmod -R 000 /.DocumentRevisions-V100
+sudo chflags -R uchg /.DocumentRevisions-V100
 ```
 
 Saved application state metadata may be cleared and locked with the following commands:
 
 ```console
-$ rm -rfv "~/Library/Saved Application State/*"
-$ rm -rfv "~/Library/Containers/<APPNAME>/Saved Application State"
-$ chmod -R 000 "~/Library/Saved Application State/"
-$ chmod -R 000 "~/Library/Containers/<APPNAME>/Saved Application State"
-$ chflags -R uchg "~/Library/Saved Application State/"
-$ chflags -R uchg "~/Library/Containers/<APPNAME>/Saved Application State"
+rm -rfv "~/Library/Saved Application State/*"
+rm -rfv "~/Library/Containers/<APPNAME>/Saved Application State"
+chmod -R 000 "~/Library/Saved Application State/"
+chmod -R 000 "~/Library/Containers/<APPNAME>/Saved Application State"
+chflags -R uchg "~/Library/Saved Application State/"
+chflags -R uchg "~/Library/Containers/<APPNAME>/Saved Application State"
 ```
 
 Autosave metadata can be cleared and locked with the following commands:
 
 ```console
-$ rm -rfv "~/Library/Containers/<APP>/Data/Library/Autosave Information"
-$ rm -rfv "~/Library/Autosave Information"
-$ chmod -R 000 "~/Library/Containers/<APP>/Data/Library/Autosave Information"
-$ chmod -R 000 "~/Library/Autosave Information"
-$ chflags -R uchg "~/Library/Containers/<APP>/Data/Library/Autosave Information"
-$ chflags -R uchg "~/Library/Autosave Information"
+rm -rfv "~/Library/Containers/<APP>/Data/Library/Autosave Information"
+rm -rfv "~/Library/Autosave Information"
+chmod -R 000 "~/Library/Containers/<APP>/Data/Library/Autosave Information"
+chmod -R 000 "~/Library/Autosave Information"
+chflags -R uchg "~/Library/Containers/<APP>/Data/Library/Autosave Information"
+chflags -R uchg "~/Library/Autosave Information"
 ```
 
 The Siri analytics database, which is created even if the Siri launch agent disabled, can be cleared and locked with the following commands:
 
 ```console
-$ rm -rfv ~/Library/Assistant/SiriAnalytics.db
-$ chmod -R 000 ~/Library/Assistant/SiriAnalytics.db
-$ chflags -R uchg ~/Library/Assistant/SiriAnalytics.db
+rm -rfv ~/Library/Assistant/SiriAnalytics.db
+chmod -R 000 ~/Library/Assistant/SiriAnalytics.db
+chflags -R uchg ~/Library/Assistant/SiriAnalytics.db
 ```
 
 `~/Library/Preferences/com.apple.iTunes.plist` contains iTunes metadata. Recent iTunes search data may be cleared with the following command:
 
 ```console
-$ defaults delete ~/Library/Preferences/com.apple.iTunes.plist recentSearches
+defaults delete ~/Library/Preferences/com.apple.iTunes.plist recentSearches
 ```
 
 If you do not use Apple ID-linked services, the following keys may be cleared, too, using the following commands:
 
 ```console
-$ defaults delete ~/Library/Preferences/com.apple.iTunes.plist StoreUserInfo
-$ defaults delete ~/Library/Preferences/com.apple.iTunes.plist WirelessBuddyID
+defaults delete ~/Library/Preferences/com.apple.iTunes.plist StoreUserInfo
+defaults delete ~/Library/Preferences/com.apple.iTunes.plist WirelessBuddyID
 ```
 
 All media played in QuickTime Player can be found in:
@@ -1641,60 +1629,21 @@ Additional metadata may exist in the following files:
 
 ## Passwords
 
-Generate strong passwords with several programs or directly from [`/dev/urandom`](https://github.com/jedisct1/libsodium/issues/594):
+Generate strong passwords using any of the following utilities:
 
 ```console
-$ openssl rand -base64 30
-qb8ZWbUU2Ri3FOAPY/1wKSFAJwMXmpQM4mZU4YbO
+openssl rand -base64 30
 
-$ gpg --gen-random -a 0 90 | fold -w 40
-3e+kfHOvovHVXxZYPgu+OOWQ1g1ttbljr+kNGv7f
-loD//RsjUXYGIjfPM/bT0itsoEstyGLVUsFns8wP
-zYM8VRBga+TsnxWrS7lWKfH1uvVPowzkq9kXCdvJ
+gpg --gen-random -a 0 90 | fold -w 40
 
-$ LANG=C tr -dc 'A-F0-9' < /dev/urandom | fold -w 40 | head -n 5
-45D0371481EE5E5A5C1F68EA59E69F9CA52CB321
-A30B37A00302643921F205621B145E7EAF520164
-B6EF38A2DA1D0586D20105502AFFF0468EA5F16A
-029D6EA9F76CD64D3356E342EA154BEFEBE23387
-07F468F0569579A0A06471247CABC4F4C1386E24
-
-$ tr -dc '[:alnum:]' < /dev/urandom | fold -w 40 | head -n5
-zmj8S0iuxud8y8YHjzdg7Hefu6U1KAYBiLl3aE8v
-nCNpuMkWohTjQHntTzbiLQJG5zLzEHWSWaYSwjtm
-R2L6M909S3ih852IkJqQFMDawCiHcpPBxlllAPrt
-aZOXKVUmxhzQwVSYb6nqAbGTVMFSJOLf094bFZAb
-HfgwSNlkVBXwIPQST6E6x6vDNCCasMLSSOoTUfSK
-
-$ tr -dc '[:lower:]' < /dev/urandom | fold -w 40 | head -n5
-gfvkanntxutzwxficgvavbwdvttexdezdftvvtmn
-lgrsuiugwkqbtbkyggcbpbqlynwbiyxzlabstqcf
-ufctdlsbyonkowzpmotxiksnsbwdzkjrjsupoqvr
-hjwibdjxtmuvqricljayzkgdfztcmapsgwsubggr
-bjstlmvwjczakgeetkbmwbjnidbeaerhaonpkacg
-
-$ tr -dc '[:upper:]' < /dev/urandom | fold -w 40 | head -n5
-EUHZMAOBOLNFXUNNDSTLJTPDCPVQBPUEQOLRZUQZ
-HVNVKBEPAAYMXRCGVCNEZLFHNUYMRYPTWPWOOZVM
-TAHEUPQJTSYQVJVYSKLURESMKWEZONXLUDHWQODB
-PRDITWMAXXZLTRXEEOGOSGAWUXYDGDRJYRHUWICM
-VHERIQBLBPHSIUZSGYZRDHTNAPUGJMRODIKBWZRJ
-
-$ tr -dc '[:graph:]' < /dev/urandom | fold -w 40 | head -n5
-n\T2|zUz:\C,@z9!#p3!B/[t6m:B94}q&t(^)Ol~
-J%MMDbAgGdP}zrSQO!3mrP3$w!.[Ng_xx-_[C<3g
-^)6V&*<2"ZOgU.mBd]iInvFKiT<dq~y\O[cdDK`V
-+RE]UYPIf3:StX`y#w,.iG~g"urD)'FnDIFI_q^)
-6?HRillpgvvFDBAr4[:H{^oAL<`Em7$roF=2w;1~
+tr -dc '[:graph:]' < /dev/urandom | fold -w 40 | head -n5
 ```
 
-You can also generate passwords, even memorable ones, using **Keychain Access** password assistant, or a command line equivalent like [anders/pwgen](https://github.com/anders/pwgen).
+Or using **Keychain Access** password assistant, or a command line equivalent like [anders/pwgen](https://github.com/anders/pwgen).
 
-Keychains are encrypted with a [PBKDF2 derived key](https://en.wikipedia.org/wiki/PBKDF2) and are a _pretty safe_ place to store credentials. Also be aware that Keychain [does not encrypt](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/118) the names corresponding to password entries.
+GnuPG can also be used to manage password files (see [drduh/Purse](https://github.com/drduh/Purse) and [drduh/pwd.sh](https://github.com/drduh/pwd.sh) for example).
 
-Alternatively, you can manage an encrypted passwords file yourself with GnuPG (see [drduh/Purse](https://github.com/drduh/Purse) and [drduh/pwd.sh](https://github.com/drduh/pwd.sh) for example).
-
-In addition to passwords, ensure eligible online accounts, such as GitHub, Google accounts, banking, have [two factor authentication](https://en.wikipedia.org/wiki/Two-factor_authentication) enabled.
+In addition to passwords, ensure eligible online accounts, such as GitHub, Google accounts, banking, have [multi-factor authentication](https://en.wikipedia.org/wiki/Multi-factor_authentication) enabled.
 
 [Yubikey](https://www.yubico.com/products/) offers affordable hardware tokens. See [drduh/YubiKey-Guide](https://github.com/drduh/YubiKey-Guide) and [trmm.net/Yubikey](https://trmm.net/Yubikey). One of two Yubikey's slots can also be programmed to emit a long, static password (which can be used in combination with a short, memorized password, for example).
 
