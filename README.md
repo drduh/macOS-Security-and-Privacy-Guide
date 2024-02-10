@@ -249,11 +249,12 @@ The **Disk Utility** application may also be used to erase the connected disk an
 To transfer any files, copy them to a shared folder like `/Users/Shared` on the mounted disk image, e.g. `cp Xcode_8.0.dmg /Volumes/macOS/Users/Shared`
 
 <img width="1280" alt="Finished restore install from USB recovery boot" src="https://cloud.githubusercontent.com/assets/12475110/14804078/f27293c8-0b2d-11e6-8e1f-0fb0ac2f1a4d.png">
+
 *Finished restore install from USB recovery boot*
 
 ### Creating a recovery partition
 
-**Unless** you have built the image with [AutoDMG](https://github.com/MagerValp/AutoDMG), or installed macOS to a second partition on the same Mac, you will need to create a recovery partition in order to use full disk encryption. You can do so using [MagerValp/Create-Recovery-Partition-Installer](https://github.com/MagerValp/Create-Recovery-Partition-Installer) or by following these steps:
+**Unless** you have built the image with [AutoDMG](https://github.com/MagerValp/AutoDMG), or installed macOS to a second partition on the same Mac, you will need to create a recovery partition in order to use full disk encryption. You can do so using [MagerValp/Create-Recovery-Partition-Installer](https://github.com/MagerValp/Create-Recovery-Partition-Installer) or the following steps.
 
 Download [RecoveryHDUpdate.dmg](https://support.apple.com/downloads/DL1464/en_US/RecoveryHDUpdate.dmg) and verify its integrity:
 
@@ -276,7 +277,9 @@ $ /tmp/recovery/RecoveryHDUpdate.pkg/Scripts/Tools/dmtest ensureRecoveryPartitio
 Creating recovery partition: finished
 ```
 
-Run `diskutil list` again to make sure `Recovery HD` now exists on `/dev/disk2`. Eject the disk with `hdiutil unmount /Volumes/macOS` and power down the target disk mode-booted Mac.
+Run `diskutil list` again to make sure `Recovery HD` now exists on `/dev/disk2`
+
+Eject the disk with `hdiutil unmount /Volumes/macOS` and power down the target disk mode-booted Mac.
 
 ### Virtualization
 
@@ -390,7 +393,7 @@ $ sudo dscl . -delete /Groups/admin GroupMembership <username>
 $ sudo dscl . -delete /Groups/admin GroupMembers <GeneratedUID>
 ```
 
-To find the “GeneratedUID” of an account:
+To find the **GeneratedUID** of an account:
 
 ```console
 $ dscl . -read /Users/<username> GeneratedUID
@@ -430,7 +433,7 @@ $ sudo pmset -a hibernatemode 25
 ```
 
 > All computers have firmware of some type - EFI, BIOS - to help in the discovery of hardware components and ultimately to properly bootstrap the computer using the desired OS instance. In the case of Apple hardware and the use of EFI, Apple stores relevant information within EFI to aid in the functionality of macOS. For example, the FileVault key is stored in EFI to transparently come out of standby mode.
-
+> 
 > Organizations especially sensitive to a high-attack environment, or potentially exposed to full device access when the device is in standby mode, should mitigate this risk by destroying the FileVault key in firmware. Doing so doesn't destroy the use of FileVault, but simply requires the user to enter the password in order for the system to come out of standby mode.
 
 If you choose to evict FileVault keys in standby mode, you should also modify your standby and power nap settings. Otherwise, your machine may wake while in standby mode and then power off due to the absence of the FileVault key. See [issue #124](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/124) for more information. These settings can be changed with:
@@ -480,6 +483,7 @@ Correct
 A firmware password may be bypassed by a determined attacker or Apple, with physical access to the computer.
 
 <img width="750" alt="Using a Dediprog SF600 to dump and flash a 2013 MacBook SPI Flash chip to remove a firmware password, sans Apple" src="https://cloud.githubusercontent.com/assets/12475110/17075918/0f851c0c-50e7-11e6-904d-0b56cf0080c1.png">
+
 *Using a [Dediprog SF600](http://www.dediprog.com/pd/spi-flash-solution/sf600) to dump and flash a 2013 MacBook SPI Flash chip to remove a firmware password, sans Apple*
 
 As of macOS 10.15 Catalina, the `firmwarepasswd` program has a new option `-disable-reset-capability`. According to [Apple's new Platform Security page](https://support.apple.com/en-gb/guide/security/sec28382c9ca/web), this effectively prevents any firmware password resets, even by Apple themselves:
@@ -551,7 +555,7 @@ For more on how Little Snitch works, see the [Network Kernel Extensions Programm
 
 A highly customizable, powerful, but also most complicated firewall exists in the kernel. It can be controlled with `pfctl` and various configuration files.
 
-pf can also be controlled with a GUI application such as [IceFloor](http://www.hanynet.com/icefloor/) or [Murus](https://www.murusfirewall.com/).
+pf can also be controlled with a GUI application such as [IceFloor](https://www.hanynet.com/icefloor/) or [Murus](https://www.murusfirewall.com/).
 
 There are many books and articles on the subject of pf firewall. Here's is just one example of blocking traffic by IP address.
 
@@ -585,11 +589,11 @@ Then use the following commands to manipulate the firewall:
 * `sudo ifconfig pflog0 create` to create an interface for logging
 * `sudo tcpdump -ni pflog0` to view filtered packets
 
-Unless you're already familiar with packet filtering, spending too much time configuring pf is not recommended. It is also probably unnecessary if your Mac is behind a [NAT](https://www.grc.com/nat/nat.htm) on a secure home network.
+Unless you're already familiar with packet filtering, spending too much time configuring pf is not recommended. It is also probably unnecessary if your Mac is behind a [NAT](https://www.grc.com/nat/nat.htm) on a private home network.
 
 It is possible to use the pf firewall to block network access to entire ranges of network addresses, for example to a whole organization:
 
-Query [Merit RADb](http://www.radb.net/) for the list of networks in use by an autonomous system, like [Facebook](https://ipinfo.io/AS32934):
+Query [Merit RADb](https://www.radb.net/) for the list of networks in use by an autonomous system, like [Facebook](https://ipinfo.io/AS32934):
 
 ```console
 $ whois -h whois.radb.net '!gAS32934'
@@ -643,7 +647,7 @@ To use pf to audit "phone home" behavior of user and system-level processes, see
 
 See [fix-macosx/yosemite-phone-home](https://github.com/fix-macosx/yosemite-phone-home), [l1k/osxparanoia](https://github.com/l1k/osxparanoia) for further recommendations.
 
-Services on macOS are managed by **launchd**. See [launchd.info](http://launchd.info/), as well as [Apple's Daemons and Services Programming Guide](https://developer.apple.com/library/mac/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingLaunchdJobs.html) and [Technical Note TN2083](https://developer.apple.com/library/mac/technotes/tn2083/_index.html)
+Services on macOS are managed by **launchd**. See [launchd.info](https://launchd.info/), as well as [Apple's Daemons and Services Programming Guide](https://developer.apple.com/library/mac/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingLaunchdJobs.html) and [Technical Note TN2083](https://developer.apple.com/library/mac/technotes/tn2083/_index.html)
 
 You can also run [KnockKnock](https://objective-see.com/products/knockknock.html) that shows more information about startup items.
 
@@ -680,12 +684,6 @@ $ find /var/db/com.apple.xpc.launchd/ -type f -print -exec defaults read {} \; 2
 ```
 
 Annotated lists of launch daemons and agents, the respective program executed, and the programs' hash sums are included in this repository.
-
-**(Optional)** Run the `read_launch_plists.py` script and `diff` output to check for any discrepancies on your system, e.g.:
-
-```console
-$ diff <(python read_launch_plists.py | sort ) <(cat 16A323_launchd.csv | sort )
-```
 
 See also [cirrusj.github.io/Yosemite-Stop-Launch](https://cirrusj.github.io/Yosemite-Stop-Launch/) for descriptions of services and [Provisioning OS X and Disabling Unnecessary Services](https://vilimpoc.org/blog/2014/01/15/provisioning-os-x-and-disabling-unnecessary-services/) for another explanation.
 
@@ -786,17 +784,13 @@ DNS profiles [can be created](https://dns.notjakob.com/) or obtained from provid
  [No output]
  ```
 
- See `man hosts` and [FreeBSD Configuration Files](https://www.freebsd.org/doc/handbook/configtuning-configfiles.html) for more information.
-
- See the [dnsmasq](#dnsmasq) section of this guide for more hosts blocking options.
-
 #### dnscrypt
 
-To encrypt outgoing DNS traffic, consider using [jedisct1/dnscrypt-proxy](https://github.com/jedisct1/dnscrypt-proxy). In combination with dnsmasq and DNSSEC, the integrity and authenticity of DNS traffic is greatly improved.
+To encrypt DNS traffic, consider using [DNSCrypt/dnscrypt-proxy](https://github.com/DNSCrypt/dnscrypt-proxy). Used in combination with dnsmasq and DNSSEC, the integrity of DNS traffic can be significantly improved.
 
 [JayBrown/DNSCrypt-Menu](https://github.com/JayBrown/DNSCrypt-Menu) and [jedisct1/bitbar-dnscrypt-proxy-switcher](https://github.com/jedisct1/bitbar-dnscrypt-proxy-switcher) provide a graphical user interface to dnscrypt.
 
-Install dnscrypt from Homebrew and follow the instructions to configure and start `dnscrypt-proxy`:
+Install DNSCrypt from Homebrew and follow the instructions to configure and start `dnscrypt-proxy`:
 
 ```console
 $ brew install dnscrypt-proxy
@@ -833,25 +827,7 @@ dnscrypt-proxy 15244 nobody   12u  IPv4 0x1337f85ff9f8beef      0t0  UDP 127.0.0
 dnscrypt-proxy 15244 nobody   14u  IPv6 0x1337f85ff9f8beef      0t0  UDP [::1]:5355
 ```
 
-> By default, dnscrypt-proxy runs on localhost (127.0.0.1), port 53,
-and under the "nobody" user using the resolvers specified in https://raw.githubusercontent.com/DNSCrypt/dnscrypt-resolvers/master/v2/public-resolvers.md. If you would like to change these settings, you will have to edit the configuration file (e.g. listen_addresses, user_name, urls, etc.)
-
-This can be accomplished by editing `/usr/local/etc/dnscrypt-proxy.toml` as described above.
-
-You can run your own [dnscrypt server](https://github.com/Cofyc/dnscrypt-wrapper) (see also [drduh/Debian-Privacy-Server-Guide#dnscrypt](https://github.com/drduh/Debian-Privacy-Server-Guide#dnscrypt)) from a trusted location or use one of many public servers instead.
-
-Confirm outgoing DNS traffic is encrypted:
-
-```console
-$ sudo tcpdump -qtni en0
-IP 10.8.8.8.59636 > 107.181.168.52: UDP, length 512
-IP 107.181.168.52 > 10.8.8.8.59636: UDP, length 368
-
-$ dig +short -x 128.180.155.106.49321
-d0wn-us-ns4
-```
-
-dnscrypt-proxy also has the capability to blacklist domains, including the use of wild-cards.
+> By default, dnscrypt-proxy runs on localhost (127.0.0.1), port 53, balancing traffic across a set of resolvers. If you would like to change these settings, you will have to edit the configuration file: $HOMEBREW_PREFIX/etc/dnscrypt-proxy.toml
 
 **Note** Applications and programs may resolve DNS using their own provided servers. If dnscrypt-proxy is used, it is possible to disable all other, non-dnscrypt DNS traffic with the following pf rules:
 
@@ -1019,7 +995,7 @@ $ brew install privoxy
 $ brew services start privoxy
 ```
 
-By default, privoxy listens on localhost, TCP port 8118.
+Privoxy listens on local TCP port 8118 by default.
 
 Set the system **HTTP** proxy for your active network interface `127.0.0.1` and `8118` (This can be done through **System Preferences > Network > Advanced > Proxies**):
 
@@ -1392,7 +1368,7 @@ Some malware comes bundled with both legitimate software, such as the [Java bund
 
 See [Methods of malware persistence on Mac OS X](https://www.virusbtn.com/pdf/conference/vb2014/VB2014-Wardle.pdf) (pdf) and [Malware Persistence on OS X Yosemite](https://www.rsaconference.com/events/us15/agenda/sessions/1591/malware-persistence-on-os-x-yosemite) to learn about how garden-variety malware functions.
 
-You could periodically run a tool like [KnockKnock]https://objective-see.org/products/knockknock.html) to examine persistent applications (e.g. scripts, binaries). But by then, it is probably too late. Maybe applications such as [BlockBlock](https://objective-see.com/products/blockblock.html) and [Ostiarius](https://objective-see.com/products/ostiarius.html) will help. See warnings and caveats in [issue #90](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/90) first, however. An open-source alternative could be [maclaunch.sh](https://github.com/hazcod/maclaunch).
+You could periodically run a tool like [KnockKnock](https://objective-see.org/products/knockknock.html) to examine persistent applications (e.g. scripts, binaries). But by then, it is probably too late. Maybe applications such as [BlockBlock](https://objective-see.com/products/blockblock.html) and [Ostiarius](https://objective-see.com/products/ostiarius.html) will help. See warnings and caveats in [issue #90](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/90) first, however. An open-source alternative could be [maclaunch.sh](https://github.com/hazcod/maclaunch).
 
 **Anti-virus** programs are a double-edged sword -- not so useful for **advanced** users and will likely increase attack surface against sophisticated threats; however possibly useful for catching "garden variety" malware on **novice** users' Macs. There is also the additional processing overhead to consider when using "active" scanning features.
 
