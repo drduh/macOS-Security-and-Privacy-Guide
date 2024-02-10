@@ -39,7 +39,6 @@ This guide is also available in [简体中文](https://github.com/drduh/macOS-Se
       - [Test DNSSEC validation](#test-dnssec-validation)
 - [Captive portal](#captive-portal)
 - [Certificate authorities](#certificate-authorities)
-- [OpenSSL](#openssl)
 - [Web](#web)
   * [Privoxy](#privoxy)
   * [Browser](#browser)
@@ -733,9 +732,9 @@ Remember to periodically run `brew upgrade` on trusted and secure networks to do
 
 According to [Homebrew's Anonymous Analytics](https://docs.brew.sh/Analytics), Homebrew gathers anonymous analytics and reports these to a self-hosted InfluxDB instance.
 
-To opt out of Homebrew's analytics, you can set `export HOMEBREW_NO_ANALYTICS=1` in your environment or shell rc file, or use `brew analytics off`.
+To opt out of Homebrew's analytics, you can set `export HOMEBREW_NO_ANALYTICS=1` in your environment or shell rc file, or use `brew analytics off`
 
-You may also wish to enable [additional security options](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/138), such as `HOMEBREW_NO_INSECURE_REDIRECT=1` and `HOMEBREW_CASK_OPTS=--require-sha`.
+You may also wish to enable [additional security options](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/138), such as `HOMEBREW_NO_INSECURE_REDIRECT=1` and `HOMEBREW_CASK_OPTS=--require-sha`
 
 ## DNS
 
@@ -749,7 +748,9 @@ DNS profiles [can be created](https://dns.notjakob.com/) or obtained from provid
 
  Use the [hosts file](https://en.wikipedia.org/wiki/Hosts_(file)) to block known malware, advertising or otherwise unwanted domains.
 
- Edit the hosts file as root, for example with `sudo vi /etc/hosts`. The hosts file can also be managed with the GUI app [2ndalpha/gasmask](https://github.com/2ndalpha/gasmask).
+ Edit the hosts file as root, for example with `sudo vi /etc/hosts`
+
+The hosts file can also be managed with the GUI app [2ndalpha/gasmask](https://github.com/2ndalpha/gasmask).
 
  To block a domain by `A` record, append any one of the following lines to `/etc/hosts`:
 
@@ -835,7 +836,7 @@ block drop quick on !lo0 proto udp from any to any port = 53
 block drop quick on !lo0 proto tcp from any to any port = 53
 ```
 
-See also [What is a DNS leak](https://dnsleaktest.com/what-is-a-dns-leak.html) and [ipv6-test.com](http://ipv6-test.com/).
+See also [What is a DNS leak](https://dnsleaktest.com/what-is-a-dns-leak.html) and [ipv6-test.com](http://ipv6-test.com/)
 
 #### Dnsmasq
 
@@ -935,34 +936,6 @@ Disable certificate authorities through Keychain Access by marking them as **Nev
 <img width="450" alt="A certificate authority certificate" src="https://cloud.githubusercontent.com/assets/12475110/19222972/6b7aabac-8e32-11e6-8efe-5d3219575a98.png">
 
 The risk of a [man in the middle](https://en.wikipedia.org/wiki/Man-in-the-middle_attack) attack in which a coerced or compromised certificate authority trusted by your system issues a fake/rogue SSL certificate is quite low, but still [possible](https://en.wikipedia.org/wiki/DigiNotar#Issuance_of_fraudulent_certificates).
-
-## OpenSSL
-
-**Note** This section [may be out of date](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/356).
-
-The version of OpenSSL in Sierra is `0.9.8zh` which is [not current](https://apple.stackexchange.com/questions/200582/why-is-apple-using-an-older-version-of-openssl). It doesn't support TLS 1.1 or newer, elliptic curve ciphers, and [more](https://stackoverflow.com/questions/27502215/difference-between-openssl-09-8z-and-1-0-1).
-
-Since Apple's official supported TLS library on macOS is [Secure Transport](https://developer.apple.com/documentation/security/secure_transport), OpenSSL **deprecated** is considered deprecated (according to the [Cryptographic Services Guide](https://developer.apple.com/library/mac/documentation/Security/Conceptual/cryptoservices/GeneralPurposeCrypto/GeneralPurposeCrypto.html). Apple's version of OpenSSL may also have patches which may [surprise you](https://hynek.me/articles/apple-openssl-verification-surprises/).
-
-If you're going to use OpenSSL on your Mac, download and install a recent version of OpenSSL with `brew install openssl`. Note, linking brew to be used in favor of `/usr/bin/openssl` may interfere with built-in software. See [issue #39](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/39).
-
-Compare the TLS protocol and cipher between the homebrew version and the system version of OpenSSL:
-
-```console
-$ ~/homebrew/bin/openssl version; echo | ~/homebrew/bin/openssl s_client -connect github.com:443 2>&1 | grep -A2 SSL-Session
-OpenSSL 1.0.2j  26 Sep 2016
-SSL-Session:
-    Protocol  : TLSv1.2
-    Cipher    : ECDHE-RSA-AES128-GCM-SHA256
-
-$ /usr/bin/openssl version; echo | /usr/bin/openssl s_client -connect github.com:443 2>&1 | grep -A2 SSL-Session
-OpenSSL 0.9.8zh 14 Jan 2016
-SSL-Session:
-    Protocol  : TLSv1
-    Cipher    : AES128-SHA
-```
-
-See also [Comparison of TLS implementations](https://en.wikipedia.org/wiki/Comparison_of_TLS_implementations), [How's My SSL](https://www.howsmyssl.com/) and [Qualys SSL Labs Tools](https://www.ssllabs.com/projects/).
 
 ## Web
 
@@ -1322,6 +1295,8 @@ Read [online](https://alexcabal.com/creating-the-perfect-gpg-keypair/) [guides](
 
 ## OTR
 
+**Note** Strongly consider using [Signal](https://github.com/signalapp/Signal-Desktop) instead.
+
 OTR stands for **off-the-record** and is a cryptographic protocol for encrypting and authenticating conversations over instant messaging.
 
 You can use OTR on top of any existing [XMPP](https://xmpp.org/about) chat service, even Google Hangouts (which only encrypts conversations between users and the server using TLS).
@@ -1465,11 +1440,11 @@ Other metadata and artifacts may be found in the directories including, but not 
 `/Library/Preferences/com.apple.Bluetooth.plist` contains Bluetooth metadata, including device history. If Bluetooth is not used, the metadata can be cleared with:
 
 ```console
-$ sudo defaults delete /Library/Preferences/com.apple.Bluetooth.plist DeviceCache
-$ sudo defaults delete /Library/Preferences/com.apple.Bluetooth.plist IDSPairedDevices
-$ sudo defaults delete /Library/Preferences/com.apple.Bluetooth.plist PANDevices
-$ sudo defaults delete /Library/Preferences/com.apple.Bluetooth.plist PANInterfaces
-$ sudo defaults delete /Library/Preferences/com.apple.Bluetooth.plist SCOAudioDevices
+sudo defaults delete /Library/Preferences/com.apple.Bluetooth.plist DeviceCache
+sudo defaults delete /Library/Preferences/com.apple.Bluetooth.plist IDSPairedDevices
+sudo defaults delete /Library/Preferences/com.apple.Bluetooth.plist PANDevices
+sudo defaults delete /Library/Preferences/com.apple.Bluetooth.plist PANInterfaces
+sudo defaults delete /Library/Preferences/com.apple.Bluetooth.plist SCOAudioDevices
 ```
 
 `/var/spool/cups` contains the CUPS printer job cache. To clear it, use the commands:
@@ -1645,17 +1620,17 @@ GnuPG can also be used to manage password files (see [drduh/Purse](https://githu
 
 In addition to passwords, ensure eligible online accounts, such as GitHub, Google accounts, banking, have [multi-factor authentication](https://en.wikipedia.org/wiki/Multi-factor_authentication) enabled.
 
-[Yubikey](https://www.yubico.com/products/) offers affordable hardware tokens. See [drduh/YubiKey-Guide](https://github.com/drduh/YubiKey-Guide) and [trmm.net/Yubikey](https://trmm.net/Yubikey). One of two Yubikey's slots can also be programmed to emit a long, static password (which can be used in combination with a short, memorized password, for example).
+[Yubikey](https://www.yubico.com/products/) offers affordable hardware tokens. See [drduh/YubiKey-Guide](https://github.com/drduh/YubiKey-Guide) and [trmm.net/Yubikey](https://trmm.net/Yubikey). One of two Yubikey slots can also be programmed to emit a long, static password - which can be used in combination with a short, memorized password, for example.
 
-In Addition to Login and other PAMs, you can use Yubikey to secure your login and sudo, here is a pdf guide from [Yubico](https://www.yubico.com/wp-content/uploads/2016/02/Yubico_YubiKeyMacOSXLogin_en.pdf). Yubikey are a bit pricey, there is cheaper alternative, but not as capable, [U2F Zero](https://www.u2fzero.com/).
+In Addition to Login and other PAMs, you can use Yubikey to secure your login and sudo, here is a pdf guide from [Yubico](https://www.yubico.com/wp-content/uploads/2016/02/Yubico_YubiKeyMacOSXLogin_en.pdf). [U2F Zero](https://u2fzero.com/) is a Yubikey alternative to consider.
 
 ## Backup
 
 Always encrypt files locally before backing them up to external media or online services.
 
-One way is to use a symmetric cipher with GPG and a password of your choosing. Files can also be encrypted to a public key with GPG, with the private key stored on [YubiKey](https://github.com/drduh/YubiKey-Guide).
+One way is to use a GPG with a static password or your own public key (with the private key stored on [YubiKey](https://github.com/drduh/YubiKey-Guide)).
 
-To compress and encrypt a directory:
+To compress and encrypt a directory using a password:
 
 ```console
 $ tar zcvf - ~/Downloads | gpg -c > ~/Desktop/backup-$(date +%F-%H%M).tar.gz.gpg
@@ -1727,9 +1702,7 @@ This is a privacy risk, so remove networks from the list in **System Preferences
 
 Also see [Signals from the Crowd: Uncovering Social Relationships through Smartphone Probes](https://conferences.sigcomm.org/imc/2013/papers/imc148-barberaSP106.pdf) (pdf) and [Wi-Fi told me everything about you](http://confiance-numerique.clermont-universite.fr/Slides/M-Cunche-2014.pdf) (pdf).
 
-Saved Wi-Fi information (SSID, last connection, etc.) can be found in:
-
-    /Library/Preferences/SystemConfiguration/com.apple.airport.preferences.plist
+Saved Wi-Fi information (SSID, last connection, etc.) can be found in `/Library/Preferences/SystemConfiguration/com.apple.airport.preferences.plist`
 
 You may want to [spoof the MAC address](https://en.wikipedia.org/wiki/MAC_spoofing) of the network card before connecting to new and untrusted wireless networks to mitigate passive fingerprinting:
 
@@ -1785,15 +1758,15 @@ $ sudo lsof -Pni TCP:22
 
 ## Physical access
 
-Keep your Mac physically secure at all times. Don't leave it unattended in public spaces, such as hotels.
+Keep your Mac physically secure at all times and do not leave it unattended in public.
 
-A skilled attacker with unsupervised physical access to your computer can infect the boot ROM to install a keylogger and steal your password, for example - see [Thunderstrike](https://trmm.net/Thunderstrike).
+A skilled attacker with unsupervised physical access can infect the boot ROM to install a keylogger and steal passwords. See [Thunderstrike](https://trmm.net/Thunderstrike) for example.
 
 To protect against physical theft during use, you can use an anti-forensic tool like [BusKill](https://github.com/buskill/buskill-app), [usbkill](https://github.com/hephaest0s/usbkill) or [swiftGuard](https://github.com/Lennolium/swiftGuard) (updated usbkill, with graphical user interface). All respond to USB events and can immediately shutdown your computer if your device is physically separated from you or an unauthorized device is connected.
 
-Consider purchasing a [privacy filter](https://www.amazon.com/s/ref=nb_sb_noss_2?url=node%3D15782001&field-keywords=macbook) for your screen to thwart shoulder surfers.
+Consider purchasing a privacy screen/filter for use in public.
 
-Superglues or epoxy resins can also be used to disable physical access to computer ports. [Nail polish](https://trmm.net/Glitter) and tamper-evidence seals can be applied to components to detect tampering.
+Superglue or epoxy resin can be used to disable physical access to peripheral ports. [Nail polish](https://trmm.net/Glitter) and tamper-evidence seals can be applied to components to detect tampering.
 
 ## System monitoring
 
@@ -2102,7 +2075,7 @@ Google Chrome should now launch, and subsequent updates to the application will 
 To disable "Lockdown" mode:
 
 ```console
-$ sudo defaults delete /var/db/santa/config.plist ClientMode
+sudo defaults delete /var/db/santa/config.plist ClientMode
 ```
 
 See `/var/log/santa.log` to monitor ALLOW and DENY execution decisions.
@@ -2124,47 +2097,45 @@ If you want to use **torrents**, use [Transmission](https://www.transmissionbt.c
 Manage default file handlers with [duti](http://duti.org/), which can be installed with `brew install duti`. One reason to manage extensions is to prevent auto-mounting of remote file systems in Finder (see [Protecting Yourself From Sparklegate](https://www.taoeffect.com/blog/2016/02/apologies-sky-kinda-falling-protecting-yourself-from-sparklegate/)). Here are several recommended file handlers to manage:
 
 ```console
-$ duti -s com.apple.Safari afp
+duti -s com.apple.Safari afp
 
-$ duti -s com.apple.Safari ftp
+duti -s com.apple.Safari ftp
 
-$ duti -s com.apple.Safari nfs
+duti -s com.apple.Safari nfs
 
-$ duti -s com.apple.Safari smb
+duti -s com.apple.Safari smb
 
-$ duti -s com.apple.TextEdit public.unix-executable
+duti -s com.apple.TextEdit public.unix-executable
 ```
 
 Monitor system logs with the **Console** application or `syslog -w` or `/usr/bin/log stream` commands.
 
-In systems prior to macOS Sierra (10.12), enable the [tty_tickets flag](https://derflounder.wordpress.com/2016/09/21/tty_tickets-option-now-on-by-default-for-macos-sierras-sudo-tool/) in `/etc/sudoers` to restrict the sudo session to the Terminal window/tab that started it. To do so, use `sudo visudo` and add the line `Defaults    tty_tickets`.
-
 Set your screen to lock as soon as the screensaver starts:
 
 ```console
-$ defaults write com.apple.screensaver askForPassword -int 1
+defaults write com.apple.screensaver askForPassword -int 1
 
-$ defaults write com.apple.screensaver askForPasswordDelay -int 0
+defaults write com.apple.screensaver askForPasswordDelay -int 0
 ```
 
 Expose hidden files and Library folder in Finder:
 
 ```console
-$ defaults write com.apple.finder AppleShowAllFiles -bool true
+defaults write com.apple.finder AppleShowAllFiles -bool true
 
-$ chflags nohidden ~/Library
+chflags nohidden ~/Library
 ```
 
 Show all filename extensions (so that "Evil.jpg.app" cannot masquerade easily).
 
 ```console
-$ defaults write NSGlobalDomain AppleShowAllExtensions -bool true
+defaults write NSGlobalDomain AppleShowAllExtensions -bool true
 ```
 
 Don't default to saving documents to iCloud:
 
 ```console
-$ defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
+defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
 ```
 
 Enable [Secure Keyboard Entry](https://security.stackexchange.com/questions/47749/how-secure-is-secure-keyboard-entry-in-mac-os-xs-terminal) in Terminal (unless you use [YubiKey](https://mig5.net/content/secure-keyboard-entry-os-x-blocks-interaction-yubikeys) or applications such as [TextExpander](https://smilesoftware.com/textexpander/secureinput)).
@@ -2172,13 +2143,13 @@ Enable [Secure Keyboard Entry](https://security.stackexchange.com/questions/4774
 Disable crash reporter (the dialog which appears after an application crashes and prompts to report the problem to Apple):
 
 ```console
-$ defaults write com.apple.CrashReporter DialogType none
+defaults write com.apple.CrashReporter DialogType none
 ```
 
 Disable Bonjour [multicast advertisements](https://www.trustwave.com/Resources/SpiderLabs-Blog/mDNS---Telling-the-world-about-you-(and-your-device)/):
 
 ```console
-$ sudo defaults write /Library/Preferences/com.apple.mDNSResponder.plist NoMulticastAdvertisements -bool YES
+sudo defaults write /Library/Preferences/com.apple.mDNSResponder.plist NoMulticastAdvertisements -bool YES
 ```
 
 [Disable Handoff](https://apple.stackexchange.com/questions/151481/why-is-my-macbook-visibile-on-bluetooth-after-yosemite-install) and Bluetooth features, if they aren't necessary.
@@ -2204,7 +2175,7 @@ export HOME=/Users/blah
 Set a [custom umask](https://support.apple.com/en-us/HT201684):
 
 ```console
-$ sudo launchctl config user umask 077
+sudo launchctl config user umask 077
 ```
 
 Reboot, create a file in Finder and verify its permissions (macOS default allows 'group/other' read access):
@@ -2221,13 +2192,10 @@ drwx------  2 kevin  staff       64 Dec  4 12:27 umask_testing_dir
 * [Dylib Hijack Scanner](https://objective-see.com/products/dhs.html) - Scan for applications that are either susceptible to dylib hijacking or have been hijacked.
 * [Lockdown](https://objective-see.com/products/lockdown.html) - Audits and remediates security configuration settings.
 * [Zentral](https://github.com/zentralopensource/zentral) - A log and configuration server for santa and osquery. Run audit and probes on inventory, events, logfiles, combine with point-in-time alerting. A full Framework and Django web server build on top of the elastic stack (formerly known as ELK stack).
-* [facebook/osquery](https://github.com/facebook/osquery) - Can be used to retrieve low level system information.  Users can write SQL queries to retrieve system information.
+* [osquery](https://github.com/osquery/osquery) - Can be used to retrieve low level system information.  Users can write SQL queries to retrieve system information.
 * [google/grr](https://github.com/google/grr) - Incident response framework focused on remote live forensics.
-* [jipegit/OSXAuditor](https://github.com/jipegit/OSXAuditor) - Analyzes artifacts on a running system, such as quarantined files, Safari, Chrome and Firefox history, downloads, HTML5 databases and localstore, social media and email accounts, and Wi-Fi access point names.
-* [kristovatlas/osx-config-check](https://github.com/kristovatlas/osx-config-check) - Checks your OSX machine against various hardened configuration settings.
 * [libyal/libfvde](https://github.com/libyal/libfvde) - Library to access FileVault Drive Encryption (FVDE) (or FileVault2) encrypted volumes.
 * [stronghold](https://github.com/alichtman/stronghold) - Securely and easily configure your Mac from the terminal. Inspired by this guide.
-* [yelp/osxcollector](https://github.com/yelp/osxcollector) - Forensic evidence collection & analysis toolkit for OS X.
 * [The Eclectic Light Company - Downloads](https://eclecticlight.co/downloads/) - A collection of useful diagnostics and control applications and utilities for macOS.
 * [Pareto Security](https://paretosecurity.app/) - A MenuBar app to automatically audit your Mac for basic security hygiene.
 
