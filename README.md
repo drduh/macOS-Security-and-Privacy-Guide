@@ -39,8 +39,6 @@ This guide is also available in [简体中文](https://github.com/drduh/macOS-Se
       - [Test DNSSEC validation](#test-dnssec-validation)
 - [Captive portal](#captive-portal)
 - [Certificate authorities](#certificate-authorities)
-- [OpenSSL](#openssl)
-- [Curl](#curl)
 - [Web](#web)
   * [Privoxy](#privoxy)
   * [Browser](#browser)
@@ -92,22 +90,18 @@ Standard security best practices apply:
 
 * Assure data availability
 	* Create [regular backups](https://www.amazon.com/o/ASIN/0596102461/backupcentral) of your data and be ready to format and re-install the operating system in case of compromise.
-	* Always encrypt locally before copying backups to external media or the "cloud".
-	* Verify backups work by testing them regularly, for example by accessing certain files or performing a hash based comparison.
+	* Encrypt locally before copying backups to external media or the "cloud".
+	* Verify backups by accessing them regularly.
 
 * Click carefully
-	* Ultimately, the security of a system can be reduced to its administrator.
+	* Ultimately, the security of a system depends on the capabilities of its administrator.
 	* Care should be taken when installing new software. Always prefer [free](https://www.gnu.org/philosophy/free-sw.en.html) and open source software ([which macOS is not](https://superuser.com/questions/19492/is-mac-os-x-open-source)).
 
 ## Preparing and installing macOS
 
 There are several ways to install macOS.
 
-The simplest way is to boot into [Recovery Mode](https://support.apple.com/en-us/HT201314) by holding `Command` and `R` keys at boot. A system image can be downloaded and applied directly from Apple. However, this way exposes the serial number and other identifying information over the network in plain text, which may not be desired for privacy reasons.
-
-<img width="500" alt="PII is transmitted to Apple in plain text when using macOS Recovery" src="https://cloud.githubusercontent.com/assets/12475110/20312189/8987c958-ab20-11e6-90fa-7fd7c8c1169e.png">
-
-*Packet capture of an unencrypted HTTP conversation during macOS recovery*
+The simplest way is to boot into [Recovery Mode](https://support.apple.com/en-us/HT201314) by holding `Command` and `R` keys at boot. A system image can be downloaded and applied directly from Apple. However, this may expose identifying information.
 
 An alternative way to install macOS is to first download the latest version of macOS (**Latest: macOS Ventura**) from Apple via the [App Store](https://apps.apple.com/us/app/macos-ventura/id1638787999) and create a custom installable system image.
 
@@ -135,7 +129,7 @@ Apple's [documentation](https://support.apple.com/en-us/HT211683) provides detai
 
 ### Verifying installation integrity
 
-The macOS installation application is [code signed](https://developer.apple.com/library/mac/documentation/Security/Conceptual/CodeSigningGuide/Procedures/Procedures.html#//apple_ref/doc/uid/TP40005929-CH4-SW6), which should be verified to make sure you received a legitimate copy, using the `pkgutil --check-signature` or `codesign -dvv` commands.
+The macOS installation application is [code signed](https://developer.apple.com/library/mac/documentation/Security/Conceptual/CodeSigningGuide/Procedures/Procedures.html#//apple_ref/doc/uid/TP40005929-CH4-SW6), which should be verified using the commands `pkgutil --check-signature` or `codesign -dvv`
 
 To verify the code signature and integrity of macOS application bundles:
 
@@ -187,27 +181,22 @@ Internal requirements count=1 size=88
 
 Instead of booting from the network or using target disk mode, a bootable macOS installer can be made with the `createinstallmedia` utility included in `Contents/Resources` folder of the installer application bundle. See [Create a bootable installer for macOS](https://support.apple.com/en-us/HT201372), or run the utility without arguments to see how it works.
 
-To create a **bootable USB installer**, mount a USB drive, and erase and partition it, then use the `createinstallmedia` utility:
+To create a bootable USB installer, mount a USB drive, erase and partition it, then use the `createinstallmedia` utility:
 
 ```console
-$ diskutil list
+diskutil list
 [Find disk matching correct size, usually the last disk, e.g. /dev/disk2]
 
-$ diskutil unmountDisk /dev/disk2
+diskutil unmountDisk /dev/disk2
 
-$ diskutil partitionDisk /dev/disk2 1 JHFS+ Installer 100%
+diskutil partitionDisk /dev/disk2 1 JHFS+ Installer 100%
 
-$ cd /Applications/Install\ macOS\ Ventura.app
+cd /Applications/Install\ macOS\ Ventura.app
 
-$ sudo ./Contents/Resources/createinstallmedia --volume /Volumes/Installer --nointeraction
-Erasing disk: 0%... 10%... 20%... 30%... 100%
-Copying to disk: 0%... 10%... 20%... 30%... 40%... 50%... 60%... 70%... 80%... 90%... 100%
-Making disk bootable...
-Copying boot files...
-Install media now available at "/Volumes/Install macOS Catalina"
+sudo ./Contents/Resources/createinstallmedia --volume /Volumes/Installer --nointeraction
 ```
 
-Apple also has [guide](https://support.apple.com/guide/disk-utility/erase-and-reformat-a-storage-device-dskutl14079/mac) on doing this via the GUI Disk Utility
+[Disk Utility](https://support.apple.com/guide/disk-utility/erase-and-reformat-a-storage-device-dskutl14079/mac) can also be used to configure the storage device.
 
 ### Creating an install image
 
@@ -223,25 +212,22 @@ If you don't have another Mac, boot to a USB installer, with `sierra.dmg` and ot
 
 Use the command `diskutil list` to identify the disk of the connected Mac, usually `/dev/disk2`
 
-Optionally, [securely erase](https://www.backblaze.com/blog/securely-erase-mac-ssd/) the disk with a single pass (if previously FileVault-encrypted, the disk must first be unlocked and mounted as `/dev/disk3s2`):
+**Optional** [securely erase](https://www.backblaze.com/blog/how-to-wipe-a-mac-hard-drive/) the disk with a single pass (if previously FileVault-encrypted, the disk must first be unlocked and mounted as `/dev/disk3s2`):
 
-    $ sudo diskutil secureErase freespace 1 /dev/disk3s2
+    sudo diskutil secureErase freespace 1 /dev/disk3s2
 
 Partition the disk to Journaled HFS+:
 
 ```console
-$ sudo diskutil unmountDisk /dev/disk2
+sudo diskutil unmountDisk /dev/disk2
 
-$ sudo diskutil partitionDisk /dev/disk2 1 JHFS+ macOS 100%
+sudo diskutil partitionDisk /dev/disk2 1 JHFS+ macOS 100%
 ```
 
 Restore the image to the new volume, making sure `/dev/disk2` is the disk being erased:
 
 ```console
-$ sudo asr restore --source ~/sierra.dmg --target /Volumes/macOS --erase --buffersize 4m
-[...]
-Erase contents of /dev/disk2s2 (/Volumes/macOS)? [ny]:y
-[...]
+sudo asr restore --source ~/sierra.dmg --target /Volumes/macOS --erase --buffersize 4m
 ```
 
 The **Disk Utility** application may also be used to erase the connected disk and restore `sierra.dmg` to the newly created partition.
@@ -254,7 +240,7 @@ To transfer any files, copy them to a shared folder like `/Users/Shared` on the 
 
 ### Creating a recovery partition
 
-**Unless** you have built the image with [AutoDMG](https://github.com/MagerValp/AutoDMG), or installed macOS to a second partition on the same Mac, you will need to create a recovery partition in order to use full disk encryption. You can do so using [MagerValp/Create-Recovery-Partition-Installer](https://github.com/MagerValp/Create-Recovery-Partition-Installer) or manually by following these steps:
+**Unless** you have built the image with [AutoDMG](https://github.com/MagerValp/AutoDMG), or installed macOS to a second partition on the same Mac, you will need to create a recovery partition in order to use full disk encryption. You can do so using [MagerValp/Create-Recovery-Partition-Installer](https://github.com/MagerValp/Create-Recovery-Partition-Installer) or the following steps.
 
 Download [RecoveryHDUpdate.dmg](https://support.apple.com/downloads/DL1464/en_US/RecoveryHDUpdate.dmg) and verify its integrity:
 
@@ -266,22 +252,22 @@ f6a4f8ac25eaa6163aa33ac46d40f223f40e58ec0b6b9bf6ad96bdbfc771e12c  RecoveryHDUpda
 Attach and expand the installer, then run it - again ensuring `/Volumes/macOS` path is the newly created partition on the connected disk:
 
 ```console
-$ hdiutil attach RecoveryHDUpdate.dmg
+hdiutil attach RecoveryHDUpdate.dmg
 
-$ pkgutil --expand /Volumes/Mac\ OS\ X\ Lion\ Recovery\ HD\ Update/RecoveryHDUpdate.pkg /tmp/recovery
+pkgutil --expand /Volumes/Mac\ OS\ X\ Lion\ Recovery\ HD\ Update/RecoveryHDUpdate.pkg /tmp/recovery
 
-$ hdiutil attach /tmp/recovery/RecoveryHDUpdate.pkg/RecoveryHDMeta.dmg
+hdiutil attach /tmp/recovery/RecoveryHDUpdate.pkg/RecoveryHDMeta.dmg
 
-$ /tmp/recovery/RecoveryHDUpdate.pkg/Scripts/Tools/dmtest ensureRecoveryPartition /Volumes/macOS/ /Volumes/Recovery\ HD\ Update/BaseSystem.dmg 0 0 /Volumes/Recovery\ HD\ Update/BaseSystem.chunklist
-[...]
-Creating recovery partition: finished
+/tmp/recovery/RecoveryHDUpdate.pkg/Scripts/Tools/dmtest ensureRecoveryPartition /Volumes/macOS/ /Volumes/Recovery\ HD\ Update/BaseSystem.dmg 0 0 /Volumes/Recovery\ HD\ Update/BaseSystem.chunklist
 ```
 
-Run `diskutil list` again to make sure `Recovery HD` now exists on `/dev/disk2`. Eject the disk with `hdiutil unmount /Volumes/macOS` and power down the target disk mode-booted Mac.
+Run `diskutil list` again to confirm `Recovery HD` now exists on `/dev/disk2`
+
+Eject the disk with `hdiutil unmount /Volumes/macOS` and power down the target disk mode-booted Mac.
 
 ### Virtualization
 
-To install macOS as a virtual machine (VM) using [VMware Fusion](https://www.vmware.com/products/fusion.html), follow the instructions above to create an image. You will **not** need to download and create a recovery partition manually.
+To install macOS as a virtual machine (VM) using [VMware Fusion](https://www.vmware.com/products/fusion.html), follow the instructions above to create an image. You will **not** need to download and create a recovery partition.
 
 For the Installation Method, select *Install macOS from the recovery partition*. Customize any memory or CPU requirements and complete setup. The guest VM should boot into [Recovery Mode](https://support.apple.com/en-us/HT201314) by default.
 
@@ -299,11 +285,11 @@ From the host Mac, serve the installable image to the guest VM by editing `/etc/
 
 On the host Mac, link the image to the default Apache Web server directory:
 
-	$ sudo ln ~/sierra.dmg /Library/WebServer/Documents
+	sudo ln ~/sierra.dmg /Library/WebServer/Documents
 
 From the host Mac, start Apache in the foreground:
 
-	$ sudo httpd -X
+	sudo httpd -X
 
 From the guest VM, install the disk image to the volume over the local network using `asr`:
 
@@ -327,7 +313,7 @@ Take and Restore from saved guest VM snapshots before and after attempting risky
 
 ## First boot
 
-**Note** Before setting up macOS, consider disconnecting networking and configuring a firewall(s) first. However, late 2016 MacBooks with Touch Bar hardware [require online OS activation](https://onemoreadmin.wordpress.com/2016/11/27/the-untouchables-apples-new-os-activation-for-touch-bar-macbook-pros/) (also see next section).
+**Note** Before setting up macOS, consider disconnecting networking and configuring a firewall(s) first. However, late 2016 MacBooks with Touch Bar hardware [require online OS activation](https://onemoreadmin.wordpress.com/2016/11/27/the-untouchables-apples-new-os-activation-for-touch-bar-macbook-pros/) (see next section).
 
 (Intel-based Mac only) On first boot, hold `Command` `Option` `P` `R` keys to [clear NVRAM](https://support.apple.com/en-us/HT204063).
 
@@ -339,8 +325,10 @@ If you enter your real name at the account setup process, be aware that your com
 
 Both should be verified and updated as needed in **System Preferences > Sharing** or with the following commands after installation:
 
-	$ sudo scutil --set ComputerName MacBook
-	$ sudo scutil --set LocalHostName MacBook
+```console
+sudo scutil --set ComputerName MacBook
+sudo scutil --set LocalHostName MacBook
+```
 
 ## System activation
 
@@ -374,7 +362,7 @@ It is not strictly required to ever log into the admin account via the macOS log
 
 ### Caveats
 
-* Only administrators can install applications in `/Applications` (local directory). Finder and Installer will prompt a standard user with an authentication dialog. Many applications can be installed in `~/Applications` instead (the directory can be created manually). As a rule of thumb: applications that do not require admin access – or do not complain about not being installed in `/Applications` – should be installed in the user directory, the rest in the local directory. Mac App Store applications are still installed in `/Applications` and require no additional authentication.
+* Only administrators can install applications in `/Applications` (local directory). Finder and Installer will prompt a standard user with an authentication dialog. Many applications can be installed in `~/Applications` instead (the directory can be created). As a rule of thumb: applications that do not require admin access – or do not complain about not being installed in `/Applications` – should be installed in the user directory, the rest in the local directory. Mac App Store applications are still installed in `/Applications` and require no additional authentication.
 * `sudo` is not available in shells of the standard user, which requires using `su` or `login` to enter a shell of the admin account. This can make some maneuvers trickier and requires some basic experience with command-line interfaces.
 * System Preferences and several system utilities (e.g. Wi-Fi Diagnostics) will require root privileges for full functionality. Many panels in System Preferences are locked and need to be unlocked separately by clicking on the lock icon. Some applications will simply prompt for authentication upon opening, others must be opened by an admin account directly to get access to all functions (e.g. Console).
 * There are third-party applications that will not work correctly because they assume that the user account is an admin. These programs may have to be executed by logging into the admin account, or by using the `open` utility.
@@ -387,14 +375,14 @@ Accounts can be created and managed in System Preferences. On settled systems, i
 Demoting an account can be done either from the the new admin account in System Preferences – the other account must be logged out – or by executing these commands (it may not be necessary to execute both, see [issue #179](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/179)):
 
 ```console
-$ sudo dscl . -delete /Groups/admin GroupMembership <username>
-$ sudo dscl . -delete /Groups/admin GroupMembers <GeneratedUID>
+sudo dscl . -delete /Groups/admin GroupMembership <username>
+sudo dscl . -delete /Groups/admin GroupMembers <GeneratedUID>
 ```
 
-To find the “GeneratedUID” of an account:
+To find the **GeneratedUID** of an account:
 
 ```console
-$ dscl . -read /Users/<username> GeneratedUID
+dscl . -read /Users/<username> GeneratedUID
 ```
 
 See also [this post](https://superuser.com/a/395738) for more information about how macOS determines group membership.
@@ -415,9 +403,7 @@ See `man 4 random` for more information.
 
 Turning on FileVault in System Preferences **after** installing macOS, rather than creating an encrypted partition for the installation first, is [more secure](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/230), because more PRNG entropy is available then.
 
-Additionally, the PRNG can be manually seeded with entropy by writing to /dev/random **before** enabling FileVault. This can be done by simply using the Mac for a little while before activating FileVault.
-
-It may also be possible to increase entropy with an external source, like [OneRNG](http://onerng.info/). See [Entropy and Random Number Generators](https://calomel.org/entropy_random_number_generators.html) and [Fun with encryption and randomness](https://rsmith.home.xs4all.nl/howto/fun-with-encryption-and-randomness.html) for more information.
+It may be possible to increase entropy with an external source, like [OneRNG](http://onerng.info/). See [Entropy and Random Number Generators](https://calomel.org/entropy_random_number_generators.html) and [Fun with encryption and randomness](https://rsmith.home.xs4all.nl/howto/fun-with-encryption-and-randomness.html) for more information.
 
 Enable FileVault with `sudo fdesetup enable` or through **System Preferences** > **Security & Privacy** and reboot.
 
@@ -428,21 +414,21 @@ To learn about how FileVault works, see the paper [Infiltrate the Vault: Securit
 **Optional** Enforce system hibernation and evict FileVault keys from memory instead of traditional sleep to memory:
 
 ```console
-$ sudo pmset -a destroyfvkeyonstandby 1
-$ sudo pmset -a hibernatemode 25
+sudo pmset -a destroyfvkeyonstandby 1
+sudo pmset -a hibernatemode 25
 ```
 
 > All computers have firmware of some type - EFI, BIOS - to help in the discovery of hardware components and ultimately to properly bootstrap the computer using the desired OS instance. In the case of Apple hardware and the use of EFI, Apple stores relevant information within EFI to aid in the functionality of macOS. For example, the FileVault key is stored in EFI to transparently come out of standby mode.
-
+> 
 > Organizations especially sensitive to a high-attack environment, or potentially exposed to full device access when the device is in standby mode, should mitigate this risk by destroying the FileVault key in firmware. Doing so doesn't destroy the use of FileVault, but simply requires the user to enter the password in order for the system to come out of standby mode.
 
 If you choose to evict FileVault keys in standby mode, you should also modify your standby and power nap settings. Otherwise, your machine may wake while in standby mode and then power off due to the absence of the FileVault key. See [issue #124](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/124) for more information. These settings can be changed with:
 
 ```console
-$ sudo pmset -a powernap 0
-$ sudo pmset -a standby 0
-$ sudo pmset -a standbydelay 0
-$ sudo pmset -a autopoweroff 0
+sudo pmset -a powernap 0
+sudo pmset -a standby 0
+sudo pmset -a standbydelay 0
+sudo pmset -a autopoweroff 0
 ```
 
 For more information, see paper [Lest We Remember: Cold Boot Attacks on Encryption Keys](https://www.usenix.org/legacy/event/sec08/tech/full_papers/halderman/halderman.pdf) (pdf)
@@ -468,29 +454,26 @@ The firmware password will activate at next boot. To validate the password, hold
 The firmware password can also be managed with the `firmwarepasswd` utility while booted into the OS. For example, to prompt for the firmware password when attempting to boot from a different volume:
 
 ```console
-$ sudo firmwarepasswd -setpasswd -setmode command
+sudo firmwarepasswd -setpasswd -setmode command
 ```
 
 To verify the firmware password:
 
 ```console
-$ sudo firmwarepasswd -verify
-Verifying Firmware Password
-Enter password:
-Correct
+sudo firmwarepasswd -verify
 ```
 
 A firmware password may be bypassed by a determined attacker or Apple, with physical access to the computer.
 
 <img width="750" alt="Using a Dediprog SF600 to dump and flash a 2013 MacBook SPI Flash chip to remove a firmware password, sans Apple" src="https://cloud.githubusercontent.com/assets/12475110/17075918/0f851c0c-50e7-11e6-904d-0b56cf0080c1.png">
 
-*Using a [Dediprog SF600](http://www.dediprog.com/pd/spi-flash-solution/sf600) to dump and flash a 2013 MacBook SPI Flash chip to remove a firmware password, sans Apple*
+*Using a [Dediprog SF600](https://www.dediprog.com/product/sf600) to dump and flash a 2013 MacBook SPI Flash chip to remove a firmware password, sans Apple*
 
-As of macOS 10.15 Catalina, the `firmwarepasswd` program has a new option `-disable-reset-capability`. According to [Apple's new Platform Security page](https://support.apple.com/en-gb/guide/security/sec28382c9ca/web), this effectively prevents any firmware password resets, even by Apple themselves:
+As of macOS 10.15, the `firmwarepasswd` program has a new option `-disable-reset-capability`. According to [Apple's new Platform Security page](https://support.apple.com/en-gb/guide/security/sec28382c9ca/web), this effectively prevents any firmware password resets, even by Apple themselves:
 
 > For users who want no one but themselves to remove their Firmware Password by software means, the -disable-reset-capability option has been added to the firmwarepasswd command-line tool in macOS 10.15. Before setting this option, users must to acknowledge that if the password is forgotten and needs removal, the user must bear the cost of the motherboard replacement necessary to achieve this.
 
-Newer Mac models (Mac Pro, iMac Pro, Macbook with TouchBar) with [Apple T2](https://en.wikipedia.org/wiki/Apple-designed_processors#Apple_T2) chips, which provide a secure enclave for encrypted keys, lessen the risk of EFI firmware attacks. See [this blog post](http://michaellynn.github.io/2018/07/27/booting-secure/) for more information.
+Newer Mac models (Mac Pro, iMac Pro, Macbook with TouchBar) with [Apple T2](https://en.wikipedia.org/wiki/Apple-designed_processors#Apple_T2) chips, which provide a secure enclave for encrypted keys, lessen the risk of EFI firmware attacks. See [this blog post](https://michaellynn.github.io/2018/07/27/booting-secure/) for more information.
 
 See [LongSoft/UEFITool](https://github.com/LongSoft/UEFITool), [chipsec/chipsec](https://github.com/chipsec/chipsec) and discussion in [issue #213](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/213) for more information.
 
@@ -507,14 +490,11 @@ It can be controlled by the **Firewall** tab of **Security & Privacy** in **Syst
 Enable the firewall with logging and stealth mode:
 
 ```console
-$ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on
-Firewall is enabled. (State = 1)
+sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on
 
-$ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setloggingmode on
-Turning on log mode
+sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setloggingmode on
 
-$ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode on
-Stealth mode enabled
+sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode on
 ```
 
 > Computer hackers scan networks so they can attempt to identify computers to attack. You can prevent your computer from responding to some of these scans by using **stealth mode**. When stealth mode is enabled, your computer does not respond to ICMP ping requests, and does not answer to connection attempts from a closed TCP or UDP port. This makes it more difficult for attackers to find your computer.
@@ -522,11 +502,9 @@ Stealth mode enabled
 To prevent *built-in software* as well as *code-signed, downloaded software from being whitelisted automatically*:
 
 ```console
-$ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setallowsigned off
-Disabled allow signed built-in applications automatically
+sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setallowsigned off
 
-$ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setallowsignedapp off
-Disabled allow signed downloaded applications automatically
+sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setallowsignedapp off
 ```
 
 > Applications that are signed by a valid certificate authority are automatically added to the list of allowed apps, rather than prompting the user to authorize them. Apps included in macOS are signed by Apple and are allowed to receive incoming connections when this setting is enabled. For example, since iTunes is already signed by Apple, it is automatically allowed to receive incoming connections through the firewall.
@@ -536,7 +514,7 @@ Disabled allow signed downloaded applications automatically
 After interacting with `socketfilterfw`, restart the process by sending a line hangup signal:
 
 ```console
-$ sudo pkill -HUP socketfilterfw
+sudo pkill -HUP socketfilterfw
 ```
 
 ### Third party firewalls
@@ -555,7 +533,7 @@ For more on how Little Snitch works, see the [Network Kernel Extensions Programm
 
 A highly customizable, powerful, but also most complicated firewall exists in the kernel. It can be controlled with `pfctl` and various configuration files.
 
-pf can also be controlled with a GUI application such as [IceFloor](http://www.hanynet.com/icefloor/) or [Murus](https://www.murusfirewall.com/).
+pf can also be controlled with a GUI application such as [IceFloor](https://www.hanynet.com/icefloor/) or [Murus](https://www.murusfirewall.com/).
 
 There are many books and articles on the subject of pf firewall. Here's is just one example of blocking traffic by IP address.
 
@@ -589,20 +567,20 @@ Then use the following commands to manipulate the firewall:
 * `sudo ifconfig pflog0 create` to create an interface for logging
 * `sudo tcpdump -ni pflog0` to view filtered packets
 
-Unless you're already familiar with packet filtering, spending too much time configuring pf is not recommended. It is also probably unnecessary if your Mac is behind a [NAT](https://www.grc.com/nat/nat.htm) on a secure home network.
+Unless you're already familiar with packet filtering, spending too much time configuring pf is not recommended. It is also probably unnecessary if your Mac is behind a [NAT](https://www.grc.com/nat/nat.htm) on a private home network.
 
 It is possible to use the pf firewall to block network access to entire ranges of network addresses, for example to a whole organization:
 
-Query [Merit RADb](http://www.radb.net/) for the list of networks in use by an autonomous system, like [Facebook](https://ipinfo.io/AS32934):
+Query [Merit RADb](https://www.radb.net/) for the list of networks in use by an autonomous system, like [Facebook](https://ipinfo.io/AS32934):
 
 ```console
-$ whois -h whois.radb.net '!gAS32934'
+whois -h whois.radb.net '!gAS32934'
 ```
 
 Copy and paste the list of networks returned into the blocklist command:
 
 ```console
-$ sudo pfctl -t blocklist -T add 31.13.24.0/21 31.13.64.0/24 157.240.0.0/16
+sudo pfctl -t blocklist -T add 31.13.24.0/21 31.13.64.0/24 157.240.0.0/16
 ```
 
 Confirm the addresses were added:
@@ -616,7 +594,7 @@ ALTQ related functions disabled
    157.240.0.0/16
 ```
 
-Confirm network traffic is blocked to those addresses (note that DNS requests will still work):
+Confirm network traffic is blocked to those addresses (DNS requests will still work):
 
 ```console
 $ dig a +short facebook.com
@@ -647,7 +625,7 @@ To use pf to audit "phone home" behavior of user and system-level processes, see
 
 See [fix-macosx/yosemite-phone-home](https://github.com/fix-macosx/yosemite-phone-home), [l1k/osxparanoia](https://github.com/l1k/osxparanoia) for further recommendations.
 
-Services on macOS are managed by **launchd**. See [launchd.info](http://launchd.info/), as well as [Apple's Daemons and Services Programming Guide](https://developer.apple.com/library/mac/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingLaunchdJobs.html) and [Technical Note TN2083](https://developer.apple.com/library/mac/technotes/tn2083/_index.html)
+Services on macOS are managed by **launchd**. See [launchd.info](https://launchd.info/), as well as [Apple's Daemons and Services Programming Guide](https://developer.apple.com/library/mac/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingLaunchdJobs.html) and [Technical Note TN2083](https://developer.apple.com/library/mac/technotes/tn2083/_index.html)
 
 You can also run [KnockKnock](https://objective-see.com/products/knockknock.html) that shows more information about startup items.
 
@@ -660,7 +638,7 @@ You can also run [KnockKnock](https://objective-see.com/products/knockknock.html
 For example, to learn what a system launch daemon or agent does, start with:
 
 ```console
-$ defaults read /System/Library/LaunchDaemons/com.apple.apsd.plist
+defaults read /System/Library/LaunchDaemons/com.apple.apsd.plist
 ```
 
 Look at the `Program` or `ProgramArguments` section to see which binary is run, in this case `apsd`. To find more information about that, look at the man page with `man apsd`
@@ -668,7 +646,7 @@ Look at the `Program` or `ProgramArguments` section to see which binary is run, 
 For example, if you're not interested in Apple Push Notifications, disable the service:
 
 ```console
-$ sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.apsd.plist
+sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.apsd.plist
 ```
 
 **Note** Unloading services may break usability of some applications. Read the manual pages and use Google to make sure you understand what you're doing first.
@@ -680,16 +658,10 @@ Use [Console](https://en.wikipedia.org/wiki/List_of_macOS_components#Console) an
 To view the status of services:
 
 ```console
-$ find /var/db/com.apple.xpc.launchd/ -type f -print -exec defaults read {} \; 2>/dev/null
+find /var/db/com.apple.xpc.launchd/ -type f -print -exec defaults read {} \; 2>/dev/null
 ```
 
 Annotated lists of launch daemons and agents, the respective program executed, and the programs' hash sums are included in this repository.
-
-**(Optional)** Run the `read_launch_plists.py` script and `diff` output to check for any discrepancies on your system, e.g.:
-
-```console
-$ diff <(python read_launch_plists.py | sort ) <(cat 16A323_launchd.csv | sort )
-```
 
 See also [cirrusj.github.io/Yosemite-Stop-Launch](https://cirrusj.github.io/Yosemite-Stop-Launch/) for descriptions of services and [Provisioning OS X and Disabling Unnecessary Services](https://vilimpoc.org/blog/2014/01/15/provisioning-os-x-and-disabling-unnecessary-services/) for another explanation.
 
@@ -729,7 +701,7 @@ Consider using [Homebrew](https://brew.sh/) to make software installations easie
 [Install Homebrew](https://github.com/Homebrew/brew/blob/master/docs/Installation.md#installation):
 
 ```console
-$ mkdir homebrew && curl -L https://github.com/Homebrew/brew/tarball/master | tar xz --strip 1 -C homebrew
+mkdir homebrew && curl -L https://github.com/Homebrew/brew/tarball/master | tar xz --strip 1 -C homebrew
 ```
 
 Edit `PATH` in your shell or shell rc file to use `~/homebrew/bin` and `~/homebrew/sbin`. For example, `echo 'PATH=$PATH:~/homebrew/sbin:~/homebrew/bin' >> .zshrc`, then change your login shell to Z shell with `chsh -s /bin/zsh`, open a new Terminal window and run `brew update`.
@@ -740,39 +712,25 @@ Remember to periodically run `brew upgrade` on trusted and secure networks to do
 
 According to [Homebrew's Anonymous Analytics](https://docs.brew.sh/Analytics), Homebrew gathers anonymous analytics and reports these to a self-hosted InfluxDB instance.
 
-To opt out of Homebrew's analytics, you can set `export HOMEBREW_NO_ANALYTICS=1` in your environment or shell rc file, or use `brew analytics off`.
+To opt out of Homebrew's analytics, you can set `export HOMEBREW_NO_ANALYTICS=1` in your environment or shell rc file, or use `brew analytics off`
 
-You may also wish to enable [additional security options](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/138), such as `HOMEBREW_NO_INSECURE_REDIRECT=1` and `HOMEBREW_CASK_OPTS=--require-sha`.
+You may also wish to enable [additional security options](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/138), such as `HOMEBREW_NO_INSECURE_REDIRECT=1` and `HOMEBREW_CASK_OPTS=--require-sha`
 
 ## DNS
 
 #### DNS profiles
 
-Since macOS 11 there is a very simple solution via "DNS configuration profiles" to:
-- to be able to use encrypted DNS
-- filter malware etc. via DNS
-- use of DNSSEC
-- easy recovery to default settings
+macOS 11 introduced "DNS configuration profiles" to configure encrypted DNS, filter domains and use DNSSEC.
 
-and all this without having to install a program or make cumbersome lists or settings.
-
-you can use ready-made profiles that can be easily installed via double-click and do not require any further work.
-Providers of such profiles are e.g::
-- [Quad9](https://support.quad9.net/hc/en-us/articles/4814293189773-Setup-MacOS-and-DNS-over-HTTPS-or-DNS-over-TLS) (Malware filtering only + DNSSEC)
-- [AdGuard](https://adguard-dns.io/en/public-dns.html) - see Method #2: Configure AdGuard DNS manually -> macOS (filtering depends on your choice)
-- [NextDNS](https://nextdns.io/) (filtering depends on your choice)
-
-**Note:** all three offer digitally signed profiles, but only Quad9 offers an Apple signed profile.
-
-besides the ready-made profiles, you can also assemble [one yourself](https://dns.notjakob.com).
-However, these profiles then do not have a signature and this is also criticized by macOS - even if the function of the profile is not affected.
-
+DNS profiles [can be created](https://dns.notjakob.com/) or obtained from providers such as [Quad9](https://docs.quad9.net/), [AdGuard](https://adguard-dns.io/en/public-dns.html) and [NextDNS](https://nextdns.io/).
 
 #### Hosts file
 
  Use the [hosts file](https://en.wikipedia.org/wiki/Hosts_(file)) to block known malware, advertising or otherwise unwanted domains.
 
- Edit the hosts file as root, for example with `sudo vi /etc/hosts`. The hosts file can also be managed with the GUI app [2ndalpha/gasmask](https://github.com/2ndalpha/gasmask).
+ Edit the hosts file as root, for example with `sudo vi /etc/hosts`
+
+The hosts file can also be managed with the GUI app [2ndalpha/gasmask](https://github.com/2ndalpha/gasmask).
 
  To block a domain by `A` record, append any one of the following lines to `/etc/hosts`:
 
@@ -782,50 +740,40 @@ However, these profiles then do not have a signature and this is also criticized
  127.0.0.1 example.com
  ```
 
- **Note** IPv6 uses the `AAAA` DNS record type, rather than `A` record type, so you may also want to block those connections by *also* including `::1 example.com` entries, like shown [here](https://someonewhocares.org/hosts/ipv6/).
+**Note** IPv6 uses the `AAAA` DNS record type, rather than `A` record type, so you may also want to block those connections by *also* including `::1 example.com` entries, like shown [here](https://someonewhocares.org/hosts/ipv6/).
 
- There are many lists of domains available online which you can paste in, just make sure each line starts with `0`, `0.0.0.0`, `127.0.0.1`, and the line `127.0.0.1 localhost` is included.
+There are many lists of domains available online which you can paste in, just make sure each line starts with `0`, `0.0.0.0`, `127.0.0.1`, and the line `127.0.0.1 localhost` is included.
 
- Here are some popular and useful hosts lists:
+Here are some popular and useful hosts lists:
 
- * [jmdugan/blocklists](https://github.com/jmdugan/blocklists)
- * [l1k/osxparanoia](https://github.com/l1k/osxparanoia/blob/master/hosts)
- * [Sinfonietta/hostfiles](https://github.com/Sinfonietta/hostfiles)
- * [StevenBlack/hosts](https://github.com/StevenBlack/hosts)
- * [someonewhocares.org](https://someonewhocares.org/hosts/zero/hosts)
+* [jmdugan/blocklists](https://github.com/jmdugan/blocklists)
+* [l1k/osxparanoia](https://github.com/l1k/osxparanoia/blob/master/hosts)
+* [Sinfonietta/hostfiles](https://github.com/Sinfonietta/hostfiles)
+* [StevenBlack/hosts](https://github.com/StevenBlack/hosts)
+* [someonewhocares.org](https://someonewhocares.org/hosts/zero/hosts)
 
- Append a list of hosts with the `tee` command and confirm only non-routable addresses or comments were added:
+Append a list of hosts with `tee`:
 
- ```console
- $ curl https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts | sudo tee -a /etc/hosts
-
- $ wc -l /etc/hosts
- 65580
-
- $ egrep -ve "^#|^255.255.255.255|^127.|^0.|^::1|^ff..::|^fe80::" /etc/hosts | sort | uniq | egrep -e "[1,2]|::"
- [No output]
- ```
-
- See `man hosts` and [FreeBSD Configuration Files](https://www.freebsd.org/doc/handbook/configtuning-configfiles.html) for more information.
-
- See the [dnsmasq](#dnsmasq) section of this guide for more hosts blocking options.
+```console
+curl https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts | sudo tee -a /etc/hosts
+```
 
 #### dnscrypt
 
-To encrypt outgoing DNS traffic, consider using [jedisct1/dnscrypt-proxy](https://github.com/jedisct1/dnscrypt-proxy). In combination with dnsmasq and DNSSEC, the integrity and authenticity of DNS traffic is greatly improved.
+To encrypt DNS traffic, consider using [DNSCrypt/dnscrypt-proxy](https://github.com/DNSCrypt/dnscrypt-proxy). Used in combination with dnsmasq and DNSSEC, the integrity of DNS traffic can be significantly improved.
 
 [JayBrown/DNSCrypt-Menu](https://github.com/JayBrown/DNSCrypt-Menu) and [jedisct1/bitbar-dnscrypt-proxy-switcher](https://github.com/jedisct1/bitbar-dnscrypt-proxy-switcher) provide a graphical user interface to dnscrypt.
 
-Install dnscrypt from Homebrew and follow the instructions to configure and start `dnscrypt-proxy`:
+Install DNSCrypt from Homebrew and follow the instructions to configure and start `dnscrypt-proxy`:
 
 ```console
-$ brew install dnscrypt-proxy
+brew install dnscrypt-proxy
 ```
 
 If using in combination with Dnsmasq, find the file `homebrew.mxcl.dnscrypt-proxy.plist` by running
 
 ```console
-$ brew info dnscrypt-proxy
+brew info dnscrypt-proxy
 ```
 
 which will show a location like `/usr/local/etc/dnscrypt-proxy.toml`
@@ -839,10 +787,10 @@ listen_addresses = ['127.0.0.1:5355', '[::1]:5355']
 Start DNSCrypt:
 
 ```console
-$ sudo brew services restart dnscrypt-proxy
+sudo brew services restart dnscrypt-proxy
 ```
 
-Make sure DNSCrypt is running:
+Confirm DNSCrypt is running:
 
 ```console
 $ sudo lsof +c 15 -Pni UDP:5355
@@ -853,25 +801,7 @@ dnscrypt-proxy 15244 nobody   12u  IPv4 0x1337f85ff9f8beef      0t0  UDP 127.0.0
 dnscrypt-proxy 15244 nobody   14u  IPv6 0x1337f85ff9f8beef      0t0  UDP [::1]:5355
 ```
 
-> By default, dnscrypt-proxy runs on localhost (127.0.0.1), port 53,
-and under the "nobody" user using the resolvers specified in https://raw.githubusercontent.com/DNSCrypt/dnscrypt-resolvers/master/v2/public-resolvers.md. If you would like to change these settings, you will have to edit the configuration file (e.g. listen_addresses, user_name, urls, etc.)
-
-This can be accomplished by editing `/usr/local/etc/dnscrypt-proxy.toml` as described above.
-
-You can run your own [dnscrypt server](https://github.com/Cofyc/dnscrypt-wrapper) (see also [drduh/Debian-Privacy-Server-Guide#dnscrypt](https://github.com/drduh/Debian-Privacy-Server-Guide#dnscrypt)) from a trusted location or use one of many public servers instead.
-
-Confirm outgoing DNS traffic is encrypted:
-
-```console
-$ sudo tcpdump -qtni en0
-IP 10.8.8.8.59636 > 107.181.168.52: UDP, length 512
-IP 107.181.168.52 > 10.8.8.8.59636: UDP, length 368
-
-$ dig +short -x 128.180.155.106.49321
-d0wn-us-ns4
-```
-
-dnscrypt-proxy also has the capability to blacklist domains, including the use of wild-cards.
+> By default, dnscrypt-proxy runs on localhost (127.0.0.1), port 53, balancing traffic across a set of resolvers. If you would like to change these settings, you will have to edit the configuration file: $HOMEBREW_PREFIX/etc/dnscrypt-proxy.toml
 
 **Note** Applications and programs may resolve DNS using their own provided servers. If dnscrypt-proxy is used, it is possible to disable all other, non-dnscrypt DNS traffic with the following pf rules:
 
@@ -880,28 +810,28 @@ block drop quick on !lo0 proto udp from any to any port = 53
 block drop quick on !lo0 proto tcp from any to any port = 53
 ```
 
-See also [What is a DNS leak](https://dnsleaktest.com/what-is-a-dns-leak.html) and [ipv6-test.com](http://ipv6-test.com/).
+See also [What is a DNS leak](https://dnsleaktest.com/what-is-a-dns-leak.html) and [ipv6-test.com](http://ipv6-test.com/)
 
 #### Dnsmasq
 
-Among other features, [dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html) is able to cache replies, prevent upstream queries for unqualified names, and block entire top-level domain names.
+Among other features, [dnsmasq](https://www.thekelleys.org.uk/dnsmasq/doc.html) is able to cache replies, prevent upstream queries for unqualified names, and block entire top-level domain names.
 
-Use in combination with DNSCrypt to additionally encrypt outgoing DNS traffic.
+Use in combination with DNSCrypt to additionally encrypt DNS traffic.
 
-If you don't wish to use DNSCrypt, you should at least use DNS [not provided](http://bcn.boulder.co.us/~neal/ietf/verisign-abuse.html) [by your ISP](http://hackercodex.com/guide/how-to-stop-isp-dns-server-hijacking/). Two popular alternatives are [Google DNS](https://developers.google.com/speed/public-dns/) and [OpenDNS](https://www.opendns.com/home-internet-security/).
+If you don't wish to use DNSCrypt, you should at least use DNS [not provided](https://bcn.boulder.co.us/~neal/ietf/verisign-abuse.html) [by your ISP](https://hackercodex.com/guide/how-to-stop-isp-dns-server-hijacking/). Two popular alternatives are [Google DNS](https://developers.google.com/speed/public-dns/) and [OpenDNS](https://www.opendns.com/home-internet-security/).
 
-**(Optional)** [DNSSEC](https://en.wikipedia.org/wiki/Domain_Name_System_Security_Extensions) is a set of extensions to DNS which provide to DNS clients (resolvers) origin authentication of DNS data, authenticated denial of existence, and data integrity. All answers from DNSSEC protected zones are digitally signed. The signed records are authenticated via a chain of trust, starting with a set of verified public keys for the DNS root-zone. The current root-zone trust anchors may be downloaded [from IANA website](https://www.iana.org/dnssec/files). There are a number of resources on DNSSEC, but probably the best one is [dnssec.net website](http://www.dnssec.net).
+**Optional** [DNSSEC](https://en.wikipedia.org/wiki/Domain_Name_System_Security_Extensions) is a set of extensions to DNS which provide to DNS clients (resolvers) origin authentication of DNS data, authenticated denial of existence, and data integrity. All answers from DNSSEC protected zones are digitally signed. The signed records are authenticated via a chain of trust, starting with a set of verified public keys for the DNS root-zone. The current root-zone trust anchors may be downloaded [from IANA website](https://www.iana.org/dnssec/files). There are a number of resources on DNSSEC, but probably the best one is [dnssec.net website](https://www.dnssec.net).
 
 Install Dnsmasq (DNSSEC is optional):
 
 ```console
-$ brew install dnsmasq --with-dnssec
+brew install dnsmasq --with-dnssec
 ```
 
 Download [drduh/config/dnsmasq.conf](https://github.com/drduh/config/blob/master/dnsmasq.conf):
 
 ```
-$ curl -o homebrew/etc/dnsmasq.conf https://raw.githubusercontent.com/drduh/config/master/dnsmasq.conf
+curl -o homebrew/etc/dnsmasq.conf https://raw.githubusercontent.com/drduh/config/master/dnsmasq.conf
 ```
 
 Edit the file and examine all the options. To block entire levels of domains, append [drduh/config/domains](https://github.com/drduh/config/tree/master/domains) or your own rules.
@@ -909,16 +839,16 @@ Edit the file and examine all the options. To block entire levels of domains, ap
 Install and start the program (sudo is required to bind to [privileged port](https://unix.stackexchange.com/questions/16564/why-are-the-first-1024-ports-restricted-to-the-root-user-only) 53):
 
 ```console
-$ sudo brew services start dnsmasq
+sudo brew services start dnsmasq
 ```
 
 To set Dnsmasq as your local DNS server, open **System Preferences** > **Network** and select the active interface, then the **DNS** tab, select **+** and add `127.0.0.1`, or use:
 
 ```console
-$ sudo networksetup -setdnsservers "Wi-Fi" 127.0.0.1
+sudo networksetup -setdnsservers "Wi-Fi" 127.0.0.1
 ```
 
-Make sure Dnsmasq is correctly configured:
+Confirm Dnsmasq is configured:
 
 ```console
 $ scutil --dns | head
@@ -958,10 +888,10 @@ $ dig www.dnssec-failed.org
 
 When macOS connects to new networks, it checks for Internet connectivity and may launch a Captive Portal assistant utility application.
 
-An attacker could trigger the utility and direct a Mac to a site with malware without user interaction, so it's best to disable this feature and log in to captive portals using your regular Web browser by navigating to a non-secure HTTP page and accepting a redirect to the captive portal login interface (after disabling any custom proxy or DNS settings).
+It is possible to trigger the utility and direct a Mac to malware without user interaction, so it's best to disable this feature and log in to captive portals using your regular Web browser by navigating to a non-secure HTTP page and accepting a redirect to the captive portal login interface (after disabling any custom proxy or DNS settings).
 
 ```console
-$ sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.captive.control.plist Active -bool false
+sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.captive.control.plist Active -bool false
 ```
 
 Also see [Apple's secret "wispr" request](https://web.archive.org/web/20171008071031/http://blog.erratasec.com/2010/09/apples-secret-wispr-request.html), [How to disable the captive portal window in Mac OS Lion](https://web.archive.org/web/20130407200745/http://www.divertednetworks.net/apple-captiveportal.html) and [An undocumented change to Captive Network Assistant settings in OS X 10.10 Yosemite](https://web.archive.org/web/20170622064304/https://grpugh.wordpress.com/2014/10/29/an-undocumented-change-to-captive-network-assistant-settings-in-os-x-10-10-yosemite/).
@@ -981,76 +911,36 @@ Disable certificate authorities through Keychain Access by marking them as **Nev
 
 The risk of a [man in the middle](https://en.wikipedia.org/wiki/Man-in-the-middle_attack) attack in which a coerced or compromised certificate authority trusted by your system issues a fake/rogue SSL certificate is quite low, but still [possible](https://en.wikipedia.org/wiki/DigiNotar#Issuance_of_fraudulent_certificates).
 
-## OpenSSL
-
-**Note** This section [may be out of date](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/356).
-
-The version of OpenSSL in Sierra is `0.9.8zh` which is [not current](https://apple.stackexchange.com/questions/200582/why-is-apple-using-an-older-version-of-openssl). It doesn't support TLS 1.1 or newer, elliptic curve ciphers, and [more](https://stackoverflow.com/questions/27502215/difference-between-openssl-09-8z-and-1-0-1).
-
-Since Apple's official supported TLS library on macOS is [Secure Transport](https://developer.apple.com/documentation/security/secure_transport), OpenSSL **deprecated** is considered deprecated (according to the [Cryptographic Services Guide](https://developer.apple.com/library/mac/documentation/Security/Conceptual/cryptoservices/GeneralPurposeCrypto/GeneralPurposeCrypto.html). Apple's version of OpenSSL may also have patches which may [surprise you](https://hynek.me/articles/apple-openssl-verification-surprises/).
-
-If you're going to use OpenSSL on your Mac, download and install a recent version of OpenSSL with `brew install openssl`. Note, linking brew to be used in favor of `/usr/bin/openssl` may interfere with built-in software. See [issue #39](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/39).
-
-Compare the TLS protocol and cipher between the homebrew version and the system version of OpenSSL:
-
-```console
-$ ~/homebrew/bin/openssl version; echo | ~/homebrew/bin/openssl s_client -connect github.com:443 2>&1 | grep -A2 SSL-Session
-OpenSSL 1.0.2j  26 Sep 2016
-SSL-Session:
-    Protocol  : TLSv1.2
-    Cipher    : ECDHE-RSA-AES128-GCM-SHA256
-
-$ /usr/bin/openssl version; echo | /usr/bin/openssl s_client -connect github.com:443 2>&1 | grep -A2 SSL-Session
-OpenSSL 0.9.8zh 14 Jan 2016
-SSL-Session:
-    Protocol  : TLSv1
-    Cipher    : AES128-SHA
-```
-
-See also [Comparison of TLS implementations](https://en.wikipedia.org/wiki/Comparison_of_TLS_implementations), [How's My SSL](https://www.howsmyssl.com/) and [Qualys SSL Labs Tools](https://www.ssllabs.com/projects/).
-
-## Curl
-
-The version of Curl which comes with macOS uses [Secure Transport](https://developer.apple.com/library/mac/documentation/Security/Reference/secureTransportRef/) for SSL/TLS validation.
-
-If you prefer to use OpenSSL, install with `brew install curl --with-openssl` and ensure it's the default with `brew link --force curl`
-
-Download [drduh/config/curlrc](https://github.com/drduh/config/blob/master/curlrc) or see the [man page](https://curl.haxx.se/docs/manpage.html):
-
-```console
-$ curl -o ~/.curlrc https://raw.githubusercontent.com/drduh/config/master/curlrc
-```
-
 ## Web
 
 ### Privoxy
 
 Consider using [Privoxy](https://www.privoxy.org/) as a local proxy to filter Web browsing traffic.
 
-**Note** macOS proxy settings are not universal; apps and services may not honor system proxy settings. Ensure the application you wish to proxy is correctly configured and manually verify connections don't leak. Additionally, it may be possible to configure the *pf* firewall to transparently proxy all traffic.
+**Note** macOS proxy settings are not universal; apps and services may not honor system proxy settings. Ensure the application you wish to proxy is correctly configured and verify connections don't leak. Additionally, it may be possible to configure the *pf* firewall to transparently proxy all traffic.
 
 A signed installation package for privoxy can be downloaded from [silvester.org.uk](https://silvester.org.uk/privoxy/Macintosh%20%28OS%20X%29/) or [Sourceforge](https://sourceforge.net/projects/ijbswa/files/Macintosh%20%28OS%20X%29/). The signed package is [more secure](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/65) than the Homebrew version, and attracts full support from the Privoxy project.
 
 Alternatively, install and start privoxy using Homebrew:
 
 ```console
-$ brew install privoxy
+brew install privoxy
 
-$ brew services start privoxy
+brew services start privoxy
 ```
 
-By default, privoxy listens on localhost, TCP port 8118.
+Privoxy listens on local TCP port 8118 by default.
 
 Set the system **HTTP** proxy for your active network interface `127.0.0.1` and `8118` (This can be done through **System Preferences > Network > Advanced > Proxies**):
 
 ```console
-$ sudo networksetup -setwebproxy "Wi-Fi" 127.0.0.1 8118
+sudo networksetup -setwebproxy "Wi-Fi" 127.0.0.1 8118
 ```
 
-**(Optional)** Set the system **HTTPS** proxy, which still allows for domain name filtering, with:
+**Optional** Set the system **HTTPS** proxy, which still allows for domain name filtering, with:
 
 ```console
-$ sudo networksetup -setsecurewebproxy "Wi-Fi" 127.0.0.1 8118
+sudo networksetup -setsecurewebproxy "Wi-Fi" 127.0.0.1 8118
 ```
 
 Confirm the proxy is set:
@@ -1084,9 +974,9 @@ Privoxy already comes with many good rules, however you can also write your own.
 Download [drduh/config/privoxy/config](https://github.com/drduh/config/blob/master/privoxy/config) and [drduh/config/privoxy/user.action](https://github.com/drduh/config/blob/master/privoxy/user.action) to get started:
 
 ```console
-$ curl -o homebrew/etc/privoxy/config https://raw.githubusercontent.com/drduh/config/master/privoxy/config
+curl -o homebrew/etc/privoxy/config https://raw.githubusercontent.com/drduh/config/master/privoxy/config
 
-$ curl -o homebrew/etc/privoxy/user.action https://raw.githubusercontent.com/drduh/config/master/privoxy/user.action
+curl -o homebrew/etc/privoxy/user.action https://raw.githubusercontent.com/drduh/config/master/privoxy/user.action
 ```
 
 Restart Privoxy and verify traffic is blocked or redirected:
@@ -1113,91 +1003,86 @@ You can replace ad images with pictures of kittens, for example, by starting a l
 
 ### Browser
 
-The Web browser poses the largest security and privacy risk, as its fundamental job is to download and execute untrusted code from the Internet. This is an important statement. The unique use case of Web Browsers of operation in hostile environments, has forced them to adopt certain impressive security features. The cornerstone of Web Browser security is the Same Origin Policy ([SOP](https://en.wikipedia.org/wiki/Same-origin_policy)). In a few words, SOP prevents a malicious script on one page from obtaining access to sensitive data on another web page through that page's Document Object Model (DOM). If SOP is compromised, the security of the whole Web Browser is compromised.
+The Web browser likely poses the largest security and privacy risk, as its fundamental job is to download and execute untrusted code from the Internet.
 
-The best tip to ensure secure browsing regardless your choice of Web Browser is proper security hygiene. The majority of Web Browser exploits require social engineering attacks to achieve native code execution. Always be mindful of the links you click and be extra careful when websites ask you to download and install software. 99% percent of the time that software is malware.
+An important property of modern browsers Same Origin Policy ([SOP](https://en.wikipedia.org/wiki/Same-origin_policy)) which prevents a malicious script on one page from obtaining access to sensitive data on another web page through the Document Object Model (DOM). If SOP is compromised, the security of the entire browser is compromised.
 
-Another important consideration about Web Browser security is Web Extensions. Web Extensions greatly increase the attack surface of the Web Browser. This is an issue that plagues Firefox and [Chrome](https://courses.csail.mit.edu/6.857/2016/files/24.pdf) alike. Luckily, Web Extensions can only access specific browser APIs that are being governed by their manifest. That means we can quickly audit their behavior and remove them if they request access to information they shouldn't (why would an Ad blocker require camera access?). In the interest of security, it is best to limit your use of Web Extensions.
+Many browser exploits are based on social engineering as a means of gaining persistence. Always be mindful of opening untrusted sites and especially careful when downloading new software.
 
-[Mozilla Firefox](https://www.mozilla.org/en-US/firefox/new/), [Google Chrome](https://www.google.com/chrome/), [Safari](https://www.apple.com/safari/), and [Tor Browser](https://www.torproject.org/projects/torbrowser.html.en) are covered in this guide. Each Web Browser offers certain benefits and drawbacks regarding their security and privacy. It is best to make an informed choice and not necessarily commit to only one.
+Another important consideration about browser security are extensions. This is an issue affecting Firefox and [Chrome](https://courses.csail.mit.edu/6.857/2016/files/24.pdf) alike. The use of browser extensions should be limited to only critically necessary ones published by trustworthy developers.
+
+[Mozilla Firefox](https://www.mozilla.org/en-US/firefox/new/), [Google Chrome](https://www.google.com/chrome/), [Safari](https://www.apple.com/safari/), and [Tor Browser](https://www.torproject.org/projects/torbrowser.html.en) are all recommended browsers for their own unique and individual purposes.
 
 #### Firefox
 
-[Mozilla Firefox](https://www.mozilla.org/en-US/firefox/new/) is an excellent browser as well as being completely open source. Currently, Firefox is in a renaissance period. It replaces major parts of its infrastructure and code base under projects [Quantum](https://wiki.mozilla.org/Quantum) and [Photon](https://wiki.mozilla.org/Firefox/Photon/Updates). Part of the Quantum project is to replace C++ code with [Rust](https://www.rust-lang.org/en-US/). Rust is a systems programming language with a focus on security and thread safety. It is expected that Rust adoption will greatly improve the overall security posture of Firefox.
+[Mozilla Firefox](https://www.mozilla.org/en-US/firefox/new/) is a popular open source browser. Firefox recently replaced major parts of its infrastructure and code base under projects [Quantum](https://wiki.mozilla.org/Quantum) and [Photon](https://wiki.mozilla.org/Firefox/Photon/Updates). Part of the Quantum project is to replace C++ code with [Rust](https://www.rust-lang.org/en-US/). Rust is a systems programming language with a focus on security and thread safety. It is expected that Rust adoption will greatly improve the overall security posture of Firefox.
 
-Firefox offers a similar security model to Chrome: it has a [bug bounty program](https://www.mozilla.org/en-US/security/bug-bounty/), although it is not a lucrative as Chrome's. Firefox follows a six-week release cycle similar to Chrome. See discussion in issues [#2](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/2) and [#90](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/90) for more information about certain differences in Firefox and Chrome.
+Firefox offers a similar security model to Chrome: it has a [bug bounty program](https://www.mozilla.org/en-US/security/bug-bounty/), although it is not a lucrative. Firefox follows a six-week release cycle similar to Chrome. See discussion in issues [#2](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/2) and [#90](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/90) for more information about certain differences in Firefox and Chrome.
 
-Firefox supports user-supplied configuration files. See [pyllyukko/user.js](https://github.com/pyllyukko/user.js) and [ghacksuserjs/ghacks-user.js](https://github.com/ghacksuserjs/ghacks-user.js) for recommended preferences and hardening measures. Also see [NoScript](https://noscript.net/), an extension which allows whitelist-based, pre-emptive script blocking.
+Firefox supports user-supplied configuration files. See See [drduh/config/firefox.user.js](https://github.com/drduh/config/blob/master/firefox.user.js) and [arkenfox/user.js](https://github.com/arkenfox/user.js) for recommended preferences and hardening measures. Also see [NoScript](https://noscript.net/), an extension which allows selective script blocking.
 
-Firefox is focused on user privacy. It supports [tracking protection](https://developer.mozilla.org/en-US/Firefox/Privacy/Tracking_Protection) in Private Browsing mode. The tracking protection can be enabled for the default account, although it may break the browsing experience on some websites. Another feature for added privacy unique to Firefox is [Containers](https://testpilot.firefox.com/experiments/containers), similar to Chrome profiles.
+Firefox [focused on user privacy](https://www.mozilla.org/en-US/firefox/privacy/). It supports [tracking protection](https://developer.mozilla.org/en-US/docs/Web/Privacy/Firefox_tracking_protection) in Private Browsing mode. The tracking protection can be enabled for the default account, although it may break the browsing experience on some websites. Another feature similar to Chrome profiles is [Firefox Multi-Account Containers](https://addons.mozilla.org/en-US/firefox/addon/multi-account-containers/).
 
-Previous versions of Firefox used a Web Extension SDK that was quite invasive and offered immense freedom to developers. Sadly, that freedom also introduced a number of vulnerabilities in Firefox that greatly affected its users. Currently, Firefox only supports Web Extensions through the [Web Extension Api](https://developer.mozilla.org/en-US/Add-ons/WebExtensions), which is very similar to Chrome's.
-
-Submission of Web Extensions in Firefox is free. Web Extensions in Firefox most of the time are open source, although certain Web Extensions are proprietary.
-
-**Note** Similar to Chrome and Safari, Firefox allows account sync across multiple devices. While stored login passwords are encrypted, Firefox does not require a password to reveal their plain text format. Firefox only displays as yes/no prompt. This is an important security issue. Keep that in mind if you sign in to your Firefox account from devices that do not belong to you and leave them unattended. The [issue](https://bugzilla.mozilla.org/show_bug.cgi?id=1393493) has been raised among the Firefox community and hopefully will be resolved in the coming versions.
-
-See [drduh/config/firefox.user.js](https://github.com/drduh/config/blob/master/firefox.user.js) for additional Firefox configuration options to improve security and privacy.
+Previous versions of Firefox used a Web Extension SDK that was quite invasive and offered immense freedom to developers. Sadly, that freedom also introduced a number of vulnerabilities in Firefox that greatly affected its users. Currently, Firefox only supports Web Extensions through the [Web Extension Api](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions), which is very similar to Chrome. Submission of Web Extensions in Firefox is free. Web Extensions in Firefox most of the time are open source, although certain Web Extensions are proprietary.
 
 #### Chrome
 
 [Google Chrome](https://www.google.com/chrome/) is based on the open source [Chromium project](https://www.chromium.org/Home) with certain [proprietary components](https://fossbytes.com/difference-google-chrome-vs-chromium-browser/):
 
-* Automatic updates with GoogleSoftwareUpdateDaemon.
-* Usage tracking and crash reporting, which can be disabled through Chrome's settings.
-* Chrome Web Store.
-* Adobe Flash Plugin - supports a Pepper API version of Adobe Flash which gets updated automatically with Chrome.
-* Media Codec support - adds support for proprietary codecs.
-* Chrome [PDF viewer](http://0xdabbad00.com/2013/01/13/most-secure-pdf-viewer-chrome-pdf-viewer/).
+* Automatic updates with GoogleSoftwareUpdateDaemon
+* Usage tracking and crash reporting, which can be disabled through Chrome's settings
+* Media Codec support for proprietary codecs
+* Chrome Web Store
+* PDF viewer
 * Non-optional tracking. Google Chrome installer includes a randomly generated token. The token is sent to Google after the installation completes in order to measure the success rate. The RLZ identifier stores information – in the form of encoded strings – like the source of chrome download and installation week. It doesn’t include any personal information and it’s used to measure the effectiveness of a promotional campaign. **Chrome downloaded from Google’s website doesn’t have the RLZ identifier**. The source code to decode the strings is made open by Google.
 
 Chrome offers account sync between multiple devices. Part of the sync data are stored website credentials. The login passwords are encrypted and in order to access them, a user's Google account password is required. You can use your Google account to sign to your Chrome customized settings from other devices while retaining your the security of your passwords.
 
-Chrome's Web store for extensions requires a [5 dollar lifetime fee](https://developer.chrome.com/webstore/publish#pay-the-developer-signup-fee) in order to submit extensions. The low cost allows the development of many quality Open Source Web Extensions that do not aim to monetize through usage.
+Chrome's Web Store for extensions requires a [5 USD lifetime fee](https://developer.chrome.com/webstore/publish#pay-the-developer-signup-fee) in order to submit extensions. The low cost allows the development of many quality Open Source Web Extensions that do not aim to monetize through usage.
 
 Chrome has the largest share of global usage and is the preferred target platform for the majority of developers. Major technologies are based on Chrome's Open Source components, such as [node.js](https://nodejs.org/en/) which uses [Chrome's V8](https://developers.google.com/v8/) Engine and the [Electron](https://electron.atom.io/) framework, which is based on Chromium and node.js. Chrome's vast user base makes it the most attractive target for threat actors and security researchers. Despite under constants attacks, Chrome has retained an impressive security track record over the years. This is not a small feat.
 
-Chrome offers [separate profiles](https://www.chromium.org/user-experience/multi-profiles), [sandboxing](https://www.chromium.org/developers/design-documents/sandbox), [frequent updates](https://googlechromereleases.blogspot.com/) (including Flash, although you should disable it - see below), and carries [impressive credentials](https://www.chromium.org/Home/chromium-security/brag-sheet). In addition, Google offers a very lucrative [bounty](https://www.google.com/about/appsecurity/chrome-rewards/) program for reporting vulnerabilities along with its own [Project Zero](https://googleprojectzero.blogspot.com). This means that a large number of highly talented and motivated people are constantly auditing Chrome's code base.
+Chrome offers [separate profiles](https://www.chromium.org/user-experience/multi-profiles), [robust sandboxing](https://chromium.googlesource.com/chromium/src/+/HEAD/docs/design/sandbox.md), [frequent updates](https://chromereleases.googleblog.com/), and carries [impressive credentials](https://www.chromium.org/Home/chromium-security/brag-sheet). In addition, Google offers a very lucrative [bounty program](https://bughunters.google.com/about/rules/5745167867576320/chrome-vulnerability-reward-program-rules) for reporting vulnerabilities, along with its own [Project Zero](https://googleprojectzero.blogspot.com/) team. This means that a large number of highly talented and motivated people are constantly auditing and securing Chrome code.
 
-Create separate Chrome profiles to reduce XSS risk and compartmentalize cookies/identities. In each profile, either disable Javascript in Chrome settings and manually whitelist allowed origins - or use [uBlock Origin](https://github.com/gorhill/uBlock) to manage Javascript and/or disable third-party scripts/frames. Also install [HTTPSEverywhere](https://www.eff.org/https-everywhere) to upgrade insecure connections.
+Create separate Chrome profiles to reduce XSS risk and compartmentalize cookies/identities. In each profile, either disable Javascript in Chrome settings and configure allowed origins - or use [uBlock Origin](https://github.com/gorhill/uBlock) to manage Javascript.
 
 Change the default search engine from Google to reduce additional tracking.
 
 Disable [DNS prefetching](https://www.chromium.org/developers/design-documents/dns-prefetching) (see also [DNS Prefetching and Its Privacy Implications](https://www.usenix.org/legacy/event/leet10/tech/full_papers/Krishnan.pdf) (pdf)). Note that Chrome [may attempt](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/350) to resolve DNS using Google's `8.8.8.8` and `8.8.4.4` public nameservers.
 
-Read [Chromium Security](https://www.chromium.org/Home/chromium-security) and [Chromium Privacy](https://www.chromium.org/Home/chromium-privacy) for more detailed, technical information.
-
-Read [Google's privacy policy](https://www.google.com/policies/privacy/) and learn which [Google services](https://www.google.com/services/) collect personal information. Users can opt-out of services and see what type of information Google has stored in [account settings](https://myaccount.google.com/privacy).
+Read [Chromium Security](https://www.chromium.org/Home/chromium-security) and [Chromium Privacy](https://www.chromium.org/Home/chromium-privacy) for more information. Read [Google's privacy policy](https://policies.google.com/privacy) to understand how personal information is collected and used.
 
 #### Safari
 
-[Safari](https://www.apple.com/safari/) is the default Web browser of macOS. It is also the most optimized browser for reducing battery use. Safari, like Chrome, has both Open Source and proprietary components. Safari is based on the open source Web Engine [WebKit](https://en.wikipedia.org/wiki/WebKit), which is ubiquitous among the macOS ecosystem. WebKit is used by Apple apps such as Mail, iTunes, iBooks, and the App Store. Chrome's [Blink](https://www.chromium.org/blink) engine is a fork of WebKit and both engines share a number of similarities.
+[Safari](https://www.apple.com/safari/) is the default browser on macOS. It is also the most optimized browser for reducing battery use. Safari, like Chrome, has both Open Source and proprietary components. Safari is based on the open source Web Engine [WebKit](https://en.wikipedia.org/wiki/WebKit), which is ubiquitous among the macOS ecosystem. WebKit is used by Apple apps such as Mail, iTunes, iBooks, and the App Store. Chrome's [Blink](https://www.chromium.org/blink) engine is a fork of WebKit and both engines share a number of similarities.
 
-Safari supports certain unique features that benefit user security and privacy. [Content blockers](https://webkit.org/blog/3476/content-blockers-first-look/) enables the creation of content blocking rules without using Javascript. This rule based approach greatly improves memory use, security, and privacy. Safari 11 introduced an [Intelligent Tracking Prevention](https://webkit.org/blog/7675/intelligent-tracking-prevention/) system. This feature automatically removes tracking data stored in Safari after a period of non-interaction by the user from the tracker's website.
+Safari supports certain unique features that benefit user security and privacy. [Content blockers](https://webkit.org/blog/3476/content-blockers-first-look/) enables the creation of content blocking rules without using Javascript. This rule based approach greatly improves memory use, security, and privacy. Safari 11 introduced [Intelligent Tracking Prevention](https://webkit.org/blog/7675/intelligent-tracking-prevention/), which removes tracking data stored in Safari after a period of non-interaction by the user from the tracker's website.
 
-Similar to Chrome and Firefox, Safari offers an invite only [bounty program](https://developer.apple.com/bug-reporting/) for bug reporting to a select number of security researchers. The bounty program was announced during Apple's [presentation](https://www.blackhat.com/docs/us-16/materials/us-16-Krstic.pdf) at [BlackHat](https://www.blackhat.com/us-16/briefings.html#behind-the-scenes-of-ios-security) 2016.
+Safari offers an invite-only [bounty program](https://developer.apple.com/bug-reporting/) for bug reporting to a select number of security researchers. The bounty program was announced during Apple's [presentation](https://www.blackhat.com/docs/us-16/materials/us-16-Krstic.pdf) at [BlackHat](https://www.blackhat.com/us-16/briefings.html#behind-the-scenes-of-ios-security) 2016.
 
-Web Extensions in Safari have an additional option to use native code in the Safari's sandbox environment, in addition to Web Extension APIs. Web Extensions in Safari are also distributed through Apple's App store. App store submission comes with the added benefit of Web Extension code being audited by Apple. On the other hand App store submission comes at a steep cost. Yearly [developer subscription](https://developer.apple.com/support/compare-memberships/) fee costs 100 USD (in contrast to Chrome's 5 dollar lifetime fee and Firefox's free submission). The high cost is prohibitive for the majority of Open Source developers. As a result, Safari has very few extensions to choose from. However, you should keep the high cost in mind when installing extensions. It is expected that most Web Extensions will have some way of monetizing usage in order to cover developer costs. Be wary of Web Extensions whose source code is not open.
+Web Extensions in Safari have an additional option to use native code in the Safari's sandbox environment, in addition to Web Extension APIs. Web Extensions in Safari are also distributed through Apple's App store. App store submission comes with the added benefit of Web Extension code being audited by Apple. On the other hand App store submission comes at a steep cost. Yearly [developer subscription](https://developer.apple.com/support/compare-memberships/) fee costs 100 USD (in contrast to Chrome's 5 USD fee and Firefox's free submission). The high cost is prohibitive for the majority of Open Source developers. As a result, Safari has very few extensions to choose from. However, you should keep the high cost in mind when installing extensions. It is expected that most Web Extensions will have some way of monetizing usage in order to cover developer costs. Be wary of Web Extensions whose source code is not open.
 
 Safari syncs user preferences and saved passwords with [iCloud Keychain](https://support.apple.com/en-gb/HT202303). In order to be viewed in plain text, a user must input the account password of the current device. This means that users can sync data across devices with added security.
 
-Safari follows a slower release cycle than Chrome and Firefox (3-4 minor releases, 1 major release, per year). Newer features are slower to be adopted to the stable channel. Although security updates in Safari are handled independent of the stable release schedule and issued automatically through the App store. The Safari channel that follows a six-week release cycle (similar to as Chrome and Firefox) is called [Safari Technology Preview](https://developer.apple.com/safari/technology-preview/) and it is the recommended option instead of the stable channel of Safari.
+Safari follows a slower release cycle than Chrome and Firefox (3-4 minor releases, 1 major release, per year). Newer features are slower to be adopted to the stable channel. Security updates in Safari are handled independent of the stable release schedule and are installed through the App Store.
 
-An excellent open source ad blocker for Safari that fully leverages content blockers is [dgraham/Ka-Block](https://github.com/dgraham/Ka-Block). See also [el1t/uBlock-Safari](https://github.com/el1t/uBlock-Safari/wiki/Disable-hyperlink-auditing-beacon) to disable hyperlink auditing beacons.
+An example of using Safari content blockers is available at [dgraham/Ka-Block](https://github.com/dgraham/Ka-Block).
+
+See also [el1t/uBlock-Safari](https://github.com/el1t/uBlock-Safari/wiki/Disable-hyperlink-auditing-beacon) to disable hyperlink auditing beacons.
 
 #### Other Web browsers
 
-Many Chromium-derived browsers are not recommended. They are usually [closed source](http://yro.slashdot.org/comments.pl?sid=4176879&cid=44774943), [poorly maintained](https://plus.google.com/+JustinSchuh/posts/69qw9wZVH8z), [have bugs](https://code.google.com/p/google-security-research/issues/detail?id=679), and make dubious claims to protect privacy. See [The Private Life of Chromium Browsers](https://web.archive.org/web/20180517132144/http://thesimplecomputer.info/the-private-life-of-chromium-browsers).
+Many Chromium-derived browsers are not recommended. They are usually [closed source](https://yro.slashdot.org/comments.pl?sid=4176879&cid=44774943), [poorly maintained](https://plus.google.com/+JustinSchuh/posts/69qw9wZVH8z), [have bugs](https://code.google.com/p/google-security-research/issues/detail?id=679), and make dubious claims to protect privacy. See [The Private Life of Chromium Browsers](https://web.archive.org/web/20180517132144/http://thesimplecomputer.info/the-private-life-of-chromium-browsers).
 
 Other miscellaneous browsers, such as [Brave](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/94), are not evaluated in this guide, so are neither recommended nor actively discouraged from use.
 
 #### Web browsers and privacy
 
-All Web Browsers retain certain information about our browsing habits. That information is used for a number of reasons. One of them is to improve the overall performance of the Web Browser. Most Web Browsers offer prediction services to resolve typos or URL redirections, store analytics data of browsing patterns, crash reports and black listing of known malicious servers. Those options can be turned on and off from each Web browser's settings panel.
+Web browsers reveal information in several ways, for example through the [Navigator](https://developer.mozilla.org/en-US/docs/Web/API/Navigator) interface, which may include information such as the browser version, operating system, site permissions, and the device's battery level. Many websites also use [canvas fingerprinting](https://en.wikipedia.org/wiki/Canvas_fingerprinting) to uniquely identify users across sessions.
 
-Since Web browsers execute untrusted code from the server, it is important to understand what type of information can be accessed. The [Navigator](https://developer.mozilla.org/en-US/docs/Web/API/Navigator) interface gives access to information about the Web Browser's user agent. Those include information such as the operating system, Web sites' permissions, and the device's battery level. For more information about security conscious browsing and what type of information is being "leaked" by your browser, see [HowTo: Privacy & Security Conscious Browsing](https://gist.github.com/atcuno/3425484ac5cce5298932), [browserleaks.com](https://www.browserleaks.com/) and [EFF Panopticlick](https://panopticlick.eff.org/).
+For more information about security conscious browsing and what data is sent by your browser, see [HowTo: Privacy & Security Conscious Browsing](https://gist.github.com/atcuno/3425484ac5cce5298932), [browserleaks.com](https://browserleaks.com/), [Am I Unique?](https://amiunique.org/fingerprint) and [EFF Cover Your Tracks](https://coveryourtracks.eff.org/) resources.
 
-To hinder third party trackers, it is recommended to **disable third-party cookies** in Web browser settings. A third party cookie is a cookie associated with a file requested by a different domain than the one the user is currently viewing. Most of the time third-party cookies are used to create browsing profiles by tracking a user's movement on the web. Disabling third-party cookies prevents HTTP responses and scripts from other domains from setting cookies. Moreover, cookies are removed from requests to domains that are not the document origin domain, so cookies are only sent to the current site that is being viewed.
+To hinder third party trackers, it is recommended to **disable third-party cookies** altogether. A third party cookie is a cookie associated with a file requested by a different domain than the one the user is currently viewing. Most of the time third-party cookies are used to create browsing profiles by tracking a user's movement on the web. Disabling third-party cookies prevents HTTP responses and scripts from other domains from setting cookies. Moreover, cookies are removed from requests to domains that are not the document origin domain, so cookies are only sent to the current site that is being viewed.
 
 Also be aware of [WebRTC](https://en.wikipedia.org/wiki/WebRTC#Concerns), which may reveal your local or public (if connected to VPN) IP address(es). In Firefox and Chrome/Chromium this can be disabled with extensions such as [uBlock Origin](https://github.com/gorhill/uBlock/wiki/Prevent-WebRTC-from-leaking-local-IP-address) and [rentamob/WebRTC-Leak-Prevent](https://github.com/rentamob/WebRTC-Leak-Prevent). Disabling WebRTC in Safari is only possible with a [system hack](https://github.com/JayBrown/Disable-and-toggle-WebRTC-in-macOS-Safari).
 
@@ -1211,7 +1096,7 @@ See [Hacking Team Flash Zero-Day](https://blog.trendmicro.com/trendlabs-security
 
 ## Tor
 
-Tor is an anonymizing proxy which can be used for browsing the Web.
+Tor is an anonymizing network which can be used for browsing the Web with additional privacy. Tor Browser is a modified version of Firefox with a proxy to access the Tor network.
 
 Download Tor Browser from [Tor Project](https://www.torproject.org/download/).
 
@@ -1247,16 +1132,16 @@ Primary key fingerprint: EF6E 286D DA85 EA2A 4BA7  DE68 4E2C 6E87 9329 8290
      Subkey fingerprint: 1107 75B5 D101 FB36 BC6C  911B EB77 4491 D9FF 06E2
 ```
 
-Make sure `Good signature from "Tor Browser Developers (signing key) <torbrowser@torproject.org>"` appears in the output. The warning about the key not being certified is benign, as it has not yet been manually assigned trust.
+Make sure `Good signature from "Tor Browser Developers (signing key) <torbrowser@torproject.org>"` appears in the output. The warning about the key not being certified is benign, as it has not yet been assigned trust.
 
-See [How to verify signatures for packages](https://www.torproject.org/docs/verifying-signatures.html) for more information.
+See [How can I verify Tor Browser's signature?](https://support.torproject.org/) for more information.
 
 To finish installing Tor Browser, open the disk image and drag the it into the Applications folder, or with:
 
 ```console
-$ hdiutil mount TorBrowser-8.0.4-osx64_en-US.dmg
+hdiutil mount TorBrowser-8.0.4-osx64_en-US.dmg
 
-$ cp -r /Volumes/Tor\ Browser/Tor\ Browser.app/ ~/Applications/
+cp -r /Volumes/Tor\ Browser/Tor\ Browser.app/ ~/Applications/
 
 ```
 
@@ -1326,7 +1211,7 @@ $ openssl x509 -inform der -in codesign0 -fingerprint -sha256 -noout
 SHA256 Fingerprint=B5:0D:47:F0:3E:CB:42:B6:68:1C:6F:38:06:2B:C2:9F:41:FA:D6:54:F1:29:D3:E4:DD:9C:C7:49:35:FF:F5:D9
 ```
 
-Tor traffic is **encrypted** to the [exit node](https://en.wikipedia.org/wiki/Tor_(anonymity_network)#Exit_node_eavesdropping) (i.e., cannot be read by a passive network eavesdropper), but Tor use **can** be identified - for example, TLS handshake "hostnames" will show up in plaintext:
+Tor traffic is **encrypted** to the [exit node](https://en.wikipedia.org/wiki/Tor_(network)#Exit_node_eavesdropping) (i.e., cannot be read by a passive network eavesdropper), but Tor use **can** be identified - for example, TLS handshake "hostnames" will show up in plaintext:
 
 ```console
 $ sudo tcpdump -An "tcp" | grep "www"
@@ -1336,25 +1221,19 @@ listening on pktap, link-type PKTAP (Apple DLT_PKTAP), capture size 262144 bytes
 .6....m.....>...:.........|../*	Z....W....X=..6...C../....................................0...0..0.......'....F./0..	*.H........0%1#0!..U....www.b6zazzahl3h3faf4x2.com0...160402000000Z..170317000000Z0'1%0#..U....www.tm3ddrghe22wgqna5u8g.net0..0..
 ```
 
-See [Tor Protocol Specification](https://gitweb.torproject.org/torspec.git/tree/tor-spec.txt) and [Tor/TLSHistory](https://trac.torproject.org/projects/tor/wiki/org/projects/Tor/TLSHistory) for more information.
+See [Tor Protocol Specification](https://spec.torproject.org/tor-spec/) and [Tor/TLSHistory](https://gitlab.torproject.org/legacy/trac/-/wikis/org/projects/Tor/TLSHistory) for more information.
 
-You may wish to additionally obfuscate Tor traffic using a [pluggable transport](https://www.torproject.org/docs/pluggable-transports.html), such as [Yawning/obfs4proxy](https://github.com/Yawning/obfs4) or [SRI-CSL/stegotorus](https://github.com/SRI-CSL/stegotorus).
+You may wish to additionally obfuscate Tor traffic using a [pluggable transport](https://tb-manual.torproject.org/circumvention/).
 
-This can be done by setting up your own [Tor relay](https://www.torproject.org/docs/tor-relay-debian.html) or finding an existing private or public [bridge](https://www.torproject.org/docs/bridges.html.en#RunningABridge) to serve as an obfuscating entry node.
+This can be done by setting up your own [Tor relay](https://support.torproject.org/relay-operators/) or finding an existing private or [public bridge](https://bridges.torproject.org/) to serve as an obfuscating entry node.
 
-For extra security, use Tor inside a [VirtualBox](https://www.virtualbox.org/wiki/Downloads) or [VMware](https://www.vmware.com/products/fusion) virtualized [GNU/Linux](http://www.brianlinkletter.com/installing-debian-linux-in-a-virtualbox-virtual-machine/) or [BSD](https://www.openbsd.org/faq/faq4.html) machine.
+For extra security, use Tor inside a [VirtualBox](https://www.virtualbox.org/wiki/Downloads) or [VMware](https://www.vmware.com/products/fusion.html) virtualized [GNU/Linux](https://www.brianlinkletter.com/2012/10/installing-debian-linux-in-a-virtualbox-virtual-machine/) or [OpenBSD](https://www.openbsd.org/faq/faq4.html) instance.
 
-Finally, remember the Tor network provides [anonymity](https://www.privateinternetaccess.com/blog/2013/10/how-does-privacy-differ-from-anonymity-and-why-are-both-important/), which is not necessarily synonymous with privacy. The Tor network does not guarantee protection against a global observer capable of traffic analysis and correlation. See also [Seeking Anonymity in an Internet Panopticon](http://bford.info/pub/net/panopticon-cacm.pdf) (pdf) and [Traffic Correlation on Tor by Realistic Adversaries](http://www.ohmygodel.com/publications/usersrouted-ccs13.pdf) (pdf).
+Finally, remember the Tor network provides [anonymity](https://www.privateinternetaccess.com/blog/2013/10/how-does-privacy-differ-from-anonymity-and-why-are-both-important/), which is not necessarily synonymous with privacy. The Tor network does not guarantee protection against a global observer capable of traffic analysis and correlation. See also [Seeking Anonymity in an Internet Panopticon](https://bford.info/pub/net/panopticon-cacm.pdf) (pdf) and [Traffic Correlation on Tor by Realistic Adversaries](https://www.ohmygodel.com/publications/usersrouted-ccs13.pdf) (pdf).
 
 Also see [Invisible Internet Project (I2P)](https://geti2p.net/en/about/intro) and its [Tor comparison](https://geti2p.net/en/comparison/tor).
 
 ## VPN
-
-Unencrypted network traffic is being actively monitored and possibly tampered with. Encrypted traffic still exposes [connection metadata](https://security.stackexchange.com/questions/142833/does-https-encrypt-metadata#142855) and could be used to infer behavior or specific actions.
-
-It is a good idea to use a VPN with outgoing network traffic (*not* **split tunnel**) together with a trustworthy provider. [drduh/Debian-Privacy-Server-Guide](https://github.com/drduh/Debian-Privacy-Server-Guide) is one of many available guides for setting up a personal VPN server.
-
-Don't just blindly sign up for a VPN service without understanding the full implications and how your traffic will be routed. If you don't understand how the VPN works or are not familiar with the software used, you are probably better off without it.
 
 When choosing a VPN service or setting up your own, be sure to research the protocols, key exchange algorithms, authentication mechanisms, and type of encryption being used. Some protocols, such as [PPTP](https://en.wikipedia.org/wiki/Point-to-Point_Tunneling_Protocol#Security), should be avoided in favor of [OpenVPN](https://en.wikipedia.org/wiki/OpenVPN) or Linux-based [Wireguard](https://www.wireguard.com/) [on a Linux VM](https://github.com/mrash/Wireguard-macOS-LinuxVM) or via a set of [cross platform tools](https://www.wireguard.com/xplatform/).
 
@@ -1366,11 +1245,9 @@ It may be worthwhile to consider the geographical location of the VPN provider. 
 
 Also see this [technical overview](https://blog.timac.org/2018/0717-macos-vpn-architecture/) of the macOS built-in VPN L2TP/IPSec and IKEv2 client.
 
-Other open source OpenVPN clients/GUI: [Eddie](https://github.com/AirVPN/Eddie), [Pritunl](https://client.pritunl.com) are not evaluated in this guide, so are neither recommended nor actively discouraged from use.
-
 ## PGP/GPG
 
-PGP is a standard for encrypting email end to end. That means only the chosen recipients can decrypt a message, unlike regular email which is read and forever archived by providers.
+PGP is a standard for signing and encrypting data (especially email) end-to-end, so only the sender and recipient can access it.
 
 GPG, or **GNU Privacy Guard**, is a GPL-licensed open source program compliant with the PGP standard.
 
@@ -1383,7 +1260,7 @@ If you prefer a graphical application, download and install [GPG Suite](https://
 Download [drduh/config/gpg.conf](https://github.com/drduh/config/blob/master/gpg.conf) to use recommended settings:
 
 ```console
-$ curl -o ~/.gnupg/gpg.conf https://raw.githubusercontent.com/drduh/config/master/gpg.conf
+curl -o ~/.gnupg/gpg.conf https://raw.githubusercontent.com/drduh/config/master/gpg.conf
 ```
 
 See [drduh/YubiKey-Guide](https://github.com/drduh/YubiKey-Guide) to securely generate and store GPG keys.
@@ -1392,11 +1269,13 @@ Read [online](https://alexcabal.com/creating-the-perfect-gpg-keypair/) [guides](
 
 ## OTR
 
+**Note** Strongly consider using [Signal](https://github.com/signalapp/Signal-Desktop) instead.
+
 OTR stands for **off-the-record** and is a cryptographic protocol for encrypting and authenticating conversations over instant messaging.
 
 You can use OTR on top of any existing [XMPP](https://xmpp.org/about) chat service, even Google Hangouts (which only encrypts conversations between users and the server using TLS).
 
-The first time you start a conversation with someone new, you'll be asked to verify their public key fingerprint. Make sure to do this in person or by some other secure means (e.g. GPG encrypted mail).
+The first time you start a conversation with someone new, you'll be asked to verify their public key fingerprint. Do this in person or by other secure means, such as GPG.
 
 A popular macOS GUI client for XMPP and other chat protocols is [Adium](https://adium.im/).
 
@@ -1412,13 +1291,11 @@ Some malware comes bundled with both legitimate software, such as the [Java bund
 
 See [Methods of malware persistence on Mac OS X](https://www.virusbtn.com/pdf/conference/vb2014/VB2014-Wardle.pdf) (pdf) and [Malware Persistence on OS X Yosemite](https://www.rsaconference.com/events/us15/agenda/sessions/1591/malware-persistence-on-os-x-yosemite) to learn about how garden-variety malware functions.
 
-You could periodically run a tool like [KnockKnock]https://objective-see.org/products/knockknock.html) to examine persistent applications (e.g. scripts, binaries). But by then, it is probably too late. Maybe applications such as [BlockBlock](https://objective-see.com/products/blockblock.html) and [Ostiarius](https://objective-see.com/products/ostiarius.html) will help. See warnings and caveats in [issue #90](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/90) first, however. An open-source alternative could be [maclaunch.sh](https://github.com/hazcod/maclaunch).
+You could periodically run a tool like [KnockKnock](https://objective-see.org/products/knockknock.html) to examine persistent applications (e.g. scripts, binaries). But by then, it is probably too late. Maybe applications such as [BlockBlock](https://objective-see.com/products/blockblock.html) and [Ostiarius](https://objective-see.com/products/ostiarius.html) will help. See warnings and caveats in [issue #90](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/90) first, however. An open-source alternative could be [maclaunch.sh](https://github.com/hazcod/maclaunch).
 
-**Anti-virus** programs are a double-edged sword -- not so useful for **advanced** users and will likely increase attack surface against sophisticated threats; however possibly useful for catching "garden variety" malware on **novice** users' Macs. There is also the additional processing overhead to consider when using "active" scanning features.
+**Anti-virus** programs are generally a double-edged sword: they may catch "garden variety" malware, but also may increase the attack surface for sophisticated adversaries due to their privileged operating mode.
 
 See [Sophail: Applied attacks against Antivirus](https://lock.cmpxchg8b.com/sophailv2.pdf) (pdf), [Analysis and Exploitation of an ESET Vulnerability](https://googleprojectzero.blogspot.ro/2015/06/analysis-and-exploitation-of-eset.html), [a trivial Avast RCE](https://code.google.com/p/google-security-research/issues/detail?id=546), [Popular Security Software Came Under Relentless NSA and GCHQ Attacks](https://theintercept.com/2015/06/22/nsa-gchq-targeted-kaspersky/), [How Israel Caught Russian Hackers Scouring the World for U.S. Secrets](https://www.nytimes.com/2017/10/10/technology/kaspersky-lab-israel-russia-hacking.html) and [AVG: "Web TuneUP" extension multiple critical vulnerabilities](https://code.google.com/p/google-security-research/issues/detail?id=675).
-
-Therefore, the best anti-virus is **Common Sense 2020**. See discussion in [issue #44](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/44).
 
 Local privilege escalation bugs are plenty on macOS, so always be careful when downloading and running untrusted programs or trusted programs from third party websites or downloaded over HTTP ([example](https://arstechnica.com/security/2015/08/0-day-bug-in-fully-patched-os-x-comes-under-active-exploit-to-hijack-macs/)).
 
@@ -1430,15 +1307,7 @@ Also check out [Hacking Team](https://www.schneier.com/blog/archives/2015/07/hac
 
 ## System Integrity Protection
 
-[System Integrity Protection](https://support.apple.com/en-us/HT204899) (SIP) is a security feature since OS X 10.11 "El Capitan". It is enabled by default, but [can be disabled](https://derflounder.wordpress.com/2015/10/01/system-integrity-protection-adding-another-layer-to-apples-security-model/), which may be necessary to change some system settings, such as deleting root certificate authorities or unloading certain launch daemons. Keep this feature on, as it is by default.
-
-From [What's New in OS X 10.11](https://developer.apple.com/library/prerelease/mac/releasenotes/MacOSX/WhatsNewInOSX/Articles/MacOSX10_11.html):
-
-> A new security policy that applies to every running process, including privileged code and code that runs out of the sandbox. The policy extends additional protections to components on disk and at run-time, only allowing system binaries to be modified by the system installer and software updates. Code injection and runtime attachments to system binaries are no longer permitted.
-
-Also see [What is the “rootless” feature in El Capitan, really?](https://apple.stackexchange.com/questions/193368/what-is-the-rootless-feature-in-el-capitan-really)
-
-Some MacBook hardware has shipped with [SIP disabled](https://appleinsider.com/articles/16/11/17/system-integrity-protection-disabled-by-default-on-some-touch-bar-macbook-pros). To verify SIP is enabled, use the command `csrutil status`, which should return: `System Integrity Protection status: enabled.` Otherwise, [enable SIP](https://developer.apple.com/library/content/documentation/Security/Conceptual/System_Integrity_Protection_Guide/ConfiguringSystemIntegrityProtection/ConfiguringSystemIntegrityProtection.html) through Recovery Mode.
+To verify SIP is enabled, use the command `csrutil status`, which should return: `System Integrity Protection status: enabled.` Otherwise, [enable SIP](https://developer.apple.com/library/content/documentation/Security/Conceptual/System_Integrity_Protection_Guide/ConfiguringSystemIntegrityProtection/ConfiguringSystemIntegrityProtection.html) through Recovery Mode.
 
 ## Gatekeeper and XProtect
 
@@ -1446,14 +1315,12 @@ Some MacBook hardware has shipped with [SIP disabled](https://appleinsider.com/a
 
 **XProtect** prevents the execution of known bad files and outdated plugin versions, but does nothing to cleanup or stop existing malware.
 
-Both offer trivial protection against common risks and are fine at default settings.
-
 See also [Gatekeeper, XProtect and the Quarantine attribute](https://ilostmynotes.blogspot.com/2012/06/gatekeeper-xprotect-and-quarantine.html).
 
 **Note** Quarantine stores information about downloaded files in `~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2`, which may pose a privacy risk. To examine the file, simply use `strings` or the following command:
 
 ```console
-$ echo 'SELECT datetime(LSQuarantineTimeStamp + 978307200, "unixepoch") as LSQuarantineTimeStamp, ' \
+echo 'SELECT datetime(LSQuarantineTimeStamp + 978307200, "unixepoch") as LSQuarantineTimeStamp, ' \
   'LSQuarantineAgentName, LSQuarantineOriginURLString, LSQuarantineDataURLString from LSQuarantineEvent;' | \
   sqlite3 /Users/$USER/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2
 ```
@@ -1461,9 +1328,9 @@ $ echo 'SELECT datetime(LSQuarantineTimeStamp + 978307200, "unixepoch") as LSQua
 To permanently disable this feature, [clear the file](https://superuser.com/questions/90008/how-to-clear-the-contents-of-a-file-from-the-command-line) and make it immutable:
 
 ```console
-$ :>~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2
+:>~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2
 
-$ sudo chflags schg ~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2
+sudo chflags schg ~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2
 ```
 
 Alternatively, you can also disable Gatekeeper using the following command:
@@ -1532,12 +1399,11 @@ com.apple.quarantine: 0081;58519ffa;Google Chrome.app;1F032CAB-F5A1-4D92-84EB-CB
 Metadata attributes can also be removed with the `-d` flag:
 
 ```console
-$ xattr -d com.apple.metadata:kMDItemWhereFroms ~/Downloads/TorBrowser-8.0.4-osx64_en-US.dmg
+xattr -d com.apple.metadata:kMDItemWhereFroms ~/Downloads/TorBrowser-8.0.4-osx64_en-US.dmg
 
-$ xattr -d com.apple.quarantine ~/Downloads/TorBrowser-8.0.4-osx64_en-US.dmg
+xattr -d com.apple.quarantine ~/Downloads/TorBrowser-8.0.4-osx64_en-US.dmg
 
-$ xattr -l ~/Downloads/TorBrowser-8.0.4-osx64_en-US.dmg
-[No output expected]
+xattr -l ~/Downloads/TorBrowser-8.0.4-osx64_en-US.dmg
 ```
 
 Other metadata and artifacts may be found in the directories including, but not limited to, `~/Library/Preferences/`, `~/Library/Containers/<APP>/Data/Library/Preferences`, `/Library/Preferences`, some of which is detailed below.
@@ -1547,55 +1413,55 @@ Other metadata and artifacts may be found in the directories including, but not 
 `/Library/Preferences/com.apple.Bluetooth.plist` contains Bluetooth metadata, including device history. If Bluetooth is not used, the metadata can be cleared with:
 
 ```console
-$ sudo defaults delete /Library/Preferences/com.apple.Bluetooth.plist DeviceCache
-$ sudo defaults delete /Library/Preferences/com.apple.Bluetooth.plist IDSPairedDevices
-$ sudo defaults delete /Library/Preferences/com.apple.Bluetooth.plist PANDevices
-$ sudo defaults delete /Library/Preferences/com.apple.Bluetooth.plist PANInterfaces
-$ sudo defaults delete /Library/Preferences/com.apple.Bluetooth.plist SCOAudioDevices
+sudo defaults delete /Library/Preferences/com.apple.Bluetooth.plist DeviceCache
+sudo defaults delete /Library/Preferences/com.apple.Bluetooth.plist IDSPairedDevices
+sudo defaults delete /Library/Preferences/com.apple.Bluetooth.plist PANDevices
+sudo defaults delete /Library/Preferences/com.apple.Bluetooth.plist PANInterfaces
+sudo defaults delete /Library/Preferences/com.apple.Bluetooth.plist SCOAudioDevices
 ```
 
 `/var/spool/cups` contains the CUPS printer job cache. To clear it, use the commands:
 
 ```console
-$ sudo rm -rfv /var/spool/cups/c0*
-$ sudo rm -rfv /var/spool/cups/tmp/*
-$ sudo rm -rfv /var/spool/cups/cache/job.cache*
+sudo rm -rfv /var/spool/cups/c0*
+sudo rm -rfv /var/spool/cups/tmp/*
+sudo rm -rfv /var/spool/cups/cache/job.cache*
 ```
 
 To clear the list of iOS devices connected, use:
 
 ```console
-$ sudo defaults delete /Users/$USER/Library/Preferences/com.apple.iPod.plist "conn:128:Last Connect"
-$ sudo defaults delete /Users/$USER/Library/Preferences/com.apple.iPod.plist Devices
-$ sudo defaults delete /Library/Preferences/com.apple.iPod.plist "conn:128:Last Connect"
-$ sudo defaults delete /Library/Preferences/com.apple.iPod.plist Devices
-$ sudo rm -rfv /var/db/lockdown/*
+sudo defaults delete /Users/$USER/Library/Preferences/com.apple.iPod.plist "conn:128:Last Connect"
+sudo defaults delete /Users/$USER/Library/Preferences/com.apple.iPod.plist Devices
+sudo defaults delete /Library/Preferences/com.apple.iPod.plist "conn:128:Last Connect"
+sudo defaults delete /Library/Preferences/com.apple.iPod.plist Devices
+sudo rm -rfv /var/db/lockdown/*
 ```
 
 Quicklook thumbnail data can be cleared using the `qlmanage -r cache` command, but this writes to the file `resetreason` in the Quicklook directories, and states that the Quicklook cache was manually cleared. Disable the thumbnail cache with `qlmanage -r disablecache`
 
-It can also be manually cleared by getting the directory names with `getconf DARWIN_USER_CACHE_DIR` and `sudo getconf DARWIN_USER_CACHE_DIR`, then removing them:
+It can also be cleared by getting the directory names with `getconf DARWIN_USER_CACHE_DIR` and `sudo getconf DARWIN_USER_CACHE_DIR`, then removing them:
 
 ```console
-$ rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/exclusive
-$ rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/index.sqlite
-$ rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/index.sqlite-shm
-$ rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/index.sqlite-wal
-$ rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/resetreason
-$ rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/thumbnails.data
+rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/exclusive
+rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/index.sqlite
+rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/index.sqlite-shm
+rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/index.sqlite-wal
+rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/resetreason
+rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/thumbnails.data
 ```
 
 Similarly, for the root user:
 
 ```console
-$ sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/thumbnails.fraghandler
-$ sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/exclusive
-$ sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/index.sqlite
-$ sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/index.sqlite-shm
-$ sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/index.sqlite-wal
-$ sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/resetreason
-$ sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/thumbnails.data
-$ sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/thumbnails.fraghandler
+sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/thumbnails.fraghandler
+sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/exclusive
+sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/index.sqlite
+sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/index.sqlite-shm
+sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/index.sqlite-wal
+sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/resetreason
+sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/thumbnails.data
+sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/thumbnails.fraghandler
 ```
 
 Also see ['quicklook' cache may leak encrypted data](https://objective-see.com/blog/blog_0x30.html).
@@ -1603,11 +1469,11 @@ Also see ['quicklook' cache may leak encrypted data](https://objective-see.com/b
 To clear Finder preferences:
 
 ```console
-$ defaults delete ~/Library/Preferences/com.apple.finder.plist FXDesktopVolumePositions
-$ defaults delete ~/Library/Preferences/com.apple.finder.plist FXRecentFolders
-$ defaults delete ~/Library/Preferences/com.apple.finder.plist RecentMoveAndCopyDestinations
-$ defaults delete ~/Library/Preferences/com.apple.finder.plist RecentSearches
-$ defaults delete ~/Library/Preferences/com.apple.finder.plist SGTRecentFileSearches
+defaults delete ~/Library/Preferences/com.apple.finder.plist FXDesktopVolumePositions
+defaults delete ~/Library/Preferences/com.apple.finder.plist FXRecentFolders
+defaults delete ~/Library/Preferences/com.apple.finder.plist RecentMoveAndCopyDestinations
+defaults delete ~/Library/Preferences/com.apple.finder.plist RecentSearches
+defaults delete ~/Library/Preferences/com.apple.finder.plist SGTRecentFileSearches
 ```
 
 Additional diagnostic files may be found in the following directories - but caution should be taken before removing any, as it may break logging or cause other issues:
@@ -1623,76 +1489,76 @@ Additional diagnostic files may be found in the following directories - but caut
 macOS stored preferred Wi-Fi data (including credentials) in NVRAM. To clear it, use the following commands:
 
 ```console
-$ sudo nvram -d 36C28AB5-6566-4C50-9EBD-CBB920F83843:current-network
-$ sudo nvram -d 36C28AB5-6566-4C50-9EBD-CBB920F83843:preferred-networks
-$ sudo nvram -d 36C28AB5-6566-4C50-9EBD-CBB920F83843:preferred-count
+sudo nvram -d 36C28AB5-6566-4C50-9EBD-CBB920F83843:current-network
+sudo nvram -d 36C28AB5-6566-4C50-9EBD-CBB920F83843:preferred-networks
+sudo nvram -d 36C28AB5-6566-4C50-9EBD-CBB920F83843:preferred-count
 ```
 
 macOS may collect sensitive information about what you type, even if user dictionary and suggestions are off. To remove them, and prevent them from being created again, use the following commands:
 
 ```console
-$ rm -rfv "~/Library/LanguageModeling/*" "~/Library/Spelling/*" "~/Library/Suggestions/*"
-$ chmod -R 000 ~/Library/LanguageModeling ~/Library/Spelling ~/Library/Suggestions
-$ chflags -R uchg ~/Library/LanguageModeling ~/Library/Spelling ~/Library/Suggestions
+rm -rfv "~/Library/LanguageModeling/*" "~/Library/Spelling/*" "~/Library/Suggestions/*"
+chmod -R 000 ~/Library/LanguageModeling ~/Library/Spelling ~/Library/Suggestions
+chflags -R uchg ~/Library/LanguageModeling ~/Library/Spelling ~/Library/Suggestions
 ```
 
 QuickLook application support metadata can be cleared and locked with the following commands:
 
 ```console
-$ rm -rfv "~/Library/Application Support/Quick Look/*"
-$ chmod -R 000 "~/Library/Application Support/Quick Look"
-$ chflags -R uchg "~/Library/Application Support/Quick Look"
+rm -rfv "~/Library/Application Support/Quick Look/*"
+chmod -R 000 "~/Library/Application Support/Quick Look"
+chflags -R uchg "~/Library/Application Support/Quick Look"
 ```
 
 Document revision metadata is stored in `/.DocumentRevisions-V100` and can be cleared and locked with the following commands - caution should be taken as this may break some core Apple applications:
 
 ```console
-$ sudo rm -rfv /.DocumentRevisions-V100/*
-$ sudo chmod -R 000 /.DocumentRevisions-V100
-$ sudo chflags -R uchg /.DocumentRevisions-V100
+sudo rm -rfv /.DocumentRevisions-V100/*
+sudo chmod -R 000 /.DocumentRevisions-V100
+sudo chflags -R uchg /.DocumentRevisions-V100
 ```
 
 Saved application state metadata may be cleared and locked with the following commands:
 
 ```console
-$ rm -rfv "~/Library/Saved Application State/*"
-$ rm -rfv "~/Library/Containers/<APPNAME>/Saved Application State"
-$ chmod -R 000 "~/Library/Saved Application State/"
-$ chmod -R 000 "~/Library/Containers/<APPNAME>/Saved Application State"
-$ chflags -R uchg "~/Library/Saved Application State/"
-$ chflags -R uchg "~/Library/Containers/<APPNAME>/Saved Application State"
+rm -rfv "~/Library/Saved Application State/*"
+rm -rfv "~/Library/Containers/<APPNAME>/Saved Application State"
+chmod -R 000 "~/Library/Saved Application State/"
+chmod -R 000 "~/Library/Containers/<APPNAME>/Saved Application State"
+chflags -R uchg "~/Library/Saved Application State/"
+chflags -R uchg "~/Library/Containers/<APPNAME>/Saved Application State"
 ```
 
 Autosave metadata can be cleared and locked with the following commands:
 
 ```console
-$ rm -rfv "~/Library/Containers/<APP>/Data/Library/Autosave Information"
-$ rm -rfv "~/Library/Autosave Information"
-$ chmod -R 000 "~/Library/Containers/<APP>/Data/Library/Autosave Information"
-$ chmod -R 000 "~/Library/Autosave Information"
-$ chflags -R uchg "~/Library/Containers/<APP>/Data/Library/Autosave Information"
-$ chflags -R uchg "~/Library/Autosave Information"
+rm -rfv "~/Library/Containers/<APP>/Data/Library/Autosave Information"
+rm -rfv "~/Library/Autosave Information"
+chmod -R 000 "~/Library/Containers/<APP>/Data/Library/Autosave Information"
+chmod -R 000 "~/Library/Autosave Information"
+chflags -R uchg "~/Library/Containers/<APP>/Data/Library/Autosave Information"
+chflags -R uchg "~/Library/Autosave Information"
 ```
 
 The Siri analytics database, which is created even if the Siri launch agent disabled, can be cleared and locked with the following commands:
 
 ```console
-$ rm -rfv ~/Library/Assistant/SiriAnalytics.db
-$ chmod -R 000 ~/Library/Assistant/SiriAnalytics.db
-$ chflags -R uchg ~/Library/Assistant/SiriAnalytics.db
+rm -rfv ~/Library/Assistant/SiriAnalytics.db
+chmod -R 000 ~/Library/Assistant/SiriAnalytics.db
+chflags -R uchg ~/Library/Assistant/SiriAnalytics.db
 ```
 
 `~/Library/Preferences/com.apple.iTunes.plist` contains iTunes metadata. Recent iTunes search data may be cleared with the following command:
 
 ```console
-$ defaults delete ~/Library/Preferences/com.apple.iTunes.plist recentSearches
+defaults delete ~/Library/Preferences/com.apple.iTunes.plist recentSearches
 ```
 
 If you do not use Apple ID-linked services, the following keys may be cleared, too, using the following commands:
 
 ```console
-$ defaults delete ~/Library/Preferences/com.apple.iTunes.plist StoreUserInfo
-$ defaults delete ~/Library/Preferences/com.apple.iTunes.plist WirelessBuddyID
+defaults delete ~/Library/Preferences/com.apple.iTunes.plist StoreUserInfo
+defaults delete ~/Library/Preferences/com.apple.iTunes.plist WirelessBuddyID
 ```
 
 All media played in QuickTime Player can be found in:
@@ -1711,72 +1577,33 @@ Additional metadata may exist in the following files:
 
 ## Passwords
 
-Generate strong passwords with several programs or directly from [`/dev/urandom`](https://github.com/jedisct1/libsodium/issues/594):
+Generate strong passwords using any of the following utilities:
 
 ```console
-$ openssl rand -base64 30
-qb8ZWbUU2Ri3FOAPY/1wKSFAJwMXmpQM4mZU4YbO
+openssl rand -base64 30
 
-$ gpg --gen-random -a 0 90 | fold -w 40
-3e+kfHOvovHVXxZYPgu+OOWQ1g1ttbljr+kNGv7f
-loD//RsjUXYGIjfPM/bT0itsoEstyGLVUsFns8wP
-zYM8VRBga+TsnxWrS7lWKfH1uvVPowzkq9kXCdvJ
+gpg --gen-random -a 0 90 | fold -w 40
 
-$ LANG=C tr -dc 'A-F0-9' < /dev/urandom | fold -w 40 | head -n 5
-45D0371481EE5E5A5C1F68EA59E69F9CA52CB321
-A30B37A00302643921F205621B145E7EAF520164
-B6EF38A2DA1D0586D20105502AFFF0468EA5F16A
-029D6EA9F76CD64D3356E342EA154BEFEBE23387
-07F468F0569579A0A06471247CABC4F4C1386E24
-
-$ tr -dc '[:alnum:]' < /dev/urandom | fold -w 40 | head -n5
-zmj8S0iuxud8y8YHjzdg7Hefu6U1KAYBiLl3aE8v
-nCNpuMkWohTjQHntTzbiLQJG5zLzEHWSWaYSwjtm
-R2L6M909S3ih852IkJqQFMDawCiHcpPBxlllAPrt
-aZOXKVUmxhzQwVSYb6nqAbGTVMFSJOLf094bFZAb
-HfgwSNlkVBXwIPQST6E6x6vDNCCasMLSSOoTUfSK
-
-$ tr -dc '[:lower:]' < /dev/urandom | fold -w 40 | head -n5
-gfvkanntxutzwxficgvavbwdvttexdezdftvvtmn
-lgrsuiugwkqbtbkyggcbpbqlynwbiyxzlabstqcf
-ufctdlsbyonkowzpmotxiksnsbwdzkjrjsupoqvr
-hjwibdjxtmuvqricljayzkgdfztcmapsgwsubggr
-bjstlmvwjczakgeetkbmwbjnidbeaerhaonpkacg
-
-$ tr -dc '[:upper:]' < /dev/urandom | fold -w 40 | head -n5
-EUHZMAOBOLNFXUNNDSTLJTPDCPVQBPUEQOLRZUQZ
-HVNVKBEPAAYMXRCGVCNEZLFHNUYMRYPTWPWOOZVM
-TAHEUPQJTSYQVJVYSKLURESMKWEZONXLUDHWQODB
-PRDITWMAXXZLTRXEEOGOSGAWUXYDGDRJYRHUWICM
-VHERIQBLBPHSIUZSGYZRDHTNAPUGJMRODIKBWZRJ
-
-$ tr -dc '[:graph:]' < /dev/urandom | fold -w 40 | head -n5
-n\T2|zUz:\C,@z9!#p3!B/[t6m:B94}q&t(^)Ol~
-J%MMDbAgGdP}zrSQO!3mrP3$w!.[Ng_xx-_[C<3g
-^)6V&*<2"ZOgU.mBd]iInvFKiT<dq~y\O[cdDK`V
-+RE]UYPIf3:StX`y#w,.iG~g"urD)'FnDIFI_q^)
-6?HRillpgvvFDBAr4[:H{^oAL<`Em7$roF=2w;1~
+tr -dc '[:graph:]' < /dev/urandom | fold -w 40 | head -n5
 ```
 
-You can also generate passwords, even memorable ones, using **Keychain Access** password assistant, or a command line equivalent like [anders/pwgen](https://github.com/anders/pwgen).
+Or using **Keychain Access** password assistant, or a command line equivalent like [anders/pwgen](https://github.com/anders/pwgen).
 
-Keychains are encrypted with a [PBKDF2 derived key](https://en.wikipedia.org/wiki/PBKDF2) and are a _pretty safe_ place to store credentials. Also be aware that Keychain [does not encrypt](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/118) the names corresponding to password entries.
+GnuPG can also be used to manage password files (see [drduh/Purse](https://github.com/drduh/Purse) and [drduh/pwd.sh](https://github.com/drduh/pwd.sh) for example).
 
-Alternatively, you can manage an encrypted passwords file yourself with GnuPG (see [drduh/Purse](https://github.com/drduh/Purse) and [drduh/pwd.sh](https://github.com/drduh/pwd.sh) for example).
+In addition to passwords, ensure eligible online accounts, such as GitHub, Google accounts, banking, have [multi-factor authentication](https://en.wikipedia.org/wiki/Multi-factor_authentication) enabled.
 
-In addition to passwords, ensure eligible online accounts, such as GitHub, Google accounts, banking, have [two factor authentication](https://en.wikipedia.org/wiki/Two-factor_authentication) enabled.
+[Yubikey](https://www.yubico.com/products/) offers affordable hardware tokens. See [drduh/YubiKey-Guide](https://github.com/drduh/YubiKey-Guide) and [trmm.net/Yubikey](https://trmm.net/Yubikey). One of two Yubikey slots can also be programmed to emit a long, static password - which can be used in combination with a short, memorized password, for example.
 
-[Yubikey](https://www.yubico.com/products/) offers affordable hardware tokens. See [drduh/YubiKey-Guide](https://github.com/drduh/YubiKey-Guide) and [trmm.net/Yubikey](https://trmm.net/Yubikey). One of two Yubikey's slots can also be programmed to emit a long, static password (which can be used in combination with a short, memorized password, for example).
-
-In Addition to Login and other PAMs, you can use Yubikey to secure your login and sudo, here is a pdf guide from [Yubico](https://www.yubico.com/wp-content/uploads/2016/02/Yubico_YubiKeyMacOSXLogin_en.pdf). Yubikey are a bit pricey, there is cheaper alternative, but not as capable, [U2F Zero](https://www.u2fzero.com/).
+In Addition to Login and other PAMs, you can use Yubikey to secure your login and sudo, here is a pdf guide from [Yubico](https://www.yubico.com/wp-content/uploads/2016/02/Yubico_YubiKeyMacOSXLogin_en.pdf). [U2F Zero](https://u2fzero.com/) is a Yubikey alternative to consider.
 
 ## Backup
 
 Always encrypt files locally before backing them up to external media or online services.
 
-One way is to use a symmetric cipher with GPG and a password of your choosing. Files can also be encrypted to a public key with GPG, with the private key stored on [YubiKey](https://github.com/drduh/YubiKey-Guide).
+One way is to use a GPG with a static password or your own public key (with the private key stored on [YubiKey](https://github.com/drduh/YubiKey-Guide)).
 
-To compress and encrypt a directory:
+To compress and encrypt a directory using a password:
 
 ```console
 $ tar zcvf - ~/Downloads | gpg -c > ~/Desktop/backup-$(date +%F-%H%M).tar.gz.gpg
@@ -1848,14 +1675,12 @@ This is a privacy risk, so remove networks from the list in **System Preferences
 
 Also see [Signals from the Crowd: Uncovering Social Relationships through Smartphone Probes](https://conferences.sigcomm.org/imc/2013/papers/imc148-barberaSP106.pdf) (pdf) and [Wi-Fi told me everything about you](http://confiance-numerique.clermont-universite.fr/Slides/M-Cunche-2014.pdf) (pdf).
 
-Saved Wi-Fi information (SSID, last connection, etc.) can be found in:
-
-    /Library/Preferences/SystemConfiguration/com.apple.airport.preferences.plist
+Saved Wi-Fi information (SSID, last connection, etc.) can be found in `/Library/Preferences/SystemConfiguration/com.apple.airport.preferences.plist`
 
 You may want to [spoof the MAC address](https://en.wikipedia.org/wiki/MAC_spoofing) of the network card before connecting to new and untrusted wireless networks to mitigate passive fingerprinting:
 
 ```console
-$ sudo ifconfig en0 ether $(openssl rand -hex 6 | sed 's%\(..\)%\1:%g; s%.$%%')
+sudo ifconfig en0 ether $(openssl rand -hex 6 | sed 's%\(..\)%\1:%g; s%.$%%')
 ```
 
 macOS stores Wi-Fi SSIDs and passwords in NVRAM in order for Recovery Mode to access the Internet. Be sure to either clear NVRAM or de-authenticate your Mac from your Apple account, which will clear the NVRAM, before passing a Mac along. Resetting the SMC will clear some of the NVRAM, but not all.
@@ -1873,17 +1698,17 @@ You can also use ssh to create an [encrypted tunnel](http://blog.trackets.com/20
 For example, to use Privoxy running on a remote host port 8118:
 
 ```console
-$ ssh -C -L 5555:127.0.0.1:8118 you@remote-host.tld
+ssh -C -L 5555:127.0.0.1:8118 you@remote-host.tld
 
-$ sudo networksetup -setwebproxy "Wi-Fi" 127.0.0.1 5555
+sudo networksetup -setwebproxy "Wi-Fi" 127.0.0.1 5555
 
-$ sudo networksetup -setsecurewebproxy "Wi-Fi" 127.0.0.1 5555
+sudo networksetup -setsecurewebproxy "Wi-Fi" 127.0.0.1 5555
 ```
 
 Or to use an ssh connection as a [SOCKS proxy](https://www.mikeash.com/ssh_socks.html):
 
 ```console
-$ ssh -NCD 3000 you@remote-host.tld
+ssh -NCD 3000 you@remote-host.tld
 ```
 
 By default, macOS does **not** have sshd or *Remote Login* enabled.
@@ -1891,7 +1716,7 @@ By default, macOS does **not** have sshd or *Remote Login* enabled.
 To enable sshd and allow incoming ssh connections:
 
 ```console
-$ sudo launchctl load -w /System/Library/LaunchDaemons/ssh.plist
+sudo launchctl load -w /System/Library/LaunchDaemons/ssh.plist
 ```
 
 Or use the **System Preferences** > **Sharing** menu.
@@ -1901,20 +1726,20 @@ If enabling sshd, be sure to disable password authentication and consider furthe
 Confirm whether sshd is running:
 
 ```console
-$ sudo lsof -Pni TCP:22
+sudo lsof -Pni TCP:22
 ```
 
 ## Physical access
 
-Keep your Mac physically secure at all times. Don't leave it unattended in public spaces, such as hotels.
+Keep your Mac physically secure at all times and do not leave it unattended in public.
 
-A skilled attacker with unsupervised physical access to your computer can infect the boot ROM to install a keylogger and steal your password, for example - see [Thunderstrike](https://trmm.net/Thunderstrike).
+A skilled attacker with unsupervised physical access can infect the boot ROM to install a keylogger and steal passwords. See [Thunderstrike](https://trmm.net/Thunderstrike) for example.
 
 To protect against physical theft during use, you can use an anti-forensic tool like [BusKill](https://github.com/buskill/buskill-app), [usbkill](https://github.com/hephaest0s/usbkill) or [swiftGuard](https://github.com/Lennolium/swiftGuard) (updated usbkill, with graphical user interface). All respond to USB events and can immediately shutdown your computer if your device is physically separated from you or an unauthorized device is connected.
 
-Consider purchasing a [privacy filter](https://www.amazon.com/s/ref=nb_sb_noss_2?url=node%3D15782001&field-keywords=macbook) for your screen to thwart shoulder surfers.
+Consider purchasing a privacy screen/filter for use in public.
 
-Superglues or epoxy resins can also be used to disable physical access to computer ports. [Nail polish](https://trmm.net/Glitter) and tamper-evidence seals can be applied to components to detect tampering.
+Superglue or epoxy resin can be used to disable physical access to peripheral ports. [Nail polish](https://trmm.net/Glitter) and tamper-evidence seals can be applied to components to detect tampering.
 
 ## System monitoring
 
@@ -1962,13 +1787,13 @@ You can also view processes with **Activity Monitor**.
 List open network files:
 
 ```console
-$ sudo lsof -Pni
+sudo lsof -Pni
 ```
 
 List contents of various network-related data structures:
 
 ```console
-$ sudo netstat -atln
+sudo netstat -atln
 ```
 
 [Wireshark](https://www.wireshark.org/) can be used from the command line with `tshark`.
@@ -1976,7 +1801,7 @@ $ sudo netstat -atln
 Monitor DNS queries and replies:
 
 ```console
-$ tshark -Y "dns.flags.response == 1" -Tfields \
+tshark -Y "dns.flags.response == 1" -Tfields \
   -e frame.time_delta \
   -e dns.qry.name \
   -e dns.a \
@@ -1986,7 +1811,7 @@ $ tshark -Y "dns.flags.response == 1" -Tfields \
 Monitor HTTP requests and responses:
 
 ```console
-$ tshark -Y "http.request or http.response" -Tfields \
+tshark -Y "http.request or http.response" -Tfields \
   -e ip.dst \
   -e http.request.full_uri \
   -e http.request.method \
@@ -1998,7 +1823,7 @@ $ tshark -Y "http.request or http.response" -Tfields \
 Monitor x509 (SSL/TLS) certificates:
 
 ```console
-$ tshark -Y "ssl.handshake.certificate" -Tfields \
+tshark -Y "ssl.handshake.certificate" -Tfields \
   -e ip.src \
   -e x509sat.uTF8String \
   -e x509sat.printableString \
@@ -2014,7 +1839,7 @@ Also see the simple networking monitoring application [BonzaiThePenguin/Loading]
 
 [google/santa](https://github.com/google/santa/) is a security software developed for Google's corporate Macintosh fleet and open sourced.
 
-> Santa is a binary whitelisting/blacklisting system for macOS. It consists of a kernel extension that monitors for executions, a userland daemon that makes execution decisions based on the contents of a SQLite database, a GUI agent that notifies the user in case of a block decision and a command-line utility for managing the system and synchronizing the database with a server.
+> Santa is a binary and file access authorization system for macOS. It consists of a system extension that monitors for executions, a daemon that makes execution decisions based on the contents of a local database, a GUI agent that notifies the user in case of a block decision and a command-line utility for managing the system and synchronizing the database with a server.
 
 Santa uses the [Kernel Authorization API](https://developer.apple.com/library/content/technotes/tn2127/_index.html) to monitor and allow/disallow binaries from executing in the kernel. Binaries can be white- or black-listed by unique hash or signing developer certificate. Santa can be used to only allow trusted code execution, or to blacklist known malware from executing on a Mac, similar to Bit9 software for Windows.
 
@@ -2023,9 +1848,9 @@ Santa uses the [Kernel Authorization API](https://developer.apple.com/library/co
 To install Santa, visit the [Releases](https://github.com/google/santa/releases) page and download the latest disk image, the mount it and install the contained package:
 
 ```console
-$ hdiutil mount ~/Downloads/santa-0.9.20.dmg
+hdiutil mount ~/Downloads/santa-0.9.20.dmg
 
-$ sudo installer -pkg /Volumes/santa-0.9.20/santa-0.9.20.pkg -tgt /
+sudo installer -pkg /Volumes/santa-0.9.20/santa-0.9.20.pkg -tgt /
 ```
 
 By default, Santa installs in "Monitor" mode (meaning, nothing gets blocked, only logged) and comes with two rules: one for Apple binaries and another for Santa software itself.
@@ -2159,7 +1984,7 @@ Hello World
 
 It's allowed and works!
 
-Applications can also be whitelisted by developer certificate (so that new binary versions will not need to be manually whitelisted on each update). For example, download and run Google Chrome - it will be blocked by Santa in "Lockdown" mode:
+Applications can also be allowed by developer certificate. For example, download and run Google Chrome - it will be blocked by Santa in "Lockdown" mode:
 
 ```console
 $ curl -sO https://dl.google.com/chrome/mac/stable/GGRO/googlechrome.dmg
@@ -2223,7 +2048,7 @@ Google Chrome should now launch, and subsequent updates to the application will 
 To disable "Lockdown" mode:
 
 ```console
-$ sudo defaults delete /var/db/santa/config.plist ClientMode
+sudo defaults delete /var/db/santa/config.plist ClientMode
 ```
 
 See `/var/log/santa.log` to monitor ALLOW and DENY execution decisions.
@@ -2245,47 +2070,45 @@ If you want to use **torrents**, use [Transmission](https://www.transmissionbt.c
 Manage default file handlers with [duti](http://duti.org/), which can be installed with `brew install duti`. One reason to manage extensions is to prevent auto-mounting of remote file systems in Finder (see [Protecting Yourself From Sparklegate](https://www.taoeffect.com/blog/2016/02/apologies-sky-kinda-falling-protecting-yourself-from-sparklegate/)). Here are several recommended file handlers to manage:
 
 ```console
-$ duti -s com.apple.Safari afp
+duti -s com.apple.Safari afp
 
-$ duti -s com.apple.Safari ftp
+duti -s com.apple.Safari ftp
 
-$ duti -s com.apple.Safari nfs
+duti -s com.apple.Safari nfs
 
-$ duti -s com.apple.Safari smb
+duti -s com.apple.Safari smb
 
-$ duti -s com.apple.TextEdit public.unix-executable
+duti -s com.apple.TextEdit public.unix-executable
 ```
 
 Monitor system logs with the **Console** application or `syslog -w` or `/usr/bin/log stream` commands.
 
-In systems prior to macOS Sierra (10.12), enable the [tty_tickets flag](https://derflounder.wordpress.com/2016/09/21/tty_tickets-option-now-on-by-default-for-macos-sierras-sudo-tool/) in `/etc/sudoers` to restrict the sudo session to the Terminal window/tab that started it. To do so, use `sudo visudo` and add the line `Defaults    tty_tickets`.
-
 Set your screen to lock as soon as the screensaver starts:
 
 ```console
-$ defaults write com.apple.screensaver askForPassword -int 1
+defaults write com.apple.screensaver askForPassword -int 1
 
-$ defaults write com.apple.screensaver askForPasswordDelay -int 0
+defaults write com.apple.screensaver askForPasswordDelay -int 0
 ```
 
 Expose hidden files and Library folder in Finder:
 
 ```console
-$ defaults write com.apple.finder AppleShowAllFiles -bool true
+defaults write com.apple.finder AppleShowAllFiles -bool true
 
-$ chflags nohidden ~/Library
+chflags nohidden ~/Library
 ```
 
 Show all filename extensions (so that "Evil.jpg.app" cannot masquerade easily).
 
 ```console
-$ defaults write NSGlobalDomain AppleShowAllExtensions -bool true
+defaults write NSGlobalDomain AppleShowAllExtensions -bool true
 ```
 
 Don't default to saving documents to iCloud:
 
 ```console
-$ defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
+defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
 ```
 
 Enable [Secure Keyboard Entry](https://security.stackexchange.com/questions/47749/how-secure-is-secure-keyboard-entry-in-mac-os-xs-terminal) in Terminal (unless you use [YubiKey](https://mig5.net/content/secure-keyboard-entry-os-x-blocks-interaction-yubikeys) or applications such as [TextExpander](https://smilesoftware.com/textexpander/secureinput)).
@@ -2293,13 +2116,13 @@ Enable [Secure Keyboard Entry](https://security.stackexchange.com/questions/4774
 Disable crash reporter (the dialog which appears after an application crashes and prompts to report the problem to Apple):
 
 ```console
-$ defaults write com.apple.CrashReporter DialogType none
+defaults write com.apple.CrashReporter DialogType none
 ```
 
 Disable Bonjour [multicast advertisements](https://www.trustwave.com/Resources/SpiderLabs-Blog/mDNS---Telling-the-world-about-you-(and-your-device)/):
 
 ```console
-$ sudo defaults write /Library/Preferences/com.apple.mDNSResponder.plist NoMulticastAdvertisements -bool YES
+sudo defaults write /Library/Preferences/com.apple.mDNSResponder.plist NoMulticastAdvertisements -bool YES
 ```
 
 [Disable Handoff](https://apple.stackexchange.com/questions/151481/why-is-my-macbook-visibile-on-bluetooth-after-yosemite-install) and Bluetooth features, if they aren't necessary.
@@ -2325,7 +2148,7 @@ export HOME=/Users/blah
 Set a [custom umask](https://support.apple.com/en-us/HT201684):
 
 ```console
-$ sudo launchctl config user umask 077
+sudo launchctl config user umask 077
 ```
 
 Reboot, create a file in Finder and verify its permissions (macOS default allows 'group/other' read access):
@@ -2342,13 +2165,10 @@ drwx------  2 kevin  staff       64 Dec  4 12:27 umask_testing_dir
 * [Dylib Hijack Scanner](https://objective-see.com/products/dhs.html) - Scan for applications that are either susceptible to dylib hijacking or have been hijacked.
 * [Lockdown](https://objective-see.com/products/lockdown.html) - Audits and remediates security configuration settings.
 * [Zentral](https://github.com/zentralopensource/zentral) - A log and configuration server for santa and osquery. Run audit and probes on inventory, events, logfiles, combine with point-in-time alerting. A full Framework and Django web server build on top of the elastic stack (formerly known as ELK stack).
-* [facebook/osquery](https://github.com/facebook/osquery) - Can be used to retrieve low level system information.  Users can write SQL queries to retrieve system information.
+* [osquery](https://github.com/osquery/osquery) - Can be used to retrieve low level system information.  Users can write SQL queries to retrieve system information.
 * [google/grr](https://github.com/google/grr) - Incident response framework focused on remote live forensics.
-* [jipegit/OSXAuditor](https://github.com/jipegit/OSXAuditor) - Analyzes artifacts on a running system, such as quarantined files, Safari, Chrome and Firefox history, downloads, HTML5 databases and localstore, social media and email accounts, and Wi-Fi access point names.
-* [kristovatlas/osx-config-check](https://github.com/kristovatlas/osx-config-check) - Checks your OSX machine against various hardened configuration settings.
 * [libyal/libfvde](https://github.com/libyal/libfvde) - Library to access FileVault Drive Encryption (FVDE) (or FileVault2) encrypted volumes.
 * [stronghold](https://github.com/alichtman/stronghold) - Securely and easily configure your Mac from the terminal. Inspired by this guide.
-* [yelp/osxcollector](https://github.com/yelp/osxcollector) - Forensic evidence collection & analysis toolkit for OS X.
 * [The Eclectic Light Company - Downloads](https://eclecticlight.co/downloads/) - A collection of useful diagnostics and control applications and utilities for macOS.
 * [Pareto Security](https://paretosecurity.app/) - A MenuBar app to automatically audit your Mac for basic security hygiene.
 
