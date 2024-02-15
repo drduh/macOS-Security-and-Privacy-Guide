@@ -23,7 +23,7 @@ This guide is also available in [简体中文](https://github.com/drduh/macOS-Se
 - [Admin and standard user accounts](#admin-and-standard-user-accounts)
   * [Caveats](#caveats)
   * [Setup](#setup)
-- [Full disk encryption](#full-disk-encryption)
+- [Firmware](#firmware)
 - [Filevault](#filevault)
 - [Firewall](#firewall)
   * [Application layer firewall](#application-layer-firewall)
@@ -386,6 +386,10 @@ dscl . -read /Users/<username> GeneratedUID
 ```
 
 See also [this post](https://superuser.com/a/395738) for more information about how macOS determines group membership.
+
+## Firmware
+
+You should set firmware security settings to [Full Security](https://support.apple.com/en-au/guide/mac-help/mchl768f7291/mac) to prevent tampering with your OS.
 
 ## FileVault
 
