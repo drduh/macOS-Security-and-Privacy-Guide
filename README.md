@@ -389,7 +389,7 @@ See also [this post](https://superuser.com/a/395738) for more information about 
 
 ## Firmware
 
-You should set firmware security settings to [Full Security](https://support.apple.com/en-au/guide/mac-help/mchl768f7291/mac) to prevent tampering with your OS.
+You should check that firmware security settings are set to [Full Security](https://support.apple.com/en-au/guide/mac-help/mchl768f7291/mac) to prevent tampering with your OS. This is the default setting.
 
 ## FileVault
 
