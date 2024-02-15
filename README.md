@@ -389,7 +389,7 @@ See also [this post](https://superuser.com/a/395738) for more information about 
 
 ## FileVault
 
-All Mac models with Apple Silicon are encrypted by default. Enabling [FileVault](https://support.apple.com/en-au/guide/mac-help/mh11785/mac) makes it so that you need to enter a password in order to access the data on your drive. Your FileVault password acts as a firmware password as well.
+All Mac models with Apple silicon are encrypted by default. Enabling [FileVault](https://support.apple.com/en-au/guide/mac-help/mh11785/mac) makes it so that you need to enter a password in order to access the data on your drive. Your FileVault password acts as a firmware password as well.
 
 FileVault protects data at rest and hardens against someone with physical access from stealing data or tampering with your Mac.
 
