@@ -395,7 +395,7 @@ You should check that firmware security settings are set to [Full Security](http
 
 All Mac models with Apple silicon are encrypted by default. Enabling [FileVault](https://support.apple.com/en-au/guide/mac-help/mh11785/mac) makes it so that you need to enter a password in order to access the data on your drive. Your FileVault password acts as a firmware password as well.
 
-FileVault protects data at rest and hardens against someone with physical access from stealing data or tampering with your Mac.
+FileVault protects data at rest and hardens against someone with physical access stealing data or tampering with your Mac.
 
 You'll have the option use your iCloud account for recovery; this option is more convenient than keeping track of your own recovery key, but Apple and law enforcement could potentially be able to access your drive so consult your threat model to determine if this is acceptable.
 
