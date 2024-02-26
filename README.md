@@ -23,8 +23,8 @@ This guide is also available in [简体中文](https://github.com/drduh/macOS-Se
 - [Admin and standard user accounts](#admin-and-standard-user-accounts)
   * [Caveats](#caveats)
   * [Setup](#setup)
-- [Full disk encryption](#full-disk-encryption)
 - [Firmware](#firmware)
+- [Filevault](#filevault)
 - [Firewall](#firewall)
   * [Application layer firewall](#application-layer-firewall)
   * [Third party firewalls](#third-party-firewalls)
@@ -387,95 +387,17 @@ dscl . -read /Users/<username> GeneratedUID
 
 See also [this post](https://superuser.com/a/395738) for more information about how macOS determines group membership.
 
-## Full disk encryption
-
-[FileVault](https://en.wikipedia.org/wiki/FileVault) provides full disk (technically, full _volume_) encryption on macOS.
-
-FileVault encryption protects data at rest and hardens (but [not always prevents](https://blog.frizk.net/2016/12/filevault-password-retrieval.html)) someone with physical access from stealing data or tampering with your Mac.
-
-With much of the cryptographic operations happening [efficiently in hardware](https://web.archive.org/web/20180720195105/https://software.intel.com/sites/default/files/m/d/4/1/d/8/AES_WP_Rev_03_Final_2010_01_26.pdf), the performance penalty for FileVault is not noticeable.
-
-Like all cryptosystems, the security of FileVault greatly depends on the quality of the pseudo random number generator (PRNG).
-
-> The random device implements the Yarrow pseudo random number generator algorithm and maintains its entropy pool.  Additional entropy is fed to the generator regularly by the SecurityServer daemon from random jitter measurements of the kernel.
-
-See `man 4 random` for more information.
-
-Turning on FileVault in System Preferences **after** installing macOS, rather than creating an encrypted partition for the installation first, is [more secure](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/230), because more PRNG entropy is available then.
-
-It may be possible to increase entropy with an external source, like [OneRNG](http://onerng.info/). See [Entropy and Random Number Generators](https://calomel.org/entropy_random_number_generators.html) and [Fun with encryption and randomness](https://rsmith.home.xs4all.nl/howto/fun-with-encryption-and-randomness.html) for more information.
-
-Enable FileVault with `sudo fdesetup enable` or through **System Preferences** > **Security & Privacy** and reboot.
-
-If you can remember the password, there's no reason to save the **recovery key**. However, all encrypted data will be lost forever if without either the password or recovery key.
-
-To learn about how FileVault works, see the paper [Infiltrate the Vault: Security Analysis and Decryption of Lion Full Disk Encryption](https://eprint.iacr.org/2012/374.pdf) (pdf) and related [presentation](http://www.cl.cam.ac.uk/~osc22/docs/slides_fv2_ifip_2013.pdf) (pdf).
-
-**Optional** Enforce system hibernation and evict FileVault keys from memory instead of traditional sleep to memory:
-
-```console
-sudo pmset -a destroyfvkeyonstandby 1
-sudo pmset -a hibernatemode 25
-```
-
-> All computers have firmware of some type - EFI, BIOS - to help in the discovery of hardware components and ultimately to properly bootstrap the computer using the desired OS instance. In the case of Apple hardware and the use of EFI, Apple stores relevant information within EFI to aid in the functionality of macOS. For example, the FileVault key is stored in EFI to transparently come out of standby mode.
-> 
-> Organizations especially sensitive to a high-attack environment, or potentially exposed to full device access when the device is in standby mode, should mitigate this risk by destroying the FileVault key in firmware. Doing so doesn't destroy the use of FileVault, but simply requires the user to enter the password in order for the system to come out of standby mode.
-
-If you choose to evict FileVault keys in standby mode, you should also modify your standby and power nap settings. Otherwise, your machine may wake while in standby mode and then power off due to the absence of the FileVault key. See [issue #124](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/124) for more information. These settings can be changed with:
-
-```console
-sudo pmset -a powernap 0
-sudo pmset -a standby 0
-sudo pmset -a standbydelay 0
-sudo pmset -a autopoweroff 0
-```
-
-For more information, see paper [Lest We Remember: Cold Boot Attacks on Encryption Keys](https://www.usenix.org/legacy/event/sec08/tech/full_papers/halderman/halderman.pdf) (pdf)
-
-**Note** APFS may make evicting FileVault keys redundant - see discussion and links in [issue #283](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/283).
-
 ## Firmware
 
-Setting a firmware password prevents a Mac from starting up from any device other than the startup disk. It may also be set to be required on each boot. This may be useful for mitigating some attacks which require physical access to hardware.  See [How to set a firmware password on your Mac](https://support.apple.com/en-au/HT204455) for official documentation.
+You should check that firmware security settings are set to [Full Security](https://support.apple.com/en-au/guide/mac-help/mchl768f7291/mac) to prevent tampering with your OS. This is the default setting.
 
-This feature can be helpful if your laptop is lost or stolen, protects against Direct Memory Access (DMA) attacks which can read your FileVault passwords and inject kernel modules such as [pcileech](https://github.com/ufrisk/pcileech), as the only way to reset the firmware password is through an Apple Store, or by using an [SPI programmer](https://reverse.put.as/2016/06/25/apple-efi-firmware-passwords-and-the-scbo-myth/), such as [Bus Pirate](http://ho.ax/posts/2012/06/unbricking-a-macbook/) or other flash IC programmer.
+## FileVault
 
-1. Start up pressing `Command` and `R` keys to boot to [Recovery Mode](https://support.apple.com/en-au/HT201314) mode.
-1. When the Recovery window appears, choose **Firmware Password Utility** from the Utilities menu.
-1. In the Firmware Utility window that appears, select **Turn On Firmware Password**.
-1. Enter a new password, then enter the same password in the **Verify** field.
-1. Select **Set Password**.
-1. Select **Quit Firmware Utility** to close the Firmware Password Utility.
-1. Select Restart or Shutdown from the Apple menu in the top-left corner.
+All Mac models with Apple silicon are encrypted by default. Enabling [FileVault](https://support.apple.com/en-au/guide/mac-help/mh11785/mac) makes it so that you need to enter a password in order to access the data on your drive. The EFF has a guide on generating [strong but memorable passwords](https://www.eff.org/dice).
 
-The firmware password will activate at next boot. To validate the password, hold `Alt` during boot - you should be prompted to enter the password.
+Your FileVault password also acts as a [firmware password](https://support.apple.com/en-us/102384) that will prevent people that don't know it from booting from anything other than the designated startup disk, accessing [Recovery](https://support.apple.com/guide/mac-help/macos-recovery-a-mac-apple-silicon-mchl82829c17/14.0/mac/14.0#mchl5abfbb29), and [reviving](https://support.apple.com/en-us/108900) it with DFU mode.
 
-The firmware password can also be managed with the `firmwarepasswd` utility while booted into the OS. For example, to prompt for the firmware password when attempting to boot from a different volume:
-
-```console
-sudo firmwarepasswd -setpasswd -setmode command
-```
-
-To verify the firmware password:
-
-```console
-sudo firmwarepasswd -verify
-```
-
-A firmware password may be bypassed by a determined attacker or Apple, with physical access to the computer.
-
-<img width="750" alt="Using a Dediprog SF600 to dump and flash a 2013 MacBook SPI Flash chip to remove a firmware password, sans Apple" src="https://cloud.githubusercontent.com/assets/12475110/17075918/0f851c0c-50e7-11e6-904d-0b56cf0080c1.png">
-
-*Using a [Dediprog SF600](https://www.dediprog.com/product/sf600) to dump and flash a 2013 MacBook SPI Flash chip to remove a firmware password, sans Apple*
-
-As of macOS 10.15, the `firmwarepasswd` program has a new option `-disable-reset-capability`. According to [Apple's new Platform Security page](https://support.apple.com/en-gb/guide/security/sec28382c9ca/web), this effectively prevents any firmware password resets, even by Apple themselves:
-
-> For users who want no one but themselves to remove their Firmware Password by software means, the -disable-reset-capability option has been added to the firmwarepasswd command-line tool in macOS 10.15. Before setting this option, users must to acknowledge that if the password is forgotten and needs removal, the user must bear the cost of the motherboard replacement necessary to achieve this.
-
-Newer Mac models (Mac Pro, iMac Pro, Macbook with TouchBar) with [Apple T2](https://en.wikipedia.org/wiki/Apple-designed_processors#Apple_T2) chips, which provide a secure enclave for encrypted keys, lessen the risk of EFI firmware attacks. See [this blog post](https://michaellynn.github.io/2018/07/27/booting-secure/) for more information.
-
-See [LongSoft/UEFITool](https://github.com/LongSoft/UEFITool), [chipsec/chipsec](https://github.com/chipsec/chipsec) and discussion in [issue #213](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/213) for more information.
+FileVault will ask you to set a recovery key in case you forget your password. Keep this key stored somewhere safe. You'll have the option use your iCloud account to unlock your disk; however, anyone with access to your iCloud account will be able to unlock it as well.
 
 ## Firewall
 
