@@ -393,7 +393,9 @@ You should check that firmware security settings are set to [Full Security](http
 
 ## FileVault
 
-All Mac models with Apple silicon are encrypted by default. Enabling [FileVault](https://support.apple.com/en-au/guide/mac-help/mh11785/mac) makes it so that you need to enter a password in order to access the data on your drive. Your FileVault password acts as a firmware password as well.
+All Mac models with Apple silicon are encrypted by default. Enabling [FileVault](https://support.apple.com/en-au/guide/mac-help/mh11785/mac) makes it so that you need to enter a password in order to access the data on your drive. The EFF has a guide on generating [strong but memorable passwords](https://www.eff.org/dice). 
+
+Your FileVault password also acts as a [firmware password](https://support.apple.com/en-us/102384) that will prevent users that don't know it from booting from anything other than the designated startup disk.
 
 FileVault protects data at rest and hardens against someone with physical access stealing data or tampering with your Mac.
 
