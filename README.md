@@ -399,7 +399,7 @@ Your FileVault password also acts as a [firmware password](https://support.apple
 
 FileVault protects data at rest and hardens against someone with physical access stealing data or tampering with your Mac.
 
-You'll have the option use your iCloud account for recovery; this option is more convenient than keeping track of your own recovery key, but Apple and law enforcement could potentially be able to access your drive so consult your threat model to determine if this is acceptable.
+Filevault will ask you to set a recovery key in case you forget your password. Keep this key stored somewhere safe. You'll have the option use your iCloud account to unlock your disk; however, anyone with access to your iCloud account will be able to unlock it as well.
 
 ## Firewall
 
