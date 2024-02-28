@@ -1,4 +1,4 @@
-This guide is a collection of techniques for improving the security and privacy of Apple silicon Mac computers running a recent version of macOS. **Using older Macs leaves you open to [security vulnerabilities](https://github.com/axi0mX/ipwndfu?tab%253Dreadme-ov-file#checkm8) on the hardware level that Apple can't patch**.
+This guide is a collection of techniques for improving the security and privacy of [Apple silicon](https://support.apple.com/en-us/116943) Mac computers running a recent version of macOS. **Using older Macs leaves you open to [security vulnerabilities](https://github.com/axi0mX/ipwndfu?tab%253Dreadme-ov-file#checkm8) on the hardware level that Apple can't patch**. Apple silicon Macs are the minimum recommendation but as a general rule, newer chips are always more secure.
 
 This guide is targeted to power users who wish to adopt enterprise-standard security, but is also suitable for novice users with an interest in improving their privacy and security on a Mac.
 
