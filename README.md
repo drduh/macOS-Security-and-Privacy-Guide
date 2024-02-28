@@ -89,7 +89,7 @@ Standard security best practices apply:
 	* This will mitigate damage in case of compromise and data theft.
 
 * Assure data availability
-	* Create [regular backups](https://www.amazon.com/o/ASIN/0596102461/backupcentral) of your data and be ready to format and re-install the operating system in case of compromise.
+	* Create [regular backups](https://support.apple.com/en-us/104984) of your data and be ready to format and re-install the operating system in case of compromise.
 	* Encrypt locally before copying backups to external media or the "cloud".
 	* Verify backups by accessing them regularly.
 
