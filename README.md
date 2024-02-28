@@ -77,7 +77,7 @@ Standard security best practices apply:
 
 * Create a [threat model](https://www.owasp.org/index.php/Application_Threat_Modeling)
 	* What are you trying to protect and from whom? Is your adversary a three letter agency; a nosy eavesdropper on the network; or a determined [APT](https://en.wikipedia.org/wiki/Advanced_persistent_threat) orchestrating a campaign against you?
-	* [Recognize threats](https://www.usenix.org/system/files/1401_08-12_mickens.pdf) and how to reduce attack surface against them.
+	* Recognize threats and how to reduce attack surface against them.
 
 * Keep the system up to date
 	* Patch the base operating system and all third party software.
