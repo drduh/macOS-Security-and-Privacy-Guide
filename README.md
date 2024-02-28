@@ -95,7 +95,7 @@ Standard security best practices apply:
 
 * Click carefully
 	* Ultimately, the security of a system depends on the capabilities of its administrator.
-	* Care should be taken when installing new software; only install from official sources that the developers indicate on their official webiste/github/etc.
+	* Care should be taken when installing new software; only install from official sources that the developers indicate on their official website/github/etc.
 
 ## Preparing and installing macOS
 
