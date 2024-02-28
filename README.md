@@ -81,7 +81,7 @@ Standard security best practices apply:
 
 * Keep the system up to date
 	* Patch the base operating system and all third party software.
-	* macOS system updates can be completed in the [settings](https://support.apple.com/guide/mac-help/keep-your-mac-up-to-date-mchlpx1065/mac), or the `softwareupdate` command-line utility - neither requires registering an Apple account.
+	* macOS system updates can be completed in the [settings](https://support.apple.com/guide/mac-help/keep-your-mac-up-to-date-mchlpx1065/mac) and set to automatically install. You can also use the `softwareupdate` command-line utility - neither requires registering an Apple account.
 	* Subscribe to announcement mailing lists like [Apple security-announce](https://lists.apple.com/mailman/listinfo/security-announce).
 
 * Encrypt sensitive data at rest
