@@ -90,7 +90,7 @@ Standard security best practices apply:
 
 * Assure data availability
 	* Create [regular backups](https://support.apple.com/en-us/104984) of your data and be ready to [reset](https://support.apple.com/en-us/102664) your Mac and [restore from a backup](https://support.apple.com/en-us/102551) in case of compromise.
-	* Encrypt locally before copying backups to unencrypted external media or the "cloud"; alternatively, enable [end-to-end encryption](https://support.apple.com/guide/security/advanced-data-protection-for-icloud-sec973254c5f/web) if your cloud provider supports it.
+	* [Encrypt locally](https://support.apple.com/guide/mac-help/keep-your-time-machine-backup-disk-secure-mh21241/mac) before copying backups to unencrypted external media or the "cloud"; alternatively, enable [end-to-end encryption](https://support.apple.com/guide/security/advanced-data-protection-for-icloud-sec973254c5f/web) if your cloud provider supports it.
 	* Verify backups by accessing them regularly.
 
 * Click carefully
