@@ -85,11 +85,11 @@ Standard security best practices apply:
 	* Subscribe to announcement mailing lists like [Apple security-announce](https://lists.apple.com/mailman/listinfo/security-announce).
 
 * Encrypt sensitive data at rest
-	* In addition to [FileVault](https://support.apple.com/guide/mac-help/protect-data-on-your-mac-with-filevault-mh11785/mac), consider using the [built-in password manager](https://support.apple.com/en-us/105115) to protect your passwords and other sensitive info. For sensitive files, consider creating a separate [encrypted volume](https://support.apple.com/guide/disk-utility/encrypt-protect-a-storage-device-password-dskutl35612/mac) to store them in.
+	* In addition to [FileVault](https://support.apple.com/guide/mac-help/protect-data-on-your-mac-with-filevault-mh11785/mac), consider using the [built-in password manager](https://support.apple.com/105115) to protect your passwords and other sensitive info. For sensitive files, consider creating a separate [encrypted volume](https://support.apple.com/guide/disk-utility/encrypt-protect-a-storage-device-password-dskutl35612/mac) to store them in.
 	* This will mitigate damage in case of compromise and data theft.
 
 * Assure data availability
-	* Create [regular backups](https://support.apple.com/en-us/104984) of your data and be ready to [reset](https://support.apple.com/en-us/102664) your Mac and [restore from a backup](https://support.apple.com/en-us/102551) in case of compromise.
+	* Create [regular backups](https://support.apple.com/104984) of your data and be ready to [reset](https://support.apple.com/102664) your Mac and [restore from a backup](https://support.apple.com/102551) in case of compromise.
 	* [Encrypt locally](https://support.apple.com/guide/mac-help/keep-your-time-machine-backup-disk-secure-mh21241/mac) before copying backups to unencrypted external media or the "cloud"; alternatively, enable [end-to-end encryption](https://support.apple.com/guide/security/advanced-data-protection-for-icloud-sec973254c5f/web) if your cloud provider supports it.
 	* Verify backups by accessing them regularly.
 
