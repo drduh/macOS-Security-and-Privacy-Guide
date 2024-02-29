@@ -81,16 +81,16 @@ Standard security best practices apply:
 
 * Keep the system up to date
 	* Patch the base operating system and all third party software.
-	* macOS system updates can be completed in the [settings](https://support.apple.com/guide/mac-help/keep-your-mac-up-to-date-mchlpx1065/mac) and set to automatically install. You can also use the `softwareupdate` command-line utility - neither requires registering an Apple account.
+	* macOS system updates can be completed in the [settings](https://support.apple.com/guide/mac-help/keep-your-mac-up-to-date-mchlpx1065) and set to automatically install. You can also use the `softwareupdate` command-line utility - neither requires registering an Apple account.
 	* Subscribe to announcement mailing lists like [Apple security-announce](https://lists.apple.com/mailman/listinfo/security-announce).
 
 * Encrypt sensitive data at rest
-	* In addition to [FileVault](https://support.apple.com/guide/mac-help/protect-data-on-your-mac-with-filevault-mh11785/mac), consider using the [built-in password manager](https://support.apple.com/105115) to protect your passwords and other sensitive info. For sensitive files, consider creating a separate [encrypted volume](https://support.apple.com/guide/disk-utility/encrypt-protect-a-storage-device-password-dskutl35612/mac) to store them in.
+	* In addition to [FileVault](https://support.apple.com/guide/mac-help/protect-data-on-your-mac-with-filevault-mh11785), consider using the [built-in password manager](https://support.apple.com/105115) to protect your passwords and other sensitive info. For sensitive files, consider creating a separate [encrypted volume](https://support.apple.com/guide/disk-utility/encrypt-protect-a-storage-device-password-dskutl35612) to store them in.
 	* This will mitigate damage in case of compromise and data theft.
 
 * Assure data availability
 	* Create [regular backups](https://support.apple.com/104984) of your data and be ready to [reset](https://support.apple.com/102664) your Mac and [restore from a backup](https://support.apple.com/102551) in case of compromise.
-	* [Encrypt locally](https://support.apple.com/guide/mac-help/keep-your-time-machine-backup-disk-secure-mh21241/mac) before copying backups to unencrypted external media or the "cloud"; alternatively, enable [end-to-end encryption](https://support.apple.com/guide/security/advanced-data-protection-for-icloud-sec973254c5f/web) if your cloud provider supports it.
+	* [Encrypt locally](https://support.apple.com/guide/mac-help/keep-your-time-machine-backup-disk-secure-mh21241) before copying backups to unencrypted external media or the "cloud"; alternatively, enable [end-to-end encryption](https://support.apple.com/guide/security/advanced-data-protection-for-icloud-sec973254c5f) if your cloud provider supports it.
 	* Verify backups by accessing them regularly.
 
 * Click carefully
