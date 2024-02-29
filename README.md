@@ -85,7 +85,7 @@ Standard security best practices apply:
 	* Subscribe to announcement mailing lists like [Apple security-announce](https://lists.apple.com/mailman/listinfo/security-announce).
 
 * Encrypt sensitive data at rest
-	* In addition to [FileVault](https://support.apple.com/guide/mac-help/protect-data-on-your-mac-with-filevault-mh11785/mac), consider using a [keychain](https://support.apple.com/guide/mac-help/use-keychains-to-store-passwords-mchlf375f392/mac) to protect your passwords and other sensitive info. For sensitive files, consider creating a separate [encrypted volume](https://support.apple.com/guide/disk-utility/encrypt-protect-a-storage-device-password-dskutl35612/mac) to store them in.
+	* In addition to [FileVault](https://support.apple.com/guide/mac-help/protect-data-on-your-mac-with-filevault-mh11785/mac), consider using the [built-in password manager](https://support.apple.com/en-us/105115) to protect your passwords and other sensitive info. For sensitive files, consider creating a separate [encrypted volume](https://support.apple.com/guide/disk-utility/encrypt-protect-a-storage-device-password-dskutl35612/mac) to store them in.
 	* This will mitigate damage in case of compromise and data theft.
 
 * Assure data availability
