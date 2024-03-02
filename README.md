@@ -2,6 +2,8 @@ This guide is a collection of techniques for improving the security and privacy 
 
 This guide is targeted to power users who wish to adopt enterprise-standard security, but is also suitable for novice users with an interest in improving their privacy and security on a Mac.
 
+If you're securing computers for an organization, use the [official NIST guidelines for macOS](https://github.com/usnistgov/macos_security).
+
 A system is only as secure as its administrator is capable of making it. There is no one single technology, software, nor technique to guarantee perfect computer security; a modern operating system and computer is very complex, and requires numerous incremental changes to meaningfully improve one's security and privacy posture.
 
 This guide is provided on an 'as is' basis without any warranties of any kind. Only **you** are responsible if you break anything or get in any sort of trouble by following this guide.
