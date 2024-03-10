@@ -100,7 +100,7 @@ Standard security best practices apply:
 
 ## Acquiring a Mac
 
-When you purchase your Mac, you might want to avoid it being linked back to you. Depending on your threat model, you might want to pay for it in cash in person rather than ordering online or purchasing with a credit/debit card.
+When you purchase your Mac, you might want to avoid it being linked back to you. You should pay for it in cash in person rather than ordering online or purchasing with a credit/debit card, that way no identifying information can be linked back to your purchase.
 
 ## Installing macOS
 
