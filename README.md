@@ -13,7 +13,7 @@ To suggest an improvement, please send a pull request or [open an issue](https:/
 This guide is also available in [简体中文](https://github.com/drduh/macOS-Security-and-Privacy-Guide/blob/master/README-cn.md).
 
 - [Basics](#basics)
-- [Installing macOS](#preparing-and-installing-macos)
+- [Installing macOS](#installing-macos)
   * [Virtualization](#virtualization)
 - [First boot](#first-boot)
 - [System activation](#system-activation)
