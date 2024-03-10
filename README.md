@@ -123,7 +123,7 @@ sudo scutil --set LocalHostName MacBook
 
 ## System activation
 
-As part of Apple's [theft prevention system](https://support.apple.com/102541), Apple silicon Macs will need to activate with Apple's servers to check against the database of stolen Macs.
+As part of Apple's [theft prevention system](https://support.apple.com/102541), Apple silicon Macs will need to activate with Apple's servers every time you reinstall macOS to check against the database of stolen Macs.
 
 ## Admin and standard user accounts
 
