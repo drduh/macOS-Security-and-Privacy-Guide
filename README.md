@@ -104,7 +104,7 @@ The simplest way is to boot into [Recovery Mode](https://support.apple.com/guide
 
 ### Virtualization
 
-You can easily run macOS in a virtual machine using [UTM](https://mac.getutm.app/). It's free from their site but if you buy it from the App Store, you'll get automatic updates.
+You can easily run macOS natively in a virtual machine using [UTM](https://mac.getutm.app/). It's free from their site but if you buy it from the App Store, you'll get automatic updates.
 
 ## First boot
 
