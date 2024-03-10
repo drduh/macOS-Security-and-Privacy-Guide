@@ -1,6 +1,8 @@
-This guide is a collection of techniques for improving the security and privacy of a modern Apple Macintosh computer ("MacBook") running a recent version of macOS (formerly known as "OS X").
+This guide is a collection of techniques for improving the security and privacy of [Apple silicon](https://support.apple.com/116943) Mac computers running a [currently supported](https://support.apple.com/HT201222) version of macOS. **Using Macs with Intel CPUs leaves you open to [security vulnerabilities](https://github.com/axi0mX/ipwndfu?tab%253Dreadme-ov-file#checkm8) on the hardware level that Apple can't patch**. Apple silicon Macs are the minimum recommendation but as a general rule, newer chips are always more secure.
 
 This guide is targeted to power users who wish to adopt enterprise-standard security, but is also suitable for novice users with an interest in improving their privacy and security on a Mac.
+
+If you're securing computers for an organization, use the [official NIST guidelines for macOS](https://github.com/usnistgov/macos_security).
 
 A system is only as secure as its administrator is capable of making it. There is no one single technology, software, nor technique to guarantee perfect computer security; a modern operating system and computer is very complex, and requires numerous incremental changes to meaningfully improve one's security and privacy posture.
 
@@ -76,26 +78,26 @@ This guide is also available in [简体中文](https://github.com/drduh/macOS-Se
 Standard security best practices apply:
 
 * Create a [threat model](https://www.owasp.org/index.php/Application_Threat_Modeling)
-	* What are you trying to protect and from whom? Is your adversary a [three letter agency](https://theintercept.com/document/2015/03/10/strawhorse-attacking-macos-ios-software-development-kit/) (if so, you may want to consider using [OpenBSD](https://www.openbsd.org/) instead); a nosy eavesdropper on the network; or a determined [apt](https://en.wikipedia.org/wiki/Advanced_persistent_threat) orchestrating a campaign against you?
-	* [Recognize threats](https://www.usenix.org/system/files/1401_08-12_mickens.pdf) and how to reduce attack surface against them.
+	* What are you trying to protect and from whom? Is your adversary a three letter agency, a nosy eavesdropper on the network, or a determined [APT](https://en.wikipedia.org/wiki/Advanced_persistent_threat) orchestrating a campaign against you?
+	* Recognize threats and how to reduce attack surface against them.
 
 * Keep the system up to date
 	* Patch the base operating system and all third party software.
-	* macOS system updates can be completed using the App Store application, or the `softwareupdate` command-line utility - neither requires registering an Apple account. Updates can also be downloaded directly from Apple's support site.
+	* macOS system updates can be completed in the [settings](https://support.apple.com/guide/mac-help/keep-your-mac-up-to-date-mchlpx1065) and set to automatically install. You can also use the `softwareupdate` command-line utility - neither requires registering an Apple account.
 	* Subscribe to announcement mailing lists like [Apple security-announce](https://lists.apple.com/mailman/listinfo/security-announce).
 
 * Encrypt sensitive data at rest
-	* In addition to full disk encryption, consider creating one or several encrypted partitions or volumes to store passwords, cryptographic keys, personal documents, etc. at rest.
+	* In addition to [FileVault](https://support.apple.com/guide/mac-help/protect-data-on-your-mac-with-filevault-mh11785), consider using the [built-in password manager](https://support.apple.com/105115) to protect your passwords and other sensitive info. For sensitive files, consider creating a separate [encrypted volume](https://support.apple.com/guide/disk-utility/encrypt-protect-a-storage-device-password-dskutl35612) to store them in.
 	* This will mitigate damage in case of compromise and data theft.
 
 * Assure data availability
-	* Create [regular backups](https://www.amazon.com/o/ASIN/0596102461/backupcentral) of your data and be ready to format and re-install the operating system in case of compromise.
-	* Encrypt locally before copying backups to external media or the "cloud".
+	* Create [regular backups](https://support.apple.com/104984) of your data and be ready to [restore from a backup](https://support.apple.com/102551) in case of compromise.
+	* [Encrypt locally](https://support.apple.com/guide/mac-help/keep-your-time-machine-backup-disk-secure-mh21241) before copying backups to unencrypted external media or the "cloud"; alternatively, enable [end-to-end encryption](https://support.apple.com/guide/security/advanced-data-protection-for-icloud-sec973254c5f) if your cloud provider supports it.
 	* Verify backups by accessing them regularly.
 
 * Click carefully
 	* Ultimately, the security of a system depends on the capabilities of its administrator.
-	* Care should be taken when installing new software. Always prefer [free](https://www.gnu.org/philosophy/free-sw.en.html) and open source software ([which macOS is not](https://superuser.com/questions/19492/is-mac-os-x-open-source)).
+	* Care should be taken when installing new software; only install from official sources that the developers indicate on their official website/github/etc.
 
 ## Preparing and installing macOS
 
