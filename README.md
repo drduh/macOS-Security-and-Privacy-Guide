@@ -822,7 +822,7 @@ Also see [Apple's secret "wispr" request](https://web.archive.org/web/2017100807
 
 ## Certificate authorities
 
-macOS comes with [over 100](https://support.apple.com/HT202858) root authority certificates installed from corporations like Apple, Verisign, Thawte, Digicert and government agencies from China, Japan, Netherlands, U.S., and more! These Certificate Authorities (CAs) are capable of issuing TLS certificates for any domain, code signing certificates, etc. Apple [blocks these certificates](https://support.apple.com/103247#blocked) when a CA proves to be untrustworthy.
+macOS comes with [over 100](https://support.apple.com/103723) root authority certificates installed from corporations like Apple, Verisign, Thawte, Digicert and government agencies from China, Japan, Netherlands, U.S., and more! These Certificate Authorities (CAs) are capable of issuing TLS certificates for any domain, code signing certificates, etc. Apple [blocks these certificates](https://support.apple.com/103247#blocked) when a CA proves to be untrustworthy.
 
 For more information, see [Cloudflare's intro to TLS certificates](https://www.cloudflare.com/learning/ssl/what-is-an-ssl-certificate/).
 
@@ -834,7 +834,7 @@ You can manually disable certificate authorities through Keychain Access by mark
 
 **Warning:** This will cause your browser to give a warning when you visit a site using certificates signed by these CA's and may cause breakage in other software. Don't distrust Apple root certificates or it will cause lots of breakage in macOS!
 
-The risk of a [man in the middle](https://en.wikipedia.org/wiki/Man-in-the-middle_attack) attack in which a coerced or compromised certificate authority trusted by your system issues a fake/rogue TLS certificate is quite low, but still [possible](https://en.wikipedia.org/wiki/DigiNotar#Issuance_of_fraudulent_certificates).
+The risk of a [man in the middle](https://wikipedia.org/wiki/Man-in-the-middle_attack) attack in which a coerced or compromised certificate authority trusted by your system issues a fake/rogue TLS certificate is quite low, but still [possible](https://wikipedia.org/wiki/DigiNotar#Issuance_of_fraudulent_certificates).
 
 ## Web
 
