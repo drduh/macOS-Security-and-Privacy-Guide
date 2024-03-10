@@ -38,7 +38,7 @@ This guide is also available in [简体中文](https://github.com/drduh/macOS-Se
     + [Dnsmasq](#dnsmasq)
       - [Test DNSSEC validation](#test-dnssec-validation)
 - [Captive portal](#captive-portal)
--[Certificate authorities](#certificate-authorities)
+- [Certificate authorities](#certificate-authorities)
 - [Web](#web)
   * [Privoxy](#privoxy)
   * [Browser](#browser)
