@@ -822,7 +822,7 @@ Also see [Apple's secret "wispr" request](https://web.archive.org/web/2017100807
 
 ## Certificate authorities
 
-macOS comes with [over 100](https://support.apple.com/en-us/HT202858) root authority certificates installed from corporations like Apple, Verisign, Thawte, Digicert and government agencies from China, Japan, Netherlands, U.S., and more! These Certificate Authorities (CAs) are capable of issuing TLS certificates for any domain, code signing certificates, etc. Apple [blocks these certificates](https://support.apple.com/en-us/103247#blocked) when a CA proves to be untrustworthy.
+macOS comes with [over 100](https://support.apple.com/HT202858) root authority certificates installed from corporations like Apple, Verisign, Thawte, Digicert and government agencies from China, Japan, Netherlands, U.S., and more! These Certificate Authorities (CAs) are capable of issuing TLS certificates for any domain, code signing certificates, etc. Apple [blocks these certificates](https://support.apple.com/103247#blocked) when a CA proves to be untrustworthy.
 
 For more information, see [Cloudflare's intro to TLS certificates](https://www.cloudflare.com/learning/ssl/what-is-an-ssl-certificate/).
 
