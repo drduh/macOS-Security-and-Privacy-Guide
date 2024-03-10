@@ -824,7 +824,7 @@ Also see [Apple's secret "wispr" request](https://web.archive.org/web/2017100807
 
 macOS comes with [over 100](https://support.apple.com/103723) root authority certificates installed from corporations like Apple, Verisign, Thawte, Digicert and government agencies from China, Japan, Netherlands, U.S., and more! These Certificate Authorities (CAs) are capable of issuing TLS certificates for any domain, code signing certificates, etc. Apple [blocks these certificates](https://support.apple.com/103247#blocked) when a CA proves to be untrustworthy. They also have [strict requirements](https://www.apple.com/certificateauthority/ca_program.html) that trusted CAs have to meet.
 
-For more information, see the [CA/Browser Forum's website](https://cabforum.org/resources/tools/).
+For more information, see the [CA/Browser Forum's website](https://cabforum.org/resources/browser-os-info/).
 
 Inspect system root certificates in **Keychain Access**, under the **System Roots** tab or by using the `security` command line tool and `/System/Library/Keychains/SystemRootCertificates.keychain` file.
 
