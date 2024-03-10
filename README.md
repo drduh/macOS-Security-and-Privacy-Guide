@@ -13,7 +13,11 @@ To suggest an improvement, please send a pull request or [open an issue](https:/
 This guide is also available in [简体中文](https://github.com/drduh/macOS-Security-and-Privacy-Guide/blob/master/README-cn.md).
 
 - [Basics](#basics)
+- [Acquiring a Mac](#acquiring-a-mac)
 - [Installing macOS](#installing-macos)
+  * [System Activation](#system-activation)
+  * [Apple ID](#apple-id)
+  * [App Store](#app-store)
   * [Virtualization](#virtualization)
 - [First boot](#first-boot)
 - [System activation](#system-activation)
@@ -94,6 +98,10 @@ Standard security best practices apply:
 	* Ultimately, the security of a system depends on the capabilities of its administrator.
 	* Care should be taken when installing new software; only install from official sources that the developers indicate on their official website/github/etc.
 
+## Acquiring a Mac
+
+When you purchase your Mac, you might want to avoid it being linked back to you. Depending on your threat model, you might want to pay for it in cash in person rather than ordering online or purchasing with a credit/debit card.
+
 ## Installing macOS
 
 There are several ways to [install macOS](https://support.apple.com/102662). Choose your preferred method from the available options. 
@@ -101,6 +109,22 @@ There are several ways to [install macOS](https://support.apple.com/102662). Cho
  **You should install the latest version of macOS that's compatible with your Mac.** More recent versions have security patches and other improvements that older versions lack.
 
 The simplest way is to boot into [Recovery Mode](https://support.apple.com/guide/mac-help/macos-recovery-a-mac-apple-silicon-mchl82829c17/mac).
+
+### System activation
+
+As part of Apple's [theft prevention system](https://support.apple.com/102541), Apple silicon Macs will need to activate with Apple's servers every time you reinstall macOS to check against the database of stolen Macs.
+
+### Apple ID
+
+Creating an Apple ID is not required to use macOS. Making an Apple ID requires a phone number and it will by default sync a [lot of data](https://www.apple.com/legal/privacy/data/en/apple-id/) to Apple's servers. You can [disable](https://support.apple.com/102651) most of it later if you want.
+
+An Apple ID is required in order to access the App Store and use most Apple services.
+
+### App Store
+
+The Mac App Store is a [curated](https://developer.apple.com/app-store/review/guidelines/) repository of software that is required to utilize the [App Sandbox](https://developer.apple.com/documentation/security/app_sandbox/protecting_user_data_with_app_sandbox) and [Hardened Runtime](https://developer.apple.com/documentation/security/hardened_runtime), as well as offering automatic updates that integrate with your system.
+
+The App Store offers the greatest security guarantees for software on macOS, but it requires you to log in with an Apple ID and Apple will be able to link your Apple ID to your downloaded apps.
 
 ### Virtualization
 
@@ -120,10 +144,6 @@ Both should be verified and updated as needed in **System Preferences > Sharing*
 sudo scutil --set ComputerName MacBook
 sudo scutil --set LocalHostName MacBook
 ```
-
-## System activation
-
-As part of Apple's [theft prevention system](https://support.apple.com/102541), Apple silicon Macs will need to activate with Apple's servers every time you reinstall macOS to check against the database of stolen Macs.
 
 ## Admin and standard user accounts
 
