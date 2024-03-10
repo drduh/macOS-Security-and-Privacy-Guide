@@ -822,7 +822,7 @@ Also see [Apple's secret "wispr" request](https://web.archive.org/web/2017100807
 
 ## Certificate authorities
 
-macOS comes with [over 100](https://support.apple.com/103723) root authority certificates installed from corporations like Apple, Verisign, Thawte, Digicert and government agencies from China, Japan, Netherlands, U.S., and more! These Certificate Authorities (CAs) are capable of issuing TLS certificates for any domain, code signing certificates, etc. Apple [blocks these certificates](https://support.apple.com/103247#blocked) when a CA proves to be untrustworthy. They also have [strict requirements](https://www.apple.com/certificateauthority/ca_program.html) that trusted CA's have to meet.
+macOS comes with [over 100](https://support.apple.com/103723) root authority certificates installed from corporations like Apple, Verisign, Thawte, Digicert and government agencies from China, Japan, Netherlands, U.S., and more! These Certificate Authorities (CAs) are capable of issuing TLS certificates for any domain, code signing certificates, etc. Apple [blocks these certificates](https://support.apple.com/103247#blocked) when a CA proves to be untrustworthy. They also have [strict requirements](https://www.apple.com/certificateauthority/ca_program.html) that trusted CAs have to meet.
 
 For more information, see the [CA/Browser Forum's website](https://cabforum.org/resources/tools/).
 
@@ -832,7 +832,7 @@ You can manually disable certificate authorities through Keychain Access by mark
 
 <img width="450" alt="A certificate authority certificate" src="https://cloud.githubusercontent.com/assets/12475110/19222972/6b7aabac-8e32-11e6-8efe-5d3219575a98.png">
 
-**Warning:** This will cause your browser to give a warning when you visit a site using certificates signed by these CA's and may cause breakage in other software. Don't distrust Apple root certificates or it will cause lots of breakage in macOS!
+**Warning:** This will cause your browser to give a warning when you visit a site using certificates signed by these CAs and may cause breakage in other software. Don't distrust Apple root certificates or it will cause lots of breakage in macOS!
 
 The risk of a [man in the middle](https://wikipedia.org/wiki/Man-in-the-middle_attack) attack in which a coerced or compromised certificate authority trusted by your system issues a fake/rogue TLS certificate is quite low, but still [possible](https://wikipedia.org/wiki/DigiNotar#Issuance_of_fraudulent_certificates).
 
