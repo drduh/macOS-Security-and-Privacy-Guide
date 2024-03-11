@@ -144,7 +144,7 @@ When creating the first account, use a [strong password](https://www.eff.org/dic
 
 If you enter your real name at the account setup process, be aware that your computer's name and local hostname will comprise that name (e.g., *John Appleseed's MacBook*) and thus will appear on local networks and in various preference files.
 
-Both should be verified and updated as needed in **System Preferences > Sharing** or with the following commands after installation:
+Both should be verified and updated as needed in **System Settings > About** or with the following commands after installation:
 
 ```console
 sudo scutil --set ComputerName MacBook
