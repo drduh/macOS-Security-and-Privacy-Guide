@@ -120,7 +120,7 @@ You can read about exactly how this process works [here](https://support.apple.c
 
 ### Apple ID
 
-Creating an Apple ID is not required to use macOS. Making an Apple ID requires a phone number and it will by default sync a [lot of data](https://www.apple.com/legal/privacy/data/en/apple-id/) to Apple's servers. You can [disable](https://support.apple.com/102651) most of it later if you want.
+Creating an Apple ID is not required to use macOS. Making an Apple ID requires a phone number and it will by default sync a [lot of data](https://www.apple.com/legal/privacy/data/en/apple-id/) to iCloud, Apple's cloud storage service. You can [disable](https://support.apple.com/102651) the syncing later if you want or enable [end-to-end encryption](https://support.apple.com/guide/security/advanced-data-protection-for-icloud-sec973254c5f/web) for your iCloud data.
 
 You can [control the data](https://support.apple.com/102283) associated with your Apple ID or completely delete it.
 
