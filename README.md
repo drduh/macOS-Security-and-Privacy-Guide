@@ -13,7 +13,7 @@ To suggest an improvement, please send a pull request or [open an issue](https:/
 This guide is also available in [简体中文](https://github.com/drduh/macOS-Security-and-Privacy-Guide/blob/master/README-cn.md).
 
 - [Basics](#basics)
-- [Acquiring a Mac](#acquiring-a-mac)
+- [Hardware](#hardware)
 - [Installing macOS](#installing-macos)
   * [System Activation](#system-activation)
   * [Apple ID](#apple-id)
@@ -98,7 +98,7 @@ Standard security best practices apply:
 	* Ultimately, the security of a system depends on the capabilities of its administrator.
 	* Care should be taken when installing new software; only install from official sources that the developers indicate on their official website/github/etc.
 
-## Acquiring a Mac
+## Hardware
 
 macOS is most secure running on [Apple hardware](https://support.apple.com/guide/security/hardware-security-overview-secf020d1074/1/web/1) with Apple silicon. The newer the Mac, the better. Avoid hackintoshes and Macs that don't support the latest macOS, as Apple doesn't [patch all vulnerabilities](https://support.apple.com/guide/deployment/about-software-updates-depc4c80847a) in versions that aren't the most recent one.
 
