@@ -132,6 +132,8 @@ The App Store offers the greatest security guarantees for software on macOS, but
 
 You can easily run macOS natively in a virtual machine using [UTM](https://mac.getutm.app/). It's free from their site but if you buy it from the App Store, you'll get automatic updates.
 
+Follow their [documentation](https://docs.getutm.app/guest-support/macos/) to install a macOS VM with just a few clicks.
+
 ## First boot
 
 When macOS first starts, you'll be greeted by **Setup Assistant**.
