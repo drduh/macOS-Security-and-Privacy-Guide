@@ -108,7 +108,7 @@ When you purchase your Mac, you might want to avoid it being linked back to you.
 
 There are several ways to [install macOS](https://support.apple.com/102662). Choose your preferred method from the available options. 
 
- **You should install the latest version of macOS that's compatible with your Mac.** More recent versions have security patches and other improvements that older versions lack.
+ **You should install the latest version of macOS that's compatible with your Mac**. More recent versions have security patches and other improvements that older versions lack.
 
 ### System activation
 
