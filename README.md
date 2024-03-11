@@ -100,7 +100,7 @@ Standard security best practices apply:
 
 ## Acquiring a Mac
 
-macOS is most secure running on Apple hardware with Apple silicon. The newer the Mac, the better. Avoid hackintoshes and Macs that don't support the latest macOS, as Apple doesn't [patch all vulnerabilities](https://support.apple.com/guide/deployment/about-software-updates-depc4c80847a/web) in versions that aren't the most recent one.
+macOS is most secure running on Apple hardware with Apple silicon. The newer the Mac, the better. Avoid hackintoshes and Macs that don't support the latest macOS, as Apple doesn't [patch all vulnerabilities](https://support.apple.com/guide/deployment/about-software-updates-depc4c80847a) in versions that aren't the most recent one.
 
 When you purchase your Mac, you might want to avoid it being linked back to you. You should pay for it in cash in person rather than ordering online or purchasing with a credit/debit card, that way no identifying information can be linked back to your purchase.
 
@@ -110,7 +110,7 @@ There are several ways to [install macOS](https://support.apple.com/102662). Cho
 
  **You should install the latest version of macOS that's compatible with your Mac.** More recent versions have security patches and other improvements that older versions lack.
 
-The simplest way is to boot into [Recovery Mode](https://support.apple.com/guide/mac-help/macos-recovery-a-mac-apple-silicon-mchl82829c17/14.0/mac/14.0#mchl57249f89)
+The simplest way is to boot into [Recovery Mode](https://support.apple.com/guide/mac-help/macos-recovery-a-mac-apple-silicon-mchl82829c17/14.0#mchl57249f89)
 
 ### System activation
 
@@ -126,15 +126,15 @@ An Apple ID is required in order to access the App Store and use most Apple serv
 
 ### App Store
 
-The Mac App Store is a [curated](https://developer.apple.com/app-store/review/guidelines/) repository of software that is required to utilize the [App Sandbox](https://developer.apple.com/documentation/security/app_sandbox/protecting_user_data_with_app_sandbox) and [Hardened Runtime](https://developer.apple.com/documentation/security/hardened_runtime), as well as offering automatic updates that integrate with your system.
+The Mac App Store is a [curated](https://developer.apple.com/app-store/review/guidelines) repository of software that is required to utilize the [App Sandbox](https://developer.apple.com/documentation/security/app_sandbox/protecting_user_data_with_app_sandbox) and [Hardened Runtime](https://developer.apple.com/documentation/security/hardened_runtime), as well as offering automatic updates that integrate with your system.
 
 The App Store offers the greatest security guarantees for software on macOS, but it requires you to log in with an Apple ID and Apple will be able to link your Apple ID to your downloaded apps.
 
 ### Virtualization
 
-You can easily run macOS natively in a virtual machine using [UTM](https://mac.getutm.app/). It's free from their site but if you buy it from the App Store, you'll get automatic updates.
+You can easily run macOS natively in a virtual machine using [UTM](https://mac.getutm.app). It's free from their site but if you buy it from the App Store, you'll get automatic updates.
 
-Follow their [documentation](https://docs.getutm.app/guest-support/macos/) to install a macOS VM with just a few clicks.
+Follow their [documentation](https://docs.getutm.app/guest-support/macos) to install a macOS VM with just a few clicks.
 
 ## First boot
 
