@@ -122,7 +122,7 @@ You can read about exactly how this process works [here](https://support.apple.c
 
 Creating an Apple ID is not required to use macOS. Making an Apple ID requires a phone number and it will by default sync a [lot of data](https://www.apple.com/legal/privacy/data/en/apple-id/) to Apple's servers. You can [disable](https://support.apple.com/102651) most of it later if you want.
 
-An Apple ID is required in order to access the App Store and use most Apple services.
+An Apple ID is required in order to access the App Store and use most Apple services like iCloud, Apple Music, etc.
 
 ### App Store
 
