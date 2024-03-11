@@ -138,6 +138,8 @@ You can easily run macOS natively in a virtual machine using [UTM](https://mac.g
 
 Follow their [documentation](https://docs.getutm.app/guest-support/macos) to install a macOS VM with just a few clicks.
 
+Another option is [VMware Fusion](https://www.vmware.com/products/fusion.html), although it costs money. You can read their [documentation](https://docs.vmware.com/en/VMware-Fusion/13/com.vmware.fusion.using.doc/GUID-474FC78E-4E77-42B7-A1C6-12C2F378C5B9.html) to see how to install a macOS VM.
+
 ## First boot
 
 When macOS first starts, you'll be greeted by **Setup Assistant**.
