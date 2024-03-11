@@ -104,6 +104,8 @@ macOS is most secure running on [Apple hardware](https://support.apple.com/guide
 
 When you purchase your Mac, you might want to avoid it being linked back to you. Depending on your threat model, you should pay for it in cash in person rather than ordering online or purchasing with a credit/debit card, that way no identifying information can be linked back to your purchase.
 
+If you want to use a wireless keyboard, mouse, headphones or other accessory, the most secure option is Apple ones since they will automatically be updated by your system. They also support the latest [Bluetooth features](https://support.apple.com/guide/security/bluetooth-security-sec82597d97e/web) like BLE Privacy which randomizes your Bluetooth hardware address to prevent tracking. With third party accessories, this isn't a guarantee.
+
 ## Installing macOS
 
 There are several ways to [install macOS](https://support.apple.com/102662). Choose your preferred method from the available options. 
