@@ -100,6 +100,8 @@ Standard security best practices apply:
 
 ## Acquiring a Mac
 
+macOS is most secure running on Apple hardware with Apple silicon. The newer the Mac, the better. Avoid hackintoshes and Macs that don't support the latest macOS, as Apple doesn't [patch all vulnerabilities](https://support.apple.com/guide/deployment/about-software-updates-depc4c80847a/web) in versions that aren't the most recent one.
+
 When you purchase your Mac, you might want to avoid it being linked back to you. You should pay for it in cash in person rather than ordering online or purchasing with a credit/debit card, that way no identifying information can be linked back to your purchase.
 
 ## Installing macOS
