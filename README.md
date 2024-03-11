@@ -110,7 +110,7 @@ There are several ways to [install macOS](https://support.apple.com/102662). Cho
 
  **You should install the latest version of macOS that's compatible with your Mac.** More recent versions have security patches and other improvements that older versions lack.
 
-The simplest way is to boot into [Recovery Mode](https://support.apple.com/guide/mac-help/macos-recovery-a-mac-apple-silicon-mchl82829c17/mac).
+The simplest way is to boot into [Recovery Mode](https://support.apple.com/guide/mac-help/macos-recovery-a-mac-apple-silicon-mchl82829c17/14.0/mac/14.0#mchl57249f89)
 
 ### System activation
 
