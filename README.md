@@ -348,7 +348,7 @@ See [drduh/config/scripts/pf-blocklist.sh](https://github.com/drduh/config/blob/
 
 Services on macOS are managed by **launchd**. See [launchd.info](https://launchd.info).
 
-You can also run [KnockKnock](https://objective-see.com/products/knockknock.html) that shows more information about startup items.
+You can manage and see more information about software that runs at login in [System Settings](https://support.apple.com/guide/mac-help/change-login-items-settings-mtusr003). You can see installed System, Quick Look, Finder, and other extensions in [System Settings](https://support.apple.com/guide/mac-help/change-extensions-settings-mchl8baf92fe) as well.
 
 * Use `launchctl list` to view running user agents
 * Use `sudo launchctl list` to view running system daemons
