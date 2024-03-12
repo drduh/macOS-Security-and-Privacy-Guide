@@ -374,7 +374,7 @@ find /var/db/com.apple.xpc.launchd/ -type f -print -exec defaults read {} \; 2>/
 
 Annotated lists of launch daemons and agents, the respective program executed, and the programs' hash sums are included in this repository.
 
-See also [cirrusj.github.io/Yosemite-Stop-Launch](https://cirrusj.github.io/Yosemite-Stop-Launch/) for descriptions of services and [Provisioning OS X and Disabling Unnecessary Services](https://vilimpoc.org/blog/2014/01/15/provisioning-os-x-and-disabling-unnecessary-services/) for another explanation.
+Read more about launchd on [Apple's website](https://support.apple.com/guide/terminal/script-management-with-launchd-apdc6c1077b-5d5d-4d35-9c19-60f2397b2369).
 
 Persistent login items may also exist in these directories:
 
