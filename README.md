@@ -346,7 +346,7 @@ See [drduh/config/scripts/pf-blocklist.sh](https://github.com/drduh/config/blob/
 
 ## Services
 
-Services on macOS are managed by **launchd**. See [launchd.info](https://launchd.info/), as well as [Apple's Daemons and Services Programming Guide](https://developer.apple.com/library/mac/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingLaunchdJobs.html) and [Technical Note TN2083](https://developer.apple.com/library/mac/technotes/tn2083/_index.html)
+Services on macOS are managed by **launchd**. See [launchd.info](https://launchd.info).
 
 You can also run [KnockKnock](https://objective-see.com/products/knockknock.html) that shows more information about startup items.
 
