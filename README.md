@@ -13,12 +13,11 @@ To suggest an improvement, please send a pull request or [open an issue](https:/
 This guide is also available in [简体中文](https://github.com/drduh/macOS-Security-and-Privacy-Guide/blob/master/README-cn.md).
 
 - [Basics](#basics)
-- [Preparing and installing macOS](#preparing-and-installing-macos)
-  * [Verifying installation integrity](#verifying-installation-integrity)
-  * [Creating a bootable USB installer](#creating-a-bootable-usb-installer)
-  * [Creating an install image](#creating-an-install-image)
-  * [Target disk mode](#target-disk-mode)
-  * [Creating a recovery partition](#creating-a-recovery-partition)
+- [Hardware](#hardware)
+- [Installing macOS](#installing-macos)
+  * [System Activation](#system-activation)
+  * [Apple ID](#apple-id)
+  * [App Store](#app-store)
   * [Virtualization](#virtualization)
 - [First boot](#first-boot)
 - [System activation](#system-activation)
@@ -99,258 +98,62 @@ Standard security best practices apply:
 	* Ultimately, the security of a system depends on the capabilities of its administrator.
 	* Care should be taken when installing new software; only install from official sources that the developers indicate on their official website/github/etc.
 
-## Preparing and installing macOS
+## Hardware
 
-There are several ways to install macOS.
+macOS is most secure running on [Apple hardware](https://support.apple.com/guide/security/hardware-security-overview-secf020d1074/1/web/1) with Apple silicon. The newer the Mac, the better. Avoid hackintoshes and Macs that don't support the latest macOS, as Apple doesn't [patch all vulnerabilities](https://support.apple.com/guide/deployment/about-software-updates-depc4c80847a) in versions that aren't the most recent one.
 
-The simplest way is to boot into [Recovery Mode](https://support.apple.com/en-us/HT201314) by holding `Command` and `R` keys at boot. A system image can be downloaded and applied directly from Apple. However, this may expose identifying information.
+When you purchase your Mac, you might want to avoid it being linked back to you. Depending on your threat model, you should pay for it in cash in person rather than ordering online or purchasing with a credit/debit card, that way no identifying information can be linked back to your purchase.
 
-An alternative way to install macOS is to first download the latest version of macOS (**Latest: macOS Ventura**) from Apple via the [App Store](https://apps.apple.com/us/app/macos-ventura/id1638787999) and create a custom installable system image.
+If you want to use a wireless keyboard, mouse, headphones or other accessory, the most secure option is Apple ones since they will automatically be updated by your system. They also support the latest [Bluetooth features](https://support.apple.com/guide/security/bluetooth-security-sec82597d97e/web) like BLE Privacy which randomizes your Bluetooth hardware address to prevent tracking. With third party accessories, this isn't a guarantee.
 
-This can also be done from the Terminal using the commands outlined in [OSXDaily](https://osxdaily.com/2020/04/13/how-download-full-macos-installer-terminal/).
+## Installing macOS
 
-```
-softwareupdate --list-full-installers
-# latest is 13.3.1
-softwareupdate -d --fetch-full-installer --full-installer-version 13.3.1
-```
+There are several ways to [install macOS](https://support.apple.com/102662). Choose your preferred method from the available options. 
 
-### Getting macOS
+ **You should install the latest version of macOS that's compatible with your Mac**. More recent versions have security patches and other improvements that older versions lack.
 
-Apple's [documentation](https://support.apple.com/en-us/HT211683) provides details for getting older versions of macOS.
+### System activation
 
-* macOS Ventura (13): [App Store](https://apps.apple.com/us/app/macos-ventura/id1638787999)
-* macOS Monterey (12): [App Store](https://apps.apple.com/us/app/macos-monterey/id1576738294)
-* macOS Big Sur (11): [App Store](https://apps.apple.com/us/app/macos-big-sur/id1526878132)
-* macOS Catalina (10.15): [App Store](https://apps.apple.com/us/app/macos-catalina/id1466841314)
-* macOS Mojave (10.14): [App Store](https://apps.apple.com/us/app/macos-mojave/id1398502828)
-* macOS High Sierra (10.13): [App Store](https://apps.apple.com/us/app/macos-high-sierra/id1246284741)
-* macOS Sierra (10.12): [Direct Link](http://updates-http.cdn-apple.com/2019/cert/061-39476-20191023-48f365f4-0015-4c41-9f44-39d3d2aca067/InstallOS.dmg) (HTTP)
-* OS X El Capitan (10.11): [Direct Link](http://updates-http.cdn-apple.com/2019/cert/061-41424-20191024-218af9ec-cf50-4516-9011-228c78eda3d2/InstallMacOSX.dmg) (HTTP)
-* OS X Yosemite (10.10): [Direct Link](http://updates-http.cdn-apple.com/2019/cert/061-41343-20191023-02465f92-3ab5-4c92-bfe2-b725447a070d/InstallMacOSX.dmg) (HTTP)
+As part of Apple's [theft prevention system](https://support.apple.com/102541), Apple silicon Macs will need to activate with Apple's servers every time you reinstall macOS to check against the database of stolen or activation-locked Macs.
 
-### Verifying installation integrity
+You can read about exactly how this process works [here](https://support.apple.com/guide/security/localpolicy-signing-key-creation-management-sec1f90fbad1).
 
-The macOS installation application is [code signed](https://developer.apple.com/library/mac/documentation/Security/Conceptual/CodeSigningGuide/Procedures/Procedures.html#//apple_ref/doc/uid/TP40005929-CH4-SW6), which should be verified using the commands `pkgutil --check-signature` or `codesign -dvv`
+### Apple ID
 
-To verify the code signature and integrity of macOS application bundles:
+Creating an Apple ID is not required to use macOS. Making an Apple ID requires a phone number and it will by default sync a [lot of data](https://www.apple.com/legal/privacy/data/en/apple-id/) to iCloud, Apple's cloud storage service. You can [disable](https://support.apple.com/102651) the syncing later if you want or enable [end-to-end encryption](https://support.apple.com/guide/security/advanced-data-protection-for-icloud-sec973254c5f/web) for your iCloud data.
 
-```console
-$ pkgutil --check-signature /Applications/Install\ macOS\ Ventura.app
-Package "Install macOS Ventura":
-   Status: signed by a certificate trusted by macOS
-   Certificate Chain:
-    1. Software Signing
-       Expires: 2026-10-24 17:39:41 +0000
-       SHA256 Fingerprint:
-           D8 4D B9 6A F8 C2 E6 0A C4 C8 51 A2 1E C4 60 F6 F8 4E 02 35 BE B1
-           7D 24 A7 87 12 B9 B0 21 ED 57
-       ------------------------------------------------------------------------
-    2. Apple Code Signing Certification Authority
-       Expires: 2026-10-24 17:39:41 +0000
-       SHA256 Fingerprint:
-           5B DA B1 28 8F C1 68 92 FE F5 0C 65 8D B5 4F 1E 2E 19 CF 8F 71 CC
-           55 F7 7D E2 B9 5E 05 1E 25 62
-       ------------------------------------------------------------------------
-    3. Apple Root CA
-       Expires: 2035-02-09 21:40:36 +0000
-       SHA256 Fingerprint:
-           B0 B1 73 0E CB C7 FF 45 05 14 2C 49 F1 29 5E 6E DA 6B CA ED 7E 2C
-           68 C5 BE 91 B5 A1 10 01 F0 24
-```
+You can [control the data](https://support.apple.com/102283) associated with your Apple ID or completely delete it.
 
-Use the `codesign` command to examine an application's code signature:
+An Apple ID is required in order to access the App Store and use most Apple services like iCloud, Apple Music, etc.
 
-```console
-$ codesign -dvv /Applications/Install\ macOS\ Ventura.app
-Executable=/Applications/Install macOS Ventura.app/Contents/MacOS/InstallAssistant_springboard
-Identifier=com.apple.InstallAssistant.macOSVentura
-Format=app bundle with Mach-O universal (x86_64 arm64)
-CodeDirectory v=20400 size=640 flags=0x2000(library-validation) hashes=13+3 location=embedded
-Platform identifier=14
-Signature size=4523
-Authority=Software Signing
-Authority=Apple Code Signing Certification Authority
-Authority=Apple Root CA
-Signed Time=Mar 22, 2023 at 16:09:45
-Info.plist entries=32
-TeamIdentifier=not set
-Sealed Resources version=2 rules=2 files=0
-Internal requirements count=1 size=88
-```
+### App Store
 
-### Creating a bootable USB installer
+The Mac App Store is a [curated](https://developer.apple.com/app-store/review/guidelines) repository of software that is required to utilize the [App Sandbox](https://developer.apple.com/documentation/security/app_sandbox/protecting_user_data_with_app_sandbox) and [Hardened Runtime](https://developer.apple.com/documentation/security/hardened_runtime), as well as offering automatic updates that integrate with your system.
 
-Instead of booting from the network or using target disk mode, a bootable macOS installer can be made with the `createinstallmedia` utility included in `Contents/Resources` folder of the installer application bundle. See [Create a bootable installer for macOS](https://support.apple.com/en-us/HT201372), or run the utility without arguments to see how it works.
-
-To create a bootable USB installer, mount a USB drive, erase and partition it, then use the `createinstallmedia` utility:
-
-```console
-diskutil list
-[Find disk matching correct size, usually the last disk, e.g. /dev/disk2]
-
-diskutil unmountDisk /dev/disk2
-
-diskutil partitionDisk /dev/disk2 1 JHFS+ Installer 100%
-
-cd /Applications/Install\ macOS\ Ventura.app
-
-sudo ./Contents/Resources/createinstallmedia --volume /Volumes/Installer --nointeraction
-```
-
-[Disk Utility](https://support.apple.com/guide/disk-utility/erase-and-reformat-a-storage-device-dskutl14079/mac) can also be used to configure the storage device.
-
-### Creating an install image
-
-**Note** Apple's AutoDMG installer [does not appear to work](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/120) across OS versions. If you want to build a 10.14 image, for example, the following steps must be performed on macOS 10.14!
-
-To create a **custom install image** which can be [restored](https://en.wikipedia.org/wiki/Apple_Software_Restore) to a Mac (using a USB-C cable and target disk mode, for example), use [MagerValp/AutoDMG](https://github.com/MagerValp/AutoDMG).
-
-### Target disk mode
-
-To use **Target Disk Mode**, boot up the Mac you wish to image while holding the `T` key and connect it to another Mac using a USB-C, Thunderbolt or Firewire cable.
-
-If you don't have another Mac, boot to a USB installer, with `sierra.dmg` and other required files copied to it, by holding the *Option* key at boot.
-
-Use the command `diskutil list` to identify the disk of the connected Mac, usually `/dev/disk2`
-
-**Optional** [securely erase](https://www.backblaze.com/blog/how-to-wipe-a-mac-hard-drive/) the disk with a single pass (if previously FileVault-encrypted, the disk must first be unlocked and mounted as `/dev/disk3s2`):
-
-    sudo diskutil secureErase freespace 1 /dev/disk3s2
-
-Partition the disk to Journaled HFS+:
-
-```console
-sudo diskutil unmountDisk /dev/disk2
-
-sudo diskutil partitionDisk /dev/disk2 1 JHFS+ macOS 100%
-```
-
-Restore the image to the new volume, making sure `/dev/disk2` is the disk being erased:
-
-```console
-sudo asr restore --source ~/sierra.dmg --target /Volumes/macOS --erase --buffersize 4m
-```
-
-The **Disk Utility** application may also be used to erase the connected disk and restore `sierra.dmg` to the newly created partition.
-
-To transfer any files, copy them to a shared folder like `/Users/Shared` on the mounted disk image, e.g. `cp Xcode_8.0.dmg /Volumes/macOS/Users/Shared`
-
-<img width="1280" alt="Finished restore install from USB recovery boot" src="https://cloud.githubusercontent.com/assets/12475110/14804078/f27293c8-0b2d-11e6-8e1f-0fb0ac2f1a4d.png">
-
-*Finished restore install from USB recovery boot*
-
-### Creating a recovery partition
-
-**Unless** you have built the image with [AutoDMG](https://github.com/MagerValp/AutoDMG), or installed macOS to a second partition on the same Mac, you will need to create a recovery partition in order to use full disk encryption. You can do so using [MagerValp/Create-Recovery-Partition-Installer](https://github.com/MagerValp/Create-Recovery-Partition-Installer) or the following steps.
-
-Download [RecoveryHDUpdate.dmg](https://support.apple.com/downloads/DL1464/en_US/RecoveryHDUpdate.dmg) and verify its integrity:
-
-```console
-$ shasum -a 256 RecoveryHDUpdate.dmg
-f6a4f8ac25eaa6163aa33ac46d40f223f40e58ec0b6b9bf6ad96bdbfc771e12c  RecoveryHDUpdate.dmg
-```
-
-Attach and expand the installer, then run it - again ensuring `/Volumes/macOS` path is the newly created partition on the connected disk:
-
-```console
-hdiutil attach RecoveryHDUpdate.dmg
-
-pkgutil --expand /Volumes/Mac\ OS\ X\ Lion\ Recovery\ HD\ Update/RecoveryHDUpdate.pkg /tmp/recovery
-
-hdiutil attach /tmp/recovery/RecoveryHDUpdate.pkg/RecoveryHDMeta.dmg
-
-/tmp/recovery/RecoveryHDUpdate.pkg/Scripts/Tools/dmtest ensureRecoveryPartition /Volumes/macOS/ /Volumes/Recovery\ HD\ Update/BaseSystem.dmg 0 0 /Volumes/Recovery\ HD\ Update/BaseSystem.chunklist
-```
-
-Run `diskutil list` again to confirm `Recovery HD` now exists on `/dev/disk2`
-
-Eject the disk with `hdiutil unmount /Volumes/macOS` and power down the target disk mode-booted Mac.
+The App Store offers the greatest security guarantees for software on macOS, but it requires you to log in with an Apple ID and Apple will be able to link your Apple ID to your downloaded apps.
 
 ### Virtualization
 
-To install macOS as a virtual machine (VM) using [VMware Fusion](https://www.vmware.com/products/fusion.html), follow the instructions above to create an image. You will **not** need to download and create a recovery partition.
+You can easily run macOS natively in a virtual machine using [UTM](https://mac.getutm.app). It's free from their site but if you buy it from the App Store, you'll get automatic updates.
 
-For the Installation Method, select *Install macOS from the recovery partition*. Customize any memory or CPU requirements and complete setup. The guest VM should boot into [Recovery Mode](https://support.apple.com/en-us/HT201314) by default.
+Follow their [documentation](https://docs.getutm.app/guest-support/macos) to install a macOS VM with just a few clicks.
 
-**Note** If the virtual machine does not boot due to a kernel panic, adjust the memory and process resource settings.
-
-In Recovery Mode, select a language, then select Utilities > Terminal from the menu bar.
-
-In the guest VM, type `ifconfig | grep inet` - you should see a private address like `172.16.34.129`
-
-On the host Mac, type `ifconfig | grep inet` - you should see a private gateway address like `172.16.34.1`. From the host Mac, you should be able to `ping 172.16.34.129` or the equivalent guest VM address.
-
-From the host Mac, serve the installable image to the guest VM by editing `/etc/apache2/httpd.conf` and adding the following line to the top (using the gateway address assigned to the host Mac and port 80):
-
-    Listen 172.16.34.1:80
-
-On the host Mac, link the image to the default Apache Web server directory:
-
-	sudo ln ~/sierra.dmg /Library/WebServer/Documents
-
-From the host Mac, start Apache in the foreground:
-
-	sudo httpd -X
-
-From the guest VM, install the disk image to the volume over the local network using `asr`:
-
-```console
--bash-3.2# asr restore --source http://172.16.34.1/sierra.dmg --target /Volumes/Macintosh\ HD/ --erase --buffersize 4m
-	Validating target...done
-	Validating source...done
-	Erase contents of /dev/disk0s2 (/Volumes/Macintosh HD)? [ny]: y
-	Retrieving scan information...done
-	Validating sizes...done
-	Restoring  ....10....20....30....40....50....60....70....80....90....100
-	Verifying  ....10....20....30....40....50....60....70....80....90....100
-	Remounting target volume...done
-```
-
-When it's finished, stop the Apache Web server on the host Mac by pressing `Control` `C` at the `sudo httpd -X` window and remove the image copy with `sudo rm /Library/WebServer/Documents/sierra.dmg`
-
-In the guest VM, select *Startup Disk* from the menubar top-left, select the hard drive and restart. You may wish to disable the Network Adapter in VMware to configure the guest VM initially.
-
-Take and Restore from saved guest VM snapshots before and after attempting risky browsing, for example, or use a guest VM to install and operate questionable software.
+Another option is [VMware Fusion](https://www.vmware.com/products/fusion.html), although it costs money. You can read their [documentation](https://docs.vmware.com/en/VMware-Fusion/13/com.vmware.fusion.using.doc/GUID-474FC78E-4E77-42B7-A1C6-12C2F378C5B9.html) to see how to install a macOS VM.
 
 ## First boot
 
-**Note** Before setting up macOS, consider disconnecting networking and configuring a firewall(s) first. However, late 2016 MacBooks with Touch Bar hardware [require online OS activation](https://onemoreadmin.wordpress.com/2016/11/27/the-untouchables-apples-new-os-activation-for-touch-bar-macbook-pros/) (see next section).
-
-(Intel-based Mac only) On first boot, hold `Command` `Option` `P` `R` keys to [clear NVRAM](https://support.apple.com/en-us/HT204063).
-
 When macOS first starts, you'll be greeted by **Setup Assistant**.
 
-When creating the first account, use a [strong password](https://www.explainxkcd.com/wiki/index.php/936:_Password_Strength) without a hint.
+When creating the first account, use a [strong password](https://www.eff.org/dice) without a hint.
 
 If you enter your real name at the account setup process, be aware that your computer's name and local hostname will comprise that name (e.g., *John Appleseed's MacBook*) and thus will appear on local networks and in various preference files.
 
-Both should be verified and updated as needed in **System Preferences > Sharing** or with the following commands after installation:
+Both should be verified and updated as needed in **System Settings > About** or with the following commands after installation:
 
 ```console
 sudo scutil --set ComputerName MacBook
 sudo scutil --set LocalHostName MacBook
 ```
-
-## System activation
-
-A few words on the privacy implications of activating "Touch Bar" MacBook devices from your friendly anonymous security researcher:
-
-> Apple increasingly seems (despite vague claims to the contrary) increasingly interested in merging or "unifying" the two OSes, and there are constantly rumors of fundamental changes to macOS that make it far more like iOS than the macOS of old. Apple's introduction of ARM-based coprocessors running iOS/sepOS, first with the T1 processor on the TouchBar MacBook Pros (run the TouchBar, implement NFC/ApplePay, add biometric login using sep, and verify firmware integrity) and the iMac Pro's T2 (implements/verifies embedded device firmware, implements secure boot, etc) seems to cement this concern and basically renders using macOS devices without sending metadata to Apple difficult to impossible.
->
-> iOS devices have always required "activation" on first boot and when the battery has gone dead which initializes sepOS to proceed with verified boot. First boot activation not only initializes sepOS as discussed below, but sends metadata to Apple (and carriers via Apple with cellular devices) to activate the baseband and SIM. In activation processes after first boot, just as with first boot, a long list of highly sensitive metadata are sent hashed (note hashing does not give you any privacy from Apple here since they link this exact metadata to payment information at purchase) to Apple so it can return the personalized response required for secure boot to complete. What is particularly worrying about this process is that it is a network-linked secure boot process where centralized external servers have the power to dictate what the device should boot. Equally there are significant privacy concerns with devices constantly sending metadata (both during activation and other Apple-linked/-hosted activities) and linking IP addresses very strongly with real identities based on purchase payment information and if a cellular device, metadata collected about SIM, etc unless such connections are blocked at the network level (which is only possible on self-managed infrastructure, i.e. not cellular) and doing this basically renders using the device impossible since simply installing an application requires sending device metadata to Apple.
->
-> That the activation verification mechanism is designed specifically to rely on unique device identifiers that are associated with payment information at purchase and actively associated on a continuing basis by Apple for every Apple-hosted service that the device interacts with (Apple ID-based services, softwareupdate, iMessage, FaceTime, etc.) the ability (and invitation) for Apple to silently send targeted malicious updates to devices matching specific unique ID criteria is a valid concern, and something that should not be dismissed as unlikely, especially given Apple's full compliance with recently implemented Chinese (and other authoritarian and "non-authoritarian" countries') national security laws.
->
-> iOS has from the start been designed with very little end-user control with no way for end-users to configure devices according to their wishes while maintaining security and relies heavily on new, closed source code. While macOS has for most of its history been designed on the surface in a similar fashion, power and enterprise users can (for the moment) still configure their devices relatively securely while maintaining basically zero network interaction with Apple and with the installation of third party software/kernel extensions, completely control the network stack and intercept filesystem events on a per-process basis. macOS, despite having a good deal of closed source code, was designed at a very different period in Apple's history and was designed more in line with open source standards, and designed to be configurable and controllable by enterprise/power users.
->
-> The introduction of these coprocessors to Mac devices, while increasing security in many ways, brings with it all the issues with iOS discussed above, and means that running mac devices securely with complete user control, and without forced network interaction with the Apple mothership in highly sensitive corporate and other environments problematic and risky. Given this author is unaware of the exact hardware configuration of the coprocessors, the following may be inaccurate. However, given the low-level nature of these coprocessors, it would not surprise the author if these coprocessors, if not already, will eventually have separate network access of their own, independent of the Intel CPU (indications suggest not currently the case for T1; unclear on T2), which leads to concerns similar to those that many have raised around Intel ME/AMT (and of course mac devices also have ME in the Intel CPU...). One could argue that these coprocessors increase security, and in many ways that is the case, but not the user's security against a malicious Apple.
->
-> The lack of configurability is the key issue. Apple could have introduced secure boot and firmware protection without making it require network access, without making verification linked to device-unique IDs and without introducing an enormous amount of potentially exploitable code to protect against a much smaller, but highly exploitable codebase, while running on a coprocessor with a highly privileged position on the board which gives immense power to an adversary with manufacturer compliance for targeted attacks.
->
-> This is an ongoing concern and in the worst case scenario could potentially represent the end of macs as independent, end-user controllable and relatively secure systems appropriate for sensitive environments with strict network and security policies.
-
-From [iOS, The Future Of macOS, Freedom, Security And Privacy In An Increasingly Hostile Global Environment](https://gist.github.com/iosecure/357e724811fe04167332ef54e736670d).
 
 ## Admin and standard user accounts
 
@@ -2114,6 +1917,7 @@ drwx------  2 kevin  staff       64 Dec  4 12:27 umask_testing_dir
 * [Hidden backdoor API to root privileges in Apple OS X](https://truesecdev.wordpress.com/2015/04/09/hidden-backdoor-api-to-root-privileges-in-apple-os-x/)
 * [How to Switch to the Mac](https://taoofmac.com/space/HOWTO/Switch)
 * [IOKit kernel code execution exploit](https://code.google.com/p/google-security-research/issues/detail?id=135)
+* [iOS, The Future Of macOS, Freedom, Security And Privacy In An Increasingly Hostile Global Environment](https://gist.github.com/iosecure/357e724811fe04167332ef54e736670d)
 * [IPv6 Hardening Guide for OS X](http://www.insinuator.net/2015/02/ipv6-hardening-guide-for-os-x/)
 * [Mac Developer Library: Secure Coding Guide](https://developer.apple.com/library/mac/documentation/Security/Conceptual/SecureCodingGuide/Introduction.html)
 * [Mac Forensics: Mac OS X and the HFS+ File System](https://cet4861.pbworks.com/w/file/fetch/71245694/mac.forensics.craiger-burke.IFIP.06.pdf) (pdf)
