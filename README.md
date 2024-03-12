@@ -376,8 +376,6 @@ Annotated lists of launch daemons and agents, the respective program executed, a
 
 Read more about launchd and where login items can be found on [Apple's website](https://support.apple.com/guide/terminal/script-management-with-launchd-apdc6c1077b-5d5d-4d35-9c19-60f2397b2369).
 
-See [Mac OSX Startup](https://web.archive.org/web/20200415041603/http://www.malicious-streams.com/article/Mac_OSX_Startup.pdf) (pdf) for more information.
-
 ## Spotlight Suggestions
 
 Disable **Spotlight Suggestions** in both the Spotlight preferences and Safari's Search preferences to avoid your search queries being sent to Apple.
