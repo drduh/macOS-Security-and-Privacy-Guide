@@ -374,20 +374,7 @@ find /var/db/com.apple.xpc.launchd/ -type f -print -exec defaults read {} \; 2>/
 
 Annotated lists of launch daemons and agents, the respective program executed, and the programs' hash sums are included in this repository.
 
-Read more about launchd on [Apple's website](https://support.apple.com/guide/terminal/script-management-with-launchd-apdc6c1077b-5d5d-4d35-9c19-60f2397b2369).
-
-Persistent login items may also exist in these directories:
-
-* `/Library/LaunchAgents`
-* `/Library/LaunchDaemons`
-* `/Library/ScriptingAdditions`
-* `/Library/StartupItems`
-* `/System/Library/LaunchAgents`
-* `/System/Library/LaunchDaemons`
-* `/System/Library/ScriptingAdditions`
-* `/System/Library/StartupItems`
-* `~/Library/LaunchAgents`
-* `~/Library/Preferences/com.apple.loginitems.plist`
+Read more about launchd and where login items can be found on [Apple's website](https://support.apple.com/guide/terminal/script-management-with-launchd-apdc6c1077b-5d5d-4d35-9c19-60f2397b2369).
 
 See [Mac OSX Startup](https://web.archive.org/web/20200415041603/http://www.malicious-streams.com/article/Mac_OSX_Startup.pdf) (pdf) for more information.
 
