@@ -364,17 +364,7 @@ defaults read /System/Library/LaunchDaemons/com.apple.apsd.plist
 
 Look at the `Program` or `ProgramArguments` section to see which binary is run, in this case `apsd`. To find more information about that, look at the man page with `man apsd`
 
-For example, if you're not interested in Apple Push Notifications, disable the service:
-
-```console
-sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.apsd.plist
-```
-
-**Note** Unloading services may break usability of some applications. Read the manual pages and use Google to make sure you understand what you're doing first.
-
-Be careful about disabling any system daemons you don't understand, as it may render your system unbootable. If you break your Mac, use [single user mode](https://support.apple.com/guide/mac-help/start-up-your-mac-in-single-user-mode-mchlp1720/mac) to fix it.
-
-Use [Console](https://en.wikipedia.org/wiki/List_of_macOS_components#Console) and [Activity Monitor](https://support.apple.com/en-us/HT201464) applications if you notice your Mac heating up, feeling sluggish, or generally misbehaving, as it may have resulted from your tinkering.
+**Note** System services are protected by SIP, don't disable SIP just to tinker with system services as SIP is an integral part of security on macOS. Disabling system services could cause breakage and unstable behavior!
 
 To view the status of services:
 
