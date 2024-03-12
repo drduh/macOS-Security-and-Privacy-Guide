@@ -258,7 +258,7 @@ It is worth noting that these firewalls can be bypassed by programs running as *
 
 A highly customizable, powerful, but also most complicated firewall exists in the kernel. It can be controlled with `pfctl` and various configuration files.
 
-pf can also be controlled with a GUI application such as [IceFloor](https://www.hanynet.com/icefloor/) or [Murus](https://www.murusfirewall.com/).
+pf can also be controlled with a GUI application such as [Murus](https://www.murusfirewall.com/).
 
 There are many books and articles on the subject of pf firewall. Here's is just one example of blocking traffic by IP address.
 
