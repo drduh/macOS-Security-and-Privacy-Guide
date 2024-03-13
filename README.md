@@ -38,7 +38,6 @@ This guide is also available in [简体中文](https://github.com/drduh/macOS-Se
     + [dnscrypt](#dnscrypt)
     + [Dnsmasq](#dnsmasq)
       - [Test DNSSEC validation](#test-dnssec-validation)
-- [Captive portal](#captive-portal)
 - [Certificate authorities](#certificate-authorities)
 - [Web](#web)
   * [Privoxy](#privoxy)
@@ -558,16 +557,6 @@ Test DNSSEC validation fails for zones that are signed improperly - the reply sh
 $ dig www.dnssec-failed.org
 ;; ->>HEADER<<- opcode: QUERY, status: SERVFAIL, id: 15190
 ;; flags: qr rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 0, ADDITIONAL: 1
-```
-
-## Captive portal
-
-When macOS connects to new networks, it checks for Internet connectivity and may launch a Captive Portal assistant utility application.
-
-It is possible to trigger the utility and direct a Mac to malware without user interaction, so it's best to disable this feature and log in to captive portals using your regular Web browser by navigating to a non-secure HTTP page and accepting a redirect to the captive portal login interface (after disabling any custom proxy or DNS settings).
-
-```console
-sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.captive.control.plist Active -bool false
 ```
 
 ## Certificate authorities
