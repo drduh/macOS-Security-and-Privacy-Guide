@@ -1725,7 +1725,7 @@ Zentral will support Santa in both MONITORING and LOCKDOWN operation mode. Clien
 
 ## Miscellaneous
 
-Disable [Diagnostics & Usage Data](https://github.com/fix-macosx/fix-macosx/wiki/Diagnostics-&-Usage-Data).
+Disable [Diagnostics & Usage Data](https://support.apple.com/guide/mac-help/share-analytics-information-mac-apple-mh27990).
 
 If you want to play **music** or watch **videos**, use QuickTime Player, the built-in media player in macOS. It uses the [App Sandbox](https://developer.apple.com/documentation/security/app_sandbox/protecting_user_data_with_app_sandbox), [Hardened Runtime](https://developer.apple.com/documentation/xcode/configuring-the-hardened-runtime), and benefits from the [Signed System Volume](https://support.apple.com/guide/security/signed-system-volume-security-secd698747c9/web) as part of the base system.
 
