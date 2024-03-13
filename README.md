@@ -1731,20 +1731,6 @@ If you want to play **music** or watch **videos**, use QuickTime Player, the bui
 
 If you want to use **torrents**, use [Transmission](https://www.transmissionbt.com/download/) which is free and open source (note: like all software, even open source projects, [malware may still find its way in](http://researchcenter.paloaltonetworks.com/2016/03/new-os-x-ransomware-keranger-infected-transmission-bittorrent-client-installer/)). You may also wish to use a block list to avoid peering with known bad hosts - see [Which is the best blocklist for Transmission](https://giuliomac.wordpress.com/2014/02/19/best-blocklist-for-transmission/) and [johntyree/3331662](https://gist.github.com/johntyree/3331662).
 
-Manage default file handlers with [duti](http://duti.org/), which can be installed with `brew install duti`. One reason to manage extensions is to prevent auto-mounting of remote file systems in Finder (see [Protecting Yourself From Sparklegate](https://www.taoeffect.com/blog/2016/02/apologies-sky-kinda-falling-protecting-yourself-from-sparklegate/)). Here are several recommended file handlers to manage:
-
-```console
-duti -s com.apple.Safari afp
-
-duti -s com.apple.Safari ftp
-
-duti -s com.apple.Safari nfs
-
-duti -s com.apple.Safari smb
-
-duti -s com.apple.TextEdit public.unix-executable
-```
-
 Monitor system logs with the **Console** application or `syslog -w` or `/usr/bin/log stream` commands.
 
 Set your screen to lock as soon as the screensaver starts:
