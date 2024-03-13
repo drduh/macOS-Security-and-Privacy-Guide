@@ -424,8 +424,6 @@ There are many lists of domains available online which you can paste in, just ma
 
 Here are some popular and useful hosts lists:
 
-* [jmdugan/blocklists](https://github.com/jmdugan/blocklists)
-* [l1k/osxparanoia](https://github.com/l1k/osxparanoia/blob/master/hosts)
 * [Sinfonietta/hostfiles](https://github.com/Sinfonietta/hostfiles)
 * [StevenBlack/hosts](https://github.com/StevenBlack/hosts)
 * [someonewhocares.org](https://someonewhocares.org/hosts/zero/hosts)
