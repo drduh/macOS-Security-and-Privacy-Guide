@@ -31,7 +31,7 @@ This guide is also available in [简体中文](https://github.com/drduh/macOS-Se
   * [Third party firewalls](#third-party-firewalls)
   * [Kernel level packet filtering](#kernel-level-packet-filtering)
 - [Services](#services)
-- [Spotlight Suggestions](#spotlight-suggestions)
+- [Siri Suggestions & Spotlight](#siri-suggestions-&-spotlight)
 - [Homebrew](#homebrew)
 - [DNS](#dns)
     + [Hosts file](#hosts-file)
