@@ -410,8 +410,6 @@ DNS profiles [can be created](https://dns.notjakob.com/) or obtained from provid
 
  Edit the hosts file as root, for example with `sudo vi /etc/hosts`
 
-The hosts file can also be managed with the GUI app [2ndalpha/gasmask](https://github.com/2ndalpha/gasmask).
-
  To block a domain by `A` record, append any one of the following lines to `/etc/hosts`:
 
  ```
