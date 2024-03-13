@@ -386,14 +386,6 @@ Consider using [Homebrew](https://brew.sh/) to make software installations easie
 
 **Note** If you have not already installed Xcode or Command Line Tools, use `xcode-select --install` to download and install them, or check Apple's developer site.
 
-[Install Homebrew](https://github.com/Homebrew/brew/blob/master/docs/Installation.md#installation):
-
-```console
-mkdir homebrew && curl -L https://github.com/Homebrew/brew/tarball/master | tar xz --strip 1 -C homebrew
-```
-
-Edit `PATH` in your shell or shell rc file to use `~/homebrew/bin` and `~/homebrew/sbin`. For example, `echo 'PATH=$PATH:~/homebrew/sbin:~/homebrew/bin' >> .zshrc`, then change your login shell to Z shell with `chsh -s /bin/zsh`, open a new Terminal window and run `brew update`.
-
 Homebrew uses SSL/TLS to talk with GitHub and verifies integrity of downloaded packages, so it's [fairly secure](https://brew.sh/2022/05/17/homebrew-security-audit/).
 
 Remember to periodically run `brew upgrade` on trusted and secure networks to download and install software updates. To get information on a package before installation, run `brew info <package>` and check its formula online.
