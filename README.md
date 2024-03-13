@@ -1731,6 +1731,8 @@ If you want to play **music** or watch **videos**, use QuickTime Player, the bui
 
 If you want to use **torrents**, use [Transmission](https://www.transmissionbt.com/download/) which is free and open source (note: like all software, even open source projects, [malware may still find its way in](http://researchcenter.paloaltonetworks.com/2016/03/new-os-x-ransomware-keranger-infected-transmission-bittorrent-client-installer/)). You may also wish to use a block list to avoid peering with known bad hosts - see [Which is the best blocklist for Transmission](https://giuliomac.wordpress.com/2014/02/19/best-blocklist-for-transmission/) and [johntyree/3331662](https://gist.github.com/johntyree/3331662).
 
+Change the [default file handlers](https://support.apple.com/guide/mac-help/choose-an-app-to-open-a-file-on-mac-mh35597).
+
 Monitor system logs with the **Console** application or `syslog -w` or `/usr/bin/log stream` commands.
 
 Set your screen to lock as soon as the screensaver starts:
