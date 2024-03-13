@@ -440,8 +440,6 @@ If you're using a firewall like [Little Snitch](#third-party-firewalls), you cou
 
 To encrypt DNS traffic, consider using [DNSCrypt/dnscrypt-proxy](https://github.com/DNSCrypt/dnscrypt-proxy). Used in combination with dnsmasq and DNSSEC, the integrity of DNS traffic can be significantly improved.
 
-[JayBrown/DNSCrypt-Menu](https://github.com/JayBrown/DNSCrypt-Menu) and [jedisct1/bitbar-dnscrypt-proxy-switcher](https://github.com/jedisct1/bitbar-dnscrypt-proxy-switcher) provide a graphical user interface to dnscrypt.
-
 Install DNSCrypt from Homebrew and follow the instructions to configure and start `dnscrypt-proxy`:
 
 ```console
