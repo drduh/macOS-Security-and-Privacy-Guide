@@ -1771,7 +1771,7 @@ Disable crash reporter (the dialog which appears after an application crashes an
 defaults write com.apple.CrashReporter DialogType none
 ```
 
-Disable Bonjour [multicast advertisements](https://www.trustwave.com/Resources/SpiderLabs-Blog/mDNS---Telling-the-world-about-you-(and-your-device)/):
+Disable Bonjour multicast advertisements.
 
 ```console
 sudo defaults write /Library/Preferences/com.apple.mDNSResponder.plist NoMulticastAdvertisements -bool YES
