@@ -382,7 +382,7 @@ Apple is moving to on-device processing for a lot of Siri functions, but some in
 
 ## Homebrew
 
-Consider using [Homebrew](https://brew.sh/) to make software installations easier and to update userland tools (see [Apple's great GPL purge](http://meta.ath0.com/2012/02/05/apples-great-gpl-purge/)).
+Consider using [Homebrew](https://brew.sh/) to make software installations easier and to update userland tools.
 
 **Note** If you have not already installed Xcode or Command Line Tools, use `xcode-select --install` to download and install them, or check Apple's developer site.
 
