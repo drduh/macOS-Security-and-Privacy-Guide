@@ -1826,52 +1826,18 @@ drwx------  2 kevin  staff       64 Dec  4 12:27 umask_testing_dir
 ## Related software
 
 * [CISOfy/lynis](https://github.com/CISOfy/lynis) - Cross-platform security auditing tool and assists with compliance testing and system hardening.
-* [Dylib Hijack Scanner](https://objective-see.com/products/dhs.html) - Scan for applications that are either susceptible to dylib hijacking or have been hijacked.
-* [Lockdown](https://objective-see.com/products/lockdown.html) - Audits and remediates security configuration settings.
 * [Zentral](https://github.com/zentralopensource/zentral) - A log and configuration server for santa and osquery. Run audit and probes on inventory, events, logfiles, combine with point-in-time alerting. A full Framework and Django web server build on top of the elastic stack (formerly known as ELK stack).
 * [osquery](https://github.com/osquery/osquery) - Can be used to retrieve low level system information.  Users can write SQL queries to retrieve system information.
 * [google/grr](https://github.com/google/grr) - Incident response framework focused on remote live forensics.
-* [libyal/libfvde](https://github.com/libyal/libfvde) - Library to access FileVault Drive Encryption (FVDE) (or FileVault2) encrypted volumes.
-* [stronghold](https://github.com/alichtman/stronghold) - Securely and easily configure your Mac from the terminal. Inspired by this guide.
-* [The Eclectic Light Company - Downloads](https://eclecticlight.co/downloads/) - A collection of useful diagnostics and control applications and utilities for macOS.
-* [Pareto Security](https://paretosecurity.app/) - A MenuBar app to automatically audit your Mac for basic security hygiene.
 
 ## Additional resources
 
 * [Apple Open Source](https://opensource.apple.com/)
-* [Auditing and Exploiting Apple IPC](https://googleprojectzero.blogspot.com/2015/09/revisiting-apple-ipc-1-distributed_28.html)
 * [CIS Benchmarks](https://www.cisecurity.org/benchmark/apple_os/)
-* [Demystifying the DMG File Format](http://newosxbook.com/DMG.html)
-* [Developing Mac OSX kernel rootkits](http://phrack.org/issues/66/16.html#article)
 * [EFF Surveillance Self-Defense Guide](https://ssd.eff.org/)
-* [Fuzzing the macOS WindowServer for Exploitable Vulnerabilities](https://blog.ret2.io/2018/07/25/pwn2own-2018-safari-sandbox/)
-* [Hacker News discussion 2](https://news.ycombinator.com/item?id=13023823)
-* [Hacker News discussion](https://news.ycombinator.com/item?id=10148077)
-* [Harden the World: Mac OSX 10.11 El Capitan](https://docs.hardentheworld.org/OS/OSX_10.11_El_Capitan/)
-* [Hidden backdoor API to root privileges in Apple OS X](https://truesecdev.wordpress.com/2015/04/09/hidden-backdoor-api-to-root-privileges-in-apple-os-x/)
-* [How to Switch to the Mac](https://taoofmac.com/space/HOWTO/Switch)
-* [IOKit kernel code execution exploit](https://code.google.com/p/google-security-research/issues/detail?id=135)
 * [iOS, The Future Of macOS, Freedom, Security And Privacy In An Increasingly Hostile Global Environment](https://gist.github.com/iosecure/357e724811fe04167332ef54e736670d)
-* [IPv6 Hardening Guide for OS X](http://www.insinuator.net/2015/02/ipv6-hardening-guide-for-os-x/)
-* [Mac Developer Library: Secure Coding Guide](https://developer.apple.com/library/mac/documentation/Security/Conceptual/SecureCodingGuide/Introduction.html)
-* [Mac Forensics: Mac OS X and the HFS+ File System](https://cet4861.pbworks.com/w/file/fetch/71245694/mac.forensics.craiger-burke.IFIP.06.pdf) (pdf)
-* [Mac OS X and iOS Internals: To the Apple's Core by Jonathan Levin](https://www.amazon.com/Mac-OS-iOS-Internals-Apples/dp/1118057651)
-* [MacOS Hardening Guide - Appendix of \*OS Internals: Volume III - Security & Insecurity Internals](http://newosxbook.com/files/moxii3/AppendixA.pdf) (pdf)
-* [Managing Macs at Google Scale (LISA '13)](https://www.usenix.org/conference/lisa13/managing-macs-google-scale)
-* [OS X 10.10 Yosemite: The Ars Technica Review](https://arstechnica.com/apple/2014/10/os-x-10-10/)
-* [OS X Core Technologies Overview White Paper](https://www.apple.com/osx/all-features/pdf/osx_elcapitan_core_technologies_overview.pdf) (pdf)
-* [OS X Hardening: Securing a Large Global Mac Fleet (LISA '13)](https://www.usenix.org/conference/lisa13/os-x-hardening-securing-large-global-mac-fleet)
-* [OSX.Pirrit Mac Adware Part III: The DaVinci Code](https://www.cybereason.com/blog/targetingedge-mac-os-x-pirrit-malware-adware-still-active)
-* [Over The Air - Vol. 2, Pt. 1: Exploiting The Wi-Fi Stack on Apple Devices](https://googleprojectzero.blogspot.com/2017/09/over-air-vol-2-pt-1-exploiting-wi-fi.html)
 * [Patrick Wardle's Objective-See blog](https://objective-see.com/blog.html)
-* [Remote code execution, git, and OS X](https://rachelbythebay.com/w/2016/04/17/unprotected/)
-* [Reverse Engineering Mac OS X blog](https://reverse.put.as/)
+* [Reverse Engineering macOS blog](https://reverse.put.as/)
 * [Reverse Engineering Resources](http://samdmarshall.com/re.html)
-* [The EFI boot process](https://web.archive.org/web/20160508052211/http://homepage.ntlworld.com/jonathan.deboynepollard/FGA/efi-boot-process.html)
-* [The Great DOM Fuzz-off of 2017](https://googleprojectzero.blogspot.be/2017/09/the-great-dom-fuzz-off-of-2017.html)
-* [The Intel Mac boot process](http://refit.sourceforge.net/info/boot_process.html)
 * [The macOS Phishing Easy Button: AppleScript Dangers](https://duo.com/blog/the-macos-phishing-easy-button-applescript-dangers)
-* [There's a lot of vulnerable OS X applications out there (Sparkle Framework RCE)](https://vulnsec.com/2016/osx-apps-vulnerabilities/)
-* [Userland Persistence on Mac OS X](https://archive.org/details/joshpitts_shmoocon2015)
-* [iCloud security and privacy overview](https://support.apple.com/kb/HT4865)
-* [iSeeYou: Disabling the MacBook Webcam Indicator LED](https://jscholarship.library.jhu.edu/handle/1774.2/36569)
+* [iCloud security and privacy overview](https://support.apple.com/102651)
