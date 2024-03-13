@@ -1773,6 +1773,8 @@ defaults write com.apple.CrashReporter DialogType none
 
 Disable Bonjour multicast advertisements:
 
+**Warning:** This will cause problems with AirPlay and AirPrint!
+
 ```console
 sudo defaults write /Library/Preferences/com.apple.mDNSResponder.plist NoMulticastAdvertisements -bool YES
 ```
