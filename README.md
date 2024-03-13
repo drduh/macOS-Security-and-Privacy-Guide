@@ -376,17 +376,9 @@ Annotated lists of launch daemons and agents, the respective program executed, a
 
 Read more about launchd and where login items can be found on [Apple's website](https://support.apple.com/guide/terminal/script-management-with-launchd-apdc6c1077b-5d5d-4d35-9c19-60f2397b2369).
 
-## Spotlight Suggestions
+## Siri Suggestions & Spotlight
 
-Disable **Spotlight Suggestions** in both the Spotlight preferences and Safari's Search preferences to avoid your search queries being sent to Apple.
-
-Also disable **Bing Web Searches** in the Spotlight preferences to avoid your search queries being sent to Microsoft.
-
-See [fix-macosx.com](https://web.archive.org/web/20180817061520/https://fix-macosx.com/) for detailed instructions.
-
-> If you've upgraded to OS X 10.10 "Yosemite" and you're using the default settings, each time you start typing in Spotlight (to open an application or search for a file on your computer), your local search terms and location are sent to Apple and third parties (including Microsoft).
-
- **Note** This Web site and instructions may no longer work on macOS Sierra - see [issue 164](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/164).
+Apple is moving to on-device processing for a lot of Siri functions, but some info is still sent to Apple when you use Siri Suggestions or Spotlight. You can read Apple's [Privacy Policy](https://www.apple.com/legal/privacy/data/en/siri-suggestions-search/) to see exactly what is sent and how to disable it.
 
 ## Homebrew
 
