@@ -346,13 +346,9 @@ See [drduh/config/scripts/pf-blocklist.sh](https://github.com/drduh/config/blob/
 
 ## Services
 
-**Note** [System Integrity Protection](https://github.com/drduh/macOS-Security-and-Privacy-Guide#system-integrity-protection) does not allow disabling system services on recent macOS versions. Either temporarily disable SIP or disable services from Recovery Mode. See [Issue 334](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/334) for more information.
+Services on macOS are managed by **launchd**. See [launchd.info](https://launchd.info).
 
-See [fix-macosx/yosemite-phone-home](https://github.com/fix-macosx/yosemite-phone-home), [l1k/osxparanoia](https://github.com/l1k/osxparanoia) for further recommendations.
-
-Services on macOS are managed by **launchd**. See [launchd.info](https://launchd.info/), as well as [Apple's Daemons and Services Programming Guide](https://developer.apple.com/library/mac/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingLaunchdJobs.html) and [Technical Note TN2083](https://developer.apple.com/library/mac/technotes/tn2083/_index.html)
-
-You can also run [KnockKnock](https://objective-see.com/products/knockknock.html) that shows more information about startup items.
+You can manage and see more information about software that runs at login in [System Settings](https://support.apple.com/guide/mac-help/change-login-items-settings-mtusr003). You can see installed System, Quick Look, Finder, and other extensions in [System Settings](https://support.apple.com/guide/mac-help/change-extensions-settings-mchl8baf92fe) as well.
 
 * Use `launchctl list` to view running user agents
 * Use `sudo launchctl list` to view running system daemons
@@ -368,17 +364,7 @@ defaults read /System/Library/LaunchDaemons/com.apple.apsd.plist
 
 Look at the `Program` or `ProgramArguments` section to see which binary is run, in this case `apsd`. To find more information about that, look at the man page with `man apsd`
 
-For example, if you're not interested in Apple Push Notifications, disable the service:
-
-```console
-sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.apsd.plist
-```
-
-**Note** Unloading services may break usability of some applications. Read the manual pages and use Google to make sure you understand what you're doing first.
-
-Be careful about disabling any system daemons you don't understand, as it may render your system unbootable. If you break your Mac, use [single user mode](https://support.apple.com/guide/mac-help/start-up-your-mac-in-single-user-mode-mchlp1720/mac) to fix it.
-
-Use [Console](https://en.wikipedia.org/wiki/List_of_macOS_components#Console) and [Activity Monitor](https://support.apple.com/en-us/HT201464) applications if you notice your Mac heating up, feeling sluggish, or generally misbehaving, as it may have resulted from your tinkering.
+**Note** System services are protected by SIP, don't disable SIP just to tinker with system services as SIP is an integral part of security on macOS. Disabling system services could cause breakage and unstable behavior!
 
 To view the status of services:
 
@@ -388,22 +374,7 @@ find /var/db/com.apple.xpc.launchd/ -type f -print -exec defaults read {} \; 2>/
 
 Annotated lists of launch daemons and agents, the respective program executed, and the programs' hash sums are included in this repository.
 
-See also [cirrusj.github.io/Yosemite-Stop-Launch](https://cirrusj.github.io/Yosemite-Stop-Launch/) for descriptions of services and [Provisioning OS X and Disabling Unnecessary Services](https://vilimpoc.org/blog/2014/01/15/provisioning-os-x-and-disabling-unnecessary-services/) for another explanation.
-
-Persistent login items may also exist in these directories:
-
-* `/Library/LaunchAgents`
-* `/Library/LaunchDaemons`
-* `/Library/ScriptingAdditions`
-* `/Library/StartupItems`
-* `/System/Library/LaunchAgents`
-* `/System/Library/LaunchDaemons`
-* `/System/Library/ScriptingAdditions`
-* `/System/Library/StartupItems`
-* `~/Library/LaunchAgents`
-* `~/Library/Preferences/com.apple.loginitems.plist`
-
-See [Mac OSX Startup](https://web.archive.org/web/20200415041603/http://www.malicious-streams.com/article/Mac_OSX_Startup.pdf) (pdf) for more information.
+Read more about launchd and where login items can be found on [Apple's website](https://support.apple.com/guide/terminal/script-management-with-launchd-apdc6c1077b-5d5d-4d35-9c19-60f2397b2369).
 
 ## Spotlight Suggestions
 
