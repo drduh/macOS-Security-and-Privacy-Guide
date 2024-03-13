@@ -1773,8 +1773,6 @@ defaults write com.apple.CrashReporter DialogType none
 
 Check that your apps are sandboxed in [Activity Monitor](https://developer.apple.com/documentation/security/app_sandbox/protecting_user_data_with_app_sandbox#4098972).
 
-Did you know Apple has not shipped a computer with TPM since 2006?
-
 macOS comes with this line in `/etc/sudoers`:
 
 ```
