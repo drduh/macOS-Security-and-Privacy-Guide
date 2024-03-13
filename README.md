@@ -402,15 +402,13 @@ You may also wish to enable [additional security options](https://github.com/drd
 
 macOS 11 introduced "DNS configuration profiles" to configure encrypted DNS, filter domains and use DNSSEC.
 
-DNS profiles [can be created](https://dns.notjakob.com/) or obtained from providers such as [Quad9](https://docs.quad9.net/), [AdGuard](https://adguard-dns.io/en/public-dns.html) and [NextDNS](https://nextdns.io/).
+DNS profiles [can be created](https://dns.notjakob.com/) or obtained from providers such as [Quad9](https://docs.quad9.net/Setup_Guides/MacOS/Big_Sur_and_later_(Encrypted)/#download-profile), [AdGuard](https://adguard-dns.io/en/public-dns.html) and [NextDNS](https://nextdns.io/).
 
 #### Hosts file
 
  Use the [hosts file](https://en.wikipedia.org/wiki/Hosts_(file)) to block known malware, advertising or otherwise unwanted domains.
 
  Edit the hosts file as root, for example with `sudo vi /etc/hosts`
-
-The hosts file can also be managed with the GUI app [2ndalpha/gasmask](https://github.com/2ndalpha/gasmask).
 
  To block a domain by `A` record, append any one of the following lines to `/etc/hosts`:
 
@@ -426,8 +424,6 @@ There are many lists of domains available online which you can paste in, just ma
 
 Here are some popular and useful hosts lists:
 
-* [jmdugan/blocklists](https://github.com/jmdugan/blocklists)
-* [l1k/osxparanoia](https://github.com/l1k/osxparanoia/blob/master/hosts)
 * [Sinfonietta/hostfiles](https://github.com/Sinfonietta/hostfiles)
 * [StevenBlack/hosts](https://github.com/StevenBlack/hosts)
 * [someonewhocares.org](https://someonewhocares.org/hosts/zero/hosts)
@@ -443,8 +439,6 @@ If you're using a firewall like [Little Snitch](#third-party-firewalls), you cou
 #### dnscrypt
 
 To encrypt DNS traffic, consider using [DNSCrypt/dnscrypt-proxy](https://github.com/DNSCrypt/dnscrypt-proxy). Used in combination with dnsmasq and DNSSEC, the integrity of DNS traffic can be significantly improved.
-
-[JayBrown/DNSCrypt-Menu](https://github.com/JayBrown/DNSCrypt-Menu) and [jedisct1/bitbar-dnscrypt-proxy-switcher](https://github.com/jedisct1/bitbar-dnscrypt-proxy-switcher) provide a graphical user interface to dnscrypt.
 
 Install DNSCrypt from Homebrew and follow the instructions to configure and start `dnscrypt-proxy`:
 
