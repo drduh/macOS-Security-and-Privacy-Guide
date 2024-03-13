@@ -1787,19 +1787,7 @@ If you want to retain the convenience of the root user having a non-root user's 
 export HOME=/Users/blah
 ```
 
-Set a [custom umask](https://support.apple.com/en-us/HT201684):
-
-```console
-sudo launchctl config user umask 077
-```
-
-Reboot, create a file in Finder and verify its permissions (macOS default allows 'group/other' read access):
-
-```console
-$ ls -ld umask*
-drwx------  2 kevin  staff       64 Dec  4 12:27 umask_testing_dir
--rw-------@ 1 kevin  staff  2026566 Dec  4 12:28 umask_testing_file
-```
+Set a [custom umask](https://support.apple.com/101914).
 
 ## Related software
 
