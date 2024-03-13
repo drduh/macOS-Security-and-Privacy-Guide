@@ -38,7 +38,6 @@ This guide is also available in [简体中文](https://github.com/drduh/macOS-Se
     + [dnscrypt](#dnscrypt)
     + [Dnsmasq](#dnsmasq)
       - [Test DNSSEC validation](#test-dnssec-validation)
-- [Captive portal](#captive-portal)
 - [Certificate authorities](#certificate-authorities)
 - [Web](#web)
   * [Privoxy](#privoxy)
@@ -559,18 +558,6 @@ $ dig www.dnssec-failed.org
 ;; ->>HEADER<<- opcode: QUERY, status: SERVFAIL, id: 15190
 ;; flags: qr rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 0, ADDITIONAL: 1
 ```
-
-## Captive portal
-
-When macOS connects to new networks, it checks for Internet connectivity and may launch a Captive Portal assistant utility application.
-
-It is possible to trigger the utility and direct a Mac to malware without user interaction, so it's best to disable this feature and log in to captive portals using your regular Web browser by navigating to a non-secure HTTP page and accepting a redirect to the captive portal login interface (after disabling any custom proxy or DNS settings).
-
-```console
-sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.captive.control.plist Active -bool false
-```
-
-Also see [Apple's secret "wispr" request](https://web.archive.org/web/20171008071031/http://blog.erratasec.com/2010/09/apples-secret-wispr-request.html), [How to disable the captive portal window in Mac OS Lion](https://web.archive.org/web/20130407200745/http://www.divertednetworks.net/apple-captiveportal.html) and [An undocumented change to Captive Network Assistant settings in OS X 10.10 Yosemite](https://web.archive.org/web/20170622064304/https://grpugh.wordpress.com/2014/10/29/an-undocumented-change-to-captive-network-assistant-settings-in-os-x-10-10-yosemite/).
 
 ## Certificate authorities
 
