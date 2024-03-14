@@ -51,6 +51,7 @@ This guide is also available in [简体中文](https://github.com/drduh/macOS-Se
 - [Tor](#tor)
 - [VPN](#vpn)
 - [PGP/GPG](#pgpgpg)
+- [Messengers](#messengers)
 - [Viruses and malware](#viruses-and-malware)
 - [System Integrity Protection](#system-integrity-protection)
 - [Gatekeeper and XProtect](#gatekeeper-and-xprotect)
