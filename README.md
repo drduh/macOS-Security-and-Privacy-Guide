@@ -943,6 +943,8 @@ iMessage, Apple's first party messenger, offers [E2EE](https://support.apple.com
 
 XMPP is an [open standard](https://xmpp.org/extensions) developed by the [IETF](https://www.ietf.org) that allows for federated messaging. There are many options for [clients](https://xmpp.org/getting-started).
 
+XMPP isn't E2EE by default, you'll need to use [OMEMO](https://omemo.top) encryption, so make sure your client supports it.
+
 ## Viruses and malware
 
 There is an [ever-increasing](https://www.documentcloud.org/documents/2459197-bit9-carbon-black-threat-research-report-2015.html) amount of Mac malware in the wild. Macs aren't immune from viruses and malicious software!
