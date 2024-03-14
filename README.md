@@ -938,6 +938,10 @@ iMessage, Apple's first party messenger, offers [E2EE](https://support.apple.com
 
 **Note:** By default, iCloud backup is enabled which stores copies of your message encryption keys on [Apple's servers](https://support.apple.com/102651) without E2EE. Either disable iCloud backup, Messages in iCloud, or enable [Advanced Data Protection](https://support.apple.com/guide/security/advanced-data-protection-for-icloud-sec973254c5f) to prevent this. Also remember to tell your messaging partner to do that same!
 
+### XMPP
+
+XMPP is an [open standard](https://xmpp.org/extensions) developed by the [IETF](https://www.ietf.org) that allows for federated messaging. There are many options for [clients](https://xmpp.org/getting-started).
+
 ## Viruses and malware
 
 There is an [ever-increasing](https://www.documentcloud.org/documents/2459197-bit9-carbon-black-threat-research-report-2015.html) amount of Mac malware in the wild. Macs aren't immune from viruses and malicious software!
