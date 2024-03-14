@@ -1789,15 +1789,15 @@ macOS comes with this line in `/etc/sudoers`:
 Defaults env_keep += "HOME MAIL"
 ```
 
-Which stops sudo from changing the HOME variable when you elevate privileges. This means it will execute as root the bash dotfiles in the non-root user's home directory when you run "sudo bash". It is advisable to comment this line out to avoid a potentially easy way for malware or a local attacker to escalate privileges to root.
+Which stops sudo from changing the HOME variable when you elevate privileges. This means it will execute as root the zsh dotfiles in the non-root user's home directory when you run "sudo zsh". It is advisable to comment this line out to avoid a potentially easy way for malware or a local attacker to escalate privileges to root.
 
-If you want to retain the convenience of the root user having a non-root user's home directory, you can append an export line to /var/root/.bashrc, e.g.:
+If you want to retain the convenience of the root user having a non-root user's home directory, you can append an export line to /var/root/.zshrc, e.g.:
 
 ```console
 export HOME=/Users/blah
 ```
 
-Set a [custom umask](https://support.apple.com/en-us/101914):
+Set a [custom umask](https://support.apple.com/101914):
 
 ```console
 sudo launchctl config user umask 077
