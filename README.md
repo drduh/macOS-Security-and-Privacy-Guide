@@ -937,7 +937,7 @@ Read [online](https://alexcabal.com/creating-the-perfect-gpg-keypair/) [guides](
 
 iMessage, Apple's first party messenger, offers [E2EE](https://support.apple.com/guide/security/imessage-security-overview-secd9764312f) and the ability to verify keys via [Contact Key Verification](https://support.apple.com/118246) as well as [E2EE backups](https://support.apple.com/guide/security/advanced-data-protection-for-icloud-sec973254c5f). 
 
-The Messages app itself uses the App Sandbox, Hardened Runtime, and benefits from [System Integrity Protection](https://support.apple.com/102149) since it's part of the base OS.
+The Messages app itself uses the [App Sandbox](https://developer.apple.com/documentation/xcode/configuring-the-macos-app-sandbox), [Hardened Runtime](https://developer.apple.com/documentation/security/hardened_runtime), and benefits from [System Integrity Protection](https://support.apple.com/102149) since it's part of the base OS.
 
 **Note:** By default, iCloud backup is enabled which stores copies of your message encryption keys on [Apple's servers](https://support.apple.com/102651) without E2EE. Either disable iCloud backup or enable [Advanced Data Protection](https://support.apple.com/guide/security/advanced-data-protection-for-icloud-sec973254c5f) to prevent this. Also remember to tell your messaging partner to do that same!
 
