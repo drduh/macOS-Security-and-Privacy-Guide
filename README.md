@@ -939,7 +939,7 @@ iMessage, Apple's first party messenger, offers [E2EE](https://support.apple.com
 
 The Messages app itself uses the App Sandbox, Hardened Runtime, and benefits from [System Integrity Protection](https://support.apple.com/102149) since it's part of the base OS.
 
-**Note:** By default, iCloud backup is enabled which stores copies of your message encryption keys on [Apple's servers](https://support.apple.com/102651) without E2EE. Either disable iCloud backup, Messages in iCloud, or enable [Advanced Data Protection](https://support.apple.com/guide/security/advanced-data-protection-for-icloud-sec973254c5f) to prevent this. Also remember to tell your messaging partner to do that same!
+**Note:** By default, iCloud backup is enabled which stores copies of your message encryption keys on [Apple's servers](https://support.apple.com/102651) without E2EE. Either disable iCloud backup or enable [Advanced Data Protection](https://support.apple.com/guide/security/advanced-data-protection-for-icloud-sec973254c5f) to prevent this. Also remember to tell your messaging partner to do that same!
 
 ### XMPP
 
