@@ -930,6 +930,14 @@ See [drduh/YubiKey-Guide](https://github.com/drduh/YubiKey-Guide) to securely ge
 
 Read [online](https://alexcabal.com/creating-the-perfect-gpg-keypair/) [guides](https://security.stackexchange.com/questions/31594/what-is-a-good-general-purpose-gnupg-key-setup) and [practice](https://help.riseup.net/en/security/message-security/openpgp/best-practices) encrypting and decrypting email to yourself and your friends. Get them interested in this stuff!
 
+## Messengers
+
+### iMessage
+
+iMessage, Apple's first party messenger, offers [E2EE](https://support.apple.com/guide/security/imessage-security-overview-secd9764312f) and the ability to verify keys with your contact via [Contact Key Verification](https://support.apple.com/118246) as well as [E2EE backups](https://support.apple.com/guide/security/advanced-data-protection-for-icloud-sec973254c5f).
+
+**Note:** By default, iCloud backup is enabled which stores copies of your message encryption keys on [Apple's servers](https://support.apple.com/102651) without E2EE. Either disable iCloud backup, Messages in iCloud, or enable [Advanced Data Protection](https://support.apple.com/guide/security/advanced-data-protection-for-icloud-sec973254c5f) to prevent this. Also remember to tell your messaging partner to do that same!
+
 ## Viruses and malware
 
 There is an [ever-increasing](https://www.documentcloud.org/documents/2459197-bit9-carbon-black-threat-research-report-2015.html) amount of Mac malware in the wild. Macs aren't immune from viruses and malicious software!
