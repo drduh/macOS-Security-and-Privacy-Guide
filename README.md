@@ -941,7 +941,7 @@ iMessage, Apple's first party messenger, offers [E2EE](https://support.apple.com
 
 ### XMPP
 
-XMPP is an [open standard](https://xmpp.org/extensions) developed by the [IETF](https://www.ietf.org) that allows for federated messaging. There are many options for [clients](https://xmpp.org/getting-started).
+XMPP is an [open standard](https://xmpp.org/extensions) developed by the [IETF](https://www.ietf.org) that allows for cross-platform federated messaging. There are many options for [clients](https://xmpp.org/getting-started).
 
 XMPP isn't E2EE by default, you'll need to use [OMEMO](https://omemo.top) encryption, so make sure your client supports it.
 
