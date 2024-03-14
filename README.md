@@ -51,7 +51,7 @@ This guide is also available in [简体中文](https://github.com/drduh/macOS-Se
 - [Tor](#tor)
 - [VPN](#vpn)
 - [PGP/GPG](#pgpgpg)
-- [OTR](#otr)
+- [Messenger](#messenger)
 - [Viruses and malware](#viruses-and-malware)
 - [System Integrity Protection](#system-integrity-protection)
 - [Gatekeeper and XProtect](#gatekeeper-and-xprotect)
@@ -931,21 +931,11 @@ See [drduh/YubiKey-Guide](https://github.com/drduh/YubiKey-Guide) to securely ge
 
 Read [online](https://alexcabal.com/creating-the-perfect-gpg-keypair/) [guides](https://security.stackexchange.com/questions/31594/what-is-a-good-general-purpose-gnupg-key-setup) and [practice](https://help.riseup.net/en/security/message-security/openpgp/best-practices) encrypting and decrypting email to yourself and your friends. Get them interested in this stuff!
 
-## OTR
+## Messenger
 
-**Note** Strongly consider using [Signal](https://github.com/signalapp/Signal-Desktop) instead.
+iMessage provides best security with e.g. [Contact Key Verification](https://security.apple.com/blog/imessage-contact-key-verification) and [PQ3 quantum-resistant encryption](https://security.apple.com/blog/imessage-pq3/).
 
-OTR stands for **off-the-record** and is a cryptographic protocol for encrypting and authenticating conversations over instant messaging.
-
-You can use OTR on top of any existing [XMPP](https://xmpp.org/about) chat service, even Google Hangouts (which only encrypts conversations between users and the server using TLS).
-
-The first time you start a conversation with someone new, you'll be asked to verify their public key fingerprint. Do this in person or by other secure means, such as GPG.
-
-A popular macOS GUI client for XMPP and other chat protocols is [Adium](https://adium.im/).
-
-Other XMPP clients include [agl/xmpp-client](https://github.com/agl/xmpp-client) and [CoyIM](https://coy.im/), which is focused on security and has built-in support for OTR and Tor.
-
-If you want to know how OTR works, read the paper [Off-the-Record Communication, or, Why Not To Use PGP](https://otr.cypherpunks.ca/otr-wpes.pdf) (pdf)
+For chatting with non-Apple devices [Signal](https://www.signal.org/download/macos/) exists, but Signal for macOS sadly use Electron which itself [isn't](https://blog.xpnsec.com/macos-injection-via-third-party-frameworks/) secure, [bypass](https://wojciechregula.blog/post/abusing-electron-apps-to-bypass-macos-security-controls/) security controls, is bad for your [privacy](https://wojciechregula.blog/post/electroniz3r/) and cant store your secrets [confidentially](https://medium.com/@metnew/why-electron-apps-cant-store-your-secrets-confidentially-inspect-option-a49950d6d51f).
 
 ## Viruses and malware
 
