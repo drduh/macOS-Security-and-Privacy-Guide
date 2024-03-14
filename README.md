@@ -1725,25 +1725,13 @@ Zentral will support Santa in both MONITORING and LOCKDOWN operation mode. Clien
 
 ## Miscellaneous
 
-Disable [Diagnostics & Usage Data](https://github.com/fix-macosx/fix-macosx/wiki/Diagnostics-&-Usage-Data).
+Disable [Diagnostics & Usage Data](https://support.apple.com/guide/mac-help/share-analytics-information-mac-apple-mh27990).
 
 If you want to play **music** or watch **videos**, use QuickTime Player, the built-in media player in macOS. It uses the [App Sandbox](https://developer.apple.com/documentation/security/app_sandbox/protecting_user_data_with_app_sandbox), [Hardened Runtime](https://developer.apple.com/documentation/xcode/configuring-the-hardened-runtime), and benefits from the [Signed System Volume](https://support.apple.com/guide/security/signed-system-volume-security-secd698747c9/web) as part of the base system.
 
-If you want to use **torrents**, use [Transmission](https://www.transmissionbt.com/download/) which is free and open source (note: like all software, even open source projects, [malware may still find its way in](http://researchcenter.paloaltonetworks.com/2016/03/new-os-x-ransomware-keranger-infected-transmission-bittorrent-client-installer/)). You may also wish to use a block list to avoid peering with known bad hosts - see [Which is the best blocklist for Transmission](https://giuliomac.wordpress.com/2014/02/19/best-blocklist-for-transmission/) and [johntyree/3331662](https://gist.github.com/johntyree/3331662).
+If you want to use **torrents**, use [Transmission](https://transmissionbt.com/download/) which is free and open source (note: like all software, even open source projects, [malware may still find its way in](http://researchcenter.paloaltonetworks.com/2016/03/new-os-x-ransomware-keranger-infected-transmission-bittorrent-client-installer/)). You may also wish to use a block list to avoid peering with known bad hosts - see [Which is the best blocklist for Transmission](https://giuliomac.wordpress.com/2014/02/19/best-blocklist-for-transmission/) and [johntyree/3331662](https://gist.github.com/johntyree/3331662).
 
-Manage default file handlers with [duti](http://duti.org/), which can be installed with `brew install duti`. One reason to manage extensions is to prevent auto-mounting of remote file systems in Finder (see [Protecting Yourself From Sparklegate](https://www.taoeffect.com/blog/2016/02/apologies-sky-kinda-falling-protecting-yourself-from-sparklegate/)). Here are several recommended file handlers to manage:
-
-```console
-duti -s com.apple.Safari afp
-
-duti -s com.apple.Safari ftp
-
-duti -s com.apple.Safari nfs
-
-duti -s com.apple.Safari smb
-
-duti -s com.apple.TextEdit public.unix-executable
-```
+Manage [default file handlers](https://support.apple.com/guide/mac-help/choose-an-app-to-open-a-file-on-mac-mh35597).
 
 Monitor system logs with the **Console** application or `syslog -w` or `/usr/bin/log stream` commands.
 
@@ -1775,7 +1763,7 @@ Don't default to saving documents to iCloud:
 defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
 ```
 
-Enable [Secure Keyboard Entry](https://security.stackexchange.com/questions/47749/how-secure-is-secure-keyboard-entry-in-mac-os-xs-terminal) in Terminal (unless you use [YubiKey](https://mig5.net/content/secure-keyboard-entry-os-x-blocks-interaction-yubikeys) or applications such as [TextExpander](https://smilesoftware.com/textexpander/secureinput)).
+Enable [Secure Keyboard Entry](https://support.apple.com/guide/terminal/use-secure-keyboard-entry-trml109) in Terminal (unless you use [YubiKey](https://mig5.net/content/secure-keyboard-entry-os-x-blocks-interaction-yubikeys) or applications such as [TextExpander](https://smilesoftware.com/textexpander/secureinput)).
 
 Disable crash reporter (the dialog which appears after an application crashes and prompts to report the problem to Apple):
 
@@ -1783,17 +1771,17 @@ Disable crash reporter (the dialog which appears after an application crashes an
 defaults write com.apple.CrashReporter DialogType none
 ```
 
-Disable Bonjour [multicast advertisements](https://www.trustwave.com/Resources/SpiderLabs-Blog/mDNS---Telling-the-world-about-you-(and-your-device)/):
+Disable Bonjour multicast advertisements:
+
+**Warning:** This will cause problems with AirPlay and AirPrint!
 
 ```console
 sudo defaults write /Library/Preferences/com.apple.mDNSResponder.plist NoMulticastAdvertisements -bool YES
 ```
 
-[Disable Handoff](https://apple.stackexchange.com/questions/151481/why-is-my-macbook-visibile-on-bluetooth-after-yosemite-install) and Bluetooth features, if they aren't necessary.
+[Disable Handoff](https://support.apple.com/guide/mac-help/change-airdrop-handoff-settings-mchl6a407f99) and [Bluetooth](https://support.apple.com/guide/mac-help/turn-bluetooth-on-or-off-blth1008) features, if they aren't necessary.
 
-Consider sandboxing your applications. See [fG! Sandbox Guide](https://reverse.put.as/wp-content/uploads/2011/09/Apple-Sandbox-Guide-v0.1.pdf) (pdf) and [s7ephen/OSX-Sandbox--Seatbelt--Profiles](https://github.com/s7ephen/OSX-Sandbox--Seatbelt--Profiles).
-
-Did you know Apple has not shipped a computer with TPM since 2006?
+Check that your apps are sandboxed in [Activity Monitor](https://developer.apple.com/documentation/security/app_sandbox/protecting_user_data_with_app_sandbox#4098972).
 
 macOS comes with this line in `/etc/sudoers`:
 
@@ -1801,15 +1789,15 @@ macOS comes with this line in `/etc/sudoers`:
 Defaults env_keep += "HOME MAIL"
 ```
 
-Which stops sudo from changing the HOME variable when you elevate privileges. This means it will execute as root the bash dotfiles in the non-root user's home directory when you run "sudo bash". It is advisable to comment this line out to avoid a potentially easy way for malware or a local attacker to escalate privileges to root.
+Which stops sudo from changing the HOME variable when you elevate privileges. This means it will execute as root the zsh dotfiles in the non-root user's home directory when you run "sudo zsh". It is advisable to comment this line out to avoid a potentially easy way for malware or a local attacker to escalate privileges to root.
 
-If you want to retain the convenience of the root user having a non-root user's home directory, you can append an export line to /var/root/.bashrc, e.g.:
+If you want to retain the convenience of the root user having a non-root user's home directory, you can append an export line to /var/root/.zshrc, e.g.:
 
 ```console
 export HOME=/Users/blah
 ```
 
-Set a [custom umask](https://support.apple.com/en-us/HT201684):
+Set a [custom umask](https://support.apple.com/101914):
 
 ```console
 sudo launchctl config user umask 077
