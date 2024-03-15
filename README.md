@@ -939,11 +939,15 @@ iMessage, Apple's first party messenger, offers [quantum-resistant](https://secu
 
 The Messages app itself uses the [App Sandbox](https://developer.apple.com/documentation/xcode/configuring-the-macos-app-sandbox), [Hardened Runtime](https://developer.apple.com/documentation/security/hardened_runtime), and benefits from [System Integrity Protection](https://support.apple.com/102149) since it's part of the base OS.
 
+You can use iMessage with either a [phone number or an email](https://support.apple.com/108758#Mac) so choose one that you don't mind your contacts seeing.
+
 **Note:** By default, iCloud backup is enabled which stores copies of your message encryption keys on [Apple's servers](https://support.apple.com/102651) without E2EE. Either [disable iCloud backup](https://support.apple.com/guide/icloud/view-and-manage-backups-mm122d3ef202/1.0/icloud/1.0) or enable [Advanced Data Protection](https://support.apple.com/guide/security/advanced-data-protection-for-icloud-sec973254c5f) to prevent this. Also remember to tell your messaging partner/s to do the same!
 
 ### XMPP
 
 XMPP is an [open standard](https://xmpp.org/extensions) developed by the [IETF](https://www.ietf.org) that allows for cross-platform federated messaging. There are many options for [clients](https://xmpp.org/getting-started).
+
+Depending on the provider, you might not need anything other than a username and password to set up your account.
 
 XMPP isn't E2EE by default, you'll need to use [OMEMO](https://omemo.top) encryption, so make sure your client supports it.
 
