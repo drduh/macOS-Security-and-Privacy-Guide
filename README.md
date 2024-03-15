@@ -935,7 +935,7 @@ Read [online](https://alexcabal.com/creating-the-perfect-gpg-keypair/) [guides](
 
 ### iMessage
 
-iMessage, Apple's first party messenger, offers [E2EE](https://support.apple.com/guide/security/imessage-security-overview-secd9764312f) and the ability to verify keys via [Contact Key Verification](https://support.apple.com/118246) as well as [E2EE backups](https://support.apple.com/guide/security/advanced-data-protection-for-icloud-sec973254c5f). 
+iMessage, Apple's first party messenger, offers [quantum-resistant](https://security.apple.com/blog/imessage-pq3/) [E2EE](https://support.apple.com/guide/security/imessage-security-overview-secd9764312f) and the ability to verify keys via [Contact Key Verification](https://support.apple.com/118246) as well as [E2EE backups](https://support.apple.com/guide/security/advanced-data-protection-for-icloud-sec973254c5f). 
 
 The Messages app itself uses the [App Sandbox](https://developer.apple.com/documentation/xcode/configuring-the-macos-app-sandbox), [Hardened Runtime](https://developer.apple.com/documentation/security/hardened_runtime), and benefits from [System Integrity Protection](https://support.apple.com/102149) since it's part of the base OS.
 
