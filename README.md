@@ -947,7 +947,7 @@ You can use iMessage with either a [phone number or an email](https://support.ap
 
 ### XMPP
 
-XMPP is an [open standard](https://xmpp.org/extensions) developed by the [IETF](https://www.ietf.org) that allows for cross-platform federated messaging. There are many options for [clients](https://xmpp.org/getting-started).
+XMPP is an [open standard](https://xmpp.org/extensions) developed by the [IETF](https://www.ietf.org) that allows for cross-platform federated messaging. There are many options for [clients](https://xmpp.org/getting-started). Consider using one of the browser-based clients to take advantage of your browser's sandbox.
 
 Depending on the provider, you might not need anything other than a username and password to set up your account.
 
