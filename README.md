@@ -1412,7 +1412,7 @@ Consider purchasing a privacy screen/filter for use in public.
 
 Superglue or epoxy resin can be used to disable physical access to peripheral ports. 
 
-**Warning:** This will damage your ports so be 100% sure you'll never need to use them.
+**Warning:** This will damage your ports so be 100% sure you'll never need to use them!
 
 [Nail polish](https://trmm.net/Glitter) and tamper-evidence seals can be applied to components to detect tampering.
 
