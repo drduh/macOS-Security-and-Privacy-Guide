@@ -26,6 +26,7 @@ This guide is also available in [简体中文](https://github.com/drduh/macOS-Se
   * [Setup](#setup)
 - [Firmware](#firmware)
 - [Filevault](#filevault)
+- [Lockdown Mode](#lockdown-mode)
 - [Firewall](#firewall)
   * [Application layer firewall](#application-layer-firewall)
   * [Third party firewalls](#third-party-firewalls)
@@ -202,6 +203,12 @@ All Mac models with Apple silicon are encrypted by default. Enabling [FileVault]
 Your FileVault password also acts as a [firmware password](https://support.apple.com/en-us/102384) that will prevent people that don't know it from booting from anything other than the designated startup disk, accessing [Recovery](https://support.apple.com/guide/mac-help/macos-recovery-a-mac-apple-silicon-mchl82829c17/14.0/mac/14.0#mchl5abfbb29), and [reviving](https://support.apple.com/en-us/108900) it with DFU mode.
 
 FileVault will ask you to set a recovery key in case you forget your password. Keep this key stored somewhere safe. You'll have the option use your iCloud account to unlock your disk; however, anyone with access to your iCloud account will be able to unlock it as well.
+
+## Lockdown Mode
+
+macOS offers [Lockdown Mode](https://support.apple.com/105120), a security feature that disables several features across the OS, significantly reducing attack surface for attackers while keeping the OS usable. You can read about exactly what is disabled and decide for yourself if it is acceptable to you.
+
+When Lockdown Mode is on, you can disable it per site in Safari on trusted sites.
 
 ## Firewall
 
