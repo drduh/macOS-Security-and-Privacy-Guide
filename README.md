@@ -948,18 +948,6 @@ Depending on the provider, you might not need anything other than a username and
 
 XMPP isn't E2EE by default, you'll need to use [OMEMO](https://omemo.top) encryption, so make sure your client supports it.
 
-### iMessage
-
-iMessage, Apple's first party messenger, offers [quantum-resistant](https://security.apple.com/blog/imessage-pq3/) [E2EE](https://support.apple.com/guide/security/imessage-security-overview-secd9764312f) and the ability to verify keys via [Contact Key Verification](https://support.apple.com/118246) as well as [E2EE backups](https://support.apple.com/guide/security/advanced-data-protection-for-icloud-sec973254c5f). 
-
-The Messages app itself uses the [App Sandbox](https://developer.apple.com/documentation/xcode/configuring-the-macos-app-sandbox), [Hardened Runtime](https://developer.apple.com/documentation/security/hardened_runtime), and benefits from [System Integrity Protection](https://support.apple.com/102149) since it's part of the base OS.
-
-iMessage is not designed for anonymity; you should only use it with people you know in real life.
-
-You can use iMessage with either a [phone number or an email](https://support.apple.com/108758#Mac) so choose one that you don't mind your contacts seeing.
-
-**Note:** By default, iCloud backup is enabled which stores copies of your message encryption keys on [Apple's servers](https://support.apple.com/102651) without E2EE. Either [disable iCloud backup](https://support.apple.com/guide/icloud/view-and-manage-backups-mm122d3ef202/1.0/icloud/1.0) or enable [Advanced Data Protection](https://support.apple.com/guide/security/advanced-data-protection-for-icloud-sec973254c5f) to prevent this. Also remember to tell your messaging partner/s to do the same!
-
 ## Viruses and malware
 
 There is an [ever-increasing](https://www.documentcloud.org/documents/2459197-bit9-carbon-black-threat-research-report-2015.html) amount of Mac malware in the wild. Macs aren't immune from viruses and malicious software!
