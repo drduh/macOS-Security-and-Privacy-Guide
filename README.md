@@ -1404,7 +1404,7 @@ sudo lsof -Pni TCP:22
 
 Keep your Mac physically secure at all times and do not leave it unattended in public.
 
-A skilled attacker could install a [hardware keylogger](https://en.wikipedia.org/wiki/Hardware_keylogger) to record all of your keystrokes. Using a Mac with a built-in keyboard or a bluetooth keyboard makes this more difficult as many of these devices are designed to be plugged in between a USB keyboard and your computer.
+A skilled attacker could install a [hardware keylogger](https://en.wikipedia.org/wiki/Hardware_keylogger) to record all of your keystrokes. Using a Mac with a built-in keyboard or a bluetooth keyboard makes this more difficult as many of these off-the-shelf devices are designed to be plugged in between a USB keyboard and your computer.
 
 To protect against physical theft during use, you can use an anti-forensic tool like [BusKill](https://github.com/buskill/buskill-app) or [swiftGuard](https://github.com/Lennolium/swiftGuard) (updated usbkill, with graphical user interface). All respond to USB events and can immediately shutdown your computer if your device is physically separated from you or an unauthorized device is connected.
 
