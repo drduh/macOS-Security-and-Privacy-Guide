@@ -948,6 +948,12 @@ Depending on the provider, you might not need anything other than a username and
 
 XMPP isn't E2EE by default, you'll need to use [OMEMO](https://omemo.top) encryption, so make sure your client supports it.
 
+### Signal
+
+[Signal](https://www.signal.org) is an advanced E2EE messenger whose [double-ratchet](https://signal.org/docs/specifications/doubleratchet/) protocol is used by countless others including WhatsApp, Google Messages, and Facebook Messenger.
+
+Signal requires a phone number to sign up and you'll need to install it on your phone first before you can use it on desktop.
+
 ### iMessage
 
 iMessage is Apple's first party messenger.
