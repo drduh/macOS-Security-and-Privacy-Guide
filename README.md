@@ -982,7 +982,7 @@ To scan an application with multiple AV products and examine its behavior, uploa
 
 macOS comes with a built-in AV program called [XProtect](https://support.apple.com/guide/security/protecting-against-malware-sec469d47bd8). XProtect automatically runs in the background and updates its signatures that it uses to detect malware without you having to do anything. If it detects malware already running, it will work to remove and mitigate it just like any other AV program.
 
-Applications such as [BlockBlock](https://objective-see.com/products/blockblock.html) will help. An alternative could be [maclaunch.sh](https://github.com/hazcod/maclaunch).
+You could periodically run a tool like [KnockKnock](https://objective-see.org/products/knockknock.html) to examine persistent applications (e.g. scripts, binaries). But by then, it is probably too late. Applications such as [BlockBlock](https://objective-see.com/products/blockblock.html) might help. An alternative could be [maclaunch.sh](https://github.com/hazcod/maclaunch).
 
 Locally installed **Anti-virus** programs are generally a double-edged sword: they may catch "garden variety" malware, but also may increase the attack surface for sophisticated adversaries due to their privileged operating mode.
 
