@@ -8,47 +8,45 @@ A system is only as secure as its administrator is capable of making it. There i
 
 This guide is provided on an 'as is' basis without any warranties of any kind. Only **you** are responsible if you break anything or get in any sort of trouble by following this guide.
 
-To suggest an improvement, please send a pull request or [open an issue](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues).
-
-This guide is also available in [简体中文](https://github.com/drduh/macOS-Security-and-Privacy-Guide/blob/master/README-cn.md).
+To suggest an improvement, send a pull request or [open an issue](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues).
 
 - [Basics](#basics)
 - [Hardware](#hardware)
 - [Installing macOS](#installing-macos)
-  * [System Activation](#system-activation)
-  * [Apple ID](#apple-id)
-  * [App Store](#app-store)
-  * [Virtualization](#virtualization)
+   * [System activation](#system-activation)
+   * [Apple ID](#apple-id)
+   * [App Store](#app-store)
+   * [Virtualization](#virtualization)
 - [First boot](#first-boot)
-- [System activation](#system-activation)
 - [Admin and standard user accounts](#admin-and-standard-user-accounts)
-  * [Caveats](#caveats)
-  * [Setup](#setup)
+   * [Caveats](#caveats)
+   * [Setup](#setup)
 - [Firmware](#firmware)
-- [Filevault](#filevault)
+- [FileVault](#filevault)
 - [Lockdown Mode](#lockdown-mode)
 - [Firewall](#firewall)
-  * [Application layer firewall](#application-layer-firewall)
-  * [Third party firewalls](#third-party-firewalls)
-  * [Kernel level packet filtering](#kernel-level-packet-filtering)
+   * [Application layer firewall](#application-layer-firewall)
+   * [Third party firewalls](#third-party-firewalls)
+   * [Kernel level packet filtering](#kernel-level-packet-filtering)
 - [Services](#services)
-- [Siri Suggestions & Spotlight](#siri-suggestions-&-spotlight)
+- [Siri Suggestions & Spotlight](#siri-suggestions-spotlight)
 - [Homebrew](#homebrew)
 - [DNS](#dns)
-    + [Hosts file](#hosts-file)
-    + [dnscrypt](#dnscrypt)
-    + [Dnsmasq](#dnsmasq)
-      - [Test DNSSEC validation](#test-dnssec-validation)
+      + [DNS profiles](#dns-profiles)
+      + [Hosts file](#hosts-file)
+      + [dnscrypt](#dnscrypt)
+      + [Dnsmasq](#dnsmasq)
+         - [Test DNSSEC validation](#test-dnssec-validation)
 - [Certificate authorities](#certificate-authorities)
 - [Web](#web)
-  * [Privoxy](#privoxy)
-  * [Browser](#browser)
-    + [Firefox](#firefox)
-    + [Chrome](#chrome)
-    + [Safari](#safari)
-    + [Other Web browsers](#other-web-browsers)
-    + [Web browsers and privacy](#web-browsers-and-privacy)
-  * [Plugins](#plugins)
+   * [Privoxy](#privoxy)
+   * [Browser](#browser)
+      + [Firefox](#firefox)
+      + [Chrome](#chrome)
+      + [Safari](#safari)
+      + [Other Web browsers](#other-web-browsers)
+      + [Web browsers and privacy](#web-browsers-and-privacy)
+   * [Plugins](#plugins)
 - [Tor](#tor)
 - [VPN](#vpn)
 - [PGP/GPG](#pgpgpg)
@@ -63,10 +61,10 @@ This guide is also available in [简体中文](https://github.com/drduh/macOS-Se
 - [SSH](#ssh)
 - [Physical access](#physical-access)
 - [System monitoring](#system-monitoring)
-  * [OpenBSM audit](#openbsm-audit)
-  * [DTrace](#dtrace)
-  * [Execution](#execution)
-  * [Network](#network)
+   * [OpenBSM audit](#openbsm-audit)
+   * [DTrace](#dtrace)
+   * [Execution](#execution)
+   * [Network](#network)
 - [Binary Whitelisting](#binary-whitelisting)
 - [Miscellaneous](#miscellaneous)
 - [Related software](#related-software)
@@ -1016,7 +1014,9 @@ sudo chflags schg ~/Library/Preferences/com.apple.LaunchServices.QuarantineEvent
 
 Alternatively, you can also disable Gatekeeper using the following command:
 
-```sudo spctl --master-disable```
+```console
+sudo spctl --master-disable
+```
 
 (See <https://disable-gatekeeper.github.io/> and <https://objective-see.com/blog/blog_0x64.html> for reference)
 
@@ -1244,13 +1244,13 @@ defaults delete ~/Library/Preferences/com.apple.iTunes.plist WirelessBuddyID
 
 All media played in QuickTime Player can be found in:
 
-```
+```console
 ~/Library/Containers/com.apple.QuickTimePlayerX/Data/Library/Preferences/com.apple.QuickTimePlayerX.plist
 ```
 
 Additional metadata may exist in the following files:
 
-```
+```console
 ~/Library/Containers/com.apple.appstore/Data/Library/Preferences/com.apple.commerce.knownclients.plist
 ~/Library/Preferences/com.apple.commerce.plist
 ~/Library/Preferences/com.apple.QuickTimePlayerX.plist
@@ -1802,7 +1802,7 @@ Check that your apps are sandboxed in [Activity Monitor](https://developer.apple
 
 macOS comes with this line in `/etc/sudoers`:
 
-```
+```console
 Defaults env_keep += "HOME MAIL"
 ```
 
