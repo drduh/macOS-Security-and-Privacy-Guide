@@ -19,7 +19,7 @@ To suggest an improvement, send a pull request or [open an issue](https://github
    * [App Store](#app-store)
    * [Virtualization](#virtualization)
 - [First boot](#first-boot)
-- [Admin and standard user accounts](#admin-and-standard-user-accounts)
+- [Admin and user accounts](#admin-and-user-accounts)
    * [Caveats](#caveats)
    * [Setup](#setup)
 - [Firmware](#firmware)
@@ -66,36 +66,35 @@ To suggest an improvement, send a pull request or [open an issue](https://github
    * [DTrace](#dtrace)
    * [Execution](#execution)
    * [Network](#network)
-- [Binary Whitelisting](#binary-whitelisting)
+- [Binary authorization](#binary-authorization)
 - [Miscellaneous](#miscellaneous)
 - [Related software](#related-software)
 - [Additional resources](#additional-resources)
 
 # Basics
 
-Standard security best practices apply:
+General security best practices apply:
 
-* Create a [threat model](https://www.owasp.org/index.php/Application_Threat_Modeling)
-	* What are you trying to protect and from whom? Is your adversary a three letter agency, a nosy eavesdropper on the network, or a determined [APT](https://en.wikipedia.org/wiki/Advanced_persistent_threat) orchestrating a campaign against you?
-	* Recognize threats and how to reduce attack surface against them.
+- Create a [threat model](https://www.owasp.org/index.php/Application_Threat_Modeling)
+  * What are you trying to protect and from whom? Is your adversary a three letter agency, a nosy eavesdropper on the network, or a determined [APT](https://en.wikipedia.org/wiki/Advanced_persistent_threat) orchestrating a campaign against you?
+  * Recognize threats and how to reduce attack surface against them.
 
-* Keep the system up to date
-	* Patch the base operating system and all third party software.
-	* macOS system updates can be completed in the [settings](https://support.apple.com/guide/mac-help/keep-your-mac-up-to-date-mchlpx1065) and set to automatically install. You can also use the `softwareupdate` command-line utility - neither requires registering an Apple account.
-	* Subscribe to announcement mailing lists like [Apple security-announce](https://lists.apple.com/mailman/listinfo/security-announce).
+- Keep the system and software up to date
+  * Patch the operating system and all installed software reguarly.
+  * macOS system updates can be completed in the [settings](https://support.apple.com/guide/mac-help/keep-your-mac-up-to-date-mchlpx1065) and set to automatically install. You can also use the `softwareupdate` command-line utility - neither requires registering an Apple account.
+  * Subscribe to announcement mailing lists like [Apple security-announce](https://lists.apple.com/mailman/listinfo/security-announce).
 
-* Encrypt sensitive data at rest
-	* In addition to [FileVault](https://support.apple.com/guide/mac-help/protect-data-on-your-mac-with-filevault-mh11785), consider using the [built-in password manager](https://support.apple.com/105115) to protect your passwords and other sensitive info. For sensitive files, consider creating a separate [encrypted volume](https://support.apple.com/guide/disk-utility/encrypt-protect-a-storage-device-password-dskutl35612) to store them in.
-	* This will mitigate damage in case of compromise and data theft.
+- Encrypt sensitive data
+  * In addition to [FileVault](https://support.apple.com/guide/mac-help/protect-data-on-your-mac-with-filevault-mh11785) volume encryption, consider using the [built-in password manager](https://support.apple.com/105115) to protect passwords and other sensitive data.
 
-* Assure data availability
-	* Create [regular backups](https://support.apple.com/104984) of your data and be ready to [restore from a backup](https://support.apple.com/102551) in case of compromise.
-	* [Encrypt locally](https://support.apple.com/guide/mac-help/keep-your-time-machine-backup-disk-secure-mh21241) before copying backups to unencrypted external media or the "cloud"; alternatively, enable [end-to-end encryption](https://support.apple.com/guide/security/advanced-data-protection-for-icloud-sec973254c5f) if your cloud provider supports it.
-	* Verify backups by accessing them regularly.
+- Assure data availability
+  * Create [regular backups](https://support.apple.com/104984) of your data and be ready to [restore from a backup](https://support.apple.com/102551) in case of compromise.
+  * [Encrypt locally](https://support.apple.com/guide/mac-help/keep-your-time-machine-backup-disk-secure-mh21241) before copying backups to unencrypted external media or the "cloud"; alternatively, enable [end-to-end encryption](https://support.apple.com/guide/security/advanced-data-protection-for-icloud-sec973254c5f) if your cloud provider supports it.
+  * Verify backups by accessing them regularly.
 
-* Click carefully
-	* Ultimately, the security of a system depends on the capabilities of its administrator.
-	* Care should be taken when installing new software; only install from official sources that the developers indicate on their official website/github/etc.
+- Click carefully
+  * Ultimately, the security of a system depends on the capabilities of its administrator.
+  * Care should be taken when installing new software; only install from official sources that the developers indicate on their official website/github/etc.
 
 # Hardware
 
@@ -154,7 +153,7 @@ sudo scutil --set ComputerName MacBook
 sudo scutil --set LocalHostName MacBook
 ```
 
-# Admin and standard user accounts
+# Admin and user accounts
 
 The first user account is always an admin account. Admin accounts are members of the admin group and have access to `sudo`, which allows them to usurp other accounts, in particular root, and gives them effective control over the system. Any program that the admin executes can potentially obtain the same access, making this a security risk.
 
@@ -714,7 +713,7 @@ Previous versions of Firefox used a Web Extension SDK that was quite invasive an
 * PDF viewer
 * Non-optional tracking. Google Chrome installer includes a randomly generated token. The token is sent to Google after the installation completes in order to measure the success rate. The RLZ identifier stores information – in the form of encoded strings – like the source of chrome download and installation week. It doesn’t include any personal information and it’s used to measure the effectiveness of a promotional campaign. **Chrome downloaded from Google’s website doesn’t have the RLZ identifier**. The source code to decode the strings is made open by Google.
 
-Chrome offers account sync between multiple devices. Part of the sync data are stored website credentials. The login passwords are encrypted and in order to access them, a user's Google account password is required. You can use your Google account to sign to your Chrome customized settings from other devices while retaining your the security of your passwords.
+Chrome offers account sync between multiple devices. Part of the sync data includes credentials to Web sites. The data is are encrypted with the account password.
 
 Chrome's Web Store for extensions requires a [5 USD lifetime fee](https://developer.chrome.com/webstore/publish#pay-the-developer-signup-fee) in order to submit extensions. The low cost allows the development of many quality Open Source Web Extensions that do not aim to monetize through usage.
 
@@ -740,7 +739,7 @@ Safari offers an invite-only [bounty program](https://developer.apple.com/bug-re
 
 Web Extensions in Safari have an additional option to use native code in the Safari's sandbox environment, in addition to Web Extension APIs. Web Extensions in Safari are also distributed through Apple's App store. App store submission comes with the added benefit of Web Extension code being audited by Apple. On the other hand App store submission comes at a steep cost. Yearly [developer subscription](https://developer.apple.com/support/compare-memberships/) fee costs 100 USD (in contrast to Chrome's 5 USD fee and Firefox's free submission). The high cost is prohibitive for the majority of Open Source developers. As a result, Safari has very few extensions to choose from. However, you should keep the high cost in mind when installing extensions. It is expected that most Web Extensions will have some way of monetizing usage in order to cover developer costs. Be wary of Web Extensions whose source code is not open.
 
-Safari syncs user preferences and saved passwords with [iCloud Keychain](https://support.apple.com/en-gb/HT202303). In order to be viewed in plain text, a user must input the account password of the current device. This means that users can sync data across devices with added security.
+Safari syncs user preferences and passwords with [iCloud Keychain](https://support.apple.com/en-gb/HT202303). In order to be viewed in plain text, a user must input the account password of the current device. This means that users can sync data across devices with added security.
 
 Safari follows a slower release cycle than Chrome and Firefox (3-4 minor releases, 1 major release, per year). Newer features are slower to be adopted to the stable channel. Security updates in Safari are handled independent of the stable release schedule and are installed through the App Store.
 
@@ -1259,95 +1258,61 @@ Additional metadata may exist in the following files:
 
 # Passwords
 
-Generate strong passwords using any of the following utilities:
+Generate strong passwords using [`urandom`](https://en.wikipedia.org/wiki//dev/random) and [`tr`](https://linux.die.net/man/1/tr):
 
 ```console
-openssl rand -base64 30
-
-gpg --gen-random -a 0 90 | fold -w 40
-
-tr -dc '[:graph:]' < /dev/urandom | fold -w 40 | head -n5
+tr -dc '[:graph:]' < /dev/urandom | fold -w 20 | head -1
 ```
 
-Or using **Keychain Access** password assistant, or a command line equivalent like [anders/pwgen](https://github.com/anders/pwgen).
+The password assistant in **Keychain Access** can also generate secure credentials.
 
-GnuPG can also be used to manage password files (see [drduh/Purse](https://github.com/drduh/Purse) and [drduh/pwd.sh](https://github.com/drduh/pwd.sh) for example).
+Consider using [Diceware](https://secure.research.vt.edu/diceware/) for memorable passwords.
 
-In addition to passwords, ensure eligible online accounts, such as GitHub, Google accounts, banking, have [multi-factor authentication](https://en.wikipedia.org/wiki/Multi-factor_authentication) enabled.
+GnuPG can also be used to manage passwords and other encrypted files (see [drduh/Purse](https://github.com/drduh/Purse) and [drduh/pwd.sh](https://github.com/drduh/pwd.sh)).
 
-[Yubikey](https://www.yubico.com/products/) offers affordable hardware tokens. See [drduh/YubiKey-Guide](https://github.com/drduh/YubiKey-Guide) and [trmm.net/Yubikey](https://trmm.net/Yubikey). One of two Yubikey slots can also be programmed to emit a long, static password - which can be used in combination with a short, memorized password, for example.
+Ensure all eligible online accounts have [multi-factor authentication](https://en.wikipedia.org/wiki/Multi-factor_authentication) enabled. The strongest form of multi-factor authentication is [WebAuthN](https://en.wikipedia.org/wiki/WebAuthn), followed by app-based authenticators, and SMS-based codes are weakest.
 
-In Addition to Login and other PAMs, you can use Yubikey to secure your login and sudo, here is a pdf guide from [Yubico](https://www.yubico.com/wp-content/uploads/2016/02/Yubico_YubiKeyMacOSXLogin_en.pdf). [U2F Zero](https://u2fzero.com/) is a Yubikey alternative to consider.
+[YubiKey](https://www.yubico.com/products/) is an affordable hardware token with WebAuthN support. It can also be used to store cryptographic keys for GnuPG encryption and SSH authentication - see [drduh/YubiKey-Guide](https://github.com/drduh/YubiKey-Guide).
 
 # Backup
 
-Always encrypt files locally before backing them up to external media or online services.
+Encrypt files locally before backing them up to external media or online services.
 
-One way is to use a GPG with a static password or your own public key (with the private key stored on [YubiKey](https://github.com/drduh/YubiKey-Guide)).
+GnuPG can be used with a static password or public key (with the private key stored on [YubiKey](https://github.com/drduh/YubiKey-Guide)).
 
-To compress and encrypt a directory using a password:
-
-```console
-$ tar zcvf - ~/Downloads | gpg -c > ~/Desktop/backup-$(date +%F-%H%M).tar.gz.gpg
-tar: Removing leading '/' from member names
-a Users/drduh/Downloads
-a Users/drduh/Downloads/.DS_Store
-a Users/drduh/Downloads/.localized
-a Users/drduh/Downloads/TorBrowser-8.0.4-osx64_en-US.dmg.asc
-a Users/drduh/Downloads/TorBrowser-8.0.4-osx64_en-US.dmg
-```
-
-To decrypt and decompress the directory:
+Compress and encrypt a directory using with a password:
 
 ```console
-$ gpg -o ~/Desktop/decrypted-backup.tar.gz -d ~/Desktop/backup-2015-01-01-0000.tar.gz.gpg
-gpg: AES256 encrypted data
-gpg: encrypted with 1 passphrase
-
-$ tar zxvf ~/Desktop/decrypted-backup.tar.gz
-tar: Removing leading '/' from member names
-x Users/drduh/._Downloads
-x Users/drduh/Downloads/
-x Users/drduh/Downloads/._.DS_Store
-x Users/drduh/Downloads/.DS_Store
-x Users/drduh/Downloads/.localized
-x Users/drduh/Downloads/._TorBrowser-8.0.4-osx64_en-US.dmg.asc
-x Users/drduh/Downloads/TorBrowser-8.0.4-osx64_en-US.dmg.asc
-x Users/drduh/Downloads/._TorBrowser-8.0.4-osx64_en-US.dmg
-x Users/drduh/Downloads/TorBrowser-8.0.4-osx64_en-US.dmg
+tar zcvf - ~/Downloads | gpg -c > ~/Desktop/backup-$(date +%F-%H%M).tar.gz.gpg
 ```
 
-You can also create and use encrypted volumes using **Disk Utility** or `hdiutil`:
+Decrypt and decompress the directory:
 
 ```console
-$ hdiutil create ~/Desktop/encrypted.dmg -encryption -size 50M -volname "secretStuff" -fs JHFS+
-Enter a new password to secure "encrypted.dmg":
-Re-enter new password:
-....................................
-Created: /Users/drduh/Desktop/encrypted.img
+gpg -o ~/Desktop/decrypted-backup.tar.gz -d ~/Desktop/backup-*.tar.gz.gpg
 
-$ hdiutil mount ~/Desktop/encrypted.dmg
-Enter password to access "encrypted.dmg":
-[...]
-/Volumes/secretStuff
-
-$ cp -v ~/Documents/passwords.txt /Volumes/secretStuff
-[...]
-
-$ hdiutil eject /Volumes/secretStuff
-"disk4" unmounted.
-"disk4" ejected.
+tar zxvf ~/Desktop/decrypted-backup.tar.gz
 ```
 
-With `hdiutil` you are also able to add the option `-type SPARSE-BUNDLE`. With these sparse bundles you may achieve faster backups because after the first run, the updated information and some padding needs to be transferred.
-
-A simple way to synchronize this encrypted folder to another server is using rsync:
+Encrypted volumes can also be created using **Disk Utility** or `hdiutil`:
 
 ```console
-rsync --recursive --times --progress --delete --verbose --stats MyEncryptedDrive.sparsebundle user@server:/path/to/backup
+hdiutil create ~/Desktop/encrypted.dmg -encryption -size 50M -volname "secretStuff" -fs JHFS+
+
+hdiutil mount ~/Desktop/encrypted.dmg
+
+cp -v ~/Documents/passwords.txt /Volumes/secretStuff
+
+hdiutil eject /Volumes/secretStuff
 ```
 
-See also the following applications and services: [Tresorit](https://www.tresorit.com), [SpiderOak](https://www.spideroak.com/), [Arq](https://www.arqbackup.com/), [Espionage](https://www.espionageapp.com/), and [restic](https://restic.github.io/).
+Additional applications and services which offer backups include:
+
+* [Tresorit](https://www.tresorit.com)
+* [SpiderOak](https://www.spideroak.com)
+* [Arq](https://www.arqbackup.com)
+* [Espionage](https://www.espionageapp.com/)
+* [restic](https://restic.github.io)
 
 # Wi-Fi
 
@@ -1517,7 +1482,7 @@ tshark -Y "ssl.handshake.certificate" -Tfields \
 
 Also see the simple networking monitoring application [BonzaiThePenguin/Loading](https://github.com/BonzaiThePenguin/Loading).
 
-# Binary Whitelisting
+# Binary authorization
 
 [google/santa](https://github.com/google/santa/) is a security software developed for Google's corporate Macintosh fleet and open sourced.
 
@@ -1618,9 +1583,11 @@ $ ./foo
 Hello World
 ```
 
-Toggle Santa into "Lockdown" mode, which only allows whitelisted binaries to run:
+Toggle Santa into "Lockdown" mode, which only allows authorized binaries to run:
 
-    $ sudo defaults write /var/db/santa/config.plist ClientMode -int 2
+```console
+$ sudo defaults write /var/db/santa/config.plist ClientMode -int 2
+```
 
 Try to run the unsigned binary:
 
@@ -1638,7 +1605,7 @@ Identifier: 4e11da26feb48231d6e90b10c169b0f8ae1080f36c168ffe53b1616f7505baed
 Parent:     bash (701)
 ```
 
-To whitelist a specific binary, determine its SHA-256 sum:
+To authorize a binary, determine its SHA-256 sum:
 
 ```console
 $ santactl fileinfo /Users/demouser/foo
@@ -1650,7 +1617,7 @@ Code-signed          : No
 Rule                 : Blacklisted (Unknown)
 ```
 
-Add a whitelist rule:
+Add a new rule:
 
 ```console
 $ sudo santactl rule --whitelist --sha256 4e11da26feb48231d6e90b10c169b0f8ae1080f36c168ffe53b1616f7505baed
@@ -1679,7 +1646,7 @@ $ open /Applications/Google\ Chrome.app/
 LSOpenURLsWithRole() failed with error -10810 for the file /Applications/Google Chrome.app.
 ```
 
-Whitelist the application by its developer certificate (first item in the Signing Chain):
+Authorize the application by the developer certificate (first item in the Signing Chain):
 
 ```console
 $ santactl fileinfo /Applications/Google\ Chrome.app/
@@ -1718,7 +1685,7 @@ Signing Chain:
         Valid Until         : 2035/02/09 13:40:36 -0800
 ```
 
-In this case, `15b8ce88e10f04c88a5542234fbdfc1487e9c2f64058a05027c7c34fc4201153` is the SHA-256 of Google’s Apple developer certificate (team ID EQHXZ8M8AV). To whitelist it:
+In this case, `15b8ce88e10f04c88a5542234fbdfc1487e9c2f64058a05027c7c34fc4201153` is the SHA-256 of Google’s Apple developer certificate (team ID EQHXZ8M8AV) - authorize it:
 
 ```console
 $ sudo santactl rule --whitelist --certificate --sha256 15b8ce88e10f04c88a5542234fbdfc1487e9c2f64058a05027c7c34fc4201153
@@ -1739,7 +1706,7 @@ A log and configuration server for Santa is available in [Zentral](https://githu
 
 Zentral will support Santa in both MONITORING and LOCKDOWN operation mode. Clients need to be enrolled with a TLS connection to sync Santa Rules, all Santa events from endpoints are aggregated and logged back in Zentral. Santa events can trigger actions and notifications from within the Zentral Framework.
 
-**Note** Python, Bash and other interpreters are whitelisted (since they are signed by Apple's developer certificate), so Santa will not be able to block such scripts from executing. Thus, a potential non-binary program which disables Santa is a weakness (not vulnerability, since it is so by design) to take note of.
+**Note** Python, Bash and other interpreters are authorized (since they are signed by Apple's developer certificate), so Santa will not be able to block such scripts from executing. Thus, a potential non-binary program which disables Santa is a weakness (not vulnerability, since it is so by design) to take note of.
 
 # Miscellaneous
 
