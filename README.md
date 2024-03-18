@@ -950,8 +950,11 @@ XMPP isn't E2EE by default, you'll need to use [OMEMO](https://omemo.top) encryp
 
 ### iMessage
 
-iMessage, Apple's first party messenger, offers [quantum-resistant](https://security.apple.com/blog/imessage-pq3/) [E2EE](https://support.apple.com/guide/security/imessage-security-overview-secd9764312f) and the ability to verify keys via [Contact Key Verification](https://support.apple.com/118246) as well as [E2EE backups](https://support.apple.com/guide/security/advanced-data-protection-for-icloud-sec973254c5f). 
-@@ -952,14 +960,6 @@ You can use iMessage with either a [phone number or an email](https://support.ap
+iMessage is Apple's first party messenger.
+
+Make sure to enable [Contact Key Verification](https://support.apple.com/118246) and verify with anyone you message to ensure that you're messaging the right person.
+
+You can use iMessage with either a [phone number or an email](https://support.apple.com/108758#help), so decide pick on that you're comfortable with your contacts seeing.
 
 **Note:** By default, iCloud backup is enabled which stores copies of your message encryption keys on [Apple's servers](https://support.apple.com/102651) without E2EE. Either [disable iCloud backup](https://support.apple.com/guide/icloud/view-and-manage-backups-mm122d3ef202/1.0/icloud/1.0) or enable [Advanced Data Protection](https://support.apple.com/guide/security/advanced-data-protection-for-icloud-sec973254c5f) to prevent this. Also remember to tell your messaging partner/s to do the same!
 
