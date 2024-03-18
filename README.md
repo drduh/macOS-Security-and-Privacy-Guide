@@ -986,6 +986,8 @@ Applications such as [BlockBlock](https://objective-see.com/products/blockblock.
 
 Locally installed **Anti-virus** programs are generally a double-edged sword: they may catch "garden variety" malware, but also may increase the attack surface for sophisticated adversaries due to their privileged operating mode.
 
+They also typically phone home to send samples in order to catch the newest malware. This can be a privacy concern for some. They also tend to require payment information, and have run [crypto mining software](https://www.tomsguide.com/news/norton-crypto) on their users' machines before. Usually they come bundled with lots of other "services" like VPNs and file backup programs and such.
+
 See [Sophail: Applied attacks against Antivirus](https://lock.cmpxchg8b.com/sophailv2.pdf) (pdf), [Analysis and Exploitation of an ESET Vulnerability](https://googleprojectzero.blogspot.ro/2015/06/analysis-and-exploitation-of-eset.html), [a trivial Avast RCE](https://code.google.com/p/google-security-research/issues/detail?id=546), [Popular Security Software Came Under Relentless NSA and GCHQ Attacks](https://theintercept.com/2015/06/22/nsa-gchq-targeted-kaspersky/), [How Israel Caught Russian Hackers Scouring the World for U.S. Secrets](https://www.nytimes.com/2017/10/10/technology/kaspersky-lab-israel-russia-hacking.html) and [AVG: "Web TuneUP" extension multiple critical vulnerabilities](https://code.google.com/p/google-security-research/issues/detail?id=675).
 
 ## Gatekeeper
