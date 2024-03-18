@@ -494,7 +494,7 @@ See also [What is a DNS leak](https://dnsleaktest.com/what-is-a-dns-leak.html) a
 
 #### Dnsmasq
 
-Among other features, [dnsmasq](https://www.thekelleys.org.uk/dnsmasq/doc.html) is able to cache replies, prevent upstream queries for unqualified names, and block entire top-level domain names.
+Among other features, [dnsmasq](https://www.thekelleys.org.uk/dnsmasq/doc.html) is able to cache replies, prevent upstream queries for unqualified names, and block entire top-level domains.
 
 Use in combination with DNSCrypt to additionally encrypt DNS traffic.
 
@@ -502,19 +502,15 @@ If you don't wish to use DNSCrypt, you should at least use DNS [not provided](ht
 
 **Optional** [DNSSEC](https://en.wikipedia.org/wiki/Domain_Name_System_Security_Extensions) is a set of extensions to DNS which provide to DNS clients (resolvers) origin authentication of DNS data, authenticated denial of existence, and data integrity. All answers from DNSSEC protected zones are digitally signed. The signed records are authenticated via a chain of trust, starting with a set of verified public keys for the DNS root-zone. The current root-zone trust anchors may be downloaded [from IANA website](https://www.iana.org/dnssec/files). There are a number of resources on DNSSEC, but probably the best one is [dnssec.net website](https://www.dnssec.net).
 
-Install Dnsmasq (DNSSEC is optional):
+Install Dnsmasq:
 
 ```console
 brew install dnsmasq --with-dnssec
 ```
 
-Download [drduh/config/dnsmasq.conf](https://github.com/drduh/config/blob/master/dnsmasq.conf):
+Download and edit [drduh/config/dnsmasq.conf](https://github.com/drduh/config/blob/master/dnsmasq.conf) or the default configuration file.
 
-```
-curl -o homebrew/etc/dnsmasq.conf https://raw.githubusercontent.com/drduh/config/master/dnsmasq.conf
-```
-
-Edit the file and examine all the options. To block entire levels of domains, append [drduh/config/domains](https://github.com/drduh/config/tree/master/domains) or your own rules.
+See [drduh/config/domains](https://github.com/drduh/config/tree/master/domains) for appendable examples on blocking services by domains.
 
 Install and start the program (sudo is required to bind to [privileged port](https://unix.stackexchange.com/questions/16564/why-are-the-first-1024-ports-restricted-to-the-root-user-only) 53):
 
@@ -522,7 +518,7 @@ Install and start the program (sudo is required to bind to [privileged port](htt
 sudo brew services start dnsmasq
 ```
 
-To set Dnsmasq as your local DNS server, open **System Preferences** > **Network** and select the active interface, then the **DNS** tab, select **+** and add `127.0.0.1`, or use:
+To set dnsmasq as the local DNS server, open **System Preferences** > **Network** and select the active interface, then the **DNS** tab, select **+** and add `127.0.0.1`, or use:
 
 ```console
 sudo networksetup -setdnsservers "Wi-Fi" 127.0.0.1
@@ -584,13 +580,9 @@ The risk of a [man in the middle](https://wikipedia.org/wiki/Man-in-the-middle_a
 
 ### Privoxy
 
-Consider using [Privoxy](https://www.privoxy.org/) as a local proxy to filter Web browsing traffic.
+Consider using [Privoxy](https://www.privoxy.org/) as a local proxy to filter Web traffic.
 
-**Note** macOS proxy settings are not universal; apps and services may not honor system proxy settings. Ensure the application you wish to proxy is correctly configured and verify connections don't leak. Additionally, it may be possible to configure the *pf* firewall to transparently proxy all traffic.
-
-A signed installation package for privoxy can be downloaded from [silvester.org.uk](https://silvester.org.uk/privoxy/Macintosh%20%28OS%20X%29/) or [Sourceforge](https://sourceforge.net/projects/ijbswa/files/Macintosh%20%28OS%20X%29/). The signed package is [more secure](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/65) than the Homebrew version, and attracts full support from the Privoxy project.
-
-Alternatively, install and start privoxy using Homebrew:
+Install and start privoxy using Homebrew:
 
 ```console
 brew install privoxy
@@ -598,19 +590,23 @@ brew install privoxy
 brew services start privoxy
 ```
 
-Privoxy listens on local TCP port 8118 by default.
+Alternatively, a signed installation package for Privoxy is available from [silvester.org.uk](https://silvester.org.uk/privoxy/Macintosh%20%28OS%20X%29/) or [Sourceforge](https://sourceforge.net/projects/ijbswa/files/Macintosh%20%28OS%20X%29/). The signed package is [more secure](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/65) than the Homebrew version and receives support from the Privoxy project.
 
-Set the system **HTTP** proxy for your active network interface `127.0.0.1` and `8118` (This can be done through **System Preferences > Network > Advanced > Proxies**):
+By default, Privoxy listens on local TCP port 8118.
+
+Set the system **HTTP** proxy for the active network interface `127.0.0.1` and `8118`:
 
 ```console
 sudo networksetup -setwebproxy "Wi-Fi" 127.0.0.1 8118
 ```
 
-**Optional** Set the system **HTTPS** proxy, which still allows for domain name filtering, with:
+Set the system **HTTPS** proxy:
 
 ```console
 sudo networksetup -setsecurewebproxy "Wi-Fi" 127.0.0.1 8118
 ```
+
+This can also be done through **System Preferences > Network > Advanced > Proxies**
 
 Confirm the proxy is set:
 
@@ -628,47 +624,63 @@ $ scutil --proxy
 }
 ```
 
-Visit <http://p.p/> in a browser, or with Curl:
+Although most Web traffic today is encrypted, Privoxy is still useful for filtering by domain name patterns, and for upgrading insecure HTTP requests.
+
+For example, the following rules block all traffic, except to `.net` and `github.com` and all `apple` domains:
 
 ```console
-$ ALL_PROXY=127.0.0.1:8118 curl -I http://p.p/
-HTTP/1.1 200 OK
-Content-Length: 2401
+{ +block{all} }
+.
+
+{ -block }
+.apple.
+.github.com
+.net
+```
+
+Or to just block Facebook domains, for example:
+
+```console
+{ +block{facebook} }
+.facebook*.
+.fb.
+.fbcdn*.
+.fbinfra.
+.fbsbx.
+.fbsv.
+.fburl.
+.tfbnw.
+.thefacebook.
+fb*.akamaihd.net
+```
+
+Note that wildcards are supported.
+
+See [drduh/config/privoxy/config](https://github.com/drduh/config/blob/master/privoxy/config) and [drduh/config/privoxy/user.action](https://github.com/drduh/config/blob/master/privoxy/user.action) for additional Privoxy examples. Privoxy does **not** need to be restarted after editing `user.action` filter rules.
+
+To verify traffic is blocked or redirected, use curl or the Privoxy interface available at <http://p.p> in the browser:
+
+```console
+ALL_PROXY=127.0.0.1:8118 curl example.com -IL | head
+
+HTTP/1.1 403 Request blocked by Privoxy
+Content-Length: 9001
 Content-Type: text/html
 Cache-Control: no-cache
-```
+Pragma: no-cache
 
-Privoxy already comes with many good rules, however you can also write your own.
-
-Download [drduh/config/privoxy/config](https://github.com/drduh/config/blob/master/privoxy/config) and [drduh/config/privoxy/user.action](https://github.com/drduh/config/blob/master/privoxy/user.action) to get started:
-
-```console
-curl -o homebrew/etc/privoxy/config https://raw.githubusercontent.com/drduh/config/master/privoxy/config
-
-curl -o homebrew/etc/privoxy/user.action https://raw.githubusercontent.com/drduh/config/master/privoxy/user.action
-```
-
-Restart Privoxy and verify traffic is blocked or redirected:
-
-```console
-$ sudo brew services restart privoxy
-
-$ ALL_PROXY=127.0.0.1:8118 curl ads.foo.com/ -IL
-HTTP/1.1 403 Request blocked by Privoxy
-Content-Type: image/gif
-Content-Length: 64
-Cache-Control: no-cache
-
-$ ALL_PROXY=127.0.0.1:8118 curl imgur.com/ -IL
+ALL_PROXY=127.0.0.1:8118 curl github.com -IL | head
 HTTP/1.1 302 Local Redirect from Privoxy
-Location: https://imgur.com/
+Location: https://github.com/
 Content-Length: 0
 
-HTTP/1.1 200 OK
-Content-Type: text/html; charset=utf-8
+HTTP/1.1 200 Connection established
+
+HTTP/2 200
+server: GitHub.com
 ```
 
-You can replace ad images with pictures of kittens, for example, by starting a local Web server and [redirecting blocked requests](https://www.privoxy.org/user-manual/actions-file.html#SET-IMAGE-BLOCKER) to localhost.
+**Note** macOS proxy settings are not universal; apps and services may not honor system proxy settings. Ensure the application you wish to proxy is correctly configured and verify connections don't leak. Additionally, *pf* can be configured to transparently proxy traffic on certain ports.
 
 ### Browser
 
