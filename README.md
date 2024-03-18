@@ -990,7 +990,7 @@ See [Sophail: Applied attacks against Antivirus](https://lock.cmpxchg8b.com/soph
 
 ## Gatekeeper
 
-**Gatekeeper** and the **quarantine** system try to prevent non-notarized .app files from running.
+**Gatekeeper** tries to prevent non-notarized .app files from running.
 
 If you try to run an app that isn't notarized, it will give you a warning. This can be easily bypassed if you open finder to where the program is and right click/control click on it and click Open. Then Gatekeeper will allow you to run it.
 
