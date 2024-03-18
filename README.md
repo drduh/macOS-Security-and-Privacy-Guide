@@ -19,7 +19,7 @@ To suggest an improvement, send a pull request or [open an issue](https://github
    * [App Store](#app-store)
    * [Virtualization](#virtualization)
 - [First boot](#first-boot)
-- [Admin and standard user accounts](#admin-and-standard-user-accounts)
+- [Admin and user accounts](#admin-and-user-accounts)
    * [Caveats](#caveats)
    * [Setup](#setup)
 - [Firmware](#firmware)
@@ -66,14 +66,14 @@ To suggest an improvement, send a pull request or [open an issue](https://github
    * [DTrace](#dtrace)
    * [Execution](#execution)
    * [Network](#network)
-- [Binary Whitelisting](#binary-whitelisting)
+- [Binary authorization](#binary-authorization)
 - [Miscellaneous](#miscellaneous)
 - [Related software](#related-software)
 - [Additional resources](#additional-resources)
 
 # Basics
 
-Standard security best practices apply:
+General security best practices apply:
 
 - Create a [threat model](https://www.owasp.org/index.php/Application_Threat_Modeling)
   * What are you trying to protect and from whom? Is your adversary a three letter agency, a nosy eavesdropper on the network, or a determined [APT](https://en.wikipedia.org/wiki/Advanced_persistent_threat) orchestrating a campaign against you?
@@ -153,7 +153,7 @@ sudo scutil --set ComputerName MacBook
 sudo scutil --set LocalHostName MacBook
 ```
 
-# Admin and standard user accounts
+# Admin and user accounts
 
 The first user account is always an admin account. Admin accounts are members of the admin group and have access to `sudo`, which allows them to usurp other accounts, in particular root, and gives them effective control over the system. Any program that the admin executes can potentially obtain the same access, making this a security risk.
 
@@ -1268,25 +1268,25 @@ The password assistant in **Keychain Access** can also generate secure credentia
 
 Consider using [Diceware](https://secure.research.vt.edu/diceware/) for memorable passwords.
 
-GnuPG can also be used to manage passwords and other encrypted files (see [drduh/Purse](https://github.com/drduh/Purse) and [drduh/pwd.sh](https://github.com/drduh/pwd.sh) for example).
+GnuPG can also be used to manage passwords and other encrypted files (see [drduh/Purse](https://github.com/drduh/Purse) and [drduh/pwd.sh](https://github.com/drduh/pwd.sh)).
 
 Ensure all eligible online accounts have [multi-factor authentication](https://en.wikipedia.org/wiki/Multi-factor_authentication) enabled. The strongest form of multi-factor authentication is [WebAuthN](https://en.wikipedia.org/wiki/WebAuthn), followed by app-based authenticators, and SMS-based codes are weakest.
 
-[YubiKey](https://www.yubico.com/products/) is an affordable hardware tokens which offers WebAuthN. It can also be used to store cryptographic keys for GnuPG encryption and SSH authentication - see [drduh/YubiKey-Guide](https://github.com/drduh/YubiKey-Guide).
+[YubiKey](https://www.yubico.com/products/) is an affordable hardware token with WebAuthN support. It can also be used to store cryptographic keys for GnuPG encryption and SSH authentication - see [drduh/YubiKey-Guide](https://github.com/drduh/YubiKey-Guide).
 
 # Backup
 
-Always encrypt files locally before backing them up to external media or online services.
+Encrypt files locally before backing them up to external media or online services.
 
 GnuPG can be used with a static password or public key (with the private key stored on [YubiKey](https://github.com/drduh/YubiKey-Guide)).
 
-To compress and encrypt a directory using a password:
+Compress and encrypt a directory using with a password:
 
 ```console
 tar zcvf - ~/Downloads | gpg -c > ~/Desktop/backup-$(date +%F-%H%M).tar.gz.gpg
 ```
 
-To decrypt and decompress the directory:
+Decrypt and decompress the directory:
 
 ```console
 gpg -o ~/Desktop/decrypted-backup.tar.gz -d ~/Desktop/backup-*.tar.gz.gpg
@@ -1307,6 +1307,7 @@ hdiutil eject /Volumes/secretStuff
 ```
 
 Additional applications and services which offer backups include:
+
 * [Tresorit](https://www.tresorit.com)
 * [SpiderOak](https://www.spideroak.com)
 * [Arq](https://www.arqbackup.com)
@@ -1481,7 +1482,7 @@ tshark -Y "ssl.handshake.certificate" -Tfields \
 
 Also see the simple networking monitoring application [BonzaiThePenguin/Loading](https://github.com/BonzaiThePenguin/Loading).
 
-# Binary Whitelisting
+# Binary authorization
 
 [google/santa](https://github.com/google/santa/) is a security software developed for Google's corporate Macintosh fleet and open sourced.
 
@@ -1582,9 +1583,11 @@ $ ./foo
 Hello World
 ```
 
-Toggle Santa into "Lockdown" mode, which only allows whitelisted binaries to run:
+Toggle Santa into "Lockdown" mode, which only allows authorized binaries to run:
 
-    $ sudo defaults write /var/db/santa/config.plist ClientMode -int 2
+```console
+$ sudo defaults write /var/db/santa/config.plist ClientMode -int 2
+```
 
 Try to run the unsigned binary:
 
@@ -1602,7 +1605,7 @@ Identifier: 4e11da26feb48231d6e90b10c169b0f8ae1080f36c168ffe53b1616f7505baed
 Parent:     bash (701)
 ```
 
-To whitelist a specific binary, determine its SHA-256 sum:
+To authorize a binary, determine its SHA-256 sum:
 
 ```console
 $ santactl fileinfo /Users/demouser/foo
@@ -1614,7 +1617,7 @@ Code-signed          : No
 Rule                 : Blacklisted (Unknown)
 ```
 
-Add a whitelist rule:
+Add a new rule:
 
 ```console
 $ sudo santactl rule --whitelist --sha256 4e11da26feb48231d6e90b10c169b0f8ae1080f36c168ffe53b1616f7505baed
@@ -1643,7 +1646,7 @@ $ open /Applications/Google\ Chrome.app/
 LSOpenURLsWithRole() failed with error -10810 for the file /Applications/Google Chrome.app.
 ```
 
-Whitelist the application by its developer certificate (first item in the Signing Chain):
+Authorize the application by the developer certificate (first item in the Signing Chain):
 
 ```console
 $ santactl fileinfo /Applications/Google\ Chrome.app/
@@ -1682,7 +1685,7 @@ Signing Chain:
         Valid Until         : 2035/02/09 13:40:36 -0800
 ```
 
-In this case, `15b8ce88e10f04c88a5542234fbdfc1487e9c2f64058a05027c7c34fc4201153` is the SHA-256 of Google’s Apple developer certificate (team ID EQHXZ8M8AV). To whitelist it:
+In this case, `15b8ce88e10f04c88a5542234fbdfc1487e9c2f64058a05027c7c34fc4201153` is the SHA-256 of Google’s Apple developer certificate (team ID EQHXZ8M8AV) - authorize it:
 
 ```console
 $ sudo santactl rule --whitelist --certificate --sha256 15b8ce88e10f04c88a5542234fbdfc1487e9c2f64058a05027c7c34fc4201153
@@ -1703,7 +1706,7 @@ A log and configuration server for Santa is available in [Zentral](https://githu
 
 Zentral will support Santa in both MONITORING and LOCKDOWN operation mode. Clients need to be enrolled with a TLS connection to sync Santa Rules, all Santa events from endpoints are aggregated and logged back in Zentral. Santa events can trigger actions and notifications from within the Zentral Framework.
 
-**Note** Python, Bash and other interpreters are whitelisted (since they are signed by Apple's developer certificate), so Santa will not be able to block such scripts from executing. Thus, a potential non-binary program which disables Santa is a weakness (not vulnerability, since it is so by design) to take note of.
+**Note** Python, Bash and other interpreters are authorized (since they are signed by Apple's developer certificate), so Santa will not be able to block such scripts from executing. Thus, a potential non-binary program which disables Santa is a weakness (not vulnerability, since it is so by design) to take note of.
 
 # Miscellaneous
 
