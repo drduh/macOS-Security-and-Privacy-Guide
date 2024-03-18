@@ -968,9 +968,13 @@ There is an [ever-increasing](https://www.documentcloud.org/documents/2459197-bi
 
 Some malware comes bundled with both legitimate software, such as the [Java bundling Ask Toolbar](https://www.zdnet.com/article/oracle-extends-its-adware-bundling-to-include-java-for-macs/), and some with illegitimate software, such as [Mac.BackDoor.iWorm](https://docs.google.com/document/d/1YOfXRUQJgMjJSLBSoLiUaSZfiaS_vU3aG4Bvjmz6Dxs/edit?pli=1) bundled with pirated programs. Only running programs from the App Store or [Notarized](https://support.apple.com/guide/security/app-code-signing-process-sec3ad8e6e53/web) by Apple will help mitigate this issue. This process ensures that the software is made by the real developers and that it hasn't been tampered with between the developers and your computer. App Store apps undergo a [review](https://developer.apple.com/app-store/review/guidelines/) process to catch malware. Apple automatically scans notarized apps for malware.
 
+See [Methods of malware persistence on Mac OS X](https://www.virusbtn.com/pdf/conference/vb2014/VB2014-Wardle.pdf) (pdf) and [Malware Persistence on OS X Yosemite](https://www.rsaconference.com/events/us15/agenda/sessions/1591/malware-persistence-on-os-x-yosemite) to learn about how garden-variety malware functions.
+
+## Antivirus
+
 To scan an application with multiple AV products and examine its behavior, upload it to [VirusTotal](https://www.virustotal.com/#/home/upload) before running it.
 
-See [Methods of malware persistence on Mac OS X](https://www.virusbtn.com/pdf/conference/vb2014/VB2014-Wardle.pdf) (pdf) and [Malware Persistence on OS X Yosemite](https://www.rsaconference.com/events/us15/agenda/sessions/1591/malware-persistence-on-os-x-yosemite) to learn about how garden-variety malware functions.
+macOS comes with a built-in AV program called [XProtect](https://support.apple.com/guide/security/protecting-against-malware-sec469d47bd8). XProtect automatically runs in the background and updates its signatures that it uses to detect malware without you having to do anything. If it detects malware already running, it will work to remove and mitigate it just like any other AV program.
 
 Applications such as [BlockBlock](https://objective-see.com/products/blockblock.html) will help. An alternative could be [maclaunch.sh](https://github.com/hazcod/maclaunch).
 
@@ -991,10 +995,6 @@ To verify SIP is enabled, use the command `csrutil status`, which should return:
 # Gatekeeper and XProtect
 
 **Gatekeeper** and the **quarantine** system try to prevent unsigned or "bad" programs and files from running and opening.
-
-**XProtect** prevents the execution of known bad files and outdated plugin versions, but does nothing to cleanup or stop existing malware.
-
-See also [Gatekeeper, XProtect and the Quarantine attribute](https://ilostmynotes.blogspot.com/2012/06/gatekeeper-xprotect-and-quarantine.html).
 
 **Note** Quarantine stores information about downloaded files in `~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2`, which may pose a privacy risk. To examine the file, simply use `strings` or the following command:
 
