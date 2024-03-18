@@ -970,7 +970,7 @@ Some malware comes bundled with both legitimate software, such as the [Java bund
 
 See [Methods of malware persistence on Mac OS X](https://www.virusbtn.com/pdf/conference/vb2014/VB2014-Wardle.pdf) (pdf) and [Malware Persistence on OS X Yosemite](https://www.rsaconference.com/events/us15/agenda/sessions/1591/malware-persistence-on-os-x-yosemite) to learn about how garden-variety malware functions.
 
-You could periodically run a tool like [KnockKnock](https://objective-see.org/products/knockknock.html) to examine persistent applications (e.g. scripts, binaries). But by then, it is probably too late. Maybe applications such as [BlockBlock](https://objective-see.com/products/blockblock.html) will help. See warnings and caveats in [issue 90](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/90) first, however. An open-source alternative could be [maclaunch.sh](https://github.com/hazcod/maclaunch).
+Applications such as [BlockBlock](https://objective-see.com/products/blockblock.html) will help. An alternative could be [maclaunch.sh](https://github.com/hazcod/maclaunch).
 
 **Anti-virus** programs are generally a double-edged sword: they may catch "garden variety" malware, but also may increase the attack surface for sophisticated adversaries due to their privileged operating mode.
 
