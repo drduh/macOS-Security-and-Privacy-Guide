@@ -956,7 +956,7 @@ Signal requires a phone number to sign up and you'll need to install it on your 
 
 ### iMessage
 
-iMessage is Apple's first party messenger.
+iMessage is Apple's first party messenger. It requires an [Apple ID](#apple-id) in order to use it.
 
 Make sure to enable [Contact Key Verification](https://support.apple.com/118246) and verify with anyone you message to ensure that you're messaging the right person.
 
