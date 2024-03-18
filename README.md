@@ -52,7 +52,7 @@ This guide is also available in [简体中文](https://github.com/drduh/macOS-Se
 - [Tor](#tor)
 - [VPN](#vpn)
 - [PGP/GPG](#pgpgpg)
-- [OTR](#otr)
+- [Messengers](#messengers)
 - [Viruses and malware](#viruses-and-malware)
 - [System Integrity Protection](#system-integrity-protection)
 - [Gatekeeper and XProtect](#gatekeeper-and-xprotect)
@@ -938,21 +938,31 @@ See [drduh/YubiKey-Guide](https://github.com/drduh/YubiKey-Guide) to securely ge
 
 Read [online](https://alexcabal.com/creating-the-perfect-gpg-keypair/) [guides](https://security.stackexchange.com/questions/31594/what-is-a-good-general-purpose-gnupg-key-setup) and [practice](https://help.riseup.net/en/security/message-security/openpgp/best-practices) encrypting and decrypting email to yourself and your friends. Get them interested in this stuff!
 
-## OTR
+## Messengers
 
-**Note** Strongly consider using [Signal](https://github.com/signalapp/Signal-Desktop) instead.
+### XMPP
 
-OTR stands for **off-the-record** and is a cryptographic protocol for encrypting and authenticating conversations over instant messaging.
+XMPP is an [open standard](https://xmpp.org/extensions) developed by the [IETF](https://www.ietf.org) that allows for cross-platform federated messaging. There are many options for [clients](https://xmpp.org/getting-started). Consider using one of the browser-based clients to take advantage of your browser's sandbox.
 
-You can use OTR on top of any existing [XMPP](https://xmpp.org/about) chat service, even Google Hangouts (which only encrypts conversations between users and the server using TLS).
+Depending on the provider, you might not need anything other than a username and password to set up your account.
 
-The first time you start a conversation with someone new, you'll be asked to verify their public key fingerprint. Do this in person or by other secure means, such as GPG.
+XMPP isn't E2EE by default, you'll need to use [OMEMO](https://omemo.top) encryption, so make sure your client supports it.
 
-A popular macOS GUI client for XMPP and other chat protocols is [Adium](https://adium.im/).
+### Signal
 
-Other XMPP clients include [agl/xmpp-client](https://github.com/agl/xmpp-client) and [CoyIM](https://coy.im/), which is focused on security and has built-in support for OTR and Tor.
+[Signal](https://www.signal.org) is an advanced E2EE messenger whose [double-ratchet](https://signal.org/docs/specifications/doubleratchet/) protocol is used by countless other messengers including WhatsApp, Google Messages, and Facebook Messenger.
 
-If you want to know how OTR works, read the paper [Off-the-Record Communication, or, Why Not To Use PGP](https://otr.cypherpunks.ca/otr-wpes.pdf) (pdf)
+Signal requires a phone number to sign up and you'll need to install it on your phone first before you can use it on desktop.
+
+### iMessage
+
+iMessage is Apple's first party messenger. It requires an [Apple ID](#apple-id) in order to use it.
+
+Make sure to enable [Contact Key Verification](https://support.apple.com/118246) and verify with anyone you message to ensure that you're messaging the right person.
+
+You can use iMessage with either a [phone number or an email](https://support.apple.com/108758#help), so pick one that you're comfortable with your contacts seeing.
+
+**Note:** By default, iCloud backup is enabled which stores copies of your message encryption keys on [Apple's servers](https://support.apple.com/102651) without E2EE. Either [disable iCloud backup](https://support.apple.com/guide/icloud/view-and-manage-backups-mm122d3ef202/1.0/icloud/1.0) or enable [Advanced Data Protection](https://support.apple.com/guide/security/advanced-data-protection-for-icloud-sec973254c5f) to prevent this. Also remember to tell your messaging partner/s to do the same!
 
 ## Viruses and malware
 
