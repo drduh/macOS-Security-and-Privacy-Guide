@@ -950,7 +950,7 @@ XMPP isn't E2EE by default, you'll need to use [OMEMO](https://omemo.top) encryp
 
 ### Signal
 
-[Signal](https://www.signal.org) is an advanced E2EE messenger whose [double-ratchet](https://signal.org/docs/specifications/doubleratchet/) protocol is used by countless others including WhatsApp, Google Messages, and Facebook Messenger.
+[Signal](https://www.signal.org) is an advanced E2EE messenger whose [double-ratchet](https://signal.org/docs/specifications/doubleratchet/) protocol is used by countless other messengers including WhatsApp, Google Messages, and Facebook Messenger.
 
 Signal requires a phone number to sign up and you'll need to install it on your phone first before you can use it on desktop.
 
