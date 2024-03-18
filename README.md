@@ -970,6 +970,12 @@ Some malware comes bundled with both legitimate software, such as the [Java bund
 
 See [Methods of malware persistence on Mac OS X](https://www.virusbtn.com/pdf/conference/vb2014/VB2014-Wardle.pdf) (pdf) and [Malware Persistence on OS X Yosemite](https://www.rsaconference.com/events/us15/agenda/sessions/1591/malware-persistence-on-os-x-yosemite) to learn about how garden-variety malware functions.
 
+Local privilege escalation bugs are plenty on macOS, so always be careful when downloading and running untrusted programs or trusted programs from third party websites or downloaded over HTTP ([example](https://arstechnica.com/security/2015/08/0-day-bug-in-fully-patched-os-x-comes-under-active-exploit-to-hijack-macs/)).
+
+Subscribe to updates at [The Safe Mac](http://www.thesafemac.com/) and [Malwarebytes Blog](https://blog.malwarebytes.com/) for current Mac security news.
+
+Also check out [Hacking Team](https://www.schneier.com/blog/archives/2015/07/hacking_team_is.html) malware for macOS: [root installation for MacOS](https://github.com/hackedteam/vector-macos-root), [Support driver for Mac Agent](https://github.com/hackedteam/driver-macos) and [RCS Agent for Mac](https://github.com/hackedteam/core-macos), which is a good example of advanced malware with capabilities to hide from userland (e.g., `ps`, `ls`). For more, see [A Brief Analysis of an RCS Implant Installer](https://objective-see.com/blog/blog_0x0D.html) and [reverse.put.as](https://reverse.put.as/2016/02/29/the-italian-morons-are-back-what-are-they-up-to-this-time/)
+
 ## Antivirus
 
 To scan an application with multiple AV products and examine its behavior, upload it to [VirusTotal](https://www.virustotal.com/#/home/upload) before running it.
@@ -982,43 +988,17 @@ Locally installed **Anti-virus** programs are generally a double-edged sword: th
 
 See [Sophail: Applied attacks against Antivirus](https://lock.cmpxchg8b.com/sophailv2.pdf) (pdf), [Analysis and Exploitation of an ESET Vulnerability](https://googleprojectzero.blogspot.ro/2015/06/analysis-and-exploitation-of-eset.html), [a trivial Avast RCE](https://code.google.com/p/google-security-research/issues/detail?id=546), [Popular Security Software Came Under Relentless NSA and GCHQ Attacks](https://theintercept.com/2015/06/22/nsa-gchq-targeted-kaspersky/), [How Israel Caught Russian Hackers Scouring the World for U.S. Secrets](https://www.nytimes.com/2017/10/10/technology/kaspersky-lab-israel-russia-hacking.html) and [AVG: "Web TuneUP" extension multiple critical vulnerabilities](https://code.google.com/p/google-security-research/issues/detail?id=675).
 
-Local privilege escalation bugs are plenty on macOS, so always be careful when downloading and running untrusted programs or trusted programs from third party websites or downloaded over HTTP ([example](https://arstechnica.com/security/2015/08/0-day-bug-in-fully-patched-os-x-comes-under-active-exploit-to-hijack-macs/)).
+## Gatekeeper
 
-Subscribe to updates at [The Safe Mac](http://www.thesafemac.com/) and [Malwarebytes Blog](https://blog.malwarebytes.com/) for current Mac security news.
+**Gatekeeper** and the **quarantine** system try to prevent non-notarized .app files from running.
 
-Also check out [Hacking Team](https://www.schneier.com/blog/archives/2015/07/hacking_team_is.html) malware for macOS: [root installation for MacOS](https://github.com/hackedteam/vector-macos-root), [Support driver for Mac Agent](https://github.com/hackedteam/driver-macos) and [RCS Agent for Mac](https://github.com/hackedteam/core-macos), which is a good example of advanced malware with capabilities to hide from userland (e.g., `ps`, `ls`). For more, see [A Brief Analysis of an RCS Implant Installer](https://objective-see.com/blog/blog_0x0D.html) and [reverse.put.as](https://reverse.put.as/2016/02/29/the-italian-morons-are-back-what-are-they-up-to-this-time/)
+If you try to run an app that isn't notarized, it will give you a warning. This can be easily bypassed if you open finder to where the program is and right click/control click on it and click Open. Then Gatekeeper will allow you to run it.
+
+Gatekeeper doesn't cover all binaries, only .app files so be careful when running other file types.
 
 # System Integrity Protection
 
 To verify SIP is enabled, use the command `csrutil status`, which should return: `System Integrity Protection status: enabled.` Otherwise, [enable SIP](https://developer.apple.com/library/content/documentation/Security/Conceptual/System_Integrity_Protection_Guide/ConfiguringSystemIntegrityProtection/ConfiguringSystemIntegrityProtection.html) through Recovery Mode.
-
-# Gatekeeper and XProtect
-
-**Gatekeeper** and the **quarantine** system try to prevent unsigned or "bad" programs and files from running and opening.
-
-**Note** Quarantine stores information about downloaded files in `~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2`, which may pose a privacy risk. To examine the file, simply use `strings` or the following command:
-
-```console
-echo 'SELECT datetime(LSQuarantineTimeStamp + 978307200, "unixepoch") as LSQuarantineTimeStamp, ' \
-  'LSQuarantineAgentName, LSQuarantineOriginURLString, LSQuarantineDataURLString from LSQuarantineEvent;' | \
-  sqlite3 /Users/$USER/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2
-```
-
-To permanently disable this feature, [clear the file](https://superuser.com/questions/90008/how-to-clear-the-contents-of-a-file-from-the-command-line) and make it immutable:
-
-```console
-:>~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2
-
-sudo chflags schg ~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2
-```
-
-Alternatively, you can also disable Gatekeeper using the following command:
-
-```console
-sudo spctl --master-disable
-```
-
-(See <https://disable-gatekeeper.github.io/> and <https://objective-see.com/blog/blog_0x64.html> for reference)
 
 # Metadata and artifacts
 
