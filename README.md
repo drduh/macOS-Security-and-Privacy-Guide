@@ -53,6 +53,7 @@ To suggest an improvement, send a pull request or [open an issue](https://github
    * [Signal](#signal)
    * [iMessage](#imessage)
 - [Viruses and malware](#viruses-and-malware)
+   * [Prevention](#prevention)
    * [Antivirus](#antivirus)
    * [Gatekeeper](#gatekeeper)
 - [System Integrity Protection](#system-integrity-protection)
@@ -967,7 +968,13 @@ You can use iMessage with either a [phone number or an email](https://support.ap
 
 There is an [ever-increasing](https://www.documentcloud.org/documents/2459197-bit9-carbon-black-threat-research-report-2015.html) amount of Mac malware in the wild. Macs aren't immune from viruses and malicious software!
 
-Some malware comes bundled with both legitimate software, such as the [Java bundling Ask Toolbar](https://www.zdnet.com/article/oracle-extends-its-adware-bundling-to-include-java-for-macs/), and some with illegitimate software, such as [Mac.BackDoor.iWorm](https://docs.google.com/document/d/1YOfXRUQJgMjJSLBSoLiUaSZfiaS_vU3aG4Bvjmz6Dxs/edit?pli=1) bundled with pirated programs. Only running programs from the App Store or that are [Notarized](https://support.apple.com/guide/security/app-code-signing-process-sec3ad8e6e53/web) by Apple will help mitigate this issue. The notarization process ensures that the software is made by the real developers and that it hasn't been tampered with between the developers and your computer. App Store apps undergo a [review](https://developer.apple.com/app-store/review/guidelines/) process to catch malware. Apple automatically scans notarized apps for malware. You should also avoid programs that ask for lots of permissions and closed source programs.
+Some malware comes bundled with both legitimate software, such as the [Java bundling Ask Toolbar](https://www.zdnet.com/article/oracle-extends-its-adware-bundling-to-include-java-for-macs/), and some with illegitimate software, such as [Mac.BackDoor.iWorm](https://docs.google.com/document/d/1YOfXRUQJgMjJSLBSoLiUaSZfiaS_vU3aG4Bvjmz6Dxs/edit?pli=1) bundled with pirated programs. 
+
+## Prevention
+
+Only running programs from the App Store or that are [Notarized](https://support.apple.com/guide/security/app-code-signing-process-sec3ad8e6e53/web) by Apple will help mitigate malware. The notarization process ensures that the software is made by the real developers and that it hasn't been tampered with between the developers and your computer. App Store apps undergo a [review](https://developer.apple.com/app-store/review/guidelines/) process to catch malware. Apple performs and automated scan on notarized apps for malware. 
+
+You should also avoid programs that ask for lots of permissions and third party closed source programs.
 
 See [Methods of malware persistence on Mac OS X](https://www.virusbtn.com/pdf/conference/vb2014/VB2014-Wardle.pdf) (pdf) and [Malware Persistence on OS X Yosemite](https://www.rsaconference.com/events/us15/agenda/sessions/1591/malware-persistence-on-os-x-yosemite) to learn about how garden-variety malware functions.
 
