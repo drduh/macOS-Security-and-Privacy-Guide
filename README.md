@@ -1006,6 +1006,8 @@ Alternatively, you can check while the app is running by opening Activity Monito
 
 All App Store apps are required to use the App Sandbox.
 
+**Note:** Browsers like Google Chrome use their own strong sandbox so they don't use the App Sandbox. This is fine, you mainly need to worry about other types of programs not being sandboxed.
+
 ## Hardened Runtime
 
 Check if a program uses the [Hardened Runtime](https://developer.apple.com/documentation/security/hardened_runtime) before running it using the following command:
