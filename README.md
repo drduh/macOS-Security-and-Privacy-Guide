@@ -1008,7 +1008,7 @@ All App Store apps are required to use the App Sandbox.
 
 ## Hardened Runtime
 
-Check if a program uses the Hardened Runtime before running it using the following command:
+Check if a program uses the [Hardened Runtime](https://developer.apple.com/documentation/security/hardened_runtime) before running it using the following command:
 
 ```console
 codesign --display --verbose /path/to/bundle.app
