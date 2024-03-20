@@ -980,7 +980,7 @@ Also check out [Hacking Team](https://www.schneier.com/blog/archives/2015/07/hac
 
 ## Downloading Software
 
-Only running programs from the App Store or that are [Notarized](https://support.apple.com/guide/security/app-code-signing-process-sec3ad8e6e53/web) by Apple will help mitigate malware. The notarization process ensures that the software is made by the real developers and that it hasn't been tampered with between the developers and your computer. App Store apps undergo a [review](https://developer.apple.com/app-store/review/guidelines/) process to catch malware. Apple performs an automated scan on notarized apps for malware.
+Only running programs from the App Store or that are [Notarized](https://support.apple.com/guide/security/app-code-signing-process-sec3ad8e6e53/web) by Apple will help mitigate malware. Apple performs an automated scan on notarized apps for malware. App Store apps undergo a [review](https://developer.apple.com/app-store/review/guidelines/) process to catch malware.
 
 Otherwise, get programs from trusted sources like directly from the developer's website or GitHub. Always make sure that your browser/terminal is using HTTPS when downloading any program.
 
