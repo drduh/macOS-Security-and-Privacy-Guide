@@ -1038,7 +1038,7 @@ See [Sophail: Applied attacks against Antivirus](https://lock.cmpxchg8b.com/soph
 
 **Gatekeeper** tries to prevent non-notarized apps from running.
 
-If you try to run an app that isn't notarized, it will give you a warning. This can be easily bypassed if you open finder to where the program is and right click/control click on it and click Open. Then Gatekeeper will allow you to run it.
+If you try to run an app that isn't notarized, Gatekeeper will give you a warning. This can be easily bypassed if you open Finder to where the program is and right click/control click on it and select Open. Then Gatekeeper will allow you to run it.
 
 Gatekeeper doesn't cover all binaries, only apps so be careful when running other file types.
 
