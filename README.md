@@ -1006,7 +1006,7 @@ Alternatively, you can check while the app is running by opening Activity Monito
 
 All App Store apps are required to use the App Sandbox.
 
-**Note:** Browsers like Google Chrome use their own [strong sandbox](https://chromium.googlesource.com/chromium/src/+/HEAD/docs/design/sandbox.md) so they don't use the App Sandbox.
+**Note:** Browsers like Google Chrome use their own [sandbox](https://chromium.googlesource.com/chromium/src/+/HEAD/docs/design/sandbox.md) so they don't use the App Sandbox.
 
 ## Hardened Runtime
 
