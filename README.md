@@ -984,7 +984,7 @@ Only running programs from the App Store or that are [Notarized](https://support
 
 Otherwise, get programs from trusted sources like directly from the developer's website or GitHub. Always make sure that your browser/terminal is using HTTPS when downloading any program.
 
-You should also avoid programs that ask for lots of permissions and third party closed source programs.
+You should also avoid programs that ask for lots of permissions and third party closed source programs. Open source code allows anyone to audit and examine the code for security/privacy issues.
 
 ## App Sandbox
 
