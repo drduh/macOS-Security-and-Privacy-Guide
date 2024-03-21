@@ -100,6 +100,26 @@ General security best practices apply:
   * Ultimately, the security of a system depends on the capabilities of its administrator.
   * Care should be taken when installing new software; only install from official sources that the developers indicate on their official website/github/etc.
 
+# Threat Modeling
+
+The first and most important step for security and privacy is to create a threat model. After all, how can we have security when we don't even know what we're securing against? Each person will have their own needs so everyone's threat model will be different. Threat models tend to evolve over time as our situation changes, so be sure to periodically reassess your threat model.
+
+Step 1: Identify what you're protecting
+
+This is probably a lot of things: your phone, your laptop, passwords stored on your devices, internet browsing history, etc. Make an actual list of all the things you can think of that you want to protect and store it somewhere.
+
+Step 2: Identify threat/s
+
+Define what you are defending against. Examples could be a nosy roommate, passive data collection on internet infrastructure, a thief, etc. Different threats will have different capabilities, so it's useful to connect which assets you're protecting from which adversaries. For example, you might have a shared family computer so you want to protect your computer from malware but not your family, while you want to protect your phone from both your family and malware.
+
+Step 3: Come up with ways to mitigate the threats
+
+Now is when you decide the best way to counter each threat. You might avoid writing passwords down on paper so your roommate can't find them or you might encrypt the drive on your computer so a thief can't get data from it. You'll need to think about the capabilities of each threat: for example, a common thief will generally be stopped by drive encryption even with a weak password, while a high-resource adversary will have access to advanced computers that can crack weak passwords easily.
+
+Step 4: Implement your plan
+
+Start implementing your strategies. Depending on how serious or time-sensitive your situation is, you might want to ease into it so you don't burn yourself out too quickly. Sometimes you might find that a strategy you came up with isn't working for whatever reason, that's ok. Just go back and rethink that part. Eventually you will get to a workable plan that mitigates your threats and that doesn't cause undue inconvenience on your life.
+
 # Hardware
 
 macOS is most secure running on [Apple hardware](https://support.apple.com/guide/security/hardware-security-overview-secf020d1074/1/web/1) with Apple silicon. The newer the Mac, the better. Avoid hackintoshes and Macs that don't support the latest macOS, as Apple doesn't [patch all vulnerabilities](https://support.apple.com/guide/deployment/about-software-updates-depc4c80847a) in versions that aren't the most recent one.
