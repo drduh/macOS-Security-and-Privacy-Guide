@@ -107,7 +107,7 @@ The first and most important step for security and privacy is to create a threat
 
 Step 1: Identify what you're protecting
 
-This is probably a lot of things: your phone, your laptop, passwords stored on your devices, internet browsing history, etc. Make an actual list of all the things you can think of that you want to protect and store it somewhere.
+This is probably a lot of things: your phone, your laptop, passwords stored on your devices, internet browsing history, etc. Make a list of all the things you can think of that you want to protect and store it somewhere.
 
 Step 2: Identify threat/s
 
