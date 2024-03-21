@@ -12,6 +12,7 @@ To suggest an improvement, send a pull request or [open an issue](https://github
 
 
 - [Basics](#basics)
+- [Threat Modeling](#threat-modeling)
 - [Hardware](#hardware)
 - [Installing macOS](#installing-macos)
    * [System activation](#system-activation)
