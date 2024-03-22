@@ -121,6 +121,8 @@ Step 4: Implement your plan
 
 Start implementing your strategies. Depending on how serious or time-sensitive your situation is, you might want to ease into it so you don't burn yourself out too quickly. Sometimes you might find that a strategy you came up with isn't working for whatever reason, that's ok. Just go back and rethink that part. Eventually you will get to a workable plan that mitigates your threats and that doesn't cause undue inconvenience on your life.
 
+Read more about threat modeling [here](https://www.netmeister.org/blog/threat-model-101.html).
+
 # Hardware
 
 macOS is most secure running on [Apple hardware](https://support.apple.com/guide/security/hardware-security-overview-secf020d1074/1/web/1) with Apple silicon. The newer the Mac, the better. Avoid hackintoshes and Macs that don't support the latest macOS, as Apple doesn't [patch all vulnerabilities](https://support.apple.com/guide/deployment/about-software-updates-depc4c80847a) in versions that aren't the most recent one.
