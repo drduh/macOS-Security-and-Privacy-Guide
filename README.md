@@ -109,7 +109,7 @@ Step 1: Identify what you're protecting
 
 This is probably a lot of things: your phone, your laptop, passwords stored on your devices, internet browsing history, etc. Make a list of all the things you can think of that you want to protect and store it somewhere.
 
-Step 2: Identify threat/s
+Step 2: Identify adversaries
 
 Define what you are defending against. Examples could be a nosy roommate, passive data collection on internet infrastructure, a thief, etc. Different threats will have different capabilities, so it's useful to connect which assets you're protecting from which adversaries. For example, you might have a shared family computer so you want to protect your computer from malware but not your family, while you want to protect your phone from both your family and malware.
 
