@@ -111,7 +111,7 @@ This is probably a lot of things: your phone, your laptop, passwords stored on y
 
 Step 2: Identify adversaries
 
-Define what you are defending against. Examples could be a nosy roommate, passive data collection on internet infrastructure, a thief, etc. Different threats will have different capabilities, so it's useful to connect which assets you're protecting from which adversaries. For example, you might have a shared family computer so you want to protect your computer from malware but not your family, while you want to protect your phone from both your family and malware.
+Define whom you are defending against. Examples could be a nosy roommate, passive data collection on internet infrastructure, a thief, etc. Different threats will have different capabilities, so it's useful to connect which assets you're protecting from which adversaries. For example, you might have a shared family computer so you want to protect your computer from malware but not your family, while you want to protect your phone from both your family and malware.
 
 Step 3: Come up with ways to mitigate the threats
 
