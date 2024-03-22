@@ -115,7 +115,7 @@ Define whom you are defending against. Examples could be a nosy roommate, passiv
 
 Step 3: Identify the adversaries' capabilities
 
-In order to counter your adversaries, you'll need to understand what they're capable of.
+In order to counter your adversaries, you'll need to understand what they're capable of and what they're not capable of.
 
 Step 4: Come up with ways to mitigate the threats
 
