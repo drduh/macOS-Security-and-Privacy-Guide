@@ -116,7 +116,7 @@ This is probably a lot of things: your phone, your laptop, passwords stored on y
 
 ## Step 2: Identify adversaries
 
-Define whom you are defending against. Examples could be a nosy roommate, passive data collection on internet infrastructure, a thief, etc. Different threats will have different capabilities, so it's useful to connect which assets you're protecting from which adversaries.
+Define whom you are defending against. Start by defining the motivation they might have to attack your assets. [Financial gain](https://www.verizon.com/business/resources/reports/dbir/) is a big motivator for many attackers, for example.
 
 ## Step 3: Identify the adversaries' capabilities
 
