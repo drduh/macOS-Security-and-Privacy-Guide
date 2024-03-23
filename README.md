@@ -135,6 +135,7 @@ Here's an example of the type of table you should make for each asset you want t
 | Adversary | Motivation | Capabilities | Mitigation |
 | --- | --- | --- | --- |
 | Nation State | See contents of packets sent over the internet | Passive surveillance of internet infrastructure, advanced computers for cracking encryption/analysis of packets | Always use encryption for all connections |
+| Hacker | Infect my device with malware to steal personal info and/or money | Run unauthorized code on my computer to steal my info | Use sandboxing, enable security features in my OS, keep OS and all software updated and turn on autoupdates |
 | Thief | Unlock phone and steal personal info and drain bank accounts, sell phone for money | Shoulder surf to see my password, steal my phone out of my hands or when I'm not looking while it's logged in | Keep phone in sight or on my person at all times, keep locked when not in use, use biometrics to avoid typing password in public, use Find My or similar service to track/remotely disable stolen phone |
 | Family | See private chats or browsing history | Close proximity; can see screen or watch me type in my password | Use biometrics, use privacy screen, keep phone locked when I'm not using it |
 
