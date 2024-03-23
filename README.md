@@ -16,7 +16,7 @@ To suggest an improvement, send a pull request or [open an issue](https://github
    * [Identify Valuable Assets](#step-1-identify-valuable-assets)
    * [Identify Adversaries](#step-2-identify-adversaries)
    * [Identify Capabilities](#step-3-identify-the-adversaries-capabilities)
-   * [Mitigations](#step-4-come-up-with-ways-to-mitigate-the-threats)
+   * [Identify Mitigations](#step-4-come-up-with-ways-to-mitigate-the-threats)
    * [Implement Your Plan](#step-5-implement-your-plan)
 - [Hardware](#hardware)
 - [Installing macOS](#installing-macos)
@@ -122,7 +122,7 @@ Define whom you are defending against. Start by defining the motivation they mig
 
 In order to counter your adversaries, you'll need to understand what they're capable of and what they're not capable of. Rank adversaries from totally usophisticated to very advanced. For example, a common thief is not very sophisticated; they will likely be stopped by basic things like simply having a password and drive encryption on your device. A very advanced adversary like a state actor might require fully turning off your device when not in use to clear the keys from RAM and a long diceware password.
 
-## Step 4: Come up with ways to mitigate the threats
+## Step 4: Identify mitigations
 
 Now is when you decide the best way to counter each threat. You might avoid writing passwords down on paper so your roommate can't find them or you might encrypt the drive on your computer so a thief can't get data from it.
 
