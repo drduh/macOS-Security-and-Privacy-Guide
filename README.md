@@ -131,6 +131,7 @@ Start implementing your strategies. Depending on how serious or time-sensitive y
 | --- | --- | --- | --- |
 | Family | See private chats or browsing history | Close proximity; can see screen or watch me type in my password | Use security key or biometrics, use privacy screen, keep phone locked when I'm not using it |
 | NSA | See contents of packets sent over the internet | Passive surveillance of internet infrastructure, advanced computers for cracking encryption/analysis of packets | Always use encryption for all connections |
+| Thief | Unlock phone and steal personal info and drain bank accounts, sell phone for money | Shoulder surf to see my password, steal my phone out of my hands or when I'm not looking while it's logged in | Keep phone in sight or on my person at all times, keep locked when not in use, use biometrics to avoid typing password in public |
 
 Read more about threat modeling [here](https://www.netmeister.org/blog/threat-model-101.html).
 
