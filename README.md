@@ -111,7 +111,7 @@ This is probably a lot of things: your phone, your laptop, passwords stored on y
 
 Step 2: Identify adversaries
 
-Define whom you are defending against. Examples could be a nosy roommate, passive data collection on internet infrastructure, a thief, etc. Different threats will have different capabilities, so it's useful to connect which assets you're protecting from which adversaries. For example, you might have a shared family computer so you want to protect your computer from malware but not your family, while you want to protect your phone from both your family and malware.
+Define whom you are defending against. Examples could be a nosy roommate, passive data collection on internet infrastructure, a thief, etc. Different threats will have different capabilities, so it's useful to connect which assets you're protecting from which adversaries.
 
 Step 3: Identify the adversaries' capabilities
 
@@ -119,7 +119,7 @@ In order to counter your adversaries, you'll need to understand what they're cap
 
 Step 4: Come up with ways to mitigate the threats
 
-Now is when you decide the best way to counter each threat. You might avoid writing passwords down on paper so your roommate can't find them or you might encrypt the drive on your computer so a thief can't get data from it. You'll need to think about the capabilities of each threat: for example, a common thief will generally be stopped by drive encryption even with a weak password, while a high-resource adversary will have access to advanced computers that can crack weak passwords easily.
+Now is when you decide the best way to counter each threat. You might avoid writing passwords down on paper so your roommate can't find them or you might encrypt the drive on your computer so a thief can't get data from it.
 
 Step 5: Implement your plan
 
