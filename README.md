@@ -17,7 +17,6 @@ To suggest an improvement, send a pull request or [open an issue](https://github
    * [Identify Adversaries](#step-2-identify-adversaries)
    * [Identify Capabilities](#step-3-identify-the-adversaries-capabilities)
    * [Identify Mitigations](#step-4-come-up-with-ways-to-mitigate-the-threats)
-   * [Implement Your Plan](#step-5-implement-your-plan)
 - [Hardware](#hardware)
 - [Installing macOS](#installing-macos)
    * [System activation](#system-activation)
@@ -125,10 +124,6 @@ In order to counter your adversaries, you'll need to understand what they're cap
 ## Step 4: Identify mitigations
 
 Now is when you decide the best way to counter each threat. You might avoid writing passwords down on paper so your roommate can't find them or you might encrypt the drive on your computer so a thief can't get data from it.
-
-## Step 5: Implement your plan
-
-Start implementing your strategies. Depending on how serious or time-sensitive your situation is, you might want to ease into it so you don't burn yourself out too quickly. Sometimes you might find that a strategy you came up with isn't working for whatever reason, that's ok. Just go back and rethink that part. Eventually you will get to a workable plan that mitigates your threats and that doesn't cause undue inconvenience on your life.
 
 Here's an example of the type of table you should make for each asset you want to protect:
 
