@@ -126,11 +126,11 @@ Step 5: Implement your plan
 Start implementing your strategies. Depending on how serious or time-sensitive your situation is, you might want to ease into it so you don't burn yourself out too quickly. Sometimes you might find that a strategy you came up with isn't working for whatever reason, that's ok. Just go back and rethink that part. Eventually you will get to a workable plan that mitigates your threats and that doesn't cause undue inconvenience on your life.
 
 | Asset |
-|---|
+| --- |
 | Phone |
-|---|
+| --- |
 | Adversary | Motivation | Capabilities |
-|---|---|---|
+| --- | --- | --- |
 | Family | See private chats or browsing history | Close proximity; can see screen or watch me type in my password |
 | NSA | See contents of packets sent over the internet | Passive surveillance of internet infrastructure, advanced computers for cracking encryption/analysis of packets |
 
