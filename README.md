@@ -13,6 +13,11 @@ To suggest an improvement, send a pull request or [open an issue](https://github
 
 - [Basics](#basics)
 - [Threat Modeling](#threat-modeling)
+   * [Step 1](#step-1-identify-valuable-assets)
+   * [Step 2](#step-2-identify-adversaries)
+   * [Step 3](#step-3-identify-the-adversaries-capabilities)
+   * [Step 4](#step-4-come-up-with-ways-to-mitigate-the-threats)
+   * [Step 5](#step-5-implement-your-plan)
 - [Hardware](#hardware)
 - [Installing macOS](#installing-macos)
    * [System activation](#system-activation)
@@ -105,23 +110,23 @@ General security best practices apply:
 
 The first and most important step for security and privacy is to create a [threat model](https://www.owasp.org/index.php/Application_Threat_Modeling). After all, how can we have security when we don't even know what we're securing against? Each person will have their own needs so everyone's threat model will be different. Threat models tend to evolve over time as our situation changes, so be sure to periodically reassess your threat model.
 
-Step 1: Identify valuable assets
+## Step 1: Identify valuable assets
 
 This is probably a lot of things: your phone, your laptop, passwords stored on your devices, internet browsing history, etc. Make a list starting with the most important assets to protect. You can put them in categories based on how important they are: public, sensitive, or secret.
 
-Step 2: Identify adversaries
+## Step 2: Identify adversaries
 
 Define whom you are defending against. Examples could be a nosy roommate, passive data collection on internet infrastructure, a thief, etc. Different threats will have different capabilities, so it's useful to connect which assets you're protecting from which adversaries.
 
-Step 3: Identify the adversaries' capabilities
+## Step 3: Identify the adversaries' capabilities
 
 In order to counter your adversaries, you'll need to understand what they're capable of and what they're not capable of.
 
-Step 4: Come up with ways to mitigate the threats
+## Step 4: Come up with ways to mitigate the threats
 
 Now is when you decide the best way to counter each threat. You might avoid writing passwords down on paper so your roommate can't find them or you might encrypt the drive on your computer so a thief can't get data from it.
 
-Step 5: Implement your plan
+## Step 5: Implement your plan
 
 Start implementing your strategies. Depending on how serious or time-sensitive your situation is, you might want to ease into it so you don't burn yourself out too quickly. Sometimes you might find that a strategy you came up with isn't working for whatever reason, that's ok. Just go back and rethink that part. Eventually you will get to a workable plan that mitigates your threats and that doesn't cause undue inconvenience on your life.
 
