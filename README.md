@@ -127,10 +127,10 @@ Start implementing your strategies. Depending on how serious or time-sensitive y
 
 **Asset: Phone**
 
-| Adversary | Motivation | Capabilities |
-| --- | --- | --- |
-| Family | See private chats or browsing history | Close proximity; can see screen or watch me type in my password |
-| NSA | See contents of packets sent over the internet | Passive surveillance of internet infrastructure, advanced computers for cracking encryption/analysis of packets |
+| Adversary | Motivation | Capabilities | Mitigation |
+| --- | --- | --- | --- |
+| Family | See private chats or browsing history | Close proximity; can see screen or watch me type in my password | Use security key or biometrics, use privacy screen, keep phone locked when I'm not using it |
+| NSA | See contents of packets sent over the internet | Passive surveillance of internet infrastructure, advanced computers for cracking encryption/analysis of packets | Always use encryption for all connections |
 
 Read more about threat modeling [here](https://www.netmeister.org/blog/threat-model-101.html).
 
