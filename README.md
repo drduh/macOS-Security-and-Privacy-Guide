@@ -85,7 +85,7 @@ To suggest an improvement, send a pull request or [open an issue](https://github
 
 General security best practices apply:
 
-- Create a [threat model](https://www.owasp.org/index.php/Application_Threat_Modeling)
+- Create a [threat model](#threat-modeling)
   * What are you trying to protect and from whom? Is your adversary a three letter agency, a nosy eavesdropper on the network, or a determined [APT](https://en.wikipedia.org/wiki/Advanced_persistent_threat) orchestrating a campaign against you?
   * Recognize threats and how to reduce attack surface against them.
 
