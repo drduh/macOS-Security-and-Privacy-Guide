@@ -107,7 +107,7 @@ The first and most important step for security and privacy is to create a [threa
 
 Step 1: Identify valuable assets
 
-This is probably a lot of things: your phone, your laptop, passwords stored on your devices, internet browsing history, etc. Make a list of all the things you can think of that you want to protect and store it somewhere.
+This is probably a lot of things: your phone, your laptop, passwords stored on your devices, internet browsing history, etc. Make a list starting with the most important assets to protect. You can put them in categories based on how important they are: public, sensitive, or secret.
 
 Step 2: Identify adversaries
 
