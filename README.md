@@ -15,8 +15,8 @@ To suggest an improvement, send a pull request or [open an issue](https://github
 - [Threat Modeling](#threat-modeling)
    * [Identify Valuable Assets](#step-1-identify-valuable-assets)
    * [Identify Adversaries](#step-2-identify-adversaries)
-   * [Identify Adversaries' Capabilities](#step-3-identify-the-adversaries-capabilities)
-   * [Come up with Mitigations](#step-4-come-up-with-ways-to-mitigate-the-threats)
+   * [Identify Capabilities](#step-3-identify-the-adversaries-capabilities)
+   * [Mitigations](#step-4-come-up-with-ways-to-mitigate-the-threats)
    * [Implement Your Plan](#step-5-implement-your-plan)
 - [Hardware](#hardware)
 - [Installing macOS](#installing-macos)
@@ -118,7 +118,7 @@ This is probably a lot of things: your phone, your laptop, passwords stored on y
 
 Define whom you are defending against. Start by defining the motivation they might have to attack your assets. [Financial gain](https://www.verizon.com/business/resources/reports/dbir/) is a big motivator for many attackers, for example.
 
-## Step 3: Identify the adversaries' capabilities
+## Step 3: Identify capabilities
 
 In order to counter your adversaries, you'll need to understand what they're capable of and what they're not capable of. Rank adversaries from totally usophisticated to very advanced. For example, a common thief is not very sophisticated; they will likely be stopped by basic things like simply having a password and drive encryption on your device. A very advanced adversary like a state actor might require fully turning off your device when not in use to clear the keys from RAM and a long diceware password.
 
