@@ -123,7 +123,7 @@ In order to counter your adversaries, you'll need to understand what they're cap
 
 ## Step 4: Identify mitigations
 
-Now is when you decide the best way to counter each threat. You might avoid writing passwords down on paper so your roommate can't find them or you might encrypt the drive on your computer so a thief can't get data from it.
+Now is when you decide the best way to counter each threat. You might avoid writing passwords down on paper so your roommate can't find them or you might encrypt the drive on your computer so a thief can't get data from it. It's important to balance security and usability; every mitigation should counter some capability of your adversaries, otherwise you might be making your life inconvenient for little to no gain. If you can't think of any more capabilities your adversaries might have and you've implemented mitigations for them all, your work is done.
 
 Here's an example of the type of table you should make for each asset you want to protect:
 
