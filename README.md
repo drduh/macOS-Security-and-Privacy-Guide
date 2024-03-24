@@ -129,7 +129,7 @@ Here's an example of the type of table you should make for each asset you want t
 
 | Adversary | Motivation | Capabilities | Mitigation |
 | --- | --- | --- | --- |
-| Family | See private chats or browsing history | Close proximity; can see screen or watch type in password | Use biometrics, use privacy screen, keep phone locked when not using it |
+| Roommate | See private chats or browsing history | Close proximity; can see screen or watch type in password | Use biometrics, use privacy screen, keep phone locked when not using it |
 | Thief | Unlock phone and steal personal info and drain bank accounts, sell phone for money | Shoulder surf to see password, steal device when not looking while it's logged in | Keep phone in sight or on person at all times, keep locked when not in use, use biometrics to avoid typing password in public, use Find My or similar service to track/remotely disable stolen device |
 | Criminal | Financial | social engineering (email scams, scam calls), COTS malware, password stealing, exploiting vulnerabilities | Use sandboxing, enable security features in OS, keep OS and all software updated and turn on autoupdates |
 | Nation State | Targeted surveillance | Passive surveillance of internet infrastructure, advanced computers for cracking encryption/analysis of packets | Use open source e2ee, use strong diceware passwords for devices, use hardware with secure element for secure encryption, shut down devices when not using them, software tripwire/honeypot/[canary tokens](https://canarytokens.org/) |
