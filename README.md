@@ -119,7 +119,7 @@ Define whom you are defending against. Start by defining the motivation they mig
 
 ## Step 3: Identify capabilities
 
-In order to counter your adversaries, you'll need to understand what they're capable of and what they're not capable of. Rank adversaries from totally usophisticated to very advanced. For example, a common thief is not very sophisticated; they will likely be stopped by basic things like simply having a password and drive encryption on your device. A very advanced adversary like a state actor might require fully turning off your device when not in use to clear the keys from RAM and a long diceware password.
+In order to counter your adversaries, you'll need to understand what they're capable of and what they're not capable of. Rank adversaries from totally unsophisticated to very advanced. For example, a common thief is not very sophisticated; they will likely be stopped by basic things like simply having a password and drive encryption on your device. A very advanced adversary like a state actor might require fully turning off your device when not in use to clear the keys from RAM and a long diceware password.
 
 ## Step 4: Identify mitigations
 
