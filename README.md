@@ -725,7 +725,11 @@ Chrome has the largest share of global usage and is the preferred target platfor
 
 Chrome offers [separate profiles](https://www.chromium.org/user-experience/multi-profiles), [robust sandboxing](https://chromium.googlesource.com/chromium/src/+/HEAD/docs/design/sandbox.md), [frequent updates](https://chromereleases.googleblog.com), and carries [impressive credentials](https://www.chromium.org/Home/chromium-security/brag-sheet). In addition, Google offers a very lucrative [bounty program](https://bughunters.google.com/about/rules/5745167867576320/chrome-vulnerability-reward-program-rules) for reporting vulnerabilities, along with its own [Project Zero](https://googleprojectzero.blogspot.com/) team. This means that a large number of highly talented and motivated people are constantly auditing and securing Chrome code.
 
-Create separate Chrome profiles to reduce XSS risk and compartmentalize cookies/identities. In each profile, either disable Javascript in Chrome settings and configure allowed origins. You should also disable the V8 Optimizer for sites where you do use Javascript to further reduce attack surface. You can block trackers with [uBlock Origin Lite](https://chromewebstore.google.com/detail/ublock-origin-lite/ddkjiahejlhfcafbddmgiahcphecmpfh).
+Create separate Chrome profiles to reduce XSS risk and compartmentalize cookies/identities. In each profile, either disable Javascript in Chrome settings and configure allowed origins. You should also disable the V8 Optimizer for sites where you do use Javascript to further reduce attack surface. Go to **Settings** -> **Privacy and security** -> **Security** -> **Manage v8 security** -> **Don't allow sites to use the V8 optimizer**
+
+Read more about the benefits of disabling this [here](https://microsoftedge.github.io/edgevr/posts/Super-Duper-Secure-Mode).
+
+You can block trackers with [uBlock Origin Lite](https://chromewebstore.google.com/detail/ublock-origin-lite/ddkjiahejlhfcafbddmgiahcphecmpfh).
 
 Change the default search engine from Google to reduce additional tracking.
 
