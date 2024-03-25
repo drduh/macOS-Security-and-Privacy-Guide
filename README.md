@@ -1373,7 +1373,6 @@ hdiutil eject /Volumes/secretStuff
 Additional applications and services which offer backups include:
 
 * [Tresorit](https://www.tresorit.com)
-* [SpiderOak](https://www.spideroak.com)
 * [Arq](https://www.arqbackup.com)
 * [Espionage](https://www.espionageapp.com/)
 * [restic](https://restic.github.io)
