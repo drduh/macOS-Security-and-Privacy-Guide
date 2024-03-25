@@ -1361,7 +1361,7 @@ tar zxvf ~/Desktop/decrypted-backup.tar.gz
 Encrypted volumes can also be created using **Disk Utility** or `hdiutil`:
 
 ```console
-hdiutil create ~/Desktop/encrypted.dmg -encryption -size 50M -volname "secretStuff" -fs JHFS+
+hdiutil create ~/Desktop/encrypted.dmg -encryption -size 50M -volname "secretStuff"
 
 hdiutil mount ~/Desktop/encrypted.dmg
 
