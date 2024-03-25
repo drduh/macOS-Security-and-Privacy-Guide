@@ -12,6 +12,11 @@ To suggest an improvement, send a pull request or [open an issue](https://github
 
 
 - [Basics](#basics)
+- [Threat Modeling](#threat-modeling)
+   * [Identify Valuable Assets](#step-1-identify-valuable-assets)
+   * [Identify Adversaries](#step-2-identify-adversaries)
+   * [Identify Capabilities](#step-3-identify-the-adversaries-capabilities)
+   * [Identify Mitigations](#step-4-come-up-with-ways-to-mitigate-the-threats)
 - [Hardware](#hardware)
 - [Installing macOS](#installing-macos)
    * [System activation](#system-activation)
@@ -79,7 +84,7 @@ To suggest an improvement, send a pull request or [open an issue](https://github
 
 General security best practices apply:
 
-- Create a [threat model](https://www.owasp.org/index.php/Application_Threat_Modeling)
+- Create a [threat model](#threat-modeling)
   * What are you trying to protect and from whom? Is your adversary a three letter agency, a nosy eavesdropper on the network, or a determined [APT](https://en.wikipedia.org/wiki/Advanced_persistent_threat) orchestrating a campaign against you?
   * Recognize threats and how to reduce attack surface against them.
 
@@ -99,6 +104,37 @@ General security best practices apply:
 - Click carefully
   * Ultimately, the security of a system depends on the capabilities of its administrator.
   * Care should be taken when installing new software; only install from official sources that the developers indicate on their official website/github/etc.
+
+# Threat Modeling
+
+The first and most important step for security and privacy is to create a [threat model](https://www.owasp.org/index.php/Application_Threat_Modeling). You need to understand your adversaries in order to defend against them. Each person will have their own needs so everyone's threat model will be different. Threat models tend to evolve over time as our situation changes, so be sure to periodically reassess your threat model.
+
+## Step 1: Identify assets
+
+This is probably a lot of things: your phone, your laptop, passwords stored on your devices, internet browsing history, etc. Make a list starting with the most important assets to protect. You can put them in categories based on how important they are: public, sensitive, or secret.
+
+## Step 2: Identify adversaries
+
+Define whom you are defending against. Start by defining the motivation they might have to attack your assets. [Financial gain](https://www.verizon.com/business/resources/reports/dbir/) is a big motivator for many attackers, for example.
+
+## Step 3: Identify capabilities
+
+In order to counter your adversaries, you'll need to understand what they're capable of and what they're not capable of. Rank adversaries from totally unsophisticated to very advanced. For example, a common thief is not very sophisticated; they will likely be stopped by basic things like simply having a password and drive encryption on your device. A very advanced adversary like a state actor might require fully turning off your device when not in use to clear the keys from RAM and a long diceware password.
+
+## Step 4: Identify mitigations
+
+Now is when you decide the best way to counter each threat. You might avoid writing passwords down on paper so your roommate can't find them or you might encrypt the drive on your computer so a thief can't get data from it. It's important to balance security and usability; every mitigation should counter some capability of your adversaries, otherwise you might be making your life inconvenient for little to no gain. If you can't think of any more capabilities your adversaries might have and you've implemented mitigations for them all, your work is done.
+
+Here's an example of the type of table you should make for each asset you want to protect:
+
+| Adversary | Motivation | Capabilities | Mitigation |
+| --- | --- | --- | --- |
+| Roommate | See private chats or browsing history | Close proximity; can see screen or watch type in password | Use biometrics, use privacy screen, keep phone locked when not using it |
+| Thief | Unlock phone and steal personal info and drain bank accounts, sell phone for money | Shoulder surf to see password, steal device when not looking while it's logged in | Keep phone in sight or on person at all times, keep locked when not in use, use biometrics to avoid typing password in public, use Find My or similar service to track/remotely disable stolen device |
+| Criminal | Financial | social engineering (email scams, scam calls), COTS malware, password stealing, exploiting vulnerabilities | Use sandboxing, enable security features in OS, keep OS and all software updated and turn on autoupdates |
+| Nation State | Targeted surveillance | Passive surveillance of internet infrastructure, advanced computers for cracking encryption/analysis of packets | Use open source e2ee, use strong diceware passwords for devices, use hardware with secure element for secure encryption, shut down devices when not using them, software tripwire/honeypot/[canary tokens](https://canarytokens.org/) |
+
+Read more about threat modeling [here](https://www.netmeister.org/blog/threat-model-101.html).
 
 # Hardware
 
