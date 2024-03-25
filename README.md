@@ -10,13 +10,12 @@ This guide is provided on an 'as is' basis without any warranties of any kind. O
 
 To suggest an improvement, send a pull request or [open an issue](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues).
 
-
 - [Basics](#basics)
-- [Threat Modeling](#threat-modeling)
-   * [Identify Valuable Assets](#step-1-identify-valuable-assets)
-   * [Identify Adversaries](#step-2-identify-adversaries)
-   * [Identify Capabilities](#step-3-identify-the-adversaries-capabilities)
-   * [Identify Mitigations](#step-4-come-up-with-ways-to-mitigate-the-threats)
+- [Threat modeling](#threat-modeling)
+   * [Identify assets](#identify-assets)
+   * [Identify adversaries](#identify-adversaries)
+   * [Identify capabilities](#identify-capabilities)
+   * [Identify mitigations](#identify-mitigations)
 - [Hardware](#hardware)
 - [Installing macOS](#installing-macos)
    * [System activation](#system-activation)
@@ -89,7 +88,7 @@ General security best practices apply:
   * Recognize threats and how to reduce attack surface against them.
 
 - Keep the system and software up to date
-  * Patch the operating system and all installed software reguarly.
+  * Patch the operating system and all installed software regularly.
   * macOS system updates can be completed in the [settings](https://support.apple.com/guide/mac-help/keep-your-mac-up-to-date-mchlpx1065) and set to automatically install. You can also use the `softwareupdate` command-line utility - neither requires registering an Apple account.
   * Subscribe to announcement mailing lists like [Apple security-announce](https://lists.apple.com/mailman/listinfo/security-announce).
 
@@ -105,34 +104,35 @@ General security best practices apply:
   * Ultimately, the security of a system depends on the capabilities of its administrator.
   * Care should be taken when installing new software; only install from official sources that the developers indicate on their official website/github/etc.
 
-# Threat Modeling
+# Threat modeling
 
 The first and most important step for security and privacy is to create a [threat model](https://www.owasp.org/index.php/Application_Threat_Modeling). You need to understand your adversaries in order to defend against them. Each person will have their own needs so everyone's threat model will be different. Threat models tend to evolve over time as our situation changes, so be sure to periodically reassess your threat model.
 
-## Step 1: Identify assets
+## Identify assets
 
 This is probably a lot of things: your phone, your laptop, passwords stored on your devices, internet browsing history, etc. Make a list starting with the most important assets to protect. You can put them in categories based on how important they are: public, sensitive, or secret.
 
-## Step 2: Identify adversaries
+## Identify adversaries
 
 Define whom you are defending against. Start by defining the motivation they might have to attack your assets. [Financial gain](https://www.verizon.com/business/resources/reports/dbir/) is a big motivator for many attackers, for example.
 
-## Step 3: Identify capabilities
+## Identify capabilities
 
 In order to counter your adversaries, you'll need to understand what they're capable of and what they're not capable of. Rank adversaries from totally unsophisticated to very advanced. For example, a common thief is not very sophisticated; they will likely be stopped by basic things like simply having a password and drive encryption on your device. A very advanced adversary like a state actor might require fully turning off your device when not in use to clear the keys from RAM and a long diceware password.
 
-## Step 4: Identify mitigations
+## Identify mitigations
 
 Now is when you decide the best way to counter each threat. You might avoid writing passwords down on paper so your roommate can't find them or you might encrypt the drive on your computer so a thief can't get data from it. It's important to balance security and usability; every mitigation should counter some capability of your adversaries, otherwise you might be making your life inconvenient for little to no gain. If you can't think of any more capabilities your adversaries might have and you've implemented mitigations for them all, your work is done.
 
 Here's an example of the type of table you should make for each asset you want to protect:
 
-| Adversary | Motivation | Capabilities | Mitigation |
-| --- | --- | --- | --- |
-| Roommate | See private chats or browsing history | Close proximity; can see screen or watch type in password | Use biometrics, use privacy screen, keep phone locked when not using it |
-| Thief | Unlock phone and steal personal info and drain bank accounts, sell phone for money | Shoulder surf to see password, steal device when not looking while it's logged in | Keep phone in sight or on person at all times, keep locked when not in use, use biometrics to avoid typing password in public, use Find My or similar service to track/remotely disable stolen device |
-| Criminal | Financial | social engineering (email scams, scam calls), COTS malware, password stealing, exploiting vulnerabilities | Use sandboxing, enable security features in OS, keep OS and all software updated and turn on autoupdates |
-| Nation State | Targeted surveillance | Passive surveillance of internet infrastructure, advanced computers for cracking encryption/analysis of packets | Use open source e2ee, use strong diceware passwords for devices, use hardware with secure element for secure encryption, shut down devices when not using them, software tripwire/honeypot/[canary tokens](https://canarytokens.org/) |
+Adversary | Motivation | Capabilities | Mitigation
+-|-|-|-
+Roommate | See private chats or browsing history | Close proximity; can see screen or watch type in password | Use biometrics, use privacy screen, keep phone locked when not using it
+Thief | Unlock phone and steal personal info and drain bank accounts, sell phone for money | Shoulder surf to see password, steal device when not looking while it's logged in | Keep phone in sight or on person at all times, keep locked when not in use, use biometrics to avoid typing password in public, use Find My or similar service to track/remotely disable stolen device
+Criminal | Financial | Social engineering, readily-available malware, password reuse, exploiting vulnerabilities | Use sandboxing, enable security features in OS, keep OS and all software updated and turn on automatic updates
+Corporation | User data marketing | Telemetry and behavioral data collection | Block network connections, reset unique identifiers, avoid adding payment data
+Nation State/APT | Targeted surveillance | Passive surveillance of internet infrastructure, advanced computers for cracking encryption/analysis of packets | Use open source e2ee, use strong diceware passwords for devices, use hardware with secure element for secure encryption, shut down devices when not using them, software tripwire/honeypot/[canary tokens](https://canarytokens.org/)
 
 Read more about threat modeling [here](https://www.netmeister.org/blog/threat-model-101.html).
 
@@ -146,9 +146,9 @@ If you want to use a wireless keyboard, mouse, headphones or other accessory, th
 
 # Installing macOS
 
-There are several ways to [install macOS](https://support.apple.com/102662). Choose your preferred method from the available options. 
+There are several ways to [install macOS](https://support.apple.com/102662). Choose your preferred method from the available options.
 
- **You should install the latest version of macOS that's compatible with your Mac**. More recent versions have security patches and other improvements that older versions lack.
+ **You should install the latest version of macOS that is compatible with your Mac**. More recent versions have security patches and other improvements that older versions lack.
 
 ## System activation
 
@@ -232,11 +232,11 @@ See also [this post](https://superuser.com/a/395738) for more information about 
 
 # Firmware
 
-You should check that firmware security settings are set to [Full Security](https://support.apple.com/en-au/guide/mac-help/mchl768f7291/mac) to prevent tampering with your OS. This is the default setting.
+You should check that firmware security settings are set to [Full Security](https://support.apple.com/guide/mac-help/mchl768f7291/mac) to prevent tampering with your OS. This is the default setting.
 
 # FileVault
 
-All Mac models with Apple silicon are encrypted by default. Enabling [FileVault](https://support.apple.com/en-au/guide/mac-help/mh11785/mac) makes it so that you need to enter a password in order to access the data on your drive. The EFF has a guide on generating [strong but memorable passwords](https://www.eff.org/dice).
+All Mac models with Apple silicon are encrypted by default. Enabling [FileVault](https://support.apple.com/guide/mac-help/mh11785/mac) makes it so that you need to enter a password in order to access the data on your drive. The EFF has a guide on generating [strong but memorable passwords](https://www.eff.org/dice).
 
 Your FileVault password also acts as a [firmware password](https://support.apple.com/en-us/102384) that will prevent people that don't know it from booting from anything other than the designated startup disk, accessing [Recovery](https://support.apple.com/guide/mac-help/macos-recovery-a-mac-apple-silicon-mchl82829c17/14.0/mac/14.0#mchl5abfbb29), and [reviving](https://support.apple.com/en-us/108900) it with DFU mode.
 
@@ -690,7 +690,7 @@ Or to just block Facebook domains, for example:
 fb*.akamaihd.net
 ```
 
-Note that wildcards are supported.
+Wildcards are also supported.
 
 See [drduh/config/privoxy/config](https://github.com/drduh/config/blob/master/privoxy/config) and [drduh/config/privoxy/user.action](https://github.com/drduh/config/blob/master/privoxy/user.action) for additional Privoxy examples. Privoxy does **not** need to be restarted after editing `user.action` filter rules.
 
@@ -1865,7 +1865,6 @@ drwx------  2 kevin  staff       64 Dec  4 12:27 umask_testing_dir
 * [CISOfy/lynis](https://github.com/CISOfy/lynis) - Cross-platform security auditing tool and assists with compliance testing and system hardening.
 * [Zentral](https://github.com/zentralopensource/zentral) - A log and configuration server for santa and osquery. Run audit and probes on inventory, events, logfiles, combine with point-in-time alerting. A full Framework and Django web server build on top of the elastic stack (formerly known as ELK stack).
 * [osquery](https://github.com/osquery/osquery) - Can be used to retrieve low level system information.  Users can write SQL queries to retrieve system information.
-* [google/grr](https://github.com/google/grr) - Incident response framework focused on remote live forensics.
 
 # Additional resources
 
