@@ -1361,7 +1361,7 @@ tar zxvf ~/Desktop/decrypted-backup.tar.gz
 Encrypted volumes can also be created using **Disk Utility** or `hdiutil`:
 
 ```console
-hdiutil create ~/Desktop/encrypted.dmg -encryption -size 50M -volname "secretStuff" -fs JHFS+
+hdiutil create ~/Desktop/encrypted.dmg -encryption -size 50M -volname "secretStuff"
 
 hdiutil mount ~/Desktop/encrypted.dmg
 
@@ -1373,7 +1373,6 @@ hdiutil eject /Volumes/secretStuff
 Additional applications and services which offer backups include:
 
 * [Tresorit](https://www.tresorit.com)
-* [SpiderOak](https://www.spideroak.com)
 * [Arq](https://www.arqbackup.com)
 * [Espionage](https://www.espionageapp.com/)
 * [restic](https://restic.github.io)
