@@ -1342,6 +1342,10 @@ Ensure all eligible online accounts have [multi-factor authentication](https://e
 
 Encrypt files locally before backing them up to external media or online services.
 
+If your threat model allows it, you should follow the [3-2-1 backup model](https://www.cisa.gov/sites/default/files/publications/data_backup_options.pdf) as outlined by CISA. Keep 3 copies: the original and two backups. Keep backups on 2 different media types, e.g. on a local drive and cloud storage. Store 1 copy offsite. 
+
+[Time Machine](https://support.apple.com/104984) is the built-in tool for handling backups on macOS. Get an external drive or network drive to back up to and [encrypt](https://support.apple.com/guide/mac-help/keep-your-time-machine-backup-disk-secure-mh21241) your backups.
+
 GnuPG can be used with a static password or public key (with the private key stored on [YubiKey](https://github.com/drduh/YubiKey-Guide)).
 
 Compress and encrypt a directory using with a password:
