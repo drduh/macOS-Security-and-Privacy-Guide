@@ -34,7 +34,7 @@ To suggest an improvement, send a pull request or [open an issue](https://github
    * [Third party firewalls](#third-party-firewalls)
    * [Kernel level packet filtering](#kernel-level-packet-filtering)
 - [Services](#services)
-- [Siri Suggestions & Spotlight](#siri-suggestions-spotlight)
+- [Siri Suggestions and Spotlight](#siri-suggestions-and-spotlight)
 - [Homebrew](#homebrew)
 - [DNS](#dns)
    * [DNS profiles](#dns-profiles)
@@ -420,7 +420,7 @@ Annotated lists of launch daemons and agents, the respective program executed, a
 
 Read more about launchd and where login items can be found on [Apple's website](https://support.apple.com/guide/terminal/script-management-with-launchd-apdc6c1077b-5d5d-4d35-9c19-60f2397b2369).
 
-# Siri Suggestions & Spotlight
+# Siri Suggestions and Spotlight
 
 Apple is moving to on-device processing for a lot of Siri functions, but some info is still sent to Apple when you use Siri Suggestions or Spotlight. You can read Apple's [Privacy Policy](https://www.apple.com/legal/privacy/data/en/siri-suggestions-search/) to see exactly what is sent and how to disable it.
 
