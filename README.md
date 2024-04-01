@@ -1086,7 +1086,7 @@ To verify SIP is enabled, use the command `csrutil status`, which should return:
 
 # Metadata and artifacts
 
-macOS attaches metadata ([HFS+ extended attributes](https://en.wikipedia.org/wiki/Extended_file_attributes#OS_X)) to downloaded files, which can be viewed with the `mdls` and `xattr` commands:
+macOS attaches metadata ([APFS extended attributes](https://en.wikipedia.org/wiki/Extended_file_attributes#OS_X)) to downloaded files, which can be viewed with the `mdls` and `xattr` commands:
 
 ```console
 $ ls -l@ ~/Downloads/TorBrowser-8.0.4-osx64_en-US.dmg
