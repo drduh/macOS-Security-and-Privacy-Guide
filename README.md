@@ -1262,12 +1262,12 @@ sudo chflags -R uchg /.DocumentRevisions-V100
 Saved application state metadata may be cleared and locked with the following commands:
 
 ```console
-rm -rfv "~/Library/Saved Application State/*"
-rm -rfv "~/Library/Containers/<APPNAME>/Saved Application State"
-chmod -R 000 "~/Library/Saved Application State/"
-chmod -R 000 "~/Library/Containers/<APPNAME>/Saved Application State"
-chflags -R uchg "~/Library/Saved Application State/"
-chflags -R uchg "~/Library/Containers/<APPNAME>/Saved Application State"
+rm -rfv ~/Library/Saved\ Application\ State/*
+rm -rfv ~/Library/Containers/<APPNAME>/Data/Library/Saved\ Application\ State
+chmod -R 000 ~/Library/Saved\ Application\ State/
+chmod -R 000 ~/Library/Containers/<APPNAME>/Data/Library/Saved\ Application\ State
+chflags -R uchg ~/Library/Saved\ Application\ State/
+chflags -R uchg ~/Library/Containers/<APPNAME>/Data/Library/Saved\ Application\ State
 ```
 
 Autosave metadata can be cleared and locked with the following commands:
