@@ -724,19 +724,19 @@ Many browser exploits are based on social engineering as a means of gaining pers
 
 Another important consideration about browser security is extensions. This is an issue affecting Firefox and [Chrome](https://courses.csail.mit.edu/6.857/2016/files/24.pdf) alike. The use of browser extensions should be limited to only critically necessary ones published by trustworthy developers.
 
-[Mozilla Firefox](https://www.mozilla.org/en-US/firefox/new/), [Google Chrome](https://www.google.com/chrome/), [Safari](https://www.apple.com/safari/), and [Tor Browser](https://www.torproject.org/projects/torbrowser.html.en) are all recommended browsers for their own unique and individual purposes.
+[Mozilla Firefox](https://www.mozilla.org/firefox/new), [Google Chrome](https://www.google.com/chrome), [Safari](https://www.apple.com/safari), and [Tor Browser](https://www.torproject.org/download) are all recommended browsers for their own unique and individual purposes.
 
 ## Firefox
 
-[Mozilla Firefox](https://www.mozilla.org/firefox/new/) is a popular open source browser. Firefox replaced major parts of its infrastructure and code base under the projects [Quantum](https://wiki.mozilla.org/Quantum) and [Photon](https://wiki.mozilla.org/Firefox/Photon/Updates). Part of the Quantum project is to replace C++ code with [Rust](https://www.rust-lang.org). Rust is a systems programming language with a focus on security and thread safety. It is expected that Rust adoption will greatly improve the overall security posture of Firefox.
+[Mozilla Firefox](https://www.mozilla.org/firefox/new) is a popular open source browser. Firefox replaced major parts of its infrastructure and code base under the projects [Quantum](https://wiki.mozilla.org/Quantum) and [Photon](https://wiki.mozilla.org/Firefox/Photon/Updates). Part of the Quantum project is to replace C++ code with [Rust](https://www.rust-lang.org). Rust is a systems programming language with a focus on security and thread safety. It is expected that Rust adoption will greatly improve the overall security posture of Firefox.
 
-Firefox offers a similar security model to Chrome: it has a [bug bounty program](https://www.mozilla.org/security/bug-bounty), although it is not as lucrative. Firefox follows a four-week release cycle similar to Chrome.
+Firefox offers a similar security model to Chrome: it has a [bug bounty program](https://www.mozilla.org/security/bug-bounty), although it is not as lucrative. Firefox follows a four-week release cycle.
 
-Firefox supports user-supplied configuration files. See [drduh/config/firefox.user.js](https://github.com/drduh/config/blob/master/firefox.user.js) and [arkenfox/user.js](https://github.com/arkenfox/user.js) for recommended preferences and hardening measures. Also see [NoScript](https://noscript.net/), an extension which allows selective script blocking.
+Firefox supports user-supplied configuration files. See [drduh/config/firefox.user.js](https://github.com/drduh/config/blob/master/firefox.user.js) and [arkenfox/user.js](https://github.com/arkenfox/user.js) for recommended preferences and hardening measures. Also see [NoScript](https://noscript.net), an extension which allows selective script blocking.
 
-Firefox [focuses on user privacy](https://www.mozilla.org/en-US/firefox/privacy/). It supports [tracking protection](https://developer.mozilla.org/docs/Web/Privacy/Firefox_tracking_protection) in Private Browsing mode. The tracking protection can be enabled for the default account, although it may break the browsing experience on some websites. Firefox in Strict tracking protection mode will [randomize your fingerprint](https://support.mozilla.org/kb/firefox-protection-against-fingerprinting) to foil basic tracking scripts. Firefox offers separate user [profiles](https://support.mozilla.org/kb/profile-manager-create-remove-switch-firefox-profiles). You can separate your browsing inside a profile with [Multi-Account Containers](https://support.mozilla.org/kb/containers).
+Firefox [focuses on user privacy](https://www.mozilla.org/firefox/privacy). It supports [tracking protection](https://developer.mozilla.org/docs/Web/Privacy/Firefox_tracking_protection) in Private Browsing mode. The tracking protection can be enabled for the default account, although it may break the browsing experience on some websites. Firefox in Strict tracking protection mode will [randomize your fingerprint](https://support.mozilla.org/kb/firefox-protection-against-fingerprinting) to foil basic tracking scripts. Firefox offers separate user [profiles](https://support.mozilla.org/kb/profile-manager-create-remove-switch-firefox-profiles). You can separate your browsing inside a profile with [Multi-Account Containers](https://support.mozilla.org/kb/containers).
 
-Firefox only supports Web Extensions through the [Web Extension Api](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions), which is very similar to Chrome. Submission of Web Extensions in Firefox is free. Web Extensions in Firefox most of the time are open source, although certain Web Extensions are proprietary.
+Firefox only supports Web Extensions through the [Web Extension Api](https://developer.mozilla.org/docs/Mozilla/Add-ons/WebExtensions), which is very similar to Chrome. Submission of Web Extensions in Firefox is free. Web Extensions in Firefox most of the time are open source, although certain Web Extensions are proprietary.
 
 ## Chrome
 
@@ -787,7 +787,7 @@ See also [el1t/uBlock-Safari](https://github.com/el1t/uBlock-Safari/wiki/Disable
 
 ## Other browsers
 
-Many Chromium-derived browsers are not recommended. They are usually [closed source](https://yro.slashdot.org/comments.pl?sid=4176879&cid=44774943), [poorly maintained](https://plus.google.com/+JustinSchuh/posts/69qw9wZVH8z), [have bugs](https://code.google.com/p/google-security-research/issues/detail?id=679), and make dubious claims to protect privacy. See [The Private Life of Chromium Browsers](https://web.archive.org/web/20180517132144/http://thesimplecomputer.info/the-private-life-of-chromium-browsers).
+Many Chromium-derived browsers are not recommended. They are usually [closed source](https://yro.slashdot.org/comments.pl?sid=4176879&cid=44774943), [poorly maintained](https://plus.google.com/+JustinSchuh/posts/69qw9wZVH8z), [have bugs](https://code.google.com/p/google-security-research/issues/detail?id=679), and make dubious claims to protect privacy.
 
 Other miscellaneous browsers, such as [Brave](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/94), are not evaluated in this guide, so are neither recommended nor actively discouraged from use.
 
