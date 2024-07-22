@@ -1543,8 +1543,6 @@ tshark -Y "ssl.handshake.certificate" -Tfields \
   -Eseparator=/s -Equote=d
 ```
 
-Also see the simple networking monitoring application [BonzaiThePenguin/Loading](https://github.com/BonzaiThePenguin/Loading).
-
 # Binary authorization
 
 [google/santa](https://github.com/google/santa/) is a security software developed for Google's corporate Macintosh fleet and open sourced.
