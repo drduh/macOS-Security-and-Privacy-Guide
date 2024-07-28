@@ -1374,7 +1374,6 @@ Additional applications and services which offer backups include:
 
 * [Tresorit](https://www.tresorit.com)
 * [Arq](https://www.arqbackup.com)
-* [Espionage](https://www.espionageapp.com/)
 * [restic](https://restic.github.io)
 
 # Wi-Fi
