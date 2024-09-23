@@ -1395,7 +1395,7 @@ macOS stores Wi-Fi SSIDs and passwords in NVRAM in order for Recovery Mode to ac
 
 **Note** MAC addresses will reset to hardware defaults on each boot.
 
-Finally, WEP protection on wireless networks is [not secure](http://www.howtogeek.com/167783/htg-explains-the-difference-between-wep-wpa-and-wpa2-wireless-encryption-and-why-it-matters/) and you should only connect to **WPA2** protected networks when possible.
+Finally, WEP protection on wireless networks is [not secure](http://www.howtogeek.com/167783/htg-explains-the-difference-between-wep-wpa-and-wpa2-wireless-encryption-and-why-it-matters/) and you should only connect to **WPA3** or **WPA2** protected networks when possible.
 
 # SSH
 
