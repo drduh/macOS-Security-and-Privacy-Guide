@@ -19,7 +19,7 @@ To suggest an improvement, send a pull request or [open an issue](https://github
 - [Hardware](#hardware)
 - [Installing macOS](#installing-macos)
    * [System activation](#system-activation)
-   * [Apple ID](#apple-id)
+   * [Apple Account](#apple-account)
    * [App Store](#app-store)
    * [Virtualization](#virtualization)
 - [First boot](#first-boot)
@@ -156,19 +156,19 @@ As part of Apple's [theft prevention system](https://support.apple.com/102541), 
 
 You can read about exactly how this process works [here](https://support.apple.com/guide/security/localpolicy-signing-key-creation-management-sec1f90fbad1).
 
-## Apple ID
+## Apple Account
 
-Creating an Apple ID is not required to use macOS. Making an Apple ID requires a phone number and it will by default sync a [lot of data](https://www.apple.com/legal/privacy/data/en/apple-id/) to iCloud, Apple's cloud storage service. You can [disable](https://support.apple.com/102651) the syncing later if you want or enable [end-to-end encryption](https://support.apple.com/guide/security/advanced-data-protection-for-icloud-sec973254c5f/web) for your iCloud data.
+Creating an Apple Account is not required to use macOS. Making an Apple Account requires a phone number and it will by default sync a [lot of data](https://www.apple.com/legal/privacy/data/en/apple-id/) to iCloud, Apple's cloud storage service. You can [disable](https://support.apple.com/102651) the syncing later if you want or enable [end-to-end encryption](https://support.apple.com/guide/security/advanced-data-protection-for-icloud-sec973254c5f/web) for your iCloud data.
 
-You can [control the data](https://support.apple.com/102283) associated with your Apple ID or completely delete it.
+You can [control the data](https://support.apple.com/102283) associated with your Apple Account or completely delete it.
 
-An Apple ID is required in order to access the App Store and use most Apple services like iCloud, Apple Music, etc.
+An Apple Account is required in order to access the App Store and use most Apple services like iCloud, Apple Music, etc.
 
 ## App Store
 
 The Mac App Store is a [curated](https://developer.apple.com/app-store/review/guidelines) repository of software that is required to utilize the [App Sandbox](https://developer.apple.com/documentation/security/app_sandbox/protecting_user_data_with_app_sandbox) and [Hardened Runtime](https://developer.apple.com/documentation/security/hardened_runtime), as well as offering automatic updates that integrate with your system.
 
-The App Store offers the greatest security guarantees for software on macOS, but it requires you to log in with an Apple ID and Apple will be able to link your Apple ID to your downloaded apps.
+The App Store offers the greatest security guarantees for software on macOS, but it requires you to log in with an Apple Account and Apple will be able to link your Apple Account to your downloaded apps.
 
 ## Virtualization
 
@@ -992,7 +992,7 @@ Signal requires a phone number to sign up and you'll need to install it on your 
 
 ## iMessage
 
-iMessage is Apple's first party messenger. It requires an [Apple ID](#apple-id) in order to use it.
+iMessage is Apple's first party messenger. It requires an [Apple Account](#apple-account) in order to use it.
 
 Make sure to enable [Contact Key Verification](https://support.apple.com/118246) and verify with anyone you message to ensure that you're messaging the right person.
 
@@ -1295,7 +1295,7 @@ chflags -R uchg ~/Library/Assistant/SiriAnalytics.db
 defaults delete ~/Library/Preferences/com.apple.iTunes.plist recentSearches
 ```
 
-If you do not use Apple ID-linked services, the following keys may be cleared, too, using the following commands:
+If you do not use Apple Account-linked services, the following keys may be cleared, too, using the following commands:
 
 ```console
 defaults delete ~/Library/Preferences/com.apple.iTunes.plist StoreUserInfo
