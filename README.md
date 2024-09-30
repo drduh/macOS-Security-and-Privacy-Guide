@@ -1389,8 +1389,6 @@ You can have a different, [random MAC address](https://support.apple.com/en-gb/g
 
 macOS stores Wi-Fi SSIDs and passwords in NVRAM in order for Recovery Mode to access the Internet. Be sure to either clear NVRAM or de-authenticate your Mac from your Apple account, which will clear the NVRAM, before passing a Mac along. Resetting the SMC will clear some of the NVRAM, but not all.
 
-**Note** MAC addresses will reset to hardware defaults on each boot.
-
 Finally, WEP protection on wireless networks is [not secure](http://www.howtogeek.com/167783/htg-explains-the-difference-between-wep-wpa-and-wpa2-wireless-encryption-and-why-it-matters/) and you should only connect to **WPA3** protected networks when possible.
 
 # SSH
