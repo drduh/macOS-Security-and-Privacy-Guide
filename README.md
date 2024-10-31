@@ -841,7 +841,7 @@ Primary key fingerprint: EF6E 286D DA85 EA2A 4BA7  DE68 4E2C 6E87 9329 8290
 
 Make sure `Good signature from "Tor Browser Developers (signing key) <torbrowser@torproject.org>"` appears in the output. The warning about the key not being certified is benign, as it has not yet been assigned trust.
 
-See [How can I verify Tor Browser's signature?](https://support.torproject.org/) for more information.
+See [How can I verify Tor Browser's signature?](https://support.torproject.org/tbb/how-to-verify-signature/) for more information.
 
 To finish installing Tor Browser, open the disk image and drag the it into the Applications folder, or with:
 
