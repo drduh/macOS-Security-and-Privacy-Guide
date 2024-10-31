@@ -426,7 +426,7 @@ Apple is moving to on-device processing for a lot of Siri functions, but some in
 
 # Homebrew
 
-If your program isn't available through Apple AppStore you can consider using [Homebrew](https://brew.sh/).
+If your program isn't available through Apple App Store you can consider using [Homebrew](https://brew.sh/).
 
 **Important!** Note that Homebrew asks you to grant “App Management” (or “Full Disk Access”) permission to your terminal. This is a bad idea, as it would make you vulnerable to these attacks again: any non-sandboxed application can execute code with the TCC permissions of your terminal by adding a malicious command to (e.g.) ~/.zshrc. Granting “App Management” or “Full Disk Access” to your terminal should be considered the same as disabling TCC completely.
 
