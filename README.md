@@ -1548,9 +1548,9 @@ Santa uses the [Endpoint Security API](https://developer.apple.com/documentation
 To install Santa, visit the [Releases](https://github.com/google/santa/releases) page and download the latest disk image, the mount it and install the contained package:
 
 ```console
-hdiutil mount ~/Downloads/santa-0.9.20.dmg
+hdiutil mount ~/Downloads/santa-2024.9.dmg
 
-sudo installer -pkg /Volumes/santa-0.9.20/santa-0.9.20.pkg -tgt /
+sudo installer -pkg /Volumes/santa-2024.9/santa-2024.9.pkg -tgt /
 ```
 
 By default, Santa installs in "Monitor" mode (meaning, nothing gets blocked, only logged) and comes with two rules: one for Apple binaries and another for Santa software itself.
