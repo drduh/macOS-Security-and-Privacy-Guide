@@ -1541,7 +1541,7 @@ tshark -Y "ssl.handshake.certificate" -Tfields \
 
 > Santa is a binary and file access authorization system for macOS. It consists of a system extension that monitors for executions, a daemon that makes execution decisions based on the contents of a local database, a GUI agent that notifies the user in case of a block decision and a command-line utility for managing the system and synchronizing the database with a server.
 
-Santa uses the [Kernel Authorization API](https://developer.apple.com/library/content/technotes/tn2127/_index.html) to monitor and allow/disallow binaries from executing in the kernel. Binaries can be white- or black-listed by unique hash or signing developer certificate. Santa can be used to only allow trusted code execution, or to blacklist known malware from executing on a Mac, similar to Bit9 software for Windows.
+Santa uses the [Endpoint Security API](https://developer.apple.com/documentation/endpointsecurity) to monitor and allow/disallow binaries from executing. Binaries can be white- or black-listed by unique hash or signing developer certificate. Santa can be used to only allow trusted code execution, or to blacklist known malware from executing on a Mac, similar to Bit9 software for Windows.
 
 **Note** Santa does not currently have a graphical user interface for managing rules. The following instructions are for advanced users only!
 
