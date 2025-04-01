@@ -474,7 +474,7 @@ Append a list of hosts with `tee`:
 curl https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts | sudo tee -a /etc/hosts
 ```
 
-If you're using a firewall like [Little Snitch](#third-party-firewalls), you could use the [StevenBlack/hosts](https://github.com/StevenBlack/hosts) importing the rules from [leohidalgo/little-snitch---rule-groups](https://github.com/leohidalgo/little-snitch---rule-groups) repository, these rules are updated every 12 hours from the [StevenBlack/hosts](https://github.com/StevenBlack/hosts) repository.
+If you're using a firewall like [Little Snitch](#third-party-firewalls), you could add the [StevenBlack/hosts](https://github.com/StevenBlack/hosts) [blocklist](https://help.obdev.at/littlesnitch6/lsc-blocklists). Make sure to use this URL: [https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts](https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts)
 
 ## DNSCrypt
 
