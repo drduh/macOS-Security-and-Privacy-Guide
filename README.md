@@ -258,12 +258,10 @@ Built-in, basic firewall which blocks **incoming** connections only. This firewa
 
 It can be controlled by the **Firewall** tab of **Network** in **System Settings**, or with the following commands.
 
-Enable the firewall with logging and stealth mode:
+Enable the firewall and stealth mode:
 
 ```console
 sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on
-
-sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setloggingmode on
 
 sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode on
 ```
