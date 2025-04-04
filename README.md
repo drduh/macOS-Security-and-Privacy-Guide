@@ -1315,12 +1315,6 @@ Additional metadata may exist in the following files:
 
 # Passwords
 
-Generate strong passwords using [`urandom`](https://en.wikipedia.org/wiki//dev/random) and [`tr`](https://linux.die.net/man/1/tr):
-
-```console
-tr -dc '[:graph:]' < /dev/urandom | fold -w 20 | head -1
-```
-
 The built-in **[Passwords](https://support.apple.com/guide/passwords/the-passwords-app-mchl901b1b95/mac)** app can also generate [secure credentials](https://support.apple.com/guide/security/automatic-strong-passwords-secc84c811c4/web).
 
 The **Passwords** app also supports [passkeys](https://fidoalliance.org/passkeys/), FIDO credentials that can replace passwords and are much more secure against phishing, human error, and data breaches. Make sure to use them instead of passwords whenever you can.
