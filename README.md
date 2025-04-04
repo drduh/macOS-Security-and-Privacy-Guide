@@ -1315,7 +1315,7 @@ Additional metadata may exist in the following files:
 
 # Passwords
 
-The built-in **[Passwords](https://support.apple.com/guide/passwords/the-passwords-app-mchl901b1b95/mac)** app can also generate [secure credentials](https://support.apple.com/guide/security/automatic-strong-passwords-secc84c811c4/web).
+The built-in **[Passwords](https://support.apple.com/guide/passwords/the-passwords-app-mchl901b1b95/mac)** app can generate [secure credentials](https://support.apple.com/guide/security/automatic-strong-passwords-secc84c811c4/web).
 
 The **Passwords** app also supports [passkeys](https://fidoalliance.org/passkeys/), FIDO credentials that can replace passwords and are much more secure against phishing, human error, and data breaches. Make sure to use them instead of passwords whenever you can.
 
