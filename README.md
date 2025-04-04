@@ -1321,7 +1321,9 @@ Generate strong passwords using [`urandom`](https://en.wikipedia.org/wiki//dev/r
 tr -dc '[:graph:]' < /dev/urandom | fold -w 20 | head -1
 ```
 
-The password assistant in **Keychain Access** can also generate secure credentials.
+The built-in **[Passwords](https://support.apple.com/guide/passwords/the-passwords-app-mchl901b1b95/mac)** app can also generate [secure credentials](https://support.apple.com/guide/security/automatic-strong-passwords-secc84c811c4/web).
+
+The **Passwords** app also supports [passkeys](https://fidoalliance.org/passkeys/), FIDO credentials that can replace passwords and are much more secure against phishing and human error. Make sure to use them instead of passwords whenever you can.
 
 Consider using [Diceware](https://secure.research.vt.edu/diceware/) for memorable passwords.
 
