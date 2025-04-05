@@ -1378,7 +1378,7 @@ As such, avoid connecting to [hidden networks](https://support.apple.com/guide/s
 
 Make sure to avoid setting your home network to hidden and set your security to the maximum your router supports. Follow Apple's [guidance](https://support.apple.com/en-us/102766) on how to set up your home Wi-Fi network to be as secure as possible.
 
-You can set your Mac to have a different, [random MAC address](https://support.apple.com/en-gb/guide/mac-help/mchlb1cb3eb4/mac) for each network that rotates over time. This will help prevent you from being tracked across networks and on the same network over time.
+You can set your Mac to have a different, [random MAC address](https://support.apple.com/en-gb/guide/mac-help/mchlb1cb3eb4/mac) for each network that rotates over time. This is indended to reduce tracking across networks and on the same network over time.
 
 # SSH
 
