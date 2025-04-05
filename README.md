@@ -1370,19 +1370,15 @@ Additional applications and services which offer backups include:
 
 # Wi-Fi
 
-macOS remembers access points it has connected to. Like all wireless devices, the Mac will broadcast all access point names it remembers (e.g., *MyHomeNetwork*) each time it looks for a network, such as when waking from sleep.
+Most Wi-Fi networks continuously broadcast their network name, called the **service set identifier (SSID)**, allowing devices to [passively](https://www.wi-fi.org/knowledge-center/faq/what-are-passive-and-active-scanning) scan for networks they have already connected to before. However, **hidden** networks don't transmit their SSID, meaning your device has to send a probe with the SSID to connect to it. This can reveal your previously connected networks to an attacker. 
 
-This is a privacy risk, so remove networks from the list in **System Preferences** > **Network** > **Advanced** when they are no longer needed.
+>Apple devices automatically detect when a network is hidden. If a network is hidden, the device sends a probe with the SSID included in the request—not otherwise. This helps prevent the device from broadcasting the name of previously hidden networks a user was connected to, thereby further ensuring privacy.
 
-Also see [Signals from the Crowd: Uncovering Social Relationships through Smartphone Probes](https://conferences.sigcomm.org/imc/2013/papers/imc148-barberaSP106.pdf) (pdf).
+As such, avoid connecting to [hidden networks](https://support.apple.com/guide/security/wi-fi-privacy-with-apple-devices-sec31e483abf/web#sec059998a98).
 
-Saved Wi-Fi information (SSID, last connection, etc.) can be found in `/Library/Preferences/SystemConfiguration/com.apple.airport.preferences.plist`
+Make sure to avoid setting your home network to hidden and set your security to WPA3 or the highest your router supports. Follow Apple's [guidance](https://support.apple.com/en-us/102766) on how to set up your home Wi-Fi network to be as secure as possible.
 
-You can have a different, [random MAC address](https://support.apple.com/en-gb/guide/mac-help/mchlb1cb3eb4/mac) for each network that rotates over time. This will help prevent you from being tracked across networks and on the same network over time.
-
-macOS stores Wi-Fi SSIDs and passwords in NVRAM in order for Recovery Mode to access the Internet. Be sure to either clear NVRAM or de-authenticate your Mac from your Apple account, which will clear the NVRAM, before passing a Mac along. Resetting the SMC will clear some of the NVRAM, but not all.
-
-Finally, WEP protection on wireless networks is [not secure](http://www.howtogeek.com/167783/htg-explains-the-difference-between-wep-wpa-and-wpa2-wireless-encryption-and-why-it-matters/) and you should only connect to **WPA3** protected networks when possible.
+You can set your Mac to have a different, [random MAC address](https://support.apple.com/en-gb/guide/mac-help/mchlb1cb3eb4/mac) for each network that rotates over time. This is indended to reduce tracking across networks and on the same network over time.
 
 # SSH
 
