@@ -1380,8 +1380,6 @@ Make sure to avoid setting your home network to hidden. Follow Apple's [guidance
 
 You can have a different, [random MAC address](https://support.apple.com/en-gb/guide/mac-help/mchlb1cb3eb4/mac) for each network that rotates over time. This will help prevent you from being tracked across networks and on the same network over time.
 
-macOS stores Wi-Fi SSIDs and passwords in NVRAM in order for Recovery Mode to access the Internet. Be sure to either clear NVRAM or de-authenticate your Mac from your Apple account, which will clear the NVRAM, before passing a Mac along. Resetting the SMC will clear some of the NVRAM, but not all.
-
 Finally, WEP protection on wireless networks is [not secure](http://www.howtogeek.com/167783/htg-explains-the-difference-between-wep-wpa-and-wpa2-wireless-encryption-and-why-it-matters/) and you should only connect to **WPA3** protected networks when possible.
 
 # SSH
