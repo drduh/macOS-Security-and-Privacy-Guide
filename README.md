@@ -1370,10 +1370,6 @@ Additional applications and services which offer backups include:
 
 # Wi-Fi
 
-macOS remembers access points it has connected to. Like all wireless devices, the Mac will broadcast all access point names it remembers (e.g., *MyHomeNetwork*) each time it looks for a network, such as when waking from sleep.
-
-This is a privacy risk, so remove networks from the list in **System Preferences** > **Network** > **Advanced** when they are no longer needed.
-
 Also see [Signals from the Crowd: Uncovering Social Relationships through Smartphone Probes](https://conferences.sigcomm.org/imc/2013/papers/imc148-barberaSP106.pdf) (pdf).
 
 Saved Wi-Fi information (SSID, last connection, etc.) can be found in `/Library/Preferences/SystemConfiguration/com.apple.airport.preferences.plist`
