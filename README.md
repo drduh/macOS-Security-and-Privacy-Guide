@@ -1370,7 +1370,11 @@ Additional applications and services which offer backups include:
 
 # Wi-Fi
 
-Most Wi-Fi networks continuously broadcast their network name, called the **service set identifier (SSID)**, allowing devices to passively scan for networks they have already connected to before. However, **hidden** networks don't transmit their SSID, meaning your device has to send a probe with the SSID to connect to it. This can reveal your previously connected networks to an attacker. As such, avoid connecting to [hidden networks](https://support.apple.com/guide/security/wi-fi-privacy-with-apple-devices-sec31e483abf/web#sec059998a98).
+Most Wi-Fi networks continuously broadcast their network name, called the **service set identifier (SSID)**, allowing devices to [passively](https://www.wi-fi.org/knowledge-center/faq/what-are-passive-and-active-scanning) scan for networks they have already connected to before. However, **hidden** networks don't transmit their SSID, meaning your device has to send a probe with the SSID to connect to it. This can reveal your previously connected networks to an attacker. 
+
+>Apple devices automatically detect when a network is hidden. If a network is hidden, the device sends a probe with the SSID included in the request—not otherwise. This helps prevent the device from broadcasting the name of previously hidden networks a user was connected to, thereby further ensuring privacy.
+
+As such, avoid connecting to [hidden networks](https://support.apple.com/guide/security/wi-fi-privacy-with-apple-devices-sec31e483abf/web#sec059998a98).
 
 Make sure to avoid setting your home network to hidden. Follow Apple's [guidance](https://support.apple.com/en-us/102766) on how to set up your home Wi-Fi network to be as secure as possible.
 
