@@ -1315,21 +1315,17 @@ Additional metadata may exist in the following files:
 
 # Passwords
 
-Generate strong passwords using [`urandom`](https://en.wikipedia.org/wiki//dev/random) and [`tr`](https://linux.die.net/man/1/tr):
+The built-in **[Passwords](https://support.apple.com/guide/passwords/the-passwords-app-mchl901b1b95/mac)** app can generate [secure credentials](https://support.apple.com/guide/security/automatic-strong-passwords-secc84c811c4/web).
 
-```console
-tr -dc '[:graph:]' < /dev/urandom | fold -w 20 | head -1
-```
-
-The password assistant in **Keychain Access** can also generate secure credentials.
+The **Passwords** app also supports [passkeys](https://fidoalliance.org/passkeys/), FIDO credentials that can replace passwords and are much more secure against phishing, human error, and data breaches. Make sure to use them instead of passwords whenever you can.
 
 Consider using [Diceware](https://secure.research.vt.edu/diceware/) for memorable passwords.
 
 GnuPG can also be used to manage passwords and other encrypted files (see [drduh/Purse](https://github.com/drduh/Purse) and [drduh/pwd.sh](https://github.com/drduh/pwd.sh)).
 
-Ensure all eligible online accounts have [multi-factor authentication](https://en.wikipedia.org/wiki/Multi-factor_authentication) enabled. The strongest form of multi-factor authentication is [WebAuthN](https://en.wikipedia.org/wiki/WebAuthn), followed by app-based authenticators, and SMS-based codes are weakest.
+Ensure all eligible online accounts have [multi-factor authentication](https://en.wikipedia.org/wiki/Multi-factor_authentication) enabled. The strongest form of multi-factor authentication is [WebAuthn](https://en.wikipedia.org/wiki/WebAuthn), followed by [TOTP](https://datatracker.ietf.org/doc/html/rfc6238), then [HOTP](https://datatracker.ietf.org/doc/html/rfc4226), and SMS-based codes are weakest.
 
-[YubiKey](https://www.yubico.com/products/) is an affordable hardware token with WebAuthN support. It can also be used to store cryptographic keys for GnuPG encryption and SSH authentication - see [drduh/YubiKey-Guide](https://github.com/drduh/YubiKey-Guide).
+[YubiKey](https://www.yubico.com/products/) is an affordable hardware token with WebAuthn support. It can also be used to store cryptographic keys for GnuPG encryption and SSH authentication - see [drduh/YubiKey-Guide](https://github.com/drduh/YubiKey-Guide).
 
 # Backup
 
