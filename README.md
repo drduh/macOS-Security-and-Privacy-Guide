@@ -1378,8 +1378,6 @@ As such, avoid connecting to [hidden networks](https://support.apple.com/guide/s
 
 Make sure to avoid setting your home network to hidden. Follow Apple's [guidance](https://support.apple.com/en-us/102766) on how to set up your home Wi-Fi network to be as secure as possible.
 
-Saved Wi-Fi information (SSID, last connection, etc.) can be found in `/Library/Preferences/SystemConfiguration/com.apple.airport.preferences.plist`
-
 You can have a different, [random MAC address](https://support.apple.com/en-gb/guide/mac-help/mchlb1cb3eb4/mac) for each network that rotates over time. This will help prevent you from being tracked across networks and on the same network over time.
 
 macOS stores Wi-Fi SSIDs and passwords in NVRAM in order for Recovery Mode to access the Internet. Be sure to either clear NVRAM or de-authenticate your Mac from your Apple account, which will clear the NVRAM, before passing a Mac along. Resetting the SMC will clear some of the NVRAM, but not all.
