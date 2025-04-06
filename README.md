@@ -1329,7 +1329,7 @@ Ensure all eligible online accounts have [multi-factor authentication](https://e
 
 # Backup
 
-Encrypt files locally before backing them up to external media or online services. You can create an [encrypted disk image](https://support.apple.com/is-is/guide/disk-utility/dskutl11888/mac#dsku7bb3d28c) to backup and store files securely. It'll act as a secure, encrypted folder that you can put your sensitive files inside.
+Encrypt files locally before backing them up to external media or online services. You can create an [encrypted disk image](https://support.apple.com/is-is/guide/disk-utility/dskutl11888/mac#dsku7bb3d28c) to backup and store files securely. It'll act as a secure, encrypted virtual drive that you can put your sensitive files inside. When you mount the disk image, you can check a box to save the password in your keychain for convenience. Remember to [unmount](https://support.apple.com/is-is/guide/disk-utility/dskud709f49b/mac) the drive when you're done with it.
 
 You can add a [checksum](https://support.apple.com/is-is/guide/disk-utility/dskutl1019/22.6/mac/15.0) to the disk image to [verify integrity](https://support.apple.com/is-is/guide/disk-utility/dskutl15186/22.6/mac/15.0).
 
