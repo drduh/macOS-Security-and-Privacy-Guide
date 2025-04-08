@@ -1329,11 +1329,11 @@ Ensure all eligible online accounts have [multi-factor authentication](https://e
 
 # Backup
 
-Encrypt files locally before backing them up to external media or online services. You can create an [encrypted disk image](https://support.apple.com/is-is/guide/disk-utility/dskutl11888/mac#dsku7bb3d28c) to backup and store files securely. It'll act as a secure, encrypted virtual drive that you can put your sensitive files inside. When you mount the disk image, you can check a box to save the password in your keychain for convenience. Remember to [unmount](https://support.apple.com/is-is/guide/disk-utility/dskud709f49b/mac) the drive when you're done with it.
+Encrypt files locally before backing them up to external media or online services. You can create an [encrypted disk image](https://support.apple.com/guide/disk-utility/dskutl11888/mac#dsku7bb3d28c) to backup and store files securely. It'll act as a secure, encrypted virtual drive that you can put your sensitive files inside. When you mount the disk image, you can check a box to save the password in your keychain for convenience. Remember to [unmount](https://support.apple.com/guide/disk-utility/dskud709f49b/mac) the drive when you're done with it.
 
-You can add a [checksum](https://support.apple.com/is-is/guide/disk-utility/dskutl1019/22.6/mac/15.0) to the disk image to [verify integrity](https://support.apple.com/is-is/guide/disk-utility/dskutl15186/22.6/mac/15.0).
+You can add a [checksum](https://support.apple.com/is-is/guide/disk-utility/dskutl1019/22.6/mac/15.0) to the disk image to [verify integrity](https://support.apple.com/guide/disk-utility/dskutl15186/22.6/mac/15.0).
 
-You can also encypt and password-protect [external storage devices](https://support.apple.com/en-asia/guide/disk-utility/dskutl35612/mac).
+You can also encypt and password-protect [external storage devices](https://support.apple.com/guide/disk-utility/dskutl35612/mac).
 
 If your threat model allows it, you should follow the [3-2-1 backup model](https://www.cisa.gov/sites/default/files/publications/data_backup_options.pdf) as outlined by CISA. Keep 3 copies: the original and two backups. Keep backups on 2 different media types, e.g. on a local drive and cloud storage. Store 1 copy offsite. 
 
