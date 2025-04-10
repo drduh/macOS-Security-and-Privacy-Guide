@@ -83,7 +83,7 @@ To suggest an improvement, send a pull request or [open an issue](https://github
 General security best practices apply:
 
 - Create a [threat model](#threat-modeling)
-  * What are you trying to protect and from whom? Is your adversary a three letter agency, a nosy eavesdropper on the network, or a determined [APT](https://en.wikipedia.org/wiki/Advanced_persistent_threat) orchestrating a campaign against you?
+  * What are you trying to protect and from whom? Is the adversary a three letter agency, a nosy eavesdropper on the network, or a determined [APT](https://en.wikipedia.org/wiki/Advanced_persistent_threat) orchestrating a campaign against you?
   * Recognize threats and how to reduce attack surface against them.
 
 - Keep the system and software up to date
@@ -95,8 +95,8 @@ General security best practices apply:
   * In addition to [FileVault](https://support.apple.com/guide/mac-help/protect-data-on-your-mac-with-filevault-mh11785) volume encryption, consider using the [built-in password manager](https://support.apple.com/105115) to protect passwords and other sensitive data.
 
 - Assure data availability
-  * Create [regular backups](https://support.apple.com/104984) of your data and be ready to [restore from a backup](https://support.apple.com/102551) in case of compromise.
-  * [Encrypt locally](https://support.apple.com/guide/mac-help/keep-your-time-machine-backup-disk-secure-mh21241) before copying backups to unencrypted external media or the "cloud"; alternatively, enable [end-to-end encryption](https://support.apple.com/guide/security/advanced-data-protection-for-icloud-sec973254c5f) if your cloud provider supports it.
+  * Create [regular backups](https://support.apple.com/104984) of critical data and be ready to [restore from a backup](https://support.apple.com/102551) in case of compromise.
+  * [Encrypt locally](https://support.apple.com/guide/mac-help/keep-your-time-machine-backup-disk-secure-mh21241) before copying backups to unencrypted external media or the "cloud"; alternatively, enable [end-to-end encryption](https://support.apple.com/guide/security/advanced-data-protection-for-icloud-sec973254c5f).
   * Verify backups by accessing them regularly.
 
 - Click carefully
@@ -105,19 +105,19 @@ General security best practices apply:
 
 # Threat modeling
 
-The first and most important step for security and privacy is to create a [threat model](https://www.owasp.org/index.php/Application_Threat_Modeling). You need to understand your adversaries in order to defend against them. Each person will have their own needs so everyone's threat model will be different. Threat models tend to evolve over time as our situation changes, so be sure to periodically reassess your threat model.
+The first and most important step for security and privacy is to create a [threat model](https://owasp.org/www-community/Threat_Modeling). You need to understand your adversaries in order to defend against them. Each person will have their own needs so everyone's threat model will be different. Threat models tend to evolve over time as our situation changes, so be sure to periodically reassess your threat model.
 
 ## Identify assets
 
-This is probably a lot of things: your phone, your laptop, passwords stored on your devices, internet browsing history, etc. Make a list starting with the most important assets to protect. You can put them in categories based on how important they are: public, sensitive, or secret.
+This is probably a lot of things: phone, laptop, passwords stored on various devices, internet browsing history, etc. Make a list starting with the most important assets to protect. You can put them in categories based on how important they are: public, sensitive, or secret.
 
 ## Identify adversaries
 
-Define whom you are defending against. Start by defining the motivation they might have to attack your assets. [Financial gain](https://www.verizon.com/business/resources/reports/dbir/) is a big motivator for many attackers, for example.
+Define whom you are defending against. Start by defining the motivation they might have to attack assets. [Financial gain](https://www.verizon.com/business/resources/reports/dbir/) is a big motivator for many attackers, for example.
 
 ## Identify capabilities
 
-In order to counter your adversaries, you'll need to understand what they're capable of and what they're not capable of. Rank adversaries from totally unsophisticated to very advanced. For example, a common thief is not very sophisticated; they will likely be stopped by basic things like simply having a password and drive encryption on your device. A very advanced adversary like a state actor might require fully turning off your device when not in use to clear the keys from RAM and a long diceware password.
+In order to counter adversaries, you'll need to understand what they're capable of and what they're not capable of. Rank adversaries from totally unsophisticated to very advanced. For example, a common thief is not very sophisticated; they will likely be stopped by basic things like simply having a password and drive encryption on devices. A very advanced adversary like a state actor might require fully turning off devices when not in use to clear the keys from RAM and a long diceware password.
 
 ## Identify mitigations
 
@@ -167,7 +167,7 @@ An Apple Account is required in order to access the App Store and use most Apple
 
 The Mac App Store is a [curated](https://developer.apple.com/app-store/review/guidelines) repository of software that is required to utilize the [App Sandbox](https://developer.apple.com/documentation/security/app_sandbox/protecting_user_data_with_app_sandbox) and [Hardened Runtime](https://developer.apple.com/documentation/security/hardened_runtime), as well as offering automatic updates that integrate with your system.
 
-The App Store offers the greatest security guarantees for software on macOS, but it requires you to log in with an Apple Account and Apple will be able to link your Apple Account to your downloaded apps.
+The App Store offers the greatest security guarantees for software on macOS, but it requires you to log in with an Apple Account and Apple will be able to link your Apple Account to your downloaded applications.
 
 ## Virtualization
 
@@ -333,7 +333,7 @@ Then use the following commands to manipulate the firewall:
 * `sudo ifconfig pflog0 create` to create an interface for logging
 * `sudo tcpdump -ni pflog0` to view filtered packets
 
-Unless you're already familiar with packet filtering, spending too much time configuring pf is not recommended. It is also probably unnecessary if your Mac is behind a [NAT](https://www.grc.com/nat/nat.htm) on a private home network.
+Unless you're already familiar with packet filtering, spending too much time configuring pf is not recommended. It is also probably unnecessary if the system is behind a [NAT](https://www.grc.com/nat/nat.htm) on a private home network.
 
 It is possible to use the pf firewall to block network access to entire ranges of network addresses, for example to a whole organization:
 
@@ -383,7 +383,7 @@ IP 192.168.1.1.162771 > 157.240.2.35.80: tcp 0
 
 Outgoing TCP SYN packets are blocked, so a TCP connection is not established and thus a Web site is effectively blocked at the IP layer.
 
-See [drduh/config/scripts/pf-blocklist.sh](https://github.com/drduh/config/blob/master/scripts/pf-blocklist.sh) for more inspiration.
+See [drduh/config/scripts/pf-blocklist.sh](https://github.com/drduh/config/blob/main/scripts/pf-blocklist.sh) for more inspiration.
 
 # Services
 
@@ -405,7 +405,8 @@ defaults read /System/Library/LaunchDaemons/com.apple.apsd.plist
 
 Look at the `Program` or `ProgramArguments` section to see which binary is run, in this case `apsd`. To find more information about that, look at the man page with `man apsd`
 
-**Note** System services are protected by SIP, don't disable SIP just to tinker with system services as SIP is an integral part of security on macOS. Disabling system services could cause breakage and unstable behavior!
+> [!IMPORTANT]
+> System services are protected by SIP; don't disable SIP just to tinker with system services as SIP is an integral part of macOS security. Disabling system services may cause system instability.
 
 To view the status of services:
 
@@ -423,14 +424,18 @@ Apple is moving to on-device processing for a lot of Siri functions, but some in
 
 # Homebrew
 
-If your program isn't available through the App Store you can consider using [Homebrew](https://brew.sh/).
+If a program isn't available through the App Store, consider using [Homebrew](https://brew.sh/).
 
-**Important!** Homebrew asks you to grant “App Management” (or “Full Disk Access”) permission to your terminal. This is a bad idea, as it would make you vulnerable to these attacks again: any non-sandboxed application can execute code with the TCC permissions of your terminal by adding a malicious command to (e.g.) ~/.zshrc. Granting “App Management” or “Full Disk Access” to your terminal should be considered the same as disabling TCC completely.
+> [!WARNING]
+> Homebrew requiests "App Management" (or "Full Disk Access") permission to the terminal.
+> This is a bad idea, as it would make you vulnerable to these attacks again: any non-sandboxed application can execute code with the TCC permissions of the terminal by adding a malicious command to zshrc, for example.
+> Granting "App Management" or "Full Disk Access" entitlements should be considered the same as disabling TCC entirely.
 
 Remember to periodically run `brew upgrade` on trusted and secure networks to download and install software updates. To get information on a package before installation, run `brew info <package>` and check its formula online. You may also wish to enable [additional security options](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/138), such as `HOMEBREW_NO_INSECURE_REDIRECT=1`
 
 According to [Homebrew's Anonymous Analytics](https://docs.brew.sh/Analytics), Homebrew gathers anonymous analytics and reports these to a self-hosted InfluxDB instance.
-To opt out of Homebrew's analytics, you can set `export HOMEBREW_NO_ANALYTICS=1` in your environment or shell rc file, or use `brew analytics off`
+
+To opt out of Homebrew's analytics, set `export HOMEBREW_NO_ANALYTICS=1` in the environment or shell rc file, or use `brew analytics off`
 
 
 # DNS
@@ -455,7 +460,8 @@ To block a domain by `A` record, append any one of the following lines to `/etc/
 127.0.0.1 example.com
 ```
 
-**Note** IPv6 uses the `AAAA` DNS record type, rather than `A` record type, so you may also want to block those connections by *also* including `::1 example.com` entries, like shown [here](https://someonewhocares.org/hosts/ipv6/).
+> [!NOTE]
+> IPv6 uses the `AAAA` DNS record type, rather than `A` record type, so you may also want to block those connections by *also* including `::1 example.com` entries, like shown [here](https://someonewhocares.org/hosts/ipv6/).
 
 There are many lists of domains available online which you can paste in, just make sure each line starts with `0`, `0.0.0.0`, `127.0.0.1`, and the line `127.0.0.1 localhost` is included.
 
@@ -516,7 +522,8 @@ dnscrypt-proxy 15244 nobody   14u  IPv6 0x1337f85ff9f8beef      0t0  UDP [::1]:5
 
 > By default, dnscrypt-proxy runs on localhost (127.0.0.1), port 53, balancing traffic across a set of resolvers. If you would like to change these settings, you will have to edit the configuration file: $HOMEBREW_PREFIX/etc/dnscrypt-proxy.toml
 
-**Note** Applications and programs may resolve DNS using their own provided servers. If dnscrypt-proxy is used, it is possible to disable all other, non-dnscrypt DNS traffic with the following pf rules:
+> [!NOTE]
+> Applications may resolve DNS using their own provided servers. If dnscrypt-proxy is used, it is possible to disable all other, non-dnscrypt DNS traffic with the following pf rules:
 
 ```shell
 block drop quick on !lo0 proto udp from any to any port = 53
@@ -541,9 +548,9 @@ Install Dnsmasq:
 brew install dnsmasq --with-dnssec
 ```
 
-Download and edit [drduh/config/dnsmasq.conf](https://github.com/drduh/config/blob/master/dnsmasq.conf) or the default configuration file.
+Download and edit [drduh/config/dnsmasq.conf](https://github.com/drduh/config/blob/main/dnsmasq.conf) or the default configuration file.
 
-See [drduh/config/domains](https://github.com/drduh/config/tree/master/domains) for appendable examples on blocking services by domains.
+See [drduh/config/domains](https://github.com/drduh/config/tree/main/domains) for appendable examples on blocking services by domains.
 
 Install and start the program (sudo is required to bind to [privileged port](https://unix.stackexchange.com/questions/16564/why-are-the-first-1024-ports-restricted-to-the-root-user-only) 53):
 
@@ -573,7 +580,8 @@ $ networksetup -getdnsservers "Wi-Fi"
 127.0.0.1
 ```
 
-**Note** Some VPN software overrides DNS settings on connect. See [issue 24](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/24) and [drduh/config/scripts/macos-dns.sh](https://github.com/drduh/config/blob/master/scripts/macos-dns.sh).
+> [!NOTE]
+> Some VPN applications override DNS settings on connect. See [issue 24](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/24) and [drduh/config/scripts/macos-dns.sh](https://github.com/drduh/config/blob/main/scripts/macos-dns.sh).
 
 **Optional** Test DNSSEC validation for signed zones - the reply should have `NOERROR` status and contain `ad` flag:
 
@@ -601,11 +609,9 @@ Inspect system root certificates in **Keychain Access**, under the **System Root
 
 You can manually disable certificate authorities through Keychain Access by marking them as **Never Trust** and closing the window:
 
-<img width="450" alt="A certificate authority certificate" src="https://cloud.githubusercontent.com/assets/12475110/19222972/6b7aabac-8e32-11e6-8efe-5d3219575a98.png">
+<img src="https://cloud.githubusercontent.com/assets/12475110/19222972/6b7aabac-8e32-11e6-8efe-5d3219575a98.png" width="450" alt="A certificate authority certificate">
 
-**Warning:** This will cause your browser to give a warning when you visit a site using certificates signed by these CAs and may cause breakage in other software. Don't distrust Apple root certificates or it will cause lots of breakage in macOS!
-
-The risk of a [man in the middle](https://wikipedia.org/wiki/Man-in-the-middle_attack) attack in which a coerced or compromised certificate authority trusted by your system issues a fake/rogue TLS certificate is quite low, but still [possible](https://wikipedia.org/wiki/DigiNotar#Issuance_of_fraudulent_certificates).
+The risk of a [man in the middle](https://wikipedia.org/wiki/Man-in-the-middle_attack) attack, in which a coerced or compromised certificate authority trusted by a system root store issues a fake/rogue TLS certificate, is relatively low, but [possible](https://wikipedia.org/wiki/DigiNotar#Issuance_of_fraudulent_certificates).
 
 # Privoxy
 
@@ -685,7 +691,7 @@ fb*.akamaihd.net
 
 Wildcards are also supported.
 
-See [drduh/config/privoxy/config](https://github.com/drduh/config/blob/master/privoxy/config) and [drduh/config/privoxy/user.action](https://github.com/drduh/config/blob/master/privoxy/user.action) for additional Privoxy examples. Privoxy does **not** need to be restarted after editing `user.action` filter rules.
+See [drduh/config/privoxy/config](https://github.com/drduh/config/blob/main/privoxy/config) and [drduh/config/privoxy/user.action](https://github.com/drduh/config/blob/main/privoxy/user.action) for additional Privoxy examples. Privoxy does **not** need to be restarted after editing `user.action` filter rules.
 
 To verify traffic is blocked or redirected, use curl or the Privoxy interface available at <http://p.p> in the browser:
 
@@ -709,7 +715,8 @@ HTTP/2 200
 server: GitHub.com
 ```
 
-**Note** macOS proxy settings are not universal; apps and services may not honor system proxy settings. Ensure the application you wish to proxy is correctly configured and verify connections don't leak. Additionally, *pf* can be configured to transparently proxy traffic on certain ports.
+> [!NOTE]
+> Proxy settings are not universal; applications and services may bypass system proxy settings. Ensure the application to proxy is correctly configured and verify connections don't leak. Additionally, *pf* can be configured to transparently proxy traffic on certain ports.
 
 # Browser
 
@@ -729,7 +736,7 @@ Another important consideration about browser security is extensions. This is an
 
 Firefox offers a similar security model to Chrome: it has a [bug bounty program](https://www.mozilla.org/security/bug-bounty), although it is not as lucrative. Firefox follows a four-week release cycle.
 
-Firefox supports user-supplied configuration files. See [drduh/config/firefox.user.js](https://github.com/drduh/config/blob/master/firefox.user.js) and [arkenfox/user.js](https://github.com/arkenfox/user.js) for recommended preferences and hardening measures. Also see [NoScript](https://noscript.net), an extension which allows selective script blocking.
+Firefox supports user-supplied configuration files. See [drduh/config/firefox.user.js](https://github.com/drduh/config/blob/main/firefox.user.js) and [arkenfox/user.js](https://github.com/arkenfox/user.js) for recommended preferences and hardening measures. Also see [NoScript](https://noscript.net), an extension which allows selective script blocking.
 
 Firefox [focuses on user privacy](https://www.mozilla.org/firefox/privacy). It supports [tracking protection](https://developer.mozilla.org/docs/Web/Privacy/Firefox_tracking_protection) in Private Browsing mode. The tracking protection can be enabled for the default account, although it may break the browsing experience on some websites. Firefox in Strict tracking protection mode will [randomize your fingerprint](https://support.mozilla.org/kb/firefox-protection-against-fingerprinting) to foil basic tracking scripts. Firefox offers separate user [profiles](https://support.mozilla.org/kb/profile-manager-create-remove-switch-firefox-profiles). You can separate your browsing inside a profile with [Multi-Account Containers](https://support.mozilla.org/kb/containers).
 
@@ -770,7 +777,7 @@ Read [Chromium Security](https://www.chromium.org/Home/chromium-security) and [C
 
 [Safari](https://www.apple.com/safari) is the default browser on macOS. It is also the most optimized browser for reducing battery use. Safari, like Chrome, has both Open Source and proprietary components. Safari is based on the open source Web Engine [WebKit](https://webkit.org), which is ubiquitous among the macOS ecosystem. WebKit is used by Apple apps such as Mail, iTunes, iBooks, and the App Store. Chrome's [Blink](https://www.chromium.org/blink) engine is a fork of WebKit and both engines share a number of similarities.
 
-Safari supports certain unique features that benefit user security and privacy. [Content blockers](https://webkit.org/blog/3476/content-blockers-first-look) enables the creation of content blocking rules without using Javascript. This rule based approach greatly improves memory use, security, and privacy. Safari 11 introduced [Intelligent Tracking Prevention](https://webkit.org/blog/7675/intelligent-tracking-prevention), which removes tracking data stored in Safari after a period of non-interaction by the user from the tracker's website. Safari can randomize your fingerprint to reduce tracking. Safari doesn't support certain features like WebUSB or the Battery API intentionally for security and privacy reasons. Private tabs in Safari have isolated cookies and cache that is destroyed when you close the tab. Safari also support Profiles which are equivalent to Firefox's Multi-Account Containers for separating cookies and browsing. Safari can be made significantly more secure with [lockdown mode](#lockdown-mode), which can be disabled per-site. Read more about [tracking prevention](https://webkit.org/tracking-prevention) in Safari.
+Safari supports certain unique features that benefit user security and privacy. [Content blockers](https://webkit.org/blog/3476/content-blockers-first-look) enables the creation of content blocking rules without using Javascript. This rule based approach greatly improves memory use, security, and privacy. Safari 11 introduced [Intelligent Tracking Prevention](https://webkit.org/blog/7675/intelligent-tracking-prevention), which removes tracking data stored in Safari after a period of non-interaction by the user from the tracker's website. Safari can randomize the browser fingerprint to reduce tracking. Safari doesn't support certain features like WebUSB or the Battery API intentionally for security and privacy reasons. Private tabs in Safari have isolated cookies and cache that is destroyed when you close the tab. Safari also support Profiles which are equivalent to Firefox's Multi-Account Containers for separating cookies and browsing. Safari can be made significantly more secure with [lockdown mode](#lockdown-mode), which can be disabled per-site. Read more about [tracking prevention](https://webkit.org/tracking-prevention) in Safari.
 
 Safari offers an invite-only [bounty program](https://developer.apple.com/bug-reporting) for bug reporting to a select number of security researchers. The bounty program was announced during Apple's [presentation](https://www.blackhat.com/docs/us-16/materials/us-16-Krstic.pdf) at [BlackHat](https://www.blackhat.com/us-16/briefings.html#behind-the-scenes-of-ios-security) 2016.
 
@@ -792,11 +799,11 @@ Other miscellaneous browsers, such as [Brave](https://github.com/drduh/macOS-Sec
 
 Web browsers reveal information in several ways, for example through the [Navigator](https://developer.mozilla.org/en-US/docs/Web/API/Navigator) interface, which may include information such as the browser version, operating system, site permissions, and the device's battery level. Many websites also use [canvas fingerprinting](https://en.wikipedia.org/wiki/Canvas_fingerprinting) to uniquely identify users across sessions.
 
-For more information about security conscious browsing and what data is sent by your browser, see [HowTo: Privacy & Security Conscious Browsing](https://gist.github.com/atcuno/3425484ac5cce5298932), [browserleaks.com](https://browserleaks.com/), [Am I Unique?](https://amiunique.org/fingerprint) and [EFF Cover Your Tracks](https://coveryourtracks.eff.org/) resources.
+For more information about security conscious browsing and what data is sent by the browser, see [HowTo: Privacy & Security Conscious Browsing](https://gist.github.com/atcuno/3425484ac5cce5298932), [browserleaks.com](https://browserleaks.com/), [Am I Unique?](https://amiunique.org/fingerprint) and [EFF Cover Your Tracks](https://coveryourtracks.eff.org/) resources.
 
 To hinder third party trackers, it is recommended to **disable third-party cookies** altogether. Safari, Firefox, and Chrome all block third party cookies by default. A third party cookie is a cookie associated with a file requested by a different domain than the one the user is currently viewing. Most of the time third-party cookies are used to create browsing profiles by tracking a user's movement on the web. Disabling third-party cookies prevents HTTP responses and scripts from other domains from setting cookies. Moreover, cookies are removed from requests to domains that are not the document origin domain, so cookies are only sent to the current site that is being viewed.
 
-Also be aware of [WebRTC](https://en.wikipedia.org/wiki/WebRTC#Concerns), which may reveal your local or public (if connected to VPN) IP address(es). In Firefox and Chrome/Chromium this can be disabled with extensions such as [uBlock Origin](https://github.com/gorhill/uBlock/wiki/Prevent-WebRTC-from-leaking-local-IP-address). [Lockdown mode](#lockdown-mode) [disables WebRTC](https://www.sevarg.net/2022/07/20/ios16-lockdown-mode-browser-analysis) in Safari.
+Also be aware of [WebRTC](https://en.wikipedia.org/wiki/WebRTC#Concerns), which may reveal local or public (if connected to VPN) IP address(es). In Firefox and Chrome/Chromium this can be disabled with extensions such as [uBlock Origin](https://github.com/gorhill/uBlock/wiki/Prevent-WebRTC-from-leaking-local-IP-address). [Lockdown mode](#lockdown-mode) [disables WebRTC](https://www.sevarg.net/2022/07/20/ios16-lockdown-mode-browser-analysis) in Safari.
 
 # Tor
 
@@ -929,7 +936,7 @@ See [Tor Protocol Specification](https://spec.torproject.org/tor-spec/) and [Tor
 
 You may wish to additionally obfuscate Tor traffic using a [pluggable transport](https://tb-manual.torproject.org/circumvention/).
 
-This can be done by setting up your own [Tor relay](https://support.torproject.org/relay-operators/) or finding an existing private or [public bridge](https://bridges.torproject.org/) to serve as an obfuscating entry node.
+This can be done by setting up a [Tor relay](https://support.torproject.org/relay-operators/) or finding an existing private or [public bridge](https://bridges.torproject.org/) to serve as an obfuscating entry node.
 
 For extra security, use Tor inside a [VirtualBox](https://www.virtualbox.org/wiki/Downloads) or [VMware](https://www.vmware.com/products/fusion.html) virtualized [GNU/Linux](https://www.brianlinkletter.com/2012/10/installing-debian-linux-in-a-virtualbox-virtual-machine/) or [OpenBSD](https://www.openbsd.org/faq/faq4.html) instance.
 
@@ -939,7 +946,7 @@ Also see [Invisible Internet Project (I2P)](https://geti2p.net/en/about/intro) a
 
 # VPN
 
-When choosing a VPN service or setting up your own, be sure to research the protocols, key exchange algorithms, authentication mechanisms, and type of encryption being used. Some protocols, such as [PPTP](https://en.wikipedia.org/wiki/Point-to-Point_Tunneling_Protocol#Security), should be avoided in favor of [OpenVPN](https://en.wikipedia.org/wiki/OpenVPN) or Linux-based [Wireguard](https://www.wireguard.com/) [on a Linux VM](https://github.com/mrash/Wireguard-macOS-LinuxVM) or via a set of [cross platform tools](https://www.wireguard.com/xplatform/).
+When choosing a VPN service or self-hosting, be sure to research the protocols, key exchange algorithms, authentication mechanisms, and type of encryption being used. Some protocols, such as [PPTP](https://en.wikipedia.org/wiki/Point-to-Point_Tunneling_Protocol#Security), should be avoided in favor of [OpenVPN](https://en.wikipedia.org/wiki/OpenVPN) or Linux-based [Wireguard](https://www.wireguard.com/) [on a Linux VM](https://github.com/mrash/Wireguard-macOS-LinuxVM) or via a set of [cross platform tools](https://www.wireguard.com/xplatform/).
 
 Some clients may send traffic over the next available interface when VPN is interrupted or disconnected. See [scy/8122924](https://gist.github.com/scy/8122924) for an example on how to allow traffic only over VPN.
 
@@ -961,10 +968,10 @@ Install from Homebrew with `brew install gnupg`.
 
 If you prefer a graphical application, download and install [GPG Suite](https://gpgtools.org/).
 
-Download [drduh/config/gpg.conf](https://github.com/drduh/config/blob/master/gpg.conf) to use recommended settings:
+Download [drduh/config/gpg.conf](https://github.com/drduh/config/blob/main/gpg.conf) to use recommended settings:
 
 ```console
-curl -o ~/.gnupg/gpg.conf https://raw.githubusercontent.com/drduh/config/master/gpg.conf
+curl -o ~/.gnupg/gpg.conf https://raw.githubusercontent.com/drduh/config/main/gpg.conf
 ```
 
 See [drduh/YubiKey-Guide](https://github.com/drduh/YubiKey-Guide) to securely generate and store GPG keys.
@@ -975,17 +982,17 @@ Read [online](https://alexcabal.com/creating-the-perfect-gpg-keypair/) [guides](
 
 ## XMPP
 
-XMPP is an [open standard](https://xmpp.org/extensions) developed by the [IETF](https://www.ietf.org) that allows for cross-platform federated messaging. There are many options for [clients](https://xmpp.org/getting-started). Consider using one of the browser-based clients to take advantage of your browser's sandbox.
+XMPP is an [open standard](https://xmpp.org/extensions) developed by the [IETF](https://www.ietf.org) that allows for cross-platform federated messaging. There are many options for [clients](https://xmpp.org/getting-started). Consider using one of the browser-based clients to take advantage of the browser's sandbox.
 
-Depending on the provider, you might not need anything other than a username and password to set up your account.
+Depending on the provider, you might not need anything other than a username and password to set up an account.
 
-XMPP isn't E2EE by default, you'll need to use [OMEMO](https://omemo.top) encryption, so make sure your client supports it.
+XMPP isn't E2EE by default, you'll need to use [OMEMO](https://omemo.top) encryption, so make sure the client supports it.
 
 ## Signal
 
 [Signal](https://www.signal.org) is an advanced E2EE messenger whose [double-ratchet](https://signal.org/docs/specifications/doubleratchet/) protocol is used by countless other messengers including WhatsApp, Google Messages, and Facebook Messenger.
 
-Signal requires a phone number to sign up and you'll need to install it on your phone first before you can use it on desktop.
+Signal requires a phone number to sign up and you'll need to install it on a phone first before you can use it on desktop.
 
 ## iMessage
 
@@ -993,9 +1000,10 @@ iMessage is Apple's first party messenger. It requires an [Apple Account](#apple
 
 Make sure to enable [Contact Key Verification](https://support.apple.com/118246) and verify with anyone you message to ensure that you're messaging the right person.
 
-You can use iMessage with either a [phone number or an email](https://support.apple.com/108758#help), so pick one that you're comfortable with your contacts seeing.
+You can use iMessage with either a [phone number or an email](https://support.apple.com/108758#help), so pick one that you're comfortable with contacts seeing.
 
-**Note:** By default, iCloud backup is enabled which stores copies of your message encryption keys on [Apple's servers](https://support.apple.com/102651) without E2EE. Either [disable iCloud backup](https://support.apple.com/guide/icloud/view-and-manage-backups-mm122d3ef202/1.0/icloud/1.0) or enable [Advanced Data Protection](https://support.apple.com/guide/security/advanced-data-protection-for-icloud-sec973254c5f) to prevent this. Also remember to tell your messaging partner/s to do the same!
+> [!WARNING]
+> By default, iCloud backup is enabled, which stores copies of message encryption keys on [Apple's servers](https://support.apple.com/102651) without E2EE. Either [disable iCloud backup](https://support.apple.com/guide/icloud/view-and-manage-backups-mm122d3ef202/1.0/icloud/1.0) or enable [Advanced Data Protection](https://support.apple.com/guide/security/advanced-data-protection-for-icloud-sec973254c5f) to prevent this. Remind messaging recipients to do the same.
 
 # Viruses and malware
 
@@ -1013,7 +1021,7 @@ Also check out [Hacking Team](https://www.schneier.com/blog/archives/2015/07/hac
 
 Only running programs from the App Store or that are [Notarized](https://support.apple.com/guide/security/app-code-signing-process-sec3ad8e6e53/web) by Apple will help mitigate malware. Apple performs an automated scan on notarized apps for malware. App Store apps undergo a [review](https://developer.apple.com/app-store/review/guidelines/) process to catch malware.
 
-Otherwise, get programs from trusted sources like directly from the developer's website or GitHub. Always make sure that your browser/terminal is using HTTPS when downloading any program.
+Otherwise, get programs from trusted sources like directly from the developer's website or GitHub. Always make sure that the browser/terminal is using HTTPS when downloading any program.
 
 You should also avoid programs that ask for lots of permissions and third party closed source programs. Open source code allows anyone to audit and examine the code for security/privacy issues.
 
@@ -1022,22 +1030,22 @@ You should also avoid programs that ask for lots of permissions and third party 
 Check if a program uses the [App Sandbox](https://developer.apple.com/documentation/security/app_sandbox/protecting_user_data_with_app_sandbox) before running it by running the following command:
 
 ```console
-codesign -dvvv --entitlements - <path to your app>
+codesign -dvvv --entitlements - <path to application>
 ```
 
-If the App Sandbox is enabled, you will see
+With the App Sandbox enabled:
 
 ```console
-    [Key] com.apple.security.app-sandbox
-    [Value]
-        [Bool] true
+[Key] com.apple.security.app-sandbox
+[Value]
+    [Bool] true
 ```
 
 Alternatively, you can check while the app is running by opening Activity Monitor and adding the "Sandbox" column.
 
-All App Store apps are required to use the App Sandbox.
+All App Store software is required to use the App Sandbox.
 
-**Note:** Browsers like Google Chrome use their own [sandbox](https://chromium.googlesource.com/chromium/src/+/HEAD/docs/design/sandbox.md) so they don't use the App Sandbox.
+Browsers like Google Chrome use their own [sandbox](https://chromium.googlesource.com/chromium/src/+/HEAD/docs/design/sandbox.md) so they don't use the App Sandbox.
 
 ## Hardened Runtime
 
@@ -1051,7 +1059,7 @@ If Hardened Runtime is enabled, you will see `flags=0x10000(runtime)`. The "runt
 
 You can enable a column in Activity Monitor called "Restricted" which is a flag that prevents programs from injecting code via macOS's [dynamic linker](https://pewpewthespells.com/blog/blocking_code_injection_on_ios_and_os_x.html). Ideally, this should say "Yes".
 
-Notarized apps are required to use the Hardened Runtime.
+Notarized applications are required to use the Hardened Runtime.
 
 ## Antivirus
 
@@ -1067,11 +1075,11 @@ See [Sophail: Applied attacks against Antivirus](https://lock.cmpxchg8b.com/soph
 
 ## Gatekeeper
 
-**Gatekeeper** tries to prevent non-notarized apps from running.
+**Gatekeeper** tries to prevent non-notarized applications from running.
 
 If you try to run an app that isn't notarized, Gatekeeper will give you a warning. This can be easily bypassed if you go to **Privacy & Security**, scroll down to the bottom and click **Open** on your app. Then Gatekeeper will allow you to run it.
 
-Gatekeeper doesn't cover all binaries, only apps so be careful when running other file types.
+Gatekeeper does not cover all binaries - only applications - so exercise caution when running other file types.
 
 # System Integrity Protection
 
@@ -1329,15 +1337,11 @@ Ensure all eligible online accounts have [multi-factor authentication](https://e
 
 # Backup
 
-Encrypt files locally before backing them up to external media or online services. You can create an [encrypted disk image](https://support.apple.com/guide/disk-utility/dskutl11888/mac#dsku7bb3d28c) to backup and store files securely. It'll act as a secure, encrypted virtual drive that you can put your sensitive files inside. When you mount the disk image, you can check a box to save the password in your keychain for convenience. Remember to [unmount](https://support.apple.com/guide/disk-utility/dskud709f49b/mac) the drive when you're done with it.
+Encrypt files locally before backing them up to external media or online services.
 
-You can add a [checksum](https://support.apple.com/is-is/guide/disk-utility/dskutl1019/22.6/mac/15.0) to the disk image to [verify integrity](https://support.apple.com/guide/disk-utility/dskutl15186/22.6/mac/15.0).
+If the threat model allows it, you should follow the [3-2-1 backup model](https://www.cisa.gov/sites/default/files/publications/data_backup_options.pdf) as outlined by CISA. Keep 3 copies: the original and two backups. Keep backups on 2 different media types, e.g. on a local drive and cloud storage. Store 1 copy offsite.
 
-You can also encypt and password-protect [external storage devices](https://support.apple.com/guide/disk-utility/dskutl35612/mac).
-
-If your threat model allows it, you should follow the [3-2-1 backup model](https://www.cisa.gov/sites/default/files/publications/data_backup_options.pdf) as outlined by CISA. Keep 3 copies: the original and two backups. Keep backups on 2 different media types, e.g. on a local drive and cloud storage. Store 1 copy offsite. 
-
-[Time Machine](https://support.apple.com/104984) is the built-in tool for handling backups on macOS. Get an external drive or network drive to back up to and [encrypt](https://support.apple.com/guide/mac-help/keep-your-time-machine-backup-disk-secure-mh21241) your backups.
+[Time Machine](https://support.apple.com/104984) is the built-in tool for handling backups on macOS. Get an external drive or network drive to back up to and [encrypt](https://support.apple.com/guide/mac-help/keep-your-time-machine-backup-disk-secure-mh21241) backups.
 
 GnuPG can be used with a static password or public key (with the private key stored on [YubiKey](https://github.com/drduh/YubiKey-Guide)).
 
@@ -1374,19 +1378,19 @@ Additional applications and services which offer backups include:
 
 # Wi-Fi
 
-Most Wi-Fi networks continuously broadcast their network name, called the **service set identifier (SSID)**, allowing devices to [passively](https://www.wi-fi.org/knowledge-center/faq/what-are-passive-and-active-scanning) scan for networks they have already connected to before. However, **hidden** networks don't transmit their SSID, meaning your device has to send a probe with the SSID to connect to it. This can reveal your previously connected networks to an attacker. 
+Most Wi-Fi networks continuously broadcast their network name, called the **service set identifier (SSID)**, allowing devices to [passively](https://www.wi-fi.org/knowledge-center/faq/what-are-passive-and-active-scanning) scan for networks they have already connected to before. However, **hidden** networks don't transmit their SSID, meaning the device has to send a probe with the SSID to connect to it. This can reveal previously connected networks to an attacker.
 
 >Apple devices automatically detect when a network is hidden. If a network is hidden, the device sends a probe with the SSID included in the request—not otherwise. This helps prevent the device from broadcasting the name of previously hidden networks a user was connected to, thereby further ensuring privacy.
 
 As such, avoid connecting to [hidden networks](https://support.apple.com/guide/security/wi-fi-privacy-with-apple-devices-sec31e483abf/web#sec059998a98).
 
-Make sure to avoid setting your home network to hidden and set your security to WPA3 or the highest your router supports. Follow Apple's [guidance](https://support.apple.com/en-us/102766) on how to set up your home Wi-Fi network to be as secure as possible.
+Make sure to avoid setting personal networks to hidden and set the security mode to WPA3 or the highest your router supports. Follow Apple's [guidance](https://support.apple.com/en-us/102766) on how to set up your home Wi-Fi network to be as secure as possible.
 
 You can set your Mac to have a different, [random MAC address](https://support.apple.com/en-gb/guide/mac-help/mchlb1cb3eb4/mac) for each network that rotates over time. This is indended to reduce tracking across networks and on the same network over time.
 
 # SSH
 
-For outgoing SSH connections, use hardware or password-protected keys, [set up](http://nerderati.com/2011/03/17/simplify-your-life-with-an-ssh-config-file/) remote hosts and consider [hashing](http://nms.csail.mit.edu/projects/ssh/) them for added privacy. See [drduh/config/ssh_config](https://github.com/drduh/config/blob/master/ssh_config) for recommended client options.
+For outgoing SSH connections, use hardware or password-protected keys, [set up](http://nerderati.com/2011/03/17/simplify-your-life-with-an-ssh-config-file/) remote hosts and consider [hashing](http://nms.csail.mit.edu/projects/ssh/) them for added privacy. See [drduh/config/ssh_config](https://github.com/drduh/config/blob/main/ssh_config) for recommended client options.
 
 You can also use ssh to create an [encrypted tunnel](http://blog.trackets.com/2014/05/17/ssh-tunnel-local-and-remote-port-forwarding-explained-with-examples.html) to send traffic through, similar to a VPN.
 
@@ -1416,7 +1420,7 @@ sudo launchctl load -w /System/Library/LaunchDaemons/ssh.plist
 
 Or use the **System Preferences** > **Sharing** menu.
 
-If enabling sshd, be sure to disable password authentication and consider further [hardening](https://stribika.github.io/2015/01/04/secure-secure-shell.html) your configuration. See [drduh/config/sshd_config](https://github.com/drduh/config/blob/master/sshd_config) for recommended options.
+If enabling sshd, be sure to disable password authentication and consider further [hardening](https://stribika.github.io/2015/01/04/secure-secure-shell.html) the configuration. See [drduh/config/sshd_config](https://github.com/drduh/config/blob/main/sshd_config) for recommended options.
 
 Confirm whether sshd is running:
 
@@ -1453,13 +1457,13 @@ header,111,11,OpenSSH login,0,Thu Sep  1 12:00:00 2015, + 16 msec,subject_ex,drd
 
 See the manual pages for `audit`, `praudit`, `audit_control` and other files in `/etc/security`
 
-**Note** although `man audit` says the `-s` flag will synchronize the audit configuration, it appears necessary to reboot for changes to take effect.
+Although `man audit` says the `-s` flag will synchronize the audit configuration, it appears necessary to reboot for changes to take effect.
 
 See articles on [ilostmynotes.blogspot.com](https://ilostmynotes.blogspot.com/2013/10/openbsm-auditd-on-os-x-these-are-logs.html) and [derflounder.wordpress.com](https://derflounder.wordpress.com/2012/01/30/openbsm-auditing-on-mac-os-x/) for more information.
 
 ## DTrace
 
-**Note** [System Integrity Protection](https://github.com/drduh/macOS-Security-and-Privacy-Guide#system-integrity-protection) interferes with DTrace, so it is not possible to use it in recent macOS versions without disabling SIP.
+[System Integrity Protection](https://github.com/drduh/macOS-Security-and-Privacy-Guide#system-integrity-protection) interferes with DTrace, so it is not possible to use it in recent macOS versions without disabling SIP.
 
 * `iosnoop` monitors disk I/O
 * `opensnoop` monitors file opens
@@ -1576,9 +1580,7 @@ Disable crash reporter (the dialog which appears after an application crashes an
 defaults write com.apple.CrashReporter DialogType none
 ```
 
-Disable Bonjour multicast advertisements:
-
-**Warning:** This will cause problems with AirPlay and AirPrint!
+Disable Bonjour multicast advertisements (also disabling AirPlay and AirPrint features):
 
 ```console
 sudo defaults write /Library/Preferences/com.apple.mDNSResponder.plist NoMulticastAdvertisements -bool YES
@@ -1586,7 +1588,7 @@ sudo defaults write /Library/Preferences/com.apple.mDNSResponder.plist NoMultica
 
 [Disable Handoff](https://support.apple.com/guide/mac-help/change-airdrop-handoff-settings-mchl6a407f99) and [Bluetooth](https://support.apple.com/guide/mac-help/turn-bluetooth-on-or-off-blth1008) features, if they aren't necessary.
 
-Check that your apps are sandboxed in [Activity Monitor](https://developer.apple.com/documentation/security/app_sandbox/protecting_user_data_with_app_sandbox#4098972).
+Validate applications are sandboxed in [Activity Monitor](https://developer.apple.com/documentation/security/app_sandbox/protecting_user_data_with_app_sandbox#4098972).
 
 macOS comes with this line in `/etc/sudoers`:
 
