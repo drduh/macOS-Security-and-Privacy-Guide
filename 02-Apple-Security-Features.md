@@ -1,5 +1,7 @@
 # Hardware
 
+# Install
+
 # First boot
 
 # Admin and user accounts
