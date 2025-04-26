@@ -1,13 +1,17 @@
+# Wi-Fi
+
 # Firewall
 
 # Services
 
 # Browser
 
-# Siri Suggestions and Spotlight
-
 # DNS
+
+# VPN/Tor
+
+# SSH
 
 # Certificate authorities
 
-# VPN/Tor
+# Siri Suggestions and Spotlight
