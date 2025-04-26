@@ -1,4 +1,4 @@
-# PGP/GPG
+# GnuPG
 
 # Messengers
 
@@ -14,7 +14,7 @@
 
 ## Sandbox
 
-## Hardening
+## Hardened runtime
 
 ## Gatekeeper
 

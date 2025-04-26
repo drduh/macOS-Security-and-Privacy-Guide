@@ -2,6 +2,10 @@
 
 # Firewall
 
+## Application
+
+## Kernel
+
 # Services
 
 # DNS
@@ -27,7 +31,3 @@
 # VPN/Tor
 
 # SSH
-
-# PKI
-
-# Siri

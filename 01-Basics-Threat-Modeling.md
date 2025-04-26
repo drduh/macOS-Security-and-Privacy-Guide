@@ -1,4 +1,4 @@
-# Basics
+# Principles
 
 # Threat modeling
 

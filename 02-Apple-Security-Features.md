@@ -1,17 +1,13 @@
-# Activation
-
 # First boot
 
-# Admin and user accounts
+# Admin accounts
 
 # Firmware
-
-## Application
-
-## Kernel
 
 # FileVault
 
 # System integrity
 
 # Lockdown Mode
+
+# Siri
