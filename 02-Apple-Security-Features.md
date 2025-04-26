@@ -1,6 +1,4 @@
-# Hardware
-
-# Install
+# Activation
 
 # First boot
 
@@ -9,5 +7,7 @@
 # Firmware
 
 # FileVault
+
+# System integrity
 
 # Lockdown Mode

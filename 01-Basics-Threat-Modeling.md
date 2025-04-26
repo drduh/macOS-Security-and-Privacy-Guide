@@ -1,3 +1,7 @@
 # Basics
 
-# Threat Modeling
+# Threat modeling
+
+# Hardware selection
+
+# Installation
