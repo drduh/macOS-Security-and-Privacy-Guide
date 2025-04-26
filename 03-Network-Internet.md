@@ -1,17 +1,33 @@
-# Wi-Fi
+# Wireless
 
 # Firewall
 
 # Services
 
+# DNS
+
+## Profiles
+
+## Dnsmasq
+
+## DNSCrypt
+
 # Browser
 
-# DNS
+## Firefox
+
+## Chrome
+
+## Safari
+
+## Other
+
+## Privoxy
 
 # VPN/Tor
 
 # SSH
 
-# Certificate authorities
+# PKI
 
-# Siri Suggestions and Spotlight
+# Siri

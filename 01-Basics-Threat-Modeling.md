@@ -5,3 +5,7 @@
 # Hardware selection
 
 # Installation
+
+## Activation
+
+## Apple account

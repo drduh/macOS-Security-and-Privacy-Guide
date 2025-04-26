@@ -6,6 +6,10 @@
 
 # Firmware
 
+## Application
+
+## Kernel
+
 # FileVault
 
 # System integrity
