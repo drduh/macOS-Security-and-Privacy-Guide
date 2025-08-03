@@ -427,7 +427,7 @@ Apple is moving to on-device processing for a lot of Siri functions, but some in
 If a program isn't available through the App Store, consider using [Homebrew](https://brew.sh/).
 
 > [!WARNING]
-> Homebrew requiests "App Management" (or "Full Disk Access") permission to the terminal.
+> Homebrew requests "App Management" (or "Full Disk Access") permission to the terminal.
 > This is a bad idea, as it would make you vulnerable to these attacks again: any non-sandboxed application can execute code with the TCC permissions of the terminal by adding a malicious command to zshrc, for example.
 > Granting "App Management" or "Full Disk Access" entitlements should be considered the same as disabling TCC entirely.
 
@@ -1386,7 +1386,7 @@ As such, avoid connecting to [hidden networks](https://support.apple.com/guide/s
 
 Make sure to avoid setting personal networks to hidden and set the security mode to WPA3 or the highest your router supports. Follow Apple's [guidance](https://support.apple.com/en-us/102766) on how to set up your home Wi-Fi network to be as secure as possible.
 
-You can set your Mac to have a different, [random MAC address](https://support.apple.com/en-gb/guide/mac-help/mchlb1cb3eb4/mac) for each network that rotates over time. This is indended to reduce tracking across networks and on the same network over time.
+You can set your Mac to have a different, [random MAC address](https://support.apple.com/en-gb/guide/mac-help/mchlb1cb3eb4/mac) for each network that rotates over time. This is intended to reduce tracking across networks and on the same network over time.
 
 # SSH
 
