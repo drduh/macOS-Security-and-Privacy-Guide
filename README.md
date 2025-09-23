@@ -172,10 +172,11 @@ The App Store offers the greatest security guarantees for software on macOS, but
 ## Virtualization
 
 You can easily run macOS natively in a virtual machine using [UTM](https://mac.getutm.app). It's free from their site but if you buy it from the App Store, you'll get automatic updates.
-
 Follow their [documentation](https://docs.getutm.app/guest-support/macos) to install a macOS VM with just a few clicks.
 
-Another option is [VMware Fusion](https://www.vmware.com/products/fusion.html). You can read their [documentation](https://docs.vmware.com/en/VMware-Fusion/13/com.vmware.fusion.using.doc/GUID-474FC78E-4E77-42B7-A1C6-12C2F378C5B9.html) to see how to install a macOS VM.
+[Parallels Desktop](https://www.parallels.com/) is a paid option. Parallels supports snapshots for macOS virtual machines on both Intel and Apple Silicon Mac computers. It makes testing a lot faster and easier. This [documentation](https://docs.parallels.com/pdfm-ug-26/parallels-desktop-for-mac-26-users-guide/advanced-topics/using-other-operating-systems-on-your-mac/running-macos-virtual-machines) shows how to get macOS VM running in Parallels.
+
+Another option is [VMware Fusion](https://www.vmware.com/products/fusion.html). But they only support macOS virtual machine on Intel Macs. You can read their [documentation](https://docs.vmware.com/en/VMware-Fusion/13/com.vmware.fusion.using.doc/GUID-474FC78E-4E77-42B7-A1C6-12C2F378C5B9.html) to see how to install a macOS VM.
 
 # First boot
 
