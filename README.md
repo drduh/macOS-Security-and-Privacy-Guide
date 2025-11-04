@@ -171,11 +171,11 @@ The App Store offers the greatest security guarantees for software on macOS, but
 
 ## Virtualization
 
-You can easily run macOS natively in a virtual machine using [UTM](https://mac.getutm.app). It's free from their site but if you buy it from the App Store, you'll get automatic updates.
+You can easily run macOS natively in a virtual machine using [UTM](https://mac.getutm.app). It's free from their site but if you buy it from the [App Store](https://apps.apple.com/app/utm-virtual-machines/id1538878817), you'll get automatic updates.
 
 Follow their [documentation](https://docs.getutm.app/guest-support/macos) to install a macOS VM with just a few clicks.
 
-Another option is [Parallels](https://www.parallels.com). Note that Parallels requires an account and payment info, along with other [data collection](https://my.parallels.com/data_reminder), in order to use it. Read their [documentation](https://kb.parallels.com/125561/) on how to install a macOS VM.
+Another option is [Parallels](https://www.parallels.com). Note that Parallels requires an account and payment info, along with other [data collection](https://my.parallels.com/data_reminder), in order to use it. Read their [documentation](https://kb.parallels.com/125561/) on how to install a macOS VM. You can get Parallels on the [App Store](https://apps.apple.com/app/parallels-desktop/id1085114709) as well.
 
 # First boot
 
