@@ -175,7 +175,10 @@ You can easily run macOS natively in a virtual machine using [UTM](https://mac.g
 
 Follow their [documentation](https://docs.getutm.app/guest-support/macos) to install a macOS VM with just a few clicks.
 
-Another option is [Parallels](https://www.parallels.com). Note that Parallels requires an account and payment info, along with other [data collection](https://my.parallels.com/data_reminder), in order to use it. Read their [documentation](https://kb.parallels.com/125561/) on how to install a macOS VM. You can get Parallels on the [App Store](https://apps.apple.com/app/parallels-desktop/id1085114709) as well.
+ A paid option is [Parallels](https://www.parallels.com). Read their [documentation](https://kb.parallels.com/125561/) on how to install a macOS VM. You can get Parallels on the [App Store](https://apps.apple.com/app/parallels-desktop/id1085114709) as well.
+
+ > [!WARNING]
+ > Parallels requires an account, payment info, and other [data](https://my.parallels.com/data_reminder) in order to use it. Please read through this privacy notice and make sure you're ok with giving the required data.
 
 # First boot
 
