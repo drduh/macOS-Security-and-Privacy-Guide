@@ -1634,5 +1634,4 @@ drwx------  2 kevin  staff       64 Dec  4 12:27 umask_testing_dir
 * [Patrick Wardle's Objective-See blog](https://objective-see.com/blog.html)
 * [Reverse Engineering macOS blog](https://reverse.put.as/)
 * [Reverse Engineering Resources](http://samdmarshall.com/re.html)
-* [The macOS Phishing Easy Button: AppleScript Dangers](https://duo.com/blog/the-macos-phishing-easy-button-applescript-dangers)
 * [iCloud security and privacy overview](https://support.apple.com/102651)
