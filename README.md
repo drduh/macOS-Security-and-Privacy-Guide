@@ -171,11 +171,14 @@ The App Store offers the greatest security guarantees for software on macOS, but
 
 ## Virtualization
 
-You can easily run macOS natively in a virtual machine using [UTM](https://mac.getutm.app). It's free from their site but if you buy it from the App Store, you'll get automatic updates.
+You can easily run macOS natively in a virtual machine using [UTM](https://mac.getutm.app). It's free from their site but if you buy it from the [App Store](https://apps.apple.com/app/utm-virtual-machines/id1538878817), you'll get automatic updates.
 
 Follow their [documentation](https://docs.getutm.app/guest-support/macos) to install a macOS VM with just a few clicks.
 
-Another option is [VMware Fusion](https://www.vmware.com/products/fusion.html). You can read their [documentation](https://docs.vmware.com/en/VMware-Fusion/13/com.vmware.fusion.using.doc/GUID-474FC78E-4E77-42B7-A1C6-12C2F378C5B9.html) to see how to install a macOS VM.
+ A paid option is [Parallels](https://www.parallels.com). Read their [documentation](https://kb.parallels.com/125561/) on how to install a macOS VM. You can get Parallels on the [App Store](https://apps.apple.com/app/parallels-desktop/id1085114709) as well.
+
+ > [!WARNING]
+ > Parallels requires an account, payment info, and other [data](https://my.parallels.com/data_reminder) in order to use it. Please read through this privacy notice and make sure you're ok with giving the required data.
 
 # First boot
 
@@ -938,7 +941,7 @@ You may wish to additionally obfuscate Tor traffic using a [pluggable transport]
 
 This can be done by setting up a [Tor relay](https://support.torproject.org/relay-operators/) or finding an existing private or [public bridge](https://bridges.torproject.org/) to serve as an obfuscating entry node.
 
-For extra security, use Tor inside a [VirtualBox](https://www.virtualbox.org/wiki/Downloads) or [VMware](https://www.vmware.com/products/fusion.html) virtualized [GNU/Linux](https://www.brianlinkletter.com/2012/10/installing-debian-linux-in-a-virtualbox-virtual-machine/) or [OpenBSD](https://www.openbsd.org/faq/faq4.html) instance.
+For extra security, use Tor inside a [VM](#virtualization).
 
 Finally, remember the Tor network provides [anonymity](https://www.privateinternetaccess.com/blog/2013/10/how-does-privacy-differ-from-anonymity-and-why-are-both-important/), which is not necessarily synonymous with privacy. The Tor network does not guarantee protection against a global observer capable of traffic analysis and correlation. See also [Seeking Anonymity in an Internet Panopticon](https://bford.info/pub/net/panopticon-cacm.pdf) (pdf) and [Traffic Correlation on Tor by Realistic Adversaries](https://www.ohmygodel.com/publications/usersrouted-ccs13.pdf) (pdf).
 
