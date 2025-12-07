@@ -1638,3 +1638,5 @@ drwx------  2 kevin  staff       64 Dec  4 12:27 umask_testing_dir
 * [Reverse Engineering macOS blog](https://reverse.put.as/)
 * [Reverse Engineering Resources](http://samdmarshall.com/re.html)
 * [iCloud security and privacy overview](https://support.apple.com/102651)
+ 
+* [https://www.dhs.gov/ntas-widget]
