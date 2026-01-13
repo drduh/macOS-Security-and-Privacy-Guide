@@ -171,14 +171,30 @@ The App Store offers the greatest security guarantees for software on macOS, but
 
 ## Virtualization
 
-You can easily run macOS natively in a virtual machine using [UTM](https://mac.getutm.app). It's free from their site but if you buy it from the [App Store](https://apps.apple.com/app/utm-virtual-machines/id1538878817), you'll get automatic updates.
+On Apple silicon (M1–M4), virtualization is built into macOS via Apple’s Virtualization framework. You can run macOS—and Windows 11 ARM—using the tools below.
 
-Follow their [documentation](https://docs.getutm.app/guest-support/macos) to install a macOS VM with just a few clicks.
+- **UTM**  
+  Free from the [website](https://mac.getutm.app); App Store version adds automatic updates. Follow the [docs](https://docs.getutm.app/guest-support/macos) to create a macOS VM in a few clicks. Also supports Windows 11 ARM.
 
- A paid option is [Parallels](https://www.parallels.com). Read their [documentation](https://kb.parallels.com/125561/) on how to install a macOS VM. You can get Parallels on the [App Store](https://apps.apple.com/app/parallels-desktop/id1085114709) as well.
+- **VirtualBuddy**  
+  GUI for virtualizing macOS 12+ on Apple silicon. 100% free. [GitHub](https://github.com/insidegui/VirtualBuddy)
 
- > [!WARNING]
- > Parallels requires an account, payment info, and other [data](https://my.parallels.com/data_reminder) in order to use it. Please read through this privacy notice and make sure you're ok with giving the required data.
+- **Bushel**  
+  Lightweight, free VM app with neat features. On first launch, choose “Ask App Not to Track.” [Website](https://getbushel.app/)
+
+- **VMware Fusion**  
+  Now free under Broadcom. Clean UI, easy macOS setup, and supports Windows 11 ARM. [Download & docs](https://knowledge.broadcom.com/external/article/315638/download-and-install-vmware-fusion.html)
+
+- **tart (CLI)**  
+  Command‑line VM control; install via Homebrew. [tart](https://tart.run) · [Homebrew](https://brew.sh)
+
+- **Parallels (paid)**  
+  Commercial option with strong integration. See macOS VM setup guidance in their [documentation](https://kb.parallels.com/125561/) and App Store listing. [Website](https://www.parallels.com) · [App Store](https://apps.apple.com/app/parallels-desktop/id1085114709)
+
+> [!WARNING]
+> VMware requires an account with Broadcom and agreeing to about 12 different agreements before download.
+> Parallels requires an account, payment details, and other data. Review their privacy notice before using. [Privacy notice](https://my.parallels.com/data_reminder)
+
 
 # First boot
 
