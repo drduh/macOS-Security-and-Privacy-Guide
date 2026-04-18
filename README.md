@@ -221,6 +221,22 @@ It is considered a best practice by [Apple](https://help.apple.com/machelp/mac/1
 
 It is not strictly required to ever log into the admin account via the macOS login screen. When a Terminal command requires administrator privileges, the system will prompt for authentication and Terminal then continues using those privileges. To that end, Apple provides some [recommendations](https://support.apple.com/HT203998) for hiding the admin account and its home directory. This can be an elegant solution to avoid having a visible 'ghost' account.
 
+For single-user laptops and workstations, consider explicitly disabling
+the root account login shell to reduce the risk of persistent interactive
+root access via local or remote login:
+
+```console
+# Disable the root account
+sudo dsenableroot -d
+
+# Prevent root from obtaining an interactive shell
+sudo dscl . -create /Users/root UserShell /usr/bin/false
+```
+
+This keeps privilege escalation available via `sudo` while eliminating
+a persistent interactive root shell as an attack surface.
+
+
 ## Caveats
 
 * Only administrators can install applications in `/Applications` (local directory). Finder and Installer will prompt a standard user with an authentication dialog. Many applications can be installed in `~/Applications` instead (the directory can be created). As a rule of thumb: applications that do not require admin access – or do not complain about not being installed in `/Applications` – should be installed in the user directory, the rest in the local directory. Mac App Store applications are still installed in `/Applications` and require no additional authentication.
@@ -228,6 +244,8 @@ It is not strictly required to ever log into the admin account via the macOS log
 * System Preferences and several system utilities (e.g. Wi-Fi Diagnostics) will require root privileges for full functionality. Many panels in System Preferences are locked and need to be unlocked separately by clicking on the lock icon. Some applications will simply prompt for authentication upon opening, others must be opened by an admin account directly to get access to all functions (e.g. Console).
 * There are third-party applications that will not work correctly because they assume that the user account is an admin. These programs may have to be executed by logging into the admin account, or by using the `open` utility.
 * See additional discussion in [issue 167](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/167).
+
+
 
 ## Setup
 
@@ -247,6 +265,20 @@ dscl . -read /Users/<username> GeneratedUID
 ```
 
 See also [this post](https://superuser.com/a/395738) for more information about how macOS determines group membership.
+
+For single-user laptops and workstations, consider disabling the root
+account's login shell to reduce the risk of an attacker obtaining a
+persistent interactive root session via local or remote login:
+
+```console
+sudo dsenableroot -d
+sudo dscl . -create /Users/root UserShell /usr/bin/false
+```
+
+The first command disables the root account via Directory Services.
+The second ensures that even if the account is re-enabled, it cannot
+spawn an interactive shell. Privilege escalation via `sudo` remains
+unaffected.
 
 # Firmware
 
@@ -451,6 +483,35 @@ If a program isn't available through the App Store, consider using [Homebrew](ht
 > Granting "App Management" or "Full Disk Access" entitlements should be considered the same as disabling TCC entirely.
 
 Remember to periodically run `brew upgrade` on trusted and secure networks to download and install software updates. To get information on a package before installation, run `brew info <package>` and check its formula online. You may also wish to enable [additional security options](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/138), such as `HOMEBREW_NO_INSECURE_REDIRECT=1`
+
+To check installed Homebrew packages for known CVEs, consider using
+[brew-vulns](https://github.com/nicowillis/brew-vulns):
+
+```console
+brew tap nicowillis/brew-vulns
+brew install brew-vulns
+brew vulns
+```
+
+If the `brew-vulns` binary is not found after installation, add
+Homebrew's bin directory to your `PATH`:
+
+```console
+export PATH="$(brew --prefix)/bin:$PATH"
+```
+
+For Python environments, consider auditing dependencies with
+[pip-audit](https://github.com/pypa/pip-audit) via
+[pipx](https://github.com/pypa/pipx):
+
+```console
+brew install pipx
+pipx install pip-audit
+pip-audit
+```
+
+Run `pipx upgrade pip-audit` periodically to ensure the vulnerability
+database is current.
 
 According to [Homebrew's Anonymous Analytics](https://docs.brew.sh/Analytics), Homebrew gathers anonymous analytics and reports these to a self-hosted InfluxDB instance.
 
@@ -1086,7 +1147,12 @@ To scan an application with multiple AV products and examine its behavior, uploa
 
 macOS comes with a built-in AV program called [XProtect](https://support.apple.com/guide/security/protecting-against-malware-sec469d47bd8). XProtect automatically runs in the background and updates its signatures that it uses to detect malware without you having to do anything. If it detects malware already running, it will work to remove and mitigate it just like any other AV program.
 
-Applications such as [BlockBlock](https://objective-see.com/products/blockblock.html) or [maclaunch.sh](https://github.com/hazcod/maclaunch) might help prevent persistent malware.
+Applications such as [BlockBlock](https://objective-see.com/products/blockblock.html),
+[KnockKnock](https://objective-see.com/products/knockknock.html),
+[OverSight](https://objective-see.com/products/oversight.html),
+and [maclaunch.sh](https://github.com/hazcod/maclaunch) can help
+detect and prevent persistent malware, unauthorized launch items,
+and unexpected use of the camera or microphone.
 
 Locally installed **Anti-virus** programs are generally a double-edged sword: they may catch "garden variety" malware, but also may increase the attack surface for sophisticated adversaries due to their privileged operating mode. They also typically phone home to send samples in order to catch the newest malware. This can be a privacy concern.
 
@@ -1453,13 +1519,16 @@ Keep your Mac physically secure at all times and do not leave it unattended in p
 
 A skilled attacker with unsupervised physical access could install a [hardware keylogger](https://trmm.net/Thunderstrike_31c3) to record all of your keystrokes. Using a Mac with a built-in keyboard or a bluetooth keyboard makes this more difficult as many off-the-shelf versions of this attack are designed to be plugged in between a USB keyboard and your computer.
 
-To protect against physical theft during use, you can use an anti-forensic tool like [BusKill](https://github.com/buskill/buskill-app) or [swiftGuard](https://github.com/Lennolium/swiftGuard) (updated usbkill, with graphical user interface). All respond to USB events and can immediately shutdown your computer if your device is physically separated from you or an unauthorized device is connected.
+To protect against physical theft during use, you can use an anti-forensic tool like [BusKill](https://github.com/buskill/buskill-app) or [swiftGuard](https://github.com/Lennolium/swiftGuard) (updated usbkill, with graphical user interface) (on 18.4.26 swiftguard doesnt lunch on m series macbook on macos 26 and higher). [DoNotDisturb](https://objective-see.com/products/donotdisturb.html) can alert when the lid of an unattended Mac is opened, providing an additional layer of physical access detection. All of these tools respond to USB events and can immediately shutdown your computer if your device is physically separated from you or an unauthorized device is connected.
 
 Consider purchasing a privacy screen/filter for use in public.
 
 [Nail polish](https://trmm.net/Glitter) and tamper-evidence seals can be applied to components to detect tampering.
 
 # System monitoring
+
+For a higher-level view of the system's security posture, several
+auditing tools can complement the low-level visibility of OpenBSM.
 
 ## OpenBSM audit
 
@@ -1479,6 +1548,35 @@ See the manual pages for `audit`, `praudit`, `audit_control` and other files in 
 Although `man audit` says the `-s` flag will synchronize the audit configuration, it appears necessary to reboot for changes to take effect.
 
 See articles on [ilostmynotes.blogspot.com](https://ilostmynotes.blogspot.com/2013/10/openbsm-auditd-on-os-x-these-are-logs.html) and [derflounder.wordpress.com](https://derflounder.wordpress.com/2012/01/30/openbsm-auditing-on-mac-os-x/) for more information.
+
+[Lynis](https://github.com/CISOfy/lynis) is an open source security
+auditing tool that performs over 300 checks against the system and
+produces a hardening index score with actionable findings:
+
+```console
+brew install lynis
+sudo lynis audit system
+```
+Results are saved to `/var/log/lynis.log` and
+`/var/log/lynis-report.dat`. The hardening index provides a
+reproducible baseline — run periodically and compare scores over
+time to track improvement.
+
+For users who find raw Lynis output difficult to interpret,
+[Pareto Security](https://paretosecurity.com) provides a MenuBar
+application that continuously audits the most impactful security
+settings and surfaces failures in plain language — no terminal
+required.
+
+[Mergen](https://github.com/sametsazak/mergen) is a GUI-based
+auditing tool with CIS Benchmark checks, similar in scope to Lynis.
+Verify the project is actively maintained before use in production
+environments. (note - after Mergen audit resultats, dont blind click "fix all one button", look up what issue Mergen found, look up discribtion. If u feel profesional and accept resposobility and risks, u can open terminal and wrote command, unless u not sure - dont do anything, or ask for profesional guidness)
+
+To compare findings across tools, note that Lynis and Mergen surface
+configuration weaknesses, while OpenBSM records runtime behavior.
+They are complementary: auditors catch what is misconfigured,
+OpenBSM catches what is happening.
 
 ## DTrace
 
@@ -1554,6 +1652,30 @@ tshark -Y "ssl.handshake.certificate" -Tfields \
 # Miscellaneous
 
 Disable [Diagnostics & Usage Data](https://support.apple.com/guide/mac-help/share-analytics-information-mac-apple-mh27990).
+
+To improve auditability of privilege escalation without modifying
+`/etc/sudoers` directly, create a dedicated drop-in file:
+
+`log_allowed` writes a timestamped entry for every successful `sudo`
+invocation, improving forensic visibility. `timestamp_type=tty` ties
+credential caching to the terminal session rather than the user
+process, preventing credential reuse across concurrent sessions.
+`timestamp_timeout=0` disables the 15-minute cache entirely —
+every `sudo` call requires re-authentication. Adjust to taste
+based on your threat model.
+
+```console
+sudo visudo -f /etc/sudoers.d/audit_sudo
+```
+
+Add the following lines:
+
+# Log each successful sudo invocation with a timestamp
+Defaults log_allowed
+# Require password re-entry per TTY session, not per process
+Defaults timestamp_type=tty
+# Remove the default 15-minute credential cache
+Defaults timestamp_timeout=0
 
 If you want to play **music** or watch **videos**, use QuickTime Player, the built-in media player in macOS. It uses the [App Sandbox](https://developer.apple.com/documentation/security/app_sandbox/protecting_user_data_with_app_sandbox), [Hardened Runtime](https://developer.apple.com/documentation/xcode/configuring-the-hardened-runtime), and benefits from the [Signed System Volume](https://support.apple.com/guide/security/signed-system-volume-security-secd698747c9/web) as part of the base system.
 
@@ -1637,9 +1759,28 @@ drwx------  2 kevin  staff       64 Dec  4 12:27 umask_testing_dir
 -rw-------@ 1 kevin  staff  2026566 Dec  4 12:28 umask_testing_file
 ```
 
+For laptops and desktops, consider applying a CIS-style power
+management baseline to reduce the window of an unattended unlocked
+session:
+
+```console
+sudo pmset -a sleep 15
+sudo pmset -a displaysleep 10
+sudo pmset -a womp 0
+```
+
+`sleep` sets system idle sleep to 15 minutes, `displaysleep` dims
+the display after 10 minutes, and `womp 0` disables Wake on LAN.
+On server or lab setups this baseline may be undesirable — verify
+with `pmset -g` before and after applying changes.
+
 # Related software
 
 * [CISOfy/lynis](https://github.com/CISOfy/lynis) - Cross-platform security auditing tool and assists with compliance testing and system hardening.
+* [sametsazak/mergen](https://github.com/sametsazak/mergen) -
+  A GUI-based system auditing tool with CIS Benchmark checks,
+  similar to Lynis. Verify the project is actively maintained
+  before use in production environments.
 * [Zentral](https://github.com/zentralopensource/zentral) - A log and configuration server for osquery. Run audit and probes on inventory, events, logfiles, combine with point-in-time alerting. A full Framework and Django web server build on top of the elastic stack (formerly known as ELK stack).
 * [osquery](https://github.com/osquery/osquery) - Can be used to retrieve low level system information.  Users can write SQL queries to retrieve system information.
 * [Pareto Security](https://github.com/paretoSecurity/pareto-mac/) - A MenuBar app to automatically audit your Mac for basic security hygiene.
