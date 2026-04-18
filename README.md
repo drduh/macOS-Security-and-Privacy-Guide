@@ -221,22 +221,6 @@ It is considered a best practice by [Apple](https://help.apple.com/machelp/mac/1
 
 It is not strictly required to ever log into the admin account via the macOS login screen. When a Terminal command requires administrator privileges, the system will prompt for authentication and Terminal then continues using those privileges. To that end, Apple provides some [recommendations](https://support.apple.com/HT203998) for hiding the admin account and its home directory. This can be an elegant solution to avoid having a visible 'ghost' account.
 
-For single-user laptops and workstations, consider explicitly disabling
-the root account login shell to reduce the risk of persistent interactive
-root access via local or remote login:
-
-```console
-# Disable the root account
-sudo dsenableroot -d
-
-# Prevent root from obtaining an interactive shell
-sudo dscl . -create /Users/root UserShell /usr/bin/false
-```
-
-This keeps privilege escalation available via `sudo` while eliminating
-a persistent interactive root shell as an attack surface.
-
-
 ## Caveats
 
 * Only administrators can install applications in `/Applications` (local directory). Finder and Installer will prompt a standard user with an authentication dialog. Many applications can be installed in `~/Applications` instead (the directory can be created). As a rule of thumb: applications that do not require admin access – or do not complain about not being installed in `/Applications` – should be installed in the user directory, the rest in the local directory. Mac App Store applications are still installed in `/Applications` and require no additional authentication.
@@ -800,11 +784,17 @@ server: GitHub.com
 
 # Browser
 
+
 The Web browser likely poses the largest security and privacy risk, as its fundamental job is to download and execute untrusted code from the Internet.
 
 An important property of modern browsers is the Same Origin Policy ([SOP](https://en.wikipedia.org/wiki/Same-origin_policy)) which prevents a malicious script on one page from obtaining access to sensitive data on another web page through the Document Object Model (DOM). If SOP is compromised, the security of the entire browser is compromised.
 
 Many browser exploits are based on social engineering as a means of gaining persistence. Always be mindful of opening untrusted sites and especially careful when downloading new software.
+
+Regardless of browser choice, consider replacing the default search
+engine. Google search queries are linked to your account and
+browsing profile. See [Search engines](#search-engines) below for
+alternatives suited to daily use.
 
 Another important consideration about browser security is extensions. This is an issue affecting Firefox and [Chrome](https://courses.csail.mit.edu/6.857/2016/files/24.pdf) alike. The use of browser extensions should be limited to only critically necessary ones published by trustworthy developers.
 
@@ -820,7 +810,16 @@ Firefox supports user-supplied configuration files. See [drduh/config/firefox.us
 
 Firefox [focuses on user privacy](https://www.mozilla.org/firefox/privacy). It supports [tracking protection](https://developer.mozilla.org/docs/Web/Privacy/Firefox_tracking_protection) in Private Browsing mode. The tracking protection can be enabled for the default account, although it may break the browsing experience on some websites. Firefox in Strict tracking protection mode will [randomize your fingerprint](https://support.mozilla.org/kb/firefox-protection-against-fingerprinting) to foil basic tracking scripts. Firefox offers separate user [profiles](https://support.mozilla.org/kb/profile-manager-create-remove-switch-firefox-profiles). You can separate your browsing inside a profile with [Multi-Account Containers](https://support.mozilla.org/kb/containers).
 
+
 Firefox only supports Web Extensions through the [Web Extension Api](https://developer.mozilla.org/docs/Mozilla/Add-ons/WebExtensions), which is very similar to Chrome. Submission of Web Extensions in Firefox is free. Web Extensions in Firefox most of the time are open source, although certain Web Extensions are proprietary.
+
+To change the default search engine:
+*Settings → Search → Default Search Engine → choose from the list
+or add a custom engine.*
+
+[DuckDuckGo](https://duckduckgo.com) is available by default.
+[Brave Search](https://search.brave.com) can be added manually
+via the search engine manager.
 
 ## Chrome
 
@@ -847,7 +846,16 @@ Read more about the benefits of disabling this [here](https://microsoftedge.gith
 
 You can block trackers with [uBlock Origin Lite](https://chromewebstore.google.com/detail/ublock-origin-lite/ddkjiahejlhfcafbddmgiahcphecmpfh).
 
-Change the default search engine from Google to reduce additional tracking.
+Change the default search engine from Google to reduce additional
+tracking. Google search queries are linked to your Google Account
+if signed in, and contribute to an advertising profile even in
+Incognito mode.
+
+To change: *Settings → Search engine → Manage search engines →
+Set as default.*
+
+See [Search engines](#search-engines) below for recommended
+alternatives.
 
 Disable [DNS prefetching](https://www.chromium.org/developers/design-documents/dns-prefetching) (see also [DNS Prefetching and Its Privacy Implications](https://www.usenix.org/legacy/event/leet10/tech/full_papers/Krishnan.pdf) (pdf)). Note that Chrome [may attempt](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/350) to resolve DNS using Google's `8.8.8.8` and `8.8.4.4` public nameservers.
 
@@ -869,11 +877,82 @@ Safari follows a slower release cycle than Chrome and Firefox (3-4 minor release
 
 See also [el1t/uBlock-Safari](https://github.com/el1t/uBlock-Safari/wiki/Disable-hyperlink-auditing-beacon) to disable hyperlink auditing beacons.
 
+To change the default search engine:
+*Settings → Safari → Search → Search engine.*
+
+DuckDuckGo is available natively. Note that Safari still sends
+search suggestions to Apple as you type — disable this in
+*Settings → Safari → Search → Include Safari Suggestions*
+if this is a concern.
+
 ## Other browsers
 
 Many Chromium-derived browsers are not recommended. They are usually [closed source](https://yro.slashdot.org/comments.pl?sid=4176879&cid=44774943), [poorly maintained](https://plus.google.com/+JustinSchuh/posts/69qw9wZVH8z), and make dubious claims to protect privacy.
 
+[Mullvad Browser](https://mullvad.net/en/browser) is developed in
+collaboration between Mullvad VPN and the Tor Project. It applies
+Tor Browser's anti-fingerprinting architecture without routing
+traffic through the Tor network, making it suitable for use with
+a VPN.
+
+The key design principle is crowd anonymity: all Mullvad Browser
+users share an identical fingerprint. Rather than randomizing
+parameters per-session (which itself becomes detectable), the
+browser standardizes them across the entire user base —
+`privacy.resistFingerprinting` is enabled by default, canvas
+prompts are auto-declined, and hardware APIs that expose CPU
+cores, memory, and keyboard layout are masked.
+
+JavaScript can be disabled or restricted per-site via the built-in
+[uBlock Origin](https://github.com/gorhill/uBlock) extension in
+advanced mode. This provides per-domain script control without
+requiring additional configuration — enable it from the uBlock
+Origin dashboard under *Filter lists*.
+
+Additional defaults include:
+- Private browsing mode on by default — cookies, history, and cache
+  are deleted on exit
+- First-party isolation (FPI) — trackers cannot correlate activity
+  across sites
+- HTTPS-only mode enforced
+- No telemetry collected
+
+!NOTE Mullvad Browser's fingerprint protection is strongest when
+settings are left at their defaults. Modifying the configuration
+can make your browser distinguishable from the crowd, reducing the
+anonymity benefit.
+
+Mullvad Browser requires no Mullvad VPN subscription and is
+[available for macOS](https://mullvad.net/en/download/browser).
+When paired with any VPN, it provides a strong combination of
+network-level and browser-level privacy.
+
 Other miscellaneous browsers, such as [Brave](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/94), are not evaluated in this guide, so are neither recommended nor actively discouraged from use.
+
+## Search engines
+
+The default search engine in most browsers is Google, which
+links queries to your account, IP address, and browsing history
+to build an advertising profile. Changing the search engine is
+one of the lowest-friction privacy improvements available.
+
+Recommended alternatives for daily use:
+
+- [DuckDuckGo](https://duckduckgo.com) — no search history stored,
+  no user profiling. Results sourced from Bing and its own crawler.
+  Supports `!bang` shortcuts (e.g., `!g query` to fall back to
+  Google for a single query without switching engines permanently).
+- [Startpage](https://www.startpage.com) — proxies Google results
+  anonymously. Google index quality without Google seeing your IP
+  or identity. Useful when DuckDuckGo results are insufficient.
+- [Brave Search](https://search.brave.com) — independent index,
+  no Google or Bing dependency, no tracking.
+
+!NOTE Changing the search engine reduces query-level tracking but
+does not prevent browsers from sending data to their vendors through
+other channels such as Safe Browsing, crash reports, or DNS
+prefetching. Review each browser's section above for additional
+mitigations.
 
 ## Web browser privacy
 
@@ -1036,6 +1115,19 @@ It may be worthwhile to consider the geographical location of the VPN provider. 
 
 Also see this [technical overview](https://blog.timac.org/2018/0717-macos-vpn-architecture/) of the macOS built-in VPN L2TP/IPSec and IKEv2 client.
 
+For checking your VPN on leaks u can use resources such:
+  #check for VPN DNS leaks
+  - https://ipleak.net/
+  #check for DNS leaks
+  - https://www.dnsleaktest.com/
+  #check for DNS leaks
+  - https://www.comparitech.com/privacy-security-tools/dns-leak-test/
+  #VPN Test: IP, DNS & WebRTC
+  - https://vpntesting.com
+Make sure:
+  - IP and geolocation → match the VPN, not your ISP
+  - DNS servers → belong to the VPN (or a neutral provider), but not your     local ISP
+
 # PGP/GPG
 
 PGP is a standard for signing and encrypting data (especially email) end-to-end, so only the sender and recipient can access it.
@@ -1059,6 +1151,54 @@ See [drduh/YubiKey-Guide](https://github.com/drduh/YubiKey-Guide) to securely ge
 Read [online](https://alexcabal.com/creating-the-perfect-gpg-keypair/) [guides](https://security.stackexchange.com/questions/31594/what-is-a-good-general-purpose-gnupg-key-setup) and [practice](https://help.riseup.net/en/security/message-security/openpgp/best-practices) encrypting and decrypting email to yourself and your friends. Get them interested in this stuff!
 
 # Messengers
+
+## Notification Center privacy
+
+macOS stores all received notifications in a persistent SQLite
+database at `/private/var/folders/`. This database retains
+notification content — including message previews from Signal,
+iMessage, and other messengers — in a recoverable form until
+manually cleared, regardless of the encryption used by the
+messenger itself.
+
+An attacker with physical or local access to the machine can
+extract plaintext message content from this database without
+breaking any cryptographic primitives. This was [demonstrated
+by Patrick Wardle](https://objective-see.org/blog/blog_0x2E.html)
+against Signal notifications on macOS.
+
+To reduce this exposure:
+
+**Disable message previews system-wide:**
+*System Settings → Notifications → Show Previews →
+set to "When Unlocked" or "Never"*
+
+**Per-app, disable notification persistence in each messenger:**
+
+- *Signal:* Settings → Notifications → Show →
+  set to "No Name or Message"
+- *Telegram:* Settings → Notifications → Message Preview →
+  disable
+- *iMessage:* System Settings → Notifications → Messages →
+  disable "Show Previews"
+- *WhatsApp:* Settings → Notifications → disable
+  "Show Message Preview"
+
+**Clear the existing notification database manually:**
+
+```console
+# View current notification database location
+sudo find /private/var/folders -name "*.db" \
+  -path "*notificationcenter*" 2>/dev/null
+
+# Restart Notification Center to flush in-memory state
+killall NotificationCenter
+```
+
+> NOTE: macOS Sequoia moved the database location and added
+> additional access restrictions. However, content is still
+> stored until cleared. The mitigations above apply to all
+> supported macOS versions.
 
 ## XMPP
 
@@ -1147,11 +1287,7 @@ To scan an application with multiple AV products and examine its behavior, uploa
 
 macOS comes with a built-in AV program called [XProtect](https://support.apple.com/guide/security/protecting-against-malware-sec469d47bd8). XProtect automatically runs in the background and updates its signatures that it uses to detect malware without you having to do anything. If it detects malware already running, it will work to remove and mitigate it just like any other AV program.
 
-Applications such as [BlockBlock](https://objective-see.com/products/blockblock.html),
-[KnockKnock](https://objective-see.com/products/knockknock.html),
-[OverSight](https://objective-see.com/products/oversight.html),
-and [maclaunch.sh](https://github.com/hazcod/maclaunch) can help
-detect and prevent persistent malware, unauthorized launch items,
+Applications such as [BlockBlock](https://objective-see.com/products/blockblock.html), [KnockKnock](https://objective-see.com/products/knockknock.html), [OverSight](https://objective-see.com/products/oversight.html), and [maclaunch.sh](https://github.com/hazcod/maclaunch) can help detect and prevent persistent malware, unauthorized launch items,
 and unexpected use of the camera or microphone.
 
 Locally installed **Anti-virus** programs are generally a double-edged sword: they may catch "garden variety" malware, but also may increase the attack surface for sophisticated adversaries due to their privileged operating mode. They also typically phone home to send samples in order to catch the newest malware. This can be a privacy concern.
