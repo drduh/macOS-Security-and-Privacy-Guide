@@ -174,22 +174,22 @@ The App Store offers the greatest security guarantees for software on macOS, but
 On Apple silicon, virtualization is built into macOS via Apple’s Virtualization framework, allowing the use of macOS and Windows 11 ARM using the following tools:
 
 - **UTM**
-  Free from the [website](https://mac.getutm.app); App Store version adds automatic updates. Follow the [docs](https://docs.getutm.app/guest-support/macos) to create a macOS VM in a few clicks. Also supports Windows 11 ARM.
+Free from the [website](https://mac.getutm.app); App Store version adds automatic updates. Follow the [docs](https://docs.getutm.app/guest-support/macos) to create a macOS VM in a few clicks. Also supports Windows 11 ARM.
 
 - **VirtualBuddy**
-  GUI for virtualizing macOS 12+ on Apple silicon. 100% free. [GitHub](https://github.com/insidegui/VirtualBuddy)
+GUI for virtualizing macOS 12+ on Apple silicon. 100% free. [GitHub](https://github.com/insidegui/VirtualBuddy)
 
 - **Bushel**
-  Lightweight, free VM app with neat features. On first launch, choose “Ask App Not to Track.” [Website](https://getbushel.app/)
+Lightweight, free VM app with neat features. On first launch, choose “Ask App Not to Track.” [Website](https://getbushel.app/)
 
 - **VMware Fusion**
-  Now free under Broadcom. Clean UI, easy macOS setup, and supports Windows 11 ARM. [Download & docs](https://knowledge.broadcom.com/external/article/315638/download-and-install-vmware-fusion.html)
+Now free under Broadcom. Clean UI, easy macOS setup, and supports Windows 11 ARM. [Download & docs](https://knowledge.broadcom.com/external/article/315638/download-and-install-vmware-fusion.html)
 
 - **tart (CLI)**
-  Command‑line VM control; install via Homebrew. [tart](https://tart.run) · [Homebrew](https://brew.sh)
+Command‑line VM control; install via Homebrew. [tart](https://tart.run/)
 
 - **Parallels (paid)**
-  Commercial option with strong integration. See macOS VM setup guidance in their [documentation](https://kb.parallels.com/125561/) and App Store listing. [Website](https://www.parallels.com) · [App Store](https://apps.apple.com/app/parallels-desktop/id1085114709)
+Commercial option with strong integration. See macOS VM setup guidance in their [documentation](https://kb.parallels.com/125561/) and App Store listing. [Website](https://www.parallels.com) · [App Store](https://apps.apple.com/app/parallels-desktop/id1085114709)
 
 > [!WARNING]
 > VMware requires an account with Broadcom and agreeing to about 12 different agreements before download.
@@ -199,7 +199,7 @@ On Apple silicon, virtualization is built into macOS via Apple’s Virtualizatio
 
 When macOS first starts, you will be greeted by **Setup Assistant**.
 
-When creating the first account, use a [strong password](https://www.eff.org/dice) without a hint.
+When creating the primary user account, set a [strong password](https://www.eff.org/dice) without a hint.
 
 If you enter your real name at the account setup process, be aware that your computer's name and local hostname will comprise that name (e.g., *John Appleseed's MacBook*) and thus will appear on local networks and in various preference files.
 
@@ -418,7 +418,7 @@ You can manage and see more information about software that runs at login in [Sy
 For example, to learn what a system launch daemon or agent does, start with:
 
 ```console
-defaults read /System/Library/LaunchDaemons/com.apple.apsd.plist
+defaults read /System/Library/LaunchDaemons/com.apple.apsd
 ```
 
 Look at the `Program` or `ProgramArguments` section to see which binary is run, in this case `apsd`. To find more information about that, look at the man page with `man apsd`
@@ -483,10 +483,10 @@ To block a domain by `A` record, append any one of the following lines to `/etc/
 
 There are many lists of domains available online which you can paste in, just make sure each line starts with `0`, `0.0.0.0`, `127.0.0.1`, and the line `127.0.0.1 localhost` is included.
 
-Here are some popular and useful hosts lists:
+Popular hosts lists include:
 
-* [Sinfonietta/hostfiles](https://github.com/Sinfonietta/hostfiles)
 * [StevenBlack/hosts](https://github.com/StevenBlack/hosts)
+* [Sinfonietta/hostfiles](https://github.com/Sinfonietta/hostfiles)
 * [someonewhocares.org](https://someonewhocares.org/hosts/zero/hosts)
 
 Append a list of hosts with `tee`:
@@ -563,7 +563,7 @@ If you don't wish to use DNSCrypt, you should at least use DNS [not provided](ht
 Install Dnsmasq:
 
 ```console
-brew install dnsmasq --with-dnssec
+brew install dnsmasq
 ```
 
 Download and edit [drduh/config/dnsmasq.conf](https://github.com/drduh/config/blob/main/dnsmasq.conf) or the default configuration file.
@@ -619,7 +619,7 @@ $ dig www.dnssec-failed.org | head
 
 # Certificate authorities
 
-macOS comes with [over 100](https://support.apple.com/103723) root authority certificates installed from corporations like Apple, Verisign, Thawte, Digicert and government agencies from China, Japan, Netherlands, U.S., and more! These Certificate Authorities (CAs) are capable of issuing TLS certificates for any domain, code signing certificates, etc. Apple [blocks these certificates](https://support.apple.com/103247#blocked) when a CA proves to be untrustworthy. They also have [strict requirements](https://www.apple.com/certificateauthority/ca_program.html) that trusted CAs have to meet.
+macOS comes with [over 150](https://support.apple.com/103723) root authority certificates installed from corporations like Apple, Verisign, Thawte, Digicert and government agencies from China, Japan, Netherlands, U.S., and more! These Certificate Authorities (CAs) are capable of issuing TLS certificates for any domain, code signing certificates, etc. Apple [blocks these certificates](https://support.apple.com/103247#blocked) when a CA proves to be untrustworthy. They also have [strict requirements](https://www.apple.com/certificateauthority/ca_program.html) that trusted CAs have to meet.
 
 For more information, see the [CA/Browser Forum's website](https://cabforum.org/resources/browser-os-info/).
 
@@ -695,13 +695,16 @@ Or to just block Facebook domains, for example:
 
 ```console
 { +block{facebook} }
+.cdninstagram.
 .facebook*.
 .fb.
 .fbcdn*.
 .fbinfra.
 .fbsbx.
+.fbstatic*.
 .fbsv.
 .fburl.
+.instagr.am
 .tfbnw.
 .thefacebook.
 fb*.akamaihd.net
@@ -815,7 +818,7 @@ Other miscellaneous browsers, such as [Brave](https://github.com/drduh/macOS-Sec
 
 ## Web browser privacy
 
-Web browsers reveal information in several ways, for example through the [Navigator](https://developer.mozilla.org/en-US/docs/Web/API/Navigator) interface, which may include information such as the browser version, operating system, site permissions, and the device's battery level. Many websites also use [canvas fingerprinting](https://en.wikipedia.org/wiki/Canvas_fingerprinting) to uniquely identify users across sessions.
+Web browsers reveal information in several ways, for example through the [Navigator](https://developer.mozilla.org/docs/Web/API/Navigator) interface, which may include information such as the browser version, operating system, site permissions, and the device's battery level. Many websites also use [canvas fingerprinting](https://en.wikipedia.org/wiki/Canvas_fingerprinting) to uniquely identify users across sessions.
 
 For more information about security conscious browsing and what data is sent by the browser, see [HowTo: Privacy & Security Conscious Browsing](https://gist.github.com/atcuno/3425484ac5cce5298932), [browserleaks.com](https://browserleaks.com/), [Am I Unique?](https://amiunique.org/fingerprint) and [EFF Cover Your Tracks](https://coveryourtracks.eff.org/) resources.
 
@@ -1008,9 +1011,9 @@ XMPP isn't E2EE by default, you will need to use [OMEMO](https://omemo.top) encr
 
 ## Signal
 
-[Signal](https://www.signal.org) is an advanced E2EE messenger whose [double-ratchet](https://signal.org/docs/specifications/doubleratchet/) protocol is used by countless other messengers including WhatsApp, Google Messages, and Facebook Messenger.
+[Signal](https://www.signal.org) is a popular E2EE messenger whose [double-ratchet](https://signal.org/docs/specifications/doubleratchet/) protocol is used by many other applications including WhatsApp, Google Messages, and Facebook Messenger.
 
-Signal requires a phone number to sign up and you will need to install it on a phone first before you can use it on desktop.
+To use the Signal desktop app, Signal must first be installed on a phone.
 
 ## iMessage
 
@@ -1590,7 +1593,7 @@ Don't default to saving documents to iCloud:
 defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
 ```
 
-Enable [Secure Keyboard Entry](https://support.apple.com/guide/terminal/use-secure-keyboard-entry-trml109) in Terminal (unless you use [YubiKey](https://mig5.net/content/secure-keyboard-entry-os-x-blocks-interaction-yubikeys) or applications such as [TextExpander](https://smilesoftware.com/textexpander/secure-input)).
+Enable [Secure Keyboard Entry](https://support.apple.com/guide/terminal/use-secure-keyboard-entry-trml109) in Terminal (may interfere with [YubiKey](https://mig5.net/content/secure-keyboard-entry-os-x-blocks-interaction-yubikeys) or applications such as [TextExpander](https://smilesoftware.com/textexpander/secure-input)).
 
 Disable crash reporter (the dialog which appears after an application crashes and prompts to report the problem to Apple):
 
@@ -1601,7 +1604,7 @@ defaults write com.apple.CrashReporter DialogType none
 Disable Bonjour multicast advertisements (also disabling AirPlay and AirPrint features):
 
 ```console
-sudo defaults write /Library/Preferences/com.apple.mDNSResponder.plist NoMulticastAdvertisements -bool YES
+sudo defaults write /Library/Preferences/com.apple.mDNSResponder NoMulticastAdvertisements -bool YES
 ```
 
 [Disable Handoff](https://support.apple.com/guide/mac-help/change-airdrop-handoff-settings-mchl6a407f99) and [Bluetooth](https://support.apple.com/guide/mac-help/turn-bluetooth-on-or-off-blth1008) features, if they aren't necessary.
@@ -1641,7 +1644,7 @@ drwx------  2 kevin  staff       64 Dec  4 12:27 umask_testing_dir
 * [CISOfy/lynis](https://github.com/CISOfy/lynis) - Cross-platform security auditing tool and assists with compliance testing and system hardening.
 * [Zentral](https://github.com/zentralopensource/zentral) - A log and configuration server for osquery. Run audit and probes on inventory, events, logfiles, combine with point-in-time alerting. A full Framework and Django web server build on top of the elastic stack (formerly known as ELK stack).
 * [osquery](https://github.com/osquery/osquery) - Can be used to retrieve low level system information.  Users can write SQL queries to retrieve system information.
-* [Pareto Security](https://github.com/paretoSecurity/pareto-mac/) - A MenuBar app to automatically audit your Mac for basic security hygiene.
+* [Pareto Security](https://github.com/paretoSecurity/pareto-mac) - A MenuBar app to automatically audit your Mac for basic security hygiene.
 
 # Additional resources
 
