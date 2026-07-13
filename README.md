@@ -1,4 +1,4 @@
-This guide is a collection of techniques for improving the security and privacy of [Apple silicon](https://support.apple.com/116943) Mac computers running a [currently supported](https://support.apple.com/HT201222) version of macOS. **Using Macs with Intel CPUs leaves you open to [security vulnerabilities](https://github.com/axi0mX/ipwndfu?tab%253Dreadme-ov-file#checkm8) on the hardware level that Apple can't patch**. Apple silicon Macs are the minimum recommendation but as a general rule, newer chips are always more secure.
+This guide is a collection of techniques for improving the security and privacy of [Apple silicon](https://support.apple.com/116943) Mac computers running a [currently supported](https://support.apple.com/HT201222) version of macOS. **Using Macs with Intel CPUs leaves you open to [security vulnerabilities](https://github.com/axi0mX/ipwndfu?tab%253Dreadme-ov-file#checkm8) on the hardware level that Apple can't patch**. [Apple silicon](https://en.wikipedia.org/wiki/Apple_silicon) Macs are considered the minimum recommendation but as a general rule, newer chips are always more secure.
 
 This guide is targeted to power users who wish to adopt enterprise-standard security, but is also suitable for novice users with an interest in improving their privacy and security on a Mac.
 
@@ -31,7 +31,7 @@ To suggest an improvement, send a pull request or [open an issue](https://github
 - [Lockdown Mode](#lockdown-mode)
 - [Firewall](#firewall)
    * [Application layer firewall](#application-layer-firewall)
-   * [Third party firewalls](#third-party-firewalls)
+   * [Third-party firewalls](#third-party-firewalls)
    * [Kernel level packet filtering](#kernel-level-packet-filtering)
 - [Services](#services)
 - [Siri Suggestions and Spotlight](#siri-suggestions-and-spotlight)
@@ -117,7 +117,7 @@ Define whom you are defending against. Start by defining the motivation they mig
 
 ## Identify capabilities
 
-In order to counter adversaries, you'll need to understand what they're capable of and what they're not capable of. Rank adversaries from totally unsophisticated to very advanced. For example, a common thief is not very sophisticated; they will likely be stopped by basic things like simply having a password and drive encryption on devices. A very advanced adversary like a state actor might require fully turning off devices when not in use to clear the keys from RAM and a long diceware password.
+In order to counter adversaries, you will need to understand what they're capable of and what they're not capable of. Rank adversaries from totally unsophisticated to very advanced. For example, a common thief is not very sophisticated; they will likely be stopped by basic things like simply having a password and drive encryption on devices. A very advanced adversary like a state actor might require fully turning off devices when not in use to clear the keys from RAM and a long diceware password.
 
 ## Identify mitigations
 
@@ -141,7 +141,7 @@ macOS is most secure running on [Apple hardware](https://support.apple.com/guide
 
 When you purchase your Mac, you might want to avoid it being linked back to you. Depending on your threat model, you should pay for it in cash in person rather than ordering online or purchasing with a credit/debit card, that way no identifying information can be linked back to your purchase.
 
-If you want to use a wireless keyboard, mouse, headphones or other accessory, the most secure option is Apple ones since they will automatically be updated by your system. They also support the latest [Bluetooth features](https://support.apple.com/guide/security/bluetooth-security-sec82597d97e/web) like BLE Privacy which randomizes your Bluetooth hardware address to prevent tracking. With third party accessories, this isn't a guarantee.
+If you want to use a wireless keyboard, mouse, headphones or other accessory, the most secure option is Apple ones since they will automatically be updated by your system. They also support the latest [Bluetooth features](https://support.apple.com/guide/security/bluetooth-security-sec82597d97e/web) like BLE Privacy which randomizes your Bluetooth hardware address to prevent tracking. With third-party accessories, this isn't a guarantee.
 
 # Installing macOS
 
@@ -171,34 +171,33 @@ The App Store offers the greatest security guarantees for software on macOS, but
 
 ## Virtualization
 
-On Apple silicon (M1–M4), virtualization is built into macOS via Apple’s Virtualization framework. You can run macOS—and Windows 11 ARM—using the tools below.
+On Apple silicon, virtualization is built into macOS via Apple’s Virtualization framework, allowing the use of macOS and Windows 11 ARM using the following tools:
 
-- **UTM**  
+- **UTM**
   Free from the [website](https://mac.getutm.app); App Store version adds automatic updates. Follow the [docs](https://docs.getutm.app/guest-support/macos) to create a macOS VM in a few clicks. Also supports Windows 11 ARM.
 
-- **VirtualBuddy**  
+- **VirtualBuddy**
   GUI for virtualizing macOS 12+ on Apple silicon. 100% free. [GitHub](https://github.com/insidegui/VirtualBuddy)
 
-- **Bushel**  
+- **Bushel**
   Lightweight, free VM app with neat features. On first launch, choose “Ask App Not to Track.” [Website](https://getbushel.app/)
 
-- **VMware Fusion**  
+- **VMware Fusion**
   Now free under Broadcom. Clean UI, easy macOS setup, and supports Windows 11 ARM. [Download & docs](https://knowledge.broadcom.com/external/article/315638/download-and-install-vmware-fusion.html)
 
-- **tart (CLI)**  
+- **tart (CLI)**
   Command‑line VM control; install via Homebrew. [tart](https://tart.run) · [Homebrew](https://brew.sh)
 
-- **Parallels (paid)**  
+- **Parallels (paid)**
   Commercial option with strong integration. See macOS VM setup guidance in their [documentation](https://kb.parallels.com/125561/) and App Store listing. [Website](https://www.parallels.com) · [App Store](https://apps.apple.com/app/parallels-desktop/id1085114709)
 
 > [!WARNING]
 > VMware requires an account with Broadcom and agreeing to about 12 different agreements before download.
 > Parallels requires an account, payment details, and other data. Review their privacy notice before using. [Privacy notice](https://my.parallels.com/data_reminder)
 
-
 # First boot
 
-When macOS first starts, you'll be greeted by **Setup Assistant**.
+When macOS first starts, you will be greeted by **Setup Assistant**.
 
 When creating the first account, use a [strong password](https://www.eff.org/dice) without a hint.
 
@@ -233,7 +232,7 @@ It is not strictly required to ever log into the admin account via the macOS log
 
 Accounts can be created and managed in System Preferences. On settled systems, it is generally easier to create a second admin account and then demote the first account. This avoids data migration. Newly installed systems can also just add a standard account.
 
-Demoting an account can be done either from the the new admin account in System Preferences – the other account must be logged out – or by executing these commands (it may not be necessary to execute both, see [issue 179](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/179)):
+Demoting an account can be done either from the new admin account in System Preferences – the other account must be logged out – or by executing these commands (it may not be necessary to execute both, see [issue 179](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/179)):
 
 ```console
 sudo dscl . -delete /Groups/admin GroupMembership <username>
@@ -258,7 +257,7 @@ All Mac models with Apple silicon are encrypted by default. Enabling [FileVault]
 
 Your FileVault password also acts as a [firmware password](https://support.apple.com/en-us/102384) that will prevent people that don't know it from booting from anything other than the designated startup disk, accessing [Recovery](https://support.apple.com/guide/mac-help/macos-recovery-a-mac-apple-silicon-mchl82829c17/15.0/mac/15.0#mchl5abfbb29), and [reviving](https://support.apple.com/en-us/108900) it with DFU mode.
 
-FileVault will ask you to set a recovery key in case you forget your password. Keep this key stored somewhere safe. You'll have the option use your iCloud account to unlock your disk; however, anyone with access to your iCloud account will be able to unlock it as well.
+FileVault will ask you to set a recovery key in case you forget your password. Keep this key stored somewhere safe. You will have the option to use your iCloud account to unlock your disk; however, anyone with access to your iCloud account will be able to unlock it as well.
 
 # Lockdown Mode
 
@@ -304,7 +303,7 @@ After interacting with `socketfilterfw`, restart the process by sending a line h
 sudo pkill -HUP socketfilterfw
 ```
 
-## Third party firewalls
+## Third-party firewalls
 
 Programs such as [Little Snitch](https://www.obdev.at/products/littlesnitch/index.html), [Radio Silence](https://radiosilenceapp.com/), and [LuLu](https://objective-see.com/products/lulu.html) provide a good balance of usability and security.
 
@@ -320,7 +319,7 @@ A highly customizable, powerful, but also most complicated firewall exists in th
 
 pf can also be controlled with a GUI application such as [Murus](https://www.murusfirewall.com/).
 
-There are many books and articles on the subject of pf firewall. Here's is just one example of blocking traffic by IP address.
+There are many books and articles on the subject of pf firewall. The following is an example of blocking traffic by IP address.
 
 Add the following into a file called `pf.rules`:
 
@@ -516,7 +515,7 @@ brew info dnscrypt-proxy
 
 which will show a location like `/usr/local/etc/dnscrypt-proxy.toml`
 
-Open it in a text editor, find the line starting with `listen_addresses =` and edit that line to use DNScrypt on a port other than 53, like 5355:
+Open it in a text editor, find the line starting with `listen_addresses =` and edit that line to use DNSCrypt on a port other than 53, like 5355:
 
 ```
 listen_addresses = ['127.0.0.1:5355', '[::1]:5355']
@@ -555,11 +554,11 @@ See also [What is a DNS leak](https://dnsleaktest.com/what-is-a-dns-leak.html) a
 
 Among other features, [dnsmasq](https://www.thekelleys.org.uk/dnsmasq/doc.html) is able to cache replies, prevent upstream queries for unqualified names, and block entire top-level domains.
 
-Use in combination with DNSCrypt to additionally encrypt DNS traffic.
+Use it in combination with DNSCrypt to encrypt DNS traffic.
 
 If you don't wish to use DNSCrypt, you should at least use DNS [not provided](https://bcn.boulder.co.us/~neal/ietf/verisign-abuse.html) [by your ISP](https://hackercodex.com/guide/how-to-stop-isp-dns-server-hijacking/). Two popular alternatives are [Google DNS](https://developers.google.com/speed/public-dns/) and [OpenDNS](https://www.opendns.com/home-internet-security/).
 
-**Optional** [DNSSEC](https://en.wikipedia.org/wiki/Domain_Name_System_Security_Extensions) is a set of extensions to DNS which provide to DNS clients (resolvers) origin authentication of DNS data, authenticated denial of existence, and data integrity. All answers from DNSSEC protected zones are digitally signed. The signed records are authenticated via a chain of trust, starting with a set of verified public keys for the DNS root-zone. The current root-zone trust anchors may be downloaded [from IANA website](https://www.iana.org/dnssec/files). There are a number of resources on DNSSEC, but probably the best one is [dnssec.net website](https://www.dnssec.net).
+**Optional** [DNSSEC](https://en.wikipedia.org/wiki/Domain_Name_System_Security_Extensions) is a set of extensions to DNS which provide DNS clients (resolvers) with origin authentication of DNS data, authenticated denial of existence, and data integrity. All answers from DNSSEC protected zones are digitally signed. The signed records are authenticated via a chain of trust, starting with a set of verified public keys for the DNS root-zone. The current root-zone trust anchors may be downloaded [from IANA website](https://www.iana.org/dnssec/files). There are a number of resources on DNSSEC, but probably the best one is [dnssec.net website](https://www.dnssec.net).
 
 Install Dnsmasq:
 
@@ -602,7 +601,7 @@ $ networksetup -getdnsservers "Wi-Fi"
 > [!NOTE]
 > Some VPN applications override DNS settings on connect. See [issue 24](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/24) and [drduh/config/scripts/macos-dns.sh](https://github.com/drduh/config/blob/main/scripts/macos-dns.sh).
 
-**Optional** Test DNSSEC validation for signed zones - the reply should have `NOERROR` status and contain `ad` flag:
+**Optional** Test DNSSEC validation for signed zones - the reply should have `NOERROR` status and contain the `ad` flag:
 
 ```console
 $ dig +dnssec icann.org | head
@@ -743,7 +742,7 @@ The Web browser likely poses the largest security and privacy risk, as its funda
 
 An important property of modern browsers is the Same Origin Policy ([SOP](https://en.wikipedia.org/wiki/Same-origin_policy)) which prevents a malicious script on one page from obtaining access to sensitive data on another web page through the Document Object Model (DOM). If SOP is compromised, the security of the entire browser is compromised.
 
-Many browser exploits are based on social engineering as a means of gaining persistence. Always be mindful of opening untrusted sites and especially careful when downloading new software.
+Many browser exploits are based on social engineering as a means of gaining persistence. Always be mindful of visiting untrusted sites and especially careful with downloading new software.
 
 Another important consideration about browser security is extensions. This is an issue affecting Firefox and [Chrome](https://courses.csail.mit.edu/6.857/2016/files/24.pdf) alike. The use of browser extensions should be limited to only critically necessary ones published by trustworthy developers.
 
@@ -751,7 +750,7 @@ Another important consideration about browser security is extensions. This is an
 
 ## Firefox
 
-[Mozilla Firefox](https://www.mozilla.org/firefox/new) is a popular open source browser. Firefox replaced major parts of its infrastructure and code base under the projects [Quantum](https://wiki.mozilla.org/Quantum) and [Photon](https://wiki.mozilla.org/Firefox/Photon/Updates). Part of the Quantum project is to replace C++ code with [Rust](https://www.rust-lang.org). Rust is a systems programming language with a focus on security and thread safety. It is expected that Rust adoption will greatly improve the overall security posture of Firefox.
+[Mozilla Firefox](https://www.mozilla.org/firefox/new) is a popular open source browser. Firefox replaced major parts of its infrastructure and codebase under the projects [Quantum](https://wiki.mozilla.org/Quantum) and [Photon](https://wiki.mozilla.org/Firefox/Photon/Updates). Part of the Quantum project is to replace C++ code with [Rust](https://www.rust-lang.org). Rust is a systems programming language with a focus on security and thread safety. It is expected that Rust adoption will greatly improve the overall security posture of Firefox.
 
 Firefox offers a similar security model to Chrome: it has a [bug bounty program](https://www.mozilla.org/security/bug-bounty), although it is not as lucrative. Firefox follows a four-week release cycle.
 
@@ -759,7 +758,7 @@ Firefox supports user-supplied configuration files. See [drduh/config/firefox.us
 
 Firefox [focuses on user privacy](https://www.mozilla.org/firefox/privacy). It supports [tracking protection](https://developer.mozilla.org/docs/Web/Privacy/Firefox_tracking_protection) in Private Browsing mode. The tracking protection can be enabled for the default account, although it may break the browsing experience on some websites. Firefox in Strict tracking protection mode will [randomize your fingerprint](https://support.mozilla.org/kb/firefox-protection-against-fingerprinting) to foil basic tracking scripts. Firefox offers separate user [profiles](https://support.mozilla.org/kb/profile-manager-create-remove-switch-firefox-profiles). You can separate your browsing inside a profile with [Multi-Account Containers](https://support.mozilla.org/kb/containers).
 
-Firefox only supports Web Extensions through the [Web Extension Api](https://developer.mozilla.org/docs/Mozilla/Add-ons/WebExtensions), which is very similar to Chrome. Submission of Web Extensions in Firefox is free. Web Extensions in Firefox most of the time are open source, although certain Web Extensions are proprietary.
+Firefox only supports Web Extensions through the [WebExtension Api](https://developer.mozilla.org/docs/Mozilla/Add-ons/WebExtensions), which is very similar to Chrome. Submission of Web Extensions in Firefox is free. Web Extensions in Firefox most of the time are open source, although certain Web Extensions are proprietary.
 
 ## Chrome
 
@@ -780,7 +779,7 @@ Chrome has the largest share of global usage and is the preferred target platfor
 
 Chrome offers [separate profiles](https://www.chromium.org/user-experience/multi-profiles), [robust sandboxing](https://chromium.googlesource.com/chromium/src/+/HEAD/docs/design/sandbox.md), [frequent updates](https://chromereleases.googleblog.com), and carries [impressive credentials](https://www.chromium.org/Home/chromium-security/brag-sheet). In addition, Google offers a very lucrative [bounty program](https://bughunters.google.com/about/rules/5745167867576320/chrome-vulnerability-reward-program-rules) for reporting vulnerabilities, along with its own [Project Zero](https://googleprojectzero.blogspot.com/) team. This means that a large number of highly talented and motivated people are constantly auditing and securing Chrome code.
 
-Create separate Chrome profiles to reduce XSS risk and compartmentalize cookies/identities. In each profile, either disable Javascript in Chrome settings and configure allowed origins. You should also disable the V8 Optimizer for sites where you do use Javascript to further reduce attack surface. Go to **Settings** -> **Privacy and security** -> **Security** -> **Manage v8 security** -> **Don't allow sites to use the V8 optimizer**
+Create separate Chrome profiles to reduce XSS risk and compartmentalize cookies/identities. In each profile, disable JavaScript in settings and configure allowed origins. Also considering disabling V8 Optimizer to further reduce attack surface - **Settings** -> **Privacy and security** -> **Security** -> **Manage v8 security** -> **Don't allow sites to use the V8 optimizer**
 
 Read more about the benefits of disabling this [here](https://microsoftedge.github.io/edgevr/posts/Super-Duper-Secure-Mode).
 
@@ -796,11 +795,11 @@ Read [Chromium Security](https://www.chromium.org/Home/chromium-security) and [C
 
 [Safari](https://www.apple.com/safari) is the default browser on macOS. It is also the most optimized browser for reducing battery use. Safari, like Chrome, has both Open Source and proprietary components. Safari is based on the open source Web Engine [WebKit](https://webkit.org), which is ubiquitous among the macOS ecosystem. WebKit is used by Apple apps such as Mail, iTunes, iBooks, and the App Store. Chrome's [Blink](https://www.chromium.org/blink) engine is a fork of WebKit and both engines share a number of similarities.
 
-Safari supports certain unique features that benefit user security and privacy. [Content blockers](https://webkit.org/blog/3476/content-blockers-first-look) enables the creation of content blocking rules without using Javascript. This rule based approach greatly improves memory use, security, and privacy. Safari 11 introduced [Intelligent Tracking Prevention](https://webkit.org/blog/7675/intelligent-tracking-prevention), which removes tracking data stored in Safari after a period of non-interaction by the user from the tracker's website. Safari can randomize the browser fingerprint to reduce tracking. Safari doesn't support certain features like WebUSB or the Battery API intentionally for security and privacy reasons. Private tabs in Safari have isolated cookies and cache that is destroyed when you close the tab. Safari also support Profiles which are equivalent to Firefox's Multi-Account Containers for separating cookies and browsing. Safari can be made significantly more secure with [lockdown mode](#lockdown-mode), which can be disabled per-site. Read more about [tracking prevention](https://webkit.org/tracking-prevention) in Safari.
+Safari supports certain unique features that benefit user security and privacy. [Content blockers](https://webkit.org/blog/3476/content-blockers-first-look) enable the creation of content blocking rules without using JavaScript. This rule based approach greatly improves memory use, security, and privacy. Safari 11 introduced [Intelligent Tracking Prevention](https://webkit.org/blog/7675/intelligent-tracking-prevention), which removes tracking data stored in Safari after a period of non-interaction by the user from the tracker's website. Safari can randomize the browser fingerprint to reduce tracking. Safari doesn't support certain features like WebUSB or the Battery API intentionally for security and privacy reasons. Private tabs in Safari have isolated cookies and cache that is destroyed when you close the tab. Safari also support Profiles which are equivalent to Firefox's Multi-Account Containers for separating cookies and browsing. Safari can be made significantly more secure with [lockdown mode](#lockdown-mode), which can be disabled per-site. Read more about [tracking prevention](https://webkit.org/tracking-prevention) in Safari.
 
 Safari offers an invite-only [bounty program](https://developer.apple.com/bug-reporting) for bug reporting to a select number of security researchers. The bounty program was announced during Apple's [presentation](https://www.blackhat.com/docs/us-16/materials/us-16-Krstic.pdf) at [BlackHat](https://www.blackhat.com/us-16/briefings.html#behind-the-scenes-of-ios-security) 2016.
 
-Web Extensions in Safari have an additional option to use native code in the Safari's sandbox environment, in addition to Web Extension APIs. Web Extensions in Safari are also distributed through Apple's App store. App store submission comes with the added benefit of Web Extension code being audited by Apple. On the other hand App store submission comes at a steep cost. Yearly [developer subscription](https://developer.apple.com/support/compare-memberships) fee costs 100 USD (in contrast to Chrome's 5 USD fee and Firefox's free submission). The high cost is prohibitive for the majority of Open Source developers. As a result, Safari has very few extensions to choose from. However, you should keep the high cost in mind when installing extensions. It is expected that most Web Extensions will have some way of monetizing usage in order to cover developer costs. Be wary of Web Extensions whose source code is not open.
+Web Extensions in Safari have an additional option to use native code in Safari's sandbox environment, in addition to Web Extension APIs. Web Extensions in Safari are also distributed through Apple App Store. App Store submission comes with the added benefit of Web Extension code being audited by Apple. On the other hand App Store submission comes at a steep cost. Yearly [developer subscription](https://developer.apple.com/support/compare-memberships) fee costs 100 USD (in contrast to Chrome's 5 USD fee and Firefox's free submission). The high cost is prohibitive for the majority of Open Source developers. As a result, Safari has very few extensions to choose from. However, you should keep the high cost in mind when installing extensions. It is expected that most Web Extensions will have some way of monetizing usage in order to cover developer costs. Be wary of Web Extensions whose source code is not open.
 
 Safari syncs user preferences and passwords with [iCloud Keychain](https://support.apple.com/HT202303). In order to be viewed in plain text, a user must input the account password of the current device. This means that users can sync data across devices with added security.
 
@@ -820,7 +819,7 @@ Web browsers reveal information in several ways, for example through the [Naviga
 
 For more information about security conscious browsing and what data is sent by the browser, see [HowTo: Privacy & Security Conscious Browsing](https://gist.github.com/atcuno/3425484ac5cce5298932), [browserleaks.com](https://browserleaks.com/), [Am I Unique?](https://amiunique.org/fingerprint) and [EFF Cover Your Tracks](https://coveryourtracks.eff.org/) resources.
 
-To hinder third party trackers, it is recommended to **disable third-party cookies** altogether. Safari, Firefox, and Chrome all block third party cookies by default. A third party cookie is a cookie associated with a file requested by a different domain than the one the user is currently viewing. Most of the time third-party cookies are used to create browsing profiles by tracking a user's movement on the web. Disabling third-party cookies prevents HTTP responses and scripts from other domains from setting cookies. Moreover, cookies are removed from requests to domains that are not the document origin domain, so cookies are only sent to the current site that is being viewed.
+To hinder third-party trackers, it is recommended to **disable third-party cookies** altogether. Safari, Firefox, and Chrome all block third-party cookies by default. A third-party cookie is a cookie associated with a file requested by a different domain than the one the user is currently viewing. Most of the time third-party cookies are used to create browsing profiles by tracking a user's movement on the web. Disabling third-party cookies prevents HTTP responses and scripts from other domains from setting cookies. Moreover, cookies are removed from requests to domains that are not the document origin domain, so cookies are only sent to the current site that is being viewed.
 
 Also be aware of [WebRTC](https://en.wikipedia.org/wiki/WebRTC#Concerns), which may reveal local or public (if connected to VPN) IP address(es). In Firefox and Chrome/Chromium this can be disabled with extensions such as [uBlock Origin](https://github.com/gorhill/uBlock/wiki/Prevent-WebRTC-from-leaking-local-IP-address). [Lockdown mode](#lockdown-mode) [disables WebRTC](https://www.sevarg.net/2022/07/20/ios16-lockdown-mode-browser-analysis) in Safari.
 
@@ -866,7 +865,7 @@ Make sure `Good signature from "Tor Browser Developers (signing key) <torbrowser
 
 See [How can I verify Tor Browser's signature?](https://support.torproject.org/tbb/how-to-verify-signature/) for more information.
 
-To finish installing Tor Browser, open the disk image and drag the it into the Applications folder, or with:
+To finish installing Tor Browser, open the disk image and drag it to the Applications folder, or:
 
 ```console
 hdiutil mount TorBrowser-8.0.4-osx64_en-US.dmg
@@ -875,7 +874,7 @@ cp -r /Volumes/Tor\ Browser/Tor\ Browser.app/ ~/Applications/
 
 ```
 
-Verify the Tor application's code signature was made by with The Tor Project's Apple developer ID **MADPSAYN6T**, using the `spctl -a -v` and/or `pkgutil --check-signature` commands:
+Verify the application was signed by The Tor Project's Apple Developer ID **MADPSAYN6T**, using the `spctl -a -v` and/or `pkgutil --check-signature` commands:
 
 ```console
 $ spctl -a -vv ~/Applications/Tor\ Browser.app
@@ -917,7 +916,7 @@ Sealed Resources version=2 rules=12 files=128
 Internal requirements count=1 size=188
 ```
 
-To view full certificate details for a signed application, extract them with `codesign` and decode it with `openssl`:
+To view full certificate details for a signed application, extract with `codesign` and decode with `openssl`:
 
 ```console
 $ codesign -d --extract-certificates ~/Applications/Tor\ Browser.app
@@ -969,7 +968,7 @@ When choosing a VPN service or self-hosting, be sure to research the protocols, 
 
 Some clients may send traffic over the next available interface when VPN is interrupted or disconnected. See [scy/8122924](https://gist.github.com/scy/8122924) for an example on how to allow traffic only over VPN.
 
-There is an updated guide to setting up an IPSec VPN on a virtual machine ([hwdsl2/setup-ipsec-vpn](https://github.com/hwdsl2/setup-ipsec-vpn)) or a docker container ([hwdsl2/docker-ipsec-vpn-server](https://github.com/hwdsl2/docker-ipsec-vpn-server)).
+There is an updated guide to setting up an IPSec VPN on a virtual machine ([hwdsl2/setup-ipsec-vpn](https://github.com/hwdsl2/setup-ipsec-vpn)) or a Docker container ([hwdsl2/docker-ipsec-vpn-server](https://github.com/hwdsl2/docker-ipsec-vpn-server)).
 
 It may be worthwhile to consider the geographical location of the VPN provider. See further discussion in [issue 114](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/114).
 
@@ -1005,13 +1004,13 @@ XMPP is an [open standard](https://xmpp.org/extensions) developed by the [IETF](
 
 Depending on the provider, you might not need anything other than a username and password to set up an account.
 
-XMPP isn't E2EE by default, you'll need to use [OMEMO](https://omemo.top) encryption, so make sure the client supports it.
+XMPP isn't E2EE by default, you will need to use [OMEMO](https://omemo.top) encryption, so make sure the client supports it.
 
 ## Signal
 
 [Signal](https://www.signal.org) is an advanced E2EE messenger whose [double-ratchet](https://signal.org/docs/specifications/doubleratchet/) protocol is used by countless other messengers including WhatsApp, Google Messages, and Facebook Messenger.
 
-Signal requires a phone number to sign up and you'll need to install it on a phone first before you can use it on desktop.
+Signal requires a phone number to sign up and you will need to install it on a phone first before you can use it on desktop.
 
 ## iMessage
 
@@ -1042,7 +1041,7 @@ Only running programs from the App Store or that are [Notarized](https://support
 
 Otherwise, get programs from trusted sources like directly from the developer's website or GitHub. Always make sure that the browser/terminal is using HTTPS when downloading any program.
 
-You should also avoid programs that ask for lots of permissions and third party closed source programs. Open source code allows anyone to audit and examine the code for security/privacy issues.
+You should also avoid programs that ask for lots of permissions and third-party closed source programs. Open source code allows anyone to audit and examine the code for security/privacy issues.
 
 ## App Sandbox
 
