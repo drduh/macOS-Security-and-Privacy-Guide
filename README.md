@@ -173,27 +173,17 @@ The App Store offers the greatest security guarantees for software on macOS, but
 
 On Apple silicon, virtualization is built into macOS via Apple’s Virtualization framework, allowing the use of macOS and Windows 11 ARM using the following tools:
 
-- **UTM**
-Free from the [website](https://mac.getutm.app); App Store version adds automatic updates. Follow the [docs](https://docs.getutm.app/guest-support/macos) to create a macOS VM in a few clicks. Also supports Windows 11 ARM.
-
-- **VirtualBuddy**
-GUI for virtualizing macOS 12+ on Apple silicon. 100% free. [GitHub](https://github.com/insidegui/VirtualBuddy)
-
-- **Bushel**
-Lightweight, free VM app with neat features. On first launch, choose “Ask App Not to Track.” [Website](https://getbushel.app/)
-
-- **VMware Fusion**
-Now free under Broadcom. Clean UI, easy macOS setup, and supports Windows 11 ARM. [Download & docs](https://knowledge.broadcom.com/external/article/315638/download-and-install-vmware-fusion.html)
-
-- **tart (CLI)**
-Command‑line VM control; install via Homebrew. [tart](https://tart.run/)
-
-- **Parallels (paid)**
-Commercial option with strong integration. See macOS VM setup guidance in their [documentation](https://kb.parallels.com/125561/) and App Store listing. [Website](https://www.parallels.com) · [App Store](https://apps.apple.com/app/parallels-desktop/id1085114709)
+* [UTM](https://mac.getutm.app/) - Follow the [documentation](https://docs.getutm.app/guest-support/macos) to create macOS and other VMs.
+* [VirtualBuddy](https://github.com/insidegui/VirtualBuddy) -
+GUI for virtualizing macOS 12+ on Apple silicon.
+* [Bushel](https://getbushel.app/) - Lightweight, free VM app with neat features. On first launch, select "Ask App Not to Track"
+* [VMware Fusion](https://knowledge.broadcom.com/external/article/315638/download-and-install-vmware-fusion.html) - Now free under Broadcom. Clean UI, easy macOS setup, and supports Windows 11 ARM.
+* [tart (CLI)](https://tart.run/) - Command‑line VM control; install with Homebrew.
+* [Parallels](https://www.parallels.com/) - Paid option with strong integration.
 
 > [!WARNING]
 > VMware requires an account with Broadcom and agreeing to about 12 different agreements before download.
-> Parallels requires an account, payment details, and other data. Review their privacy notice before using. [Privacy notice](https://my.parallels.com/data_reminder)
+> Parallels requires an account, payment details, and other data - see the [privacy notice](https://my.parallels.com/data_reminder).
 
 # First boot
 
@@ -834,34 +824,38 @@ Download Tor Browser from [Tor Project](https://www.torproject.org/download/).
 
 Do **not** attempt to configure other browsers or applications to use Tor as you may make a mistake which will compromise anonymity.
 
-Download both the `dmg` and `asc` signature files, then verify the disk image has been signed by Tor developers:
+Download both `dmg` and `asc` files to [verify](https://support.torproject.org/tor-browser/getting-started/verifying-tor-browser/) the software:
 
 ```console
 $ cd ~/Downloads
 
-$ file Tor*
-TorBrowser-8.0.4-osx64_en-US.dmg:     bzip2 compressed data, block size = 900k
-TorBrowser-8.0.4-osx64_en-US.dmg.asc: PGP signature Signature (old)
+$ file tor-browser-macos-*
+tor-browser-macos-15.0.17.dmg:     XZ compressed data, checksum NONE
+tor-browser-macos-15.0.17.dmg.asc: PGP signature Signature (old)
 
-$ gpg Tor*asc
+$ gpg --verify tor-browser-macos-*.asc
 [...]
 gpg: Can't check signature: No public key
 
-$ gpg --recv 0x4E2C6E8793298290
+$ gpg --auto-key-locate nodefault,wkd --locate-keys torbrowser@torproject.org
 gpg: key 0x4E2C6E8793298290: public key "Tor Browser Developers (signing key) <torbrowser@torproject.org>" imported
-gpg: no ultimately trusted keys found
 gpg: Total number processed: 1
 gpg:               imported: 1
+pub   rsa4096/0x4E2C6E8793298290 2014-12-15 [C] [expires: 2027-07-15]
+      Key fingerprint = EF6E 286D DA85 EA2A 4BA7  DE68 4E2C 6E87 9329 8290
+uid                   [ unknown] Tor Browser Developers (signing key) <torbrowser@torproject.org>
+sub   rsa4096/0x157432CF78A65729 2024-07-15 [S] [expires: 2026-10-26]
+      Key fingerprint = CAAE 408A EBE2 288E 96FC  5D5E 1574 32CF 78A6 5729
 
-$ gpg --verify Tor*asc
-gpg: assuming signed data in 'TorBrowser-8.0.4-osx64_en-US.dmg'
-gpg: Signature made Mon Dec 10 07:16:22 2018 PST
-gpg:                using RSA key 0xEB774491D9FF06E2
+$ gpg --verify tor-browser-macos-*.asc
+gpg: assuming signed data in 'tor-browser-macos-15.0.17.dmg'
+gpg: Signature made Sun Jun 28 15:35:20 2026 PDT
+gpg:                using RSA key CAAE408AEBE2288E96FC5D5E157432CF78A65729
 gpg: Good signature from "Tor Browser Developers (signing key) <torbrowser@torproject.org>" [unknown]
 gpg: WARNING: This key is not certified with a trusted signature!
 gpg:          There is no indication that the signature belongs to the owner.
 Primary key fingerprint: EF6E 286D DA85 EA2A 4BA7  DE68 4E2C 6E87 9329 8290
-     Subkey fingerprint: 1107 75B5 D101 FB36 BC6C  911B EB77 4491 D9FF 06E2
+     Subkey fingerprint: CAAE 408A EBE2 288E 96FC  5D5E 1574 32CF 78A6 5729
 ```
 
 Make sure `Good signature from "Tor Browser Developers (signing key) <torbrowser@torproject.org>"` appears in the output. The warning about the key not being certified is benign, as it has not yet been assigned trust.
@@ -882,40 +876,50 @@ Verify the application was signed by The Tor Project's Apple Developer ID **MADP
 ```console
 $ spctl -a -vv ~/Applications/Tor\ Browser.app
 /Users/drduh/Applications/Tor Browser.app: accepted
-source=Developer ID
+source=Notarized Developer ID
 origin=Developer ID Application: The Tor Project, Inc (MADPSAYN6T)
 
 $ pkgutil --check-signature ~/Applications/Tor\ Browser.app
 Package "Tor Browser.app":
-   Status: signed by a certificate trusted by Mac OS X
+   Status: signed by a certificate trusted by macOS
    Certificate Chain:
     1. Developer ID Application: The Tor Project, Inc (MADPSAYN6T)
-       SHA1 fingerprint: 95 80 54 F1 54 66 F3 9C C2 D8 27 7A 29 21 D9 61 11 93 B3 E8
-       -----------------------------------------------------------------------------
+       Expires: 2028-10-11 17:57:46 +0000
+       SHA256 Fingerprint:
+           76 3C 89 02 ED CB AD 8E 59 86 1E 93 D3 05 5B 28 F9 04 0C 96 03 8B
+           16 28 9F 38 64 ED 53 45 B4 DA
+       ------------------------------------------------------------------------
     2. Developer ID Certification Authority
-       SHA1 fingerprint: 3B 16 6C 3B 7D C4 B7 51 C9 FE 2A FA B9 13 56 41 E3 88 E1 86
-       -----------------------------------------------------------------------------
+       Expires: 2031-09-17 00:00:00 +0000
+       SHA256 Fingerprint:
+           F1 6C D3 C5 4C 7F 83 CE A4 BF 1A 3E 6A 08 19 C8 AA A8 E4 A1 52 8F
+           D1 44 71 5F 35 06 43 D2 DF 3A
+       ------------------------------------------------------------------------
     3. Apple Root CA
-       SHA1 fingerprint: 61 1E 5B 66 2C 59 3A 08 FF 58 D1 4A E2 24 52 D1 98 DF 6C 60
+       Expires: 2035-02-09 21:40:36 +0000
+       SHA256 Fingerprint:
+           B0 B1 73 0E CB C7 FF 45 05 14 2C 49 F1 29 5E 6E DA 6B CA ED 7E 2C
+           68 C5 BE 91 B5 A1 10 01 F0 24
 ```
 
-You can also use the `codesign` command to examine an application's code signature:
+The command `codesign` can also be used to examine an application's code signature:
 
 ```console
 $ codesign -dvv ~/Applications/Tor\ Browser.app
 Executable=/Users/drduh/Applications/Tor Browser.app/Contents/MacOS/firefox
 Identifier=org.torproject.torbrowser
-Format=app bundle with Mach-O thin (x86_64)
-CodeDirectory v=20200 size=229 flags=0x0(none) hashes=4+3 location=embedded
-Library validation warning=OS X SDK version before 10.9 does not support Library Validation
-Signature size=4247
+Format=app bundle with Mach-O universal (x86_64 arm64)
+CodeDirectory v=20500 size=805 flags=0x10000(runtime) hashes=14+7 location=embedded
+Signature size=9054
 Authority=Developer ID Application: The Tor Project, Inc (MADPSAYN6T)
 Authority=Developer ID Certification Authority
 Authority=Apple Root CA
-Signed Time=Dec 10, 2018 at 12:18:45 AM
-Info.plist entries=24
+Timestamp=Jun 28, 2026 at 14:01:57
+Notarization Ticket=stapled
+Info.plist entries=27
 TeamIdentifier=MADPSAYN6T
-Sealed Resources version=2 rules=12 files=128
+Runtime Version=15.5.0
+Sealed Resources version=2 rules=13 files=208
 Internal requirements count=1 size=188
 ```
 
@@ -926,21 +930,18 @@ $ codesign -d --extract-certificates ~/Applications/Tor\ Browser.app
 Executable=/Users/drduh/Applications/Tor Browser.app/Contents/MacOS/firefox
 
 $ file codesign*
-codesign0: data
-codesign1: data
-codesign2: data
+codesign0: Certificate, Version=3
+codesign1: Certificate, Version=3
+codesign2: Certificate, Version=3 Certificate, Version=02
 
 $ openssl x509 -inform der -in codesign0 -subject -issuer -startdate -enddate -noout
 subject= /UID=MADPSAYN6T/CN=Developer ID Application: The Tor Project, Inc (MADPSAYN6T)/OU=MADPSAYN6T/O=The Tor Project, Inc/C=US
-issuer= /CN=Developer ID Certification Authority/OU=Apple Certification Authority/O=Apple Inc./C=US
-notBefore=Apr 12 22:40:13 2016 GMT
-notAfter=Apr 13 22:40:13 2021 GMT
+issuer= /CN=Developer ID Certification Authority/OU=G2/O=Apple Inc./C=US
+notBefore=Oct 11 17:57:47 2023 GMT
+notAfter=Oct 11 17:57:46 2028 GMT
 
-$ openssl x509 -inform der -in codesign0  -fingerprint -noout
-SHA1 Fingerprint=95:80:54:F1:54:66:F3:9C:C2:D8:27:7A:29:21:D9:61:11:93:B3:E8
-
-$ openssl x509 -inform der -in codesign0 -fingerprint -sha256 -noout
-SHA256 Fingerprint=B5:0D:47:F0:3E:CB:42:B6:68:1C:6F:38:06:2B:C2:9F:41:FA:D6:54:F1:29:D3:E4:DD:9C:C7:49:35:FF:F5:D9
+$ openssl x509 -inform der -in codesign0 -fingerprint -noout
+SHA256 Fingerprint=76:3C:89:02:ED:CB:AD:8E:59:86:1E:93:D3:05:5B:28:F9:04:0C:96:03:8B:16:28:9F:38:64:ED:53:45:B4:DA
 ```
 
 Tor traffic is **encrypted** to the [exit node](https://en.wikipedia.org/wiki/Tor_(network)#Exit_node_eavesdropping) (i.e., cannot be read by a passive network eavesdropper), but Tor use **can** be identified - for example, TLS handshake "hostnames" will show up in plaintext:
