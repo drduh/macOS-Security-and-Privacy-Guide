@@ -151,9 +151,9 @@ There are several ways to [install macOS](https://support.apple.com/102662). Cho
 
 ## System activation
 
-As part of Apple's [theft prevention system](https://support.apple.com/102541), Apple silicon Macs will need to activate with Apple's servers every time you reinstall macOS to check against the database of stolen or activation-locked Macs.
+As part of Apple's [theft prevention system](https://support.apple.com/102541), Apple silicon Macs will need to activate with Apple's servers every time macOS is installed to check against the database of stolen or activation-locked Macs.
 
-You can read about exactly how this process works [here](https://support.apple.com/guide/security/localpolicy-signing-key-creation-management-sec1f90fbad1).
+Read about how this process works [here](https://support.apple.com/guide/security/localpolicy-signing-key-creation-management-sec1f90fbad1).
 
 ## Apple Account
 
@@ -195,7 +195,7 @@ If you enter your real name at the account setup process, be aware that your com
 
 Both should be verified and updated as needed in **System Settings > About** or with the following commands after installation:
 
-```console
+```bash
 sudo scutil --set ComputerName MacBook
 sudo scutil --set LocalHostName MacBook
 ```
@@ -224,14 +224,14 @@ Accounts can be created and managed in System Preferences. On settled systems, i
 
 Demoting an account can be done either from the new admin account in System Preferences – the other account must be logged out – or by executing these commands (it may not be necessary to execute both, see [issue 179](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/179)):
 
-```console
+```bash
 sudo dscl . -delete /Groups/admin GroupMembership <username>
 sudo dscl . -delete /Groups/admin GroupMembers <GeneratedUID>
 ```
 
 To find the **GeneratedUID** of an account:
 
-```console
+```bash
 dscl . -read /Users/<username> GeneratedUID
 ```
 
@@ -239,15 +239,15 @@ See also [this post](https://superuser.com/a/395738) for more information about 
 
 # Firmware
 
-You should check that firmware security settings are set to [Full Security](https://support.apple.com/guide/mac-help/mchl768f7291/mac) to prevent tampering with your OS. This is the default setting.
+Validate firmware security settings are set to [Full Security](https://support.apple.com/guide/mac-help/mchl768f7291/mac) to prevent tampering with the system. This is the default setting.
 
 # FileVault
 
-All Mac models with Apple silicon are encrypted by default. Enabling [FileVault](https://support.apple.com/guide/mac-help/mh11785/mac) makes it so that you need to enter a password in order to access the data on your drive. The EFF has a guide on generating [strong but memorable passwords](https://www.eff.org/dice).
+All Mac models with Apple silicon encrypt storage by default. Enabling [FileVault](https://support.apple.com/guide/mac-help/mh11785/mac) makes it so that you need to enter a password in order to access the data on your drive. The EFF has a guide on generating [strong but memorable passwords](https://www.eff.org/dice).
 
-Your FileVault password also acts as a [firmware password](https://support.apple.com/en-us/102384) that will prevent people that don't know it from booting from anything other than the designated startup disk, accessing [Recovery](https://support.apple.com/guide/mac-help/macos-recovery-a-mac-apple-silicon-mchl82829c17/15.0/mac/15.0#mchl5abfbb29), and [reviving](https://support.apple.com/en-us/108900) it with DFU mode.
+The FileVault password also acts as a [firmware password](https://support.apple.com/en-us/102384) which prevents booting from anything other than the designated startup disk, accessing [Recovery](https://support.apple.com/guide/mac-help/macos-recovery-a-mac-apple-silicon-mchl82829c17/15.0/mac/15.0#mchl5abfbb29), and [reviving](https://support.apple.com/en-us/108900) it with DFU mode.
 
-FileVault will ask you to set a recovery key in case you forget your password. Keep this key stored somewhere safe. You will have the option to use your iCloud account to unlock your disk; however, anyone with access to your iCloud account will be able to unlock it as well.
+FileVault will ask you to set a recovery key in case you forget the password. Keep this key stored somewhere safe. You will have the option to use iCloud to unlock the disk; however, anyone with access to this iCloud account will be able to unlock it as well.
 
 # Lockdown Mode
 
@@ -267,19 +267,17 @@ It can be controlled by the **Firewall** tab of **Network** in **System Settings
 
 Enable the firewall and stealth mode:
 
-```console
+```bash
 sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on
-
 sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode on
 ```
 
-Computer hackers scan networks so they can attempt to identify computers to attack. You can prevent your computer from responding to some of these scans by using **stealth mode**. When stealth mode is enabled, your computer does not respond to ICMP ping requests, and does not answer to connection attempts from a closed TCP or UDP port. This makes it more difficult for attackers to find your computer.
+Hackers scan networks in attempt to identify vulnerable systems - prevent macOS from responding to some of these scans by using **stealth mode**. When stealth mode is enabled, the system does not respond to ICMP ping requests and does not answer to connection attempts from a closed TCP or UDP port.
 
-To prevent *built-in software* as well as *code-signed, downloaded software from being whitelisted automatically*:
+Prevent built-in and downloaded software from automatically receiving incoming connections:
 
-```console
+```bash
 sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setallowsigned off
-
 sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setallowsignedapp off
 ```
 
@@ -289,7 +287,7 @@ If you run an unsigned app that is not listed in the firewall list, a dialog app
 
 After interacting with `socketfilterfw`, restart the process by sending a line hangup signal:
 
-```console
+```bash
 sudo pkill -HUP socketfilterfw
 ```
 
@@ -347,13 +345,13 @@ It is possible to use the pf firewall to block network access to entire ranges o
 
 Query [Merit RADb](https://www.radb.net/) for the list of networks in use by an autonomous system, like [Facebook](https://ipinfo.io/AS32934):
 
-```console
+```bash
 whois -h whois.radb.net '!gAS32934'
 ```
 
 Copy and paste the list of networks returned into the blocklist command:
 
-```console
+```bash
 sudo pfctl -t blocklist -T add 31.13.24.0/21 31.13.64.0/24 157.240.0.0/16
 ```
 
@@ -407,7 +405,7 @@ You can manage and see more information about software that runs at login in [Sy
 
 For example, to learn what a system launch daemon or agent does, start with:
 
-```console
+```bash
 defaults read /System/Library/LaunchDaemons/com.apple.apsd
 ```
 
@@ -418,7 +416,7 @@ Look at the `Program` or `ProgramArguments` section to see which binary is run, 
 
 To view the status of services:
 
-```console
+```bash
 find /var/db/com.apple.xpc.launchd/ -type f -print -exec defaults read {} \; 2>/dev/null
 ```
 
@@ -428,11 +426,11 @@ Read more about launchd and where login items can be found on [Apple's website](
 
 # Siri Suggestions and Spotlight
 
-Apple is moving to on-device processing for a lot of Siri functions, but some info is still sent to Apple when you use Siri Suggestions or Spotlight. You can read Apple's [Privacy Policy](https://www.apple.com/legal/privacy/data/en/siri-suggestions-search/) to see exactly what is sent and how to disable it.
+Apple is moving to on-device processing for a lot of Siri functions, but some data is still sent to Apple when using Siri Suggestions or Spotlight. See Apple's [Privacy Policy](https://www.apple.com/legal/privacy/data/en/siri-suggestions-search/) to see exactly what is sent and how to disable it.
 
 # Homebrew
 
-If a program isn't available through the App Store, consider using [Homebrew](https://brew.sh/).
+If a program is not available through the App Store, consider using [Homebrew](https://brew.sh/).
 
 > [!WARNING]
 > Homebrew requests "App Management" (or "Full Disk Access") permission to the terminal.
@@ -481,7 +479,7 @@ Popular hosts lists include:
 
 Append a list of hosts with `tee`:
 
-```console
+```bash
 curl https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts | sudo tee -a /etc/hosts
 ```
 
@@ -493,13 +491,13 @@ To encrypt DNS traffic, consider using [DNSCrypt/dnscrypt-proxy](https://github.
 
 Install DNSCrypt from Homebrew and follow the instructions to configure and start `dnscrypt-proxy`:
 
-```console
+```bash
 brew install dnscrypt-proxy
 ```
 
 If using in combination with Dnsmasq, find the file `homebrew.mxcl.dnscrypt-proxy.plist` by running
 
-```console
+```bash
 brew info dnscrypt-proxy
 ```
 
@@ -513,7 +511,7 @@ listen_addresses = ['127.0.0.1:5355', '[::1]:5355']
 
 Start DNSCrypt:
 
-```console
+```bash
 sudo brew services restart dnscrypt-proxy
 ```
 
@@ -550,7 +548,7 @@ If you don't wish to use DNSCrypt, you should at least use DNS [not provided](ht
 
 Install Dnsmasq:
 
-```console
+```bash
 brew install dnsmasq
 ```
 
@@ -560,13 +558,13 @@ See [drduh/config/domains](https://github.com/drduh/config/tree/main/domains) fo
 
 Install and start the program (sudo is required to bind to [privileged port](https://unix.stackexchange.com/questions/16564/why-are-the-first-1024-ports-restricted-to-the-root-user-only) 53):
 
-```console
+```bash
 sudo brew services start dnsmasq
 ```
 
 To set dnsmasq as the local DNS server, open **System Preferences** > **Network** and select the active interface, then the **DNS** tab, select **+** and add `127.0.0.1`, or use:
 
-```console
+```bash
 sudo networksetup -setdnsservers "Wi-Fi" 127.0.0.1
 ```
 
@@ -625,9 +623,8 @@ Consider using [Privoxy](https://www.privoxy.org/) as a local proxy to filter We
 
 Install and start privoxy using Homebrew:
 
-```console
+```bash
 brew install privoxy
-
 brew services start privoxy
 ```
 
@@ -637,13 +634,13 @@ By default, Privoxy listens on local TCP port 8118.
 
 Set the system **HTTP** proxy for the active network interface `127.0.0.1` and `8118`:
 
-```console
+```bash
 sudo networksetup -setwebproxy "Wi-Fi" 127.0.0.1 8118
 ```
 
 Set the system **HTTPS** proxy:
 
-```console
+```bash
 sudo networksetup -setsecurewebproxy "Wi-Fi" 127.0.0.1 8118
 ```
 
@@ -862,11 +859,9 @@ See [How can I verify Tor Browser's signature?](https://support.torproject.org/t
 
 To finish installing Tor Browser, open the disk image and drag it to the Applications folder, or:
 
-```console
+```bash
 hdiutil mount TorBrowser-8.0.4-osx64_en-US.dmg
-
 cp -r /Volumes/Tor\ Browser/Tor\ Browser.app/ ~/Applications/
-
 ```
 
 Verify the application was signed by The Tor Project's Apple Developer ID **MADPSAYN6T**, using the `spctl -a -v` and/or `pkgutil --check-signature` commands:
@@ -942,25 +937,11 @@ $ openssl x509 -inform der -in codesign0 -fingerprint -noout
 SHA256 Fingerprint=76:3C:89:02:ED:CB:AD:8E:59:86:1E:93:D3:05:5B:28:F9:04:0C:96:03:8B:16:28:9F:38:64:ED:53:45:B4:DA
 ```
 
-Tor traffic is **encrypted** to the [exit node](https://en.wikipedia.org/wiki/Tor_(network)#Exit_node_eavesdropping) (i.e., cannot be read by a passive network eavesdropper), but Tor use **can** be identified - for example, TLS handshake "hostnames" will show up in plaintext:
+Tor traffic can be obfuscated using a [pluggable transport](https://support.torproject.org/tor-browser/circumvention/). This can be done by setting up a [relay](https://support.torproject.org/relays/) or using an existing [bridge](https://bridges.torproject.org/).
 
-```console
-$ sudo tcpdump -An "tcp" | grep "www"
-listening on pktap, link-type PKTAP (Apple DLT_PKTAP), capture size 262144 bytes
-.............". ...www.odezz26nvv7jeqz1xghzs.com.........
-.............#.!...www.bxbko3qi7vacgwyk4ggulh.com.........
-.6....m.....>...:.........|../*	Z....W....X=..6...C../....................................0...0..0.......'....F./0..	*.H........0%1#0!..U....www.b6zazzahl3h3faf4x2.com0...160402000000Z..170317000000Z0'1%0#..U....www.tm3ddrghe22wgqna5u8g.net0..0..
-```
+The Tor network provides [anonymity](https://www.privateinternetaccess.com/blog/2013/10/how-does-privacy-differ-from-anonymity-and-why-are-both-important/), which is not necessarily synonymous with privacy. The network does not defend against a global observer capable of traffic analysis and correlation. See also [Seeking Anonymity in an Internet Panopticon](https://bford.info/pub/net/panopticon-cacm.pdf) (pdf) and [Traffic Correlation on Tor by Realistic Adversaries](https://www.ohmygodel.com/publications/usersrouted-ccs13.pdf) (pdf).
 
-See [Tor Protocol Specification](https://spec.torproject.org/tor-spec/) and [Tor/TLSHistory](https://gitlab.torproject.org/legacy/trac/-/wikis/org/projects/Tor/TLSHistory) for more information.
-
-You may wish to additionally obfuscate Tor traffic using a [pluggable transport](https://tb-manual.torproject.org/circumvention/).
-
-This can be done by setting up a [Tor relay](https://support.torproject.org/relay-operators/) or finding an existing private or [public bridge](https://bridges.torproject.org/) to serve as an obfuscating entry node.
-
-For extra security, use Tor inside a [VM](#virtualization).
-
-Finally, remember the Tor network provides [anonymity](https://www.privateinternetaccess.com/blog/2013/10/how-does-privacy-differ-from-anonymity-and-why-are-both-important/), which is not necessarily synonymous with privacy. The Tor network does not guarantee protection against a global observer capable of traffic analysis and correlation. See also [Seeking Anonymity in an Internet Panopticon](https://bford.info/pub/net/panopticon-cacm.pdf) (pdf) and [Traffic Correlation on Tor by Realistic Adversaries](https://www.ohmygodel.com/publications/usersrouted-ccs13.pdf) (pdf).
+See [Tor Protocol Specification](https://spec.torproject.org/tor-spec/) for more information.
 
 Also see [Invisible Internet Project (I2P)](https://geti2p.net/en/about/intro) and its [Tor comparison](https://geti2p.net/en/comparison/tor).
 
@@ -978,7 +959,7 @@ Also see this [technical overview](https://blog.timac.org/2018/0717-macos-vpn-ar
 
 # PGP/GPG
 
-PGP is a standard for signing and encrypting data (especially email) end-to-end, so only the sender and recipient can access it.
+PGP is a standard for signing and encrypting data (especially email) end-to-end, so only the sender and recipients can access it.
 
 GPG (GNU Privacy Guard) is a GPL-licensed, open-source program compliant with the PGP standard.
 
@@ -988,7 +969,7 @@ Install from Homebrew with `brew install gnupg` or using [GPG Suite](https://gpg
 
 Download [gpg.conf](https://github.com/drduh/YubiKey-Guide/blob/master/config/gpg.conf) to use recommended settings:
 
-```console
+```bash
 curl -o ~/.gnupg/gpg.conf https://raw.githubusercontent.com/drduh/YubiKey-Guide/master/config/gpg.conf
 ```
 
@@ -998,11 +979,11 @@ See [drduh/YubiKey-Guide](https://github.com/drduh/YubiKey-Guide) to generate an
 
 ## XMPP
 
-XMPP is an [open standard](https://xmpp.org/extensions) developed by the [IETF](https://www.ietf.org) that allows for cross-platform federated messaging. There are many options for [clients](https://xmpp.org/getting-started). Consider using one of the browser-based clients to take advantage of the browser's sandbox.
+[XMPP](https://en.wikipedia.org/wiki/XMPP) is an [open protocol](https://xmpp.org/extensions/) developed by the [IETF](https://www.ietf.org/) which features cross-platform federated messaging. There are many [client options](https://xmpp.org/getting-started/). Consider using one of the browser-based clients to take advantage of the browser's sandbox.
 
 Depending on the provider, you might not need anything other than a username and password to set up an account.
 
-XMPP isn't E2EE by default, you will need to use [OMEMO](https://omemo.top) encryption, so make sure the client supports it.
+XMPP is not E2EE by default - use [OMEMO](https://omemo.top) encryption with a supported client.
 
 ## Signal
 
@@ -1012,7 +993,7 @@ To use the Signal desktop app, Signal must first be installed on a phone.
 
 ## iMessage
 
-iMessage is Apple's first party messenger. It requires an [Apple Account](#apple-account) in order to use it.
+[iMessage](https://en.wikipedia.org/wiki/IMessage) is Apple's first party messenger. It requires an [Apple Account](#apple-account) in order to use it.
 
 Make sure to enable [Contact Key Verification](https://support.apple.com/118246) and verify with anyone you message to ensure that you're messaging the right person.
 
@@ -1045,7 +1026,7 @@ You should also avoid programs that ask for lots of permissions and third-party 
 
 Check if a program uses the [App Sandbox](https://developer.apple.com/documentation/security/app_sandbox/protecting_user_data_with_app_sandbox) before running it by running the following command:
 
-```console
+```bash
 codesign -dvvv --entitlements - <path to application>
 ```
 
@@ -1057,7 +1038,7 @@ With the App Sandbox enabled:
     [Bool] true
 ```
 
-Alternatively, you can check while the app is running by opening Activity Monitor and adding the "Sandbox" column.
+Alternatively, check by opening Activity Monitor while the application is running and adding the "Sandbox" column.
 
 All App Store software is required to use the App Sandbox.
 
@@ -1067,7 +1048,7 @@ Browsers like Google Chrome use their own [sandbox](https://chromium.googlesourc
 
 Check if a program uses the [Hardened Runtime](https://developer.apple.com/documentation/security/hardened_runtime) before running it using the following command:
 
-```console
+```bash
 codesign --display --verbose /path/to/bundle.app
 ```
 
@@ -1160,11 +1141,9 @@ com.apple.quarantine: 0081;58519ffa;Google Chrome.app;1F032CAB-F5A1-4D92-84EB-CB
 
 Metadata attributes can also be removed with the `-d` flag:
 
-```console
+```bash
 xattr -d com.apple.metadata:kMDItemWhereFroms ~/Downloads/TorBrowser-8.0.4-osx64_en-US.dmg
-
 xattr -d com.apple.quarantine ~/Downloads/TorBrowser-8.0.4-osx64_en-US.dmg
-
 xattr -l ~/Downloads/TorBrowser-8.0.4-osx64_en-US.dmg
 ```
 
@@ -1174,7 +1153,7 @@ Other metadata and artifacts may be found in the directories including, but not 
 
 `/Library/Preferences/com.apple.Bluetooth.plist` contains Bluetooth metadata, including device history. If Bluetooth is not used, the metadata can be cleared with:
 
-```console
+```bash
 sudo defaults delete /Library/Preferences/com.apple.Bluetooth.plist DeviceCache
 sudo defaults delete /Library/Preferences/com.apple.Bluetooth.plist IDSPairedDevices
 sudo defaults delete /Library/Preferences/com.apple.Bluetooth.plist PANDevices
@@ -1184,7 +1163,7 @@ sudo defaults delete /Library/Preferences/com.apple.Bluetooth.plist SCOAudioDevi
 
 `/var/spool/cups` contains the CUPS printer job cache. To clear it, use the commands:
 
-```console
+```bash
 sudo rm -rfv /var/spool/cups/c0*
 sudo rm -rfv /var/spool/cups/tmp/*
 sudo rm -rfv /var/spool/cups/cache/job.cache*
@@ -1192,7 +1171,7 @@ sudo rm -rfv /var/spool/cups/cache/job.cache*
 
 To clear the list of iOS devices connected, use:
 
-```console
+```bash
 sudo defaults delete /Users/$USER/Library/Preferences/com.apple.iPod.plist "conn:128:Last Connect"
 sudo defaults delete /Users/$USER/Library/Preferences/com.apple.iPod.plist Devices
 sudo defaults delete /Library/Preferences/com.apple.iPod.plist "conn:128:Last Connect"
@@ -1204,7 +1183,7 @@ Quicklook thumbnail data can be cleared using the `qlmanage -r cache` command, b
 
 It can also be cleared by getting the directory names with `getconf DARWIN_USER_CACHE_DIR` and `sudo getconf DARWIN_USER_CACHE_DIR`, then removing them:
 
-```console
+```bash
 rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/exclusive
 rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/index.sqlite
 rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/index.sqlite-shm
@@ -1215,7 +1194,7 @@ rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/thum
 
 Similarly, for the root user:
 
-```console
+```bash
 sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/thumbnails.fraghandler
 sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/exclusive
 sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/index.sqlite
@@ -1230,7 +1209,7 @@ Also see ['quicklook' cache may leak encrypted data](https://objective-see.com/b
 
 To clear Finder preferences:
 
-```console
+```bash
 defaults delete ~/Library/Preferences/com.apple.finder.plist FXDesktopVolumePositions
 defaults delete ~/Library/Preferences/com.apple.finder.plist FXRecentFolders
 defaults delete ~/Library/Preferences/com.apple.finder.plist RecentMoveAndCopyDestinations
@@ -1250,7 +1229,7 @@ Additional diagnostic files may be found in the following directories - but caut
 
 macOS stored preferred Wi-Fi data (including credentials) in NVRAM. To clear it, use the following commands:
 
-```console
+```bash
 sudo nvram -d 36C28AB5-6566-4C50-9EBD-CBB920F83843:current-network
 sudo nvram -d 36C28AB5-6566-4C50-9EBD-CBB920F83843:preferred-networks
 sudo nvram -d 36C28AB5-6566-4C50-9EBD-CBB920F83843:preferred-count
@@ -1258,7 +1237,7 @@ sudo nvram -d 36C28AB5-6566-4C50-9EBD-CBB920F83843:preferred-count
 
 macOS may collect sensitive information about what you type, even if user dictionary and suggestions are off. To remove them, and prevent them from being created again, use the following commands:
 
-```console
+```bash
 rm -rfv "~/Library/LanguageModeling/*" "~/Library/Spelling/*" "~/Library/Suggestions/*"
 chmod -R 000 ~/Library/LanguageModeling ~/Library/Spelling ~/Library/Suggestions
 chflags -R uchg ~/Library/LanguageModeling ~/Library/Spelling ~/Library/Suggestions
@@ -1266,7 +1245,7 @@ chflags -R uchg ~/Library/LanguageModeling ~/Library/Spelling ~/Library/Suggesti
 
 QuickLook application support metadata can be cleared and locked with the following commands:
 
-```console
+```bash
 rm -rfv "~/Library/Application Support/Quick Look/*"
 chmod -R 000 "~/Library/Application Support/Quick Look"
 chflags -R uchg "~/Library/Application Support/Quick Look"
@@ -1274,7 +1253,7 @@ chflags -R uchg "~/Library/Application Support/Quick Look"
 
 Document revision metadata is stored in `/.DocumentRevisions-V100` and can be cleared and locked with the following commands - caution should be taken as this may break some core Apple applications:
 
-```console
+```bash
 sudo rm -rfv /.DocumentRevisions-V100/*
 sudo chmod -R 000 /.DocumentRevisions-V100
 sudo chflags -R uchg /.DocumentRevisions-V100
@@ -1282,7 +1261,7 @@ sudo chflags -R uchg /.DocumentRevisions-V100
 
 Saved application state metadata may be cleared and locked with the following commands:
 
-```console
+```bash
 rm -rfv ~/Library/Saved\ Application\ State/*
 rm -rfv ~/Library/Containers/<APPNAME>/Data/Library/Saved\ Application\ State
 chmod -R 000 ~/Library/Saved\ Application\ State/
@@ -1293,7 +1272,7 @@ chflags -R uchg ~/Library/Containers/<APPNAME>/Data/Library/Saved\ Application\ 
 
 Autosave metadata can be cleared and locked with the following commands:
 
-```console
+```bash
 rm -rfv "~/Library/Containers/<APP>/Data/Library/Autosave Information"
 rm -rfv "~/Library/Autosave Information"
 chmod -R 000 "~/Library/Containers/<APP>/Data/Library/Autosave Information"
@@ -1304,7 +1283,7 @@ chflags -R uchg "~/Library/Autosave Information"
 
 The Siri analytics database, which is created even if the Siri launch agent disabled, can be cleared and locked with the following commands:
 
-```console
+```bash
 rm -rfv ~/Library/Assistant/SiriAnalytics.db
 chmod -R 000 ~/Library/Assistant/SiriAnalytics.db
 chflags -R uchg ~/Library/Assistant/SiriAnalytics.db
@@ -1312,26 +1291,26 @@ chflags -R uchg ~/Library/Assistant/SiriAnalytics.db
 
 `~/Library/Preferences/com.apple.iTunes.plist` contains iTunes metadata. Recent iTunes search data may be cleared with the following command:
 
-```console
+```bash
 defaults delete ~/Library/Preferences/com.apple.iTunes.plist recentSearches
 ```
 
-If you do not use Apple Account-linked services, the following keys may be cleared, too, using the following commands:
+If you do not use Apple Account-linked services, the following keys may also be cleared using the following commands:
 
-```console
+```bash
 defaults delete ~/Library/Preferences/com.apple.iTunes.plist StoreUserInfo
 defaults delete ~/Library/Preferences/com.apple.iTunes.plist WirelessBuddyID
 ```
 
 All media played in QuickTime Player can be found in:
 
-```console
+```bash
 ~/Library/Containers/com.apple.QuickTimePlayerX/Data/Library/Preferences/com.apple.QuickTimePlayerX.plist
 ```
 
 Additional metadata may exist in the following files:
 
-```console
+```bash
 ~/Library/Containers/com.apple.appstore/Data/Library/Preferences/com.apple.commerce.knownclients.plist
 ~/Library/Preferences/com.apple.commerce.plist
 ~/Library/Preferences/com.apple.QuickTimePlayerX.plist
@@ -1363,27 +1342,23 @@ GnuPG can be used with a static password or public key (with the private key sto
 
 Compress and encrypt a directory using with a password:
 
-```console
+```bash
 tar zcvf - ~/Downloads | gpg -c > ~/Desktop/backup-$(date +%F-%H%M).tar.gz.gpg
 ```
 
 Decrypt and decompress the directory:
 
-```console
+```bash
 gpg -o ~/Desktop/decrypted-backup.tar.gz -d ~/Desktop/backup-*.tar.gz.gpg
-
 tar zxvf ~/Desktop/decrypted-backup.tar.gz
 ```
 
 Encrypted volumes can also be created using **Disk Utility** or `hdiutil`:
 
-```console
+```bash
 hdiutil create ~/Desktop/encrypted.dmg -encryption -size 50M -volname "secretStuff"
-
 hdiutil mount ~/Desktop/encrypted.dmg
-
 cp -v ~/Documents/passwords.txt /Volumes/secretStuff
-
 hdiutil eject /Volumes/secretStuff
 ```
 
@@ -1412,17 +1387,15 @@ You can also use ssh to create an [encrypted tunnel](http://blog.trackets.com/20
 
 For example, to use Privoxy running on a remote host port 8118:
 
-```console
+```bash
 ssh -C -L 5555:127.0.0.1:8118 you@remote-host.tld
-
 sudo networksetup -setwebproxy "Wi-Fi" 127.0.0.1 5555
-
 sudo networksetup -setsecurewebproxy "Wi-Fi" 127.0.0.1 5555
 ```
 
 Or to use an ssh connection as a [SOCKS proxy](https://www.mikeash.com/ssh_socks.html):
 
-```console
+```bash
 ssh -NCD 3000 you@remote-host.tld
 ```
 
@@ -1430,7 +1403,7 @@ By default, macOS does **not** have sshd or *Remote Login* enabled.
 
 To enable sshd and allow incoming ssh connections:
 
-```console
+```bash
 sudo launchctl load -w /System/Library/LaunchDaemons/ssh.plist
 ```
 
@@ -1440,7 +1413,7 @@ If enabling sshd, be sure to disable password authentication and consider furthe
 
 Confirm whether sshd is running:
 
-```console
+```bash
 sudo lsof -Pni TCP:22
 ```
 
@@ -1501,13 +1474,13 @@ You can also view processes with **Activity Monitor**.
 
 List open network files:
 
-```console
+```bash
 sudo lsof -Pni
 ```
 
 List contents of various network-related data structures:
 
-```console
+```bash
 sudo netstat -atln
 ```
 
@@ -1515,7 +1488,7 @@ sudo netstat -atln
 
 Monitor DNS queries and replies:
 
-```console
+```bash
 tshark -Y "dns.flags.response == 1" -Tfields \
   -e frame.time_delta \
   -e dns.qry.name \
@@ -1525,7 +1498,7 @@ tshark -Y "dns.flags.response == 1" -Tfields \
 
 Monitor HTTP requests and responses:
 
-```console
+```bash
 tshark -Y "http.request or http.response" -Tfields \
   -e ip.dst \
   -e http.request.full_uri \
@@ -1537,7 +1510,7 @@ tshark -Y "http.request or http.response" -Tfields \
 
 Monitor x509 (SSL/TLS) certificates:
 
-```console
+```bash
 tshark -Y "ssl.handshake.certificate" -Tfields \
   -e ip.src \
   -e x509sat.uTF8String \
@@ -1562,29 +1535,27 @@ Monitor system logs with the **Console** application or `syslog -w` or `/usr/bin
 
 Set your screen to lock as soon as the screensaver starts:
 
-```console
+```bash
 defaults write com.apple.screensaver askForPassword -int 1
-
 defaults write com.apple.screensaver askForPasswordDelay -int 0
 ```
 
 Expose hidden files and Library folder in Finder:
 
-```console
+```bash
 defaults write com.apple.finder AppleShowAllFiles -bool true
-
 chflags nohidden ~/Library
 ```
 
 Show all filename extensions (so that "Evil.jpg.app" cannot masquerade easily).
 
-```console
+```bash
 defaults write NSGlobalDomain AppleShowAllExtensions -bool true
 ```
 
 Don't default to saving documents to iCloud:
 
-```console
+```bash
 defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
 ```
 
@@ -1592,13 +1563,13 @@ Enable [Secure Keyboard Entry](https://support.apple.com/guide/terminal/use-secu
 
 Disable crash reporter (the dialog which appears after an application crashes and prompts to report the problem to Apple):
 
-```console
+```bash
 defaults write com.apple.CrashReporter DialogType none
 ```
 
 Disable Bonjour multicast advertisements (also disabling AirPlay and AirPrint features):
 
-```console
+```bash
 sudo defaults write /Library/Preferences/com.apple.mDNSResponder NoMulticastAdvertisements -bool YES
 ```
 
@@ -1608,7 +1579,7 @@ Validate applications are sandboxed in [Activity Monitor](https://developer.appl
 
 macOS comes with this line in `/etc/sudoers`:
 
-```console
+```bash
 Defaults env_keep += "HOME MAIL"
 ```
 
@@ -1616,13 +1587,13 @@ Which stops sudo from changing the HOME variable when you elevate privileges. Th
 
 If you want to retain the convenience of the root user having a non-root user's home directory, you can append an export line to /var/root/.zshrc, e.g.:
 
-```console
+```bash
 export HOME=/Users/blah
 ```
 
 Set a [custom umask](https://support.apple.com/101914):
 
-```console
+```bash
 sudo launchctl config user umask 077
 ```
 
