@@ -1,14 +1,14 @@
 This guide is a collection of techniques for improving the security and privacy of [Apple silicon](https://support.apple.com/116943) Mac computers running a [currently supported](https://support.apple.com/HT201222) version of macOS. **Using Macs with Intel CPUs leaves you open to [security vulnerabilities](https://github.com/axi0mX/ipwndfu?tab%253Dreadme-ov-file#checkm8) on the hardware level that Apple can't patch**. [Apple silicon](https://en.wikipedia.org/wiki/Apple_silicon) Macs are considered the minimum recommendation but as a general rule, newer chips are always more secure.
 
-This guide is targeted to power users who wish to adopt enterprise-standard security, but is also suitable for novice users with an interest in improving their privacy and security on a Mac.
+This guide targets power users who wish to adopt enterprise-standard security, but is also suitable for novice users with an interest in improving privacy and security.
 
-If you're securing computers for an organization, use the [official NIST guidelines for macOS](https://github.com/usnistgov/macos_security).
+For securing computers in an organization, use the [official NIST guidelines for macOS](https://github.com/usnistgov/macos_security).
 
-A system is only as secure as its administrator is capable of making it. There is no one single technology, software, nor technique to guarantee perfect computer security; a modern operating system and computer is very complex, and requires numerous incremental changes to meaningfully improve one's security and privacy posture.
+A system's security ultimately depends on its administrator’s capabilities. No single technology, piece of software, or technique can guarantee perfect security.
 
-This guide is provided on an 'as is' basis without any warranties of any kind. Only **you** are responsible if you break anything or get in any sort of trouble by following this guide.
+This guide is provided "as is" - without warranties of any kind. You are solely responsible for any consequences of following it.
 
-To suggest an improvement, send a pull request or [open an issue](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues).
+To suggest a change, submit a [pull request](https://github.com/drduh/macOS-Security-and-Privacy-Guide/pulls) or open an [issue](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues).
 
 - [Basics](#basics)
 - [Threat modeling](#threat-modeling)
@@ -83,7 +83,7 @@ To suggest an improvement, send a pull request or [open an issue](https://github
 General security best practices apply:
 
 - Create a [threat model](#threat-modeling)
-  * What are you trying to protect and from whom? Is the adversary a three letter agency, a nosy eavesdropper on the network, or a determined [APT](https://en.wikipedia.org/wiki/Advanced_persistent_threat) orchestrating a campaign against you?
+  * What are you trying to protect and from whom? Is the adversary a three-letter agency, a nosy eavesdropper on the network, or a determined [APT](https://en.wikipedia.org/wiki/Advanced_persistent_threat) orchestrating a campaign against you?
   * Recognize threats and how to reduce attack surface against them.
 
 - Keep the system and software up to date
@@ -101,7 +101,7 @@ General security best practices apply:
 
 - Click carefully
   * Ultimately, the security of a system depends on the capabilities of its administrator.
-  * Care should be taken when installing new software; only install from official sources that the developers indicate on their official website/github/etc.
+  * Take care when installing new software: install it only from sources the developer identifies as official, such as their website or GitHub repository.
 
 # Threat modeling
 
@@ -109,7 +109,7 @@ The first and most important step for security and privacy is to create a [threa
 
 ## Identify assets
 
-This is probably a lot of things: phone, laptop, passwords stored on various devices, internet browsing history, etc. Make a list starting with the most important assets to protect. You can put them in categories based on how important they are: public, sensitive, or secret.
+Assets may include your phone, laptop, passwords stored on various devices, and browsing history. List them, starting with the assets that matter most to protect.
 
 ## Identify adversaries
 
@@ -141,13 +141,13 @@ macOS is most secure running on [Apple hardware](https://support.apple.com/guide
 
 When you purchase your Mac, you might want to avoid it being linked back to you. Depending on your threat model, you should pay for it in cash in person rather than ordering online or purchasing with a credit/debit card, that way no identifying information can be linked back to your purchase.
 
-If you want to use a wireless keyboard, mouse, headphones or other accessory, the most secure option is Apple ones since they will automatically be updated by your system. They also support the latest [Bluetooth features](https://support.apple.com/guide/security/bluetooth-security-sec82597d97e/web) like BLE Privacy which randomizes your Bluetooth hardware address to prevent tracking. With third-party accessories, this isn't a guarantee.
+When using a wireless keyboard, mouse, headphones, or other accessory, Apple accessories are generally the most secure option because macOS updates them automatically. They also support the latest [Bluetooth features](https://support.apple.com/guide/security/bluetooth-security-sec82597d97e/web) like BLE Privacy which randomizes the Bluetooth hardware address to prevent tracking, which is not guaranteed with third-party accessories.
 
 # Installing macOS
 
 There are several ways to [install macOS](https://support.apple.com/102662). Choose your preferred method from the available options.
 
- **You should install the latest version of macOS that is compatible with your Mac**. More recent versions have security patches and other improvements that older versions lack.
+Install the latest version of macOS the hardware supports: newer versions include security patches and other improvements unavailable in older releases.
 
 ## System activation
 
@@ -157,32 +157,33 @@ Read about how this process works [here](https://support.apple.com/guide/securit
 
 ## Apple Account
 
-Creating an Apple Account is not required to use macOS. Making an Apple Account requires a phone number and it will by default sync a [lot of data](https://www.apple.com/legal/privacy/data/en/apple-id/) to iCloud, Apple's cloud storage service. You can [disable](https://support.apple.com/102651) the syncing later if you want or enable [end-to-end encryption](https://support.apple.com/guide/security/advanced-data-protection-for-icloud-sec973254c5f/web) for your iCloud data.
+An Apple Account is not required to use macOS, but creating one requires a phone number and, by default, syncs a substantial amount of [data](https://www.apple.com/legal/privacy/data/en/apple-id/).
 
-You can [control the data](https://support.apple.com/102283) associated with your Apple Account or completely delete it.
+You can [disable](https://support.apple.com/102651) the syncing later or enable [end-to-end encryption](https://support.apple.com/guide/security/advanced-data-protection-for-icloud-sec973254c5f/web) for data stored in iCloud.  You can [control the data](https://support.apple.com/102283) associated with Apple Account or completely delete it.
 
 An Apple Account is required in order to access the App Store and use most Apple services like iCloud, Apple Music, etc.
 
 ## App Store
 
-The Mac App Store is a [curated](https://developer.apple.com/app-store/review/guidelines) repository of software that is required to utilize the [App Sandbox](https://developer.apple.com/documentation/security/app_sandbox/protecting_user_data_with_app_sandbox) and [Hardened Runtime](https://developer.apple.com/documentation/security/hardened_runtime), as well as offering automatic updates that integrate with your system.
+The Mac App Store is a [curated](https://developer.apple.com/app-store/review/guidelines) software repository.
+Apps distributed through it are required to use the [App Sandbox](https://developer.apple.com/documentation/security/app_sandbox/protecting_user_data_with_app_sandbox) and [Hardened Runtime](https://developer.apple.com/documentation/security/hardened_runtime), as well as offering automatic updates.
 
-The App Store offers the greatest security guarantees for software on macOS, but it requires you to log in with an Apple Account and Apple will be able to link your Apple Account to your downloaded applications.
+The App Store offers the greatest security guarantees for software on macOS, but it requires an Apple Account, which can be used to associate downloaded applications.
 
 ## Virtualization
 
-On Apple silicon, virtualization is built into macOS via Apple’s Virtualization framework, allowing the use of macOS and Windows 11 ARM using the following tools:
+On Apple silicon, macOS includes Apple's Virtualization framework, which supports macOS and Windows 11 ARM virtual machines through tools such as:
 
 * [UTM](https://mac.getutm.app/) - Follow the [documentation](https://docs.getutm.app/guest-support/macos) to create macOS and other VMs.
 * [VirtualBuddy](https://github.com/insidegui/VirtualBuddy) -
 GUI for virtualizing macOS 12+ on Apple silicon.
-* [Bushel](https://getbushel.app/) - Lightweight, free VM app with neat features. On first launch, select "Ask App Not to Track"
+* [Bushel](https://getbushel.app/) - A lightweight, free VM app. On first launch, select "Ask App Not to Track".
 * [VMware Fusion](https://knowledge.broadcom.com/external/article/315638/download-and-install-vmware-fusion.html) - Now free under Broadcom. Clean UI, easy macOS setup, and supports Windows 11 ARM.
 * [tart (CLI)](https://tart.run/) - Command‑line VM control; install with Homebrew.
 * [Parallels](https://www.parallels.com/) - Paid option with strong integration.
 
 > [!WARNING]
-> VMware requires an account with Broadcom and agreeing to about 12 different agreements before download.
+> VMware requires a Broadcom account and acceptance of agreements before download.
 > Parallels requires an account, payment details, and other data - see the [privacy notice](https://my.parallels.com/data_reminder).
 
 # First boot
@@ -191,7 +192,7 @@ When macOS first starts, you will be greeted by **Setup Assistant**.
 
 When creating the primary user account, set a [strong password](https://www.eff.org/dice) without a hint.
 
-If you enter your real name at the account setup process, be aware that your computer's name and local hostname will comprise that name (e.g., *John Appleseed's MacBook*) and thus will appear on local networks and in various preference files.
+If you enter a real name during account setup, be aware that it may be used in the computer name and local hostname (for example, *John Appleseed’s MacBook*), which can appear on networks.
 
 Both should be verified and updated as needed in **System Settings > About** or with the following commands after installation:
 
@@ -202,7 +203,7 @@ sudo scutil --set LocalHostName MacBook
 
 # Admin and user accounts
 
-The first user account is always an admin account. Admin accounts are members of the admin group and have access to `sudo`, which allows them to usurp other accounts, in particular root, and gives them effective control over the system. Any program that the admin executes can potentially obtain the same access, making this a security risk.
+The first user account is always an administrator account. Administrator accounts belong to the admin group and can use sudo to run commands with elevated privileges, including as root. Any program the administrator executes can potentially obtain the same access, making this a security risk.
 
 Utilities like `sudo` have [weaknesses that can be exploited](https://bogner.sh/2014/03/another-mac-os-x-sudo-password-bypass/) by concurrently running programs.
 
@@ -261,7 +262,7 @@ There are several types of firewalls available for macOS.
 
 ## Application layer firewall
 
-Built-in, basic firewall which blocks **incoming** connections only. This firewall does not have the ability to monitor, nor block **outgoing** connections.
+The built-in firewall provides basic protection and blocks incoming connections only. It cannot monitor nor block outgoing connections.
 
 It can be controlled by the **Firewall** tab of **Network** in **System Settings**, or with the following commands.
 
@@ -303,7 +304,7 @@ It is worth noting that these firewalls can be bypassed by programs running as *
 
 ## Kernel level packet filtering
 
-A highly customizable, powerful, but also most complicated firewall exists in the kernel. It can be controlled with `pfctl` and various configuration files.
+macOS also includes a powerful, highly customizable kernel-level firewall. However, it is the most complex option and is managed with `pfctl` and configuration files.
 
 pf can also be controlled with a GUI application such as [Murus](https://www.murusfirewall.com/).
 
@@ -339,9 +340,7 @@ Then use the following commands to manipulate the firewall:
 * `sudo ifconfig pflog0 create` to create an interface for logging
 * `sudo tcpdump -ni pflog0` to view filtered packets
 
-Unless you're already familiar with packet filtering, spending too much time configuring pf is not recommended. It is also probably unnecessary if the system is behind a [NAT](https://www.grc.com/nat/nat.htm) on a private home network.
-
-It is possible to use the pf firewall to block network access to entire ranges of network addresses, for example to a whole organization:
+It is possible to use the pf firewall to block access to entire ranges of network addresses, for example to an entire organization:
 
 Query [Merit RADb](https://www.radb.net/) for the list of networks in use by an autonomous system, like [Facebook](https://ipinfo.io/AS32934):
 
@@ -384,10 +383,10 @@ IP 192.168.1.1.62771 > 157.240.2.35.80: tcp 0
 IP 192.168.1.1.62771 > 157.240.2.35.80: tcp 0
 IP 192.168.1.1.62771 > 157.240.2.35.80: tcp 0
 IP 192.168.1.1.62771 > 157.240.2.35.80: tcp 0
-IP 192.168.1.1.162771 > 157.240.2.35.80: tcp 0
+IP 192.168.1.1.62771 > 157.240.2.35.80: tcp 0
 ```
 
-Outgoing TCP SYN packets are blocked, so a TCP connection is not established and thus a Web site is effectively blocked at the IP layer.
+Outgoing TCP SYN packets are blocked, so a TCP connection is not established, blocking traffic to the destination host at the IP layer.
 
 See [drduh/config/scripts/pf-blocklist.sh](https://github.com/drduh/config/blob/main/scripts/pf-blocklist.sh) for more inspiration.
 
@@ -409,7 +408,7 @@ For example, to learn what a system launch daemon or agent does, start with:
 defaults read /System/Library/LaunchDaemons/com.apple.apsd
 ```
 
-Look at the `Program` or `ProgramArguments` section to see which binary is run, in this case `apsd`. To find more information about that, look at the man page with `man apsd`
+Check the `Program` or `ProgramArguments` section to identify the binary that runs (`apsd` in this example) then consult its manual page with `man apsd`.
 
 > [!IMPORTANT]
 > System services are protected by SIP; don't disable SIP just to tinker with system services as SIP is an integral part of macOS security. Disabling system services may cause system instability.
@@ -483,7 +482,7 @@ Append a list of hosts with `tee`:
 curl https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts | sudo tee -a /etc/hosts
 ```
 
-If you're using a firewall like [Little Snitch](#third-party-firewalls), you could add the [StevenBlack/hosts](https://github.com/StevenBlack/hosts) [blocklist](https://help.obdev.at/littlesnitch6/lsc-blocklists). Make sure to use this URL: [https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts](https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts)
+[Little Snitch](#third-party-firewalls) also supports [blocklists](https://help.obdev.at/littlesnitch6/lsc-blocklists).
 
 ## DNSCrypt
 
@@ -495,15 +494,13 @@ Install DNSCrypt from Homebrew and follow the instructions to configure and star
 brew install dnscrypt-proxy
 ```
 
-If using in combination with Dnsmasq, find the file `homebrew.mxcl.dnscrypt-proxy.plist` by running
+When using DNSCrypt with Dnsmasq, run the following command to locate the configuration file:”
 
 ```bash
 brew info dnscrypt-proxy
 ```
 
-which will show a location like `/usr/local/etc/dnscrypt-proxy.toml`
-
-Open it in a text editor, find the line starting with `listen_addresses =` and edit that line to use DNSCrypt on a port other than 53, like 5355:
+It should display a path such as `/usr/local/etc/dnscrypt-proxy.toml` - open that file and change `listen_addresses` to use a port other than 53, such as 5355:
 
 ```
 listen_addresses = ['127.0.0.1:5355', '[::1]:5355']
@@ -744,13 +741,13 @@ Firefox offers a similar security model to Chrome: it has a [bug bounty program]
 
 Firefox supports user-supplied configuration files. See [drduh/config/firefox.user.js](https://github.com/drduh/config/blob/main/firefox.user.js) and [arkenfox/user.js](https://github.com/arkenfox/user.js) for recommended preferences and hardening measures. Also see [NoScript](https://noscript.net), an extension which allows selective script blocking.
 
-Firefox [focuses on user privacy](https://www.mozilla.org/firefox/privacy). It supports [tracking protection](https://developer.mozilla.org/docs/Web/Privacy/Firefox_tracking_protection) in Private Browsing mode. The tracking protection can be enabled for the default account, although it may break the browsing experience on some websites. Firefox in Strict tracking protection mode will [randomize your fingerprint](https://support.mozilla.org/kb/firefox-protection-against-fingerprinting) to foil basic tracking scripts. Firefox offers separate user [profiles](https://support.mozilla.org/kb/profile-manager-create-remove-switch-firefox-profiles). You can separate your browsing inside a profile with [Multi-Account Containers](https://support.mozilla.org/kb/containers).
+Firefox [focuses on user privacy](https://www.mozilla.org/firefox/privacy). It supports [tracking protection](https://developer.mozilla.org/docs/Web/Privacy/Firefox_tracking_protection) in Private Browsing mode. The tracking protection can be enabled for the default account, although it may break the browsing experience on some websites. Firefox in Strict tracking protection mode will [randomize fingerprints](https://support.mozilla.org/kb/firefox-protection-against-fingerprinting) to defend against tracking. Firefox offers separate user [profiles](https://support.mozilla.org/kb/profile-manager-create-remove-switch-firefox-profiles). Browsing can also be delineated with [Multi-Account Containers](https://support.mozilla.org/kb/containers).
 
 Firefox only supports Web Extensions through the [WebExtension Api](https://developer.mozilla.org/docs/Mozilla/Add-ons/WebExtensions), which is very similar to Chrome. Submission of Web Extensions in Firefox is free. Web Extensions in Firefox most of the time are open source, although certain Web Extensions are proprietary.
 
 ## Chrome
 
-[Google Chrome](https://www.google.com/chrome) is based on the open source [Chromium project](https://www.chromium.org) with certain [proprietary components](https://fossbytes.com/difference-google-chrome-vs-chromium-browser):
+[Google Chrome](https://www.google.com/chrome) is based on the open source [Chromium project](https://www.chromium.org/) with certain [proprietary components](https://fossbytes.com/difference-google-chrome-vs-chromium-browser):
 
 * Automatic updates with GoogleSoftwareUpdateDaemon
 * Usage tracking and crash reporting, which can be disabled through Chrome's settings
@@ -995,9 +992,9 @@ To use the Signal desktop app, Signal must first be installed on a phone.
 
 [iMessage](https://en.wikipedia.org/wiki/IMessage) is Apple's first party messenger. It requires an [Apple Account](#apple-account) in order to use it.
 
-Make sure to enable [Contact Key Verification](https://support.apple.com/118246) and verify with anyone you message to ensure that you're messaging the right person.
+Enable [Contact Key Verification](https://support.apple.com/118246) and verify contacts.
 
-You can use iMessage with either a [phone number or an email](https://support.apple.com/108758#help), so pick one that you're comfortable with contacts seeing.
+iMessage can be used with either a [phone number or an email](https://support.apple.com/108758#help).
 
 > [!WARNING]
 > By default, iCloud backup is enabled, which stores copies of message encryption keys on [Apple's servers](https://support.apple.com/102651) without E2EE. Either [disable iCloud backup](https://support.apple.com/guide/icloud/view-and-manage-backups-mm122d3ef202/1.0/icloud/1.0) or enable [Advanced Data Protection](https://support.apple.com/guide/security/advanced-data-protection-for-icloud-sec973254c5f) to prevent this. Remind messaging recipients to do the same.
