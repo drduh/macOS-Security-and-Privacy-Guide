@@ -489,7 +489,7 @@ If you're using a firewall like [Little Snitch](#third-party-firewalls), you cou
 
 ## DNSCrypt
 
-To encrypt DNS traffic, consider using [DNSCrypt/dnscrypt-proxy](https://github.com/DNSCrypt/dnscrypt-proxy). Used in combination with dnsmasq and DNSSEC, the integrity of DNS traffic can be significantly improved.
+To encrypt DNS traffic, consider using [DNSCrypt/dnscrypt-proxy](https://github.com/DNSCrypt/dnscrypt-proxy). Used in combination with dnsmasq, the integrity of DNS traffic can be significantly improved.
 
 Install DNSCrypt from Homebrew and follow the instructions to configure and start `dnscrypt-proxy`:
 
@@ -547,8 +547,6 @@ Among other features, [dnsmasq](https://www.thekelleys.org.uk/dnsmasq/doc.html) 
 Use it in combination with DNSCrypt to encrypt DNS traffic.
 
 If you don't wish to use DNSCrypt, you should at least use DNS [not provided](https://bcn.boulder.co.us/~neal/ietf/verisign-abuse.html) [by your ISP](https://hackercodex.com/guide/how-to-stop-isp-dns-server-hijacking/). Two popular alternatives are [Google DNS](https://developers.google.com/speed/public-dns/) and [OpenDNS](https://www.opendns.com/home-internet-security/).
-
-**Optional** [DNSSEC](https://en.wikipedia.org/wiki/Domain_Name_System_Security_Extensions) is a set of extensions to DNS which provide DNS clients (resolvers) with origin authentication of DNS data, authenticated denial of existence, and data integrity. All answers from DNSSEC protected zones are digitally signed. The signed records are authenticated via a chain of trust, starting with a set of verified public keys for the DNS root-zone. The current root-zone trust anchors may be downloaded [from IANA website](https://www.iana.org/dnssec/files). There are a number of resources on DNSSEC, but probably the best one is [dnssec.net website](https://www.dnssec.net).
 
 Install Dnsmasq:
 
@@ -982,23 +980,19 @@ Also see this [technical overview](https://blog.timac.org/2018/0717-macos-vpn-ar
 
 PGP is a standard for signing and encrypting data (especially email) end-to-end, so only the sender and recipient can access it.
 
-GPG, or **GNU Privacy Guard**, is a GPL-licensed open source program compliant with the PGP standard.
+GPG (GNU Privacy Guard) is a GPL-licensed, open-source program compliant with the PGP standard.
 
 GPG is used to verify signatures of software you download and install, as well as [symmetrically](https://en.wikipedia.org/wiki/Symmetric-key_algorithm) or [asymmetrically](https://en.wikipedia.org/wiki/Public-key_cryptography) encrypt files and text.
 
-Install from Homebrew with `brew install gnupg`.
+Install from Homebrew with `brew install gnupg` or using [GPG Suite](https://gpgtools.org/).
 
-If you prefer a graphical application, download and install [GPG Suite](https://gpgtools.org/).
-
-Download [drduh/config/gpg.conf](https://github.com/drduh/config/blob/main/gpg.conf) to use recommended settings:
+Download [gpg.conf](https://github.com/drduh/YubiKey-Guide/blob/master/config/gpg.conf) to use recommended settings:
 
 ```console
-curl -o ~/.gnupg/gpg.conf https://raw.githubusercontent.com/drduh/config/main/gpg.conf
+curl -o ~/.gnupg/gpg.conf https://raw.githubusercontent.com/drduh/YubiKey-Guide/master/config/gpg.conf
 ```
 
-See [drduh/YubiKey-Guide](https://github.com/drduh/YubiKey-Guide) to securely generate and store GPG keys.
-
-Read [online](https://alexcabal.com/creating-the-perfect-gpg-keypair/) [guides](https://security.stackexchange.com/questions/31594/what-is-a-good-general-purpose-gnupg-key-setup) and [practice](https://help.riseup.net/en/security/message-security/openpgp/best-practices) encrypting and decrypting email to yourself and your friends. Get them interested in this stuff!
+See [drduh/YubiKey-Guide](https://github.com/drduh/YubiKey-Guide) to generate and manage GPG credentials.
 
 # Messengers
 
@@ -1012,7 +1006,7 @@ XMPP isn't E2EE by default, you will need to use [OMEMO](https://omemo.top) encr
 
 ## Signal
 
-[Signal](https://www.signal.org) is a popular E2EE messenger whose [double-ratchet](https://signal.org/docs/specifications/doubleratchet/) protocol is used by many other applications including WhatsApp, Google Messages, and Facebook Messenger.
+[Signal](https://signal.org/) is a popular E2EE messenger whose [double-ratchet](https://signal.org/docs/specifications/doubleratchet/) protocol is used by many other applications including WhatsApp, Google Messages, and Facebook Messenger.
 
 To use the Signal desktop app, Signal must first be installed on a phone.
 
@@ -1632,7 +1626,7 @@ Set a [custom umask](https://support.apple.com/101914):
 sudo launchctl config user umask 077
 ```
 
-Reboot, create a file in Finder and verify its permissions (macOS default allows 'group/other' read access):
+Reboot, then create a file/directory and verify permissions (macOS default allows 'group/other' read access):
 
 ```console
 $ ls -ld umask*
