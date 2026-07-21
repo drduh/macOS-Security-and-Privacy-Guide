@@ -4,7 +4,7 @@ This guide targets power users who wish to adopt enterprise-standard security, b
 
 For securing computers in an organization, use the [official NIST guidelines for macOS](https://github.com/usnistgov/macos_security).
 
-A system's security ultimately depends on its administrator’s capabilities. No single technology, piece of software, or technique can guarantee perfect security.
+A system's security ultimately depends on its administrator's capabilities. No single technology, piece of software, or technique can guarantee perfect security.
 
 This guide is provided "as is" - without warranties of any kind. You are solely responsible for any consequences of following it.
 
@@ -117,20 +117,22 @@ Define whom you are defending against. Start by defining the motivation they mig
 
 ## Identify capabilities
 
-In order to counter adversaries, you will need to understand what they're capable of and what they're not capable of. Rank adversaries from totally unsophisticated to very advanced. For example, a common thief is not very sophisticated; they will likely be stopped by basic things like simply having a password and drive encryption on devices. A very advanced adversary like a state actor might require fully turning off devices when not in use to clear the keys from RAM and a long diceware password.
+To counter adversaries, understand both their capabilities and limitations. Rank them from unsophisticated to highly advanced. For example, a common thief is not very sophisticated; they will likely be stopped by basic things like simply having a password and drive encryption on devices. A very advanced adversary like a state actor might require fully turning off devices when not in use to clear the keys from RAM and a long diceware password.
 
 ## Identify mitigations
 
-Now is when you decide the best way to counter each threat. You might avoid writing passwords down on paper so your roommate can't find them or you might encrypt the drive on your computer so a thief can't get data from it. It's important to balance security and usability; every mitigation should counter some capability of your adversaries, otherwise you might be making your life inconvenient for little to no gain. If you can't think of any more capabilities your adversaries might have and you've implemented mitigations for them all, your work is done.
+Choose the best mitigation for each threat. For example, avoid writing passwords on paper if a roommate might find them, or encrypt storage to protect its data if it is stolen.
 
-Here's an example of the type of table you should make for each asset you want to protect:
+Balance security and usability: every mitigation should counter some capability of your adversaries, otherwise you might be making your life inconvenient without reason. If you can't think of any more capabilities your adversaries might have and you've implemented mitigations for them all, your work is done.
+
+The following is an example table for each asset to protect:
 
 Adversary | Motivation | Capabilities | Mitigation
 -|-|-|-
 Roommate | See private chats or browsing history | Close proximity; can see screen or watch type in password | Use biometrics, use privacy screen, keep phone locked when not using it
 Thief | Unlock phone and steal personal info and drain bank accounts, sell phone for money | Shoulder surf to see password, steal device when not looking while it's logged in | Keep phone in sight or on person at all times, keep locked when not in use, use biometrics to avoid typing password in public, use Find My or similar service to track/remotely disable stolen device
-Criminal | Financial | Social engineering, readily-available malware, password reuse, exploiting vulnerabilities | Use sandboxing, enable security features in OS, keep OS and all software updated and turn on automatic updates
-Corporation | User data marketing | Telemetry and behavioral data collection | Block network connections, reset unique identifiers, avoid adding payment data
+Criminal | Financial gain | Social engineering, readily-available malware, password reuse, exploiting vulnerabilities | Use sandboxing, enable security features in OS, keep OS and all software updated and turn on automatic updates
+Corporation | Marketing based on user data | Telemetry and behavioral data collection | Block network connections, reset unique identifiers, avoid adding payment data
 Nation State/APT | Targeted surveillance | Passive surveillance of internet infrastructure, advanced computers for cracking encryption/analysis of packets | Use open source e2ee, use strong diceware passwords for devices, use hardware with secure element for secure encryption, shut down devices when not using them, software tripwire/honeypot/[canary tokens](https://canarytokens.org/)
 
 Read more about threat modeling [here](https://www.netmeister.org/blog/threat-model-101.html).
@@ -192,7 +194,7 @@ When macOS first starts, you will be greeted by **Setup Assistant**.
 
 When creating the primary user account, set a [strong password](https://www.eff.org/dice) without a hint.
 
-If you enter a real name during account setup, be aware that it may be used in the computer name and local hostname (for example, *John Appleseed’s MacBook*), which can appear on networks.
+If you enter a real name during account setup, be aware that it may be used in the computer name and local hostname (for example, *John Appleseed's MacBook*), which can appear on networks.
 
 Both should be verified and updated as needed in **System Settings > About** or with the following commands after installation:
 
@@ -244,17 +246,17 @@ Validate firmware security settings are set to [Full Security](https://support.a
 
 # FileVault
 
-All Mac models with Apple silicon encrypt storage by default. Enabling [FileVault](https://support.apple.com/guide/mac-help/mh11785/mac) makes it so that you need to enter a password in order to access the data on your drive. The EFF has a guide on generating [strong but memorable passwords](https://www.eff.org/dice).
+All Apple silicon Macs encrypt storage by default. Enabling [FileVault](https://support.apple.com/guide/mac-help/mh11785/mac) requires a password before macOS can access the encrypted volume. The EFF has a guide on generating [strong but memorable passwords](https://www.eff.org/dice).
 
 The FileVault password also acts as a [firmware password](https://support.apple.com/en-us/102384) which prevents booting from anything other than the designated startup disk, accessing [Recovery](https://support.apple.com/guide/mac-help/macos-recovery-a-mac-apple-silicon-mchl82829c17/15.0/mac/15.0#mchl5abfbb29), and [reviving](https://support.apple.com/en-us/108900) it with DFU mode.
 
-FileVault will ask you to set a recovery key in case you forget the password. Keep this key stored somewhere safe. You will have the option to use iCloud to unlock the disk; however, anyone with access to this iCloud account will be able to unlock it as well.
+FileVault will prompt to set a recovery key - store this key somewhere safe. You will have the option to use iCloud to unlock the disk; however, anyone with access to this iCloud account will be able to unlock it as well.
 
 # Lockdown Mode
 
 macOS offers [Lockdown Mode](https://support.apple.com/105120), a security feature that disables several features across the OS, significantly reducing attack surface for attackers while keeping the OS usable. You can read about exactly what is disabled and decide for yourself if it is acceptable to you.
 
-When Lockdown Mode is on, you can disable it per site in Safari on trusted sites.
+When Lockdown Mode is enabled, Safari has an option to exclude individual trusted websites from its restrictions.
 
 # Firewall
 
@@ -266,14 +268,14 @@ The built-in firewall provides basic protection and blocks incoming connections 
 
 It can be controlled by the **Firewall** tab of **Network** in **System Settings**, or with the following commands.
 
-Enable the firewall and stealth mode:
+Enable the firewall and Stealth Mode:
 
 ```bash
 sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on
 sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode on
 ```
 
-Hackers scan networks in attempt to identify vulnerable systems - prevent macOS from responding to some of these scans by using **stealth mode**. When stealth mode is enabled, the system does not respond to ICMP ping requests and does not answer to connection attempts from a closed TCP or UDP port.
+Attackers scan networks to identify systems they may be able to target. When Stealth Mode is enabled, the system does not respond to ICMP ping requests and does not answer to connection attempts from closed ports.
 
 Prevent built-in and downloaded software from automatically receiving incoming connections:
 
@@ -298,7 +300,7 @@ Programs such as [Little Snitch](https://www.obdev.at/products/littlesnitch/inde
 
 These programs are capable of monitoring and blocking **incoming** and **outgoing** network connections. However, they may require the use of a closed source [system extension](https://support.apple.com/HT210999).
 
-If the number of choices of allowing/blocking network connections is overwhelming, use **Silent Mode** with connections allowed, then periodically check the configuration to gain understanding of applications and what they are doing.
+If frequent allow-or-block prompts are overwhelming, begin with Silent Mode configured to allow connections. Review the configuration periodically to understand each application's network activity.
 
 It is worth noting that these firewalls can be bypassed by programs running as **root** or through [OS vulnerabilities](https://www.blackhat.com/docs/us-15/materials/us-15-Wardle-Writing-Bad-A-Malware-For-OS-X.pdf) (pdf), but they are still worth having - just don't expect absolute protection. However, some malware actually [deletes itself](https://www.cnet.com/how-to/how-to-remove-the-flashback-malware-from-os-x/) and doesn't execute if Little Snitch, or other security software, is installed.
 
@@ -308,7 +310,7 @@ macOS also includes a powerful, highly customizable kernel-level firewall. Howev
 
 pf can also be controlled with a GUI application such as [Murus](https://www.murusfirewall.com/).
 
-There are many books and articles on the subject of pf firewall. The following is an example of blocking traffic by IP address.
+Many books and articles cover the pf firewall. The following example shows how to block traffic by IP address.
 
 Add the following into a file called `pf.rules`:
 
@@ -411,7 +413,7 @@ defaults read /System/Library/LaunchDaemons/com.apple.apsd
 Check the `Program` or `ProgramArguments` section to identify the binary that runs (`apsd` in this example) then consult its manual page with `man apsd`.
 
 > [!IMPORTANT]
-> System services are protected by SIP; don't disable SIP just to tinker with system services as SIP is an integral part of macOS security. Disabling system services may cause system instability.
+> System services are protected by SIP. Do not disable SIP just to tinker with system services as SIP is an integral part of macOS security. Disabling system services may cause system instability.
 
 To view the status of services:
 
@@ -419,29 +421,26 @@ To view the status of services:
 find /var/db/com.apple.xpc.launchd/ -type f -print -exec defaults read {} \; 2>/dev/null
 ```
 
-Annotated lists of launch daemons and agents, the respective program executed, and the programs' hash sums are included in this repository.
-
 Read more about launchd and where login items can be found on [Apple's website](https://support.apple.com/guide/terminal/script-management-with-launchd-apdc6c1077b-5d5d-4d35-9c19-60f2397b2369).
 
 # Siri Suggestions and Spotlight
 
-Apple is moving to on-device processing for a lot of Siri functions, but some data is still sent to Apple when using Siri Suggestions or Spotlight. See Apple's [Privacy Policy](https://www.apple.com/legal/privacy/data/en/siri-suggestions-search/) to see exactly what is sent and how to disable it.
+Apple is moving many Siri functions to on-device processing, but using Siri Suggestions or Spotlight may still send some information to Apple. See Apple's [Privacy Policy](https://www.apple.com/legal/privacy/data/en/siri-suggestions-search/) to see exactly what is sent and how to disable it.
 
 # Homebrew
 
 If a program is not available through the App Store, consider using [Homebrew](https://brew.sh/).
 
 > [!WARNING]
-> Homebrew requests "App Management" (or "Full Disk Access") permission to the terminal.
-> This is a bad idea, as it would make you vulnerable to these attacks again: any non-sandboxed application can execute code with the TCC permissions of the terminal by adding a malicious command to zshrc, for example.
-> Granting "App Management" or "Full Disk Access" entitlements should be considered the same as disabling TCC entirely.
+> Homebrew requests "App Management" (or "Full Disk Access") permission to Terminal.
+> This is risky: any non-sandboxed application can execute code with Terminal's TCC permissions by adding a malicious command to your shell configuration.
+> Treat granting App Management or Full Disk Access permissions as equivalent to disabling TCC protections for processes that can control or execute commands through Terminal.
 
 Remember to periodically run `brew upgrade` on trusted and secure networks to download and install software updates. To get information on a package before installation, run `brew info <package>` and check its formula online. You may also wish to enable [additional security options](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/138), such as `HOMEBREW_NO_INSECURE_REDIRECT=1`
 
-According to [Homebrew's Anonymous Analytics](https://docs.brew.sh/Analytics), Homebrew gathers anonymous analytics and reports these to a self-hosted InfluxDB instance.
+According to [Homebrew's Anonymous Analytics](https://docs.brew.sh/Analytics), Homebrew gathers anonymous analytics and reports these to a self-hosted [InfluxDB](https://en.wikipedia.org/wiki/InfluxDB) instance.
 
-To opt out of Homebrew's analytics, set `export HOMEBREW_NO_ANALYTICS=1` in the environment or shell rc file, or use `brew analytics off`
-
+To opt out of Homebrew analytics, run `brew analytics off` or set `HOMEBREW_NO_ANALYTICS=1` in your environment or shell startup file.
 
 # DNS
 
@@ -453,11 +452,11 @@ DNS profiles [can be created](https://dns.notjakob.com/) or obtained from provid
 
 ## Hosts file
 
-Use the [hosts file](https://en.wikipedia.org/wiki/Hosts_(file)) to block known malware, advertising or otherwise unwanted domains.
+Use the [hosts file](https://en.wikipedia.org/wiki/Hosts_(file)) to block domains associated with malware, advertising, and other unwanted services.
 
-Edit the hosts file as root, for example with `sudo vi /etc/hosts`
+Edit the hosts file with `sudo vim /etc/hosts`
 
-To block a domain by `A` record, append any one of the following lines to `/etc/hosts`:
+To block a domain by [A record](https://en.wikipedia.org/wiki/List_of_DNS_record_types), append any one of the following lines to `/etc/hosts`:
 
 ```
 0 example.com
@@ -466,17 +465,16 @@ To block a domain by `A` record, append any one of the following lines to `/etc/
 ```
 
 > [!NOTE]
-> IPv6 uses the `AAAA` DNS record type, rather than `A` record type, so you may also want to block those connections by *also* including `::1 example.com` entries, like shown [here](https://someonewhocares.org/hosts/ipv6/).
+> IPv6 uses AAAA records rather than A records: block IPv6 connections by including `::1 example.com` entries.
 
-There are many lists of domains available online which you can paste in, just make sure each line starts with `0`, `0.0.0.0`, `127.0.0.1`, and the line `127.0.0.1 localhost` is included.
+Many domain lists are available online. Before appending one to `/etc/hosts`, ensure each entry begins with `0`, `0.0.0.0`, or `127.0.0.1`, and retain the `127.0.0.1 localhost` entry.
 
 Popular hosts lists include:
-
 * [StevenBlack/hosts](https://github.com/StevenBlack/hosts)
 * [Sinfonietta/hostfiles](https://github.com/Sinfonietta/hostfiles)
 * [someonewhocares.org](https://someonewhocares.org/hosts/zero/hosts)
 
-Append a list of hosts with `tee`:
+To append a remote hosts list to `/etc/hosts`, use `tee`:
 
 ```bash
 curl https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts | sudo tee -a /etc/hosts
@@ -486,7 +484,7 @@ curl https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts | sudo tee
 
 ## DNSCrypt
 
-To encrypt DNS traffic, consider using [DNSCrypt/dnscrypt-proxy](https://github.com/DNSCrypt/dnscrypt-proxy). Used in combination with dnsmasq, the integrity of DNS traffic can be significantly improved.
+To encrypt DNS traffic, consider [DNSCrypt/dnscrypt-proxy](https://github.com/DNSCrypt/dnscrypt-proxy). When combined with Dnsmasq and DNSSEC, it can improve the privacy and integrity of DNS resolution.
 
 Install DNSCrypt from Homebrew and follow the instructions to configure and start `dnscrypt-proxy`:
 
@@ -494,13 +492,15 @@ Install DNSCrypt from Homebrew and follow the instructions to configure and star
 brew install dnscrypt-proxy
 ```
 
-When using DNSCrypt with Dnsmasq, run the following command to locate the configuration file:”
+When using DNSCrypt with Dnsmasq, locate the DNSCrypt configuration file by running:
 
 ```bash
 brew info dnscrypt-proxy
 ```
 
-It should display a path such as `/usr/local/etc/dnscrypt-proxy.toml` - open that file and change `listen_addresses` to use a port other than 53, such as 5355:
+This command should display a path such as `/usr/local/etc/dnscrypt-proxy.toml`.
+
+By default, dnscrypt-proxy listens on localhost (127.0.0.1) on port 53 and balances requests across a set of resolvers. Modify the configuration and change `listen_addresses` to use a port other than 53, such as 5355:
 
 ```
 listen_addresses = ['127.0.0.1:5355', '[::1]:5355']
@@ -523,25 +523,22 @@ dnscrypt-proxy 15244 nobody   12u  IPv4 0x1337f85ff9f8beef      0t0  UDP 127.0.0
 dnscrypt-proxy 15244 nobody   14u  IPv6 0x1337f85ff9f8beef      0t0  UDP [::1]:5355
 ```
 
-> By default, dnscrypt-proxy runs on localhost (127.0.0.1), port 53, balancing traffic across a set of resolvers. If you would like to change these settings, you will have to edit the configuration file: $HOMEBREW_PREFIX/etc/dnscrypt-proxy.toml
-
-> [!NOTE]
-> Applications may resolve DNS using their own provided servers. If dnscrypt-proxy is used, it is possible to disable all other, non-dnscrypt DNS traffic with the following pf rules:
+Applications may use their own DNS servers. If you use dnscrypt-proxy, you can block other DNS traffic with the following pf rules:
 
 ```shell
 block drop quick on !lo0 proto udp from any to any port = 53
 block drop quick on !lo0 proto tcp from any to any port = 53
 ```
 
-See also [What is a DNS leak](https://dnsleaktest.com/what-is-a-dns-leak.html) and [ipv6-test.com](http://ipv6-test.com/)
+See also [What is a DNS leak](https://dnsleaktest.com/what-is-a-dns-leak.html).
 
 ## Dnsmasq
 
-Among other features, [dnsmasq](https://www.thekelleys.org.uk/dnsmasq/doc.html) is able to cache replies, prevent upstream queries for unqualified names, and block entire top-level domains.
+[dnsmasq](https://thekelleys.org.uk/dnsmasq/doc.html) can cache replies, prevent upstream queries for unqualified names, and block entire top-level domains.
 
 Use it in combination with DNSCrypt to encrypt DNS traffic.
 
-If you don't wish to use DNSCrypt, you should at least use DNS [not provided](https://bcn.boulder.co.us/~neal/ietf/verisign-abuse.html) [by your ISP](https://hackercodex.com/guide/how-to-stop-isp-dns-server-hijacking/). Two popular alternatives are [Google DNS](https://developers.google.com/speed/public-dns/) and [OpenDNS](https://www.opendns.com/home-internet-security/).
+If you do not use DNSCrypt, at minimum choose a DNS resolver other than the one provided by your ISP. Two popular alternatives are [Google DNS](https://developers.google.com/speed/public-dns/) and [OpenDNS](https://www.opendns.com/home-internet-security/).
 
 Install Dnsmasq:
 
@@ -754,7 +751,7 @@ Firefox only supports Web Extensions through the [WebExtension Api](https://deve
 * Media Codec support for proprietary codecs
 * Chrome Web Store
 * PDF viewer
-* Non-optional tracking. Google Chrome installer includes a randomly generated token. The token is sent to Google after the installation completes in order to measure the success rate. The RLZ identifier stores information – in the form of encoded strings – like the source of chrome download and installation week. It doesn’t include any personal information and it’s used to measure the effectiveness of a promotional campaign. **Chrome downloaded from Google’s website doesn’t have the RLZ identifier**. The source code to decode the strings is made open by Google.
+* Non-optional tracking. Google Chrome installer includes a randomly generated token. The token is sent to Google after the installation completes in order to measure the success rate. The RLZ identifier stores information – in the form of encoded strings – like the source of chrome download and installation week. It doesn't include any personal information and it's used to measure the effectiveness of a promotional campaign. **Chrome downloaded from Google's website doesn't have the RLZ identifier**. The source code to decode the strings is made open by Google.
 
 Chrome offers account sync between multiple devices. Part of the sync data includes credentials to Web sites. The data is encrypted with the account password.
 
