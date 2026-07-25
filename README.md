@@ -141,7 +141,7 @@ Read more about threat modeling [here](https://www.netmeister.org/blog/threat-mo
 
 macOS is most secure running on [Apple hardware](https://support.apple.com/guide/security/hardware-security-overview-secf020d1074/1/web/1) with Apple silicon. The newer the Mac, the better. Avoid hackintoshes and Macs that don't support the latest macOS, as Apple doesn't [patch all vulnerabilities](https://support.apple.com/guide/deployment/about-software-updates-depc4c80847a) in versions that aren't the most recent one.
 
-When you purchase your Mac, you might want to avoid it being linked back to you. Depending on your threat model, you should pay for it in cash in person rather than ordering online or purchasing with a credit/debit card, that way no identifying information can be linked back to your purchase.
+When you purchase a Mac, you might want to avoid it being linked back to you. Depending on your threat model, you should pay for it in cash in person rather than ordering online or purchasing with a credit/debit card, that way limited identifying information can be linked to the purchase.
 
 When using a wireless keyboard, mouse, headphones, or other accessory, Apple accessories are generally the most secure option because macOS updates them automatically. They also support the latest [Bluetooth features](https://support.apple.com/guide/security/bluetooth-security-sec82597d97e/web) like BLE Privacy which randomizes the Bluetooth hardware address to prevent tracking, which is not guaranteed with third-party accessories.
 
@@ -168,17 +168,16 @@ An Apple Account is required in order to access the App Store and use most Apple
 ## App Store
 
 The Mac App Store is a [curated](https://developer.apple.com/app-store/review/guidelines) software repository.
-Apps distributed through it are required to use the [App Sandbox](https://developer.apple.com/documentation/security/app_sandbox/protecting_user_data_with_app_sandbox) and [Hardened Runtime](https://developer.apple.com/documentation/security/hardened_runtime), as well as offering automatic updates.
+Apps distributed through it are required to use [App Sandbox](https://developer.apple.com/documentation/security/app_sandbox/protecting_user_data_with_app_sandbox) and [Hardened Runtime](https://developer.apple.com/documentation/security/hardened_runtime), as well as offering automatic updates.
 
-The App Store offers the greatest security guarantees for software on macOS, but it requires an Apple Account, which can be used to associate downloaded applications.
+App Store distribution provides additional platform review and sandboxing requirements, but also requires an Apple Account, which can create a privacy risk.
 
 ## Virtualization
 
 On Apple silicon, macOS includes Apple's Virtualization framework, which supports macOS and Windows 11 ARM virtual machines through tools such as:
 
 * [UTM](https://mac.getutm.app/) - Follow the [documentation](https://docs.getutm.app/guest-support/macos) to create macOS and other VMs.
-* [VirtualBuddy](https://github.com/insidegui/VirtualBuddy) -
-GUI for virtualizing macOS 12+ on Apple silicon.
+* [VirtualBuddy](https://github.com/insidegui/VirtualBuddy) - GUI for virtualizing macOS 12+ on Apple silicon.
 * [Bushel](https://getbushel.app/) - A lightweight, free VM app. On first launch, select "Ask App Not to Track".
 * [VMware Fusion](https://knowledge.broadcom.com/external/article/315638/download-and-install-vmware-fusion.html) - Now free under Broadcom. Clean UI, easy macOS setup, and supports Windows 11 ARM.
 * [tart (CLI)](https://tart.run/) - Command‑line VM control; install with Homebrew.
@@ -433,14 +432,14 @@ If a program is not available through the App Store, consider using [Homebrew](h
 
 > [!WARNING]
 > Homebrew requests "App Management" (or "Full Disk Access") permission to Terminal.
-> This is risky: any non-sandboxed application can execute code with Terminal's TCC permissions by adding a malicious command to your shell configuration.
+> This is risky: any non-sandboxed application can execute code with Terminal's TCC permissions by adding a malicious command to the shell configuration.
 > Treat granting App Management or Full Disk Access permissions as equivalent to disabling TCC protections for processes that can control or execute commands through Terminal.
 
 Remember to periodically run `brew upgrade` on trusted and secure networks to download and install software updates. To get information on a package before installation, run `brew info <package>` and check its formula online. You may also wish to enable [additional security options](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/138), such as `HOMEBREW_NO_INSECURE_REDIRECT=1`
 
 According to [Homebrew's Anonymous Analytics](https://docs.brew.sh/Analytics), Homebrew gathers anonymous analytics and reports these to a self-hosted [InfluxDB](https://en.wikipedia.org/wiki/InfluxDB) instance.
 
-To opt out of Homebrew analytics, run `brew analytics off` or set `HOMEBREW_NO_ANALYTICS=1` in your environment or shell startup file.
+To opt out of Homebrew analytics, run `brew analytics off` or set `HOMEBREW_NO_ANALYTICS=1` in the shell startup file.
 
 # DNS
 
@@ -724,7 +723,7 @@ Firefox supports user-supplied configuration files. See [drduh/config/firefox.us
 
 Firefox [focuses on user privacy](https://www.mozilla.org/firefox/privacy). It supports [tracking protection](https://developer.mozilla.org/docs/Web/Privacy/Firefox_tracking_protection) in Private Browsing mode. The tracking protection can be enabled for the default account, although it may break the browsing experience on some websites. Firefox in Strict tracking protection mode will [randomize fingerprints](https://support.mozilla.org/kb/firefox-protection-against-fingerprinting) to defend against tracking. Firefox offers separate user [profiles](https://support.mozilla.org/kb/profile-manager-create-remove-switch-firefox-profiles). Browsing can also be delineated with [Multi-Account Containers](https://support.mozilla.org/kb/containers).
 
-Firefox only supports Web Extensions through the [WebExtension Api](https://developer.mozilla.org/docs/Mozilla/Add-ons/WebExtensions), which is very similar to Chrome. Submission of Web Extensions in Firefox is free. Web Extensions in Firefox most of the time are open source, although certain Web Extensions are proprietary.
+Firefox only supports Web Extensions through the [WebExtension API](https://developer.mozilla.org/docs/Mozilla/Add-ons/WebExtensions), which is very similar to Chrome. Submission of Web Extensions in Firefox is free. Web Extensions in Firefox most of the time are open source, although certain Web Extensions are proprietary.
 
 ## Chrome
 
@@ -741,7 +740,7 @@ Chrome offers account sync between multiple devices. Part of the sync data inclu
 
 Chrome's Web Store for extensions requires a [5 USD lifetime fee](https://developer.chrome.com/docs/webstore/register) in order to submit extensions. The low cost allows the development of many quality Open Source Web Extensions that do not aim to monetize through usage.
 
-Chrome has the largest share of global usage and is the preferred target platform for the majority of developers. Major technologies are based on Chrome's Open Source components, such as [node.js](https://nodejs.org) which uses [Chrome's V8](https://developers.google.com/v8) Engine and the [Electron](https://electron.atom.io) framework, which is based on Chromium and node.js. Chrome's vast user base makes it the most attractive target for threat actors and security researchers. Despite constant attacks, Chrome has retained an impressive security track record over the years. This is not a small feat.
+Chrome has the largest share of global usage and is the preferred target platform for the majority of developers. Major technologies are based on Chrome's open-source components, such as [node.js](https://nodejs.org/) which uses [Chrome's V8](https://developers.google.com/v8) Engine and the [Electron](https://electron.atom.io/) framework, which is based on Chromium and node.js. Chrome's vast user base makes it the most attractive target for threat actors and security researchers. Despite constant attacks, Chrome has retained an impressive security track record over the years. This is not a small feat.
 
 Chrome offers [separate profiles](https://www.chromium.org/user-experience/multi-profiles), [robust sandboxing](https://chromium.googlesource.com/chromium/src/+/HEAD/docs/design/sandbox.md), [frequent updates](https://chromereleases.googleblog.com), and carries [impressive credentials](https://www.chromium.org/Home/chromium-security/brag-sheet). In addition, Google offers a very lucrative [bounty program](https://bughunters.google.com/about/rules/5745167867576320/chrome-vulnerability-reward-program-rules) for reporting vulnerabilities, along with its own [Project Zero](https://googleprojectzero.blogspot.com/) team. This means that a large number of highly talented and motivated people are constantly auditing and securing Chrome code.
 
@@ -925,11 +924,11 @@ When choosing a VPN service or self-hosting, be sure to research the protocols, 
 
 Some clients may send traffic over the next available interface when VPN is interrupted or disconnected. See [scy/8122924](https://gist.github.com/scy/8122924) for an example on how to allow traffic only over VPN.
 
-There is an updated guide to setting up an IPSec VPN on a virtual machine ([hwdsl2/setup-ipsec-vpn](https://github.com/hwdsl2/setup-ipsec-vpn)) or a Docker container ([hwdsl2/docker-ipsec-vpn-server](https://github.com/hwdsl2/docker-ipsec-vpn-server)).
+There is an updated guide to setting up an [IPsec](https://en.wikipedia.org/wiki/Ipsec) VPN on a virtual machine ([hwdsl2/setup-ipsec-vpn](https://github.com/hwdsl2/setup-ipsec-vpn)) or a Docker container ([hwdsl2/docker-ipsec-vpn-server](https://github.com/hwdsl2/docker-ipsec-vpn-server)).
 
 It may be worthwhile to consider the geographical location of the VPN provider. See further discussion in [issue 114](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/114).
 
-Also see this [technical overview](https://blog.timac.org/2018/0717-macos-vpn-architecture/) of the macOS built-in VPN L2TP/IPSec and IKEv2 client.
+Also see this [technical overview](https://blog.timac.org/2018/0717-macos-vpn-architecture/) of the macOS built-in VPN L2TP/IPsec and IKEv2 client.
 
 # PGP/GPG
 
@@ -998,13 +997,13 @@ You should also avoid programs that ask for lots of permissions and third-party 
 
 ## App Sandbox
 
-Check if a program uses the [App Sandbox](https://developer.apple.com/documentation/security/app_sandbox/protecting_user_data_with_app_sandbox) before running it by running the following command:
+Check if a program uses [App Sandbox](https://developer.apple.com/documentation/security/app_sandbox/protecting_user_data_with_app_sandbox):
 
 ```bash
-codesign -dvvv --entitlements - <path to application>
+codesign -dvvv --entitlements - /path/to/application.app
 ```
 
-With the App Sandbox enabled:
+With App Sandbox enabled, output will include:
 
 ```console
 [Key] com.apple.security.app-sandbox
@@ -1012,23 +1011,23 @@ With the App Sandbox enabled:
     [Bool] true
 ```
 
-Alternatively, check by opening Activity Monitor while the application is running and adding the "Sandbox" column.
+Alternatively, check **Activity Monitor** while the application is running and adding the "Sandbox" column.
 
-All App Store software is required to use the App Sandbox.
+App Store software is required to use App Sandbox.
 
-Browsers like Google Chrome use their own [sandbox](https://chromium.googlesource.com/chromium/src/+/HEAD/docs/design/sandbox.md) so they don't use the App Sandbox.
+Browsers like Google Chrome use their own [sandbox](https://chromium.googlesource.com/chromium/src/+/HEAD/docs/design/sandbox.md) and might not use App Sandbox.
 
 ## Hardened Runtime
 
 Check if a program uses the [Hardened Runtime](https://developer.apple.com/documentation/security/hardened_runtime) before running it using the following command:
 
 ```bash
-codesign --display --verbose /path/to/bundle.app
+codesign --display --verbose /path/to/application.app
 ```
 
 If Hardened Runtime is enabled, you will see `flags=0x10000(runtime)`. The "runtime" means Hardened Runtime is enabled. There might be other flags, but the runtime flag is what we're looking for here.
 
-You can enable a column in Activity Monitor called "Restricted" which is a flag that prevents programs from injecting code via macOS's [dynamic linker](https://pewpewthespells.com/blog/blocking_code_injection_on_ios_and_os_x.html). Ideally, this should say "Yes".
+**Activity Monitor** has the option to display a "Restricted" column which indicates a program is restricted from injecting code via macOS's [dynamic linker](https://pewpewthespells.com/blog/blocking_code_injection_on_ios_and_os_x.html).
 
 Notarized applications are required to use the Hardened Runtime.
 
@@ -1048,7 +1047,7 @@ See [Sophail: Applied attacks against Antivirus](https://lock.cmpxchg8b.com/soph
 
 **Gatekeeper** tries to prevent non-notarized applications from running.
 
-If you try to run an app that isn't notarized, Gatekeeper will give you a warning. This can be easily bypassed if you go to **Privacy & Security**, scroll down to the bottom and click **Open** on your app. Then Gatekeeper will allow you to run it.
+If you try to run an app that isn't notarized, Gatekeeper will give you a warning. This can be easily bypassed if you go to **Privacy & Security**, scroll down to the bottom and click **Open** on the app. Then Gatekeeper will allow you to run it.
 
 Gatekeeper does not cover all binaries - only applications - so exercise caution when running other file types.
 
@@ -1269,7 +1268,7 @@ chflags -R uchg ~/Library/Assistant/SiriAnalytics.db
 defaults delete ~/Library/Preferences/com.apple.iTunes.plist recentSearches
 ```
 
-If you do not use Apple Account-linked services, the following keys may also be cleared using the following commands:
+If Apple Account-linked services are not used, the following keys may also be cleared:
 
 ```bash
 defaults delete ~/Library/Preferences/com.apple.iTunes.plist StoreUserInfo
@@ -1308,13 +1307,13 @@ Ensure all eligible online accounts have [multi-factor authentication](https://e
 
 Encrypt files locally before backing them up to external media or online services.
 
-If the threat model allows it, you should follow the [3-2-1 backup model](https://www.cisa.gov/sites/default/files/publications/data_backup_options.pdf) as outlined by CISA. Keep 3 copies: the original and two backups. Keep backups on 2 different media types, e.g. on a local drive and cloud storage. Store 1 copy offsite.
+If the threat model allows it, follow the [3-2-1 backup model](https://www.cisa.gov/sites/default/files/publications/data_backup_options.pdf) as outlined by CISA. Keep 3 copies: the original and two backups. Keep backups on 2 different media types, e.g. on a local drive and cloud storage. Store 1 copy offsite.
 
-[Time Machine](https://support.apple.com/104984) is the built-in tool for handling backups on macOS. Get an external drive or network drive to back up to and [encrypt](https://support.apple.com/guide/mac-help/keep-your-time-machine-backup-disk-secure-mh21241) backups.
+[Time Machine](https://support.apple.com/104984) is the built-in tool for handling backups on macOS. Get an external drive or network drive to create [encrypted](https://support.apple.com/guide/mac-help/keep-your-time-machine-backup-disk-secure-mh21241) backups.
 
 GnuPG can be used with a static password or public key (with the private key stored on [YubiKey](https://github.com/drduh/YubiKey-Guide)).
 
-Compress and encrypt a directory using with a password:
+Compress and encrypt a directory using a password:
 
 ```bash
 tar zcvf - ~/Downloads | gpg -c > ~/Desktop/backup-$(date +%F-%H%M).tar.gz.gpg
@@ -1353,7 +1352,7 @@ Set wireless network security to [WPA3](https://en.wikipedia.org/wiki/WPA3#WPA3)
 
 For outgoing SSH connections, use hardware or password-protected keys, [set up](http://nerderati.com/2011/03/17/simplify-your-life-with-an-ssh-config-file/) remote hosts and consider [hashing](http://nms.csail.mit.edu/projects/ssh/) them for added privacy. See [drduh/config/ssh_config](https://github.com/drduh/config/blob/main/ssh_config) for recommended client options.
 
-You can also use ssh to create an [encrypted tunnel](http://blog.trackets.com/2014/05/17/ssh-tunnel-local-and-remote-port-forwarding-explained-with-examples.html) to send traffic through, similar to a VPN.
+SSH can also be used to create an [encrypted tunnel](http://blog.trackets.com/2014/05/17/ssh-tunnel-local-and-remote-port-forwarding-explained-with-examples.html) to send traffic through, similar to a VPN.
 
 For example, to use Privoxy running on a remote host port 8118:
 
@@ -1393,7 +1392,7 @@ Keep your Mac physically secure at all times and do not leave it unattended in p
 
 A skilled attacker with unsupervised physical access could install a [hardware keylogger](https://trmm.net/Thunderstrike_31c3) to record all of your keystrokes. Using a Mac with a built-in keyboard or a bluetooth keyboard makes this more difficult as many off-the-shelf versions of this attack are designed to be plugged in between a USB keyboard and your computer.
 
-To protect against physical theft during use, you can use an anti-forensic tool like [BusKill](https://github.com/buskill/buskill-app) or [swiftGuard](https://github.com/Lennolium/swiftGuard) (updated usbkill, with graphical user interface). All respond to USB events and can immediately shutdown your computer if your device is physically separated from you or an unauthorized device is connected.
+To protect against physical theft during use, use an anti-forensic tool like [BusKill](https://github.com/buskill/buskill-app) or [swiftGuard](https://github.com/Lennolium/swiftGuard) (updated usbkill, with graphical user interface). All respond to USB events and can immediately shutdown your computer if your device is physically separated from you or an unauthorized device is connected.
 
 Consider purchasing a privacy screen/filter for use in public.
 
@@ -1403,7 +1402,7 @@ Consider purchasing a privacy screen/filter for use in public.
 
 ## OpenBSM audit
 
-macOS has a powerful OpenBSM (Basic Security Module) auditing capability. You can use it to monitor process execution, network activity, and much more.
+macOS has a powerful OpenBSM (Basic Security Module) auditing capability. Use it to monitor process execution, network activity, and much more.
 
 To tail audit logs, use the `praudit` utility:
 
@@ -1436,7 +1435,7 @@ See `man -k dtrace` for more information.
 
 `ps -ef` lists information about all running processes.
 
-You can also view processes with **Activity Monitor**.
+Processes can also be inspected with **Activity Monitor**.
 
 `launchctl list` and `sudo launchctl list` list loaded and running user and system launch daemons and agents.
 
@@ -1495,15 +1494,15 @@ tshark -Y "ssl.handshake.certificate" -Tfields \
 
 Disable [Diagnostics & Usage Data](https://support.apple.com/guide/mac-help/share-analytics-information-mac-apple-mh27990).
 
-If you want to play **music** or watch **videos**, use QuickTime Player, the built-in media player in macOS. It uses the [App Sandbox](https://developer.apple.com/documentation/security/app_sandbox/protecting_user_data_with_app_sandbox), [Hardened Runtime](https://developer.apple.com/documentation/xcode/configuring-the-hardened-runtime), and benefits from the [Signed System Volume](https://support.apple.com/guide/security/signed-system-volume-security-secd698747c9/web) as part of the base system.
+Use [QuickTime Player](https://en.wikipedia.org/wiki/Quicktime_player), the built-in media application, for playing music and video files. It uses [App Sandbox](https://developer.apple.com/documentation/security/app_sandbox/protecting_user_data_with_app_sandbox), [Hardened Runtime](https://developer.apple.com/documentation/xcode/configuring-the-hardened-runtime), and benefits from the [Signed System Volume](https://support.apple.com/guide/security/signed-system-volume-security-secd698747c9/web) as part of the base system.
 
 If you want to use **torrents**, use [Transmission](https://transmissionbt.com/download/) which is free and open source (note: like all software, even open source projects, [malware may still find its way in](http://researchcenter.paloaltonetworks.com/2016/03/new-os-x-ransomware-keranger-infected-transmission-bittorrent-client-installer/)). You may also wish to use a block list to avoid peering with known bad hosts - see [Which is the best blocklist for Transmission](https://giuliomac.wordpress.com/2014/02/19/best-blocklist-for-transmission/) and [johntyree/3331662](https://gist.github.com/johntyree/3331662).
 
 Manage [default file handlers](https://support.apple.com/guide/mac-help/choose-an-app-to-open-a-file-on-mac-mh35597).
 
-Monitor system logs with the **Console** application or `syslog -w` or `/usr/bin/log stream` commands.
+Monitor system logs with the **Console** application or `/usr/bin/log stream` commands.
 
-Set your screen to lock as soon as the screensaver starts:
+Set the screen to lock as soon as the screensaver starts:
 
 ```bash
 defaults write com.apple.screensaver askForPassword -int 1
@@ -1553,9 +1552,9 @@ macOS comes with this line in `/etc/sudoers`:
 Defaults env_keep += "HOME MAIL"
 ```
 
-Which stops sudo from changing the HOME variable when you elevate privileges. This means it will execute as root the zsh dotfiles in the non-root user's home directory when you run "sudo zsh". It is advisable to comment this line out to avoid a potentially easy way for malware or a local attacker to escalate privileges to root.
+Which stops sudo from changing the HOME variable when privileges are elevanted. This means it will execute as root the zsh dotfiles in the non-root user's home directory when running `sudo zsh`. It is advisable to comment this line out to avoid a potential way for malware or a local attacker to escalate root privileges.
 
-If you want to retain the convenience of the root user having a non-root user's home directory, you can append an export line to /var/root/.zshrc, e.g.:
+To retain the convenience of the root user having a non-root user's home directory, append an export line to `/var/root/.zshrc`, e.g.:
 
 ```bash
 export HOME=/Users/blah
