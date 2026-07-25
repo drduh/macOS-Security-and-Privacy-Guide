@@ -206,7 +206,7 @@ sudo scutil --set LocalHostName MacBook
 
 The first user account is always an administrator account. Administrator accounts belong to the admin group and can use sudo to run commands with elevated privileges, including as root. Any program the administrator executes can potentially obtain the same access, making this a security risk.
 
-Utilities like `sudo` have [weaknesses that can be exploited](https://bogner.sh/2014/03/another-mac-os-x-sudo-password-bypass/) by concurrently running programs.
+Utilities like `sudo` have [weaknesses that can be exploited](https://bogner.sh/2014/03/another-mac-os-x-sudo-password-bypass/) by concurrently-running software.
 
 It is considered a best practice by [Apple](https://help.apple.com/machelp/mac/10.12/index.html#/mh11389) to use a separate standard account for day-to-day work and use the admin account for installations and system configuration.
 
@@ -980,7 +980,7 @@ iMessage can be used with either a [phone number or an email](https://support.ap
 
 There is an [ever-increasing](https://www.documentcloud.org/documents/2459197-bit9-carbon-black-threat-research-report-2015.html) amount of Mac malware in the wild. Macs aren't immune from viruses and malicious software!
 
-Some malware comes bundled with both legitimate software, such as the [Java bundling Ask Toolbar](https://www.zdnet.com/article/oracle-extends-its-adware-bundling-to-include-java-for-macs/), and some with illegitimate software bundled with pirated programs.
+Some malware comes bundled with both legitimate software, such as the [Java bundling Ask Toolbar](https://www.zdnet.com/article/oracle-extends-its-adware-bundling-to-include-java-for-macs/), and some with illegitimate software bundled with pirated applications.
 
 See [Methods of malware persistence on Mac OS X](https://www.virusbtn.com/pdf/conference/vb2014/VB2014-Wardle.pdf) (pdf) and [Malware Persistence on OS X Yosemite](https://www.rsaconference.com/events/us15/agenda/sessions/1591/malware-persistence-on-os-x-yosemite) to learn about how garden-variety malware functions.
 
@@ -990,11 +990,9 @@ Also check out [Hacking Team](https://www.schneier.com/blog/archives/2015/07/hac
 
 ## Downloading Software
 
-Only running programs from the App Store or that are [Notarized](https://support.apple.com/guide/security/app-code-signing-process-sec3ad8e6e53/web) by Apple will help mitigate malware. Apple performs an automated scan on notarized apps for malware. App Store apps undergo a [review](https://developer.apple.com/app-store/review/guidelines/) process to catch malware.
+Only running applications from the App Store or that are [Notarized](https://support.apple.com/guide/security/app-code-signing-process-sec3ad8e6e53/web) by Apple may reduce malware risk: Apple performs an automated scan on notarized applications and App Store requires a [review process](https://developer.apple.com/app-store/review/guidelines/).
 
-Otherwise, get programs from trusted sources like directly from the developer's website or GitHub. Always make sure that the browser/terminal is using HTTPS when downloading any program.
-
-You should also avoid programs that ask for lots of permissions and third-party closed source programs. Open source code allows anyone to audit and examine the code for security/privacy issues.
+Otherwise, obtain software from trusted sources like directly from the developer's website or GitHub. Always make sure that the browser/terminal is using HTTPS.
 
 ## App Sandbox
 
@@ -1027,21 +1025,21 @@ Check if a program uses the [Hardened Runtime](https://developer.apple.com/docum
 codesign --display --verbose /path/to/application.app
 ```
 
-If Hardened Runtime is enabled, you will see `flags=0x10000(runtime)`. The "runtime" means Hardened Runtime is enabled. There might be other flags, but the runtime flag is what we're looking for here.
+If Hardened Runtime is enabled, `flags=0x10000(runtime)` will appear in output.
 
 **Activity Monitor** has the option to display a "Restricted" column which indicates a program is restricted from injecting code via macOS's [dynamic linker](https://pewpewthespells.com/blog/blocking_code_injection_on_ios_and_os_x.html).
 
-Notarized applications are required to use the Hardened Runtime.
+The Hardened Runtime is a prerequisite for notarization of distributed apps.
 
 ## Antivirus
 
-To scan an application with multiple AV products and examine its behavior, upload it to [VirusTotal](https://www.virustotal.com/#/home/upload) before running it.
+To scan files and applications, consider uploading them to [VirusTotal](https://www.virustotal.com/gui/home/upload), keeping in mind this makes them publicly-viewable.
 
-macOS comes with a built-in AV program called [XProtect](https://support.apple.com/guide/security/protecting-against-malware-sec469d47bd8). XProtect automatically runs in the background and updates its signatures that it uses to detect malware without you having to do anything. If it detects malware already running, it will work to remove and mitigate it just like any other AV program.
+macOS includes built-in antivirus software called [XProtect](https://support.apple.com/guide/security/protecting-against-malware-sec469d47bd8), which runs in the background and updates signatures used to detect malware automatically. If malware is detected, XProtect attempts to remove and quarantine it.
 
-Applications such as [BlockBlock](https://objective-see.com/products/blockblock.html) or [maclaunch.sh](https://github.com/hazcod/maclaunch) might help prevent persistent malware.
+Applications such as [BlockBlock](https://objective-see.com/products/blockblock.html) or [hazcod/maclaunch](https://github.com/hazcod/maclaunch) might help prevent or detect persistent malware.
 
-Locally installed **Anti-virus** programs are generally a double-edged sword: they may catch "garden variety" malware, but also may increase the attack surface for sophisticated adversaries due to their privileged operating mode. They also typically phone home to send samples in order to catch the newest malware. This can be a privacy concern.
+Antivirus software may act as a "double-edged sword": capable of countering common, "garden-variety" malware, but having potential to increase attack surface with system-level privileges. They may also send telemetry and malware samples, increasing privacy risk.
 
 See [Sophail: Applied attacks against Antivirus](https://lock.cmpxchg8b.com/sophailv2.pdf) (pdf), [Analysis and Exploitation of an ESET Vulnerability](https://googleprojectzero.blogspot.ro/2015/06/analysis-and-exploitation-of-eset.html), [Popular Security Software Came Under Relentless NSA and GCHQ Attacks](https://theintercept.com/2015/06/22/nsa-gchq-targeted-kaspersky/), and [How Israel Caught Russian Hackers Scouring the World for U.S. Secrets](https://www.nytimes.com/2017/10/10/technology/kaspersky-lab-israel-russia-hacking.html).
 
