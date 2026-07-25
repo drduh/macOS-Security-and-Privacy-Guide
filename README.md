@@ -295,13 +295,14 @@ sudo pkill -HUP socketfilterfw
 
 ## Third-party firewalls
 
-Programs such as [Little Snitch](https://www.obdev.at/products/littlesnitch/index.html), [Radio Silence](https://radiosilenceapp.com/), and [LuLu](https://objective-see.com/products/lulu.html) provide a good balance of usability and security.
+Applications such as [Little Snitch](https://www.obdev.at/products/littlesnitch/index.html), [Radio Silence](https://radiosilenceapp.com/), and [LuLu](https://objective-see.com/products/lulu.html) provide a balance between usability and security.
 
-These programs are capable of monitoring and blocking **incoming** and **outgoing** network connections. However, they may require the use of a closed source [system extension](https://support.apple.com/HT210999).
+These programs are capable of monitoring and blocking both incoming and outgoing connections. However, they may require the use of a closed-source [system extension](https://support.apple.com/HT210999).
 
 If frequent allow-or-block prompts are overwhelming, begin with Silent Mode configured to allow connections. Review the configuration periodically to understand each application's network activity.
 
-It is worth noting that these firewalls can be bypassed by programs running as **root** or through [OS vulnerabilities](https://www.blackhat.com/docs/us-15/materials/us-15-Wardle-Writing-Bad-A-Malware-For-OS-X.pdf) (pdf), but they are still worth having - just don't expect absolute protection. However, some malware actually [deletes itself](https://www.cnet.com/how-to/how-to-remove-the-flashback-malware-from-os-x/) and doesn't execute if Little Snitch, or other security software, is installed.
+> ![NOTE]
+> A root-level compromise can undermine host-based network controls, depending on the product and system configuration.
 
 ## Kernel level packet filtering
 
@@ -1013,9 +1014,10 @@ With App Sandbox enabled, output will include:
 
 Alternatively, check **Activity Monitor** while the application is running and adding the "Sandbox" column.
 
-App Store software is required to use App Sandbox.
+App Store software is required to use App Sandbox. Applications such as Google Chrome use their own [sandbox](https://chromium.googlesource.com/chromium/src/+/HEAD/docs/design/sandbox.md) and might not use App Sandbox.
 
-Browsers like Google Chrome use their own [sandbox](https://chromium.googlesource.com/chromium/src/+/HEAD/docs/design/sandbox.md) and might not use App Sandbox.
+> [!NOTE]
+> Sandboxing limits an application's default access, but entitlements and user-granted permissions can expand access.
 
 ## Hardened Runtime
 
