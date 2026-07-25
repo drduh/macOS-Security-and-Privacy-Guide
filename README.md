@@ -217,15 +217,15 @@ It is not strictly required to ever log into the admin account via the macOS log
 
 * Only administrators can install applications in `/Applications` (local directory). Finder and Installer will prompt a standard user with an authentication dialog. Many applications can be installed in `~/Applications` instead (the directory can be created). As a rule of thumb: applications that do not require admin access – or do not complain about not being installed in `/Applications` – should be installed in the user directory, the rest in the local directory. Mac App Store applications are still installed in `/Applications` and require no additional authentication.
 * `sudo` is not available in shells of the standard user, which requires using `su` or `login` to enter a shell of the admin account. This can make some maneuvers trickier and requires some basic experience with command-line interfaces.
-* System Preferences and several system utilities (e.g. Wi-Fi Diagnostics) will require root privileges for full functionality. Many panels in System Preferences are locked and need to be unlocked separately by clicking on the lock icon. Some applications will simply prompt for authentication upon opening, others must be opened by an admin account directly to get access to all functions (e.g. Console).
+* System Settings and several system utilities (e.g. Wi-Fi Diagnostics) will require root privileges for full functionality. Many panels in System Settings are locked and need to be unlocked separately by clicking on the lock icon. Some applications will simply prompt for authentication upon opening, others must be opened by an admin account directly to get access to all functions (e.g. Console).
 * There are third-party applications that will not work correctly because they assume that the user account is an admin. These programs may have to be executed by logging into the admin account, or by using the `open` utility.
 * See additional discussion in [issue 167](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/167).
 
 ## Setup
 
-Accounts can be created and managed in System Preferences. On settled systems, it is generally easier to create a second admin account and then demote the first account. This avoids data migration. Newly installed systems can also just add a standard account.
+Accounts can be created and managed in System Settings. On settled systems, it is generally easier to create a second admin account and then demote the first account. This avoids data migration. Newly installed systems can also just add a standard account.
 
-Demoting an account can be done either from the new admin account in System Preferences – the other account must be logged out – or by executing these commands (it may not be necessary to execute both, see [issue 179](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/179)):
+Demoting an account can be done either from the new admin account in System Settings – the other account must be logged out – or by executing these commands (it may not be necessary to execute both, see [issue 179](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/179)):
 
 ```bash
 sudo dscl . -delete /Groups/admin GroupMembership <username>
@@ -242,7 +242,7 @@ See also [this post](https://superuser.com/a/395738) for more information about 
 
 # Firmware
 
-Validate firmware security settings are set to [Full Security](https://support.apple.com/guide/mac-help/mchl768f7291/mac) to prevent tampering with the system. This is the default setting.
+Verify that firmware security is set to [Full Security](https://support.apple.com/guide/mac-help/mchl768f7291/mac) to prevent tampering with the system. This is the default setting.
 
 # FileVault
 
@@ -264,7 +264,7 @@ There are several types of firewalls available for macOS.
 
 ## Application layer firewall
 
-The built-in firewall provides basic protection and blocks incoming connections only. It cannot monitor nor block outgoing connections.
+The built-in firewall provides basic protection and blocks incoming connections only. It can neither monitor nor block outgoing connections.
 
 It can be controlled by the **Firewall** tab of **Network** in **System Settings**, or with the following commands.
 
@@ -556,7 +556,7 @@ Install and start the program (sudo is required to bind to [privileged port](htt
 sudo brew services start dnsmasq
 ```
 
-To set dnsmasq as the local DNS server, open **System Preferences** > **Network** and select the active interface, then the **DNS** tab, select **+** and add `127.0.0.1`, or use:
+To set dnsmasq as the local DNS server, open **System Settings** > **Network** and select the active interface, then the **DNS** tab, select **+** and add `127.0.0.1`, or use:
 
 ```bash
 sudo networksetup -setdnsservers "Wi-Fi" 127.0.0.1
@@ -580,22 +580,6 @@ $ networksetup -getdnsservers "Wi-Fi"
 
 > [!NOTE]
 > Some VPN applications override DNS settings on connect. See [issue 24](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/24) and [drduh/config/scripts/macos-dns.sh](https://github.com/drduh/config/blob/main/scripts/macos-dns.sh).
-
-**Optional** Test DNSSEC validation for signed zones - the reply should have `NOERROR` status and contain the `ad` flag:
-
-```console
-$ dig +dnssec icann.org | head
-;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 47039
-;; flags: qr rd ra ad; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1
-```
-
-Test DNSSEC validation fails for zones that are signed improperly - the reply should have `SERVFAIL` status:
-
-```console
-$ dig www.dnssec-failed.org | head
-;; ->>HEADER<<- opcode: QUERY, status: SERVFAIL, id: 15190
-;; flags: qr rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 0, ADDITIONAL: 1
-```
 
 # Certificate authorities
 
@@ -638,7 +622,7 @@ Set the system **HTTPS** proxy:
 sudo networksetup -setsecurewebproxy "Wi-Fi" 127.0.0.1 8118
 ```
 
-This can also be done through **System Preferences > Network > Advanced > Proxies**
+This can also be done through **System Settings > Network > Advanced > Proxies**
 
 Confirm the proxy is set:
 
@@ -761,13 +745,9 @@ Chrome has the largest share of global usage and is the preferred target platfor
 
 Chrome offers [separate profiles](https://www.chromium.org/user-experience/multi-profiles), [robust sandboxing](https://chromium.googlesource.com/chromium/src/+/HEAD/docs/design/sandbox.md), [frequent updates](https://chromereleases.googleblog.com), and carries [impressive credentials](https://www.chromium.org/Home/chromium-security/brag-sheet). In addition, Google offers a very lucrative [bounty program](https://bughunters.google.com/about/rules/5745167867576320/chrome-vulnerability-reward-program-rules) for reporting vulnerabilities, along with its own [Project Zero](https://googleprojectzero.blogspot.com/) team. This means that a large number of highly talented and motivated people are constantly auditing and securing Chrome code.
 
-Create separate Chrome profiles to reduce XSS risk and compartmentalize cookies/identities. In each profile, disable JavaScript in settings and configure allowed origins. Also considering disabling V8 Optimizer to further reduce attack surface - **Settings** -> **Privacy and security** -> **Security** -> **Manage v8 security** -> **Don't allow sites to use the V8 optimizer**
+Create separate Chrome profiles to reduce XSS risk and compartmentalize cookies/identities. In each profile, disable JavaScript in settings and configure allowed origins. Also consider disabling V8 optimization in Settings - see [this explanation](https://microsoftedge.github.io/edgevr/posts/Super-Duper-Secure-Mode) for the security trade-offs.
 
-Read more about the benefits of disabling this [here](https://microsoftedge.github.io/edgevr/posts/Super-Duper-Secure-Mode).
-
-You can block trackers with [uBlock Origin Lite](https://chromewebstore.google.com/detail/ublock-origin-lite/ddkjiahejlhfcafbddmgiahcphecmpfh).
-
-Change the default search engine from Google to reduce additional tracking.
+Block trackers with [uBlock Origin Lite](https://chromewebstore.google.com/detail/ublock-origin-lite/ddkjiahejlhfcafbddmgiahcphecmpfh).
 
 Disable [DNS prefetching](https://www.chromium.org/developers/design-documents/dns-prefetching) (see also [DNS Prefetching and Its Privacy Implications](https://www.usenix.org/legacy/event/leet10/tech/full_papers/Krishnan.pdf) (pdf)). Note that Chrome [may attempt](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/350) to resolve DNS using Google's `8.8.8.8` and `8.8.4.4` public nameservers.
 
@@ -1401,7 +1381,7 @@ To enable sshd and allow incoming ssh connections:
 sudo launchctl load -w /System/Library/LaunchDaemons/ssh.plist
 ```
 
-Or use the **System Preferences** > **Sharing** menu.
+Or use the **System Settings** > **Sharing** menu.
 
 If enabling sshd, be sure to disable password authentication and consider further [hardening](https://stribika.github.io/2015/01/04/secure-secure-shell.html) the configuration. See [drduh/config/sshd_config](https://github.com/drduh/config/blob/main/sshd_config) for recommended options.
 
