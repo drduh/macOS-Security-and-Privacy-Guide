@@ -47,7 +47,6 @@ To suggest a change, submit a [pull request](https://github.com/drduh/macOS-Secu
    * [Firefox](#firefox)
    * [Chrome](#chrome)
    * [Safari](#safari)
-   * [Other browsers](#other-browsers)
    * [Web browser privacy](#web-browser-privacy)
 - [Tor](#tor)
 - [VPN](#vpn)
@@ -206,11 +205,11 @@ sudo scutil --set LocalHostName MacBook
 
 The first user account is always an administrator account. Administrator accounts belong to the admin group and can use sudo to run commands with elevated privileges, including as root. Any program the administrator executes can potentially obtain the same access, making this a security risk.
 
-Utilities like `sudo` have [weaknesses that can be exploited](https://bogner.sh/2014/03/another-mac-os-x-sudo-password-bypass/) by concurrently-running software.
+Utilities like `sudo` may have vulnerabilities which can be [exploited](https://bogner.sh/2014/03/another-mac-os-x-sudo-password-bypass/) by concurrently-running software.
 
-It is considered a best practice by [Apple](https://help.apple.com/machelp/mac/10.12/index.html#/mh11389) to use a separate standard account for day-to-day work and use the admin account for installations and system configuration.
+It is considered a [best practice](https://help.apple.com/machelp/mac/10.12/index.html#/mh11389) to use a separate standard account for day-to-day work and use the admin account for installations and system configuration.
 
-It is not strictly required to ever log into the admin account via the macOS login screen. When a Terminal command requires administrator privileges, the system will prompt for authentication and Terminal then continues using those privileges. To that end, Apple provides some [recommendations](https://support.apple.com/HT203998) for hiding the admin account and its home directory. This can be an elegant solution to avoid having a visible 'ghost' account.
+It is not strictly required to ever login with the admin account via the macOS login screen. When a Terminal command requires administrator privileges, the system will prompt for authentication and Terminal then continues using those privileges. To that end, Apple provides [recommendations](https://support.apple.com/102099) for hiding the admin account and its home directory.
 
 ## Caveats
 
@@ -247,13 +246,13 @@ Verify that firmware security is set to [Full Security](https://support.apple.co
 
 All Apple silicon Macs encrypt storage by default. Enabling [FileVault](https://support.apple.com/guide/mac-help/mh11785/mac) requires a password before macOS can access the encrypted volume. The EFF has a guide on generating [strong but memorable passwords](https://www.eff.org/dice).
 
-The FileVault password also acts as a [firmware password](https://support.apple.com/en-us/102384) which prevents booting from anything other than the designated startup disk, accessing [Recovery](https://support.apple.com/guide/mac-help/macos-recovery-a-mac-apple-silicon-mchl82829c17/15.0/mac/15.0#mchl5abfbb29), and [reviving](https://support.apple.com/en-us/108900) it with DFU mode.
+The FileVault password also acts as a [firmware password](https://support.apple.com/102384) which prevents booting from anything other than the designated startup disk, accessing [Recovery](https://support.apple.com/guide/mac-help/macos-recovery-a-mac-apple-silicon-mchl82829c17/15.0/mac/15.0#mchl5abfbb29), and [reviving](https://support.apple.com/108900) it with DFU mode.
 
 FileVault will prompt to set a recovery key - store this key somewhere safe. You will have the option to use iCloud to unlock the disk; however, anyone with access to this iCloud account will be able to unlock it as well.
 
 # Lockdown Mode
 
-macOS offers [Lockdown Mode](https://support.apple.com/105120), a security feature that disables several features across the OS, significantly reducing attack surface for attackers while keeping the OS usable. You can read about exactly what is disabled and decide for yourself if it is acceptable to you.
+[Lockdown Mode](https://support.apple.com/105120), which disables certain system and application features, is recommended and may significantly reduce attack surface.
 
 When Lockdown Mode is enabled, Safari has an option to exclude individual trusted websites from its restrictions.
 
@@ -283,7 +282,7 @@ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setallowsigned off
 sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setallowsignedapp off
 ```
 
-Applications that are signed by a valid certificate authority are automatically added to the list of allowed apps, rather than prompting the user to authorize them. Apps included in macOS are signed by Apple and are allowed to receive incoming connections when this setting is enabled. For example, since iTunes is already signed by Apple, it is automatically allowed to receive incoming connections through the firewall.
+Applications signed by a valid certificate authority are automatically added to the allowlist, rather than prompting the user to authorize them. Apps included in macOS are signed by Apple and are allowed to receive incoming connections when this setting is enabled.
 
 If you run an unsigned app that is not listed in the firewall list, a dialog appears with options to Allow or Deny connections for the app. If you choose "Allow", macOS signs the application and automatically adds it to the firewall list. If you choose "Deny", macOS adds it to the list but denies incoming connections intended for this app.
 
@@ -739,7 +738,7 @@ Firefox only supports Web Extensions through the [WebExtension API](https://deve
 
 Chrome offers account sync between multiple devices. Part of the sync data includes credentials to Web sites. The data is encrypted with the account password.
 
-Chrome's Web Store for extensions requires a [5 USD lifetime fee](https://developer.chrome.com/docs/webstore/register) in order to submit extensions. The low cost allows the development of many quality Open Source Web Extensions that do not aim to monetize through usage.
+Chrome's Web Store for extensions requires a [5 USD lifetime fee](https://developer.chrome.com/docs/webstore/register) in order to submit extensions. The low cost allows the development of many quality open source Web Extensions that do not aim to monetize through usage.
 
 Chrome has the largest share of global usage and is the preferred target platform for the majority of developers. Major technologies are based on Chrome's open-source components, such as [node.js](https://nodejs.org/) which uses [Chrome's V8](https://developers.google.com/v8) Engine and the [Electron](https://electron.atom.io/) framework, which is based on Chromium and node.js. Chrome's vast user base makes it the most attractive target for threat actors and security researchers. Despite constant attacks, Chrome has retained an impressive security track record over the years. This is not a small feat.
 
@@ -755,25 +754,19 @@ Read [Chromium Security](https://www.chromium.org/Home/chromium-security) and [C
 
 ## Safari
 
-[Safari](https://www.apple.com/safari) is the default browser on macOS. It is also the most optimized browser for reducing battery use. Safari, like Chrome, has both Open Source and proprietary components. Safari is based on the open source Web Engine [WebKit](https://webkit.org), which is ubiquitous among the macOS ecosystem. WebKit is used by Apple apps such as Mail, iTunes, iBooks, and the App Store. Chrome's [Blink](https://www.chromium.org/blink) engine is a fork of WebKit and both engines share a number of similarities.
+[Safari](https://www.apple.com/safari) is the default browser on macOS. It is also the most optimized browser for reducing battery use. Safari, like Chrome, has both open source and proprietary components. Safari is based on the open source Web Engine [WebKit](https://webkit.org), which is ubiquitous among the macOS ecosystem. WebKit is used by Apple apps such as Mail, Books, and the App Store. Chrome's [Blink](https://www.chromium.org/blink) engine is a fork of WebKit and both engines share a number of similarities.
 
 Safari supports certain unique features that benefit user security and privacy. [Content blockers](https://webkit.org/blog/3476/content-blockers-first-look) enable the creation of content blocking rules without using JavaScript. This rule based approach greatly improves memory use, security, and privacy. Safari 11 introduced [Intelligent Tracking Prevention](https://webkit.org/blog/7675/intelligent-tracking-prevention), which removes tracking data stored in Safari after a period of non-interaction by the user from the tracker's website. Safari can randomize the browser fingerprint to reduce tracking. Safari doesn't support certain features like WebUSB or the Battery API intentionally for security and privacy reasons. Private tabs in Safari have isolated cookies and cache that is destroyed when you close the tab. Safari also support Profiles which are equivalent to Firefox's Multi-Account Containers for separating cookies and browsing. Safari can be made significantly more secure with [lockdown mode](#lockdown-mode), which can be disabled per-site. Read more about [tracking prevention](https://webkit.org/tracking-prevention) in Safari.
 
 Safari offers an invite-only [bounty program](https://developer.apple.com/bug-reporting) for bug reporting to a select number of security researchers. The bounty program was announced during Apple's [presentation](https://www.blackhat.com/docs/us-16/materials/us-16-Krstic.pdf) at [BlackHat](https://www.blackhat.com/us-16/briefings.html#behind-the-scenes-of-ios-security) 2016.
 
-Web Extensions in Safari have an additional option to use native code in Safari's sandbox environment, in addition to Web Extension APIs. Web Extensions in Safari are also distributed through Apple App Store. App Store submission comes with the added benefit of Web Extension code being audited by Apple. On the other hand App Store submission comes at a steep cost. Yearly [developer subscription](https://developer.apple.com/support/compare-memberships) fee costs 100 USD (in contrast to Chrome's 5 USD fee and Firefox's free submission). The high cost is prohibitive for the majority of Open Source developers. As a result, Safari has very few extensions to choose from. However, you should keep the high cost in mind when installing extensions. It is expected that most Web Extensions will have some way of monetizing usage in order to cover developer costs. Be wary of Web Extensions whose source code is not open.
+Web Extensions in Safari have an additional option to use native code in Safari's sandbox environment, in addition to Web Extension APIs. Web Extensions in Safari are also distributed through Apple App Store. App Store submission comes with the added benefit of Web Extension code being audited by Apple. On the other hand App Store submission comes at a steep cost. Yearly [developer subscription](https://developer.apple.com/support/compare-memberships) fee costs 100 USD (in contrast to Chrome's 5 USD fee and Firefox's free submission). The high cost is prohibitive for the majority of open source developers. As a result, Safari has very few extensions to choose from. However, you should keep the high cost in mind when installing extensions. It is expected that most Web Extensions will have some way of monetizing usage in order to cover developer costs. Be wary of Web Extensions whose source code is not open.
 
 Safari syncs user preferences and passwords with [iCloud Keychain](https://support.apple.com/HT202303). In order to be viewed in plain text, a user must input the account password of the current device. This means that users can sync data across devices with added security.
 
 Safari follows a slower release cycle than Chrome and Firefox (3-4 minor releases, 1 major release, per year). Newer features are slower to be adopted to the stable channel. Security updates in Safari are handled independent of the stable release schedule and are installed through the App Store.
 
 See also [el1t/uBlock-Safari](https://github.com/el1t/uBlock-Safari/wiki/Disable-hyperlink-auditing-beacon) to disable hyperlink auditing beacons.
-
-## Other browsers
-
-Many Chromium-derived browsers are not recommended. They are usually [closed source](https://yro.slashdot.org/comments.pl?sid=4176879&cid=44774943), [poorly maintained](https://plus.google.com/+JustinSchuh/posts/69qw9wZVH8z), and make dubious claims to protect privacy.
-
-Other miscellaneous browsers, such as [Brave](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/94), are not evaluated in this guide, so are neither recommended nor actively discouraged from use.
 
 ## Web browser privacy
 
@@ -1053,7 +1046,7 @@ Gatekeeper does not cover all binaries - only applications - so exercise caution
 
 # System Integrity Protection
 
-To verify SIP is enabled, use the command `csrutil status`, which should return: `System Integrity Protection status: enabled.` Otherwise, [enable SIP](https://developer.apple.com/documentation/security/disabling_and_enabling_system_integrity_protection) through Recovery Mode.
+To verify System Integrity Protection is enabled, use the command `csrutil status`, which should return: `System Integrity Protection status: enabled.` Otherwise, [enable SIP](https://developer.apple.com/documentation/security/disabling_and_enabling_system_integrity_protection) using Recovery Mode.
 
 # Metadata and artifacts
 
@@ -1262,20 +1255,7 @@ chmod -R 000 ~/Library/Assistant/SiriAnalytics.db
 chflags -R uchg ~/Library/Assistant/SiriAnalytics.db
 ```
 
-`~/Library/Preferences/com.apple.iTunes.plist` contains iTunes metadata. Recent iTunes search data may be cleared with the following command:
-
-```bash
-defaults delete ~/Library/Preferences/com.apple.iTunes.plist recentSearches
-```
-
-If Apple Account-linked services are not used, the following keys may also be cleared:
-
-```bash
-defaults delete ~/Library/Preferences/com.apple.iTunes.plist StoreUserInfo
-defaults delete ~/Library/Preferences/com.apple.iTunes.plist WirelessBuddyID
-```
-
-All media played in QuickTime Player can be found in:
+Media played in QuickTime Player can be found in:
 
 ```bash
 ~/Library/Containers/com.apple.QuickTimePlayerX/Data/Library/Preferences/com.apple.QuickTimePlayerX.plist
@@ -1346,7 +1326,7 @@ Wi-Fi networks continuously broadcast a **service set identifier (SSID)** which 
 
 Set a [private Wi-Fi address](https://support.apple.com/en-gb/guide/mac-help/mchlb1cb3eb4/mac) to reduce tracking.
 
-Set wireless network security to [WPA3](https://en.wikipedia.org/wiki/WPA3#WPA3). Follow [Apple guidance](https://support.apple.com/en-us/102766) to set recommended settings for routers and access points.
+Set wireless network security to [WPA3](https://en.wikipedia.org/wiki/WPA3#WPA3). Follow [Apple guidance](https://support.apple.com/102766) to set recommended settings for routers and access points.
 
 # SSH
 
