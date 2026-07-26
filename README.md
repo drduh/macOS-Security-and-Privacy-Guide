@@ -72,7 +72,7 @@ To suggest a change, submit a [pull request](https://github.com/drduh/macOS-Secu
    * [Logs](#logs)
    * [OpenBSM audit](#openbsm-audit)
    * [DTrace](#dtrace)
-   * [Execution](#execution)
+   * [Processes](#processes)
    * [Network](#network)
 - [Miscellaneous](#miscellaneous)
 - [Related software](#related-software)
@@ -117,7 +117,7 @@ Define whom you are defending against. Start by defining the motivation they mig
 
 ## Capabilities
 
-To counter adversaries, understand both their capabilities and limitations. Rank them from unsophisticated to highly advanced. For example, a common thief is not very sophisticated; they will likely be stopped by basic things like simply having a password and drive encryption on devices. A very advanced adversary like a state actor might require fully turning off devices when not in use to clear the keys from RAM and a long diceware password.
+To counter adversaries, understand both their capabilities and limitations. Rank them from unsophisticated to highly advanced. For example, a common thief is not very sophisticated; they will likely be stopped by basic things like simply having a password and drive encryption on devices. An advanced adversary might require fully turning off devices when not in use to clear the keys from RAM and a long diceware password.
 
 ## Mitigations
 
@@ -128,7 +128,7 @@ Balance security and usability: every mitigation should counter some capability 
 The following is an example of assets to protect:
 
 Adversary | Motivation | Capabilities | Mitigation
--: | :-: | :-: | :-
+:-: | :-: | :-: | :-:
 Roommate | See private chats or browsing history | Close proximity; can see screen or watch type in password | Use biometrics, use privacy screen, keep phone locked when not using it
 Thief | Unlock phone and steal personal info and drain bank accounts, sell phone for money | Shoulder surf to see password, steal device when not looking while it's logged in | Keep phone in sight or on person at all times, keep locked when not in use, use biometrics to avoid typing password in public, use Find My or similar service to track/remotely disable stolen device
 Criminal | Financial gain | Social engineering, readily-available malware, password reuse, exploiting vulnerabilities | Use sandboxing, enable security features in OS, keep OS and all software updated and turn on automatic updates
@@ -301,7 +301,7 @@ These programs are capable of monitoring and blocking both incoming and outgoing
 
 If frequent allow-or-block prompts are overwhelming, begin with Silent Mode configured to allow connections. Review the configuration periodically to understand each application's network activity.
 
-> ![NOTE]
+> [!NOTE]
 > A root-level compromise can undermine host-based network controls, depending on the product and system configuration.
 
 ## Packet filter
@@ -396,9 +396,9 @@ See [drduh/config/scripts/pf-blocklist.sh](https://github.com/drduh/config/blob/
 
 # Services
 
-Services on macOS are managed by **launchd**.
+Services on macOS are managed by [launchd](https://en.wikipedia.org/wiki/Launchd).
 
-Services can be managed in [System Settings](https://support.apple.com/guide/mac-help/change-login-items-settings-mtusr003), as well as any installed System, Quick Look, Finder, and other extensions.
+Administrator accounts can modify services and extensions in [System Settings](https://support.apple.com/guide/mac-help/change-login-items-settings-mtusr003).
 
 function | command
 -: | :-
@@ -418,9 +418,7 @@ To view the status of services:
 find /var/db/com.apple.xpc.launchd/ -type f -print -exec defaults read {} \; 2>/dev/null
 ```
 
-Read more about launchd and where login items can be found on [Apple's website](https://support.apple.com/guide/terminal/script-management-with-launchd-apdc6c1077b-5d5d-4d35-9c19-60f2397b2369).
-
-See [launchd.info](https://launchd.info/) for more information.
+See [script management with launchd](https://support.apple.com/guide/terminal/script-management-with-launchd-apdc6c1077b-5d5d-4d35-9c19-60f2397b2369) and [launchd.info](https://launchd.info/) for more information.
 
 # Siri Suggestions and Spotlight
 
@@ -586,11 +584,9 @@ macOS comes with [over 150](https://support.apple.com/103723) root authority cer
 
 For more information, see the [CA/Browser Forum's website](https://cabforum.org/resources/browser-os-info/).
 
-Inspect system root certificates in **Keychain Access**, under the **System Roots** tab or by using the `security` command line tool and `/System/Library/Keychains/SystemRootCertificates.keychain` file.
+Inspect system root certificates in [Keychain Access](https://support.apple.com/guide/keychain-access/toc), under the **System Roots** tab or by using the `security` command line tool and `/System/Library/Keychains/SystemRootCertificates.keychain` file.
 
-You can manually disable certificate authorities through Keychain Access by marking them as **Never Trust** and closing the window:
-
-<img src="https://cloud.githubusercontent.com/assets/12475110/19222972/6b7aabac-8e32-11e6-8efe-5d3219575a98.png" width="450" alt="A certificate authority certificate">
+To disable a certificate authority, mark it as **Never Trust** and close the window to confirm.
 
 The risk of a [man in the middle](https://wikipedia.org/wiki/Man-in-the-middle_attack) attack, in which a coerced or compromised certificate authority trusted by a system root store issues a fake/rogue TLS certificate, is relatively low, but [possible](https://wikipedia.org/wiki/DigiNotar#Issuance_of_fraudulent_certificates).
 
@@ -743,7 +739,7 @@ The Chrome Web Store requires a [5 USD registration fee](https://developer.chrom
 
 Chrome has the largest share of global usage and is the preferred target platform for the majority of developers. Major technologies are based on Chrome's open-source components, such as [node.js](https://nodejs.org/) which uses [Chrome's V8](https://developers.google.com/v8) Engine and the [Electron](https://electron.atom.io/) framework, which is based on Chromium and node.js. Chrome's vast user base makes it the most attractive target for threat actors and security researchers. Despite constant attacks, Chrome has retained an impressive security track record over the years. This is not a small feat.
 
-Chrome offers [separate profiles](https://www.chromium.org/user-experience/multi-profiles), [robust sandboxing](https://chromium.googlesource.com/chromium/src/+/HEAD/docs/design/sandbox.md), [frequent updates](https://chromereleases.googleblog.com), and carries [impressive credentials](https://www.chromium.org/Home/chromium-security/brag-sheet). In addition, Google offers a very lucrative [bounty program](https://bughunters.google.com/about/rules/5745167867576320/chrome-vulnerability-reward-program-rules) for reporting vulnerabilities, along with its own [Project Zero](https://googleprojectzero.blogspot.com/) team. This means that a large number of highly talented and motivated people are constantly auditing and securing Chrome code.
+Chrome offers [separate profiles](https://www.chromium.org/user-experience/multi-profiles), [robust sandboxing](https://chromium.googlesource.com/chromium/src/+/HEAD/docs/design/sandbox.md), [frequent updates](https://chromereleases.googleblog.com/), and carries [impressive credentials](https://www.chromium.org/Home/chromium-security/brag-sheet). In addition, Google offers a very lucrative [bounty program](https://bughunters.google.com/about/rules/5745167867576320/chrome-vulnerability-reward-program-rules) for reporting vulnerabilities, along with its own [Project Zero](https://googleprojectzero.blogspot.com/) team. This means that a large number of highly talented and motivated people are constantly auditing and securing Chrome code.
 
 Create separate Chrome profiles to reduce XSS risk and compartmentalize cookies/identities. In each profile, disable JavaScript in settings and configure allowed origins. Also consider disabling V8 optimization in Settings - see [this explanation](https://microsoftedge.github.io/edgevr/posts/Super-Duper-Secure-Mode) for the security trade-offs.
 
@@ -972,19 +968,13 @@ iMessage can be used with either a [phone number or an email](https://support.ap
 
 # Viruses and malware
 
-There is an [ever-increasing](https://www.documentcloud.org/documents/2459197-bit9-carbon-black-threat-research-report-2015.html) amount of Mac malware in the wild. Macs aren't immune from viruses and malicious software!
+See [Methods of malware persistence on Mac OS X](https://www.virusbtn.com/pdf/conference/vb2014/VB2014-Wardle.pdf) (pdf) and [Malware Persistence on OS X Yosemite](https://www.rsaconference.com/events/us15/agenda/sessions/1591/malware-persistence-on-os-x-yosemite) to learn about how basic malware functions.
 
-Some malware comes bundled with both legitimate software, such as the [Java bundling Ask Toolbar](https://www.zdnet.com/article/oracle-extends-its-adware-bundling-to-include-java-for-macs/), and some with illegitimate software bundled with pirated applications.
-
-See [Methods of malware persistence on Mac OS X](https://www.virusbtn.com/pdf/conference/vb2014/VB2014-Wardle.pdf) (pdf) and [Malware Persistence on OS X Yosemite](https://www.rsaconference.com/events/us15/agenda/sessions/1591/malware-persistence-on-os-x-yosemite) to learn about how garden-variety malware functions.
-
-Subscribe to updates at the [Malwarebytes Blog](https://blog.malwarebytes.com/) for current Mac security news.
-
-Also check out [Hacking Team](https://www.schneier.com/blog/archives/2015/07/hacking_team_is.html) malware for macOS: [root installation for MacOS](https://github.com/hackedteam/vector-macos-root), [Support driver for Mac Agent](https://github.com/hackedteam/driver-macos) and [RCS Agent for Mac](https://github.com/hackedteam/core-macos), which is a good example of advanced malware with capabilities to hide from userland (e.g., `ps`, `ls`). For more, see [A Brief Analysis of an RCS Implant Installer](https://objective-see.com/blog/blog_0x0D.html) and [reverse.put.as](https://reverse.put.as/2016/02/29/the-italian-morons-are-back-what-are-they-up-to-this-time/)
+Also check out [Hacking Team](https://www.schneier.com/blog/archives/2015/07/hacking_team_is.html) malware for macOS: [root installation for MacOS](https://github.com/hackedteam/vector-macos-root), [Support driver for Mac Agent](https://github.com/hackedteam/driver-macos) and [RCS Agent for Mac](https://github.com/hackedteam/core-macos), which is a good example of advanced malware capabilities. For more, see [A Brief Analysis of an RCS Implant Installer](https://objective-see.com/blog/blog_0x0D.html) and [reverse.put.as](https://reverse.put.as/2016/02/29/the-italian-morons-are-back-what-are-they-up-to-this-time/)
 
 ## Downloading Software
 
-Only running applications from the App Store or that are [Notarized](https://support.apple.com/guide/security/app-code-signing-process-sec3ad8e6e53/web) by Apple may reduce malware risk: Apple performs an automated scan on notarized applications and App Store requires a [review process](https://developer.apple.com/app-store/review/guidelines/).
+Running applications from the App Store or that are [Notarized](https://support.apple.com/guide/security/app-code-signing-process-sec3ad8e6e53/web) by Apple may reduce malware risk: Apple performs an automated scan on notarized applications and App Store requires a [review process](https://developer.apple.com/app-store/review/guidelines/).
 
 Otherwise, obtain software from trusted sources like directly from the developer's website or GitHub. Always make sure that the browser/terminal is using HTTPS.
 
@@ -1043,11 +1033,11 @@ See [Sophail: Applied attacks against Antivirus](https://lock.cmpxchg8b.com/soph
 
 If you try to run an app that isn't notarized, Gatekeeper will give you a warning. This can be easily bypassed if you go to **Privacy & Security**, scroll down to the bottom and select **Open** on the app. Then Gatekeeper will allow it to run.
 
-Gatekeeper does not cover all binaries - only applications - so exercise caution when running other file types.
+Gatekeeper only protects applications, so exercise caution running other binaries.
 
 # System Integrity Protection
 
-To verify System Integrity Protection is enabled, use the command `csrutil status`, which should return: `System Integrity Protection status: enabled.` Otherwise, [enable SIP](https://developer.apple.com/documentation/security/disabling_and_enabling_system_integrity_protection) using Recovery Mode.
+To verify System Integrity Protection is enabled, use the command `csrutil status`, which should return: `System Integrity Protection status: enabled.` Otherwise, [enable SIP](https://developer.apple.com/documentation/security/disabling_and_enabling_system_integrity_protection) using [Recovery Mode](https://support.apple.com/en-us/102518).
 
 # Metadata and artifacts
 
@@ -1325,7 +1315,7 @@ Additional applications and services which offer backups include:
 
 Wi-Fi networks continuously broadcast a **service set identifier (SSID)** which allows devices to passively scan for previously-connected networks. **Hidden** networks do not transmit an SSID and devices send a probe with the SSID to connect, which can reveal metadata. Avoid using [hidden networks](https://support.apple.com/guide/security/wi-fi-privacy-with-apple-devices-sec31e483abf/web#sec059998a98).
 
-Set a [private Wi-Fi address](https://support.apple.com/en-gb/guide/mac-help/mchlb1cb3eb4/mac) to reduce tracking.
+Set a [private Wi-Fi address](https://support.apple.com/guide/mac-help/use-a-private-wi-fi-address-on-mac-mchlb1cb3eb4/mac) to reduce network tracking.
 
 Set wireless network security to [WPA3](https://en.wikipedia.org/wiki/WPA3#WPA3). Follow [Apple guidance](https://support.apple.com/102766) to set recommended settings for routers and access points.
 
@@ -1369,7 +1359,7 @@ sudo lsof -Pni TCP:22
 
 # Physical access
 
-Do not leave the system unattended in unsafe locations. A skilled attacker with unsupervised physical access could install a [hardware keylogger](https://trmm.net/Thunderstrike_31c3) to record keystrokes, including passwords. Using a Mac with a built-in keyboard or a bluetooth keyboard makes this more difficult as many off-the-shelf versions of this attack are designed to be plugged in between a USB keyboard and the computer.
+Do not leave the computer unattended in unsafe locations. A skilled attacker with unsupervised physical access could install a [hardware keylogger](https://trmm.net/Thunderstrike_31c3) to record keystrokes, including passwords. Using a Mac with a built-in keyboard or a bluetooth keyboard makes this more difficult as many off-the-shelf versions of this attack are designed to be plugged in between a USB keyboard and the computer.
 
 To protect against physical theft during use, use an anti-forensic tool like [BusKill](https://github.com/buskill/buskill-app) or [swiftGuard](https://github.com/Lennolium/swiftGuard) (updated usbkill, with graphical user interface). All respond to USB events and can immediately shut the computer down if the device is physically separated or an unauthorized device is connected.
 
@@ -1381,11 +1371,11 @@ Consider purchasing a privacy screen/filter for use in public.
 
 ## Logs
 
-Monitor system logs with the **Console** application or `/usr/bin/log stream` commands.
+Monitor system logs with the **Console** application or `/usr/bin/log stream` command.
 
 ## OpenBSM audit
 
-macOS has a powerful OpenBSM (Basic Security Module) auditing capability. Use it to monitor process execution, network activity, and much more.
+macOS has a powerful OpenBSM (Basic Security Module) auditing capability, which can be used to monitor processes, network activity, etc.
 
 To tail audit logs, use the `praudit` utility:
 
@@ -1408,23 +1398,19 @@ See articles on [ilostmynotes.blogspot.com](https://ilostmynotes.blogspot.com/20
 
 * `iosnoop` monitors disk I/O
 * `opensnoop` monitors file opens
-* `execsnoop` monitors execution of processes
+* `execsnoop` monitors processes
 * `errinfo` monitors failed system calls
 * `dtruss` monitors all system calls
 
 See `man -k dtrace` for more information.
 
-## Execution
+## Processes
 
-`ps -ef` lists information about all running processes.
-
-Processes can also be inspected with **Activity Monitor**.
-
-`launchctl list` and `sudo launchctl list` list loaded and running user and system launch daemons and agents.
+List running processes with [Activity Monitor](https://support.apple.com/guide/activity-monitor/toc) or the `ps -ef` command.
 
 ## Network
 
-List open network files:
+List open network connections:
 
 ```bash
 sudo lsof -Pni
@@ -1438,7 +1424,7 @@ sudo netstat -atln
 
 [Wireshark](https://www.wireshark.org/) can be used from the command line with `tshark`.
 
-Monitor DNS queries and replies:
+Monitor DNS:
 
 ```bash
 tshark -Y "dns.flags.response == 1" -Tfields \
@@ -1448,7 +1434,7 @@ tshark -Y "dns.flags.response == 1" -Tfields \
   -Eseparator=,
 ```
 
-Monitor HTTP requests and responses:
+Monitor HTTP:
 
 ```bash
 tshark -Y "http.request or http.response" -Tfields \
@@ -1460,7 +1446,7 @@ tshark -Y "http.request or http.response" -Tfields \
   -Eseparator=/s
 ```
 
-Monitor x509 (SSL/TLS) certificates:
+Monitor x509/TLS certificates:
 
 ```bash
 tshark -Y "ssl.handshake.certificate" -Tfields \
@@ -1523,38 +1509,10 @@ Show all filename extensions (so that "Evil.jpg.app" cannot masquerade easily).
 defaults write NSGlobalDomain AppleShowAllExtensions -bool true
 ```
 
-Don't default to saving documents to iCloud:
+Do not default to saving documents to iCloud:
 
 ```bash
 defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
-```
-
-## Keyboard entry
-
-Enable [Secure Keyboard Entry](https://support.apple.com/guide/terminal/use-secure-keyboard-entry-trml109) in Terminal (may interfere with [YubiKey](https://mig5.net/content/secure-keyboard-entry-os-x-blocks-interaction-yubikeys) or applications such as [TextExpander](https://smilesoftware.com/textexpander/secure-input)).
-
-## Networking
-
-Disable Bonjour multicast advertisements (also disabling AirPlay and AirPrint features):
-
-```bash
-sudo defaults write /Library/Preferences/com.apple.mDNSResponder NoMulticastAdvertisements -bool YES
-```
-
-[Disable Handoff](https://support.apple.com/guide/mac-help/change-airdrop-handoff-settings-mchl6a407f99) and [Bluetooth](https://support.apple.com/guide/mac-help/turn-bluetooth-on-or-off-blth1008) features, if they aren't necessary.
-
-macOS comes with this line in `/etc/sudoers`:
-
-```bash
-Defaults env_keep += "HOME MAIL"
-```
-
-Which stops sudo from changing the HOME variable when privileges are elevanted. This means it will execute as root the zsh dotfiles in the non-root user's home directory when running `sudo zsh`. It is advisable to comment this line out to avoid a potential way for malware or a local attacker to escalate root privileges.
-
-To retain the convenience of the root user having a non-root user's home directory, append an export line to `/var/root/.zshrc`, e.g.:
-
-```bash
-export HOME=/Users/blah
 ```
 
 Set a [custom umask](https://support.apple.com/101914):
@@ -1569,6 +1527,34 @@ Reboot, then create a file/directory and verify permissions (macOS default allow
 $ ls -ld umask*
 drwx------  2 kevin  staff       64 Dec  4 12:27 umask_testing_dir
 -rw-------@ 1 kevin  staff  2026566 Dec  4 12:28 umask_testing_file
+```
+
+## Keyboard entry
+
+Enable [Secure Keyboard Entry](https://support.apple.com/guide/terminal/use-secure-keyboard-entry-trml109) in Terminal (may interfere with [YubiKey](https://mig5.net/content/secure-keyboard-entry-os-x-blocks-interaction-yubikeys) or applications such as [TextExpander](https://smilesoftware.com/textexpander/secure-input)).
+
+## Networking
+
+Disable [Bonjour multicast advertisements](https://www.tenable.com/audits/items/CIS_Apple_macOS_10.13_v1.1.0_Level_2.audit:d9dcee7e4d2b8d2ee54f437158992d88) (also disabling AirPlay and AirPrint features):
+
+```bash
+sudo defaults write /Library/Preferences/com.apple.mDNSResponder NoMulticastAdvertisements -bool YES
+```
+
+[Disable Handoff](https://support.apple.com/guide/mac-help/change-airdrop-handoff-settings-mchl6a407f99) and [Bluetooth](https://support.apple.com/guide/mac-help/turn-bluetooth-on-or-off-blth1008) features.
+
+macOS comes with this line in `/etc/sudoers`:
+
+```bash
+Defaults env_keep += "HOME MAIL"
+```
+
+This stops sudo from changing the HOME variable when privileges are elevanted. This means it will execute as root the zsh dotfiles in the non-root user's home directory when running `sudo zsh`. It is advisable to comment this line out to avoid a potential way for malware or a local attacker to escalate root privileges.
+
+To retain the convenience of the root user having a non-root user's home directory, append an export line to `/var/root/.zshrc`, e.g.:
+
+```bash
+export HOME=/Users/blah
 ```
 
 # Related software
@@ -1588,3 +1574,4 @@ drwx------  2 kevin  staff       64 Dec  4 12:27 umask_testing_dir
 * [Reverse Engineering macOS blog](https://reverse.put.as/)
 * [Reverse Engineering Resources](http://samdmarshall.com/re.html)
 * [iCloud security and privacy overview](https://support.apple.com/102651)
+* [Malwarebytes Blog](https://www.malwarebytes.com/blog)
