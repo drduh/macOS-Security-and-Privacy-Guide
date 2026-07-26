@@ -584,11 +584,11 @@ macOS comes with [over 150](https://support.apple.com/103723) root authority cer
 
 For more information, see the [CA/Browser Forum's website](https://cabforum.org/resources/browser-os-info/).
 
-Inspect system root certificates in [Keychain Access](https://support.apple.com/guide/keychain-access/toc), under the **System Roots** tab or by using the `security` command line tool and `/System/Library/Keychains/SystemRootCertificates.keychain` file.
+Inspect root certificates in [Keychain Access](https://support.apple.com/guide/keychain-access/toc), under the **System Roots** tab or by using the `security` command line tool and `/System/Library/Keychains/SystemRootCertificates.keychain` file.
 
 To disable a certificate authority, mark it as **Never Trust** and close the window to confirm.
 
-The risk of a [man in the middle](https://wikipedia.org/wiki/Man-in-the-middle_attack) attack, in which a coerced or compromised certificate authority trusted by a system root store issues a fake/rogue TLS certificate, is relatively low, but [possible](https://wikipedia.org/wiki/DigiNotar#Issuance_of_fraudulent_certificates).
+The risk of a [MITM](https://wikipedia.org/wiki/Man-in-the-middle_attack) attack, in which a coerced or compromised certificate authority trusted by a system root store issues a fake/rogue TLS certificate, is relatively low, but [possible](https://wikipedia.org/wiki/DigiNotar#Issuance_of_fraudulent_certificates).
 
 # Privoxy
 
@@ -635,9 +635,7 @@ $ scutil --proxy
 }
 ```
 
-Although most Web traffic today is encrypted, Privoxy is still useful for filtering by domain name patterns, and for upgrading insecure HTTP requests.
-
-For example, the following rules block all traffic, except to `.net` and `github.com` and all `apple` domains:
+Although the majority of Web traffic is encrypted, Privoxy can filter by domain name patterns. For example, the following rules block all traffic, except to `.net` and `github.com` and all `apple` domains:
 
 ```console
 { +block{all} }
@@ -649,7 +647,7 @@ For example, the following rules block all traffic, except to `.net` and `github
 .net
 ```
 
-Or to just block Facebook domains, for example:
+To block Facebook domains:
 
 ```console
 { +block{facebook} }
@@ -668,11 +666,9 @@ Or to just block Facebook domains, for example:
 fb*.akamaihd.net
 ```
 
-Wildcards are also supported.
-
 See [drduh/config/privoxy/config](https://github.com/drduh/config/blob/main/privoxy/config) and [drduh/config/privoxy/user.action](https://github.com/drduh/config/blob/main/privoxy/user.action) for additional Privoxy examples. Privoxy does **not** need to be restarted after editing `user.action` filter rules.
 
-To verify traffic is blocked or redirected, use curl or the Privoxy interface available at <http://p.p> in the browser:
+To verify traffic is blocked or redirected, use curl or the open the Privoxy interface at <http://p.p> in a browser:
 
 ```console
 $ ALL_PROXY=127.0.0.1:8118 curl example.com -IL | head
@@ -702,7 +698,7 @@ content-type: text/html; charset=utf-8
 
 The Web browser creates numerous security and privacy risks, as its fundamental job is to download and execute untrusted code from the Internet.
 
-An important property of modern browsers is the Same Origin Policy ([SOP](https://en.wikipedia.org/wiki/Same-origin_policy)) which prevents a malicious script on one page from obtaining access to sensitive data on another web page through the Document Object Model (DOM). If SOP is compromised, the security of the entire browser is compromised.
+An important property of modern browsers is the Same Origin Policy ([SOP](https://en.wikipedia.org/wiki/Same-origin_policy)) which prevents a malicious script on one page from obtaining access to sensitive data on another web page through the Document Object Model ([DOM](https://en.wikipedia.org/wiki/Document_Object_Model)). If SOP is compromised, the security of the entire browser is compromised.
 
 Many browser exploits are based on social engineering as a means of gaining persistence. Always be mindful of visiting untrusted sites and especially careful with downloading new software.
 
@@ -745,15 +741,15 @@ Create separate Chrome profiles to reduce XSS risk and compartmentalize cookies/
 
 Block trackers with [uBlock Origin Lite](https://chromewebstore.google.com/detail/ublock-origin-lite/ddkjiahejlhfcafbddmgiahcphecmpfh).
 
-Disable [DNS prefetching](https://www.chromium.org/developers/design-documents/dns-prefetching) (see also [DNS Prefetching and Its Privacy Implications](https://www.usenix.org/legacy/event/leet10/tech/full_papers/Krishnan.pdf) (pdf)). Note that Chrome [may attempt](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/350) to resolve DNS using Google's `8.8.8.8` and `8.8.4.4` public nameservers.
+Disable [DNS prefetching](https://www.chromium.org/developers/design-documents/dns-prefetching) (see also [DNS Prefetching and Its Privacy Implications](https://www.usenix.org/legacy/event/leet10/tech/full_papers/Krishnan.pdf) (pdf)). Chrome [may attempt](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/350) to resolve DNS using Google's `8.8.8.8` and `8.8.4.4` public nameservers.
 
-Read [Chromium Security](https://www.chromium.org/Home/chromium-security) and [Chromium Privacy](https://www.chromium.org/Home/chromium-privacy) for more information. Read [Google's privacy policy](https://policies.google.com/privacy) to understand how personal information is collected and used.
+See [Chromium Security](https://www.chromium.org/Home/chromium-security) and [Chromium Privacy](https://www.chromium.org/Home/chromium-privacy) for more information. Read [Google's privacy policy](https://policies.google.com/privacy) to understand how personal information is collected and used.
 
 ## Safari
 
-[Safari](https://www.apple.com/safari) is the default browser on macOS. It is also the most optimized browser for reducing battery use. Safari, like Chrome, has both open source and proprietary components. Safari is based on the open source Web Engine [WebKit](https://webkit.org), which is ubiquitous among the macOS ecosystem. WebKit is used by Apple apps such as Mail, Books, and the App Store. Chrome's [Blink](https://www.chromium.org/blink) engine is a fork of WebKit and both engines share a number of similarities.
+[Safari](https://www.apple.com/safari) is the default browser on macOS. It is also the most optimized browser for reducing battery use. Safari, like Chrome, has both open source and proprietary components. Safari is based on the open source Web Engine [WebKit](https://webkit.org/), which is ubiquitous among the macOS ecosystem. WebKit is used by Apple apps such as Mail, Books, and the App Store. Chrome's [Blink](https://www.chromium.org/blink) engine is a fork of WebKit and both engines share a number of similarities.
 
-Safari supports certain unique features that benefit user security and privacy. [Content blockers](https://webkit.org/blog/3476/content-blockers-first-look) enable the creation of content blocking rules without using JavaScript. This rule based approach greatly improves memory use, security, and privacy. Safari 11 introduced [Intelligent Tracking Prevention](https://webkit.org/blog/7675/intelligent-tracking-prevention), which removes tracking data stored in Safari after a period of non-interaction by the user from the tracker's website. Safari can randomize the browser fingerprint to reduce tracking. Safari does not support certain features like WebUSB or the Battery API intentionally for security and privacy reasons. Private tabs in Safari have isolated cookies and cache that is destroyed when you close the tab. Safari also support Profiles which are equivalent to Firefox's Multi-Account Containers for separating cookies and browsing. Safari can be made significantly more secure with [lockdown mode](#lockdown-mode), which can be disabled per-site. Read more about [tracking prevention](https://webkit.org/tracking-prevention) in Safari.
+Safari supports certain unique features that benefit user security and privacy. [Content blockers](https://webkit.org/blog/3476/content-blockers-first-look) enable the creation of content blocking rules without using JavaScript. This rule based approach greatly improves memory use, security, and privacy. Safari 11 introduced [Intelligent Tracking Prevention](https://webkit.org/blog/7675/intelligent-tracking-prevention), which removes tracking data stored in Safari after a period of non-interaction by the user from the tracker's website. Safari can randomize the browser fingerprint to reduce tracking. Safari does not support certain features like WebUSB or the Battery API intentionally for security and privacy reasons. Private tabs in Safari have isolated cookies and cache that is destroyed when you close the tab. Safari also support Profiles which are equivalent to Firefox's Multi-Account Containers for separating cookies and browsing. Safari can be made significantly more secure with [lockdown mode](#lockdown-mode), which can be disabled per-site. Read more about [tracking prevention](https://webkit.org/tracking-prevention/) in Safari.
 
 Safari offers an invite-only [bounty program](https://developer.apple.com/bug-reporting) for bug reporting to a select number of security researchers. The bounty program was announced during Apple's [presentation](https://www.blackhat.com/docs/us-16/materials/us-16-Krstic.pdf) at [BlackHat](https://www.blackhat.com/us-16/briefings.html#behind-the-scenes-of-ios-security) 2016.
 
@@ -1262,54 +1258,51 @@ Additional metadata may exist in the following files:
 
 # Passwords
 
-The built-in **[Passwords](https://support.apple.com/guide/passwords/the-passwords-app-mchl901b1b95/mac)** app can generate [secure credentials](https://support.apple.com/guide/security/automatic-strong-passwords-secc84c811c4/web).
+The [Passwords](https://support.apple.com/guide/passwords/the-passwords-app-mchl901b1b95/mac) app creates [secure credentials](https://support.apple.com/guide/security/automatic-strong-passwords-secc84c811c4/web).
 
-The **Passwords** app also supports [passkeys](https://fidoalliance.org/passkeys/), FIDO credentials that can replace passwords and are much more secure against phishing, human error, and data breaches. Make sure to use them instead of passwords whenever you can.
+**Passwords** supports [passkeys](https://fidoalliance.org/passkeys/) - credentials which are more resilient to phishing. Make sure to use them instead of passwords whenever you can.
 
 Consider using [Diceware](https://secure.research.vt.edu/diceware/) for memorable passwords.
 
-GnuPG can also be used to manage passwords and other encrypted files (see [drduh/Purse](https://github.com/drduh/Purse) and [drduh/pwd.sh](https://github.com/drduh/pwd.sh)).
+GnuPG can also be used to manage passwords and other encrypted files - see [drduh/Purse](https://github.com/drduh/Purse) and [drduh/pwd.sh](https://github.com/drduh/pwd.sh).
 
-Ensure all eligible online accounts have [multi-factor authentication](https://en.wikipedia.org/wiki/Multi-factor_authentication) enabled. The strongest form of multi-factor authentication is [WebAuthn](https://en.wikipedia.org/wiki/WebAuthn), followed by [TOTP](https://datatracker.ietf.org/doc/html/rfc6238), then [HOTP](https://datatracker.ietf.org/doc/html/rfc4226), and SMS-based codes are weakest.
+Ensure online accounts have [multi-factor authentication](https://en.wikipedia.org/wiki/Multi-factor_authentication) enabled. The strongest form of multi-factor authentication is [WebAuthn](https://en.wikipedia.org/wiki/WebAuthn), followed by [TOTP](https://datatracker.ietf.org/doc/html/rfc6238), then [HOTP](https://datatracker.ietf.org/doc/html/rfc4226), and SMS-based codes are weakest.
 
-[YubiKey](https://www.yubico.com/products/) is an affordable hardware token with WebAuthn support. It can also be used to store cryptographic keys for GnuPG encryption and SSH authentication - see [drduh/YubiKey-Guide](https://github.com/drduh/YubiKey-Guide).
+[YubiKey](https://www.yubico.com/products/) is an affordable hardware token with WebAuthn support. It can also store cryptographic keys for encryption and authentication - see [drduh/YubiKey-Guide](https://github.com/drduh/YubiKey-Guide).
 
 # Backup
 
 Encrypt files locally before backing them up to external media or online services.
 
-If the threat model allows it, follow the [3-2-1 backup model](https://www.cisa.gov/sites/default/files/publications/data_backup_options.pdf) as outlined by CISA. Keep 3 copies: the original and two backups. Keep backups on 2 different media types, e.g. on a local drive and cloud storage. Store 1 copy offsite.
+Follow the [3-2-1 backup model](https://www.cisa.gov/sites/default/files/publications/data_backup_options.pdf): keep 3 copies (original and two backups); keep backups on 2 different media types; store 1 backup copy remotely.
 
 [Time Machine](https://support.apple.com/104984) is the built-in tool for handling backups on macOS. Get an external drive or network drive to create [encrypted](https://support.apple.com/guide/mac-help/keep-your-time-machine-backup-disk-secure-mh21241) backups.
 
-GnuPG can be used with a static password or public key (with the private key stored on [YubiKey](https://github.com/drduh/YubiKey-Guide)).
+GnuPG can be used with a password or public key, with the private key stored on [YubiKey](https://github.com/drduh/YubiKey-Guide).
 
 Compress and encrypt a directory using a password:
 
 ```bash
-tar zcvf - ~/Downloads | gpg -c > ~/Desktop/backup-$(date +%F-%H%M).tar.gz.gpg
+tar zcvf - ~/Downloads | gpg -c > ~/Downloads/backup-$(date +%F-%H%M).tar.gz.gpg
 ```
 
 Decrypt and decompress the directory:
 
 ```bash
-gpg -o ~/Desktop/decrypted-backup.tar.gz -d ~/Desktop/backup-*.tar.gz.gpg
-tar zxvf ~/Desktop/decrypted-backup.tar.gz
+gpg -o ~/Downloads/decrypted-backup.tar.gz -d ~/Downloads/backup-*.tar.gz.gpg
+tar zxvf ~/Downloads/decrypted-backup.tar.gz
 ```
 
 Encrypted volumes can also be created using **Disk Utility** or `hdiutil`:
 
 ```bash
-hdiutil create ~/Desktop/encrypted.dmg -encryption -size 50M -volname "secretStuff"
-hdiutil mount ~/Desktop/encrypted.dmg
+hdiutil create ~/Downloads/encrypted.dmg -encryption -size 50M -volname "secretStuff"
+hdiutil mount ~/Downloads/encrypted.dmg
 cp -v ~/Documents/passwords.txt /Volumes/secretStuff
 hdiutil eject /Volumes/secretStuff
 ```
 
-Additional applications and services which offer backups include:
-
-* [Tresorit](https://www.tresorit.com)
-* [restic](https://restic.github.io)
+[Tresorit](https://tresorit.com/) and [restic](https://restic.net/) may also be of interest.
 
 # Wi-Fi
 
@@ -1339,19 +1332,17 @@ Or to use an ssh connection as a [SOCKS proxy](https://www.mikeash.com/ssh_socks
 ssh -NCD 3000 you@remote-host.tld
 ```
 
-By default, macOS does **not** have sshd or *Remote Login* enabled.
+By default, macOS does not have enable [Remote Login](https://support.apple.com/guide/mac-help/allow-a-remote-computer-to-access-your-mac-mchlp1066/mac) (SSH server).
 
-To enable sshd and allow incoming ssh connections:
+To enable it and allow incoming SSH connections, use **System Settings** > **General** > **Sharing** or the command:
 
 ```bash
 sudo launchctl load -w /System/Library/LaunchDaemons/ssh.plist
 ```
 
-Or use the **System Settings** > **Sharing** menu.
+Disable password authentication and consider further [hardening](https://stribika.github.io/2015/01/04/secure-secure-shell.html) the SSH server configuration. See [drduh/config/sshd_config](https://github.com/drduh/config/blob/main/sshd_config) for recommended options.
 
-If enabling sshd, be sure to disable password authentication and consider further [hardening](https://stribika.github.io/2015/01/04/secure-secure-shell.html) the configuration. See [drduh/config/sshd_config](https://github.com/drduh/config/blob/main/sshd_config) for recommended options.
-
-Confirm whether sshd is running:
+Confirm the SSH server is running:
 
 ```bash
 sudo lsof -Pni TCP:22
