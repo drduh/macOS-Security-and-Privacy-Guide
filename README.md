@@ -141,7 +141,7 @@ Read more about threat modeling [here](https://www.netmeister.org/blog/threat-mo
 
 macOS is most secure running on [Apple hardware](https://support.apple.com/guide/security/hardware-security-overview-secf020d1074/1/web/1) with Apple silicon. The newer the Mac, the better. Avoid hackintoshes and Macs that don't support the latest macOS, as Apple does not [patch all vulnerabilities](https://support.apple.com/guide/deployment/about-software-updates-depc4c80847a) in versions that aren't the most recent one.
 
-When purchasing a Mac, you might want to avoid it being linked back to you. Depending on the threat model, you should pay for it in cash in person rather than ordering online or purchasing with a credit/debit card, that way limited identifying information can be linked to the purchase.
+When purchasing a Mac, consider paying in cash rather than ordering online or purchasing with a credit/debit card, to limit identifying information linked to the purchase.
 
 When using a wireless keyboard, mouse, headphones, or other accessory, Apple accessories are generally the most secure option because macOS updates them automatically. They also support the latest [Bluetooth features](https://support.apple.com/guide/security/bluetooth-security-sec82597d97e/web) like BLE Privacy which randomizes the Bluetooth hardware address to prevent tracking, which is not guaranteed with third-party accessories.
 
@@ -189,13 +189,13 @@ On Apple silicon, macOS includes Apple's Virtualization framework, which support
 
 # First boot
 
-When macOS first starts, you will be greeted by **Setup Assistant**.
+When macOS starts for the first time, **Setup Assistant** requires the creation of a primary account.
 
-When creating the primary user account, set a [strong password](https://www.eff.org/dice) without a hint.
+Set a [strong password](https://www.eff.org/dice) without a hint.
 
-If a real name is used during setup, be aware that it may be used in the computer name and local hostname (for example, *John Appleseed's MacBook*), which can appear on networks.
+Avoid using personally-identifiable names, as the respective system attributes (such as *John Appleseed's MacBook*) appear on networks.
 
-Both should be verified and updated as needed in **System Settings > About** or with the following commands after installation:
+The system name can be configured in **System Settings > About** or with the following commands:
 
 ```bash
 sudo scutil --set ComputerName MacBook
@@ -204,7 +204,7 @@ sudo scutil --set LocalHostName MacBook
 
 # Admin and user accounts
 
-The first user account is always an administrator account. Administrator accounts belong to the admin group and can use sudo to run commands with elevated privileges, including as root. Any program the administrator executes can potentially obtain the same access, making this a security risk.
+The first user account created is always an administrator account. Administrator accounts belong to the admin group and can use sudo to run commands with elevated privileges, including as root. Any program the administrator executes can potentially obtain the same access, making this a security risk.
 
 Utilities like `sudo` may have vulnerabilities which can be [exploited](https://bogner.sh/2014/03/another-mac-os-x-sudo-password-bypass/) by concurrently-running software.
 
@@ -333,16 +333,18 @@ pass out proto udp from { $wifi $ether } to any keep state
 pass out proto icmp from $wifi to any keep state
 ```
 
-Then use the following commands to manipulate the firewall:
+Use the following commands to control the firewall:
 
-* `sudo pfctl -e -f pf.rules` to enable the firewall and load the configuration
-* `sudo pfctl -d` to disable the firewall
-* `sudo pfctl -t blocklist -T add 1.2.3.4` to add an IP address to the blocklist
-* `sudo pfctl -t blocklist -T show` to view the blocklist
-* `sudo ifconfig pflog0 create` to create an interface for logging
-* `sudo tcpdump -ni pflog0` to view filtered packets
+function | command
+-: | :-
+enable firewall with config | `sudo pfctl -e -f pf.rules`
+disable firewall | `sudo pfctl -d`
+add address to blocklist | `sudo pfctl -t blocklist -T add 1.2.3.4`
+view the blocklist | `sudo pfctl -t blocklist -T show`
+create log interface | `sudo ifconfig pflog0 create`
+monitor blocked packets | `sudo tcpdump -ni pflog0`
 
-It is possible to use the pf firewall to block access to entire ranges of network addresses, for example to an entire organization:
+pf can block access to ranges of network addresses, for example to an entire organization:
 
 Query [Merit RADb](https://www.radb.net/) for the list of networks in use by an autonomous system, like [Facebook](https://ipinfo.io/AS32934):
 
@@ -677,7 +679,7 @@ See [drduh/config/privoxy/config](https://github.com/drduh/config/blob/main/priv
 To verify traffic is blocked or redirected, use curl or the Privoxy interface available at <http://p.p> in the browser:
 
 ```console
-ALL_PROXY=127.0.0.1:8118 curl example.com -IL | head
+$ ALL_PROXY=127.0.0.1:8118 curl example.com -IL | head
 
 HTTP/1.1 403 Request blocked by Privoxy
 Content-Length: 9001
@@ -685,7 +687,8 @@ Content-Type: text/html
 Cache-Control: no-cache
 Pragma: no-cache
 
-ALL_PROXY=127.0.0.1:8118 curl github.com -IL | head
+$ ALL_PROXY=127.0.0.1:8118 curl github.com -IL | head
+
 HTTP/1.1 302 Local Redirect from Privoxy
 Location: https://github.com/
 Content-Length: 0
@@ -693,15 +696,15 @@ Content-Length: 0
 HTTP/1.1 200 Connection established
 
 HTTP/2 200
-server: GitHub.com
+content-type: text/html; charset=utf-8
 ```
 
 > [!NOTE]
-> Proxy settings are not universal; applications and services may bypass system proxy settings. Ensure the application to proxy is correctly configured and verify connections don't leak. Additionally, *pf* can be configured to transparently proxy traffic on certain ports.
+> Applications and services may bypass system proxy settings. Ensure applications are correctly configured and verify connections. *pf* can also be used to transparently proxy traffic.
 
 # Browser
 
-The Web browser likely poses the largest security and privacy risk, as its fundamental job is to download and execute untrusted code from the Internet.
+The Web browser creates numerous security and privacy risks, as its fundamental job is to download and execute untrusted code from the Internet.
 
 An important property of modern browsers is the Same Origin Policy ([SOP](https://en.wikipedia.org/wiki/Same-origin_policy)) which prevents a malicious script on one page from obtaining access to sensitive data on another web page through the Document Object Model (DOM). If SOP is compromised, the security of the entire browser is compromised.
 
@@ -713,11 +716,11 @@ Another important consideration about browser security is extensions. This is an
 
 ## Firefox
 
-[Mozilla Firefox](https://www.mozilla.org/firefox/new) is a popular open source browser. Firefox replaced major parts of its infrastructure and codebase under the projects [Quantum](https://wiki.mozilla.org/Quantum) and [Photon](https://wiki.mozilla.org/Firefox/Photon/Updates). Part of the Quantum project is to replace C++ code with [Rust](https://www.rust-lang.org). Rust is a systems programming language with a focus on security and thread safety. It is expected that Rust adoption will greatly improve the overall security posture of Firefox.
+[Mozilla Firefox](https://www.mozilla.org/firefox/new) is a popular open source browser. Firefox replaced major parts of its infrastructure and codebase under the projects [Quantum](https://wiki.mozilla.org/Quantum) and [Photon](https://wiki.mozilla.org/Firefox/Photon/Updates). Part of the Quantum project is to replace C++ code with [Rust](https://rust-lang.org/). Rust is a systems programming language with a focus on security and thread safety. It is expected that Rust adoption will greatly improve the overall security posture of Firefox.
 
 Firefox offers a similar security model to Chrome: it has a [bug bounty program](https://www.mozilla.org/security/bug-bounty), although it is not as lucrative. Firefox follows a four-week release cycle.
 
-Firefox supports user-supplied configuration files. See [drduh/config/firefox.user.js](https://github.com/drduh/config/blob/main/firefox.user.js) and [arkenfox/user.js](https://github.com/arkenfox/user.js) for recommended preferences and hardening measures. Also see [NoScript](https://noscript.net), an extension which allows selective script blocking.
+Firefox supports user-supplied configuration files. See [drduh/config/firefox.user.js](https://github.com/drduh/config/blob/main/firefox.user.js) and [arkenfox/user.js](https://github.com/arkenfox/user.js) for recommended preferences and hardening measures. Also see [NoScript](https://noscript.net/), an extension which allows selective script blocking.
 
 Firefox [focuses on user privacy](https://www.mozilla.org/firefox/privacy). It supports [tracking protection](https://developer.mozilla.org/docs/Web/Privacy/Firefox_tracking_protection) in Private Browsing mode. The tracking protection can be enabled for the default account, although it may break the browsing experience on some websites. Firefox in Strict tracking protection mode will [randomize fingerprints](https://support.mozilla.org/kb/firefox-protection-against-fingerprinting) to defend against tracking. Firefox offers separate user [profiles](https://support.mozilla.org/kb/profile-manager-create-remove-switch-firefox-profiles). Browsing can also be delineated with [Multi-Account Containers](https://support.mozilla.org/kb/containers).
 
@@ -725,7 +728,7 @@ Firefox only supports Web Extensions through the [WebExtension API](https://deve
 
 ## Chrome
 
-[Google Chrome](https://www.google.com/chrome) is based on the open source [Chromium project](https://www.chromium.org/) with certain [proprietary components](https://fossbytes.com/difference-google-chrome-vs-chromium-browser):
+[Google Chrome](https://www.google.com/chrome/) is based on the open source [Chromium project](https://www.chromium.org/) with certain [proprietary components](https://fossbytes.com/difference-google-chrome-vs-chromium-browser), such as:
 
 * Automatic updates with GoogleSoftwareUpdateDaemon
 * Usage tracking and crash reporting, which can be disabled through Chrome's settings
@@ -736,7 +739,7 @@ Firefox only supports Web Extensions through the [WebExtension API](https://deve
 
 Chrome offers account sync between multiple devices. Part of the sync data includes credentials to Web sites. The data is encrypted with the account password.
 
-Chrome's Web Store for extensions requires a [5 USD lifetime fee](https://developer.chrome.com/docs/webstore/register) in order to submit extensions. The low cost allows the development of many quality open source Web Extensions that do not aim to monetize through usage.
+The Chrome Web Store requires a [5 USD registration fee](https://developer.chrome.com/docs/webstore/register) in order to submit extensions. The low cost allows the development of many quality open source Web Extensions that do not aim to monetize through usage.
 
 Chrome has the largest share of global usage and is the preferred target platform for the majority of developers. Major technologies are based on Chrome's open-source components, such as [node.js](https://nodejs.org/) which uses [Chrome's V8](https://developers.google.com/v8) Engine and the [Electron](https://electron.atom.io/) framework, which is based on Chromium and node.js. Chrome's vast user base makes it the most attractive target for threat actors and security researchers. Despite constant attacks, Chrome has retained an impressive security track record over the years. This is not a small feat.
 
@@ -758,7 +761,7 @@ Safari supports certain unique features that benefit user security and privacy. 
 
 Safari offers an invite-only [bounty program](https://developer.apple.com/bug-reporting) for bug reporting to a select number of security researchers. The bounty program was announced during Apple's [presentation](https://www.blackhat.com/docs/us-16/materials/us-16-Krstic.pdf) at [BlackHat](https://www.blackhat.com/us-16/briefings.html#behind-the-scenes-of-ios-security) 2016.
 
-Web Extensions in Safari have an additional option to use native code in Safari's sandbox environment, in addition to Web Extension APIs. Web Extensions in Safari are also distributed through Apple App Store. App Store submission comes with the added benefit of Web Extension code being audited by Apple. On the other hand App Store submission comes at a steep cost. Yearly [developer subscription](https://developer.apple.com/support/compare-memberships) fee costs 100 USD (in contrast to Chrome's 5 USD fee and Firefox's free submission). The high cost is prohibitive for the majority of open source developers. As a result, Safari has very few extensions to choose from. However, you should keep the high cost in mind when installing extensions. It is expected that most Web Extensions will have some way of monetizing usage in order to cover developer costs. Be wary of Web Extensions whose source code is not open.
+Web Extensions in Safari have an additional option to use native code in Safari's sandbox environment, in addition to Web Extension APIs. Web Extensions in Safari are also distributed through Apple App Store. App Store submission comes with the added benefit of Web Extension code being audited by Apple. On the other hand App Store submission comes at a steep cost. Yearly [developer subscription](https://developer.apple.com/support/compare-memberships) fee costs 100 USD (in contrast to Chrome's 5 USD fee and Firefox's free submission). The high cost is prohibitive for the majority of open source developers. As a result, Safari has very few extensions to choose from. However, keep the high cost in mind when installing extensions. It is expected that most Web Extensions will have some way of monetizing usage in order to cover developer costs. Avoid Web Extensions without open source code.
 
 Safari syncs user preferences and passwords with [iCloud Keychain](https://support.apple.com/HT202303). In order to be viewed in plain text, a user must input the account password of the current device. This means that users can sync data across devices with added security.
 
