@@ -394,26 +394,21 @@ See [drduh/config/scripts/pf-blocklist.sh](https://github.com/drduh/config/blob/
 
 # Services
 
-Services on macOS are managed by **launchd**. See [launchd.info](https://launchd.info/).
+Services on macOS are managed by **launchd**.
 
 Services can be managed in [System Settings](https://support.apple.com/guide/mac-help/change-login-items-settings-mtusr003), as well as any installed System, Quick Look, Finder, and other extensions.
 
-* Use `launchctl list` to view running user agents
-* Use `sudo launchctl list` to view running system daemons
-* Specify the service name to examine it, e.g. `launchctl list com.apple.Maps.mapspushd`
-* Use `defaults read` to examine job plists in `/System/Library/LaunchDaemons` and `/System/Library/LaunchAgents`
-* Use `man` and `strings` to find out more about what an agent/daemon does
-
-For example, to learn what a system launch daemon or agent does, start with:
-
-```bash
-defaults read /System/Library/LaunchDaemons/com.apple.apsd
-```
-
-Check the `Program` or `ProgramArguments` section to identify the binary that runs (`apsd` in this example) then consult its manual page with `man apsd`.
+function | command
+-: | :-
+view loaded user jobs | `launchctl list`
+view loaded system jobs | `sudo launchctl list`
+examine a service | `launchctl list com.apple.Finder`
+list installed system daemons | `ls /System/Library/LaunchDaemons`
+list installed system agents | `ls /System/Library/LaunchAgents`
+read a service configuration  | `defaults read /System/Library/LaunchAgents/com.apple.Finder`
 
 > [!IMPORTANT]
-> System services are protected by SIP. Do not disable SIP just to tinker with system services as SIP is an integral part of macOS security. Disabling system services may cause system instability.
+> System services are protected by SIP. Do not disable SIP just to modify system services as it is a fundamental part of the macOS security model. Disabling system services may also cause system instability.
 
 To view the status of services:
 
@@ -422,6 +417,8 @@ find /var/db/com.apple.xpc.launchd/ -type f -print -exec defaults read {} \; 2>/
 ```
 
 Read more about launchd and where login items can be found on [Apple's website](https://support.apple.com/guide/terminal/script-management-with-launchd-apdc6c1077b-5d5d-4d35-9c19-60f2397b2369).
+
+See [launchd.info](https://launchd.info/) for more information.
 
 # Siri Suggestions and Spotlight
 
