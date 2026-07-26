@@ -68,7 +68,7 @@ To suggest a change, submit a [pull request](https://github.com/drduh/macOS-Secu
 - [Wi-Fi](#wi-fi)
 - [SSH](#ssh)
 - [Physical access](#physical-access)
-- [System monitoring](#system-monitoring)
+- [Monitoring](#monitoring)
    * [Logs](#logs)
    * [OpenBSM audit](#openbsm-audit)
    * [DTrace](#dtrace)
@@ -84,11 +84,11 @@ Apply general security best practices:
 
 - Create a [threat model](#threat-modeling)
   * What are you trying to protect and from whom? Is the adversary a three-letter agency, a nosy eavesdropper on the network, or a determined [APT](https://en.wikipedia.org/wiki/Advanced_persistent_threat) orchestrating a campaign against you?
-  * Recognize threats and how to reduce attack surface against them.
+  * Recognize threats and learn how to reduce the attack surface against them.
 
 - Keep the system and software up to date
   * Patch the operating system and all installed software regularly.
-  * System updates can be completed in the [settings](https://support.apple.com/guide/mac-help/keep-your-mac-up-to-date-mchlpx1065) or installed with the `softwareupdate` command-line utility - neither requires an Apple account.
+  * Updates can be completed in [System Settings](https://support.apple.com/guide/mac-help/keep-your-mac-up-to-date-mchlpx1065) or installed with the `softwareupdate` command-line utility - neither requires an Apple account.
   * Subscribe to announcement mailing lists like [Apple security-announce](https://lists.apple.com/mailman3/lists/security-announce.lists.apple.com/).
 
 - Encrypt sensitive data
@@ -147,7 +147,7 @@ When using a wireless keyboard, mouse, headphones, or other accessory, Apple acc
 
 # Installing macOS
 
-There are several ways to [install macOS](https://support.apple.com/102662)
+There are several ways to [install macOS](https://support.apple.com/102662).
 
 Install the latest version of macOS the hardware supports: newer versions include security patches and other improvements unavailable in older releases.
 
@@ -163,11 +163,12 @@ An Apple Account is not required to use macOS, but creating one requires a phone
 
 You can [disable](https://support.apple.com/102651) the syncing later or enable [end-to-end encryption](https://support.apple.com/guide/security/advanced-data-protection-for-icloud-sec973254c5f/web) for data stored in iCloud.  You can [control the data](https://support.apple.com/102283) associated with Apple Account or completely delete it.
 
-An Apple Account is required in order to access the App Store and use most Apple services like iCloud, Apple Music, etc.
+An Apple Account is required in order to access the App Store and use most Apple services, such as iCloud and Apple Music.
 
 ## App Store
 
 The Mac App Store is a [curated](https://developer.apple.com/app-store/review/guidelines) software repository.
+
 Apps distributed through it are required to use [App Sandbox](https://developer.apple.com/documentation/security/app_sandbox/protecting_user_data_with_app_sandbox) and [Hardened Runtime](https://developer.apple.com/documentation/security/hardened_runtime), as well as offering automatic updates.
 
 App Store distribution provides additional platform review and sandboxing requirements, but also requires an Apple Account, which can create a privacy risk.
@@ -193,7 +194,7 @@ When macOS starts for the first time, **Setup Assistant** requires the creation 
 
 Set a [strong password](https://www.eff.org/dice) without a hint.
 
-Avoid using personally-identifiable names, as the respective system attributes (such as *John Appleseed's MacBook*) appear on networks.
+Avoid using personally-identifiable names: related system attributes (such as *John Appleseed's MacBook*) appear on networks.
 
 The system name can be configured in **System Settings > About** or with the following commands:
 
@@ -210,7 +211,7 @@ Utilities like `sudo` may have vulnerabilities which can be [exploited](https://
 
 It is considered a [best practice](https://help.apple.com/machelp/mac/10.12/index.html#/mh11389) to use a separate standard account for day-to-day work and use the admin account for installations and system configuration.
 
-It is not strictly required to ever login with the admin account via the macOS login screen. When a Terminal command requires administrator privileges, the system will prompt for authentication and Terminal then continues using those privileges. To that end, Apple provides [recommendations](https://support.apple.com/102099) for hiding the admin account and its home directory.
+It is not required to ever log in with the admin account via the macOS login screen. When a Terminal command requires administrator privileges, the system will prompt for authentication and Terminal continues using those privileges. To that end, Apple provides [recommendations](https://support.apple.com/102099) for hiding the admin account and its home directory.
 
 ## Caveats
 
@@ -287,7 +288,7 @@ Applications signed by a valid certificate authority are automatically added to 
 
 If an unsigned app not listed in the firewall list is opened, a dialog appears with options to Allow or Deny connections. If allowed, macOS signs the application and adds it to the firewall list. If denied, macOS adds it to the list and denies incoming connections.
 
-After interacting with `socketfilterfw`, restart the process by sending a line hangup signal:
+After interacting with `socketfilterfw`, restart the process by sending a [SIGHUP](https://en.wikipedia.org/wiki/SIGHUP) signal:
 
 ```bash
 sudo pkill -HUP socketfilterfw
@@ -312,7 +313,7 @@ pf can also be controlled with a GUI application such as [Murus](https://www.mur
 
 Many books and articles cover the pf firewall. The following example shows how to block traffic by IP address.
 
-Add the following into a file called `pf.rules`:
+Add the following rules to a file named `pf.rules`:
 
 ```
 wifi = "en0"
@@ -407,7 +408,7 @@ view loaded system jobs | `sudo launchctl list`
 examine a service | `launchctl list com.apple.Finder`
 list installed system daemons | `ls /System/Library/LaunchDaemons`
 list installed system agents | `ls /System/Library/LaunchAgents`
-read a service configuration  | `defaults read /System/Library/LaunchAgents/com.apple.Finder`
+read a service configuration | `defaults read /System/Library/LaunchAgents/com.apple.Finder`
 
 > [!IMPORTANT]
 > System services are protected by SIP. Do not disable SIP just to modify system services as it is a fundamental part of the macOS security model. Disabling system services may also cause system instability.
@@ -443,15 +444,13 @@ To opt out of Homebrew analytics, run `brew analytics off` or set `HOMEBREW_NO_A
 
 ## DNS profiles
 
-macOS 11 introduced "DNS configuration profiles" to configure encrypted DNS, filter domains and use DNSSEC.
+macOS features "DNS configuration profiles" for configuring encrypted DNS, filtering and DNSSEC.
 
-DNS profiles [can be created](https://dns.notjakob.com/) or obtained from providers such as [Quad9](https://docs.quad9.net/Setup_Guides/MacOS/Big_Sur_and_later_(Encrypted)/#download-profile), [AdGuard](https://adguard-dns.io/en/public-dns.html) and [NextDNS](https://nextdns.io/).
+DNS profiles can be [created](https://dns.notjakob.com/) or obtained from providers such as [Quad9](https://docs.quad9.net/Setup_Guides/MacOS/Big_Sur_and_later_(Encrypted)/#download-profile), [AdGuard](https://adguard-dns.io/en/public-dns.html) and [NextDNS](https://nextdns.io/).
 
 ## Hosts file
 
 Use the [hosts file](https://en.wikipedia.org/wiki/Hosts_(file)) to block domains associated with malware, advertising, and other unwanted services.
-
-Edit the hosts file with `sudo vim /etc/hosts`
 
 To block a domain by [A record](https://en.wikipedia.org/wiki/List_of_DNS_record_types), append any one of the following lines to `/etc/hosts`:
 
@@ -553,7 +552,7 @@ Install and start the program (sudo is required to bind to [privileged port](htt
 sudo brew services start dnsmasq
 ```
 
-To set dnsmasq as the local DNS server, open **System Settings** > **Network** and select the active interface, then the **DNS** tab, select **+** and add `127.0.0.1`, or use:
+To set dnsmasq as the local DNS server, open **System Settings** > **Network** and select the active interface, then open the **DNS** tab, select **+**, and add `127.0.0.1`, or use:
 
 ```bash
 sudo networksetup -setdnsservers "Wi-Fi" 127.0.0.1
@@ -580,9 +579,9 @@ $ networksetup -getdnsservers "Wi-Fi"
 
 # Certificate authorities
 
-macOS comes with [over 150](https://support.apple.com/103723) root authority certificates installed from corporations like Apple, Verisign, Thawte, Digicert and government agencies from China, Japan, Netherlands, U.S., and more! These Certificate Authorities (CAs) are capable of issuing TLS certificates for any domain, code signing certificates, etc. Apple [blocks these certificates](https://support.apple.com/103247#blocked) when a CA proves to be untrustworthy. They also have [strict requirements](https://www.apple.com/certificateauthority/ca_program.html) that trusted CAs have to meet.
+macOS is configured with [over 150](https://support.apple.com/103723) root authority certificates by corporations and government agencies from around the world. These Certificate Authorities (CAs) are capable of issuing TLS and code-signing certificates. Apple [blocks certificates](https://support.apple.com/103247#blocked) when a CA proves to be untrustworthy and requires [certain criteria](https://www.apple.com/certificateauthority/ca_program.html) for inclusion.
 
-For more information, see the [CA/Browser Forum's website](https://cabforum.org/resources/browser-os-info/).
+For more information, see [CA/Browser Forum](https://cabforum.org/resources/browser-os-info/).
 
 Inspect root certificates in [Keychain Access](https://support.apple.com/guide/keychain-access/toc), under the **System Roots** tab or by using the `security` command line tool and `/System/Library/Keychains/SystemRootCertificates.keychain` file.
 
@@ -592,7 +591,7 @@ The risk of a [MITM](https://wikipedia.org/wiki/Man-in-the-middle_attack) attack
 
 # Privoxy
 
-Consider using [Privoxy](https://www.privoxy.org/) as a local proxy to filter Web traffic.
+Consider using [Privoxy](https://www.privoxy.org/) as a local proxy to filter web traffic.
 
 Install and start privoxy using Homebrew:
 
@@ -605,7 +604,7 @@ Alternatively, a signed installation package for Privoxy is available from [thei
 
 By default, Privoxy listens on local TCP port 8118.
 
-Set the system **HTTP** proxy for the active network interface `127.0.0.1` and `8118`:
+Set the system **HTTP** proxy for the active network interface to `127.0.0.1` and port `8118`:
 
 ```bash
 sudo networksetup -setwebproxy "Wi-Fi" 127.0.0.1 8118
@@ -617,7 +616,7 @@ Set the system **HTTPS** proxy:
 sudo networksetup -setsecurewebproxy "Wi-Fi" 127.0.0.1 8118
 ```
 
-This can also be done through **System Settings > Network > Advanced > Proxies**
+The proxy can also be set in **System Settings** > **Network** > **Details** > **Proxies**.
 
 Confirm the proxy is set:
 
@@ -668,7 +667,7 @@ fb*.akamaihd.net
 
 See [drduh/config/privoxy/config](https://github.com/drduh/config/blob/main/privoxy/config) and [drduh/config/privoxy/user.action](https://github.com/drduh/config/blob/main/privoxy/user.action) for additional Privoxy examples. Privoxy does **not** need to be restarted after editing filter rules.
 
-To verify traffic is blocked or redirected, use curl or the open the Privoxy interface at <http://p.p> in a browser:
+To verify traffic is blocked or redirected, use curl or open the Privoxy interface at <http://p.p> in a browser:
 
 ```console
 $ ALL_PROXY=127.0.0.1:8118 curl example.com -IL | head
@@ -700,7 +699,7 @@ The Web browser creates numerous security and privacy risks, as its fundamental 
 
 An important property of modern browsers is the Same Origin Policy ([SOP](https://en.wikipedia.org/wiki/Same-origin_policy)) which prevents a malicious script on one page from obtaining access to sensitive data on another web page through the Document Object Model ([DOM](https://en.wikipedia.org/wiki/Document_Object_Model)). If SOP is compromised, the security of the entire browser is compromised.
 
-Many browser exploits are based on social engineering as a means of gaining persistence. Always be mindful of visiting untrusted sites and especially careful with downloading new software.
+Many browser exploits are based on social engineering as a means of gaining persistence. Always be mindful when visiting untrusted sites and especially careful when downloading new software.
 
 Another important consideration about browser security is extensions. This is an issue affecting Firefox and [Chrome](https://courses.csail.mit.edu/6.857/2016/files/24.pdf) alike. The use of browser extensions should be limited to only critically necessary ones published by trustworthy developers.
 
@@ -757,7 +756,7 @@ Web Extensions in Safari have an additional option to use native code in Safari'
 
 Safari syncs user preferences and passwords with [iCloud Keychain](https://support.apple.com/HT202303). In order to be viewed in plain text, a user must input the account password of the current device. This means that users can sync data across devices with added security.
 
-Safari follows a slower release cycle than Chrome and Firefox (3-4 minor releases, 1 major release, per year). Newer features are slower to be adopted to the stable channel. Security updates in Safari are handled independent of the stable release schedule and are installed through the App Store.
+Safari follows a slower release cycle than Chrome and Firefox (three to four minor releases and one major release per year). Newer features are slower to be adopted to the stable channel. Security updates in Safari are handled independent of the stable release schedule.
 
 See also [el1t/uBlock-Safari](https://github.com/el1t/uBlock-Safari/wiki/Disable-hyperlink-auditing-beacon) to disable hyperlink auditing beacons.
 
@@ -765,11 +764,11 @@ See also [el1t/uBlock-Safari](https://github.com/el1t/uBlock-Safari/wiki/Disable
 
 Web browsers reveal information in several ways, for example through the [Navigator](https://developer.mozilla.org/docs/Web/API/Navigator) interface, which may include information such as the browser version, operating system, site permissions, and the device's battery level. Many websites also use [canvas fingerprinting](https://en.wikipedia.org/wiki/Canvas_fingerprinting) to uniquely identify users across sessions.
 
-For more information about security conscious browsing and what data is sent by the browser, see [HowTo: Privacy & Security Conscious Browsing](https://gist.github.com/atcuno/3425484ac5cce5298932), [browserleaks.com](https://browserleaks.com/), [Am I Unique?](https://amiunique.org/fingerprint) and [EFF Cover Your Tracks](https://coveryourtracks.eff.org/) resources.
+For more information about security-conscious browsing and what data is sent by the browser, see [HowTo: Privacy & Security Conscious Browsing](https://gist.github.com/atcuno/3425484ac5cce5298932), [browserleaks.com](https://browserleaks.com/), [Am I Unique?](https://amiunique.org/fingerprint) and [EFF Cover Your Tracks](https://coveryourtracks.eff.org/) resources.
 
 To hinder third-party trackers, it is recommended to **disable third-party cookies** altogether. Safari, Firefox, and Chrome all block third-party cookies by default. A third-party cookie is a cookie associated with a file requested by a different domain than the one the user is currently viewing. Most of the time third-party cookies are used to create browsing profiles by tracking a user's movement on the web. Disabling third-party cookies prevents HTTP responses and scripts from other domains from setting cookies. Moreover, cookies are removed from requests to domains that are not the document origin domain, so cookies are only sent to the current site that is being viewed.
 
-Also be aware of [WebRTC](https://en.wikipedia.org/wiki/WebRTC#Concerns), which may reveal local or public (if connected to VPN) IP address(es). In Firefox and Chrome/Chromium this can be disabled with extensions such as [uBlock Origin](https://github.com/gorhill/uBlock/wiki/Prevent-WebRTC-from-leaking-local-IP-address). [Lockdown mode](#lockdown-mode) [disables WebRTC](https://www.sevarg.net/2022/07/20/ios16-lockdown-mode-browser-analysis) in Safari.
+Also be aware of [WebRTC](https://en.wikipedia.org/wiki/WebRTC#Concerns), which may reveal local or public (if connected to a VPN) IP address(es). In Firefox and Chrome/Chromium, this feature can be disabled with [uBlock Origin](https://github.com/gorhill/uBlock/wiki/Prevent-WebRTC-from-leaking-local-IP-address). [Lockdown mode](#lockdown-mode) also [disables WebRTC](https://www.sevarg.net/2022/07/20/ios16-lockdown-mode-browser-analysis) in Safari.
 
 # Tor
 
@@ -899,7 +898,7 @@ SHA256 Fingerprint=76:3C:89:02:ED:CB:AD:8E:59:86:1E:93:D3:05:5B:28:F9:04:0C:96:0
 
 Tor traffic can be obfuscated using a [pluggable transport](https://support.torproject.org/tor-browser/circumvention/). This can be done by setting up a [relay](https://support.torproject.org/relays/) or using an existing [bridge](https://bridges.torproject.org/).
 
-The Tor network provides [anonymity](https://www.privateinternetaccess.com/blog/2013/10/how-does-privacy-differ-from-anonymity-and-why-are-both-important/), which is not necessarily synonymous with privacy. The network does not defend against a global observer capable of traffic analysis and correlation. See also [Seeking Anonymity in an Internet Panopticon](https://bford.info/pub/net/panopticon-cacm.pdf) (pdf) and [Traffic Correlation on Tor by Realistic Adversaries](https://www.ohmygodel.com/publications/usersrouted-ccs13.pdf) (pdf).
+The Tor network provides [anonymity](https://www.privateinternetaccess.com/blog/2013/10/how-does-privacy-differ-from-anonymity-and-why-are-both-important/), which is not necessarily the same as privacy. The network does not defend against a global observer capable of traffic analysis and correlation. See also [Seeking Anonymity in an Internet Panopticon](https://bford.info/pub/net/panopticon-cacm.pdf) (pdf) and [Traffic Correlation on Tor by Realistic Adversaries](https://www.ohmygodel.com/publications/usersrouted-ccs13.pdf) (pdf).
 
 See [Tor Protocol Specification](https://spec.torproject.org/tor-spec/) for more information.
 
@@ -919,7 +918,7 @@ Also see this [technical overview](https://blog.timac.org/2018/0717-macos-vpn-ar
 
 # PGP/GPG
 
-PGP is a standard for signing and encrypting data (especially email) end-to-end, so only the sender and recipients can access it.
+PGP is a standard for signing and encrypting data end-to-end, especially email.
 
 GPG (GNU Privacy Guard) is a GPL-licensed, open-source program compliant with the PGP standard.
 
@@ -939,7 +938,7 @@ See [drduh/YubiKey-Guide](https://github.com/drduh/YubiKey-Guide) to generate an
 
 ## XMPP
 
-[XMPP](https://en.wikipedia.org/wiki/XMPP) is an [open protocol](https://xmpp.org/extensions/) developed by the [IETF](https://www.ietf.org/) which features cross-platform federated messaging. There are many [client options](https://xmpp.org/getting-started/). Consider using one of the browser-based clients to take advantage of the browser's sandbox.
+[XMPP](https://en.wikipedia.org/wiki/XMPP) is an [open protocol](https://xmpp.org/extensions/) developed by the [IETF](https://www.ietf.org/) that supports cross-platform, federated messaging. There are many [client options](https://xmpp.org/getting-started/). Consider using one of the browser-based clients to take advantage of the browser's sandbox.
 
 Depending on the provider, you might not need anything other than a username and password to set up an account.
 
@@ -953,7 +952,7 @@ To use the Signal desktop app, Signal must first be installed on a phone.
 
 ## iMessage
 
-[iMessage](https://en.wikipedia.org/wiki/IMessage) is Apple's first party messenger. It requires an [Apple Account](#apple-account) in order to use it.
+[iMessage](https://en.wikipedia.org/wiki/IMessage) is Apple's first-party messenger. It requires an [Apple Account](#apple-account) in order to use it.
 
 Enable [Contact Key Verification](https://support.apple.com/118246) and verify contacts.
 
@@ -990,7 +989,7 @@ With App Sandbox enabled, output will include:
     [Bool] true
 ```
 
-Alternatively, check **Activity Monitor** while the application is running and adding the "Sandbox" column.
+Alternatively, check **Activity Monitor** while the application is running and add the "Sandbox" column.
 
 App Store software is required to use App Sandbox. Applications such as Google Chrome use their own [sandbox](https://chromium.googlesource.com/chromium/src/+/HEAD/docs/design/sandbox.md) and might not use App Sandbox.
 
@@ -1121,7 +1120,7 @@ Additional diagnostic files may be found in the following directories - but caut
 /var/log/DiagnosticMessages/
 ```
 
-macOS stored preferred Wi-Fi data (including credentials) in NVRAM. To clear it, use the following commands:
+macOS stores Wi-Fi connection metadata (including credentials) in NVRAM. To clear it, use the following commands:
 
 ```bash
 sudo nvram -d 36C28AB5-6566-4C50-9EBD-CBB920F83843:current-network
@@ -1175,7 +1174,7 @@ chflags -R uchg "~/Library/Containers/<APP>/Data/Library/Autosave Information"
 chflags -R uchg "~/Library/Autosave Information"
 ```
 
-The Siri analytics database, which is created even if the Siri launch agent disabled, can be cleared and locked with the following commands:
+The Siri analytics database, which is created even if the Siri launch agent is disabled, can be cleared and locked with the following commands:
 
 ```bash
 rm -rfv ~/Library/Assistant/SiriAnalytics.db
@@ -1215,7 +1214,11 @@ Encrypt files locally before backing them up to external media or online service
 
 Follow the [3-2-1 backup model](https://www.cisa.gov/sites/default/files/publications/data_backup_options.pdf): keep 3 copies (original and two backups); keep backups on 2 different media types; store 1 backup copy remotely.
 
-[Time Machine](https://support.apple.com/104984) is the built-in tool for handling backups on macOS. Get an external drive or network drive to create [encrypted](https://support.apple.com/guide/mac-help/keep-your-time-machine-backup-disk-secure-mh21241) backups.
+## Time Machine
+
+[Time Machine](https://support.apple.com/104984) is the built-in tool for handling backups on macOS. Use an external drive or network storage to create [encrypted](https://support.apple.com/guide/mac-help/keep-your-time-machine-backup-disk-secure-mh21241) backups.
+
+## GnuPG
 
 GnuPG can be used with a password or public key, with the private key stored on [YubiKey](https://github.com/drduh/YubiKey-Guide).
 
@@ -1232,7 +1235,9 @@ gpg -o ~/Downloads/decrypted-backup.tar.gz -d ~/Downloads/backup-*.tar.gz.gpg
 tar zxvf ~/Downloads/decrypted-backup.tar.gz
 ```
 
-Encrypted volumes can also be created using **Disk Utility** or `hdiutil`:
+## Disk Utility
+
+Encrypted volumes can be created using [Disk Utility](https://support.apple.com/guide/disk-utility/toc) or `hdiutil`:
 
 ```bash
 hdiutil create ~/Downloads/encrypted.dmg -encryption -size 50M -volname "secretStuff"
@@ -1240,6 +1245,8 @@ hdiutil mount ~/Downloads/encrypted.dmg
 cp -v ~/Documents/passwords.txt /Volumes/secretStuff
 hdiutil eject /Volumes/secretStuff
 ```
+
+## Other
 
 [Tresorit](https://tresorit.com/) and [restic](https://restic.net/) may also be of interest.
 
@@ -1257,7 +1264,7 @@ For outgoing SSH connections, use hardware or password-protected keys, [set up](
 
 SSH can also be used to create an [encrypted tunnel](http://blog.trackets.com/2014/05/17/ssh-tunnel-local-and-remote-port-forwarding-explained-with-examples.html) to send traffic through, similar to a VPN.
 
-For example, to use Privoxy running on a remote host port 8118:
+To use Privoxy running on a remote host on port 8118:
 
 ```bash
 ssh -C -L 5555:127.0.0.1:8118 you@remote-host.tld
@@ -1271,7 +1278,7 @@ Or to use an SSH connection as a [SOCKS proxy](https://www.mikeash.com/ssh_socks
 ssh -NCD 3000 you@remote-host.tld
 ```
 
-By default, macOS does not have enable [Remote Login](https://support.apple.com/guide/mac-help/allow-a-remote-computer-to-access-your-mac-mchlp1066/mac) (SSH server).
+By default, macOS does not have [Remote Login](https://support.apple.com/guide/mac-help/allow-a-remote-computer-to-access-your-mac-mchlp1066/mac) (SSH server) enabled.
 
 To enable it and allow incoming SSH connections, use **System Settings** > **General** > **Sharing** or the command:
 
@@ -1291,17 +1298,17 @@ sudo lsof -Pni TCP:22
 
 Do not leave the computer unattended in unsafe locations. A skilled attacker with unsupervised physical access could install a [hardware keylogger](https://trmm.net/Thunderstrike_31c3) to record keystrokes, including passwords. Using a Mac with a built-in keyboard or a bluetooth keyboard makes this more difficult as many off-the-shelf versions of this attack are designed to be plugged in between a USB keyboard and the computer.
 
-To protect against physical theft during use, use an anti-forensic tool like [BusKill](https://github.com/buskill/buskill-app) or [swiftGuard](https://github.com/Lennolium/swiftGuard) (updated usbkill, with graphical user interface). All respond to USB events and can immediately shut the computer down if the device is physically separated or an unauthorized device is connected.
+To protect against physical theft during use, use an anti-forensic tool like [buskill/buskill-app](https://github.com/buskill/buskill-app) or [Lennolium/swiftGuard](https://github.com/Lennolium/swiftGuard) (updated usbkill, with graphical user interface). All respond to USB events and can immediately shut the computer down if the device is physically separated or an unauthorized device is connected.
 
 Consider purchasing a privacy screen/filter for use in public.
 
 [Nail polish](https://trmm.net/Glitter) and tamper-evidence seals can be applied to components to detect tampering.
 
-# System monitoring
+# Monitoring
 
 ## Logs
 
-Monitor system logs with the **Console** application or `/usr/bin/log stream` command.
+Monitor system logs with [Console](https://support.apple.com/guide/console/toc) or the `/usr/bin/log stream` command.
 
 ## OpenBSM audit
 
@@ -1346,7 +1353,7 @@ List open network connections:
 sudo lsof -Pni
 ```
 
-List contents of various network-related data structures:
+List the contents of various network-related data structures:
 
 ```bash
 sudo netstat -atln
@@ -1493,7 +1500,7 @@ export HOME=/Users/user1
 
 * [CISOfy/lynis](https://github.com/CISOfy/lynis) - Cross-platform security auditing tool and assists with compliance testing and system hardening.
 * [Zentral](https://github.com/zentralopensource/zentral) - A log and configuration server for osquery. Run audit and probes on inventory, events, logfiles, combine with point-in-time alerting. A full Framework and Django web server build on top of the elastic stack (formerly known as ELK stack).
-* [osquery](https://github.com/osquery/osquery) - Can be used to retrieve low level system information. Users can write SQL queries to retrieve system information.
+* [osquery](https://github.com/osquery/osquery) - Can be used to retrieve low-level system information. Users can write SQL queries to retrieve system information.
 * [Pareto Security](https://github.com/paretoSecurity/pareto-mac) - A MenuBar app to automatically audit your Mac for basic security hygiene.
 
 # Additional resources
