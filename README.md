@@ -1461,17 +1461,19 @@ drwx------@ 2 user1 staff  64 Jul 26 12:00 umask.dir
 
 ## Keyboard entry
 
-Enable [Secure Keybloard Entry](https://support.apple.com/guide/terminal/use-secure-keyboard-entry-trml109) in Terminal (may interfere with [YubiKey](https://mig5.net/content/secure-keyboard-entry-os-x-blocks-interaction-yubikeys) or applications such as [TextExpander](https://smilesoftware.com/textexpander/secure-input)).
+Enable [secure keyboard entry](https://support.apple.com/guide/terminal/use-secure-keyboard-entry-trml109) in Terminal (this may interfere with applications such as [TextExpander](https://smilesoftware.com/textexpander/secure-input)).
 
 ## Networking
 
-Disable [Bonjour multicast advertisements](https://www.tenable.com/audits/items/CIS_Apple_macOS_10.13_v1.1.0_Level_2.audit:d9dcee7e4d2b8d2ee54f437158992d88) (also disabling AirPlay and AirPrint features):
+Disable [Bonjour multicast advertisements](https://www.tenable.com/audits/items/CIS_Apple_macOS_10.13_v1.1.0_Level_2.audit:d9dcee7e4d2b8d2ee54f437158992d88) (this also disables AirPlay and AirPrint features):
 
 ```bash
 sudo defaults write /Library/Preferences/com.apple.mDNSResponder NoMulticastAdvertisements -bool YES
 ```
 
 [Disable Handoff](https://support.apple.com/guide/mac-help/change-airdrop-handoff-settings-mchl6a407f99) and [Bluetooth](https://support.apple.com/guide/mac-help/turn-bluetooth-on-or-off-blth1008) features.
+
+## Sudoers
 
 macOS comes with this line in `/etc/sudoers`:
 
