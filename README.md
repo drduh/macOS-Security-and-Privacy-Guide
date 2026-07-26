@@ -63,7 +63,7 @@ To suggest a change, submit a [pull request](https://github.com/drduh/macOS-Secu
    * [Gatekeeper](#gatekeeper)
 - [System Integrity Protection](#system-integrity-protection)
 - [Metadata and artifacts](#metadata-and-artifacts)
-- [Passwords](#passwords)
+- [Authentication](#authentication)
 - [Backup](#backup)
 - [Wi-Fi](#wi-fi)
 - [SSH](#ssh)
@@ -255,7 +255,7 @@ FileVault will prompt to set a recovery key - store this key somewhere safe. You
 
 [Lockdown Mode](https://support.apple.com/105120), which disables certain system and application features, is recommended and may significantly reduce attack surface.
 
-When Lockdown Mode is enabled, Safari has an option to exclude individual trusted websites from its restrictions.
+When Lockdown Mode is enabled, Safari has an option to [exclude trusted websites](https://ssd.eff.org/module/how-to-enable-lockdown-mode-on-iphone) from its restrictions.
 
 # Firewall
 
@@ -666,7 +666,7 @@ To block Facebook domains:
 fb*.akamaihd.net
 ```
 
-See [drduh/config/privoxy/config](https://github.com/drduh/config/blob/main/privoxy/config) and [drduh/config/privoxy/user.action](https://github.com/drduh/config/blob/main/privoxy/user.action) for additional Privoxy examples. Privoxy does **not** need to be restarted after editing `user.action` filter rules.
+See [drduh/config/privoxy/config](https://github.com/drduh/config/blob/main/privoxy/config) and [drduh/config/privoxy/user.action](https://github.com/drduh/config/blob/main/privoxy/user.action) for additional Privoxy examples. Privoxy does **not** need to be restarted after editing filter rules.
 
 To verify traffic is blocked or redirected, use curl or the open the Privoxy interface at <http://p.p> in a browser:
 
@@ -828,7 +828,7 @@ Verify the application was signed by The Tor Project's Apple Developer ID **MADP
 
 ```console
 $ spctl -a -vv ~/Applications/Tor\ Browser.app
-/Users/drduh/Applications/Tor Browser.app: accepted
+/Users/user1/Applications/Tor Browser.app: accepted
 source=Notarized Developer ID
 origin=Developer ID Application: The Tor Project, Inc (MADPSAYN6T)
 
@@ -859,7 +859,7 @@ The command `codesign` can also be used to examine an application's code signatu
 
 ```console
 $ codesign -dvv ~/Applications/Tor\ Browser.app
-Executable=/Users/drduh/Applications/Tor Browser.app/Contents/MacOS/firefox
+Executable=/Users/user1/Applications/Tor Browser.app/Contents/MacOS/firefox
 Identifier=org.torproject.torbrowser
 Format=app bundle with Mach-O universal (x86_64 arm64)
 CodeDirectory v=20500 size=805 flags=0x10000(runtime) hashes=14+7 location=embedded
@@ -880,7 +880,7 @@ To view full certificate details for a signed application, extract with `codesig
 
 ```console
 $ codesign -d --extract-certificates ~/Applications/Tor\ Browser.app
-Executable=/Users/drduh/Applications/Tor Browser.app/Contents/MacOS/firefox
+Executable=/Users/user1/Applications/Tor Browser.app/Contents/MacOS/firefox
 
 $ file codesign*
 codesign0: Certificate, Version=3
@@ -1037,68 +1037,9 @@ To verify System Integrity Protection is enabled, use the command `csrutil statu
 
 # Metadata and artifacts
 
-macOS attaches metadata ([APFS extended attributes](https://en.wikipedia.org/wiki/Extended_file_attributes#macOS)) to downloaded files, which can be viewed with the `mdls` and `xattr` commands:
+macOS attaches metadata ([APFS extended attributes](https://en.wikipedia.org/wiki/Extended_file_attributes#macOS)) to files.
 
-```console
-$ ls -l@ ~/Downloads/TorBrowser-8.0.4-osx64_en-US.dmg
--rw-r--r--@ 1 drduh staff 63M Jan 1 12:00 TorBrowser-8.0.4-osx64_en-US.dmg
-	com.apple.metadata:kMDItemWhereFroms	  46B
-	com.apple.quarantine	  57B
-
-$ mdls ~/Downloads/TorBrowser-8.0.4-osx64_en-US.dmg
-kMDItemContentCreationDate         = 2019-01-01 00:00:00 +0000
-kMDItemContentCreationDate_Ranking = 2019-01-01 00:00:00 +0000
-kMDItemContentModificationDate     = 2019-01-01 00:00:00 +0000
-kMDItemContentType                 = "com.apple.disk-image-udif"
-kMDItemContentTypeTree             = (
-    "public.archive",
-    "public.item",
-    "public.data",
-    "public.disk-image",
-    "com.apple.disk-image",
-    "com.apple.disk-image-udif"
-)
-kMDItemDateAdded                   = 2019-01-01 00:00:00 +0000
-kMDItemDateAdded_Ranking           = 2019-01-01 00:00:00 +0000
-kMDItemDisplayName                 = "TorBrowser-8.0.4-osx64_en-US.dmg"
-kMDItemFSContentChangeDate         = 2019-01-01 00:00:00 +0000
-kMDItemFSCreationDate              = 2019-01-01 00:00:00 +0000
-kMDItemFSCreatorCode               = ""
-kMDItemFSFinderFlags               = 0
-kMDItemFSHasCustomIcon             = (null)
-kMDItemFSInvisible                 = 0
-kMDItemFSIsExtensionHidden         = 0
-kMDItemFSIsStationery              = (null)
-kMDItemFSLabel                     = 0
-kMDItemFSName                      = "TorBrowser-8.0.4-osx64_en-US.dmg"
-kMDItemFSNodeCount                 = (null)
-kMDItemFSOwnerGroupID              = 5000
-kMDItemFSOwnerUserID               = 501
-kMDItemFSSize                      = 65840402
-kMDItemFSTypeCode                  = ""
-kMDItemInterestingDate_Ranking     = 2019-01-01 00:00:00 +0000
-kMDItemKind                        = "Disk Image"
-kMDItemWhereFroms                  = (
-    "https://dist.torproject.org/torbrowser/8.0.4/TorBrowser-8.0.4-osx64_en-US.dmg",
-    "https://www.torproject.org/projects/torbrowser.html.en"
-)
-
-$ xattr -l ~/Downloads/TorBrowser-8.0.4-osx64_en-US.dmg
-com.apple.metadata:kMDItemWhereFroms:
-00000000  62 70 6C 69 73 74 30 30 A2 01 02 5F 10 4D 68 74  |bplist00..._.Mht|
-00000010  74 70 73 3A 2F 2F 64 69 73 74 2E 74 6F 72 70 72  |tps://dist.torpr|
-00000020  6F 6A 65 63 74 2E 6F 72 67 2F 74 6F 72 62 72 6F  |oject.org/torbro|
-[...]
-com.apple.quarantine: 0081;58519ffa;Google Chrome.app;1F032CAB-F5A1-4D92-84EB-CBECA971B7BC
-```
-
-Metadata attributes can also be removed with the `-d` flag:
-
-```bash
-xattr -d com.apple.metadata:kMDItemWhereFroms ~/Downloads/TorBrowser-8.0.4-osx64_en-US.dmg
-xattr -d com.apple.quarantine ~/Downloads/TorBrowser-8.0.4-osx64_en-US.dmg
-xattr -l ~/Downloads/TorBrowser-8.0.4-osx64_en-US.dmg
-```
+Metadata attributes can be viewed and removed with the `mdls` and `xattr` commands.
 
 Other metadata and artifacts may be found in the directories including, but not limited to, `~/Library/Preferences/`, `~/Library/Containers/<APP>/Data/Library/Preferences`, `/Library/Preferences`, some of which is detailed below.
 
@@ -1256,19 +1197,17 @@ Additional metadata may exist in the following files:
 ~/Library/Preferences/com.apple.QuickTimePlayerX.plist
 ```
 
-# Passwords
+# Authentication
 
-The [Passwords](https://support.apple.com/guide/passwords/the-passwords-app-mchl901b1b95/mac) app creates [secure credentials](https://support.apple.com/guide/security/automatic-strong-passwords-secc84c811c4/web).
+The [Passwords](https://support.apple.com/guide/passwords/the-passwords-app-mchl901b1b95/mac) app creates [secure credentials](https://support.apple.com/guide/security/automatic-strong-passwords-secc84c811c4/web). It supports [passkeys](https://fidoalliance.org/passkeys/) - credentials which are more resilient to phishing.
 
-**Passwords** supports [passkeys](https://fidoalliance.org/passkeys/) - credentials which are more resilient to phishing. Make sure to use them instead of passwords whenever you can.
-
-Consider using [Diceware](https://secure.research.vt.edu/diceware/) for memorable passwords.
-
-GnuPG can also be used to manage passwords and other encrypted files - see [drduh/Purse](https://github.com/drduh/Purse) and [drduh/pwd.sh](https://github.com/drduh/pwd.sh).
+Memorable passwords can be created with [Diceware](https://secure.research.vt.edu/diceware/).
 
 Ensure online accounts have [multi-factor authentication](https://en.wikipedia.org/wiki/Multi-factor_authentication) enabled. The strongest form of multi-factor authentication is [WebAuthn](https://en.wikipedia.org/wiki/WebAuthn), followed by [TOTP](https://datatracker.ietf.org/doc/html/rfc6238), then [HOTP](https://datatracker.ietf.org/doc/html/rfc4226), and SMS-based codes are weakest.
 
-[YubiKey](https://www.yubico.com/products/) is an affordable hardware token with WebAuthn support. It can also store cryptographic keys for encryption and authentication - see [drduh/YubiKey-Guide](https://github.com/drduh/YubiKey-Guide).
+[YubiKey](https://www.yubico.com/products/) is a popular authentication token. It can also store cryptographic keys for encryption and authentication - see [drduh/YubiKey-Guide](https://github.com/drduh/YubiKey-Guide).
+
+GnuPG can also manage passwords and other encrypted files - see [drduh/Purse](https://github.com/drduh/Purse) and [drduh/pwd.sh](https://github.com/drduh/pwd.sh).
 
 # Backup
 
@@ -1326,7 +1265,7 @@ sudo networksetup -setwebproxy "Wi-Fi" 127.0.0.1 5555
 sudo networksetup -setsecurewebproxy "Wi-Fi" 127.0.0.1 5555
 ```
 
-Or to use an ssh connection as a [SOCKS proxy](https://www.mikeash.com/ssh_socks.html):
+Or to use an SSH connection as a [SOCKS proxy](https://www.mikeash.com/ssh_socks.html):
 
 ```bash
 ssh -NCD 3000 you@remote-host.tld
@@ -1516,13 +1455,13 @@ Reboot, then create a file/directory and verify permissions (macOS default allow
 
 ```console
 $ ls -ld umask*
-drwx------  2 kevin  staff       64 Dec  4 12:27 umask_testing_dir
--rw-------@ 1 kevin  staff  2026566 Dec  4 12:28 umask_testing_file
+drwx------@ 2 user1 staff  64 Jul 26 12:00 umask.dir
+-rw-------@ 1 user1 staff  32 Jul 26 12:00 umask.txt
 ```
 
 ## Keyboard entry
 
-Enable [Secure Keyboard Entry](https://support.apple.com/guide/terminal/use-secure-keyboard-entry-trml109) in Terminal (may interfere with [YubiKey](https://mig5.net/content/secure-keyboard-entry-os-x-blocks-interaction-yubikeys) or applications such as [TextExpander](https://smilesoftware.com/textexpander/secure-input)).
+Enable [Secure Keybloard Entry](https://support.apple.com/guide/terminal/use-secure-keyboard-entry-trml109) in Terminal (may interfere with [YubiKey](https://mig5.net/content/secure-keyboard-entry-os-x-blocks-interaction-yubikeys) or applications such as [TextExpander](https://smilesoftware.com/textexpander/secure-input)).
 
 ## Networking
 
@@ -1545,14 +1484,14 @@ This stops sudo from changing the HOME variable when privileges are elevanted. T
 To retain the convenience of the root user having a non-root user's home directory, append an export line to `/var/root/.zshrc`, e.g.:
 
 ```bash
-export HOME=/Users/blah
+export HOME=/Users/user1
 ```
 
 # Related software
 
 * [CISOfy/lynis](https://github.com/CISOfy/lynis) - Cross-platform security auditing tool and assists with compliance testing and system hardening.
 * [Zentral](https://github.com/zentralopensource/zentral) - A log and configuration server for osquery. Run audit and probes on inventory, events, logfiles, combine with point-in-time alerting. A full Framework and Django web server build on top of the elastic stack (formerly known as ELK stack).
-* [osquery](https://github.com/osquery/osquery) - Can be used to retrieve low level system information.  Users can write SQL queries to retrieve system information.
+* [osquery](https://github.com/osquery/osquery) - Can be used to retrieve low level system information. Users can write SQL queries to retrieve system information.
 * [Pareto Security](https://github.com/paretoSecurity/pareto-mac) - A MenuBar app to automatically audit your Mac for basic security hygiene.
 
 # Additional resources
