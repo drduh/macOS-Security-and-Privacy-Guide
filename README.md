@@ -94,7 +94,7 @@ Apply general security best practices:
 - Encrypt sensitive data
   * In addition to [FileVault](https://support.apple.com/guide/mac-help/protect-data-on-your-mac-with-filevault-mh11785) volume encryption, consider using the [built-in password manager](https://support.apple.com/105115) to protect passwords and other sensitive data.
 
-- Assure data availability
+- Ensure data availability
   * Create [regular backups](https://support.apple.com/104984) of critical data and be ready to [restore from a backup](https://support.apple.com/102551) in case of compromise.
   * [Encrypt locally](https://support.apple.com/guide/mac-help/keep-your-time-machine-backup-disk-secure-mh21241) before copying backups to unencrypted external media or the "cloud"; alternatively, enable [end-to-end encryption](https://support.apple.com/guide/security/advanced-data-protection-for-icloud-sec973254c5f).
   * Verify backups by accessing them regularly.
@@ -129,7 +129,7 @@ The following is an example of assets to protect:
 
 Adversary | Motivation | Capabilities | Mitigation
 :-: | :-: | :-: | :-:
-Roommate | See private chats or browsing history | Close proximity; can see screen or watch type in password | Use biometrics, use privacy screen, keep phone locked when not using it
+Roommate | See private chats or browsing history | Close proximity; can see screen or observe credentials | Use biometrics, use privacy screen, keep phone locked when not using it
 Thief | Unlock phone and steal personal info and drain bank accounts, sell phone for money | Shoulder surf to see password, steal device when not looking while it's logged in | Keep phone in sight or on person at all times, keep locked when not in use, use biometrics to avoid typing password in public, use Find My or similar service to track/remotely disable stolen device
 Criminal | Financial gain | Social engineering, readily-available malware, password reuse, exploiting vulnerabilities | Use sandboxing, enable security features in OS, keep OS and all software updated and turn on automatic updates
 Corporation | Marketing based on user data | Telemetry and behavioral data collection | Block network connections, reset unique identifiers, avoid adding payment data
@@ -207,9 +207,9 @@ sudo scutil --set LocalHostName MacBook
 
 The first user account created is always an administrator account. Administrator accounts belong to the admin group and can use sudo to run commands with elevated privileges, including as root. Any program the administrator executes can potentially obtain the same access, making this a security risk.
 
-Utilities like `sudo` may have vulnerabilities which can be [exploited](https://bogner.sh/2014/03/another-mac-os-x-sudo-password-bypass/) by concurrently-running software.
+Utilities like `sudo` may have vulnerabilities that can be [exploited](https://bogner.sh/2014/03/another-mac-os-x-sudo-password-bypass/) by concurrently-running software.
 
-It is considered a [best practice](https://help.apple.com/machelp/mac/10.12/index.html#/mh11389) to use a separate standard account for day-to-day work and use the admin account for installations and system configuration.
+It is considered a [best practice](https://help.apple.com/machelp/mac/10.12/index.html#/mh11389) to use a dedicated standard account for regular, every-day work and only use the administrator account for software and system installation, configuration and updates.
 
 It is not required to ever log in with the admin account via the macOS login screen. When a Terminal command requires administrator privileges, the system will prompt for authentication and Terminal continues using those privileges. To that end, Apple provides [recommendations](https://support.apple.com/102099) for hiding the admin account and its home directory.
 
@@ -223,7 +223,7 @@ It is not required to ever log in with the admin account via the macOS login scr
 
 ## Setup
 
-Accounts can be created and managed in System Settings. On settled systems, it is generally easier to create a second admin account and then demote the first account. This avoids data migration. Newly installed systems can also just add a standard account.
+Accounts can be created and managed in System Settings. On existing systems, it is generally easier to create a second admin account and then demote the first account, avoiding data migration. Newly-installed systems should instead add a standard account after setup.
 
 Demoting an account can be done either from the new admin account in System Settings – the other account must be logged out – or by executing these commands (it may not be necessary to execute both, see [issue 179](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/179)):
 
@@ -232,7 +232,7 @@ sudo dscl . -delete /Groups/admin GroupMembership <username>
 sudo dscl . -delete /Groups/admin GroupMembers <GeneratedUID>
 ```
 
-To find the **GeneratedUID** of an account:
+To obtain an account's **GeneratedUID**:
 
 ```bash
 dscl . -read /Users/<username> GeneratedUID
@@ -436,7 +436,7 @@ If a program is not available through the App Store, consider using [Homebrew](h
 
 Remember to periodically run `brew upgrade` on trusted and secure networks to download and install software updates. To get information on a package before installation, run `brew info <package>` and check its formula online. You may also wish to enable [additional security options](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/138), such as `HOMEBREW_NO_INSECURE_REDIRECT=1`
 
-According to [Homebrew's Anonymous Analytics](https://docs.brew.sh/Analytics), Homebrew gathers anonymous analytics and reports these to a self-hosted [InfluxDB](https://en.wikipedia.org/wiki/InfluxDB) instance.
+According to [Homebrew's Anonymous Analytics](https://docs.brew.sh/Analytics), Homebrew collects anonymous usage analytics and reports them to a self-hosted [InfluxDB](https://en.wikipedia.org/wiki/InfluxDB) instance.
 
 To opt out of Homebrew analytics, run `brew analytics off` or set `HOMEBREW_NO_ANALYTICS=1` in the shell startup file.
 
@@ -772,7 +772,7 @@ Also be aware of [WebRTC](https://en.wikipedia.org/wiki/WebRTC#Concerns), which 
 
 # Tor
 
-Tor is an anonymizing network which can be used for browsing the Web with additional privacy. Tor Browser is a modified version of Firefox with a proxy to access the Tor network.
+[Tor](https://en.wikipedia.org/wiki/Tor_(network)) is an anonymizing network which can be used for browsing the Web with additional privacy. Tor Browser is a modified version of Firefox with a proxy to access the Tor network.
 
 Download Tor Browser from [Tor Project](https://www.torproject.org/download/).
 
@@ -1418,7 +1418,7 @@ Manage [default file handlers](https://support.apple.com/guide/mac-help/choose-a
 
 Change the default application used to open shell script files.
 
-In Finder, locate and select any .sh file, right-click it and select Get Info or press Command-I. In the "Open with" section, select TextEdit from the dropdown menu. If it is not listed, select "Other..." and Applications > TextEdit.app. Select "Change All..." and confirm by selecting Continue.
+In Finder, locate and select any .sh file, right-click on it and select Get Info or press <kbd>Command</kbd> + <kbd>I</kbd>. In the "Open with" section, select TextEdit from the dropdown menu. If it is not listed, select "Other..." and Applications > TextEdit.app. Select "Change All..." and confirm by selecting Continue.
 
 From then on, double-clicking any .sh file will open it in TextEdit instead of Terminal.
 
