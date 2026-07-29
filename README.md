@@ -1,4 +1,6 @@
-This guide is a collection of techniques for improving the security and privacy of macOS on [Apple silicon](https://support.apple.com/116943) Macs. It targets power users who wish to adopt enterprise-standard security, but is also suitable for novice users with an interest in privacy and security. For securing computers in an organization, follow [official NIST guidelines](https://github.com/usnistgov/macos_security).
+This guide is a collection of techniques for improving the security and privacy of macOS on [Apple silicon](https://support.apple.com/116943) Macs. It targets power users who wish to adopt enterprise-standard security, but is also suitable for novice users with an interest in privacy and security.
+
+For securing computers in an organization, refer to the [official NIST guidelines for macOS](https://github.com/usnistgov/macos_security).
 
 This guide is provided "as is" - without warranties of any kind. You are solely responsible for any consequences of following it.
 
@@ -81,17 +83,17 @@ Apply general security best practices:
   - Recognize threats and learn how to reduce the attack surface against them.
 
 - Keep the system and software up to date
-  - Patch the operating system and all installed software regularly.
-  - Updates are installed in [System Settings](https://support.apple.com/guide/mac-help/keep-your-mac-up-to-date-mchlpx1065) or with the `softwareupdate` command-line utility - neither requires an Apple Account.
-  - Subscribe to the [Apple security-announce](https://lists.apple.com/archives/list/security-announce@lists.apple.com/) mailing list.
+  - Regularly install available updates for the operating system and all applications.
+  - Updates are installed in [System Settings](https://support.apple.com/guide/mac-help/keep-your-mac-up-to-date-mchlpx1065) or with the `softwareupdate` command-line utility. Neither requires an Apple Account.
+  - Subscribe to the [Apple security-announce](https://lists.apple.com/archives/list/security-announce@lists.apple.com/) mailing list or check [Apple security releases](https://support.apple.com/en-us/100100)
 
 - Encrypt sensitive data
-  - In addition to [FileVault](https://support.apple.com/guide/mac-help/protect-data-on-your-mac-with-filevault-mh11785) volume encryption, consider using the [built-in password manager](https://support.apple.com/105115) to protect passwords and other sensitive data.
+  - In addition to [FileVault](https://support.apple.com/guide/mac-help/protect-data-on-your-mac-with-filevault-mh11785) storage encryption, use the [built-in password manager](https://support.apple.com/105115) to protect passwords and other sensitive data.
 
 - Ensure data availability
   - Create [regular backups](https://support.apple.com/104984) of critical data and be ready to [restore from a backup](https://support.apple.com/102551) in case of compromise.
   - [Encrypt locally](https://support.apple.com/guide/mac-help/keep-your-time-machine-backup-disk-secure-mh21241) before copying backups to unencrypted external media or the "cloud"; alternatively, enable [end-to-end encryption](https://support.apple.com/guide/security/advanced-data-protection-for-icloud-sec973254c5f).
-  - Verify backups by accessing them regularly.
+  - Verify backups by accessing them on a scheduled basis.
 
 - Click carefully
   - Ultimately, the security of a system depends on the capabilities and habits of its administrator.
@@ -99,11 +101,13 @@ Apply general security best practices:
 
 # Threat modeling
 
-The first and most important step for security and privacy is to create a [threat model](https://owasp.org/www-community/Threat_Modeling). You need to understand your adversaries in order to defend against them. Each person will have their own needs so everyone's threat model will be different. Threat models tend to evolve over time as our situation changes, so be sure to periodically reassess your threat model.
+The first and most important step for security and privacy is to create a [threat model](https://owasp.org/www-community/Threat_Modeling). You need to understand your adversaries in order to defend against them. Each individual has their own needs; everyone threat model will be different. Threat models are likely to change over time and with circumstances, so periodic re-assessment is recommended.
 
 ## Assets
 
-Assets may include a phone, laptop, credentials stored on various devices, and browsing history. List them, starting with the assets most important to protect.
+Assets may include a phone, laptop, credentials, and personal information, such as browsing history.
+
+List them in order of importance, starting with those most worth protecting.
 
 ## Adversaries
 
@@ -111,7 +115,7 @@ Define whom you are defending against. Start by defining the motivation each adv
 
 ## Capabilities
 
-To counter adversaries, understand both their capabilities and limitations. Rank them from unsophisticated to highly advanced. For example, a common thief is not very sophisticated; they will likely be stopped by basic things like simply having a password and drive encryption on devices. An advanced adversary might require fully turning off devices when not in use to clear the keys from RAM and a long diceware password.
+To counter adversaries, understand both their capabilities and limitations. Rank them from least to most capable. For example, a common thief operates opportunistically: they will likely be defeated by the basics, such as screen lock and encrypted storage with strong passwords. A more sophisticated and determined adversary may require fully powering off a device when not in use to clear credentials from memory and stronger authentication mechanisms.
 
 ## Mitigations
 
@@ -136,7 +140,7 @@ Read more about [threat modeling](https://www.netmeister.org/blog/threat-model-1
 > [!IMPORTANT]
 > Macs with Intel CPUs have [security vulnerabilities](https://github.com/axi0mX/ipwndfu?tab%253Dreadme-ov-file#checkm8) on a hardware level which cannot be patched.
 
-macOS is most secure running on [Apple hardware](https://support.apple.com/guide/security/hardware-security-overview-secf020d1074/1/web/1) with Apple silicon. The newer the Mac, the better. Avoid hackintoshes and Macs that don't support the latest macOS, as Apple does not [patch all vulnerabilities](https://support.apple.com/guide/deployment/about-software-updates-depc4c80847a) in versions that aren't the most recent one.
+macOS is most secure running on [Apple hardware](https://support.apple.com/guide/security/hardware-security-overview-secf020d1074/1/web/1) with Apple silicon; in general, newer models offer stronger security guarantees. Avoid hackintoshes and Macs which do not support the latest macOS release, as Apple does not [patch all vulnerabilities](https://support.apple.com/guide/deployment/about-software-updates-depc4c80847a) in legacy versions.
 
 When using a wireless keyboard, mouse, headphones, or other accessory, Apple accessories are generally the most secure option because macOS updates them automatically. They also support the latest [Bluetooth features](https://support.apple.com/guide/security/bluetooth-security-sec82597d97e/web) like BLE Privacy which randomizes the Bluetooth hardware address to prevent tracking, which is not guaranteed with third-party accessories.
 
@@ -191,7 +195,7 @@ When macOS starts for the first time, **Setup Assistant** requires the creation 
 
 Set a [strong password](https://www.eff.org/dice) without a hint.
 
-Avoid using personally-identifiable names: related system attributes (such as *John Appleseed's MacBook*) appear on networks.
+Avoid personally identifiable names: the computer name (such as "John Appleseed's MacBook") is broadcast over local networks and visible to other devices.
 
 The system name can be configured in **System Settings > About** or with the following commands:
 
@@ -249,9 +253,9 @@ FileVault will prompt to set a recovery key, which should be stored in a safe lo
 
 # Lockdown Mode
 
-[Lockdown Mode](https://support.apple.com/105120), which disables certain system and application features, is recommended and may significantly reduce attack surface.
+[Lockdown Mode](https://support.apple.com/105120) significantly reduces attack surface by disabling system and application features commonly exploited in targeted attacks.
 
-When Lockdown Mode is enabled, Safari has an option to [exclude trusted websites](https://ssd.eff.org/module/how-to-enable-lockdown-mode-on-iphone) from its restrictions.
+When Lockdown Mode is enabled, Safari has an option to [exclude trusted websites](https://ssd.eff.org/module/how-to-enable-lockdown-mode-on-iphone) from restrictions.
 
 # Firewall
 
@@ -539,7 +543,7 @@ brew install dnsmasq
 
 Download and edit [drduh/config/dnsmasq.conf](https://github.com/drduh/config/blob/main/dnsmasq.conf) or the default configuration file.
 
-See [drduh/config/domains](https://github.com/drduh/config/tree/main/domains) for appendable examples on blocking services by domains.
+See [drduh/config/domains](https://github.com/drduh/config/tree/main/domains) for example domain lists that can be added to block specific destinations.
 
 Install and start the program (sudo is required to bind to [privileged port](https://unix.stackexchange.com/questions/16564/why-are-the-first-1024-ports-restricted-to-the-root-user-only) 53):
 
@@ -704,9 +708,9 @@ Browser extensions pose a significant security risk: a malicious or poorly-made 
 
 Firefox replaced major parts of its infrastructure and codebase under the projects [Quantum](https://wiki.mozilla.org/Quantum) and [Photon](https://wiki.mozilla.org/Firefox/Photon/Updates). Part of the Quantum project is to replace C++ code with [Rust](https://rust-lang.org/). Rust is a systems programming language with a focus on security and thread safety. It is expected that Rust adoption will greatly improve the overall security posture of Firefox.
 
-Firefox offers a similar security model to Chrome: it has a [bug bounty program](https://www.mozilla.org/security/bug-bounty), although it is not as lucrative. Firefox follows a four-week release cycle.
+Firefox offers a comparable security model to Chrome, including a [bug bounty program](https://www.mozilla.org/security/bug-bounty/) for responsible disclosure of vulnerabilities. Firefox follows a four-week release cycle.
 
-Firefox supports user-supplied configuration files. See [drduh/config/firefox.user.js](https://github.com/drduh/config/blob/main/firefox.user.js) and [arkenfox/user.js](https://github.com/arkenfox/user.js) for recommended preferences and hardening measures. Also see [NoScript](https://noscript.net/), an extension which allows selective script blocking.
+See [drduh/config/firefox.user.js](https://github.com/drduh/config/blob/main/firefox.user.js) and [arkenfox/user.js](https://github.com/arkenfox/user.js) for recommended configurations for Firefox. Also see [NoScript](https://noscript.net/), an extension which allows selective script blocking.
 
 Firefox [focuses on user privacy](https://www.mozilla.org/firefox/privacy). It supports [tracking protection](https://developer.mozilla.org/docs/Web/Privacy/Firefox_tracking_protection) in Private Browsing mode. The tracking protection can be enabled for the default account, although it may break the browsing experience on some websites. Firefox in Strict tracking protection mode will [randomize fingerprints](https://support.mozilla.org/kb/firefox-protection-against-fingerprinting) to defend against tracking. Firefox offers separate user [profiles](https://support.mozilla.org/kb/profile-manager-create-remove-switch-firefox-profiles). Browsing can also be delineated with [Multi-Account Containers](https://support.mozilla.org/kb/containers).
 
@@ -721,11 +725,11 @@ Firefox only supports Web Extensions through the [WebExtension API](https://deve
 * Usage tracking and crash reporting, which can be disabled through Chrome's settings
 * Media Codec support for proprietary codecs
 * PDF viewer
-* Non-optional tracking. Google Chrome installer includes a randomly generated token. The token is sent to Google after the installation completes in order to measure the success rate. The RLZ identifier stores information – in the form of encoded strings – like the source of chrome download and installation week. It doesn't include any personal information and it's used to measure the effectiveness of a promotional campaign. **Chrome downloaded from Google's website doesn't have the RLZ identifier**. The source code to decode the strings is made open by Google.
+* Non-optional tracking. Google Chrome installer includes a randomly generated token, which is sent to Google. The RLZ identifier stores information in the form of encoded strings, such as the source of the download and install time. It does not include personal information and it's used to measure the effectiveness of a promotional campaign. **Chrome downloaded from Google's website doesn't have the RLZ identifier**. The source code to decode the strings is made open by Google.
 
 Chrome offers account sync between multiple devices, including credentials; the data is encrypted with the account password.
 
-The Chrome Web Store requires a [5 USD registration fee](https://developer.chrome.com/docs/webstore/register) in order to submit extensions. The low cost allows the development of many quality open-source Web Extensions that do not aim to monetize through usage.
+The Chrome Web Store requires a [5 USD registration fee](https://developer.chrome.com/docs/webstore/register) to submit extensions. This allows development of open-source Web Extensions which do not aim to monetize through usage.
 
 Chrome has the largest share of global usage and is the preferred target platform for the majority of developers. Major technologies are based on Chrome's open-source components, such as [node.js](https://nodejs.org/) which uses [Chrome's V8](https://developers.google.com/v8) Engine and the [Electron](https://electron.atom.io/) framework, which is based on Chromium and node.js. Chrome's vast user base makes it the most attractive target for threat actors and security researchers. Despite constant attacks, Chrome has retained an impressive security track record over the years. This is not a small feat.
 
@@ -747,11 +751,11 @@ Safari supports certain unique features that benefit user security and privacy. 
 
 Safari offers an invite-only [bounty program](https://developer.apple.com/bug-reporting) for bug reporting to a select number of security researchers. The bounty program was announced during Apple's [presentation](https://www.blackhat.com/docs/us-16/materials/us-16-Krstic.pdf) at [BlackHat](https://www.blackhat.com/us-16/briefings.html#behind-the-scenes-of-ios-security) 2016.
 
-Web Extensions in Safari have an additional option to use native code in Safari's sandbox environment, in addition to Web Extension APIs. Web Extensions in Safari are also distributed through Apple App Store. App Store submission comes with the added benefit of Web Extension code being audited by Apple. On the other hand App Store submission comes at a steep cost. Yearly [developer subscription](https://developer.apple.com/support/compare-memberships) fee costs 100 USD (in contrast to Chrome's 5 USD fee and Firefox's free submission). The high cost is prohibitive for the majority of open-source developers. As a result, Safari has very few extensions to choose from. However, keep the high cost in mind when installing extensions. It is expected that most Web Extensions will have some way of monetizing usage in order to cover developer costs. Avoid Web Extensions without open-source code.
+Web Extensions in Safari have an additional option to use native code in Safari's sandbox environment, in addition to Web Extension APIs. Web Extensions in Safari are also distributed through Apple App Store. App Store submission comes with the added benefit of Web Extension code being audited by Apple. On the other hand App Store submission comes at a steep cost. Yearly [developer subscription](https://developer.apple.com/support/compare-memberships) fee costs 100 USD (in contrast to Chrome's 5 USD fee and Firefox's free submission). The high cost is prohibitive for the majority of open-source developers. As a result, Safari has very few extensions to choose from. However, keep the high cost in mind when installing extensions. It is expected that most Web Extensions will have some way of monetizing usage to cover development costs. Avoid Web Extensions without open-source code available for review.
 
 Safari syncs user preferences and passwords with [iCloud Keychain](https://support.apple.com/HT202303). In order to be viewed in plain text, a user must input the account password of the current device. This means that users can sync data across devices with added security.
 
-Safari follows a slower release cycle than Chrome and Firefox (three to four minor releases and one major release per year). Newer features are slower to be adopted to the stable channel. Security updates in Safari are handled independent of the stable release schedule.
+Safari implements new web features more slowly than Chrome or Firefox, but security patches are delivered promptly through system updates.
 
 See also [el1t/uBlock-Safari](https://github.com/el1t/uBlock-Safari/wiki/Disable-hyperlink-auditing-beacon) to disable hyperlink auditing beacons.
 
@@ -943,7 +947,7 @@ To use the Signal desktop app, Signal must first be installed on a phone.
 
 ## iMessage
 
-[iMessage](https://en.wikipedia.org/wiki/IMessage) is Apple's first-party messenger. It requires an [Apple Account](#apple-account) in order to use it.
+[iMessage](https://en.wikipedia.org/wiki/IMessage) is Apple's first-party messenger. It requires an [Apple Account](#apple-account) to use.
 
 Enable [Contact Key Verification](https://support.apple.com/118246) and verify contacts.
 
