@@ -1,8 +1,4 @@
-This guide is a collection of techniques for improving the security and privacy of [Apple silicon](https://support.apple.com/116943) Mac computers running a [currently supported](https://support.apple.com/HT201222) version of macOS. **Using Macs with Intel CPUs leaves you open to [security vulnerabilities](https://github.com/axi0mX/ipwndfu?tab%253Dreadme-ov-file#checkm8) on the hardware level that Apple can't patch**. [Apple silicon](https://en.wikipedia.org/wiki/Apple_silicon) Macs are considered the minimum recommendation but as a general rule, newer chips are always more secure.
-
-This guide targets power users who wish to adopt enterprise-standard security, but is also suitable for novice users with an interest in improving privacy and security.
-
-For securing computers in an organization, use the [official NIST guidelines for macOS](https://github.com/usnistgov/macos_security).
+This guide is a collection of techniques for improving the security and privacy of macOS on [Apple silicon](https://support.apple.com/116943) Macs. It targets power users who wish to adopt enterprise-standard security, but is also suitable for novice users with an interest in privacy and security. For securing computers in an organization, follow [official NIST guidelines](https://github.com/usnistgov/macos_security).
 
 This guide is provided "as is" - without warranties of any kind. You are solely responsible for any consequences of following it.
 
@@ -121,7 +117,7 @@ To counter adversaries, understand both their capabilities and limitations. Rank
 
 Choose the best mitigation for each threat. For example, avoid writing passwords on paper if a roommate might find them, or encrypt storage to protect its data if it is stolen.
 
-Balance security and usability: every mitigation should counter some capability of your adversaries, otherwise you might be making your life inconvenient without reason. If you can't think of any more capabilities your adversaries might have and you've implemented mitigations for them all, your work is done.
+Security should be balanced with usability: every mitigation should counter some adversarial capability to justify any inconvenience. If you can't think of any more capabilities your adversaries might have and you've implemented mitigations for them all, your work is done.
 
 The following is an example of assets to protect:
 
@@ -129,19 +125,22 @@ Adversary | Motivation | Capabilities | Mitigation
 :-: | :-: | :-: | :-:
 Roommate | See private chats or browsing history | Close proximity; can see screen or observe credentials | Use biometrics, use privacy screen, keep phone locked when not using it
 Thief | Unlock phone and steal personal info and drain bank accounts, sell phone for money | Shoulder surf to see password, steal device when not looking while it's logged in | Keep phone in sight or on person at all times, keep locked when not in use, use biometrics to avoid typing password in public, use Find My or similar service to track/remotely disable stolen device
-Criminal | Financial gain | Social engineering, readily-available malware, password reuse, exploiting vulnerabilities | Use sandboxing, enable security features in OS, keep OS and all software updated and turn on automatic updates
+Criminal | Financial gain | Social engineering, readily-available malware, password reuse, exploiting vulnerabilities | Sandbox software, enable OS security features, maintain software updates automatically
 Corporation | Marketing based on user data | Telemetry and behavioral data collection | Block network connections, reset unique identifiers, avoid adding payment data
-Nation State/APT | Targeted surveillance | Passive surveillance of internet infrastructure, advanced computers for cracking encryption/analysis of packets | Use open source e2ee, use strong diceware passwords for devices, use hardware with secure element for secure encryption, shut down devices when not using them, software tripwire/honeypot/[canary tokens](https://canarytokens.org/)
+Nation State/APT | Targeted surveillance | Passive surveillance of internet infrastructure, advanced encryption analysis | Use open-source software, strong diceware credentials, hardware with secure element, shut down devices when not in use, tripwire/honeypot/[canary tokens](https://canarytokens.org/) alerts
 
-Read more about threat modeling [here](https://www.netmeister.org/blog/threat-model-101.html).
+Read more about [threat modeling](https://www.netmeister.org/blog/threat-model-101.html).
 
 # Hardware
 
+> [!IMPORTANT]
+> Macs with Intel CPUs have [security vulnerabilities](https://github.com/axi0mX/ipwndfu?tab%253Dreadme-ov-file#checkm8) on a hardware level which cannot be patched.
+
 macOS is most secure running on [Apple hardware](https://support.apple.com/guide/security/hardware-security-overview-secf020d1074/1/web/1) with Apple silicon. The newer the Mac, the better. Avoid hackintoshes and Macs that don't support the latest macOS, as Apple does not [patch all vulnerabilities](https://support.apple.com/guide/deployment/about-software-updates-depc4c80847a) in versions that aren't the most recent one.
 
-When purchasing a Mac, consider paying in cash rather than ordering online or purchasing with a credit/debit card, to limit identifying information linked to the purchase.
-
 When using a wireless keyboard, mouse, headphones, or other accessory, Apple accessories are generally the most secure option because macOS updates them automatically. They also support the latest [Bluetooth features](https://support.apple.com/guide/security/bluetooth-security-sec82597d97e/web) like BLE Privacy which randomizes the Bluetooth hardware address to prevent tracking, which is not guaranteed with third-party accessories.
+
+When purchasing a Mac, consider paying in cash rather than ordering online or purchasing with a credit/debit card, to limit identifying information linked to the purchase.
 
 # Installing macOS
 
@@ -203,9 +202,7 @@ sudo scutil --set LocalHostName MacBook
 
 # Admin and user accounts
 
-The first user account created is always an administrator account. Administrator accounts belong to the admin group and can use sudo to run commands with elevated privileges, including as root. Any program the administrator executes can potentially obtain the same access, making this a security risk.
-
-Utilities like `sudo` may have vulnerabilities that can be [exploited](https://bogner.sh/2014/03/another-mac-os-x-sudo-password-bypass/) by concurrently-running software.
+The first user account created is always an administrator account. Administrator accounts belong to the admin group and can use [sudo](https://en.wikipedia.org/wiki/Sudo) (a command that grants temporary administrator access) to run commands with elevated privileges, up to and including root (full system) control. Any program the administrator executes can potentially obtain the same access, and sudo may have vulnerabilities [exploited](https://bogner.sh/2014/03/another-mac-os-x-sudo-password-bypass/) by concurrently-running software.
 
 It is considered a [best practice](https://help.apple.com/machelp/mac/10.12/index.html#/mh11389) to use a dedicated standard account for regular, every-day work and only use the administrator account for software and system installation, configuration and updates.
 
@@ -244,11 +241,11 @@ Verify that firmware security is set to [Full Security](https://support.apple.co
 
 # FileVault
 
-All Apple silicon Macs encrypt storage by default. Enabling [FileVault](https://support.apple.com/guide/mac-help/mh11785/mac) requires a password before macOS can access the encrypted volume. The EFF has a guide on generating [strong but memorable passwords](https://www.eff.org/dice).
+All Apple silicon Macs encrypt storage by default. Enabling [FileVault](https://support.apple.com/guide/mac-help/mh11785/mac) requires a password before macOS can access the encrypted volume. The EFF has a guide on generating [strong and memorable passwords](https://www.eff.org/dice).
 
 The FileVault password also acts as a [firmware password](https://support.apple.com/102384), which prevents booting from anything other than the designated startup disk, accessing [Recovery](https://support.apple.com/guide/mac-help/macos-recovery-a-mac-apple-silicon-mchl82829c17/15.0/mac/15.0#mchl5abfbb29), and [reviving](https://support.apple.com/108900) it with DFU mode.
 
-FileVault will prompt to set a recovery key - store this key somewhere safe. You will have the option to use iCloud to unlock the disk; however, anyone with access to this iCloud account will be able to unlock it as well.
+FileVault will prompt to set a recovery key, which should be stored in a safe location if used. FileVault also offers an option to use iCloud for recovery.
 
 # Lockdown Mode
 
@@ -273,7 +270,7 @@ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on
 sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode on
 ```
 
-Attackers scan networks to identify systems they may be able to target. When Stealth Mode is enabled, the system does not respond to ICMP ping requests and does not answer to connection attempts from closed ports.
+Attackers scan networks to identify systems to target. When Stealth Mode is enabled, responses are not sent to connection attempts from closed ports, making the system more difficult to detect.
 
 Prevent built-in and downloaded software from automatically receiving incoming connections:
 
@@ -442,7 +439,7 @@ To opt out of Homebrew analytics, run `brew analytics off` or set `HOMEBREW_NO_A
 
 ## DNS profiles
 
-macOS features "DNS configuration profiles" for configuring encrypted DNS, filtering and DNSSEC.
+macOS features "DNS configuration profiles" for configuring encrypted DNS, filtering, and [DNSSEC](https://en.wikipedia.org/wiki/Domain_Name_System_Security_Extensions).
 
 DNS profiles can be [created](https://dns.notjakob.com/) or obtained from providers such as [Quad9](https://docs.quad9.net/Setup_Guides/MacOS/Big_Sur_and_later_(Encrypted)/#download-profile), [AdGuard](https://adguard-dns.io/en/public-dns.html) and [NextDNS](https://nextdns.io/).
 
@@ -577,7 +574,7 @@ $ networksetup -getdnsservers "Wi-Fi"
 
 # Certificate authorities
 
-macOS is configured with [over 150](https://support.apple.com/103723) root authority certificates by corporations and government agencies from around the world. These Certificate Authorities (CAs) are capable of issuing TLS and code-signing certificates. Apple [blocks certificates](https://support.apple.com/103247#blocked) when a CA proves to be untrustworthy and requires [certain criteria](https://www.apple.com/certificateauthority/ca_program.html) for inclusion.
+macOS is configured with [over 150](https://support.apple.com/103723) root authority certificates issued by corporations and government agencies from around the world. These Certificate Authorities (CAs) are capable of issuing TLS and code-signing certificates. Apple [blocks certificates](https://support.apple.com/103247#blocked) when a CA proves to be untrustworthy and requires [certain criteria](https://www.apple.com/certificateauthority/ca_program.html) for inclusion.
 
 For more information, see [CA/Browser Forum](https://cabforum.org/resources/browser-os-info/).
 
@@ -585,7 +582,7 @@ Inspect root certificates in [Keychain Access](https://support.apple.com/guide/k
 
 To disable a certificate authority, mark it as **Never Trust** and close the window to confirm.
 
-The risk of a [MITM](https://wikipedia.org/wiki/Man-in-the-middle_attack) attack, in which a coerced or compromised certificate authority trusted by a system root store issues a fake/rogue TLS certificate, is relatively low, but [possible](https://wikipedia.org/wiki/DigiNotar#Issuance_of_fraudulent_certificates).
+Doing so may reduce the risk of [MITM](https://wikipedia.org/wiki/Man-in-the-middle_attack) attacks, in which a coerced or compromised certificate authority could issue a fraudulent certificate, allowing encrypted traffic to be [silently intercepted](https://en.wikipedia.org/wiki/DigiNotar#Issuance_of_fraudulent_certificates).
 
 # Privoxy
 
@@ -699,13 +696,13 @@ An important property of modern browsers is the Same Origin Policy ([SOP](https:
 
 Many browser exploits are based on social engineering as a means of gaining persistence. Always be mindful when visiting untrusted sites and especially careful when downloading new software.
 
-Another important consideration about browser security is extensions. This is an issue affecting Firefox and [Chrome](https://courses.csail.mit.edu/6.857/2016/files/24.pdf) alike. The use of browser extensions should be limited to only critically necessary ones published by trustworthy developers.
+Browser extensions pose a significant security risk: a malicious or poorly-made extension can compromise everything in the browser, including credentials. This affects Firefox and [Chrome](https://courses.csail.mit.edu/6.857/2016/files/24.pdf) alike. The use of browser extensions should be limited to critically necessary ones, published by trustworthy developers only.
 
-[Mozilla Firefox](https://www.mozilla.org/firefox/new), [Google Chrome](https://www.google.com/chrome), [Safari](https://www.apple.com/safari), and [Tor Browser](https://www.torproject.org/download) are all recommended browsers for their own unique and individual purposes.
+[Mozilla Firefox](https://www.firefox.com/), [Google Chrome](https://www.google.com/chrome), [Safari](https://www.apple.com/safari), and [Tor Browser](https://www.torproject.org/download) are popular browsers, each with unique features and individual purposes.
 
 ## Firefox
 
-[Mozilla Firefox](https://www.mozilla.org/firefox/new) is a popular open source browser. Firefox replaced major parts of its infrastructure and codebase under the projects [Quantum](https://wiki.mozilla.org/Quantum) and [Photon](https://wiki.mozilla.org/Firefox/Photon/Updates). Part of the Quantum project is to replace C++ code with [Rust](https://rust-lang.org/). Rust is a systems programming language with a focus on security and thread safety. It is expected that Rust adoption will greatly improve the overall security posture of Firefox.
+Firefox replaced major parts of its infrastructure and codebase under the projects [Quantum](https://wiki.mozilla.org/Quantum) and [Photon](https://wiki.mozilla.org/Firefox/Photon/Updates). Part of the Quantum project is to replace C++ code with [Rust](https://rust-lang.org/). Rust is a systems programming language with a focus on security and thread safety. It is expected that Rust adoption will greatly improve the overall security posture of Firefox.
 
 Firefox offers a similar security model to Chrome: it has a [bug bounty program](https://www.mozilla.org/security/bug-bounty), although it is not as lucrative. Firefox follows a four-week release cycle.
 
@@ -713,11 +710,11 @@ Firefox supports user-supplied configuration files. See [drduh/config/firefox.us
 
 Firefox [focuses on user privacy](https://www.mozilla.org/firefox/privacy). It supports [tracking protection](https://developer.mozilla.org/docs/Web/Privacy/Firefox_tracking_protection) in Private Browsing mode. The tracking protection can be enabled for the default account, although it may break the browsing experience on some websites. Firefox in Strict tracking protection mode will [randomize fingerprints](https://support.mozilla.org/kb/firefox-protection-against-fingerprinting) to defend against tracking. Firefox offers separate user [profiles](https://support.mozilla.org/kb/profile-manager-create-remove-switch-firefox-profiles). Browsing can also be delineated with [Multi-Account Containers](https://support.mozilla.org/kb/containers).
 
-Firefox only supports Web Extensions through the [WebExtension API](https://developer.mozilla.org/docs/Mozilla/Add-ons/WebExtensions), which is very similar to Chrome. Submission of Web Extensions in Firefox is free. Web Extensions in Firefox most of the time are open source, although certain Web Extensions are proprietary.
+Firefox only supports Web Extensions through the [WebExtension API](https://developer.mozilla.org/docs/Mozilla/Add-ons/WebExtensions), which is very similar to Chrome. Submission of Web Extensions in Firefox is free. Web Extensions in Firefox most of the time are open-source, although certain Web Extensions are proprietary.
 
 ## Chrome
 
-[Google Chrome](https://www.google.com/chrome/) is based on the open source [Chromium project](https://www.chromium.org/) with certain [proprietary components](https://fossbytes.com/difference-google-chrome-vs-chromium-browser), such as:
+[Google Chrome](https://www.google.com/chrome/) is based on the open-source [Chromium project](https://www.chromium.org/) with certain [proprietary components](https://fossbytes.com/difference-google-chrome-vs-chromium-browser), such as:
 
 * [Chrome Web Store](https://chromewebstore.google.com/)
 * Automatic updates with GoogleSoftwareUpdateDaemon
@@ -728,7 +725,7 @@ Firefox only supports Web Extensions through the [WebExtension API](https://deve
 
 Chrome offers account sync between multiple devices, including credentials; the data is encrypted with the account password.
 
-The Chrome Web Store requires a [5 USD registration fee](https://developer.chrome.com/docs/webstore/register) in order to submit extensions. The low cost allows the development of many quality open source Web Extensions that do not aim to monetize through usage.
+The Chrome Web Store requires a [5 USD registration fee](https://developer.chrome.com/docs/webstore/register) in order to submit extensions. The low cost allows the development of many quality open-source Web Extensions that do not aim to monetize through usage.
 
 Chrome has the largest share of global usage and is the preferred target platform for the majority of developers. Major technologies are based on Chrome's open-source components, such as [node.js](https://nodejs.org/) which uses [Chrome's V8](https://developers.google.com/v8) Engine and the [Electron](https://electron.atom.io/) framework, which is based on Chromium and node.js. Chrome's vast user base makes it the most attractive target for threat actors and security researchers. Despite constant attacks, Chrome has retained an impressive security track record over the years. This is not a small feat.
 
@@ -744,13 +741,13 @@ See [Chromium Security](https://www.chromium.org/Home/chromium-security) and [Ch
 
 ## Safari
 
-[Safari](https://www.apple.com/safari) is the default browser on macOS. It is also the most optimized browser for reducing battery use. Safari, like Chrome, has both open source and proprietary components. Safari is based on the open source Web Engine [WebKit](https://webkit.org/), which is ubiquitous among the macOS ecosystem. WebKit is used by Apple apps such as Mail, Books, and the App Store. Chrome's [Blink](https://www.chromium.org/blink) engine is a fork of WebKit and both engines share a number of similarities.
+[Safari](https://www.apple.com/safari) is the default browser on macOS. It is also the most optimized browser for reducing battery use. Safari, like Chrome, has both open-source and proprietary components. Safari is based on the open-source Web Engine [WebKit](https://webkit.org/), which is ubiquitous among the macOS ecosystem. WebKit is used by Apple apps such as Mail, Books, and the App Store. Chrome's [Blink](https://www.chromium.org/blink) engine is a fork of WebKit and both engines share a number of similarities.
 
 Safari supports certain unique features that benefit user security and privacy. [Content blockers](https://webkit.org/blog/3476/content-blockers-first-look) enable the creation of content blocking rules without using JavaScript. This rule based approach greatly improves memory use, security, and privacy. Safari 11 introduced [Intelligent Tracking Prevention](https://webkit.org/blog/7675/intelligent-tracking-prevention), which removes tracking data stored in Safari after a period of non-interaction by the user from the tracker's website. Safari can randomize the browser fingerprint to reduce tracking. Safari does not support certain features like WebUSB or the Battery API intentionally for security and privacy reasons. Private tabs in Safari have isolated cookies and cache that is destroyed when you close the tab. Safari also support Profiles which are equivalent to Firefox's Multi-Account Containers for separating cookies and browsing. Safari can be made significantly more secure with [lockdown mode](#lockdown-mode), which can be disabled per-site. Read more about [tracking prevention](https://webkit.org/tracking-prevention/) in Safari.
 
 Safari offers an invite-only [bounty program](https://developer.apple.com/bug-reporting) for bug reporting to a select number of security researchers. The bounty program was announced during Apple's [presentation](https://www.blackhat.com/docs/us-16/materials/us-16-Krstic.pdf) at [BlackHat](https://www.blackhat.com/us-16/briefings.html#behind-the-scenes-of-ios-security) 2016.
 
-Web Extensions in Safari have an additional option to use native code in Safari's sandbox environment, in addition to Web Extension APIs. Web Extensions in Safari are also distributed through Apple App Store. App Store submission comes with the added benefit of Web Extension code being audited by Apple. On the other hand App Store submission comes at a steep cost. Yearly [developer subscription](https://developer.apple.com/support/compare-memberships) fee costs 100 USD (in contrast to Chrome's 5 USD fee and Firefox's free submission). The high cost is prohibitive for the majority of open source developers. As a result, Safari has very few extensions to choose from. However, keep the high cost in mind when installing extensions. It is expected that most Web Extensions will have some way of monetizing usage in order to cover developer costs. Avoid Web Extensions without open source code.
+Web Extensions in Safari have an additional option to use native code in Safari's sandbox environment, in addition to Web Extension APIs. Web Extensions in Safari are also distributed through Apple App Store. App Store submission comes with the added benefit of Web Extension code being audited by Apple. On the other hand App Store submission comes at a steep cost. Yearly [developer subscription](https://developer.apple.com/support/compare-memberships) fee costs 100 USD (in contrast to Chrome's 5 USD fee and Firefox's free submission). The high cost is prohibitive for the majority of open-source developers. As a result, Safari has very few extensions to choose from. However, keep the high cost in mind when installing extensions. It is expected that most Web Extensions will have some way of monetizing usage in order to cover developer costs. Avoid Web Extensions without open-source code.
 
 Safari syncs user preferences and passwords with [iCloud Keychain](https://support.apple.com/HT202303). In order to be viewed in plain text, a user must input the account password of the current device. This means that users can sync data across devices with added security.
 
@@ -772,11 +769,7 @@ Also be aware of [WebRTC](https://en.wikipedia.org/wiki/WebRTC#Concerns), which 
 
 [Tor](https://en.wikipedia.org/wiki/Tor_(network)) is an anonymizing network which can be used for browsing the Web with additional privacy. Tor Browser is a modified version of Firefox with a proxy to access the Tor network.
 
-Download Tor Browser from [Tor Project](https://www.torproject.org/download/).
-
-Do **not** attempt to configure other browsers or applications to use Tor as you may make a mistake which will compromise anonymity.
-
-Download both `dmg` and `asc` files to [verify](https://support.torproject.org/tor-browser/getting-started/verifying-tor-browser/) the software:
+Download Tor Browser from [Tor Project](https://www.torproject.org/download/), both `dmg` and `asc` files for [verification](https://support.torproject.org/tor-browser/getting-started/verifying-tor-browser/):
 
 ```console
 $ cd ~/Downloads
