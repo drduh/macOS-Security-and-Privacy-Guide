@@ -4,8 +4,6 @@ This guide targets power users who wish to adopt enterprise-standard security, b
 
 For securing computers in an organization, use the [official NIST guidelines for macOS](https://github.com/usnistgov/macos_security).
 
-A system's security ultimately depends on its administrator's capabilities. No single technology, piece of software, or technique can guarantee perfect security.
-
 This guide is provided "as is" - without warranties of any kind. You are solely responsible for any consequences of following it.
 
 To suggest a change, submit a [pull request](https://github.com/drduh/macOS-Security-and-Privacy-Guide/pulls) or open an [issue](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues).
@@ -83,25 +81,25 @@ To suggest a change, submit a [pull request](https://github.com/drduh/macOS-Secu
 Apply general security best practices:
 
 - Create a [threat model](#threat-modeling)
-  * What are you trying to protect and from whom? Is the adversary a three-letter agency, a nosy eavesdropper on the network, or a determined [APT](https://en.wikipedia.org/wiki/Advanced_persistent_threat) orchestrating a campaign against you?
-  * Recognize threats and learn how to reduce the attack surface against them.
+  - What are you trying to protect and from whom? Is the adversary a three-letter agency, a nosy eavesdropper on the network, or a determined [APT](https://en.wikipedia.org/wiki/Advanced_persistent_threat) orchestrating a campaign against you?
+  - Recognize threats and learn how to reduce the attack surface against them.
 
 - Keep the system and software up to date
-  * Patch the operating system and all installed software regularly.
-  * Updates can be completed in [System Settings](https://support.apple.com/guide/mac-help/keep-your-mac-up-to-date-mchlpx1065) or installed with the `softwareupdate` command-line utility - neither requires an Apple account.
-  * Subscribe to announcement mailing lists like [Apple security-announce](https://lists.apple.com/mailman3/lists/security-announce.lists.apple.com/).
+  - Patch the operating system and all installed software regularly.
+  - Updates are installed in [System Settings](https://support.apple.com/guide/mac-help/keep-your-mac-up-to-date-mchlpx1065) or with the `softwareupdate` command-line utility - neither requires an Apple Account.
+  - Subscribe to the [Apple security-announce](https://lists.apple.com/archives/list/security-announce@lists.apple.com/) mailing list.
 
 - Encrypt sensitive data
-  * In addition to [FileVault](https://support.apple.com/guide/mac-help/protect-data-on-your-mac-with-filevault-mh11785) volume encryption, consider using the [built-in password manager](https://support.apple.com/105115) to protect passwords and other sensitive data.
+  - In addition to [FileVault](https://support.apple.com/guide/mac-help/protect-data-on-your-mac-with-filevault-mh11785) volume encryption, consider using the [built-in password manager](https://support.apple.com/105115) to protect passwords and other sensitive data.
 
 - Ensure data availability
-  * Create [regular backups](https://support.apple.com/104984) of critical data and be ready to [restore from a backup](https://support.apple.com/102551) in case of compromise.
-  * [Encrypt locally](https://support.apple.com/guide/mac-help/keep-your-time-machine-backup-disk-secure-mh21241) before copying backups to unencrypted external media or the "cloud"; alternatively, enable [end-to-end encryption](https://support.apple.com/guide/security/advanced-data-protection-for-icloud-sec973254c5f).
-  * Verify backups by accessing them regularly.
+  - Create [regular backups](https://support.apple.com/104984) of critical data and be ready to [restore from a backup](https://support.apple.com/102551) in case of compromise.
+  - [Encrypt locally](https://support.apple.com/guide/mac-help/keep-your-time-machine-backup-disk-secure-mh21241) before copying backups to unencrypted external media or the "cloud"; alternatively, enable [end-to-end encryption](https://support.apple.com/guide/security/advanced-data-protection-for-icloud-sec973254c5f).
+  - Verify backups by accessing them regularly.
 
 - Click carefully
-  * Ultimately, the security of a system depends on the capabilities of its administrator.
-  * Take care when installing new software: install it only from sources the developer identifies as official, such as their website or GitHub repository.
+  - Ultimately, the security of a system depends on the capabilities and habits of its administrator.
+  - Take care when installing new software: install it only from sources the developer identifies as official, such as their website or GitHub repository.
 
 # Threat modeling
 
@@ -109,11 +107,11 @@ The first and most important step for security and privacy is to create a [threa
 
 ## Assets
 
-Assets may include your phone, laptop, passwords stored on various devices, and browsing history. List them, starting with the assets that matter most to protect.
+Assets may include a phone, laptop, credentials stored on various devices, and browsing history. List them, starting with the assets most important to protect.
 
 ## Adversaries
 
-Define whom you are defending against. Start by defining the motivation they might have to attack assets. [Financial gain](https://www.verizon.com/business/resources/reports/dbir/) is a big motivator for many attackers, for example.
+Define whom you are defending against. Start by defining the motivation each adversary might have to attack important assets. [Financial gain](https://www.verizon.com/business/resources/reports/dbir/) is a big motivator for many attackers, for example.
 
 ## Capabilities
 
@@ -149,21 +147,21 @@ When using a wireless keyboard, mouse, headphones, or other accessory, Apple acc
 
 There are several ways to [install macOS](https://support.apple.com/102662).
 
-Install the latest version of macOS the hardware supports: newer versions include security patches and other improvements unavailable in older releases.
+Install the latest supported version of macOS; newer versions of macOS include security fixes and other improvements not available in previous releases.
 
 ## System activation
 
-As part of Apple's [theft prevention system](https://support.apple.com/102541), Apple silicon Macs will need to activate with Apple's servers every time macOS is installed to check against the database of stolen or activation-locked Macs.
+As part of Apple's [theft prevention system](https://support.apple.com/102541), Apple silicon Macs connect to Apple servers when macOS is installed to check against the database of stolen/activation-locked Macs.
 
-Read about how this process works [here](https://support.apple.com/guide/security/localpolicy-signing-key-creation-management-sec1f90fbad1).
+Read about [how this process works](https://support.apple.com/guide/security/localpolicy-signing-key-creation-management-sec1f90fbad1).
 
 ## Apple Account
 
-An Apple Account is not required to use macOS, but creating one requires a phone number and, by default, syncs a substantial amount of [data](https://www.apple.com/legal/privacy/data/en/apple-id/).
+An [Apple Account](https://www.apple.com/legal/privacy/data/en/apple-id/) is not required to use macOS, but necessary to access the App Store and most Apple services, including iCloud and Apple Music.
 
-You can [disable](https://support.apple.com/102651) the syncing later or enable [end-to-end encryption](https://support.apple.com/guide/security/advanced-data-protection-for-icloud-sec973254c5f/web) for data stored in iCloud.  You can [control the data](https://support.apple.com/102283) associated with Apple Account or completely delete it.
+You can [disable](https://support.apple.com/102651) the syncing later or enable [end-to-end encryption](https://support.apple.com/guide/security/advanced-data-protection-for-icloud-sec973254c5f/web) for data stored in iCloud. You can [control the data](https://support.apple.com/102283) associated with Apple Account or completely delete it.
 
-An Apple Account is required in order to access the App Store and use most Apple services, such as iCloud and Apple Music.
+
 
 ## App Store
 
@@ -248,7 +246,7 @@ Verify that firmware security is set to [Full Security](https://support.apple.co
 
 All Apple silicon Macs encrypt storage by default. Enabling [FileVault](https://support.apple.com/guide/mac-help/mh11785/mac) requires a password before macOS can access the encrypted volume. The EFF has a guide on generating [strong but memorable passwords](https://www.eff.org/dice).
 
-The FileVault password also acts as a [firmware password](https://support.apple.com/102384) which prevents booting from anything other than the designated startup disk, accessing [Recovery](https://support.apple.com/guide/mac-help/macos-recovery-a-mac-apple-silicon-mchl82829c17/15.0/mac/15.0#mchl5abfbb29), and [reviving](https://support.apple.com/108900) it with DFU mode.
+The FileVault password also acts as a [firmware password](https://support.apple.com/102384), which prevents booting from anything other than the designated startup disk, accessing [Recovery](https://support.apple.com/guide/mac-help/macos-recovery-a-mac-apple-silicon-mchl82829c17/15.0/mac/15.0#mchl5abfbb29), and [reviving](https://support.apple.com/108900) it with DFU mode.
 
 FileVault will prompt to set a recovery key - store this key somewhere safe. You will have the option to use iCloud to unlock the disk; however, anyone with access to this iCloud account will be able to unlock it as well.
 
@@ -298,7 +296,7 @@ sudo pkill -HUP socketfilterfw
 
 Applications such as [Little Snitch](https://www.obdev.at/products/littlesnitch/index.html), [Radio Silence](https://radiosilenceapp.com/), and [LuLu](https://objective-see.com/products/lulu.html) provide a balance between usability and security.
 
-These programs are capable of monitoring and blocking both incoming and outgoing connections. However, they may require the use of a closed-source [system extension](https://support.apple.com/HT210999).
+These programs are capable of monitoring and blocking both incoming and outgoing connections. However, they may require a closed-source [system extension](https://support.apple.com/HT210999).
 
 If frequent allow-or-block prompts are overwhelming, begin with Silent Mode configured to allow connections. Review the configuration periodically to understand each application's network activity.
 
@@ -593,7 +591,7 @@ The risk of a [MITM](https://wikipedia.org/wiki/Man-in-the-middle_attack) attack
 
 Consider using [Privoxy](https://www.privoxy.org/) as a local proxy to filter web traffic.
 
-Install and start privoxy using Homebrew:
+Install and start Privoxy using Homebrew:
 
 ```bash
 brew install privoxy
@@ -697,7 +695,7 @@ content-type: text/html; charset=utf-8
 
 The Web browser creates numerous security and privacy risks, as its fundamental job is to download and execute untrusted code from the Internet.
 
-An important property of modern browsers is the Same Origin Policy ([SOP](https://en.wikipedia.org/wiki/Same-origin_policy)) which prevents a malicious script on one page from obtaining access to sensitive data on another web page through the Document Object Model ([DOM](https://en.wikipedia.org/wiki/Document_Object_Model)). If SOP is compromised, the security of the entire browser is compromised.
+An important property of modern browsers is the Same Origin Policy ([SOP](https://en.wikipedia.org/wiki/Same-origin_policy)), which prevents a malicious script on one page from obtaining access to sensitive data on another web page through the Document Object Model ([DOM](https://en.wikipedia.org/wiki/Document_Object_Model)). If the SOP is compromised, the security of the entire browser is at risk.
 
 Many browser exploits are based on social engineering as a means of gaining persistence. Always be mindful when visiting untrusted sites and especially careful when downloading new software.
 
@@ -721,14 +719,14 @@ Firefox only supports Web Extensions through the [WebExtension API](https://deve
 
 [Google Chrome](https://www.google.com/chrome/) is based on the open source [Chromium project](https://www.chromium.org/) with certain [proprietary components](https://fossbytes.com/difference-google-chrome-vs-chromium-browser), such as:
 
+* [Chrome Web Store](https://chromewebstore.google.com/)
 * Automatic updates with GoogleSoftwareUpdateDaemon
 * Usage tracking and crash reporting, which can be disabled through Chrome's settings
 * Media Codec support for proprietary codecs
-* Chrome Web Store
 * PDF viewer
 * Non-optional tracking. Google Chrome installer includes a randomly generated token. The token is sent to Google after the installation completes in order to measure the success rate. The RLZ identifier stores information – in the form of encoded strings – like the source of chrome download and installation week. It doesn't include any personal information and it's used to measure the effectiveness of a promotional campaign. **Chrome downloaded from Google's website doesn't have the RLZ identifier**. The source code to decode the strings is made open by Google.
 
-Chrome offers account sync between multiple devices. Part of the sync data includes credentials to Web sites. The data is encrypted with the account password.
+Chrome offers account sync between multiple devices, including credentials; the data is encrypted with the account password.
 
 The Chrome Web Store requires a [5 USD registration fee](https://developer.chrome.com/docs/webstore/register) in order to submit extensions. The low cost allows the development of many quality open source Web Extensions that do not aim to monetize through usage.
 
@@ -812,7 +810,7 @@ Primary key fingerprint: EF6E 286D DA85 EA2A 4BA7  DE68 4E2C 6E87 9329 8290
      Subkey fingerprint: CAAE 408A EBE2 288E 96FC  5D5E 1574 32CF 78A6 5729
 ```
 
-Make sure `Good signature from "Tor Browser Developers (signing key) <torbrowser@torproject.org>"` appears in the output. The warning about the key not being certified is benign, as it has not yet been assigned trust.
+Make sure `Good signature from "Tor Browser Developers (signing key) <torbrowser@torproject.org>"` appears in the output. The warning is expected, as the key has not been personally verified and added to a trusted keyring.
 
 See [How can I verify Tor Browser's signature?](https://support.torproject.org/tbb/how-to-verify-signature/) for more information.
 
@@ -971,7 +969,7 @@ Also check out [Hacking Team](https://www.schneier.com/blog/archives/2015/07/hac
 
 Running applications from the App Store or that are [Notarized](https://support.apple.com/guide/security/app-code-signing-process-sec3ad8e6e53/web) by Apple may reduce malware risk: Apple performs an automated scan on notarized applications and App Store requires a [review process](https://developer.apple.com/app-store/review/guidelines/).
 
-Otherwise, obtain software from trusted sources like directly from the developer's website or GitHub. Always make sure that the browser/terminal is using HTTPS.
+Otherwise, obtain software from trusted sources, such as from the developer's website or GitHub. Always make sure that the browser/terminal is using HTTPS.
 
 ## App Sandbox
 
