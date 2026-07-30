@@ -214,10 +214,10 @@ It is not required to ever log in with the admin account via the macOS login scr
 
 ## Caveats
 
-* Only administrators can install applications in `/Applications` (local directory). Finder and Installer will prompt a standard user with an authentication dialog. Many applications can be installed in `~/Applications` instead (the directory can be created). As a rule of thumb: applications that do not require admin access – or do not complain about not being installed in `/Applications` – should be installed in the user directory, the rest in the local directory. Mac App Store applications are still installed in `/Applications` and require no additional authentication.
+* Only administrators can install applications in `/Applications` (local directory). Finder and Installer will prompt a standard user with an authentication dialog. Many applications can be installed in `~/Applications` instead (the directory can be created). As a rule of thumb: applications that do not require admin access – or do not complain about not being installed in `/Applications` – should be installed in the user directory, the rest in the local directory. App Store applications are still installed in `/Applications` and require no additional authentication.
 * `sudo` is not available in shells of the standard user, which requires using `su` or `login` to enter a shell of the admin account. This can make some maneuvers trickier and requires some basic experience with command-line interfaces.
-* System Settings and several system utilities (e.g. Wi-Fi Diagnostics) will require root privileges for full functionality. Many panels in System Settings need to be unlocked by selecting the lock icon. Some applications will simply prompt for authentication upon opening, others must be opened by an admin account directly to get access to all functions (e.g. Console).
-* There are third-party applications that will not work correctly because they assume that the user account is an admin. These programs may have to be executed by logging into the admin account, or by using the `open` utility.
+* System Settings and several system utilities (e.g., Wi-Fi Diagnostics) require root privileges for full functionality. Some System Settings need to be unlocked by selecting the lock icon. Some applications will simply prompt for authentication upon opening, others must be opened by an admin account directly to access all functions (e.g., Console).
+* There are third-party applications that will not work correctly because they assume the user account is an admin. These programs may have to be executed by the admin account, or by using the `open` utility.
 * See additional discussion in [issue 167](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/167).
 
 ## Setup
@@ -1195,9 +1195,11 @@ Additional metadata may exist in the following files:
 
 The [Passwords](https://support.apple.com/guide/passwords/the-passwords-app-mchl901b1b95/mac) app creates [secure credentials](https://support.apple.com/guide/security/automatic-strong-passwords-secc84c811c4/web). It supports [passkeys](https://fidoalliance.org/passkeys/) - credentials which are more resilient to phishing.
 
+[KeePassXC](https://keepassxc.org/) is an open-source, cross-platform password manager to consider. It supports strong authentication with compatible hardware tokens and a browser extension for entering credentials automatically.
+
 Memorable passwords can be created with [Diceware](https://secure.research.vt.edu/diceware/).
 
-Ensure online accounts have [multi-factor authentication](https://en.wikipedia.org/wiki/Multi-factor_authentication) enabled. The strongest form of multi-factor authentication is [WebAuthn](https://en.wikipedia.org/wiki/WebAuthn), followed by [TOTP](https://datatracker.ietf.org/doc/html/rfc6238), then [HOTP](https://datatracker.ietf.org/doc/html/rfc4226), and SMS-based codes are weakest.
+Ensure online accounts have [multi-factor authentication](https://en.wikipedia.org/wiki/Multi-factor_authentication) enabled. The strongest form of multi-factor authentication is [WebAuthn](https://en.wikipedia.org/wiki/WebAuthn), followed by [TOTP](https://datatracker.ietf.org/doc/html/rfc6238)/[HOTP](https://datatracker.ietf.org/doc/html/rfc4226) (commonly implemented by authenticator apps); SMS-based codes are weakest since they rely on the service provider.
 
 [YubiKey](https://www.yubico.com/products/) is a popular authentication token. It can also store cryptographic keys for encryption and authentication - see [drduh/YubiKey-Guide](https://github.com/drduh/YubiKey-Guide).
 
