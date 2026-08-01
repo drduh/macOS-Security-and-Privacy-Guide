@@ -476,7 +476,7 @@ Popular hosts lists include:
 - [Sinfonietta/hostfiles](https://github.com/Sinfonietta/hostfiles)
 - [someonewhocares.org](https://someonewhocares.org/hosts/zero/hosts)
 
-To append a remote hosts list to `/etc/hosts`, use `tee`:
+To downloaded and add a list to the end of the hosts file, use the [tee](https://man7.org/linux/man-pages/man1/tee.1.html) command:
 
 ```bash
 curl https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts | sudo tee -a /etc/hosts
@@ -532,7 +532,8 @@ block drop quick on !lo0 proto udp from any to any port = 53
 block drop quick on !lo0 proto tcp from any to any port = 53
 ```
 
-See also [What is a DNS leak](https://dnsleaktest.com/what-is-a-dns-leak.html).
+> [!NOTE]
+> DNS requests can [bypass](https://dnsleaktest.com/) the privacy service and reveal name lookups, if not properly configured.
 
 ## Dnsmasq
 
@@ -558,7 +559,7 @@ Install and start the program (sudo is required to bind to [privileged port](htt
 sudo brew services start dnsmasq
 ```
 
-To set dnsmasq as the local DNS server, open **System Settings** > **Network** and select the active interface, then open the **DNS** tab, select **+**, and add `127.0.0.1`, or use:
+To set dnsmasq as the local DNS server, open **System Settings** > **Network** and select the network connection currently in use (such as Wi-Fi), then open the **DNS** tab, select **+**, and add `127.0.0.1`, or use:
 
 ```bash
 sudo networksetup -setdnsservers "Wi-Fi" 127.0.0.1
@@ -640,7 +641,7 @@ $ scutil --proxy
 }
 ```
 
-Although the majority of Web traffic is encrypted, Privoxy can filter by domain name patterns. For example, the following rules block all traffic, except to `.net` and `github.com` and all `apple` domains:
+Although the majority of Web traffic is encrypted, Privoxy can filter by matching website names. For example, the following rules block all traffic, except to `.net` and `github.com` and all `apple` domains:
 
 ```console
 { +block{all} }
@@ -673,7 +674,7 @@ fb*.akamaihd.net
 
 See [drduh/config/privoxy/config](https://github.com/drduh/config/blob/main/privoxy/config) and [drduh/config/privoxy/user.action](https://github.com/drduh/config/blob/main/privoxy/user.action) for additional Privoxy examples. Privoxy does **not** need to be restarted after editing filter rules.
 
-To verify traffic is blocked or redirected, use curl or open the Privoxy interface at <http://p.p> in a browser:
+To verify traffic is blocked or redirected, use [curl](https://en.wikipedia.org/wiki/CURL) or open the Privoxy interface at <http://p.p> in a browser:
 
 ```console
 $ ALL_PROXY=127.0.0.1:8118 curl example.com -IL | head
@@ -697,15 +698,15 @@ content-type: text/html; charset=utf-8
 ```
 
 > [!NOTE]
-> Applications and services may bypass system proxy settings. Ensure applications are correctly configured and verify connections. *pf* can also be used to transparently proxy traffic.
+> Applications and services can ignore proxy setting; redirect traffic through a proxy without configuring each app separately using *pf*.
 
 # Browser
 
 The Web browser creates numerous security and privacy risks, as its fundamental job is to download and execute untrusted code from the Internet.
 
-An important property of modern browsers is the Same Origin Policy ([SOP](https://en.wikipedia.org/wiki/Same-origin_policy)), which prevents a malicious script on one page from obtaining access to sensitive data on another web page through the Document Object Model ([DOM](https://en.wikipedia.org/wiki/Document_Object_Model)). If the SOP is compromised, the security of the entire browser is at risk.
+An important security property of browsers is the Same Origin Policy ([SOP](https://en.wikipedia.org/wiki/Same-origin_policy)), which prevents one website from reading data from another website. If the SOP is compromised, the security of the entire browser is at risk.
 
-Many browser exploits use social engineering to gain persistence; always be mindful when visiting untrusted sites and especially careful when downloading new software.
+Some browser exploits rely on social engineering to gain persistence (ability to remain active after the initial attack). Be mindful when visiting untrusted sites and especially careful when downloading unrecognized software.
 
 Browser extensions pose a significant security risk: a malicious or poorly-made extension can compromise everything in the browser, including credentials. This affects Firefox and [Chrome](https://courses.csail.mit.edu/6.857/2016/files/24.pdf) alike. The use of browser extensions should be limited to critically necessary ones, published by trustworthy developers only.
 
@@ -742,11 +743,11 @@ Chrome has the largest share of global usage and is the preferred target platfor
 
 Chrome offers [separate profiles](https://www.chromium.org/user-experience/multi-profiles), [robust sandboxing](https://chromium.googlesource.com/chromium/src/+/HEAD/docs/design/sandbox.md), [frequent updates](https://chromereleases.googleblog.com/), and carries [impressive credentials](https://www.chromium.org/Home/chromium-security/brag-sheet). In addition, Google offers a very lucrative [bounty program](https://bughunters.google.com/about/rules/5745167867576320/chrome-vulnerability-reward-program-rules) for reporting vulnerabilities, along with its own [Project Zero](https://googleprojectzero.blogspot.com/) team. This means that a large number of highly talented and motivated people are constantly auditing and securing Chrome code.
 
-Create separate Chrome profiles to reduce XSS risk and compartmentalize cookies/identities. In each profile, disable JavaScript in settings and configure allowed origins. Also consider disabling V8 optimization in Settings - see [this explanation](https://microsoftedge.github.io/edgevr/posts/Super-Duper-Secure-Mode) for the security trade-offs.
+Create separate browser profiles to reduce [cross-site scripting](https://en.wikipedia.org/wiki/Cross-site_scripting) risk and compartmentalize identities. In each profile, disable JavaScript in settings and configure allowed origins. Also consider disabling V8 optimization (JavaScript-engine performance features) in Settings - see [this explanation](https://microsoftedge.github.io/edgevr/posts/Super-Duper-Secure-Mode) for the security trade-offs.
 
 Block trackers with [uBlock Origin Lite](https://chromewebstore.google.com/detail/ublock-origin-lite/ddkjiahejlhfcafbddmgiahcphecmpfh).
 
-Disable [DNS prefetching](https://www.chromium.org/developers/design-documents/dns-prefetching) (see also [DNS Prefetching and Its Privacy Implications](https://www.usenix.org/legacy/event/leet10/tech/full_papers/Krishnan.pdf) (pdf)). Chrome [may attempt](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/350) to resolve DNS using Google's `8.8.8.8` and `8.8.4.4` public nameservers.
+Disable [DNS prefetching](https://www.chromium.org/developers/design-documents/dns-prefetching) (see [DNS Prefetching and Its Privacy Implications](https://www.usenix.org/legacy/event/leet10/tech/full_papers/Krishnan.pdf) (pdf)). Chrome [may attempt](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/350) to resolve DNS using Google's `8.8.8.8` and `8.8.4.4` public nameservers.
 
 See [Chromium Security](https://www.chromium.org/Home/chromium-security) and [Chromium Privacy](https://www.chromium.org/Home/chromium-privacy) for more information. Read [Google's privacy policy](https://policies.google.com/privacy) to understand how personal information is collected and used.
 
@@ -768,7 +769,7 @@ See also [el1t/uBlock-Safari](https://github.com/el1t/uBlock-Safari/wiki/Disable
 
 ## Web browser privacy
 
-Web browsers reveal information in several ways, for example through the [Navigator](https://developer.mozilla.org/docs/Web/API/Navigator) interface, which may include information such as the browser version, operating system, site permissions, and the device's battery level. Many websites also use [canvas fingerprinting](https://en.wikipedia.org/wiki/Canvas_fingerprinting) to uniquely identify users across sessions.
+Web browsers reveal information in several ways, for example through the [Navigator](https://developer.mozilla.org/docs/Web/API/Navigator) interface, which may include information such as the browser version, operating system, site permissions, and the device battery level. Many websites also use [canvas fingerprinting](https://en.wikipedia.org/wiki/Canvas_fingerprinting) to uniquely identify users across sessions.
 
 For more information about security-conscious browsing and what data is sent by the browser, see [HowTo: Privacy & Security Conscious Browsing](https://gist.github.com/atcuno/3425484ac5cce5298932), [browserleaks.com](https://browserleaks.com/), [Am I Unique?](https://amiunique.org/fingerprint) and [EFF Cover Your Tracks](https://coveryourtracks.eff.org/) resources.
 
