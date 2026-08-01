@@ -1,6 +1,6 @@
-This guide is a collection of techniques for improving the security and privacy of macOS on [Apple silicon](https://support.apple.com/116943) Macs. It targets power users who wish to adopt enterprise-standard security, but is also suitable for novice users with an interest in privacy and security.
+This guide is a collection of techniques for improving the security and privacy of macOS on [Apple silicon](https://support.apple.com/116943) Macs. It targets experienced users who want security practices commonly used by organizations, but is also suitable for novice users with an interest in privacy and security.
 
-For securing computers in an organization, refer to the [official NIST guidelines for macOS](https://github.com/usnistgov/macos_security).
+For securing computers in an organization, refer to the [security guidelines from NIST](https://github.com/usnistgov/macos_security), a U.S. government cybersecurity standards [organization](https://en.wikipedia.org/wiki/National_Institute_of_Standards_and_Technology)
 
 This guide is provided "as is" - without warranties of any kind. You are solely responsible for any consequences of following it.
 
@@ -83,7 +83,7 @@ Apply general security best practices:
 
 - Create a [threat model](#threat-modeling)
   - What needs protection and from whom? Is the adversary a three-letter agency, an eavesdropper on a network, or a determined [Advanced Persistent Threat (APT)](https://en.wikipedia.org/wiki/Advanced_persistent_threat) orchestrating a campaign against you?
-  - Recognize threats and learn how to reduce the attack surface against them.
+  - Recognize threats and learn how to reduce the number of ways an attacker could potentially access a system or data.
 
 - Keep the system and software up to date
   - Regularly install available updates for the operating system and all applications.
@@ -104,7 +104,7 @@ Apply general security best practices:
 
 # Threat modeling
 
-The first and most important step for security and privacy is to create a [threat model](https://owasp.org/www-community/Threat_Modeling). You need to understand your adversaries in order to defend against them. Each individual has their own needs; everyone threat model will be different. Threat models are likely to change over time and with circumstances, so periodic re-assessment is recommended.
+The most important step to meaningfully improve security and privacy is to create a [threat model](https://owasp.org/www-community/Threat_Modeling). This creates an understanding of potential adversaries and their motivations, which leads to stronger defenses. Each individual should develop their own unique threat model. Threat models are likely to change over time and should be periodically re-assessed.
 
 ## Assets
 
@@ -130,10 +130,10 @@ The following is an example of assets to protect:
 
 Adversary | Motivation | Capabilities | Mitigation
 :-: | :-: | :-: | :-:
-Roommate | See private chats or browsing history | Close proximity; can see screen or observe credentials | Use biometrics, use privacy screen, keep phone locked when not using it
-Thief | Unlock phone and steal personal info and drain bank accounts, sell phone for money | Shoulder surf to see password, steal device when not looking while it's logged in | Keep phone in sight or on person at all times, keep locked when not in use, use biometrics to avoid typing password in public, use Find My or similar service to track/remotely disable stolen device
-Criminal | Financial gain | Social engineering, readily-available malware, password reuse, exploiting vulnerabilities | Sandbox software, enable OS security features, maintain software updates automatically
-Corporation | Marketing based on user data | Telemetry and behavioral data collection | Block network connections, reset unique identifiers, avoid adding payment data
+Roommate | See private chats or browsing history | Close proximity; can see screen or observe credentials | Use biometric (fingerprint or face) authentication, use privacy screen, keep phone locked when not using it
+Thief | Unlock phone and steal personal info and drain bank accounts, sell phone for money | Observe password being entered, steal logged-in device left unattended | Maintain physical custody of device at all times, lock devices when not in use, avoid typing password in public view, use Find My or similar services to track or remotely disable stolen devices
+Criminal | Financial gain | Social engineering (tricking a user into revealing information or taking unsafe actions), readily-available malware, password reuse, exploiting vulnerabilities | Sandbox software, enable OS security features, maintain software updates automatically
+Corporation | Marketing based on user data | Telemetry and behavioral data collection | Block network connections, reset device-specific identifiers, avoid adding payment data
 Nation State/APT | Targeted surveillance | Passive surveillance of internet infrastructure, advanced encryption analysis | Use open-source software, strong diceware credentials, hardware with secure element, shut down devices when not in use, tripwire/honeypot/[canary tokens](https://canarytokens.org/) alerts
 
 Read more about [threat modeling](https://www.netmeister.org/blog/threat-model-101.html).
@@ -145,7 +145,7 @@ Read more about [threat modeling](https://www.netmeister.org/blog/threat-model-1
 
 macOS is most secure running on [Apple hardware](https://support.apple.com/guide/security/hardware-security-overview-secf020d1074/1/web/1) with Apple silicon; in general, newer models offer stronger security guarantees. Avoid non-Apple hardware running macOS and systems which do not support the latest macOS release, as Apple does not [patch all vulnerabilities](https://support.apple.com/guide/deployment/about-software-updates-depc4c80847a) in legacy versions.
 
-When using a wireless keyboard, mouse, headphones, or other accessory, Apple accessories are generally the most secure option because macOS updates them automatically. They also support the latest [Bluetooth features](https://support.apple.com/guide/security/bluetooth-security-sec82597d97e/web) like BLE Privacy which randomizes the Bluetooth hardware address to prevent tracking, which is not guaranteed with third-party accessories.
+When using a wireless keyboard, mouse, headphones, or other accessory, Apple accessories are generally the most secure option because macOS updates them automatically. They support the latest [Bluetooth features](https://support.apple.com/guide/security/bluetooth-security-sec82597d97e/web) such as [BLE](https://en.wikipedia.org/wiki/Bluetooth_Low_Energy) Privacy which randomizes the hardware address to reduce tracking, which is not always available with third-party accessories.
 
 When purchasing a Mac, consider paying in cash rather than ordering online or purchasing with a credit/debit card, to limit identifying information linked to the purchase.
 
@@ -171,15 +171,15 @@ You can [disable](https://support.apple.com/102651) the syncing later or enable 
 
 ## App Store
 
-The Mac App Store is a [curated](https://developer.apple.com/app-store/review/guidelines) software repository.
+The [App Store](https://en.wikipedia.org/wiki/Mac_app_store) is a software distribution platform where applications are [reviewed](https://developer.apple.com/app-store/review/guidelines) by Apple.
 
-Apps distributed through it are required to use [App Sandbox](https://developer.apple.com/documentation/security/app_sandbox/protecting_user_data_with_app_sandbox) and [Hardened Runtime](https://developer.apple.com/documentation/security/hardened_runtime), as well as offering automatic updates.
+App Store applications are required to use [App Sandbox](https://developer.apple.com/documentation/security/app_sandbox/protecting_user_data_with_app_sandbox) and [Hardened Runtime](https://developer.apple.com/documentation/security/hardened_runtime) (security features restricting what apps can do, making some attacks more difficult). It also offers automatic software updates.
 
-App Store distribution provides additional platform review and sandboxing requirements, but also requires an Apple Account, which can create a privacy risk.
+Using the App Store requires an Apple Account, which can pose a privacy risk.
 
 ## Virtualization
 
-On Apple silicon, macOS includes Apple's Virtualization framework, which supports macOS and Windows 11 ARM virtual machines through tools such as:
+On Apple silicon, macOS includes Apple's [Virtualization framework](https://developer.apple.com/documentation/virtualization), which supports macOS and Windows 11 ARM virtual machines through tools such as:
 
 - [UTM](https://mac.getutm.app/) - Follow the [documentation](https://docs.getutm.app/guest-support/macos) to create macOS and other VMs.
 - [VirtualBuddy](https://github.com/insidegui/VirtualBuddy) - GUI for virtualizing macOS 12+ on Apple silicon.
@@ -221,15 +221,15 @@ It is not required to ever log in with the admin account via the macOS login scr
 
 ## Caveats
 
-- Only administrators can install applications in `/Applications` (local directory). Finder and Installer will prompt a standard user with an authentication dialog. Many applications can be installed in `~/Applications` instead (the directory can be created). As a rule of thumb: applications that do not require admin access – or do not complain about not being installed in `/Applications` – should be installed in the user directory, the rest in the local directory. App Store applications are still installed in `/Applications` and require no additional authentication.
+- Only administrators can install applications in `/Applications` (local directory). Finder and Installer will prompt a standard user with a password prompt asking an administrator to approve the change. Many applications can be installed in `~/Applications` instead. As a rule of thumb, applications which do not require admin access – or do not complain about not being installed in `/Applications` – should be installed in the user directory, the rest in the local directory. App Store applications are still installed in `/Applications` and require no additional authentication.
 - `sudo` is not available in shells of the standard user, which requires using `su` or `login` to enter a shell of the admin account. This can make some maneuvers trickier and requires some basic experience with command-line interfaces.
-- System Settings and several system utilities (e.g., Wi-Fi Diagnostics) require root privileges for full functionality. Some System Settings need to be unlocked by selecting the lock icon. Some applications will simply prompt for authentication upon opening, others must be opened by an admin account directly to access all functions (e.g., Console).
+- System Settings and several system utilities (e.g., Wi-Fi Diagnostics) require administrator permission for full functionality. Some System Settings need to be unlocked by selecting the lock icon. Some applications will simply prompt for authentication upon opening, others must be opened by an admin account directly to access all functions (e.g., Console).
 - There are third-party applications that will not work correctly because they assume the user account is an admin. These programs may have to be executed by the admin account, or by using the `open` utility.
 - See additional discussion in [issue 167](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/167).
 
 ## Setup
 
-Accounts can be created and managed in System Settings. On existing systems, it is generally easier to create a second admin account and then demote the first account, avoiding data migration. Newly-installed systems should instead add a standard account after setup.
+Accounts can be created and managed in System Settings. On existing systems, it is generally easier to create a second admin account and then change the original account from an administrator account to a standard account.  Newly-installed systems should instead add a standard account after setup.
 
 Demoting an account can be done either from the new admin account in System Settings – the other account must be logged out – or by executing these commands (it may not be necessary to execute both, see [issue 179](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/179)):
 
@@ -290,7 +290,7 @@ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setallowsigned off
 sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setallowsignedapp off
 ```
 
-Applications signed by a valid certificate authority are automatically added to the allowlist, rather than prompting the user to authorize them. Apps included in macOS are signed by Apple and are allowed to receive incoming connections when this setting is enabled.
+Applications signed by a valid certificate authority are automatically added to the list of allowed apps, rather than prompting the user to authorize them. Apps included in macOS are signed by Apple and are allowed to receive incoming connections when this setting is enabled.
 
 If an unsigned app not listed in the firewall list is opened, a dialog appears with options to Allow or Deny connections. If allowed, macOS signs the application and adds it to the firewall list. If denied, macOS adds it to the list and denies incoming connections.
 
@@ -313,7 +313,7 @@ If frequent allow-or-block prompts are overwhelming, begin with Silent Mode conf
 
 ## Packet filter
 
-macOS also includes a powerful, highly customizable kernel-level firewall. However, it is the most complex option and is managed with `pfctl` and configuration files.
+macOS also includes a powerful, highly customizable kernel-level firewall called [pf](https://en.wikipedia.org/wiki/PF_(firewall)). However, it is the most complex option and is managed with `pfctl` and configuration files.
 
 pf can also be controlled with a GUI application such as [Murus](https://www.murusfirewall.com/).
 
@@ -353,7 +353,7 @@ monitor blocked packets | `sudo tcpdump -ni pflog0`
 
 pf can block access to ranges of network addresses, for example to an entire organization:
 
-Query [Merit RADb](https://www.radb.net/) for the list of networks in use by an autonomous system, like [Facebook](https://ipinfo.io/AS32934):
+Query [Merit RADb](https://www.radb.net/) for the list of networks in use by an [autonomous system](https://en.wikipedia.org/wiki/Autonomous_system_(Internet)) (a large network operated by a single organization), such as [Facebook](https://ipinfo.io/AS32934):
 
 ```bash
 whois -h whois.radb.net '!gAS32934'
@@ -417,7 +417,7 @@ list installed system agents | `ls /System/Library/LaunchAgents`
 read a service configuration | `defaults read /System/Library/LaunchAgents/com.apple.Finder`
 
 > [!IMPORTANT]
-> System services are protected by SIP. Do not disable SIP just to modify system services as it is a fundamental part of the macOS security model. Disabling system services may also cause system instability.
+> System services are protected by [SIP](https://github.com/drduh/macOS-Security-and-Privacy-Guide#system-integrity-protection). Do not disable SIP just to modify system services as it is a fundamental part of the macOS security model. Disabling system services may also cause system instability.
 
 To view the status of services:
 
@@ -437,7 +437,7 @@ If a program is not available through the App Store, consider using [Homebrew](h
 
 > [!WARNING]
 > Homebrew requests "App Management" (or "Full Disk Access") permission to Terminal.
-> This is risky: any non-sandboxed application can execute code with Terminal's TCC permissions by adding a malicious command to the shell configuration.
+> This is risky: any non-sandboxed application can execute code with Terminal's [TCC permissions](https://eclecticlight.co/2025/11/08/explainer-permissions-privacy-and-tcc/) by adding a malicious command to the shell configuration.
 > Treat granting App Management or Full Disk Access permissions as equivalent to disabling TCC protections for processes that can control or execute commands through Terminal.
 
 Remember to periodically run `brew upgrade` on trusted and secure networks to download and install software updates. To get information on a package before installation, run `brew info <package>` and check its formula online. You may also wish to enable [additional security options](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/138), such as `HOMEBREW_NO_INSECURE_REDIRECT=1`
@@ -705,7 +705,7 @@ The Web browser creates numerous security and privacy risks, as its fundamental 
 
 An important property of modern browsers is the Same Origin Policy ([SOP](https://en.wikipedia.org/wiki/Same-origin_policy)), which prevents a malicious script on one page from obtaining access to sensitive data on another web page through the Document Object Model ([DOM](https://en.wikipedia.org/wiki/Document_Object_Model)). If the SOP is compromised, the security of the entire browser is at risk.
 
-Many browser exploits are based on social engineering as a means of gaining persistence. Always be mindful when visiting untrusted sites and especially careful when downloading new software.
+Many browser exploits use social engineering to gain persistence; always be mindful when visiting untrusted sites and especially careful when downloading new software.
 
 Browser extensions pose a significant security risk: a malicious or poorly-made extension can compromise everything in the browser, including credentials. This affects Firefox and [Chrome](https://courses.csail.mit.edu/6.857/2016/files/24.pdf) alike. The use of browser extensions should be limited to critically necessary ones, published by trustworthy developers only.
 
@@ -752,9 +752,9 @@ See [Chromium Security](https://www.chromium.org/Home/chromium-security) and [Ch
 
 ## Safari
 
-[Safari](https://www.apple.com/safari) is the default browser on macOS. It is also the most optimized browser for reducing battery use. Safari, like Chrome, has both open-source and proprietary components. Safari is based on the open-source Web Engine [WebKit](https://webkit.org/), which is ubiquitous among the macOS ecosystem. WebKit is used by Apple apps such as Mail, Books, and the App Store. Chrome's [Blink](https://www.chromium.org/blink) engine is a fork of WebKit and both engines share a number of similarities.
+[Safari](https://www.apple.com/safari) is the default browser on macOS. It is also the most optimized browser for reducing battery use. Safari has both open-source and proprietary components. Safari is based on the open-source Web Engine [WebKit](https://webkit.org/), which is ubiquitous among the macOS ecosystem. WebKit is used by Apple apps such as Mail, Books, and the App Store. Chrome's [Blink](https://www.chromium.org/blink) engine is a fork of WebKit and both engines share a number of similarities.
 
-Safari supports certain unique features that benefit user security and privacy. [Content blockers](https://webkit.org/blog/3476/content-blockers-first-look) enable the creation of content blocking rules without using JavaScript. This rule based approach greatly improves memory use, security, and privacy. Safari 11 introduced [Intelligent Tracking Prevention](https://webkit.org/blog/7675/intelligent-tracking-prevention), which removes tracking data stored in Safari after a period of non-interaction by the user from the tracker's website. Safari can randomize the browser fingerprint to reduce tracking. Safari does not support certain features like WebUSB or the Battery API intentionally for security and privacy reasons. Private tabs in Safari have isolated cookies and cache that is destroyed when you close the tab. Safari also support Profiles which are equivalent to Firefox's Multi-Account Containers for separating cookies and browsing. Safari can be made significantly more secure with [lockdown mode](#lockdown-mode), which can be disabled per-site. Read more about [tracking prevention](https://webkit.org/tracking-prevention/) in Safari.
+Safari supports certain unique features that benefit user security and privacy. [Content blockers](https://webkit.org/blog/3476/content-blockers-first-look) enable the creation of content blocking rules without using JavaScript. This rule based approach greatly improves memory use, security, and privacy. Safari 11 introduced [Intelligent Tracking Prevention](https://webkit.org/blog/7675/intelligent-tracking-prevention), which removes tracking data stored in Safari after a period of non-interaction by the user from the tracker's website. Safari can randomize the browser fingerprint to reduce tracking. Safari does not support certain features such as WebUSB or the Battery API intentionally for security and privacy reasons. Private tabs in Safari have isolated cookies and cache that is destroyed when you close the tab. Safari also support Profiles which are equivalent to Firefox's Multi-Account Containers for separating cookies and browsing. Safari can be made significantly more secure with [lockdown mode](#lockdown-mode), which can be disabled per-site. Read more about [tracking prevention](https://webkit.org/tracking-prevention/) in Safari.
 
 Safari offers an invite-only [bounty program](https://developer.apple.com/bug-reporting) for bug reporting to a select number of security researchers. The bounty program was announced during Apple's [presentation](https://www.blackhat.com/docs/us-16/materials/us-16-Krstic.pdf) at [BlackHat](https://www.blackhat.com/us-16/briefings.html#behind-the-scenes-of-ios-security) 2016.
 
@@ -956,7 +956,7 @@ The [archived messages feature](https://support.mozilla.org/en-US/kb/archived-me
 
 Depending on the provider, you might not need anything other than a username and password to set up an account.
 
-XMPP is not E2EE by default - use [OMEMO](https://omemo.top) encryption with a supported client.
+XMPP is not end-to-end encrypted (E2EE) by default - use [OMEMO](https://omemo.top/) with a supported client.
 
 ## Signal
 
@@ -1312,7 +1312,7 @@ sudo lsof -Pni TCP:22
 
 Do not leave the computer unattended in unsafe locations. A skilled attacker with unsupervised physical access could install a [hardware keylogger](https://trmm.net/Thunderstrike_31c3) to record keystrokes, including passwords. Using a Mac with a built-in keyboard or a bluetooth keyboard makes this more difficult as many off-the-shelf versions of this attack are designed to be plugged in between a USB keyboard and the computer.
 
-To protect against physical theft during use, use an anti-forensic tool like [buskill/buskill-app](https://github.com/buskill/buskill-app) or [Lennolium/swiftGuard](https://github.com/Lennolium/swiftGuard) (updated usbkill, with graphical user interface). All respond to USB events and can immediately shut the computer down if the device is physically separated or an unauthorized device is connected.
+To protect against physical theft during use, use an anti-forensic tool such as [buskill/buskill-app](https://github.com/buskill/buskill-app) or [Lennolium/swiftGuard](https://github.com/Lennolium/swiftGuard) (updated usbkill, with graphical user interface). All respond to USB events and can immediately shut the computer down if the device is physically separated or an unauthorized device is connected.
 
 Consider purchasing a privacy screen/filter for use in public.
 
