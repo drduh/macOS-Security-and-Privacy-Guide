@@ -8,58 +8,58 @@ To suggest a change, submit a [pull request](https://github.com/drduh/macOS-Secu
 
 - [Basics](#basics)
 - [Threat modeling](#threat-modeling)
-   * [Assets](#assets)
-   * [Adversaries](#adversaries)
-   * [Capabilities](#capabilities)
-   * [Mitigations](#mitigations)
+  - [Assets](#assets)
+  - [Adversaries](#adversaries)
+  - [Capabilities](#capabilities)
+  - [Mitigations](#mitigations)
 - [Hardware](#hardware)
 - [Installing macOS](#installing-macos)
-   * [System activation](#system-activation)
-   * [Apple Account](#apple-account)
-   * [App Store](#app-store)
-   * [Virtualization](#virtualization)
-     * [Apple containers](#apple-containers)
+  - [System activation](#system-activation)
+  - [Apple Account](#apple-account)
+  - [App Store](#app-store)
+  - [Virtualization](#virtualization)
+    - [Apple containers](#apple-containers)
 - [First boot](#first-boot)
 - [Admin and user accounts](#admin-and-user-accounts)
-   * [Caveats](#caveats)
-   * [Setup](#setup)
+  - [Caveats](#caveats)
+  - [Setup](#setup)
 - [Firmware](#firmware)
 - [FileVault](#filevault)
 - [Lockdown Mode](#lockdown-mode)
 - [Firewall](#firewall)
-   * [Application layer firewall](#application-layer-firewall)
-   * [Third-party firewalls](#third-party-firewalls)
-   * [Packet filter](#packet-filter)
+  - [Application layer firewall](#application-layer-firewall)
+  - [Third-party firewalls](#third-party-firewalls)
+  - [Packet filter](#packet-filter)
 - [Services](#services)
 - [Siri Suggestions and Spotlight](#siri-suggestions-and-spotlight)
 - [Homebrew](#homebrew)
 - [DNS](#dns)
-   * [DNS profiles](#dns-profiles)
-   * [Hosts file](#hosts-file)
-   * [DNSCrypt](#dnscrypt)
-   * [Dnsmasq](#dnsmasq)
+  - [DNS profiles](#dns-profiles)
+  - [Hosts file](#hosts-file)
+  - [DNSCrypt](#dnscrypt)
+  - [Dnsmasq](#dnsmasq)
 - [Certificate authorities](#certificate-authorities)
 - [Privoxy](#privoxy)
 - [Browser](#browser)
-   * [Firefox](#firefox)
-   * [Chrome](#chrome)
-   * [Safari](#safari)
-   * [Web browser privacy](#web-browser-privacy)
+  - [Firefox](#firefox)
+  - [Chrome](#chrome)
+  - [Safari](#safari)
+  - [Web browser privacy](#web-browser-privacy)
 - [Tor](#tor)
 - [VPN](#vpn)
 - [PGP/GPG](#pgpgpg)
 - [Email](#email)
-   * [Thunderbird](#thunderbird)
+  - [Thunderbird](#thunderbird)
 - [Messengers](#messengers)
-   * [XMPP](#xmpp)
-   * [Signal](#signal)
-   * [iMessage](#imessage)
+  - [XMPP](#xmpp)
+  - [Signal](#signal)
+  - [iMessage](#imessage)
 - [Viruses and malware](#viruses-and-malware)
-   * [Downloading Software](#downloading-software)
-   * [App Sandbox](#app-sandbox)
-   * [Hardened Runtime](#hardened-runtime)
-   * [Antivirus](#antivirus)
-   * [Gatekeeper](#gatekeeper)
+  - [Downloading Software](#downloading-software)
+  - [App Sandbox](#app-sandbox)
+  - [Hardened Runtime](#hardened-runtime)
+  - [Antivirus](#antivirus)
+  - [Gatekeeper](#gatekeeper)
 - [System Integrity Protection](#system-integrity-protection)
 - [Metadata and artifacts](#metadata-and-artifacts)
 - [Authentication](#authentication)
@@ -68,11 +68,11 @@ To suggest a change, submit a [pull request](https://github.com/drduh/macOS-Secu
 - [SSH](#ssh)
 - [Physical access](#physical-access)
 - [Monitoring](#monitoring)
-   * [Logs](#logs)
-   * [OpenBSM audit](#openbsm-audit)
-   * [DTrace](#dtrace)
-   * [Processes](#processes)
-   * [Network](#network)
+  - [Logs](#logs)
+  - [OpenBSM audit](#openbsm-audit)
+  - [DTrace](#dtrace)
+  - [Processes](#processes)
+  - [Network](#network)
 - [Miscellaneous](#miscellaneous)
 - [Related software](#related-software)
 - [Additional resources](#additional-resources)
@@ -181,12 +181,12 @@ App Store distribution provides additional platform review and sandboxing requir
 
 On Apple silicon, macOS includes Apple's Virtualization framework, which supports macOS and Windows 11 ARM virtual machines through tools such as:
 
-* [UTM](https://mac.getutm.app/) - Follow the [documentation](https://docs.getutm.app/guest-support/macos) to create macOS and other VMs.
-* [VirtualBuddy](https://github.com/insidegui/VirtualBuddy) - GUI for virtualizing macOS 12+ on Apple silicon.
-* [Bushel](https://getbushel.app/) - A lightweight, free VM app. On first launch, select "Ask App Not to Track".
-* [VMware Fusion](https://knowledge.broadcom.com/external/article/315638/download-and-install-vmware-fusion.html) - Now free under Broadcom. Clean UI, easy macOS setup, and supports Windows 11 ARM.
-* [tart (CLI)](https://tart.run/) - Command‑line VM control; install with Homebrew.
-* [Parallels](https://www.parallels.com/) - Paid option with strong integration.
+- [UTM](https://mac.getutm.app/) - Follow the [documentation](https://docs.getutm.app/guest-support/macos) to create macOS and other VMs.
+- [VirtualBuddy](https://github.com/insidegui/VirtualBuddy) - GUI for virtualizing macOS 12+ on Apple silicon.
+- [Bushel](https://getbushel.app/) - A lightweight, free VM app. On first launch, select "Ask App Not to Track".
+- [VMware Fusion](https://knowledge.broadcom.com/external/article/315638/download-and-install-vmware-fusion.html) - Now free under Broadcom. Clean UI, easy macOS setup, and supports Windows 11 ARM.
+- [tart (CLI)](https://tart.run/) - Command‑line VM control; install with Homebrew.
+- [Parallels](https://www.parallels.com/) - Paid option with strong integration.
 
 > [!WARNING]
 > VMware requires a Broadcom account and acceptance of agreements before download.
@@ -221,11 +221,11 @@ It is not required to ever log in with the admin account via the macOS login scr
 
 ## Caveats
 
-* Only administrators can install applications in `/Applications` (local directory). Finder and Installer will prompt a standard user with an authentication dialog. Many applications can be installed in `~/Applications` instead (the directory can be created). As a rule of thumb: applications that do not require admin access – or do not complain about not being installed in `/Applications` – should be installed in the user directory, the rest in the local directory. App Store applications are still installed in `/Applications` and require no additional authentication.
-* `sudo` is not available in shells of the standard user, which requires using `su` or `login` to enter a shell of the admin account. This can make some maneuvers trickier and requires some basic experience with command-line interfaces.
-* System Settings and several system utilities (e.g., Wi-Fi Diagnostics) require root privileges for full functionality. Some System Settings need to be unlocked by selecting the lock icon. Some applications will simply prompt for authentication upon opening, others must be opened by an admin account directly to access all functions (e.g., Console).
-* There are third-party applications that will not work correctly because they assume the user account is an admin. These programs may have to be executed by the admin account, or by using the `open` utility.
-* See additional discussion in [issue 167](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/167).
+- Only administrators can install applications in `/Applications` (local directory). Finder and Installer will prompt a standard user with an authentication dialog. Many applications can be installed in `~/Applications` instead (the directory can be created). As a rule of thumb: applications that do not require admin access – or do not complain about not being installed in `/Applications` – should be installed in the user directory, the rest in the local directory. App Store applications are still installed in `/Applications` and require no additional authentication.
+- `sudo` is not available in shells of the standard user, which requires using `su` or `login` to enter a shell of the admin account. This can make some maneuvers trickier and requires some basic experience with command-line interfaces.
+- System Settings and several system utilities (e.g., Wi-Fi Diagnostics) require root privileges for full functionality. Some System Settings need to be unlocked by selecting the lock icon. Some applications will simply prompt for authentication upon opening, others must be opened by an admin account directly to access all functions (e.g., Console).
+- There are third-party applications that will not work correctly because they assume the user account is an admin. These programs may have to be executed by the admin account, or by using the `open` utility.
+- See additional discussion in [issue 167](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/167).
 
 ## Setup
 
@@ -472,9 +472,9 @@ To block a domain by [A record](https://en.wikipedia.org/wiki/List_of_DNS_record
 Many domain lists are available online. Before appending one to `/etc/hosts`, ensure each entry begins with `0`, `0.0.0.0`, or `127.0.0.1`, and retain the `127.0.0.1 localhost` entry.
 
 Popular hosts lists include:
-* [StevenBlack/hosts](https://github.com/StevenBlack/hosts)
-* [Sinfonietta/hostfiles](https://github.com/Sinfonietta/hostfiles)
-* [someonewhocares.org](https://someonewhocares.org/hosts/zero/hosts)
+- [StevenBlack/hosts](https://github.com/StevenBlack/hosts)
+- [Sinfonietta/hostfiles](https://github.com/Sinfonietta/hostfiles)
+- [someonewhocares.org](https://someonewhocares.org/hosts/zero/hosts)
 
 To append a remote hosts list to `/etc/hosts`, use `tee`:
 
@@ -727,12 +727,12 @@ Firefox only supports Web Extensions through the [WebExtension API](https://deve
 
 [Google Chrome](https://www.google.com/chrome/) is based on the open-source [Chromium project](https://www.chromium.org/) with certain [proprietary components](https://fossbytes.com/difference-google-chrome-vs-chromium-browser), such as:
 
-* [Chrome Web Store](https://chromewebstore.google.com/)
-* Automatic updates with GoogleSoftwareUpdateDaemon
-* Usage tracking and crash reporting, which can be disabled through Chrome's settings
-* Media Codec support for proprietary codecs
-* PDF viewer
-* Non-optional tracking. Google Chrome installer includes a randomly generated token, which is sent to Google. The RLZ identifier stores information in the form of encoded strings, such as the source of the download and install time. It does not include personal information and it's used to measure the effectiveness of a promotional campaign. **Chrome downloaded from Google's website doesn't have the RLZ identifier**. The source code to decode the strings is made open by Google.
+- [Chrome Web Store](https://chromewebstore.google.com/)
+- Automatic updates with GoogleSoftwareUpdateDaemon
+- Usage tracking and crash reporting, which can be disabled through Chrome's settings
+- Media Codec support for proprietary codecs
+- PDF viewer
+- Non-optional tracking. Google Chrome installer includes a randomly generated token, which is sent to Google. The RLZ identifier stores information in the form of encoded strings, such as the source of the download and install time. It does not include personal information and it's used to measure the effectiveness of a promotional campaign. **Chrome downloaded from Google's website doesn't have the RLZ identifier**. The source code to decode the strings is made open by Google.
 
 Chrome offers account sync between multiple devices, including credentials; the data is encrypted with the account password.
 
@@ -1038,11 +1038,9 @@ See [Sophail: Applied attacks against Antivirus](https://lock.cmpxchg8b.com/soph
 
 ## Gatekeeper
 
-**Gatekeeper** tries to prevent non-notarized applications from running.
+[Gatekeeper](https://support.apple.com/guide/security/gatekeeper-and-runtime-protection-sec5599b66df/web) verifies software notarization and provenance.
 
-If you try to run an app that isn't notarized, Gatekeeper will give you a warning. This can be easily bypassed if you go to **Privacy & Security**, scroll down to the bottom and select **Open** on the app. Then Gatekeeper will allow it to run.
-
-Gatekeeper only protects applications, so exercise caution running other binaries.
+Gatekeeper warns when opening an application without notarization. It can be bypassed by selecting the application listed in **System Settings** > **Privacy & Security** after a failed attempt.
 
 # System Integrity Protection
 
@@ -1349,11 +1347,11 @@ See articles on [ilostmynotes.blogspot.com](https://ilostmynotes.blogspot.com/20
 
 [System Integrity Protection](https://github.com/drduh/macOS-Security-and-Privacy-Guide#system-integrity-protection) interferes with DTrace, so it is not possible to use it in recent macOS versions without disabling SIP.
 
-* `iosnoop` monitors disk I/O
-* `opensnoop` monitors file opens
-* `execsnoop` monitors processes
-* `errinfo` monitors failed system calls
-* `dtruss` monitors all system calls
+- `iosnoop` monitors disk I/O
+- `opensnoop` monitors file opens
+- `execsnoop` monitors processes
+- `errinfo` monitors failed system calls
+- `dtruss` monitors all system calls
 
 See `man -k dtrace` for more information.
 
@@ -1514,19 +1512,19 @@ export HOME=/Users/user1
 
 # Related software
 
-* [CISOfy/lynis](https://github.com/CISOfy/lynis) - Cross-platform security auditing tool and assists with compliance testing and system hardening.
-* [Zentral](https://github.com/zentralopensource/zentral) - A log and configuration server for osquery. Run audit and probes on inventory, events, logfiles, combine with point-in-time alerting. A full Framework and Django web server build on top of the elastic stack (formerly known as ELK stack).
-* [osquery](https://github.com/osquery/osquery) - Can be used to retrieve low-level system information. Users can write SQL queries to retrieve system information.
-* [Pareto Security](https://github.com/paretoSecurity/pareto-mac) - A MenuBar app to automatically audit your Mac for basic security hygiene.
+- [CISOfy/lynis](https://github.com/CISOfy/lynis) - Cross-platform security auditing tool and assists with compliance testing and system hardening.
+- [Zentral](https://github.com/zentralopensource/zentral) - A log and configuration server for osquery. Run audit and probes on inventory, events, logfiles, combine with point-in-time alerting. A full Framework and Django web server build on top of the elastic stack (formerly known as ELK stack).
+- [osquery](https://github.com/osquery/osquery) - Can be used to retrieve low-level system information. Users can write SQL queries to retrieve system information.
+- [Pareto Security](https://github.com/paretoSecurity/pareto-mac) - A MenuBar app to automatically audit your Mac for basic security hygiene.
 
 # Additional resources
 
-* [Apple Open Source](https://opensource.apple.com/)
-* [CIS Benchmarks](https://www.cisecurity.org/benchmark/apple_os/)
-* [EFF Surveillance Self-Defense Guide](https://ssd.eff.org/)
-* [iOS, The Future Of macOS, Freedom, Security And Privacy In An Increasingly Hostile Global Environment](https://gist.github.com/iosecure/357e724811fe04167332ef54e736670d)
-* [Patrick Wardle's Objective-See blog](https://objective-see.com/blog.html)
-* [Reverse Engineering macOS blog](https://reverse.put.as/)
-* [Reverse Engineering Resources](http://samdmarshall.com/re.html)
-* [iCloud security and privacy overview](https://support.apple.com/102651)
-* [Malwarebytes Blog](https://www.malwarebytes.com/blog)
+- [Apple Open Source](https://opensource.apple.com/)
+- [CIS Benchmarks](https://www.cisecurity.org/benchmark/apple_os/)
+- [EFF Surveillance Self-Defense Guide](https://ssd.eff.org/)
+- [iOS, The Future Of macOS, Freedom, Security And Privacy In An Increasingly Hostile Global Environment](https://gist.github.com/iosecure/357e724811fe04167332ef54e736670d)
+- [Patrick Wardle's Objective-See blog](https://objective-see.com/blog.html)
+- [Reverse Engineering macOS blog](https://reverse.put.as/)
+- [Reverse Engineering Resources](http://samdmarshall.com/re.html)
+- [iCloud security and privacy overview](https://support.apple.com/102651)
+- [Malwarebytes Blog](https://www.malwarebytes.com/blog)
