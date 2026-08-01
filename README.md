@@ -47,6 +47,8 @@ To suggest a change, submit a [pull request](https://github.com/drduh/macOS-Secu
 - [Tor](#tor)
 - [VPN](#vpn)
 - [PGP/GPG](#pgpgpg)
+- [Email](#email)
+   * [Thunderbird](#thunderbird)
 - [Messengers](#messengers)
    * [XMPP](#xmpp)
    * [Signal](#signal)
@@ -928,6 +930,18 @@ curl -o ~/.gnupg/gpg.conf https://raw.githubusercontent.com/drduh/YubiKey-Guide/
 ```
 
 See [drduh/YubiKey-Guide](https://github.com/drduh/YubiKey-Guide) to generate and manage GPG credentials.
+
+# Email
+
+Email is not designed to provide strong privacy by default: message content may be retained by service providers, copied to recipients' mailboxes, forwarded, or exposed through account compromise. Metadata (including recipient, subject, timestamps, and mail server information) generally remains visible even when message content is encrypted.
+
+## Thunderbird
+
+[Thunderbird](https://www.thunderbird.net/) is a free and open-source email client with standard IMAP, POP, CalDAV, and CardDAV support. It is a suitable choice for accessing and retaining mail locally rather than depend exclusively on a provider's remote server.
+
+Thunderbird includes support for [OpenPGP](https://support.mozilla.org/kb/openpgp-thunderbird-howto-and-faq) email encryption, which can protect message content and provide cryptographic signatures. Always verify public-key fingerprints through an independent channel before relying on a key for sensitive communication.
+
+The [archived messages feature](https://support.mozilla.org/en-US/kb/archived-messages) can move messages out of remote mail servers to a **Local Folder**, improving privacy.
 
 # Messengers
 
