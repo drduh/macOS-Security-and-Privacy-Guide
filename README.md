@@ -82,7 +82,7 @@ To suggest a change, submit a [pull request](https://github.com/drduh/macOS-Secu
 Apply general security best practices:
 
 - Create a [threat model](#threat-modeling)
-  - What are you trying to protect and from whom? Is the adversary a three-letter agency, a nosy eavesdropper on the network, or a determined [APT](https://en.wikipedia.org/wiki/Advanced_persistent_threat) orchestrating a campaign against you?
+  - What needs protection and from whom? Is the adversary a three-letter agency, an eavesdropper on a network, or a determined [Advanced Persistent Threat (APT)](https://en.wikipedia.org/wiki/Advanced_persistent_threat) orchestrating a campaign against you?
   - Recognize threats and learn how to reduce the attack surface against them.
 
 - Keep the system and software up to date
@@ -143,7 +143,7 @@ Read more about [threat modeling](https://www.netmeister.org/blog/threat-model-1
 > [!IMPORTANT]
 > Macs with Intel CPUs have [security vulnerabilities](https://github.com/axi0mX/ipwndfu?tab%253Dreadme-ov-file#checkm8) on a hardware level which cannot be patched.
 
-macOS is most secure running on [Apple hardware](https://support.apple.com/guide/security/hardware-security-overview-secf020d1074/1/web/1) with Apple silicon; in general, newer models offer stronger security guarantees. Avoid hackintoshes and Macs which do not support the latest macOS release, as Apple does not [patch all vulnerabilities](https://support.apple.com/guide/deployment/about-software-updates-depc4c80847a) in legacy versions.
+macOS is most secure running on [Apple hardware](https://support.apple.com/guide/security/hardware-security-overview-secf020d1074/1/web/1) with Apple silicon; in general, newer models offer stronger security guarantees. Avoid non-Apple hardware running macOS and systems which do not support the latest macOS release, as Apple does not [patch all vulnerabilities](https://support.apple.com/guide/deployment/about-software-updates-depc4c80847a) in legacy versions.
 
 When using a wireless keyboard, mouse, headphones, or other accessory, Apple accessories are generally the most secure option because macOS updates them automatically. They also support the latest [Bluetooth features](https://support.apple.com/guide/security/bluetooth-security-sec82597d97e/web) like BLE Privacy which randomizes the Bluetooth hardware address to prevent tracking, which is not guaranteed with third-party accessories.
 
@@ -157,7 +157,7 @@ Install the latest supported version of macOS; newer versions of macOS include s
 
 ## System activation
 
-As part of Apple's [theft prevention system](https://support.apple.com/102541), Apple silicon Macs connect to Apple servers when macOS is installed to check against the database of stolen/activation-locked Macs.
+As part of Apple's [theft prevention system](https://support.apple.com/102541), Apple silicon Macs connect to Apple servers when macOS is installed to check against the database of lost or stolen systems.
 
 Read about [how this process works](https://support.apple.com/guide/security/localpolicy-signing-key-creation-management-sec1f90fbad1).
 
@@ -254,7 +254,7 @@ Verify that firmware security is set to [Full Security](https://support.apple.co
 
 All Apple silicon Macs encrypt storage by default. Enabling [FileVault](https://support.apple.com/guide/mac-help/mh11785/mac) requires a password before macOS can access the encrypted volume. The EFF has a guide on generating [strong and memorable passwords](https://www.eff.org/dice).
 
-The FileVault password also acts as a [firmware password](https://support.apple.com/102384), which prevents booting from anything other than the designated startup disk, accessing [Recovery](https://support.apple.com/guide/mac-help/macos-recovery-a-mac-apple-silicon-mchl82829c17/15.0/mac/15.0#mchl5abfbb29), and [reviving](https://support.apple.com/108900) it with DFU mode.
+The FileVault password also protects the [firmware](https://support.apple.com/102384), which prevents booting from anything other than the designated startup disk, accessing [Recovery](https://support.apple.com/guide/mac-help/macos-recovery-a-mac-apple-silicon-mchl82829c17/15.0/mac/15.0#mchl5abfbb29), and [reviving](https://support.apple.com/108900) it with device firmware update (DFU) mode.
 
 FileVault will prompt to set a recovery key, which should be stored in a safe location if used. FileVault also offers an option to use iCloud for recovery.
 
@@ -942,9 +942,9 @@ Email is not designed to provide strong privacy by default: message content may 
 
 ## Thunderbird
 
-[Thunderbird](https://www.thunderbird.net/) is a free and open-source email client with standard IMAP, POP, CalDAV, and CardDAV support. It is a suitable choice for accessing and retaining mail locally rather than depend exclusively on a provider's remote server.
+[Thunderbird](https://www.thunderbird.net/) is a free and open-source email client with standard [IMAP](https://en.wikipedia.org/wiki/Internet_Message_Access_Protocol), [POP](https://en.wikipedia.org/wiki/Post_Office_Protocol), [CalDAV](https://en.wikipedia.org/wiki/CalDAV), and [CardDAV](https://en.wikipedia.org/wiki/CardDAV) support. It is a suitable choice for accessing and retaining mail locally rather than depend exclusively on a provider's remote server.
 
-Thunderbird includes support for [OpenPGP](https://support.mozilla.org/kb/openpgp-thunderbird-howto-and-faq) email encryption, which can protect message content and provide cryptographic signatures. Always verify public-key fingerprints through an independent channel before relying on a key for sensitive communication.
+Thunderbird includes support for [OpenPGP](https://support.mozilla.org/kb/openpgp-thunderbird-howto-and-faq) email encryption, which can protect message content and provide cryptographic [signatures](https://www.gnupg.org/gph/en/manual/x135.html). Always verify public-key fingerprints through an independent channel before relying on a key for sensitive communication.
 
 The [archived messages feature](https://support.mozilla.org/en-US/kb/archived-messages) can move messages out of remote mail servers to a **Local Folder**, improving privacy.
 
@@ -1276,7 +1276,7 @@ Set wireless network security to [WPA3](https://en.wikipedia.org/wiki/WPA3#WPA3)
 
 For outgoing SSH connections, use hardware or password-protected keys, [set up](http://nerderati.com/2011/03/17/simplify-your-life-with-an-ssh-config-file/) remote hosts and consider [hashing](http://nms.csail.mit.edu/projects/ssh/) them for added privacy. See [drduh/config/ssh_config](https://github.com/drduh/config/blob/main/ssh_config) for recommended client options.
 
-SSH can also be used to create an [encrypted tunnel](http://blog.trackets.com/2014/05/17/ssh-tunnel-local-and-remote-port-forwarding-explained-with-examples.html) to send traffic through, similar to a VPN.
+An SSH tunnel can securely route traffic through another computer, similar to a VPN.
 
 To use Privoxy running on a remote host on port 8118:
 
@@ -1294,7 +1294,7 @@ ssh -NCD 3000 you@remote-host.tld
 
 By default, macOS does not have [Remote Login](https://support.apple.com/guide/mac-help/allow-a-remote-computer-to-access-your-mac-mchlp1066/mac) (SSH server) enabled.
 
-To enable it and allow incoming SSH connections, use **System Settings** > **General** > **Sharing** or the command:
+To enable SSH and allow incoming connections, use **System Settings** > **General** > **Sharing** or the command:
 
 ```bash
 sudo launchctl load -w /System/Library/LaunchDaemons/ssh.plist
