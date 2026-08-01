@@ -18,6 +18,7 @@ To suggest a change, submit a [pull request](https://github.com/drduh/macOS-Secu
    * [Apple Account](#apple-account)
    * [App Store](#app-store)
    * [Virtualization](#virtualization)
+     * [Apple containers](#apple-containers)
 - [First boot](#first-boot)
 - [Admin and user accounts](#admin-and-user-accounts)
    * [Caveats](#caveats)
@@ -190,6 +191,10 @@ On Apple silicon, macOS includes Apple's Virtualization framework, which support
 > [!WARNING]
 > VMware requires a Broadcom account and acceptance of agreements before download.
 > Parallels requires an account, payment details, and other data - see the [privacy notice](https://my.parallels.com/data_reminder).
+
+### Apple containers
+
+[Apple Container](https://github.com/apple/container) provides a native command-line workflow for running Linux container images on macOS. Unlike container runtimes that share a single Linux virtual machine, Apple Container runs each container in an isolated, lightweight virtual machine using macOS virtualization capabilities. This provides a stronger isolation boundary between workloads and the host operating system.
 
 # First boot
 
