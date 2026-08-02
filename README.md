@@ -88,7 +88,7 @@ Apply general security best practices:
 - Keep the system and software up to date
   - Regularly install available updates for the operating system and all applications.
   - Updates are installed in [System Settings](https://support.apple.com/guide/mac-help/keep-your-mac-up-to-date-mchlpx1065) or with the `softwareupdate` command-line utility. Neither requires an Apple Account.
-  - Subscribe to the [Apple security-announce](https://lists.apple.com/archives/list/security-announce@lists.apple.com/) mailing list or check [Apple security releases](https://support.apple.com/en-us/100100)
+  - Subscribe to the [Apple security-announce](https://lists.apple.com/archives/list/security-announce@lists.apple.com/) mailing list or check [Apple security releases](https://support.apple.com/en-us/100100).
 
 - Encrypt sensitive data
   - In addition to [FileVault](https://support.apple.com/guide/mac-help/protect-data-on-your-mac-with-filevault-mh11785) storage encryption, use the [built-in password manager](https://support.apple.com/105115) to protect passwords and other sensitive data.
@@ -415,6 +415,7 @@ examine a service | `launchctl list com.apple.Finder`
 list installed system daemons | `ls /System/Library/LaunchDaemons`
 list installed system agents | `ls /System/Library/LaunchAgents`
 read a service configuration | `defaults read /System/Library/LaunchAgents/com.apple.Finder`
+list system extensions | `systemextensionsctl list`
 
 > [!IMPORTANT]
 > System services are protected by [SIP](https://github.com/drduh/macOS-Security-and-Privacy-Guide#system-integrity-protection). Do not disable SIP just to modify system services as it is a fundamental part of the macOS security model. Disabling system services may also cause system instability.
@@ -678,7 +679,6 @@ To verify traffic is blocked or redirected, use [curl](https://en.wikipedia.org/
 
 ```console
 $ ALL_PROXY=127.0.0.1:8118 curl example.com -IL | head
-
 HTTP/1.1 403 Request blocked by Privoxy
 Content-Length: 9001
 Content-Type: text/html
@@ -686,7 +686,6 @@ Cache-Control: no-cache
 Pragma: no-cache
 
 $ ALL_PROXY=127.0.0.1:8118 curl github.com -IL | head
-
 HTTP/1.1 302 Local Redirect from Privoxy
 Location: https://github.com/
 Content-Length: 0
@@ -909,15 +908,15 @@ Also see [Invisible Internet Project (I2P)](https://geti2p.net/en/about/intro) a
 
 # VPN
 
-When choosing a VPN service or self-hosting, be sure to research the protocols, key exchange algorithms, authentication mechanisms, and type of encryption being used. Some protocols, such as [PPTP](https://en.wikipedia.org/wiki/Point-to-Point_Tunneling_Protocol#Security), should be avoided in favor of [OpenVPN](https://en.wikipedia.org/wiki/OpenVPN) or Linux-based [Wireguard](https://www.wireguard.com/) [on a Linux VM](https://github.com/mrash/Wireguard-macOS-LinuxVM) or via a set of [cross platform tools](https://www.wireguard.com/xplatform/).
+When choosing a VPN service or self-hosting, be sure to validate the protocols, key exchange algorithms, authentication mechanisms, and type of encryption used. Some protocols, such as [PPTP](https://en.wikipedia.org/wiki/Point-to-Point_Tunneling_Protocol#Security), should be avoided in favor of [OpenVPN](https://en.wikipedia.org/wiki/OpenVPN) or Linux-based [Wireguard](https://www.wireguard.com/) [on a Linux VM](https://github.com/mrash/Wireguard-macOS-LinuxVM) or via a set of [cross platform tools](https://www.wireguard.com/xplatform/).
 
-Some clients may send traffic over the next available interface when VPN is interrupted or disconnected. See [scy/8122924](https://gist.github.com/scy/8122924) for an example on how to allow traffic only over VPN.
+Some VPN clients may send traffic over the next available network interface when the connection is interrupted or disconnected. See [scy/8122924](https://gist.github.com/scy/8122924) for an example on how to allow traffic only over VPN.
 
-There is an updated guide to setting up an [IPsec](https://en.wikipedia.org/wiki/Ipsec) VPN on a virtual machine ([hwdsl2/setup-ipsec-vpn](https://github.com/hwdsl2/setup-ipsec-vpn)) or a Docker container ([hwdsl2/docker-ipsec-vpn-server](https://github.com/hwdsl2/docker-ipsec-vpn-server)).
+See guides to set up an [IPsec](https://en.wikipedia.org/wiki/Ipsec) VPN on a virtual machine ([hwdsl2/setup-ipsec-vpn](https://github.com/hwdsl2/setup-ipsec-vpn)) or a Docker container ([hwdsl2/docker-ipsec-vpn-server](https://github.com/hwdsl2/docker-ipsec-vpn-server)).
 
 It may be worthwhile to consider the geographical location of the VPN provider. See further discussion in [issue 114](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/114).
 
-Also see this [technical overview](https://blog.timac.org/2018/0717-macos-vpn-architecture/) of the macOS built-in VPN L2TP/IPsec and IKEv2 client.
+Also see this [technical overview](https://blog.timac.org/2018/0717-macos-vpn-architecture/) of the macOS built-in VPN L2TP/IPsec and [IKEv2](https://en.wikipedia.org/wiki/IKEv2) client.
 
 # PGP/GPG
 
@@ -1324,6 +1323,15 @@ Consider purchasing a privacy screen/filter for use in public.
 ## Logs
 
 Monitor system logs with [Console](https://support.apple.com/guide/console/toc) or the `/usr/bin/log stream` command.
+
+To show log entries generated by the `audioaccessoryd` process during the last hour:
+
+```bash
+/usr/bin/log show \
+  --last 1h \
+  --predicate 'process == "audioaccessoryd"' \
+  --style compact
+```
 
 ## OpenBSM audit
 
