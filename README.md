@@ -300,6 +300,18 @@ After interacting with `socketfilterfw`, restart the process by sending a [SIGHU
 sudo pkill -HUP socketfilterfw
 ```
 
+### AirDrop
+
+Enabling the application layer firewall and disabling incoming connections for built-in software prevents AirDrop from functioning correctly. For AirDrop to work, both `sharingd` and `rapportd` require exceptions in the firewall:
+
+```bash
+sudo /usr/libexec/ApplicationFirewall/socketfilterfw --add /usr/libexec/sharingd
+sudo /usr/libexec/ApplicationFirewall/socketfilterfw --unblockapp /usr/libexec/sharingd
+
+sudo /usr/libexec/ApplicationFirewall/socketfilterfw --add /usr/libexec/rapportd
+sudo /usr/libexec/ApplicationFirewall/socketfilterfw --unblockapp /usr/libexec/rapportd
+```
+
 ## Third-party firewalls
 
 Applications such as [Little Snitch](https://www.obdev.at/products/littlesnitch/index.html), [Radio Silence](https://radiosilenceapp.com/), and [LuLu](https://objective-see.com/products/lulu.html) provide a balance between usability and security.
