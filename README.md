@@ -142,9 +142,9 @@ Read more about [threat modeling](https://www.netmeister.org/blog/threat-model-1
 > [!IMPORTANT]
 > Macs with Intel CPUs have [security vulnerabilities](https://github.com/axi0mX/ipwndfu?tab%253Dreadme-ov-file#checkm8) on a hardware level which cannot be patched.
 
-macOS is most secure running on [Apple hardware](https://support.apple.com/guide/security/hardware-security-overview-secf020d1074/1/web/1) with Apple silicon; in general, newer models offer stronger security guarantees. Avoid non-Apple hardware running macOS and systems which do not support the latest macOS release, as Apple does not [patch all vulnerabilities](https://support.apple.com/guide/deployment/about-software-updates-depc4c80847a) in legacy versions.
+macOS is most secure when running on [Apple silicon hardware](https://support.apple.com/guide/security/hardware-security-overview-secf020d1074/1/web/1). In general, newer models offer stronger security guarantees. Avoid non-Apple hardware running macOS and systems that do not support the latest macOS release, as Apple does not [patch all vulnerabilities](https://support.apple.com/guide/deployment/about-software-updates-depc4c80847a) in legacy versions.
 
-When using a wireless keyboard, mouse, headphones, or other accessory, Apple accessories are generally the most secure option because macOS updates them automatically. They support the latest [Bluetooth features](https://support.apple.com/guide/security/bluetooth-security-sec82597d97e/web) such as [BLE](https://en.wikipedia.org/wiki/Bluetooth_Low_Energy) Privacy which randomizes the hardware address to reduce tracking, which is not always available with third-party accessories.
+Apple accessories generally receive firmware updates through macOS and support current [Bluetooth security features](https://support.apple.com/guide/security/bluetooth-security-sec82597d97e/web). For example, [Bluetooth Low Energy](https://en.wikipedia.org/wiki/Bluetooth_Low_Energy) (BLE) Privacy uses rotating device addresses to reduce tracking; third-party accessories may not support this feature.
 
 When purchasing a Mac, consider paying in cash rather than ordering online or purchasing with a credit/debit card, to limit identifying information linked to the purchase.
 
@@ -162,11 +162,9 @@ Read about [how this process works](https://support.apple.com/guide/security/loc
 
 ## Apple Account
 
-An [Apple Account](https://www.apple.com/legal/privacy/data/en/apple-id/) is not required to use macOS, but necessary to access the App Store and most Apple services, including iCloud and Apple Music.
+An [Apple Account](https://www.apple.com/legal/privacy/data/en/apple-id/) is not required to use macOS, but it is necessary to access the App Store and most Apple services, including iCloud and Apple Music.
 
-You can [disable](https://support.apple.com/102651) the syncing later or enable [end-to-end encryption](https://support.apple.com/guide/security/advanced-data-protection-for-icloud-sec973254c5f/web) for data stored in iCloud. You can [control the data](https://support.apple.com/102283) associated with Apple Account or completely delete it.
-
-
+You can later [disable synchronization](https://support.apple.com/102651), [enable end-to-end encryption](https://support.apple.com/guide/security/advanced-data-protection-for-icloud-sec973254c5f/web) for eligible iCloud data, [manage Apple Account data](https://support.apple.com/102283), or delete the account.
 
 ## App Store
 
@@ -180,11 +178,11 @@ Using the App Store requires an Apple Account, which can pose a privacy risk.
 
 On Apple silicon, macOS includes Apple's [Virtualization framework](https://developer.apple.com/documentation/virtualization), which supports macOS and Windows 11 ARM virtual machines through tools such as:
 
-- [UTM](https://mac.getutm.app/) - Follow the [documentation](https://docs.getutm.app/guest-support/macos) to create macOS and other VMs.
-- [VirtualBuddy](https://github.com/insidegui/VirtualBuddy) - GUI for virtualizing macOS 12+ on Apple silicon.
-- [Bushel](https://getbushel.app/) - A lightweight, free VM app. On first launch, select "Ask App Not to Track".
+- [UTM](https://mac.getutm.app/) - Follow the [documentation](https://docs.getutm.app/guest-support/macos) to create macOS and other virtual machines.
+- [VirtualBuddy](https://github.com/insidegui/VirtualBuddy) - Application for virtualizing macOS 12+ on Apple silicon.
+- [Bushel](https://getbushel.app/) - A lightweight, free app. On first launch, select "Ask App Not to Track".
 - [VMware Fusion](https://knowledge.broadcom.com/external/article/315638/download-and-install-vmware-fusion.html) - Now free under Broadcom. Clean UI, easy macOS setup, and supports Windows 11 ARM.
-- [tart (CLI)](https://tart.run/) - Command‑line VM control; install with Homebrew.
+- [tart (CLI)](https://tart.run/) - Command‑line application installed with Homebrew.
 - [Parallels](https://www.parallels.com/) - Paid option with strong integration.
 
 > [!WARNING]
@@ -215,14 +213,14 @@ sudo scutil --set LocalHostName MacBook
 
 The first user account created is always an administrator account. Administrator accounts belong to the admin group and can use [sudo](https://en.wikipedia.org/wiki/Sudo) (a command that grants temporary administrator access) to run commands with elevated privileges, up to and including root (full system) control. Any program the administrator executes can potentially obtain the same access, and sudo may have vulnerabilities [exploited](https://bogner.sh/2014/03/another-mac-os-x-sudo-password-bypass/) by concurrently-running software.
 
-It is considered a [best practice](https://help.apple.com/machelp/mac/10.12/index.html#/mh11389) to use a dedicated standard account for regular, every-day work and only use the administrator account for software and system installation, configuration and updates.
+It is considered a [best practice](https://help.apple.com/machelp/mac/10.12/index.html#/mh11389) to use a dedicated standard account for regular, daily work and only use the administrator account for software and system installation, configuration and updates.
 
 It is not required to ever log in with the admin account via the macOS login screen. When a Terminal command requires administrator privileges, the system will prompt for authentication and Terminal continues using those privileges. To that end, Apple provides [recommendations](https://support.apple.com/102099) for hiding the admin account and its home directory.
 
 ## Caveats
 
-- Only administrators can install applications in `/Applications` (local directory). Finder and Installer will prompt a standard user with a password prompt asking an administrator to approve the change. Many applications can be installed in `~/Applications` instead. As a rule of thumb, applications which do not require admin access – or do not complain about not being installed in `/Applications` – should be installed in the user directory, the rest in the local directory. App Store applications are still installed in `/Applications` and require no additional authentication.
-- `sudo` is not available in shells of the standard user, which requires using `su` or `login` to enter a shell of the admin account. This can make some maneuvers trickier and requires some basic experience with command-line interfaces.
+- Only administrators can install applications in the system-wide `/Applications` directory. Finder and Installer will prompt a standard user with a password prompt asking an administrator to approve the change. Many applications can be installed in `~/Applications` instead. As a rule of thumb, applications which do not require admin access – or do not complain about not being installed in `/Applications` – should be installed in the user directory, the rest in the local directory. App Store applications are still installed in `/Applications` and require no additional authentication.
+- A standard user usually is not authorized to use `sudo`. When administrator privileges are required, macOS prompts for an administrator's credentials, or the task can be run from an administrator account.
 - System Settings and several system utilities (e.g., Wi-Fi Diagnostics) require administrator permission for full functionality. Some System Settings need to be unlocked by selecting the lock icon. Some applications will simply prompt for authentication upon opening, others must be opened by an admin account directly to access all functions (e.g., Console).
 - There are third-party applications that will not work correctly because they assume the user account is an admin. These programs may have to be executed by the admin account, or by using the `open` utility.
 - See additional discussion in [issue 167](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/167).
@@ -252,9 +250,9 @@ Verify that firmware security is set to [Full Security](https://support.apple.co
 
 # FileVault
 
-All Apple silicon Macs encrypt storage by default. Enabling [FileVault](https://support.apple.com/guide/mac-help/mh11785/mac) requires a password before macOS can access the encrypted volume. The EFF has a guide on generating [strong and memorable passwords](https://www.eff.org/dice).
+Apple silicon Macs use hardware-backed storage encryption by default. [FileVault](https://support.apple.com/guide/mac-help/protect-data-on-your-mac-with-filevault-mh11785/mac) additionally requires an authorized user's password to unlock the startup volume after restart.
 
-The FileVault password also protects the [firmware](https://support.apple.com/102384), which prevents booting from anything other than the designated startup disk, accessing [Recovery](https://support.apple.com/guide/mac-help/macos-recovery-a-mac-apple-silicon-mchl82829c17/15.0/mac/15.0#mchl5abfbb29), and [reviving](https://support.apple.com/108900) it with device firmware update (DFU) mode.
+On Apple silicon, FileVault authorization also protects the [firmware](https://support.apple.com/102384), which prevents booting from anything other than the designated startup disk, accessing [Recovery](https://support.apple.com/guide/mac-help/macos-recovery-a-mac-apple-silicon-mchl82829c17/15.0/mac/15.0#mchl5abfbb29), and [reviving](https://support.apple.com/108900) it with device firmware update (DFU) mode.
 
 FileVault will prompt to set a recovery key, which should be stored in a safe location if used. FileVault also offers an option to use iCloud for recovery.
 
@@ -313,7 +311,6 @@ Enabling the application layer firewall and disabling incoming connections for b
 ```bash
 sudo /usr/libexec/ApplicationFirewall/socketfilterfw --add /usr/libexec/sharingd
 sudo /usr/libexec/ApplicationFirewall/socketfilterfw --unblockapp /usr/libexec/sharingd
-
 sudo /usr/libexec/ApplicationFirewall/socketfilterfw --add /usr/libexec/rapportd
 sudo /usr/libexec/ApplicationFirewall/socketfilterfw --unblockapp /usr/libexec/rapportd
 ```
@@ -344,9 +341,9 @@ If frequent allow-or-block prompts are overwhelming, begin with Silent Mode conf
 
 ## Packet filter
 
-macOS also includes a powerful, highly customizable kernel-level firewall called [pf](https://en.wikipedia.org/wiki/PF_(firewall)). However, it is the most complex option and is managed with `pfctl` and configuration files.
+macOS also includes [pf](https://en.wikipedia.org/wiki/PF_(firewall)), a packet-filtering firewall configured from the command line. It is powerful but considerably more complex than the built-in application firewall.
 
-pf can also be controlled with a GUI application such as [Murus](https://www.murusfirewall.com/).
+pf can also be controlled with a graphical application such as [Murus](https://www.murusfirewall.com/).
 
 Many books and articles cover the pf firewall. The following example shows how to block traffic by IP address.
 
