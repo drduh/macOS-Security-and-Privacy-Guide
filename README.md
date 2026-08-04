@@ -208,6 +208,7 @@ The system name can be configured in **System Settings > About** or with the fol
 
 ```bash
 sudo scutil --set ComputerName MacBook
+sudo scutil --set HostName MacBook
 sudo scutil --set LocalHostName MacBook
 ```
 
@@ -257,6 +258,12 @@ All Apple silicon Macs encrypt storage by default. Enabling [FileVault](https://
 The FileVault password also protects the [firmware](https://support.apple.com/102384), which prevents booting from anything other than the designated startup disk, accessing [Recovery](https://support.apple.com/guide/mac-help/macos-recovery-a-mac-apple-silicon-mchl82829c17/15.0/mac/15.0#mchl5abfbb29), and [reviving](https://support.apple.com/108900) it with device firmware update (DFU) mode.
 
 FileVault will prompt to set a recovery key, which should be stored in a safe location if used. FileVault also offers an option to use iCloud for recovery.
+
+Confirm FileVault state:
+
+```bash
+fdesetup status
+```
 
 # Lockdown Mode
 
@@ -310,6 +317,19 @@ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --unblockapp /usr/libexec/s
 
 sudo /usr/libexec/ApplicationFirewall/socketfilterfw --add /usr/libexec/rapportd
 sudo /usr/libexec/ApplicationFirewall/socketfilterfw --unblockapp /usr/libexec/rapportd
+```
+
+Confirm firewall state:
+
+```console
+for flag in \
+  --getglobalstate \
+  --getblockall \
+  --getallowsigned \
+  --getstealthmode \
+  --listapps
+do /usr/libexec/ApplicationFirewall/socketfilterfw "$flag"
+done
 ```
 
 ## Third-party firewalls
@@ -1399,7 +1419,8 @@ sudo netstat -atln
 Monitor DNS:
 
 ```bash
-tshark -Y "dns.flags.response == 1" -Tfields \
+/Applications/Wireshark.app/Contents/MacOS/tshark -i en0 \
+  -Y "dns.flags.response == 1" -Tfields \
   -e frame.time_delta \
   -e dns.qry.name \
   -e dns.a \
