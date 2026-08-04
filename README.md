@@ -1489,14 +1489,14 @@ defaults write com.apple.screensaver askForPasswordDelay -int 0
 
 ## Finder options
 
-Expose hidden files and Library folder in Finder:
+Show hidden files and the Library folder in Finder:
 
 ```bash
 defaults write com.apple.finder AppleShowAllFiles -bool true
 chflags nohidden ~/Library
 ```
 
-Show all filename extensions (so that "Evil.jpg.app" cannot masquerade easily).
+Show all filename extensions:
 
 ```bash
 defaults write NSGlobalDomain AppleShowAllExtensions -bool true
@@ -1507,6 +1507,8 @@ Do not default to saving documents to iCloud:
 ```bash
 defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
 ```
+
+## umask
 
 Set a [custom umask](https://support.apple.com/101914):
 
@@ -1554,10 +1556,12 @@ export HOME=/Users/user1
 
 # Related software
 
-- [CISOfy/lynis](https://github.com/CISOfy/lynis) - Cross-platform security auditing tool and assists with compliance testing and system hardening.
-- [Zentral](https://github.com/zentralopensource/zentral) - A log and configuration server for osquery. Run audit and probes on inventory, events, logfiles, combine with point-in-time alerting. A full Framework and Django web server build on top of the elastic stack (formerly known as ELK stack).
-- [osquery](https://github.com/osquery/osquery) - Can be used to retrieve low-level system information. Users can write SQL queries to retrieve system information.
-- [Pareto Security](https://github.com/paretoSecurity/pareto-mac) - A MenuBar app to automatically audit your Mac for basic security hygiene.
+Software | Category | Description
+:-: | :-: | :-
+[lynis](https://github.com/CISOfy/lynis) | Audit scanner | Cross-platform security-auditing tool that checks system configuration and suggests hardening improvements.
+[zentral](https://github.com/zentralopensource/zentral) | Monitoring & configuration platform | Fleet-management server for macOS endpoints; collects inventory, events, audits, and osquery results. Best suited to managed environments.
+[osquery](https://github.com/osquery/osquery) | Monitoring engine | Exposes operating-system state as SQL tables, enabling repeatable checks of processes, users, launch items, network connections, and more.
+[pareto-mac](https://github.com/paretoSecurity/pareto-mac) | Audit scanner | Menu-bar application that checks a Mac against common baseline security recommendations.
 
 # Additional resources
 
