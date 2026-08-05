@@ -304,28 +304,28 @@ After interacting with `socketfilterfw`, restart the process by sending a [SIGHU
 sudo pkill -HUP socketfilterfw
 ```
 
+Confirm firewall state:
+
+```console
+for firewallFlag in \
+  --getglobalstate \
+  --getblockall \
+  --getallowsigned \
+  --getstealthmode \
+  --listapps
+do /usr/libexec/ApplicationFirewall/socketfilterfw "$firewallFlag"
+done
+```
+
 ### AirDrop
 
-Enabling the application layer firewall and disabling incoming connections for built-in software prevents AirDrop from functioning correctly. For AirDrop to work, both `sharingd` and `rapportd` require exceptions in the firewall:
+Enabling the application layer firewall and disabling incoming connections for built-in software prevents [AirDrop](https://support.apple.com/en-us/119857) from functioning correctly. For AirDrop to work, both `sharingd` and `rapportd` require firewall exceptions:
 
 ```bash
 sudo /usr/libexec/ApplicationFirewall/socketfilterfw --add /usr/libexec/sharingd
 sudo /usr/libexec/ApplicationFirewall/socketfilterfw --unblockapp /usr/libexec/sharingd
 sudo /usr/libexec/ApplicationFirewall/socketfilterfw --add /usr/libexec/rapportd
 sudo /usr/libexec/ApplicationFirewall/socketfilterfw --unblockapp /usr/libexec/rapportd
-```
-
-Confirm firewall state:
-
-```console
-for flag in \
-  --getglobalstate \
-  --getblockall \
-  --getallowsigned \
-  --getstealthmode \
-  --listapps
-do /usr/libexec/ApplicationFirewall/socketfilterfw "$flag"
-done
 ```
 
 ## Third-party firewalls
@@ -951,10 +951,10 @@ GPG is used to verify signatures of software you download and install, as well a
 
 Install from Homebrew with `brew install gnupg` or using [GPG Suite](https://gpgtools.org/).
 
-Download [gpg.conf](https://github.com/drduh/YubiKey-Guide/blob/master/config/gpg.conf) to use recommended settings:
+Download [gpg.conf](https://github.com/drduh/YubiKey-Guide/blob/main/config/gpg.conf) to use recommended settings:
 
 ```bash
-curl -o ~/.gnupg/gpg.conf https://raw.githubusercontent.com/drduh/YubiKey-Guide/master/config/gpg.conf
+curl -o ~/.gnupg/gpg.conf https://raw.githubusercontent.com/drduh/YubiKey-Guide/main/config/gpg.conf
 ```
 
 See [drduh/YubiKey-Guide](https://github.com/drduh/YubiKey-Guide) to generate and manage GPG credentials.
