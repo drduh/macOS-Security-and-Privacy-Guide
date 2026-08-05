@@ -552,7 +552,7 @@ dnscrypt-proxy 15244 nobody   12u  IPv4 0x1337f85ff9f8beef      0t0  UDP 127.0.0
 dnscrypt-proxy 15244 nobody   14u  IPv6 0x1337f85ff9f8beef      0t0  UDP [::1]:5355
 ```
 
-DNS requests can [bypass](https://dnsleaktest.com/) reveal lookups if not properly configured. These pf rules block conventional DNS traffic to port 53 outside the loopback interface:
+Additionally, these pf rules block conventional DNS traffic to port 53 outside the loopback interface, to reduce the risk of [DNS leaks](https://dnsleaktest.com/):
 
 ```shell
 block drop quick on !lo0 proto udp from any to any port = 53
@@ -728,7 +728,9 @@ A key browser security boundary is the [same-origin policy](https://en.wikipedia
 
 Some browser exploits rely on social engineering to gain persistence (ability to remain active after the initial attack). Be mindful when visiting untrusted sites and especially careful when downloading unrecognized software.
 
-Browser extensions pose a significant security risk: a malicious or poorly-made extension can compromise everything in the browser, including credentials. This affects Firefox and [Chrome](https://courses.csail.mit.edu/6.857/2016/files/24.pdf) alike. The use of browser extensions should be limited to critically necessary ones, published by trustworthy developers only.
+Browser extensions also pose a significant security risk: a malicious or poorly-made extension can compromise everything in the browser, including credentials. The use of browser extensions should be limited to critically necessary ones, published by trustworthy developers only.
+
+Use separate browser profiles to compartmentalize identities, cookies, and site data. If practical, disable JavaScript and only allow it on trusted sites using browser site permissions.
 
 [Mozilla Firefox](https://www.firefox.com/), [Google Chrome](https://www.google.com/chrome), [Safari](https://www.apple.com/safari), and [Tor Browser](https://www.torproject.org/download) are popular browsers, each with unique features and individual purposes.
 
@@ -763,9 +765,7 @@ Chrome has the largest share of global usage and is the preferred target platfor
 
 Chrome offers [separate profiles](https://www.chromium.org/user-experience/multi-profiles), [robust sandboxing](https://chromium.googlesource.com/chromium/src/+/HEAD/docs/design/sandbox.md), [frequent updates](https://chromereleases.googleblog.com/), and carries [impressive credentials](https://www.chromium.org/Home/chromium-security/brag-sheet). In addition, Google offers a very lucrative [bounty program](https://bughunters.google.com/about/rules/5745167867576320/chrome-vulnerability-reward-program-rules) for reporting vulnerabilities, along with its own [Project Zero](https://googleprojectzero.blogspot.com/) team. This means that a large number of highly talented and motivated people are constantly auditing and securing Chrome code.
 
-Use separate browser profiles to compartmentalize identities, cookies, and site data. If practical, disable JavaScript and only allow it on trusted sites using browser site permissions.
-
-Also consider disabling V8 optimization (JavaScript-engine performance features) in browser settings - see [this explanation](https://microsoftedge.github.io/edgevr/posts/Super-Duper-Secure-Mode) for the security trade-offs.
+Consider disabling V8 optimization (JavaScript-engine performance features) in browser settings - see [this explanation](https://microsoftedge.github.io/edgevr/posts/Super-Duper-Secure-Mode) for the security trade-offs.
 
 Block trackers with [uBlock Origin Lite](https://chromewebstore.google.com/detail/ublock-origin-lite/ddkjiahejlhfcafbddmgiahcphecmpfh).
 
@@ -954,10 +954,11 @@ Install from Homebrew with `brew install gnupg` or using [GPG Suite](https://gpg
 Download [gpg.conf](https://github.com/drduh/YubiKey-Guide/blob/main/config/gpg.conf) to use recommended settings:
 
 ```bash
-curl -o ~/.gnupg/gpg.conf https://raw.githubusercontent.com/drduh/YubiKey-Guide/main/config/gpg.conf
+curl -o ~/.gnupg/gpg.conf \
+  https://raw.githubusercontent.com/drduh/YubiKey-Guide/main/config/gpg.conf
 ```
 
-See [drduh/YubiKey-Guide](https://github.com/drduh/YubiKey-Guide) to generate and manage GPG credentials.
+See [drduh/YubiKey-Guide](https://github.com/drduh/YubiKey-Guide) to generate and manage credentials.
 
 # Email
 
@@ -1004,7 +1005,7 @@ See [Methods of malware persistence on Mac OS X](https://www.virusbtn.com/pdf/co
 
 For examples of advanced macOS malware capabilities, see the [Hacking Team material](https://www.schneier.com/blog/archives/2015/07/hacking_team_is.html). For further analysis, see [root installation for MacOS](https://github.com/hackedteam/vector-macos-root), [support driver for Mac Agent](https://github.com/hackedteam/driver-macos) and [RCS Agent for Mac](https://github.com/hackedteam/core-macos).
 
-Also see [A Brief Analysis of an RCS Implant Installer](https://objective-see.com/blog/blog_0x0D.html) and [reverse.put.as](https://reverse.put.as/2016/02/29/the-italian-morons-are-back-what-are-they-up-to-this-time/)
+Also see [A Brief Analysis of an RCS Implant Installer](https://objective-see.com/blog/blog_0x0D.html) and [reverse.put.as](https://reverse.put.as/2016/02/29/the-italian-morons-are-back-what-are-they-up-to-this-time/).
 
 ## Downloading Software
 
@@ -1026,10 +1027,11 @@ With App Sandbox enabled, output will include:
     [Bool] true
 ```
 
-Alternatively, check **Activity Monitor** while the application is running and add the "Sandbox" column.
+**Activity Monitor** can also indicate whether it is enabled with the "Sandbox" column displayed:
 
 ```bash
-defaults write com.apple.ActivityMonitor "UserColumnsPerTab v6.0" -dict-add 0 '(Command, CPUUsage, CPUTime, Threads, IdleWakeUps, Architecture, GPUUsage, GPUTime, PID, UID, Sandbox, restricted)'
+defaults write com.apple.ActivityMonitor "UserColumnsPerTab v6.0" \
+  -dict-add 0 '(Command, CPUUsage, CPUTime, Threads, IdleWakeUps, Architecture, GPUUsage, GPUTime, PID, UID, Sandbox, restricted)'
 ```
 
 App Store software is required to use App Sandbox. Applications such as Google Chrome use their own [sandbox](https://chromium.googlesource.com/chromium/src/+/HEAD/docs/design/sandbox.md) and might not use App Sandbox.
