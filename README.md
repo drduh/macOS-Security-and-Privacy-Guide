@@ -87,7 +87,7 @@ Apply general security best practices:
 - Keep the system and software up to date
   - Regularly install available updates for the operating system and all applications.
   - Updates are installed in [System Settings](https://support.apple.com/guide/mac-help/keep-your-mac-up-to-date-mchlpx1065) or with the `softwareupdate` command-line utility. Neither requires an Apple Account.
-  - Subscribe to the [Apple security-announce](https://lists.apple.com/archives/list/security-announce@lists.apple.com/) mailing list or check [Apple security releases](https://support.apple.com/en-us/100100).
+  - Subscribe to the [Apple security-announce](https://lists.apple.com/archives/list/security-announce@lists.apple.com/) mailing list or check [Apple security releases](https://support.apple.com/100100).
 
 - Encrypt sensitive data
   - In addition to [FileVault](https://support.apple.com/guide/mac-help/protect-data-on-your-mac-with-filevault-mh11785) storage encryption, use the [built-in password manager](https://support.apple.com/105115) to protect passwords and other sensitive data.
@@ -319,7 +319,7 @@ done
 
 ### AirDrop
 
-Enabling the application layer firewall and disabling incoming connections for built-in software prevents [AirDrop](https://support.apple.com/en-us/119857) from functioning correctly. For AirDrop to work, both `sharingd` and `rapportd` require firewall exceptions:
+Enabling the application layer firewall and disabling incoming connections for built-in software prevents [AirDrop](https://support.apple.com/119857) from functioning correctly. For AirDrop to work, both `sharingd` and `rapportd` require firewall exceptions:
 
 ```bash
 sudo /usr/libexec/ApplicationFirewall/socketfilterfw --add /usr/libexec/sharingd
@@ -345,43 +345,62 @@ macOS also includes [pf](https://en.wikipedia.org/wiki/PF_(firewall)), a packet-
 
 pf can also be controlled with a graphical application such as [Murus](https://www.murusfirewall.com/).
 
-Many books and articles cover the pf firewall. The following example shows how to block traffic by IP address.
+Many [books](https://nostarch.com/book-of-pf-4e) and [guides](https://www.openbsd.org/faq/pf/) cover the pf firewall. The following example shows how to configure a basic policy.
 
 Add the following rules to a file named `pf.rules`:
 
 ```console
+# Define interface
 wifi = "en0"
-ether = "en7"
+
+# Global options
 set block-policy drop
-set fingerprints "/etc/pf.os"
-set ruleset-optimization basic
 set skip on lo0
-scrub in all no-df
+set state-policy if-bound
+set ruleset-optimization basic
+scrub in on $wifi all fragment reassemble
+
+# Define tables
 table <blocklist> persist
-block in log
-block in log quick from no-route to any
-block log on $wifi from { <blocklist> } to any
-block log on $wifi from any to { <blocklist> }
-antispoof quick for { $wifi $ether }
-pass out proto tcp from { $wifi $ether } to any keep state
-pass out proto udp from { $wifi $ether } to any keep state
-pass out proto icmp from $wifi to any keep state
+
+# Default deny both directions and log
+block log all
+block quick from no-route to any
+antispoof quick for $wifi
+
+# Blocklist enforcement
+block log quick on $wifi from { <blocklist> } to any
+block log quick on $wifi from any to { <blocklist> }
+
+# Outbound TCP
+pass out on $wifi proto tcp from ($wifi) to any flags S/SA keep state
+
+# Outbound UDP
+pass out on $wifi proto udp from ($wifi) to any keep state
+
+# Outbound ICMP (ping)
+pass out on $wifi proto icmp from ($wifi) to any keep state
 ```
 
-Use the following commands to control the firewall:
+To control the firewall:
 
-Task | Command
+Command | Task
 -: | :-
-enable firewall with config | `sudo pfctl -e -f pf.rules`
-disable firewall | `sudo pfctl -d`
-add address to blocklist | `sudo pfctl -t blocklist -T add 1.2.3.4`
-view the blocklist | `sudo pfctl -t blocklist -T show`
-create log interface | `sudo ifconfig pflog0 create`
-monitor blocked packets | `sudo tcpdump -ni pflog0`
+`sudo pfctl -e -f pf.rules` | enable firewall with configuration file
+`sudo pfctl -d` | disable firewall
+`sudo pfctl -t blocklist -T add 1.2.3.4` | add an address to the blocklist
 
-pf can block access to ranges of network addresses, for example to an entire organization:
+To monitor the firewall:
 
-Query [Merit RADb](https://www.radb.net/) for the list of networks in use by an [autonomous system](https://en.wikipedia.org/wiki/Autonomous_system_(Internet)) (a large network operated by a single organization), such as [Facebook](https://ipinfo.io/AS32934):
+Command | Task
+-: | :-
+`sudo pfctl -t blocklist -T show` | view the blocklist
+`sudo pfctl -sr` | show active rules
+`sudo pfctl -ss` | show state table
+`sudo ifconfig pflog0 create` | create packet log interface
+`sudo tcpdump -ni pflog0` | monitor blocked packets
+
+pf can block access to ranges of network addresses, for example to an entire organization. Query [Merit RADb](https://www.radb.net/) for the list of networks in use by an [autonomous system](https://en.wikipedia.org/wiki/Autonomous_system_(Internet)) (a large network operated by a single organization), such as [Facebook](https://ipinfo.io/AS32934):
 
 ```bash
 whois -h whois.radb.net '!gAS32934'
@@ -410,7 +429,7 @@ Confirm network traffic is blocked to those addresses (DNS requests will still w
 $ dig a +short facebook.com
 157.240.2.35
 
-$ curl --connect-timeout 5 -I http://facebook.com/
+$ curl --connect-timeout 5 -I https://facebook.com/
 *   Trying 157.240.2.35...
 * TCP_NODELAY set
 * Connection timed out after 5002 milliseconds
@@ -418,11 +437,9 @@ $ curl --connect-timeout 5 -I http://facebook.com/
 curl: (28) Connection timed out after 5002 milliseconds
 
 $ sudo tcpdump -tqni pflog0 'host 157.240.2.35'
-IP 192.168.1.1.62771 > 157.240.2.35.80: tcp 0
-IP 192.168.1.1.62771 > 157.240.2.35.80: tcp 0
-IP 192.168.1.1.62771 > 157.240.2.35.80: tcp 0
-IP 192.168.1.1.62771 > 157.240.2.35.80: tcp 0
-IP 192.168.1.1.62771 > 157.240.2.35.80: tcp 0
+IP 192.168.1.1.62771 > 157.240.2.35.443: tcp 0
+IP 192.168.1.1.62771 > 157.240.2.35.443: tcp 0
+IP 192.168.1.1.62771 > 157.240.2.35.443: tcp 0
 ```
 
 The firewall drops the outbound [SYN packets](https://en.wikipedia.org/wiki/Transmission_Control_Protocol#Connection_establishment), so the TCP connection cannot be established.
@@ -431,19 +448,19 @@ See [drduh/config/scripts/pf-blocklist.sh](https://github.com/drduh/config/blob/
 
 # Services
 
-Services on macOS are managed by [launchd](https://en.wikipedia.org/wiki/Launchd).
+Many system and user background services are managed by [launchd](https://en.wikipedia.org/wiki/Launchd).
 
 Administrator accounts can modify services and extensions in [System Settings](https://support.apple.com/guide/mac-help/change-login-items-settings-mtusr003).
 
-function | command
+Command | Task
 -: | :-
-view loaded user jobs | `launchctl list`
-view loaded system jobs | `sudo launchctl list`
-examine a service | `launchctl list com.apple.Finder`
-list installed system daemons | `ls /System/Library/LaunchDaemons`
-list installed system agents | `ls /System/Library/LaunchAgents`
-read a service configuration | `defaults read /System/Library/LaunchAgents/com.apple.Finder`
-list system extensions | `systemextensionsctl list`
+`launchctl list` | view user jobs
+`sudo launchctl list` | view system jobs
+`launchctl list com.apple.Finder` | examine a service
+`ls /System/Library/LaunchDaemons` | list system daemons
+`ls /System/Library/LaunchAgents` | list system agents
+`defaults read /System/Library/LaunchAgents/com.apple.Finder` | read service configuration
+`systemextensionsctl list` | list system extensions
 
 > [!IMPORTANT]
 > System services are protected by [SIP](https://github.com/drduh/macOS-Security-and-Privacy-Guide#system-integrity-protection). Do not disable SIP just to modify system services as it is a fundamental part of the macOS security model. Disabling system services may also cause system instability.
@@ -451,7 +468,8 @@ list system extensions | `systemextensionsctl list`
 To view the status of services:
 
 ```bash
-find /var/db/com.apple.xpc.launchd/ -type f -print -exec defaults read {} \; 2>/dev/null
+find /var/db/com.apple.xpc.launchd \
+  -type f -print -exec defaults read {} \; 2>/dev/null
 ```
 
 See [script management with launchd](https://support.apple.com/guide/terminal/script-management-with-launchd-apdc6c1077b-5d5d-4d35-9c19-60f2397b2369) and [launchd.info](https://launchd.info/) for more information.
@@ -970,7 +988,7 @@ Email is not designed to provide strong privacy by default: message content may 
 
 Thunderbird includes support for [OpenPGP](https://support.mozilla.org/kb/openpgp-thunderbird-howto-and-faq) email encryption, which can protect message content and provide cryptographic [signatures](https://www.gnupg.org/gph/en/manual/x135.html). Always verify public-key fingerprints through an independent channel before relying on a key for sensitive communication.
 
-The [archived messages feature](https://support.mozilla.org/en-US/kb/archived-messages) can move messages out of remote mail servers to a **Local Folder**, improving privacy.
+The [archived messages feature](https://support.mozilla.org/kb/archived-messages) can move messages out of remote mail servers to a **Local Folder**, improving privacy.
 
 # Messengers
 
@@ -1073,7 +1091,7 @@ Gatekeeper warns when opening an application without notarization. It can be byp
 
 # System Integrity Protection
 
-To verify System Integrity Protection is enabled, use the command `csrutil status`, which should return: `System Integrity Protection status: enabled.` Otherwise, [enable SIP](https://developer.apple.com/documentation/security/disabling_and_enabling_system_integrity_protection) using [Recovery Mode](https://support.apple.com/en-us/102518).
+To verify System Integrity Protection is enabled, use the command `csrutil status`, which should return: `System Integrity Protection status: enabled.` Otherwise, [enable SIP](https://developer.apple.com/documentation/security/disabling_and_enabling_system_integrity_protection) using [Recovery Mode](https://support.apple.com/102518).
 
 # Metadata and artifacts
 
@@ -1169,7 +1187,7 @@ sudo nvram -d 36C28AB5-6566-4C50-9EBD-CBB920F83843:preferred-networks
 sudo nvram -d 36C28AB5-6566-4C50-9EBD-CBB920F83843:preferred-count
 ```
 
-macOS may collect spelling and language suggestsions, To list them and prevent them from being created again, use the commands:
+macOS may collect spelling and language suggestsions. To list them and prevent them from being created again, use the commands:
 
 ```bash
 ls ~/Library/LanguageModeling/ ~/Library/Spelling/ ~/Library/Suggestions/
