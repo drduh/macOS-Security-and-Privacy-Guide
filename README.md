@@ -222,8 +222,8 @@ It is not required to ever log in with the admin account via the macOS login scr
 - Only administrators can install applications in the system-wide `/Applications` directory. Finder and Installer will prompt a standard user with a password prompt asking an administrator to approve the change. Many applications can be installed in `~/Applications` instead. As a rule of thumb, applications which do not require admin access – or do not complain about not being installed in `/Applications` – should be installed in the user directory, the rest in the local directory. App Store applications are still installed in `/Applications` and require no additional authentication.
 - A standard user usually is not authorized to use `sudo`. When administrator privileges are required, macOS prompts for an administrator's credentials, or the task can be run from an administrator account.
 - System Settings and several system utilities (e.g., Wi-Fi Diagnostics) require administrator permission for full functionality. Some System Settings need to be unlocked by selecting the lock icon. Some applications will simply prompt for authentication upon opening, others must be opened by an admin account directly to access all functions (e.g., Console).
-- There are third-party applications that will not work correctly because they assume the user account is an admin. These programs may have to be executed by the admin account, or by using the `open` utility.
-- See additional discussion in [issue 167](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/167).
+- There are third-party applications that will not work correctly because they assume the user account is an admin. These programs may have to be executed by the admin account, or using the `open` utility.
+- See [issue 167](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/167) for additional considerations.
 
 ## Setup
 
@@ -628,13 +628,21 @@ $ networksetup -getdnsservers "Wi-Fi"
 
 # Certificate authorities
 
-macOS includes more than 150 [trusted root](https://support.apple.com/103723) certificate authority (CA) certificates, operated by corporations and government agencies from around the world. These CAs are capable of issuing valid TLS and code-signing certificates.
+macOS includes a set of trusted root certificate authorities (CAs) operated by corporations, governments and other organizations from around the world. A trusted CA can issue certificates that macOS and browsers may accept for HTTPS connections, making the root CA store a critical part of the system's trust boundary.
 
-Apple [blocks certificates](https://support.apple.com/103247#blocked) when a CA proves to be untrustworthy and requires [certain criteria](https://www.apple.com/certificateauthority/ca_program.html) for inclusion. For more information, see [CA/Browser Forum](https://cabforum.org/resources/browser-os-info/).
+Inspect **System Roots** to understand the Apple-provided trusted root store using [Keychain Access](https://support.apple.com/guide/keychain-access/welcome/mac) or the [security](https://ss64.com/mac/security.html) command-line tool and `/System/Library/Keychains/SystemRootCertificates.keychain` file.
 
-Inspect root certificates in [Keychain Access](https://support.apple.com/guide/keychain-access/toc), under the **System Roots** tab or by using the `security` command line tool and `/System/Library/Keychains/SystemRootCertificates.keychain` file.
+Also review any certificates that may have been added by a user, administrator, VPN client, security product, or mobile device management application in the **login**, **Local Items**, and **System** keychains.
 
-To disable a certificate authority, mark it as **Never Trust** and close the window to confirm. Doing so may reduce the risk of [MITM](https://wikipedia.org/wiki/Man-in-the-middle_attack) attacks, in which a coerced or compromised certificate authority could issue a fraudulent certificate, allowing encrypted traffic to be [silently intercepted](https://en.wikipedia.org/wiki/DigiNotar#Issuance_of_fraudulent_certificates).
+> [!TIP]
+> Keychain Access can also be launched with the command: `open "/System/Library/CoreServices/Applications/Keychain Access.app"`.
+
+To disable a selected certificate, modify its Trust setting to **Never Trust** and close the window to confirm. Doing so may reduce the risk of [MITM](https://wikipedia.org/wiki/Man-in-the-middle_attack) attacks, in which a fraudulent certificate is used to [silently intercept](https://en.wikipedia.org/wiki/DigiNotar#Issuance_of_fraudulent_certificates) encrypted traffic.
+
+> [!WARNING]
+> Removing or modifying certificate authority trust settings can break websites, software updates, enterprise networks, VPNs, captive portals, and other services.
+
+See Apple's [available trusted certificates](https://support.apple.com/103723) and [blocked certificates](https://support.apple.com/103247#blocked) lists for current trust-store information.
 
 # Privoxy
 
@@ -963,9 +971,7 @@ Also see this [technical overview](https://blog.timac.org/2018/0717-macos-vpn-ar
 
 PGP is a standard for encrypting and signing data, especially email. It can protect message content between correspondents who correctly exchange and verify keys, but it does not protect metadata such as email recipients and subject lines.
 
-GPG (GNU Privacy Guard) is a GPL-licensed, open-source program compliant with the PGP standard.
-
-GPG is used to verify signatures of software you download and install, as well as [symmetrically](https://en.wikipedia.org/wiki/Symmetric-key_algorithm) or [asymmetrically](https://en.wikipedia.org/wiki/Public-key_cryptography) encrypt files and text.
+GPG (GNU Privacy Guard) is a GPL-licensed, open-source program compliant with the PGP standard. It can verify software signatures and encrypt files [symmetrically](https://en.wikipedia.org/wiki/Symmetric-key_algorithm) or using [public keys](https://en.wikipedia.org/wiki/Public-key_cryptography).
 
 Install from Homebrew with `brew install gnupg` or using [GPG Suite](https://gpgtools.org/).
 
@@ -1179,15 +1185,7 @@ Additional diagnostic files may be found in the following directories - but caut
 /var/log/DiagnosticMessages/
 ```
 
-macOS stores Wi-Fi connection metadata (including credentials) in NVRAM. To clear it, use the commands:
-
-```bash
-sudo nvram -d 36C28AB5-6566-4C50-9EBD-CBB920F83843:current-network
-sudo nvram -d 36C28AB5-6566-4C50-9EBD-CBB920F83843:preferred-networks
-sudo nvram -d 36C28AB5-6566-4C50-9EBD-CBB920F83843:preferred-count
-```
-
-macOS may collect spelling and language suggestsions. To list them and prevent them from being created again, use the commands:
+macOS may collect spelling and language suggestions. To list them and prevent them from being created again, use the commands:
 
 ```bash
 ls ~/Library/LanguageModeling/ ~/Library/Spelling/ ~/Library/Suggestions/
