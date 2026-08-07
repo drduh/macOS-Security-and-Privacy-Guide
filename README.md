@@ -86,7 +86,7 @@ Apply general security best practices:
 
 - Keep the system and software up to date
   - Regularly install available updates for the operating system and all applications.
-  - Updates are installed in [System Settings](https://support.apple.com/guide/mac-help/keep-your-mac-up-to-date-mchlpx1065) or with the `softwareupdate` command-line utility. Neither requires an Apple Account.
+  - Updates are installed in [System Settings](https://support.apple.com/guide/mac-help/keep-your-mac-up-to-date-mchlpx1065) or with the [`softwareupdate`](https://ss64.com/mac/softwareupdate.html) command-line utility. Neither requires an Apple Account.
   - Subscribe to the [Apple security-announce](https://lists.apple.com/archives/list/security-announce@lists.apple.com/) mailing list or check [Apple security releases](https://support.apple.com/100100).
 
 - Encrypt sensitive data
@@ -372,6 +372,10 @@ antispoof quick for $wifi
 block log quick on $wifi from { <blocklist> } to any
 block log quick on $wifi from any to { <blocklist> }
 
+# DHCP
+pass out on $wifi proto udp from any port 68 to any port 67 keep state
+pass in  on $wifi proto udp from any port 67 to any port 68 keep state
+
 # Outbound TCP
 pass out on $wifi proto tcp from ($wifi) to any flags S/SA keep state
 
@@ -394,7 +398,7 @@ To monitor the firewall:
 
 Command | Task
 -: | :-
-`sudo pfctl -t blocklist -T show` | view the blocklist
+`sudo pfctl -t blocklist -T show` | show blocklist
 `sudo pfctl -sr` | show active rules
 `sudo pfctl -ss` | show state table
 `sudo ifconfig pflog0 create` | create packet log interface
@@ -577,7 +581,7 @@ dnscrypt-proxy 15244 nobody   14u  IPv6 0x1337f85ff9f8beef      0t0  UDP [::1]:5
 
 Additionally, these pf rules block conventional DNS traffic to port 53 outside the loopback interface, to reduce the risk of [DNS leaks](https://dnsleaktest.com/):
 
-```shell
+```console
 block drop quick on !lo0 proto udp from any to any port = 53
 block drop quick on !lo0 proto tcp from any to any port = 53
 ```
