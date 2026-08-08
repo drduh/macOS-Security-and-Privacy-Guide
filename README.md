@@ -86,8 +86,8 @@ Apply general security best practices:
 
 - Keep the system and software up to date
   - Regularly install available updates for the operating system and all applications.
-  - Updates are installed in [System Settings](https://support.apple.com/guide/mac-help/keep-your-mac-up-to-date-mchlpx1065) or with the `softwareupdate` command-line utility. Neither requires an Apple Account.
-  - Subscribe to the [Apple security-announce](https://lists.apple.com/archives/list/security-announce@lists.apple.com/) mailing list or check [Apple security releases](https://support.apple.com/en-us/100100).
+  - Updates are installed in [System Settings](https://support.apple.com/guide/mac-help/keep-your-mac-up-to-date-mchlpx1065) or with the [`softwareupdate`](https://ss64.com/mac/softwareupdate.html) command-line utility. Neither requires an Apple Account.
+  - Subscribe to the [Apple security-announce](https://lists.apple.com/archives/list/security-announce@lists.apple.com/) mailing list or check [Apple security releases](https://support.apple.com/100100).
 
 - Encrypt sensitive data
   - In addition to [FileVault](https://support.apple.com/guide/mac-help/protect-data-on-your-mac-with-filevault-mh11785) storage encryption, use the [built-in password manager](https://support.apple.com/105115) to protect passwords and other sensitive data.
@@ -222,8 +222,8 @@ It is not required to ever log in with the admin account via the macOS login scr
 - Only administrators can install applications in the system-wide `/Applications` directory. Finder and Installer will prompt a standard user with a password prompt asking an administrator to approve the change. Many applications can be installed in `~/Applications` instead. As a rule of thumb, applications which do not require admin access – or do not complain about not being installed in `/Applications` – should be installed in the user directory, the rest in the local directory. App Store applications are still installed in `/Applications` and require no additional authentication.
 - A standard user usually is not authorized to use `sudo`. When administrator privileges are required, macOS prompts for an administrator's credentials, or the task can be run from an administrator account.
 - System Settings and several system utilities (e.g., Wi-Fi Diagnostics) require administrator permission for full functionality. Some System Settings need to be unlocked by selecting the lock icon. Some applications will simply prompt for authentication upon opening, others must be opened by an admin account directly to access all functions (e.g., Console).
-- There are third-party applications that will not work correctly because they assume the user account is an admin. These programs may have to be executed by the admin account, or by using the `open` utility.
-- See additional discussion in [issue 167](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/167).
+- There are third-party applications that will not work correctly because they assume the user account is an admin. These programs may have to be executed by the admin account, or using the `open` utility.
+- See [issue 167](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/167) for additional considerations.
 
 ## Setup
 
@@ -319,7 +319,7 @@ done
 
 ### AirDrop
 
-Enabling the application layer firewall and disabling incoming connections for built-in software prevents [AirDrop](https://support.apple.com/en-us/119857) from functioning correctly. For AirDrop to work, both `sharingd` and `rapportd` require firewall exceptions:
+Enabling the application layer firewall and disabling incoming connections for built-in software prevents [AirDrop](https://support.apple.com/119857) from functioning correctly. For AirDrop to work, both `sharingd` and `rapportd` require firewall exceptions:
 
 ```bash
 sudo /usr/libexec/ApplicationFirewall/socketfilterfw --add /usr/libexec/sharingd
@@ -345,43 +345,66 @@ macOS also includes [pf](https://en.wikipedia.org/wiki/PF_(firewall)), a packet-
 
 pf can also be controlled with a graphical application such as [Murus](https://www.murusfirewall.com/).
 
-Many books and articles cover the pf firewall. The following example shows how to block traffic by IP address.
+Many [books](https://nostarch.com/book-of-pf-4e) and [guides](https://www.openbsd.org/faq/pf/) cover the pf firewall. The following example shows how to configure a basic policy.
 
 Add the following rules to a file named `pf.rules`:
 
 ```console
+# Define interface
 wifi = "en0"
-ether = "en7"
+
+# Global options
 set block-policy drop
-set fingerprints "/etc/pf.os"
-set ruleset-optimization basic
 set skip on lo0
-scrub in all no-df
+set state-policy if-bound
+set ruleset-optimization basic
+scrub in on $wifi all fragment reassemble
+
+# Define tables
 table <blocklist> persist
-block in log
-block in log quick from no-route to any
-block log on $wifi from { <blocklist> } to any
-block log on $wifi from any to { <blocklist> }
-antispoof quick for { $wifi $ether }
-pass out proto tcp from { $wifi $ether } to any keep state
-pass out proto udp from { $wifi $ether } to any keep state
-pass out proto icmp from $wifi to any keep state
+
+# Default deny both directions and log
+block log all
+block quick from no-route to any
+antispoof quick for $wifi
+
+# Blocklist enforcement
+block log quick on $wifi from { <blocklist> } to any
+block log quick on $wifi from any to { <blocklist> }
+
+# DHCP
+pass out on $wifi proto udp from any port 68 to any port 67 keep state
+pass in  on $wifi proto udp from any port 67 to any port 68 keep state
+
+# Outbound TCP
+pass out on $wifi proto tcp from ($wifi) to any flags S/SA keep state
+
+# Outbound UDP
+pass out on $wifi proto udp from ($wifi) to any keep state
+
+# Outbound ICMP (ping)
+pass out on $wifi proto icmp from ($wifi) to any keep state
 ```
 
-Use the following commands to control the firewall:
+To control the firewall:
 
-Task | Command
+Command | Task
 -: | :-
-enable firewall with config | `sudo pfctl -e -f pf.rules`
-disable firewall | `sudo pfctl -d`
-add address to blocklist | `sudo pfctl -t blocklist -T add 1.2.3.4`
-view the blocklist | `sudo pfctl -t blocklist -T show`
-create log interface | `sudo ifconfig pflog0 create`
-monitor blocked packets | `sudo tcpdump -ni pflog0`
+`sudo pfctl -e -f pf.rules` | enable firewall with configuration file
+`sudo pfctl -t blocklist -T add 1.2.3.4` | add an address to the blocklist
+`sudo pfctl -d` | disable firewall
 
-pf can block access to ranges of network addresses, for example to an entire organization:
+To monitor the firewall:
 
-Query [Merit RADb](https://www.radb.net/) for the list of networks in use by an [autonomous system](https://en.wikipedia.org/wiki/Autonomous_system_(Internet)) (a large network operated by a single organization), such as [Facebook](https://ipinfo.io/AS32934):
+Command | Task
+-: | :-
+`sudo pfctl -t blocklist -T show` | show blocklist
+`sudo pfctl -sr` | show active rules
+`sudo pfctl -ss` | show state table
+`sudo ifconfig pflog0 create` | create packet log interface
+`sudo tcpdump -ni pflog0` | monitor blocked packets
+
+pf can block access to ranges of network addresses, for example to an entire organization. Query [Merit RADb](https://www.radb.net/) for the list of networks in use by an [autonomous system](https://en.wikipedia.org/wiki/Autonomous_system_(Internet)) (a large network operated by a single organization), such as [Facebook](https://ipinfo.io/AS32934):
 
 ```bash
 whois -h whois.radb.net '!gAS32934'
@@ -410,7 +433,7 @@ Confirm network traffic is blocked to those addresses (DNS requests will still w
 $ dig a +short facebook.com
 157.240.2.35
 
-$ curl --connect-timeout 5 -I http://facebook.com/
+$ curl --connect-timeout 5 -I https://facebook.com/
 *   Trying 157.240.2.35...
 * TCP_NODELAY set
 * Connection timed out after 5002 milliseconds
@@ -418,11 +441,9 @@ $ curl --connect-timeout 5 -I http://facebook.com/
 curl: (28) Connection timed out after 5002 milliseconds
 
 $ sudo tcpdump -tqni pflog0 'host 157.240.2.35'
-IP 192.168.1.1.62771 > 157.240.2.35.80: tcp 0
-IP 192.168.1.1.62771 > 157.240.2.35.80: tcp 0
-IP 192.168.1.1.62771 > 157.240.2.35.80: tcp 0
-IP 192.168.1.1.62771 > 157.240.2.35.80: tcp 0
-IP 192.168.1.1.62771 > 157.240.2.35.80: tcp 0
+IP 192.168.1.1.62771 > 157.240.2.35.443: tcp 0
+IP 192.168.1.1.62771 > 157.240.2.35.443: tcp 0
+IP 192.168.1.1.62771 > 157.240.2.35.443: tcp 0
 ```
 
 The firewall drops the outbound [SYN packets](https://en.wikipedia.org/wiki/Transmission_Control_Protocol#Connection_establishment), so the TCP connection cannot be established.
@@ -431,27 +452,33 @@ See [drduh/config/scripts/pf-blocklist.sh](https://github.com/drduh/config/blob/
 
 # Services
 
-Services on macOS are managed by [launchd](https://en.wikipedia.org/wiki/Launchd).
+Many system and user background services are managed by [launchd](https://en.wikipedia.org/wiki/Launchd).
 
 Administrator accounts can modify services and extensions in [System Settings](https://support.apple.com/guide/mac-help/change-login-items-settings-mtusr003).
 
-function | command
+Command | Task
 -: | :-
-view loaded user jobs | `launchctl list`
-view loaded system jobs | `sudo launchctl list`
-examine a service | `launchctl list com.apple.Finder`
-list installed system daemons | `ls /System/Library/LaunchDaemons`
-list installed system agents | `ls /System/Library/LaunchAgents`
-read a service configuration | `defaults read /System/Library/LaunchAgents/com.apple.Finder`
-list system extensions | `systemextensionsctl list`
+`launchctl list` | view user jobs
+`sudo launchctl list` | view system jobs
+`launchctl list com.apple.Finder` | examine a service
+`systemextensionsctl list` | list system extensions
+`ls /System/Library/LaunchDaemons` | list system daemons
+`ls /System/Library/LaunchAgents` | list system agents
+
+To read a service configuration:
+
+```bash
+defaults read /System/Library/LaunchAgents/com.apple.Finder
+```
 
 > [!IMPORTANT]
-> System services are protected by [SIP](https://github.com/drduh/macOS-Security-and-Privacy-Guide#system-integrity-protection). Do not disable SIP just to modify system services as it is a fundamental part of the macOS security model. Disabling system services may also cause system instability.
+> System services are protected by [SIP](https://github.com/drduh/macOS-Security-and-Privacy-Guide#system-integrity-protection); disabling SIP to modify system services can compromise security and cause system instability.
 
 To view the status of services:
 
 ```bash
-find /var/db/com.apple.xpc.launchd/ -type f -print -exec defaults read {} \; 2>/dev/null
+find /var/db/com.apple.xpc.launchd \
+  -type f -print -exec defaults read {} \; 2>/dev/null
 ```
 
 See [script management with launchd](https://support.apple.com/guide/terminal/script-management-with-launchd-apdc6c1077b-5d5d-4d35-9c19-60f2397b2369) and [launchd.info](https://launchd.info/) for more information.
@@ -554,7 +581,7 @@ dnscrypt-proxy 15244 nobody   14u  IPv6 0x1337f85ff9f8beef      0t0  UDP [::1]:5
 
 Additionally, these pf rules block conventional DNS traffic to port 53 outside the loopback interface, to reduce the risk of [DNS leaks](https://dnsleaktest.com/):
 
-```shell
+```console
 block drop quick on !lo0 proto udp from any to any port = 53
 block drop quick on !lo0 proto tcp from any to any port = 53
 ```
@@ -610,13 +637,22 @@ $ networksetup -getdnsservers "Wi-Fi"
 
 # Certificate authorities
 
-macOS includes more than 150 [trusted root](https://support.apple.com/103723) certificate authority (CA) certificates, operated by corporations and government agencies from around the world. These CAs are capable of issuing valid TLS and code-signing certificates.
+macOS includes a set of trusted root certificate authorities (CAs) operated by corporations, governments and other organizations from around the world. A trusted CA can issue certificates that macOS and browsers may accept for HTTPS connections, making the root CA store a critical part of the system's trust boundary.
 
-Apple [blocks certificates](https://support.apple.com/103247#blocked) when a CA proves to be untrustworthy and requires [certain criteria](https://www.apple.com/certificateauthority/ca_program.html) for inclusion. For more information, see [CA/Browser Forum](https://cabforum.org/resources/browser-os-info/).
+Inspect **System Roots** to understand the Apple-provided trusted root store using [Keychain Access](https://support.apple.com/guide/keychain-access/welcome/mac) or the [`security`](https://ss64.com/mac/security.html) command-line tool and `/System/Library/Keychains/SystemRootCertificates.keychain` file. Keychain Access can also be launched with the command:
 
-Inspect root certificates in [Keychain Access](https://support.apple.com/guide/keychain-access/toc), under the **System Roots** tab or by using the `security` command line tool and `/System/Library/Keychains/SystemRootCertificates.keychain` file.
+```bash
+open "/System/Library/CoreServices/Applications/Keychain Access.app"
+```
 
-To disable a certificate authority, mark it as **Never Trust** and close the window to confirm. Doing so may reduce the risk of [MITM](https://wikipedia.org/wiki/Man-in-the-middle_attack) attacks, in which a coerced or compromised certificate authority could issue a fraudulent certificate, allowing encrypted traffic to be [silently intercepted](https://en.wikipedia.org/wiki/DigiNotar#Issuance_of_fraudulent_certificates).
+Also review any certificates that may have been added by a user, administrator, VPN client, security product, or mobile device management application in the **login**, **Local Items**, and **System** keychains.
+
+To disable a selected certificate, modify its Trust setting to **Never Trust** and close the window to confirm. Doing so may reduce the risk of [MITM](https://wikipedia.org/wiki/Man-in-the-middle_attack) attacks, in which a fraudulent certificate is used to [silently intercept](https://en.wikipedia.org/wiki/DigiNotar#Issuance_of_fraudulent_certificates) encrypted traffic.
+
+> [!WARNING]
+> Removing or modifying certificate authority trust settings can break websites, software updates, enterprise networks, VPNs, captive portals, and other services.
+
+See Apple's [available trusted certificates](https://support.apple.com/103723) and [blocked certificates](https://support.apple.com/103247#blocked) lists for current trust-store information.
 
 # Privoxy
 
@@ -945,9 +981,7 @@ Also see this [technical overview](https://blog.timac.org/2018/0717-macos-vpn-ar
 
 PGP is a standard for encrypting and signing data, especially email. It can protect message content between correspondents who correctly exchange and verify keys, but it does not protect metadata such as email recipients and subject lines.
 
-GPG (GNU Privacy Guard) is a GPL-licensed, open-source program compliant with the PGP standard.
-
-GPG is used to verify signatures of software you download and install, as well as [symmetrically](https://en.wikipedia.org/wiki/Symmetric-key_algorithm) or [asymmetrically](https://en.wikipedia.org/wiki/Public-key_cryptography) encrypt files and text.
+GPG (GNU Privacy Guard) is a GPL-licensed, open-source program compliant with the PGP standard. It can verify software signatures and encrypt files [symmetrically](https://en.wikipedia.org/wiki/Symmetric-key_algorithm) or using [public keys](https://en.wikipedia.org/wiki/Public-key_cryptography).
 
 Install from Homebrew with `brew install gnupg` or using [GPG Suite](https://gpgtools.org/).
 
@@ -970,7 +1004,7 @@ Email is not designed to provide strong privacy by default: message content may 
 
 Thunderbird includes support for [OpenPGP](https://support.mozilla.org/kb/openpgp-thunderbird-howto-and-faq) email encryption, which can protect message content and provide cryptographic [signatures](https://www.gnupg.org/gph/en/manual/x135.html). Always verify public-key fingerprints through an independent channel before relying on a key for sensitive communication.
 
-The [archived messages feature](https://support.mozilla.org/en-US/kb/archived-messages) can move messages out of remote mail servers to a **Local Folder**, improving privacy.
+The [archived messages feature](https://support.mozilla.org/kb/archived-messages) can move messages out of remote mail servers to a **Local Folder**, improving privacy.
 
 # Messengers
 
@@ -1073,7 +1107,7 @@ Gatekeeper warns when opening an application without notarization. It can be byp
 
 # System Integrity Protection
 
-To verify System Integrity Protection is enabled, use the command `csrutil status`, which should return: `System Integrity Protection status: enabled.` Otherwise, [enable SIP](https://developer.apple.com/documentation/security/disabling_and_enabling_system_integrity_protection) using [Recovery Mode](https://support.apple.com/en-us/102518).
+To verify System Integrity Protection is enabled, use the command `csrutil status`, which should return: `System Integrity Protection status: enabled.` Otherwise, [enable SIP](https://developer.apple.com/documentation/security/disabling_and_enabling_system_integrity_protection) using [Recovery Mode](https://support.apple.com/102518).
 
 # Metadata and artifacts
 
@@ -1161,15 +1195,7 @@ Additional diagnostic files may be found in the following directories - but caut
 /var/log/DiagnosticMessages/
 ```
 
-macOS stores Wi-Fi connection metadata (including credentials) in NVRAM. To clear it, use the commands:
-
-```bash
-sudo nvram -d 36C28AB5-6566-4C50-9EBD-CBB920F83843:current-network
-sudo nvram -d 36C28AB5-6566-4C50-9EBD-CBB920F83843:preferred-networks
-sudo nvram -d 36C28AB5-6566-4C50-9EBD-CBB920F83843:preferred-count
-```
-
-macOS may collect spelling and language suggestsions, To list them and prevent them from being created again, use the commands:
+macOS may collect spelling and language suggestions. To list them and prevent them from being created again, use the commands:
 
 ```bash
 ls ~/Library/LanguageModeling/ ~/Library/Spelling/ ~/Library/Suggestions/
@@ -1367,7 +1393,7 @@ To show log entries generated by the `audioaccessoryd` process during the last h
 
 ## DTrace
 
-[System Integrity Protection](https://github.com/drduh/macOS-Security-and-Privacy-Guide#system-integrity-protection) interferes with DTrace, so it is not possible to use it in recent macOS versions without disabling SIP.
+[System Integrity Protection](https://github.com/drduh/macOS-Security-and-Privacy-Guide#system-integrity-protection) interferes with [DTrace](https://en.wikipedia.org/wiki/DTrace) and must be [partially disabled](https://eclecticlight.co/2024/08/21/controlling-system-integrity-protection-using-csrutil-a-reference/) before use.
 
 - `iosnoop` monitors disk I/O
 - `opensnoop` monitors file opens
@@ -1379,7 +1405,7 @@ See `man -k dtrace` for more information.
 
 ## Processes
 
-List running processes with [Activity Monitor](https://support.apple.com/guide/activity-monitor/toc) or the `ps -ef` command.
+List running processes with [Activity Monitor](https://support.apple.com/guide/activity-monitor/toc) or the `ps` command.
 
 ## Network
 
