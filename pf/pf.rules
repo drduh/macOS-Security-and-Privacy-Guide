@@ -1,0 +1,83 @@
+# https://github.com/drduh/macOS-Security-and-Privacy-Guide/blob/main/pf/pf.rules
+
+# Interface: networksetup -listallhardwareports
+wifi = "en0"
+eth1 = "en5"
+
+# Global options
+set block-policy drop
+set skip on lo0
+set state-policy if-bound
+set ruleset-optimization basic
+
+# Normalization
+scrub in on $wifi all fragment reassemble
+scrub in on $eth1 all fragment reassemble
+
+# Tables
+table <blocklist> persist
+table <resolvers> const { 192.168.1.1, \
+                          1.0.0.1, 1.0.0.2, 1.0.0.3, 1.1.1.1, 1.1.1.2, 1.1.1.3, \
+                          8.8.4.4, 8.8.8.8, \
+                          9.9.9.9, 9.9.9.10, 9.9.9.11, 9.9.9.12 }
+table <sshGit> const { 140.82.112.0/20 }
+table <sshLocal> const { 192.168.1.1 }
+
+# Default deny both directions and log
+block log all
+block quick from no-route to any
+antispoof quick for $wifi
+antispoof quick for $eth1
+
+# Enforce blocklist
+block log quick on $wifi from { <blocklist> } to any
+block log quick on $wifi from any to { <blocklist> }
+block log quick on $eth1 from { <blocklist> } to any
+block log quick on $eth1 from any to { <blocklist> }
+
+# DHCP
+pass out on $wifi proto udp from any port 68 to any port 67 keep state
+pass in  on $wifi proto udp from any port 67 to any port 68 keep state
+pass out on $eth1 proto udp from any port 68 to any port 67 keep state
+pass in  on $eth1 proto udp from any port 67 to any port 68 keep state
+
+# DNS
+pass out on $wifi proto tcp from ($wifi) to <resolvers> port 53 flags S/SA keep state
+pass out on $wifi proto udp from ($wifi) to <resolvers> port 53 keep state
+pass out on $eth1 proto tcp from ($eth1) to <resolvers> port 53 flags S/SA keep state
+pass out on $eth1 proto udp from ($eth1) to <resolvers> port 53 keep state
+
+# HTTP
+pass out on $wifi proto tcp from ($wifi) to any port 80 flags S/SA keep state
+pass out on $eth1 proto tcp from ($eth1) to any port 80 flags S/SA keep state
+
+# HTTPS
+pass out on $wifi proto tcp from ($wifi) to any port 443 flags S/SA keep state
+pass out on $wifi proto udp from ($wifi) to any port 443 keep state
+pass out on $eth1 proto tcp from ($eth1) to any port 443 flags S/SA keep state
+pass out on $eth1 proto udp from ($eth1) to any port 443 keep state
+
+# IMAP+SMTP
+pass out on $wifi proto tcp from ($wifi) to any port 993 flags S/SA keep state
+pass out on $eth1 proto tcp from ($eth1) to any port 993 flags S/SA keep state
+pass out on $wifi proto tcp from ($wifi) to any port 465 flags S/SA keep state
+pass out on $eth1 proto tcp from ($eth1) to any port 465 flags S/SA keep state
+
+# WHOIS
+pass out on $wifi proto tcp from ($wifi) to any port 43 flags S/SA keep state
+pass out on $eth1 proto tcp from ($eth1) to any port 43 flags S/SA keep state
+
+# NTP
+pass out on $wifi proto udp from ($wifi) to any port 123 keep state
+pass out on $eth1 proto udp from ($eth1) to any port 123 keep state
+
+# SSH (GitHub)
+pass out on $wifi proto tcp from ($wifi) to <sshGit> port 22 flags S/SA keep state
+pass out on $eth1 proto tcp from ($eth1) to <sshGit> port 22 flags S/SA keep state
+
+# SSH (local)
+pass out on $eth1 proto tcp from ($eth1) to <sshLocal> port 2400 flags S/SA keep state
+
+# Outbound ping
+#pass out on $wifi proto icmp from ($wifi) to any keep state
+#pass out on $eth1 proto icmp from ($eth1) to any keep state
