@@ -220,7 +220,7 @@ Set a [long and unique password](https://www.eff.org/dice). Leave the password h
 
 Avoid personally identifiable names: the computer name (such as "John Appleseed's MacBook") is broadcast over local networks and visible to other devices.
 
-The system name can be configured in **System Settings > About** or with the commands:
+The system name can be configured in **System Settings > About** or with [`scutil`](https://ss64.com/mac/scutil.html) commands:
 
 ```bash
 sudo scutil --set ComputerName MacBook
