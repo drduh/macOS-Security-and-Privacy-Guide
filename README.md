@@ -381,33 +381,37 @@ set block-policy drop
 set skip on lo0
 set state-policy if-bound
 set ruleset-optimization basic
+
+# Normalize
 scrub in on $wifi all fragment reassemble
 
 # Define tables
 table <blocklist> persist
 
-# Default deny both directions and log
+# Deny and log blocked traffic
 block log all
 block quick from no-route to any
 antispoof quick for $wifi
 
-# Blocklist enforcement
-block log quick on $wifi from { <blocklist> } to any
-block log quick on $wifi from any to { <blocklist> }
+# Enforce blocklist
+block log quick on $wifi from <blocklist> to any
+block log quick on $wifi from any to <blocklist>
 
-# DHCP
+# Allow DHCP
 pass out on $wifi proto udp from any port 68 to any port 67 keep state
 pass in  on $wifi proto udp from any port 67 to any port 68 keep state
 
-# Outbound TCP
+# Allow outbound TCP
 pass out on $wifi proto tcp from ($wifi) to any flags S/SA keep state
 
-# Outbound UDP
+# Allow outbound UDP
 pass out on $wifi proto udp from ($wifi) to any keep state
 
-# Outbound ICMP (ping)
+# Allow outbound ICMP (ping)
 pass out on $wifi proto icmp from ($wifi) to any keep state
 ```
+
+An advanced example of configuring pf is available in [pf/pf.rules](https://github.com/drduh/macOS-Security-and-Privacy-Guide/blob/main/pf/pf.rules).
 
 ### Firewall commands
 
@@ -416,7 +420,7 @@ To control the firewall:
 Command | Task
 -: | :-
 `sudo pfctl -e -f pf.rules` | enable firewall with configuration file
-`sudo pfctl -t blocklist -T add 1.2.3.4` | add an address to the blocklist
+`sudo pfctl -t blocklist -T add 1.2.3.4` | add IPv4 address to blocklist table
 `sudo pfctl -d` | disable firewall
 
 To monitor the firewall:
@@ -424,8 +428,8 @@ To monitor the firewall:
 Command | Task
 -: | :-
 `sudo pfctl -t blocklist -T show` | show blocklist
-`sudo pfctl -sr` | show active rules
-`sudo pfctl -ss` | show state table
+`sudo pfctl -s rules` | show active rules
+`sudo pfctl -s states` | show state table
 `sudo ifconfig pflog0 create` | create packet log interface
 `sudo tcpdump -ni pflog0` | monitor blocked packets
 
