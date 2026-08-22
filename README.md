@@ -1162,7 +1162,7 @@ To verify System Integrity Protection is enabled, use the command `csrutil statu
 
 macOS attaches metadata ([APFS extended attributes](https://en.wikipedia.org/wiki/Extended_file_attributes#macOS)) to files.
 
-Certain metadata attributes can be viewed and removed with the `mdls` and `xattr` commands.
+Certain metadata attributes can be viewed and removed with the [`mdls`](https://ss64.com/mac/mdls.html) and [`xattr`](https://ss64.com/mac/xattr.html) commands. Preference (`plist`) files can be read and modified with [`defaults`](https://ss64.com/mac/defaults.html).
 
 System and application metadata can be found in:
 
@@ -1252,7 +1252,7 @@ Follow the [3-2-1 backup model](https://www.cisa.gov/sites/default/files/publica
 
 ## GnuPG
 
-GnuPG can be used with a password or public key, with the private key stored on [YubiKey](https://github.com/drduh/YubiKey-Guide).
+[GnuPG](https://www.gnupg.org/) can be used with a password or public key, with the private key stored on [YubiKey](https://github.com/drduh/YubiKey-Guide).
 
 Compress and encrypt a directory using a password:
 

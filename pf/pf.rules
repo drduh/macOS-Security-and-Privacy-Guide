@@ -76,7 +76,7 @@ pass out on $wifi proto tcp from ($wifi) to <sshGit> port 22 flags S/SA keep sta
 pass out on $eth1 proto tcp from ($eth1) to <sshGit> port 22 flags S/SA keep state
 
 # SSH (local)
-pass out on $eth1 proto tcp from ($eth1) to <sshLocal> port 2400 flags S/SA keep state
+#pass out on $eth1 proto tcp from ($eth1) to <sshLocal> port 2400 flags S/SA keep state
 
 # Outbound ping
 #pass out on $wifi proto icmp from ($wifi) to any keep state
