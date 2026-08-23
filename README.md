@@ -78,6 +78,7 @@ This guide is provided "as is" - without warranties of any kind. You are solely 
   - [Logs](#logs)
   - [DTrace](#dtrace)
   - [Processes](#processes)
+  - [Install History](#install-history)
   - [Network](#network)
     - [Wireshark](#wireshark)
 - [Miscellaneous](#miscellaneous)
@@ -1357,7 +1358,7 @@ Output as JSON array:
 log show --last 5m --style json
 ```
 
-Output newline-delimited JSON (one JSON object per line); required for [jq](https://jqlang.org/):
+Output newline-delimited JSON (one JSON object per line); required for [`jq`](https://jqlang.org/):
 
 ```bash
 log show --last 5m --style ndjson
@@ -1382,7 +1383,7 @@ Case-insensitive message filtering:
 log show --last 1h --predicate 'eventMessage CONTAINS[c] "error"'
 ```
 
-Count distinct error messages with jq:
+Count distinct error messages with `jq`:
 
 ```bash
 log show --last 1h --style ndjson \
@@ -1412,7 +1413,23 @@ See `man -k dtrace` for more information.
 
 List running processes with [Activity Monitor](https://support.apple.com/guide/activity-monitor/toc) or the `ps` command.
 
-## Installations
+Inspect process execution in real-time with `eslogger` and [`jq`](https://jqlang.org/):
+
+```bash
+{
+  printf 'TIME\t\t\t\tPID\tPPID\tUID\tCOMMAND\n'
+  sudo eslogger exec fork exit |
+    jq -r 'select(.event.exec.args?) |
+      [ .time,
+        (.event.exec.target.audit_token.pid // .process.audit_token.pid // "?"),
+        (.event.exec.target.ppid // .process.ppid // "?"),
+        (.event.exec.target.audit_token.euid // .process.audit_token.euid // "?"),
+        (.event.exec.args | join(" "))
+      ] | @tsv'
+}
+```
+
+## Install history
 
 Show package and system update install history:
 
@@ -1420,7 +1437,7 @@ Show package and system update install history:
 system_profiler SPInstallHistoryDataType
 ```
 
-Formatted with [jq](https://jqlang.org/):
+Formatted with [`jq`](https://jqlang.org/):
 
 ```bash
 system_profiler SPInstallHistoryDataType -json |
