@@ -1357,7 +1357,7 @@ Output as JSON array:
 log show --last 5m --style json
 ```
 
-Output newline-delimited JSON (one JSON object per line); required for [jq](https://jqlang.org/download/):
+Output newline-delimited JSON (one JSON object per line); required for [jq](https://jqlang.org/):
 
 ```bash
 log show --last 5m --style ndjson
@@ -1412,6 +1412,31 @@ See `man -k dtrace` for more information.
 
 List running processes with [Activity Monitor](https://support.apple.com/guide/activity-monitor/toc) or the `ps` command.
 
+## Installations
+
+Show package and system update install history:
+
+```bash
+system_profiler SPInstallHistoryDataType
+```
+
+Formatted with [jq](https://jqlang.org/):
+
+```bash
+system_profiler SPInstallHistoryDataType -json |
+  jq -r '.SPInstallHistoryDataType[]
+    | [(._name // "n/a"),
+       (.install_version // "n/a"),
+       (.install_date // "n/a"),
+       (.package_source // "n/a")]
+    | @tsv' | column -t -s $'\t'
+```
+
+Software update history can also be shown with:
+
+```bash
+softwareupdate --history
+```
 
 ## Network
 
