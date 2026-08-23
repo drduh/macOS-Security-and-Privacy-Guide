@@ -1470,6 +1470,14 @@ sudo netstat -n -p tcp
 sudo netstat -n -p udp | sort | uniq
 ```
 
+Monitor network connections and routing table:
+
+```bash
+nettop -m tcp
+nettop -m udp
+nettop -m route
+```
+
 ### Wireshark
 
 [Wireshark](https://www.wireshark.org/) can be used from the command line with [`tshark`](https://www.wireshark.org/docs/man-pages/tshark.html).
