@@ -220,7 +220,7 @@ Set a [long and unique password](https://www.eff.org/dice). Leave the password h
 
 Avoid personally identifiable names: the computer name (such as "John Appleseed's MacBook") is broadcast over local networks and visible to other devices.
 
-The system name can be configured in **System Settings > About** or with the commands:
+The system name can be configured in **System Settings > About** or with [`scutil`](https://ss64.com/mac/scutil.html) commands:
 
 ```bash
 sudo scutil --set ComputerName MacBook
@@ -324,7 +324,7 @@ sudo pkill -HUP socketfilterfw
 
 Confirm firewall state:
 
-```console
+```bash
 for firewallFlag in \
   --getglobalstate \
   --getblockall \
@@ -333,6 +333,12 @@ for firewallFlag in \
   --listapps
 do /usr/libexec/ApplicationFirewall/socketfilterfw "$firewallFlag"
 done
+```
+
+Or using [system profiler](https://ss64.com/mac/system_profiler.html):
+
+```bash
+system_profiler SPFirewallDataType
 ```
 
 ### AirDrop
@@ -375,33 +381,37 @@ set block-policy drop
 set skip on lo0
 set state-policy if-bound
 set ruleset-optimization basic
+
+# Normalize
 scrub in on $wifi all fragment reassemble
 
 # Define tables
 table <blocklist> persist
 
-# Default deny both directions and log
+# Deny and log blocked traffic
 block log all
 block quick from no-route to any
 antispoof quick for $wifi
 
-# Blocklist enforcement
-block log quick on $wifi from { <blocklist> } to any
-block log quick on $wifi from any to { <blocklist> }
+# Enforce blocklist
+block log quick on $wifi from <blocklist> to any
+block log quick on $wifi from any to <blocklist>
 
-# DHCP
+# Allow DHCP
 pass out on $wifi proto udp from any port 68 to any port 67 keep state
 pass in  on $wifi proto udp from any port 67 to any port 68 keep state
 
-# Outbound TCP
+# Allow outbound TCP
 pass out on $wifi proto tcp from ($wifi) to any flags S/SA keep state
 
-# Outbound UDP
+# Allow outbound UDP
 pass out on $wifi proto udp from ($wifi) to any keep state
 
-# Outbound ICMP (ping)
+# Allow outbound ICMP (ping)
 pass out on $wifi proto icmp from ($wifi) to any keep state
 ```
+
+An advanced example of configuring pf is available in [pf/pf.rules](https://github.com/drduh/macOS-Security-and-Privacy-Guide/blob/main/pf/pf.rules).
 
 ### Firewall commands
 
@@ -410,7 +420,7 @@ To control the firewall:
 Command | Task
 -: | :-
 `sudo pfctl -e -f pf.rules` | enable firewall with configuration file
-`sudo pfctl -t blocklist -T add 1.2.3.4` | add an address to the blocklist
+`sudo pfctl -t blocklist -T add 1.2.3.4` | add IPv4 address to blocklist table
 `sudo pfctl -d` | disable firewall
 
 To monitor the firewall:
@@ -418,8 +428,8 @@ To monitor the firewall:
 Command | Task
 -: | :-
 `sudo pfctl -t blocklist -T show` | show blocklist
-`sudo pfctl -sr` | show active rules
-`sudo pfctl -ss` | show state table
+`sudo pfctl -s rules` | show active rules
+`sudo pfctl -s states` | show state table
 `sudo ifconfig pflog0 create` | create packet log interface
 `sudo tcpdump -ni pflog0` | monitor blocked packets
 
@@ -431,10 +441,10 @@ pf can block ranges of network addresses, for example to an entire organization.
 whois -h whois.radb.net '!gAS32934'
 ```
 
-Copy and paste the list of networks returned into the blocklist command:
+Add the returned list of networks to the blocklist:
 
 ```bash
-sudo pfctl -t blocklist -T add 31.13.24.0/21 31.13.64.0/24 157.240.0.0/16
+sudo pfctl -t blocklist -T add $(whois -h whois.radb.net '!gAS32934' | sed -n '2p')
 ```
 
 Confirm the addresses were added:
@@ -446,6 +456,7 @@ ALTQ related functions disabled
    31.13.24.0/21
    31.13.64.0/24
    157.240.0.0/16
+   ...
 ```
 
 Confirm network traffic is blocked to those addresses (DNS requests will still work):
@@ -1065,7 +1076,7 @@ Applications from the App Store or [notarized by Apple](https://support.apple.co
 
 ## App Sandbox
 
-Check if a program uses [App Sandbox](https://developer.apple.com/documentation/security/app_sandbox/protecting_user_data_with_app_sandbox):
+Check if an application uses [App Sandbox](https://developer.apple.com/documentation/security/app_sandbox/protecting_user_data_with_app_sandbox):
 
 ```bash
 codesign --display --entitlements - \
@@ -1123,6 +1134,12 @@ To scan files and applications, consider uploading them to [VirusTotal](https://
 
 macOS includes built-in antivirus software called [XProtect](https://support.apple.com/guide/security/protecting-against-malware-sec469d47bd8), which runs in the background and updates signatures used to detect malware automatically. If malware is detected, XProtect attempts to remove and quarantine it.
 
+Check XProtect update status:
+
+```bash
+xprotect version
+```
+
 Applications such as [BlockBlock](https://objective-see.com/products/blockblock.html) or [hazcod/maclaunch](https://github.com/hazcod/maclaunch) might help prevent or detect persistent malware.
 
 Antivirus software can help detect common malware, but it may also increase attack surface because it often runs with extensive system privileges. Some products may also send telemetry or samples to the vendor.
@@ -1138,7 +1155,7 @@ Gatekeeper warns when opening an application without notarization. It can be byp
 Check if Gatekeeper is enabled:
 
 ```bash
-spctl --status
+spctl --status --verbose
 ```
 
 # System Integrity Protection
@@ -1149,158 +1166,69 @@ To verify System Integrity Protection is enabled, use the command `csrutil statu
 
 macOS attaches metadata ([APFS extended attributes](https://en.wikipedia.org/wiki/Extended_file_attributes#macOS)) to files.
 
-Metadata attributes can be viewed and removed with the `mdls` and `xattr` commands.
+Certain metadata attributes can be viewed and removed with the [`mdls`](https://ss64.com/mac/mdls.html) and [`xattr`](https://ss64.com/mac/xattr.html) commands. Preference (`plist`) files can be read and modified with [`defaults`](https://ss64.com/mac/defaults.html).
 
-Other metadata and artifacts may be found in the directories including, but not limited to, `~/Library/Preferences/`, `~/Library/Containers/<APP>/Data/Library/Preferences`, `/Library/Preferences`, some of which is detailed below.
+System and application metadata can be found in:
 
-`~/Library/Preferences/com.apple.sidebarlists.plist` contains historical list of volumes attached. To clear it, use the command `/usr/libexec/PlistBuddy -c "delete :systemitems:VolumesList" ~/Library/Preferences/com.apple.sidebarlists.plist`
+- `~/Library/Preferences/`
+- `~/Library/Containers/<APP>/Data/Library/Preferences`
+- `/Library/Preferences`
 
-`/Library/Preferences/com.apple.Bluetooth.plist` contains Bluetooth metadata, including device history. If Bluetooth is not used, the metadata can be listed with:
+Bluetooth information:
 
-```bash
-sudo defaults read /Library/Preferences/com.apple.Bluetooth.plist DeviceCache
-sudo defaults read /Library/Preferences/com.apple.Bluetooth.plist IDSPairedDevices
-sudo defaults read /Library/Preferences/com.apple.Bluetooth.plist PANDevices
-sudo defaults read /Library/Preferences/com.apple.Bluetooth.plist PANInterfaces
-sudo defaults read /Library/Preferences/com.apple.Bluetooth.plist SCOAudioDevices
-```
+- `/Library/Preferences/com.apple.Bluetooth.plist`
 
-`/var/spool/cups` contains the CUPS printer job cache. To list it, use the commands:
+Printer jobs cache:
 
-```bash
-sudo ls -rfv /var/spool/cups/c0*
-sudo ls -rfv /var/spool/cups/tmp/*
-sudo ls -rfv /var/spool/cups/cache/job.cache*
-```
+- `/var/spool/cups`
 
-To list the list of iOS devices connected, use:
+Previously connected iOS devices:
 
-```bash
-sudo defaults read /Users/$USER/Library/Preferences/com.apple.iPod.plist "conn:128:Last Connect"
-sudo defaults read /Users/$USER/Library/Preferences/com.apple.iPod.plist Devices
-sudo defaults read /Library/Preferences/com.apple.iPod.plist "conn:128:Last Connect"
-sudo defaults read /Library/Preferences/com.apple.iPod.plist Devices
-sudo ls -rfv /var/db/lockdown/*
-```
+- `/Users/$USER/Library/Preferences/com.apple.iPod.plist`
+- `/Library/Preferences/com.apple.iPod.plist`
 
-Quicklook thumbnail data can be cleared using the `qlmanage -r cache` command, but this writes to the file `resetreason` in the Quicklook directories, and states that the Quicklook cache was manually cleared. Disable the thumbnail cache with `qlmanage -r disablecache`.
+Finder preferences:
 
-It can also be listed by getting the directory names as follows:
+- `~/Library/Preferences/com.apple.finder.plist`
+- `~/Library/Preferences/com.apple.sidebarlists.plist`
 
-```bash
-ls -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/exclusive
-ls -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/index.sqlite
-ls -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/index.sqlite-shm
-ls -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/index.sqlite-wal
-ls -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/resetreason
-ls -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/thumbnails.data
-```
+Diagnostic data:
 
-Similarly, for the root user:
+- `/var/db/CoreDuet`
+- `/var/db/diagnostics`
+- `/var/db/systemstats`
+- `/var/db/uuidtext`
+- `/var/log/DiagnosticMessages`
 
-```bash
-sudo ls -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/thumbnails.fraghandler
-sudo ls -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/exclusive
-sudo ls -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/index.sqlite
-sudo ls -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/index.sqlite-shm
-sudo ls -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/index.sqlite-wal
-sudo ls -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/resetreason
-sudo ls -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/thumbnails.data
-sudo ls -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/thumbnails.fraghandler
-```
+Spelling and language suggestions:
 
-Also see ['quicklook' cache may leak encrypted data](https://objective-see.com/blog/blog_0x30.html).
+- `~/Library/LanguageModeling`
+- `~/Library/Spelling`
+- `~/Library/Suggestions`
 
-To read Finder preferences:
+Application state:
 
-```bash
-defaults read ~/Library/Preferences/com.apple.finder.plist FXDesktopVolumePositions
-defaults read ~/Library/Preferences/com.apple.finder.plist FXRecentFolders
-defaults read ~/Library/Preferences/com.apple.finder.plist RecentMoveAndCopyDestinations
-defaults read ~/Library/Preferences/com.apple.finder.plist RecentSearches
-defaults read ~/Library/Preferences/com.apple.finder.plist SGTRecentFileSearches
-```
+- `~/Library/Saved\ Application\ State`
+- `~/Library/Containers/<APPNAME>/Data/Library/Saved\ Application\ State`
 
-Additional diagnostic files may be found in the following directories - but caution should be taken before removing any, as it may break logging or cause other issues:
+Autosave metadata:
 
-```
-/var/db/CoreDuet/
-/var/db/diagnostics/
-/var/db/systemstats/
-/var/db/uuidtext/
-/var/log/DiagnosticMessages/
-```
+- `~/Library/Containers/<APP>/Data/Library/Autosave\ Information`
+- `~/Library/Autosave\ Information`
 
-macOS may collect spelling and language suggestions. To list them and prevent them from being created again, use the commands:
+Siri analytics:
 
-```bash
-ls ~/Library/LanguageModeling/ ~/Library/Spelling/ ~/Library/Suggestions/
-chmod -R 000 ~/Library/LanguageModeling ~/Library/Spelling ~/Library/Suggestions
-chflags -R uchg ~/Library/LanguageModeling ~/Library/Spelling ~/Library/Suggestions
-```
+- `~/Library/Assistant/SiriAnalytics.db`
 
-QuickLook application support metadata can be listed and locked with the commands:
+QuickTime Player history:
 
-```bash
-ls -rfv "$HOME/Library/Application Support/Quick Look/*"
-chmod -R 000 "$HOME/Library/Application Support/Quick Look"
-chflags -R uchg "$HOME/Library/Application Support/Quick Look"
-```
+- `~/Library/Containers/com.apple.QuickTimePlayerX/Data/Library/Preferences/com.apple.QuickTimePlayerX.plist`
 
-> [!WARNING]
-> Clearing or locking this directory can break core macOS applications and prevent document-version recovery.
+Misc metadata:
 
-Document revision metadata can be listed and disabled with the commands:
-
-```bash
-sudo ls -rfv /.DocumentRevisions-V100/*
-sudo chmod -R 000 /.DocumentRevisions-V100
-sudo chflags -R uchg /.DocumentRevisions-V100
-```
-
-Saved application state metadata can be listed and locked with the commands:
-
-```bash
-ls ~/Library/Saved\ Application\ State/*
-ls ~/Library/Containers/<APPNAME>/Data/Library/Saved\ Application\ State
-chmod -R 000 ~/Library/Saved\ Application\ State/
-chmod -R 000 ~/Library/Containers/<APPNAME>/Data/Library/Saved\ Application\ State
-chflags -R uchg ~/Library/Saved\ Application\ State/
-chflags -R uchg ~/Library/Containers/<APPNAME>/Data/Library/Saved\ Application\ State
-```
-
-Autosave metadata can be listed and locked with the commands:
-
-```bash
-ls "$HOME/Library/Containers/<APP>/Data/Library/Autosave Information"
-ls "$HOME/Library/Autosave Information"
-chmod -R 000 "~/Library/Containers/<APP>/Data/Library/Autosave Information"
-chmod -R 000 "~/Library/Autosave Information"
-chflags -R uchg "~/Library/Containers/<APP>/Data/Library/Autosave Information"
-chflags -R uchg "~/Library/Autosave Information"
-```
-
-The Siri analytics database, which is created even if the Siri launch agent is disabled, can be listed and locked with the commands:
-
-```bash
-ls -rfv ~/Library/Assistant/SiriAnalytics.db
-chmod -R 000 ~/Library/Assistant/SiriAnalytics.db
-chflags -R uchg ~/Library/Assistant/SiriAnalytics.db
-```
-
-Media played in QuickTime Player can be found in:
-
-```bash
-~/Library/Containers/com.apple.QuickTimePlayerX/Data/Library/Preferences/com.apple.QuickTimePlayerX.plist
-```
-
-Additional metadata may exist in the following files:
-
-```bash
-~/Library/Containers/com.apple.appstore/Data/Library/Preferences/com.apple.commerce.knownclients.plist
-~/Library/Preferences/com.apple.commerce.plist
-~/Library/Preferences/com.apple.QuickTimePlayerX.plist
-```
+- `~/Library/Containers/com.apple.appstore/Data/Library/Preferences/com.apple.commerce.knownclients.plist`
+- `~/Library/Preferences/com.apple.commerce.plist`
+- `~/Library/Preferences/com.apple.QuickTimePlayerX.plist`
 
 # Authentication
 
@@ -1328,12 +1256,13 @@ Follow the [3-2-1 backup model](https://www.cisa.gov/sites/default/files/publica
 
 ## GnuPG
 
-GnuPG can be used with a password or public key, with the private key stored on [YubiKey](https://github.com/drduh/YubiKey-Guide).
+[GnuPG](https://www.gnupg.org/) can be used with a password or public key, with the private key stored on [YubiKey](https://github.com/drduh/YubiKey-Guide).
 
 Compress and encrypt a directory using a password:
 
 ```bash
-tar zcvf - ~/Downloads | gpg -c > ~/Downloads/backup-$(date +%F-%H%M).tar.gz.gpg
+tar zcvf - ~/Downloads |
+  gpg -c > ~/Downloads/backup-$(date +%F-%H%M%S).tar.gz.gpg
 ```
 
 Decrypt and decompress the directory:
@@ -1483,6 +1412,7 @@ See `man -k dtrace` for more information.
 
 List running processes with [Activity Monitor](https://support.apple.com/guide/activity-monitor/toc) or the `ps` command.
 
+
 ## Network
 
 List open network connections:
@@ -1494,7 +1424,8 @@ sudo lsof -Pni
 List the contents of various network-related data structures:
 
 ```bash
-sudo netstat -atln
+sudo netstat -n -p tcp
+sudo netstat -n -p udp | sort | uniq
 ```
 
 ### Wireshark
