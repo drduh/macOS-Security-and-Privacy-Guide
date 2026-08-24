@@ -1457,20 +1457,20 @@ softwareupdate --history
 
 ## Network
 
-List open network connections:
+List open network connections with [`lsof`](https://www.unix.com/man_page/osx/8/lsof/):
 
 ```bash
 sudo lsof -Pni
 ```
 
-List the contents of various network-related data structures:
+Show network protocol statistics with [`netstat`](https://www.unix.com/man_page/osx/1/netstat/):
 
 ```bash
 sudo netstat -n -p tcp
 sudo netstat -n -p udp | sort | uniq
 ```
 
-Monitor network connections and routing table:
+Monitor TCP/UDP sockets and the routing table with [`nettop`](https://www.unix.com/man_page/osx/1/nettop/):
 
 ```bash
 nettop -m tcp
