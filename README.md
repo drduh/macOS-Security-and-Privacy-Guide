@@ -1421,12 +1421,25 @@ Inspect process execution in real-time with `eslogger` and [`jq`](https://jqlang
   sudo eslogger exec fork exit |
     jq -r 'select(.event.exec.args?) |
       [ .time,
-        (.event.exec.target.audit_token.pid // .process.audit_token.pid // "?"),
-        (.event.exec.target.ppid // .process.ppid // "?"),
-        (.event.exec.target.audit_token.euid // .process.audit_token.euid // "?"),
+        (.event.exec.target.audit_token.pid  // .process.audit_token.pid),
+        (.event.exec.target.ppid             // .process.ppid),
+        (.event.exec.target.audit_token.euid // .process.audit_token.euid),
         (.event.exec.args | join(" "))
       ] | @tsv'
 }
+```
+
+Print events in JSON format and also save them to a dated log file for later analysis:
+
+```bash
+sudo eslogger exec fork exit |
+ jq -c --unbuffered 'select(.event.exec.args?) |
+    { time,
+      pid:     (.event.exec.target.audit_token.pid  // .process.audit_token.pid),
+      ppid:    (.event.exec.target.ppid             // .process.ppid),
+      uid:     (.event.exec.target.audit_token.euid // .process.audit_token.euid),
+      command: (.event.exec.args | join(" "))
+    }' | tee -a ~/eslogger-$(date +%Y%m%d).log
 ```
 
 ## Install history
