@@ -1416,30 +1416,28 @@ List running processes with [Activity Monitor](https://support.apple.com/guide/a
 Inspect process execution in real-time with `eslogger` and [`jq`](https://jqlang.org/):
 
 ```bash
-{
-  printf 'TIME\t\t\t\tPID\tPPID\tUID\tCOMMAND\n'
-  sudo eslogger exec fork exit |
-    jq -r 'select(.event.exec.args?) |
-      [ .time,
-        (.event.exec.target.audit_token.pid  // .process.audit_token.pid),
-        (.event.exec.target.ppid             // .process.ppid),
-        (.event.exec.target.audit_token.euid // .process.audit_token.euid),
-        (.event.exec.args | join(" "))
-      ] | @tsv'
-}
+printf 'TIME\t\t\t\tPID\tPPID\tUID\tCOMMAND\n'
+sudo eslogger exec | jq -r '
+  [ .time,
+    .process.audit_token.pid,
+    .process.ppid,
+    .process.audit_token.euid,
+   (.event.exec.args | join(" "))
+  ] | @tsv'
 ```
 
 Print events in JSON format and also save them to a dated log file for later analysis:
 
 ```bash
-sudo eslogger exec fork exit |
- jq -c --unbuffered 'select(.event.exec.args?) |
-    { time,
-      pid:     (.event.exec.target.audit_token.pid  // .process.audit_token.pid),
-      ppid:    (.event.exec.target.ppid             // .process.ppid),
-      uid:     (.event.exec.target.audit_token.euid // .process.audit_token.euid),
-      command: (.event.exec.args | join(" "))
-    }' | tee -a ~/eslogger-$(date +%Y%m%d).log
+mkdir ~/eslogger
+sudo eslogger exec | jq -c --unbuffered '
+  { ts:   .time,
+    pid:  .process.audit_token.pid,
+    ppid: .process.ppid,
+    uid:  .process.audit_token.euid,
+    cmd:  .event.exec.args | join(" ")
+  }' |
+  tee -a ~/eslogger/exec-$(date +%Y%m%d).log
 ```
 
 ## Install history
@@ -1455,10 +1453,10 @@ Formatted with [`jq`](https://jqlang.org/):
 ```bash
 system_profiler SPInstallHistoryDataType -json |
   jq -r '.SPInstallHistoryDataType[]
-    | [(._name // "n/a"),
-       (.install_version // "n/a"),
-       (.install_date // "n/a"),
-       (.package_source // "n/a")]
+    | [(._name            // "n/a"),
+       (.install_version  // "n/a"),
+       (.install_date     // "n/a"),
+       (.package_source   // "n/a")]
     | @tsv' | column -t -s $'\t'
 ```
 
