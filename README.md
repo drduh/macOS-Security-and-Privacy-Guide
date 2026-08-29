@@ -78,6 +78,7 @@ This guide is provided "as is" - without warranties of any kind. You are solely 
   - [Logs](#logs)
   - [DTrace](#dtrace)
   - [Processes](#processes)
+  - [Install History](#install-history)
   - [Network](#network)
     - [Wireshark](#wireshark)
 - [Miscellaneous](#miscellaneous)
@@ -1357,7 +1358,7 @@ Output as JSON array:
 log show --last 5m --style json
 ```
 
-Output newline-delimited JSON (one JSON object per line); required for [jq](https://jqlang.org/download/):
+Output newline-delimited JSON (one JSON object per line); required for [`jq`](https://jqlang.org/):
 
 ```bash
 log show --last 5m --style ndjson
@@ -1382,7 +1383,7 @@ Case-insensitive message filtering:
 log show --last 1h --predicate 'eventMessage CONTAINS[c] "error"'
 ```
 
-Count distinct error messages with jq:
+Count distinct error messages with `jq`:
 
 ```bash
 log show --last 1h --style ndjson \
@@ -1412,20 +1413,80 @@ See `man -k dtrace` for more information.
 
 List running processes with [Activity Monitor](https://support.apple.com/guide/activity-monitor/toc) or the `ps` command.
 
+Inspect process execution in real-time with `eslogger` and [`jq`](https://jqlang.org/):
+
+```bash
+printf 'TIME\t\t\t\tPID\tPPID\tUID\tCOMMAND\n'
+sudo eslogger exec | jq -r '
+  [ .time,
+    .process.audit_token.pid,
+    .process.ppid,
+    .process.audit_token.euid,
+   (.event.exec.args | join(" "))
+  ] | @tsv'
+```
+
+Print events in JSON format and also save them to a dated log file for later analysis:
+
+```bash
+mkdir ~/eslogger
+sudo eslogger exec | jq -c --unbuffered '
+  { ts:   .time,
+    pid:  .process.audit_token.pid,
+    ppid: .process.ppid,
+    uid:  .process.audit_token.euid,
+    cmd:  .event.exec.args | join(" ")
+  }' |
+  tee -a ~/eslogger/exec-$(date +%Y%m%d).log
+```
+
+## Install history
+
+Show package and system update install history:
+
+```bash
+system_profiler SPInstallHistoryDataType
+```
+
+Formatted with [`jq`](https://jqlang.org/):
+
+```bash
+system_profiler SPInstallHistoryDataType -json |
+  jq -r '.SPInstallHistoryDataType[]
+    | [(._name            // "n/a"),
+       (.install_version  // "n/a"),
+       (.install_date     // "n/a"),
+       (.package_source   // "n/a")]
+    | @tsv' | column -t -s $'\t'
+```
+
+Software update history can also be shown with:
+
+```bash
+softwareupdate --history
+```
 
 ## Network
 
-List open network connections:
+List open network connections with [`lsof`](https://www.unix.com/man_page/osx/8/lsof/):
 
 ```bash
 sudo lsof -Pni
 ```
 
-List the contents of various network-related data structures:
+Show network protocol statistics with [`netstat`](https://www.unix.com/man_page/osx/1/netstat/):
 
 ```bash
 sudo netstat -n -p tcp
 sudo netstat -n -p udp | sort | uniq
+```
+
+Monitor TCP/UDP sockets and the routing table with [`nettop`](https://www.unix.com/man_page/osx/1/nettop/):
+
+```bash
+nettop -m tcp
+nettop -m udp
+nettop -m route
 ```
 
 ### Wireshark
