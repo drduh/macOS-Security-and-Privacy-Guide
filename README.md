@@ -61,7 +61,7 @@ This guide is provided "as is" - without warranties of any kind. You are solely 
   - [XMPP](#xmpp)
   - [Signal](#signal)
   - [iMessage](#imessage)
-- [Malware](#Malware)
+- [Malware](#malware)
   - [Downloading Software](#downloading-software)
   - [App Sandbox](#app-sandbox)
   - [Hardened Runtime](#hardened-runtime)
@@ -82,15 +82,15 @@ This guide is provided "as is" - without warranties of any kind. You are solely 
   - [Network](#network)
     - [Wireshark](#wireshark)
 - [Miscellaneous](#miscellaneous)
-    - [Screensaver](#screensaver)
-    - [Diagnostic data](#diagnostic-data)
-    - [Media player](#media-player)
-    - [File handlers](#file-handlers)
-    - [Finder options](#finder-options)
-    - [Custom umask](#custom-umask)
-    - [Keyboard entry](#keyboard-entry)
-    - [Network hardening](#network-hardening)
-    - [Sudoers](#sudoers)
+  - [Screensaver](#screensaver)
+  - [Diagnostic data](#diagnostic-data)
+  - [Media player](#media-player)
+  - [File handlers](#file-handlers)
+  - [Finder options](#finder-options)
+  - [Custom umask](#custom-umask)
+  - [Keyboard entry](#keyboard-entry)
+  - [Network hardening](#network-hardening)
+  - [Sudoers](#sudoers)
 - [Related software](#related-software)
 - [Additional resources](#additional-resources)
 
@@ -119,7 +119,7 @@ Apply general security best practices:
   - Verify backups by accessing them on a regular, scheduled basis.
 
 - Click carefully
-  - Ultimately, the security of a system depends on the capabilities and habits of its administrator.
+  - Ultimately, the security of a system depends heavily on the capabilities and habits of the person using and administering it.
   - Take care when installing new software: install it only from sources the developer identifies as official, such as their website or GitHub repository.
 
 # Threat model
@@ -148,7 +148,7 @@ Security should be balanced with usability: every mitigation should counter some
 
 ## Example model
 
-The following table is an example of a simple threat model:
+The following table is a simple example threat model for personal devices, including a Mac.
 
 Adversary | Motivation | Capabilities | Mitigation
 :-: | :-: | :-: | :-:
@@ -162,9 +162,9 @@ Read more about [threat modeling](https://www.netmeister.org/blog/threat-model-1
 
 # Hardware
 
-[Apple silicon hardware](https://support.apple.com/guide/security/hardware-security-overview-secf020d1074/1/web/1) provide hardware-backed security features, including Secure Enclave-based key protection and stronger boot security options. They are generally the preferred platform for the protections discussed in this guide.
+[Apple silicon hardware](https://support.apple.com/guide/security/hardware-security-overview-secf020d1074/1/web/1) provides hardware-backed security features, including Secure Enclave-based key protection and stronger boot security options. They are generally the preferred platform for the protections discussed in this guide.
 
-Some Intel-based Macs, especially models with vulnerable [T2-era hardware](https://en.wikipedia.org/wiki/Apple_T2), are affected by hardware vulnerabilities that cannot be fully fixed by a macOS update.
+Some Intel-based Macs, especially certain models with [T2-era hardware](https://en.wikipedia.org/wiki/Apple_T2), are affected by hardware vulnerabilities that cannot be fully fixed by a macOS update alone.
 
 Avoid non-Apple hardware running macOS and systems that do not support the latest macOS release, as Apple does not [patch all vulnerabilities](https://support.apple.com/guide/deployment/about-software-updates-depc4c80847a) in legacy versions.
 
@@ -178,7 +178,7 @@ Install the latest supported version of macOS; newer versions of macOS include s
 
 ## System activation
 
-During installation, Apple silicon Macs contact Apple activation service to confirm that the device is not reported [lost or stolen](https://support.apple.com/102541). Read about [how this process works](https://support.apple.com/guide/security/localpolicy-signing-key-creation-management-sec1f90fbad1).
+During installation, Apple silicon Macs contact Apple activation services to confirm that the device is not reported [lost or stolen](https://support.apple.com/102541). Read about [how this process works](https://support.apple.com/guide/security/localpolicy-signing-key-creation-management-sec1f90fbad1).
 
 ## Apple Account
 
@@ -190,9 +190,9 @@ Enable [end-to-end encryption](https://support.apple.com/guide/security/advanced
 
 The [App Store](https://en.wikipedia.org/wiki/Mac_app_store) is a software distribution platform where applications are [reviewed](https://developer.apple.com/app-store/review/guidelines) by Apple.
 
-App Store applications are required to use [App Sandbox](https://developer.apple.com/documentation/security/app_sandbox/protecting_user_data_with_app_sandbox) and [Hardened Runtime](https://developer.apple.com/documentation/security/hardened_runtime) (security features restricting what apps can do, making some attacks more difficult). It also offers automatic software updates.
+App Store applications are generally required to use [App Sandbox](https://developer.apple.com/documentation/security/app_sandbox/protecting_user_data_with_app_sandbox) and [Hardened Runtime](https://developer.apple.com/documentation/security/hardened_runtime) (security features restricting what apps can do, making some attacks more difficult). It also offers automatic software updates.
 
-Using the App Store requires an Apple Account, which can pose a privacy risk.
+Using the App Store requires an Apple Account, which may have privacy implications because software downloads and related account activity is linked.
 
 ## Virtualization
 
@@ -219,7 +219,7 @@ When macOS starts for the first time, **Setup Assistant** requires the creation 
 
 Set a [long and unique password](https://www.eff.org/dice). Leave the password hint field blank.
 
-Avoid personally identifiable names: the computer name (such as "John Appleseed's MacBook") is broadcast over local networks and visible to other devices.
+Avoid personally identifiable names: the computer name (such as "John Appleseed's MacBook") may be visible to other devices on local networks through sharing and discovery services.
 
 The system name can be configured in **System Settings > About** or with [`scutil`](https://ss64.com/mac/scutil.html) commands:
 
@@ -233,7 +233,7 @@ sudo scutil --set LocalHostName MacBook
 
 The first account created is an administrator account. Administrators can change system-wide settings and run commands with [sudo](https://en.wikipedia.org/wiki/Sudo), which temporarily grants elevated privileges. Any program the administrator runs could obtain the same access; sudo may also have [vulnerabilities](https://bogner.sh/2014/03/another-mac-os-x-sudo-password-bypass/).
 
-It is considered a [best practice](https://help.apple.com/machelp/mac/10.12/index.html#/mh11389) to use a dedicated standard account for regular, daily work and only use the administrator account for software and system installation, configuration and updates.
+It is considered [best practice](https://help.apple.com/machelp/mac/10.12/index.html#/mh11389) to use a standard account for daily work and reserve an administrator account for system changes that require elevated privileges.
 
 It is not required to ever log in with the admin account via the macOS login screen. When a Terminal command requires administrator privileges, the system will prompt for authentication and Terminal continues using those privileges. To that end, Apple provides [recommendations](https://support.apple.com/102099) for hiding the admin account and its home directory.
 
@@ -247,7 +247,9 @@ It is not required to ever log in with the admin account via the macOS login scr
 
 ## Setup
 
-Accounts be created and managed in System Settings. On existing systems, it is generally easier to create a second admin account and then change the original account from an administrator account to a standard account. Newly-installed systems should instead add a standard account after setup.
+Accounts can be created and managed in System Settings.
+
+On existing systems, it is generally easier to create a second administrator account first, then change the original account to a standard account. Newly-installed systems should instead add a standard account after setup.
 
 Demoting an account can be done from the new admin account in System Settings.
 
@@ -286,7 +288,7 @@ There are several types of firewalls available for macOS.
 
 ## Application layer firewall
 
-The built-in firewall provides basic protection and blocks incoming connections only. It can neither monitor nor block outgoing connections.
+The built-in firewall provides basic protection by controlling incoming network connections to applications. It does not monitor or block outgoing connections.
 
 It can be controlled by the **Firewall** tab of **Network** in **System Settings**, or with the following command:
 
@@ -306,7 +308,7 @@ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode on
 
 ### Signed apps
 
-By default, the firewall allows incoming connections for software signed by Apple or by an identified developer. Disabling these rules makes macOS ask before allowing an application to accept incoming connections:
+By default, the firewall allows incoming connections for software signed by Apple or an identified developer. Disabling these exceptions causes macOS to ask before such applications can accept incoming connections:
 
 ```bash
 sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setallowsigned off
@@ -371,7 +373,7 @@ Many [books](https://nostarch.com/book-of-pf-4e) and [guides](https://www.openbs
 
 ### Example pf config
 
-Add the following rules to a file named `pf.rules`:
+Add the following example rules to a file such as `pf.rules`:
 
 ```console
 # Define interface
@@ -518,7 +520,8 @@ See [script management with launchd](https://support.apple.com/guide/terminal/sc
 
 # Siri Suggestions and Spotlight
 
-Siri Suggestions and Spotlight may send some queries or usage information to Apple, depending on the enabled features. In System Settings, search for Siri and Spotlight, then disable online suggestions and configure categories to exclude from indexing or suggestion. Review Apple's [Search & Privacy](https://www.apple.com/legal/privacy/data/en/siri-suggestions-search/) policy for more information.
+Siri Suggestions and Spotlight may send some queries or usage information to Apple, depending on the enabled features.
+In System Settings, review Siri and Spotlight options and disable online suggestions or configure categories to exclude from indexing or suggestion. Review Apple's [Search & Privacy policy](https://www.apple.com/legal/privacy/data/en/siri-suggestions-search/) for more information.
 
 # Homebrew
 
@@ -537,7 +540,7 @@ To opt out of Homebrew analytics, run `brew analytics off` or set `HOMEBREW_NO_A
 
 ## DNS profiles
 
-macOS features "DNS configuration profiles" for configuring encrypted DNS, filtering, and [DNSSEC](https://en.wikipedia.org/wiki/Domain_Name_System_Security_Extensions).
+macOS supports configuration profiles to set encrypted DNS, filtering, and [DNSSEC](https://en.wikipedia.org/wiki/Domain_Name_System_Security_Extensions) options.
 
 DNS profiles can be [created](https://dns.notjakob.com/) or obtained from providers such as [Quad9](https://docs.quad9.net/Setup_Guides/MacOS/Big_Sur_and_later_(Encrypted)/#download-profile), [AdGuard](https://adguard-dns.io/en/public-dns.html) and [NextDNS](https://nextdns.io/).
 
@@ -554,7 +557,7 @@ To block a domain by [A record](https://en.wikipedia.org/wiki/List_of_DNS_record
 ```
 
 > [!NOTE]
-> IPv6 uses AAAA records rather than A records: block IPv6 connections by including `::1 example.com` entries.
+> IPv6 uses AAAA records rather than A records: to override IPv6 name resolution, include a line such as `::1 example.com`.
 
 Many domain lists are available online. Before appending one to `/etc/hosts`, ensure each entry begins with `0`, `0.0.0.0`, or `127.0.0.1`, and retain the `127.0.0.1 localhost` entry.
 
@@ -622,7 +625,7 @@ block drop quick on !lo0 proto tcp from any to any port = 53
 
 ## Dnsmasq
 
-[dnsmasq](https://thekelleys.org.uk/dnsmasq/doc.html) can cache replies, prevent upstream queries for unqualified names, and block entire top-level domains.
+[dnsmasq](https://thekelleys.org.uk/dnsmasq/doc.html) can cache replies, prevent upstream queries for unqualified names, or even block entire top-level domains.
 
 Use it in combination with DNSCrypt to encrypt DNS traffic.
 
@@ -736,7 +739,7 @@ $ scutil --proxy
 }
 ```
 
-Although most web traffic is encrypted, Privoxy can filter requests by hostname. For example, the following rules block all traffic except traffic to .net, github.com, and Apple domains:
+Although most web traffic is encrypted, Privoxy can still filter many requests by hostname when traffic is configured to use the proxy. For example, the following rules block all traffic except traffic to .net, github.com, and Apple domains:
 
 ```console
 { +block{all} }
@@ -791,11 +794,11 @@ content-type: text/html; charset=utf-8
 ```
 
 > [!NOTE]
-> Applications and services can ignore the proxy settings. pf can redirect traffic through a proxy without configuring each application separately.
+> Applications and services can ignore the proxy settings. pf rules can redirect traffic through a proxy without configuring each application separately.
 
 # Browser
 
-Web browsers create significant security and privacy risks because they download and execute untrusted Internet content.
+Web browsers create significant security and privacy risks because they routinely download and run complex, untrusted content from the Internet, including JavaScript, media and documents.
 
 A key browser security boundary is the [same-origin policy](https://en.wikipedia.org/wiki/Same-origin_policy) (SOP), which prevents one website from reading another website's data. A bypass can expose data or actions from other sites in the same browser profile.
 
