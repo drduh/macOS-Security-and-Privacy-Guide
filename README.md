@@ -414,7 +414,7 @@ pass out on $wifi proto udp from ($wifi) to any keep state
 pass out on $wifi proto icmp from ($wifi) to any keep state
 ```
 
-An advanced example of configuring pf is available in [pf/pf.rules](https://github.com/drduh/macOS-Security-and-Privacy-Guide/blob/main/pf/pf.rules).
+An advanced example of configuring pf is available in [config/pf.rules](https://github.com/drduh/macOS-Security-and-Privacy-Guide/blob/main/config/pf.rules).
 
 ### Firewall commands
 
