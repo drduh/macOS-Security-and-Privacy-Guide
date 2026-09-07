@@ -78,6 +78,7 @@ This guide is provided "as is" - without warranties of any kind. You are solely 
   - [Logs](#logs)
   - [DTrace](#dtrace)
   - [Processes](#processes)
+  - [Endpoint Security](#endpoint-security)
   - [Install History](#install-history)
   - [Network](#network)
     - [Wireshark](#wireshark)
@@ -1416,6 +1417,8 @@ See `man -k dtrace` for more information.
 
 List running processes with [Activity Monitor](https://support.apple.com/guide/activity-monitor/toc) or the `ps` command.
 
+## Endpoint Security
+
 Inspect process execution in real-time with `eslogger` and [`jq`](https://jqlang.org/):
 
 ```bash
@@ -1429,18 +1432,52 @@ sudo eslogger exec | jq -r '
   ] | @tsv'
 ```
 
-Print events in JSON format and also save them to a dated log file for later analysis:
+Format and print events in JSON, also saving them to a dated log file for later analysis:
 
 ```bash
-mkdir ~/eslogger
+mkdir ~/eslogs
 sudo eslogger exec | jq -c --unbuffered '
-  { ts:   .time,
+  {
+    time: .time,
     pid:  .process.audit_token.pid,
     ppid: .process.ppid,
     uid:  .process.audit_token.euid,
-    cmd:  .event.exec.args | join(" ")
+    sys:  .process.is_platform_binary,
+    team: .process.team_id,
+    sign: .process.signing_id,
+    path: .process.executable.path,
+    cmd:  .event.exec.args
   }' |
-  tee -a ~/eslogger/exec-$(date +%Y%m%d).log
+  tee -a ~/eslogs/exec-$(hostname)-$(date +%Y%m%d%H%M).log
+```
+
+Inspect logs for all `curl` commands:
+
+```bash
+jq 'select(.cmd | index("curl")) | .cmd | join(" ")' ~/eslogs/exec-*.log
+```
+
+Include exec user and app ids, sort by count:
+
+```bash
+jq -s --arg command "curl" '
+  map(
+    select(.cmd | index($command))
+    | {
+        uid,
+        aid: (.team // .sign),
+        cmd: (.cmd | join(" "))
+      }
+  )
+  | group_by([.uid, .aid, .cmd])
+  | map({
+      cnt: length,
+      uid: .[0].uid,
+      aid: .[0].aid,
+      cmd: .[0].cmd
+    })
+  | sort_by(-.cnt)
+' ~/eslogs/exec-*.log
 ```
 
 ## Install history
