@@ -5,6 +5,8 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
+readonly LABEL_WIDTH=18
+
 requireMacos() {
   if [[ "$(uname -s)" != "Darwin" ]]; then
     printf 'script requires macOS\n' >&2
@@ -12,46 +14,64 @@ requireMacos() {
   fi
 }
 
+row() {
+  printf '%-*s%s\n' "${LABEL_WIDTH}" "$1:" "$2"
+}
+
 printOs() {
-  printf 'System:           %s\n' "$(sw_vers -productName)"
-  printf 'Version:          %s\n' "$(sw_vers -productVersion)"
-  printf 'Build:            %s\n' "$(sw_vers -buildVersion)"
-  printf 'Kernel:           %s\n' "$(uname -v)"
+  row 'System'  "$(sw_vers -productName)"
+  row 'Version' "$(sw_vers -productVersion)"
+  row 'Build'   "$(sw_vers -buildVersion)"
+  row 'Kernel'  "$(uname -v)"
 }
 
 printHardware() {
-  printf 'Model:            %s\n'    "$(sysctl -n hw.model)"
-  printf 'Chip/CPU:         %s\n'    "$(sysctl -n machdep.cpu.brand_string 2>/dev/null || sysctl -n hw.model)"
-  printf 'CPU Cores:        %s\n'    "$(sysctl -n hw.ncpu)"
-  printf 'Memory:           %s GB\n' "$(( $(sysctl -n hw.memsize) / 1024 / 1024 / 1024 ))"
+  local chip mem_gb
+  chip="$(sysctl -n machdep.cpu.brand_string 2>/dev/null \
+    || sysctl -n hw.model)"
+  mem_gb="$(( $(sysctl -n hw.memsize) / 1024 / 1024 / 1024 ))"
+  row 'Model'     "$(sysctl -n hw.model)"
+  row 'Chip/CPU'  "${chip}"
+  row 'CPU Cores' "$(sysctl -n hw.ncpu)"
+  row 'Memory'    "${mem_gb} GB"
 }
 
 printNetwork() {
-  printf 'Hostname:         %s\n' "$(scutil --get ComputerName 2>/dev/null || hostname)"
-  printf 'IP Address:       %s\n' "$(ipconfig getifaddr en0 2>/dev/null || echo "unavailable")"
+  local hostname ip
+  hostname="$(scutil --get ComputerName 2>/dev/null || hostname)"
+  ip="$(ipconfig getifaddr en0 2>/dev/null || echo "unavailable")"
+  row 'Hostname'   "${hostname}"
+  row 'IP Address' "${ip}"
 }
 
 printUptime() {
-  printf 'Uptime:           %s\n' "$(uptime)"
+  row 'Uptime' "$(uptime)"
+  row 'Last Boot' "$(sysctl -n kern.boottime | sed 's/.*} //')"
 }
 
 printFilevault() {
-  printf 'Filevault:        %s\n' "$(fdesetup status 2>/dev/null || echo "unavailable")"
+  row 'Filevault' "$(fdesetup status 2>/dev/null || echo "unavailable")"
 }
 
 printFirewall() {
   local state
-  state="$(/usr/libexec/ApplicationFirewall/socketfilterfw --getglobalstate 2>/dev/null || echo "unavailable")"
-  printf 'Firewall:         %s\n' "${state}"
+  state="$(/usr/libexec/ApplicationFirewall/socketfilterfw \
+    --getglobalstate 2>/dev/null || echo "unavailable")"
+  row 'Firewall' "${state}"
 }
 
 printGatekeeper() {
-  printf 'Gatekeeper:       %s\n' "$(spctl --status 2>/dev/null || echo "unavailable")"
+  row 'Gatekeeper' "$(spctl --status 2>/dev/null || echo "unavailable")"
 }
 
 printSip() {
-  printf 'SIP:              %s\n' "$(csrutil status 2>/dev/null || echo "unavailable")"
+  row 'SIP' "$(csrutil status 2>/dev/null || echo "unavailable")"
 }
+
+printXProtect() {
+  row 'XProtect' "$(xprotect version 2>/dev/null || echo "unavailable")"
+}
+
 
 printDisk() {
   df -H / | awk 'NR==1 || NR==2'
@@ -67,6 +87,7 @@ main() {
   printFirewall
   printGatekeeper
   printSip
+  printXProtect
   printDisk
   printf '\n'
 }
