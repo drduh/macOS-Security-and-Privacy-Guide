@@ -61,7 +61,7 @@ This guide is provided "as is" - without warranties of any kind. You are solely 
   - [XMPP](#xmpp)
   - [Signal](#signal)
   - [iMessage](#imessage)
-- [Malware](#Malware)
+- [Malware](#malware)
   - [Downloading Software](#downloading-software)
   - [App Sandbox](#app-sandbox)
   - [Hardened Runtime](#hardened-runtime)
@@ -78,19 +78,20 @@ This guide is provided "as is" - without warranties of any kind. You are solely 
   - [Logs](#logs)
   - [DTrace](#dtrace)
   - [Processes](#processes)
+  - [Endpoint Security](#endpoint-security)
   - [Install History](#install-history)
   - [Network](#network)
     - [Wireshark](#wireshark)
 - [Miscellaneous](#miscellaneous)
-    - [Screensaver](#screensaver)
-    - [Diagnostic data](#diagnostic-data)
-    - [Media player](#media-player)
-    - [File handlers](#file-handlers)
-    - [Finder options](#finder-options)
-    - [Custom umask](#custom-umask)
-    - [Keyboard entry](#keyboard-entry)
-    - [Network hardening](#network-hardening)
-    - [Sudoers](#sudoers)
+  - [Screensaver](#screensaver)
+  - [Diagnostic data](#diagnostic-data)
+  - [Media player](#media-player)
+  - [File handlers](#file-handlers)
+  - [Finder options](#finder-options)
+  - [Custom umask](#custom-umask)
+  - [Keyboard entry](#keyboard-entry)
+  - [Network hardening](#network-hardening)
+  - [Sudoers](#sudoers)
 - [Related software](#related-software)
 - [Additional resources](#additional-resources)
 
@@ -119,7 +120,7 @@ Apply general security best practices:
   - Verify backups by accessing them on a regular, scheduled basis.
 
 - Click carefully
-  - Ultimately, the security of a system depends on the capabilities and habits of its administrator.
+  - Ultimately, the security of a system depends heavily on the capabilities and habits of the person using and administering it.
   - Take care when installing new software: install it only from sources the developer identifies as official, such as their website or GitHub repository.
 
 # Threat model
@@ -148,7 +149,7 @@ Security should be balanced with usability: every mitigation should counter some
 
 ## Example model
 
-The following table is an example of a simple threat model:
+The following table is a simple example threat model for personal devices, including a Mac.
 
 Adversary | Motivation | Capabilities | Mitigation
 :-: | :-: | :-: | :-:
@@ -162,9 +163,9 @@ Read more about [threat modeling](https://www.netmeister.org/blog/threat-model-1
 
 # Hardware
 
-[Apple silicon hardware](https://support.apple.com/guide/security/hardware-security-overview-secf020d1074/1/web/1) provide hardware-backed security features, including Secure Enclave-based key protection and stronger boot security options. They are generally the preferred platform for the protections discussed in this guide.
+[Apple silicon hardware](https://support.apple.com/guide/security/hardware-security-overview-secf020d1074/1/web/1) provides hardware-backed security features, including Secure Enclave-based key protection and stronger boot security options. They are generally the preferred platform for the protections discussed in this guide.
 
-Some Intel-based Macs, especially models with vulnerable [T2-era hardware](https://en.wikipedia.org/wiki/Apple_T2), are affected by hardware vulnerabilities that cannot be fully fixed by a macOS update.
+Some Intel-based Macs, especially certain models with [T2-era hardware](https://en.wikipedia.org/wiki/Apple_T2), are affected by hardware vulnerabilities that cannot be fully fixed by a macOS update alone.
 
 Avoid non-Apple hardware running macOS and systems that do not support the latest macOS release, as Apple does not [patch all vulnerabilities](https://support.apple.com/guide/deployment/about-software-updates-depc4c80847a) in legacy versions.
 
@@ -178,7 +179,7 @@ Install the latest supported version of macOS; newer versions of macOS include s
 
 ## System activation
 
-During installation, Apple silicon Macs contact Apple activation service to confirm that the device is not reported [lost or stolen](https://support.apple.com/102541). Read about [how this process works](https://support.apple.com/guide/security/localpolicy-signing-key-creation-management-sec1f90fbad1).
+During installation, Apple silicon Macs contact Apple activation services to confirm that the device is not reported [lost or stolen](https://support.apple.com/102541). Read about [how this process works](https://support.apple.com/guide/security/localpolicy-signing-key-creation-management-sec1f90fbad1).
 
 ## Apple Account
 
@@ -190,9 +191,9 @@ Enable [end-to-end encryption](https://support.apple.com/guide/security/advanced
 
 The [App Store](https://en.wikipedia.org/wiki/Mac_app_store) is a software distribution platform where applications are [reviewed](https://developer.apple.com/app-store/review/guidelines) by Apple.
 
-App Store applications are required to use [App Sandbox](https://developer.apple.com/documentation/security/app_sandbox/protecting_user_data_with_app_sandbox) and [Hardened Runtime](https://developer.apple.com/documentation/security/hardened_runtime) (security features restricting what apps can do, making some attacks more difficult). It also offers automatic software updates.
+App Store applications are generally required to use [App Sandbox](https://developer.apple.com/documentation/security/app_sandbox/protecting_user_data_with_app_sandbox) and [Hardened Runtime](https://developer.apple.com/documentation/security/hardened_runtime) (security features restricting what apps can do, making some attacks more difficult). It also offers automatic software updates.
 
-Using the App Store requires an Apple Account, which can pose a privacy risk.
+Using the App Store requires an Apple Account, which may have privacy implications because software downloads and related account activity is linked.
 
 ## Virtualization
 
@@ -219,7 +220,7 @@ When macOS starts for the first time, **Setup Assistant** requires the creation 
 
 Set a [long and unique password](https://www.eff.org/dice). Leave the password hint field blank.
 
-Avoid personally identifiable names: the computer name (such as "John Appleseed's MacBook") is broadcast over local networks and visible to other devices.
+Avoid personally identifiable names: the computer name (such as "John Appleseed's MacBook") may be visible to other devices on local networks through sharing and discovery services.
 
 The system name can be configured in **System Settings > About** or with [`scutil`](https://ss64.com/mac/scutil.html) commands:
 
@@ -233,7 +234,7 @@ sudo scutil --set LocalHostName MacBook
 
 The first account created is an administrator account. Administrators can change system-wide settings and run commands with [sudo](https://en.wikipedia.org/wiki/Sudo), which temporarily grants elevated privileges. Any program the administrator runs could obtain the same access; sudo may also have [vulnerabilities](https://bogner.sh/2014/03/another-mac-os-x-sudo-password-bypass/).
 
-It is considered a [best practice](https://help.apple.com/machelp/mac/10.12/index.html#/mh11389) to use a dedicated standard account for regular, daily work and only use the administrator account for software and system installation, configuration and updates.
+It is considered [best practice](https://help.apple.com/machelp/mac/10.12/index.html#/mh11389) to use a standard account for daily work and reserve an administrator account for system changes that require elevated privileges.
 
 It is not required to ever log in with the admin account via the macOS login screen. When a Terminal command requires administrator privileges, the system will prompt for authentication and Terminal continues using those privileges. To that end, Apple provides [recommendations](https://support.apple.com/102099) for hiding the admin account and its home directory.
 
@@ -247,7 +248,9 @@ It is not required to ever log in with the admin account via the macOS login scr
 
 ## Setup
 
-Accounts be created and managed in System Settings. On existing systems, it is generally easier to create a second admin account and then change the original account from an administrator account to a standard account. Newly-installed systems should instead add a standard account after setup.
+Accounts can be created and managed in System Settings.
+
+On existing systems, it is generally easier to create a second administrator account first, then change the original account to a standard account. Newly-installed systems should instead add a standard account after setup.
 
 Demoting an account can be done from the new admin account in System Settings.
 
@@ -286,7 +289,7 @@ There are several types of firewalls available for macOS.
 
 ## Application layer firewall
 
-The built-in firewall provides basic protection and blocks incoming connections only. It can neither monitor nor block outgoing connections.
+The built-in firewall provides basic protection by controlling incoming network connections to applications. It does not monitor or block outgoing connections.
 
 It can be controlled by the **Firewall** tab of **Network** in **System Settings**, or with the following command:
 
@@ -306,7 +309,7 @@ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode on
 
 ### Signed apps
 
-By default, the firewall allows incoming connections for software signed by Apple or by an identified developer. Disabling these rules makes macOS ask before allowing an application to accept incoming connections:
+By default, the firewall allows incoming connections for software signed by Apple or an identified developer. Disabling these exceptions causes macOS to ask before such applications can accept incoming connections:
 
 ```bash
 sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setallowsigned off
@@ -371,7 +374,7 @@ Many [books](https://nostarch.com/book-of-pf-4e) and [guides](https://www.openbs
 
 ### Example pf config
 
-Add the following rules to a file named `pf.rules`:
+Add the following example rules to a file such as `pf.rules`:
 
 ```console
 # Define interface
@@ -412,7 +415,7 @@ pass out on $wifi proto udp from ($wifi) to any keep state
 pass out on $wifi proto icmp from ($wifi) to any keep state
 ```
 
-An advanced example of configuring pf is available in [pf/pf.rules](https://github.com/drduh/macOS-Security-and-Privacy-Guide/blob/main/pf/pf.rules).
+An advanced example of configuring pf is available in [config/pf.rules](https://github.com/drduh/macOS-Security-and-Privacy-Guide/blob/main/config/pf.rules).
 
 ### Firewall commands
 
@@ -518,7 +521,8 @@ See [script management with launchd](https://support.apple.com/guide/terminal/sc
 
 # Siri Suggestions and Spotlight
 
-Siri Suggestions and Spotlight may send some queries or usage information to Apple, depending on the enabled features. In System Settings, search for Siri and Spotlight, then disable online suggestions and configure categories to exclude from indexing or suggestion. Review Apple's [Search & Privacy](https://www.apple.com/legal/privacy/data/en/siri-suggestions-search/) policy for more information.
+Siri Suggestions and Spotlight may send some queries or usage information to Apple, depending on the enabled features.
+In System Settings, review Siri and Spotlight options and disable online suggestions or configure categories to exclude from indexing or suggestion. Review Apple's [Search & Privacy policy](https://www.apple.com/legal/privacy/data/en/siri-suggestions-search/) for more information.
 
 # Homebrew
 
@@ -537,7 +541,7 @@ To opt out of Homebrew analytics, run `brew analytics off` or set `HOMEBREW_NO_A
 
 ## DNS profiles
 
-macOS features "DNS configuration profiles" for configuring encrypted DNS, filtering, and [DNSSEC](https://en.wikipedia.org/wiki/Domain_Name_System_Security_Extensions).
+macOS supports configuration profiles to set encrypted DNS, filtering, and [DNSSEC](https://en.wikipedia.org/wiki/Domain_Name_System_Security_Extensions) options.
 
 DNS profiles can be [created](https://dns.notjakob.com/) or obtained from providers such as [Quad9](https://docs.quad9.net/Setup_Guides/MacOS/Big_Sur_and_later_(Encrypted)/#download-profile), [AdGuard](https://adguard-dns.io/en/public-dns.html) and [NextDNS](https://nextdns.io/).
 
@@ -554,7 +558,7 @@ To block a domain by [A record](https://en.wikipedia.org/wiki/List_of_DNS_record
 ```
 
 > [!NOTE]
-> IPv6 uses AAAA records rather than A records: block IPv6 connections by including `::1 example.com` entries.
+> IPv6 uses AAAA records rather than A records: to override IPv6 name resolution, include a line such as `::1 example.com`.
 
 Many domain lists are available online. Before appending one to `/etc/hosts`, ensure each entry begins with `0`, `0.0.0.0`, or `127.0.0.1`, and retain the `127.0.0.1 localhost` entry.
 
@@ -622,7 +626,7 @@ block drop quick on !lo0 proto tcp from any to any port = 53
 
 ## Dnsmasq
 
-[dnsmasq](https://thekelleys.org.uk/dnsmasq/doc.html) can cache replies, prevent upstream queries for unqualified names, and block entire top-level domains.
+[dnsmasq](https://thekelleys.org.uk/dnsmasq/doc.html) can cache replies, prevent upstream queries for unqualified names, or even block entire top-level domains.
 
 Use it in combination with DNSCrypt to encrypt DNS traffic.
 
@@ -736,7 +740,7 @@ $ scutil --proxy
 }
 ```
 
-Although most web traffic is encrypted, Privoxy can filter requests by hostname. For example, the following rules block all traffic except traffic to .net, github.com, and Apple domains:
+Although most web traffic is encrypted, Privoxy can still filter many requests by hostname when traffic is configured to use the proxy. For example, the following rules block all traffic except traffic to .net, github.com, and Apple domains:
 
 ```console
 { +block{all} }
@@ -791,11 +795,11 @@ content-type: text/html; charset=utf-8
 ```
 
 > [!NOTE]
-> Applications and services can ignore the proxy settings. pf can redirect traffic through a proxy without configuring each application separately.
+> Applications and services can ignore the proxy settings. pf rules can redirect traffic through a proxy without configuring each application separately.
 
 # Browser
 
-Web browsers create significant security and privacy risks because they download and execute untrusted Internet content.
+Web browsers create significant security and privacy risks because they routinely download and run complex, untrusted content from the Internet, including JavaScript, media and documents.
 
 A key browser security boundary is the [same-origin policy](https://en.wikipedia.org/wiki/Same-origin_policy) (SOP), which prevents one website from reading another website's data. A bypass can expose data or actions from other sites in the same browser profile.
 
@@ -843,7 +847,7 @@ See [Chromium Security](https://www.chromium.org/Home/chromium-security) and [Ch
 
 Safari has both open-source and proprietary components. Safari is based on the open-source Web Engine [WebKit](https://webkit.org/), which is ubiquitous among the macOS ecosystem. WebKit is used by Apple apps such as Mail, Books, and the App Store. Chrome's [Blink](https://www.chromium.org/blink) engine is a fork of WebKit and both engines share a number of similarities.
 
-Safari supports certain unique features that benefit user security and privacy. [Content blockers](https://webkit.org/blog/3476/content-blockers-first-look) enable the creation of content blocking rules without using JavaScript. This rule based approach greatly improves memory use, security, and privacy. Safari 11 introduced [Intelligent Tracking Prevention](https://webkit.org/blog/7675/intelligent-tracking-prevention), which removes tracking data stored in Safari after a period of non-interaction by the user from the tracker's website. Safari can randomize the browser fingerprint to reduce tracking. Safari does not support certain features such as WebUSB or the Battery API intentionally for security and privacy reasons. Private tabs in Safari have isolated cookies and cache that is destroyed when you close the tab. Safari also support Profiles which are equivalent to Firefox's Multi-Account Containers for separating cookies and browsing. Safari can be made significantly more secure with [lockdown mode](#lockdown-mode), which can be disabled per-site. Read more about [tracking prevention](https://webkit.org/tracking-prevention/) in Safari.
+Safari includes some features that can improve security and privacy. [Content blockers](https://webkit.org/blog/3476/content-blockers-first-look) enable the creation of content blocking rules without using JavaScript. This rule based approach greatly improves memory use, security, and privacy. Safari 11 introduced [Intelligent Tracking Prevention](https://webkit.org/blog/7675/intelligent-tracking-prevention), which removes tracking data stored in Safari after a period of non-interaction by the user from the tracker's website. Safari can randomize the browser fingerprint to reduce tracking. Safari does not support certain features such as WebUSB or the Battery API intentionally for security and privacy reasons. Private tabs in Safari have isolated cookies and cache that is destroyed when you close the tab. Safari also support Profiles which are equivalent to Firefox's Multi-Account Containers for separating cookies and browsing. Safari can be made significantly more secure with [lockdown mode](#lockdown-mode), which can be disabled per-site. Read more about [tracking prevention](https://webkit.org/tracking-prevention/) in Safari.
 
 Web Extensions in Safari have an additional option to use native code in Safari's sandbox environment, in addition to Web Extension APIs. Web Extensions in Safari are also distributed through Apple App Store. App Store submission comes with the added benefit of Web Extension code being audited by Apple. On the other hand App Store submission comes at a steep cost. Yearly [developer subscription](https://developer.apple.com/support/compare-memberships) fee costs 100 USD (in contrast to Chrome's 5 USD fee and Firefox's free submission). The high cost is prohibitive for the majority of open-source developers. As a result, Safari has very few extensions to choose from. However, keep the high cost in mind when installing extensions. It is expected that most Web Extensions will have some way of monetizing usage to cover development costs. Avoid Web Extensions without open-source code available for review.
 
@@ -861,7 +865,7 @@ For more information about security-conscious browsing and what data is sent by 
 
 To reduce cross-site tracking, block [third-party cookies](https://en.wikipedia.org/wiki/Third-party_cookies).
 
-Also be aware of [WebRTC](https://en.wikipedia.org/wiki/WebRTC#Concerns), which may reveal local or public (if connected to a VPN) IP address(es). In Firefox and Chrome/Chromium, this feature can be disabled with [uBlock Origin](https://github.com/gorhill/uBlock/wiki/Prevent-WebRTC-from-leaking-local-IP-address). [Lockdown mode](#lockdown-mode) also [disables WebRTC](https://www.sevarg.net/2022/07/20/ios16-lockdown-mode-browser-analysis) in Safari.
+[WebRTC](https://en.wikipedia.org/wiki/WebRTC) may expose local network addresses and addresses associated with VPN connections. In Firefox and Chrome/Chromium, this feature can be disabled with [uBlock Origin](https://github.com/gorhill/uBlock/wiki/Prevent-WebRTC-from-leaking-local-IP-address). In Safari, [Lockdown Mode](#lockdown-mode) also [disables WebRTC](https://www.sevarg.net/2022/07/20/ios16-lockdown-mode-browser-analysis).
 
 # Tor
 
@@ -901,7 +905,7 @@ Primary key fingerprint: EF6E 286D DA85 EA2A 4BA7  DE68 4E2C 6E87 9329 8290
      Subkey fingerprint: CAAE 408A EBE2 288E 96FC  5D5E 1574 32CF 78A6 5729
 ```
 
-Make sure `Good signature from "Tor Browser Developers (signing key) <torbrowser@torproject.org>"` appears in the output. The warning is expected, as the key has not been personally verified and added to a trusted keyring.
+Make sure `Good signature from "Tor Browser Developers (signing key) <torbrowser@torproject.org>"` appears in the output. The warning is expected if you have not independently verified and locally trusted the signing key; it does not by itself mean the signature is invalid.
 
 See [How can I verify Tor Browser's signature?](https://support.torproject.org/tbb/how-to-verify-signature/) for more information.
 
@@ -964,7 +968,7 @@ Sealed Resources version=2 rules=13 files=208
 Internal requirements count=1 size=188
 ```
 
-To view full certificate details for a signed application, extract with `codesign` and decode with `openssl`:
+To inspect certificate details for a signed application, extract the embedded certificates with `codesign` and decode them with `openssl`:
 
 ```console
 $ codesign -d --extract-certificates ~/Applications/Tor\ Browser.app
@@ -997,7 +1001,7 @@ Also see [Invisible Internet Project (I2P)](https://geti2p.net/en/about/intro) a
 
 Choose a VPN provider or self-hosted setup with a documented, modern protocol and well-audited clients. Avoid obsolete protocols such as [PPTP](https://en.wikipedia.org/wiki/Point-to-Point_Tunneling_Protocol#Security) in favor of [OpenVPN](https://en.wikipedia.org/wiki/OpenVPN) or [WireGuard](https://www.wireguard.com/) [on a Linux VM](https://github.com/mrash/Wireguard-macOS-LinuxVM) or via a set of [cross platform tools](https://www.wireguard.com/xplatform/).
 
-Some VPN clients may send traffic over the next available network interface when the connection is interrupted or disconnected. See [scy/8122924](https://gist.github.com/scy/8122924) for an example on how to allow traffic only over VPN.
+Some VPN clients may allow traffic to leave over another network interface if the VPN connection drops or is interrupted. See [scy/8122924](https://gist.github.com/scy/8122924) for an example on how to allow traffic only over VPN.
 
 See guides to set up an [IPsec](https://en.wikipedia.org/wiki/Ipsec) VPN on a virtual machine ([hwdsl2/setup-ipsec-vpn](https://github.com/hwdsl2/setup-ipsec-vpn)) or a Docker container ([hwdsl2/docker-ipsec-vpn-server](https://github.com/hwdsl2/docker-ipsec-vpn-server)).
 
@@ -1413,6 +1417,8 @@ See `man -k dtrace` for more information.
 
 List running processes with [Activity Monitor](https://support.apple.com/guide/activity-monitor/toc) or the `ps` command.
 
+## Endpoint Security
+
 Inspect process execution in real-time with `eslogger` and [`jq`](https://jqlang.org/):
 
 ```bash
@@ -1426,18 +1432,52 @@ sudo eslogger exec | jq -r '
   ] | @tsv'
 ```
 
-Print events in JSON format and also save them to a dated log file for later analysis:
+Format and print events in JSON, also saving them to a dated log file for later analysis:
 
 ```bash
-mkdir ~/eslogger
+mkdir ~/eslogs
 sudo eslogger exec | jq -c --unbuffered '
-  { ts:   .time,
+  {
+    time: .time,
     pid:  .process.audit_token.pid,
     ppid: .process.ppid,
     uid:  .process.audit_token.euid,
-    cmd:  .event.exec.args | join(" ")
+    sys:  .process.is_platform_binary,
+    team: .process.team_id,
+    sign: .process.signing_id,
+    path: .process.executable.path,
+    cmd:  .event.exec.args
   }' |
-  tee -a ~/eslogger/exec-$(date +%Y%m%d).log
+  tee -a ~/eslogs/exec-$(hostname)-$(date +%Y%m%d%H%M).log
+```
+
+Inspect logs for all `curl` commands:
+
+```bash
+jq 'select(.cmd | index("curl")) | .cmd | join(" ")' ~/eslogs/exec-*.log
+```
+
+Include exec user and app ids, sort by count:
+
+```bash
+jq -s --arg command "curl" '
+  map(
+    select(.cmd | index($command))
+    | {
+        uid,
+        aid: (.team // .sign),
+        cmd: (.cmd | join(" "))
+      }
+  )
+  | group_by([.uid, .aid, .cmd])
+  | map({
+      cnt: length,
+      uid: .[0].uid,
+      aid: .[0].aid,
+      cmd: .[0].cmd
+    })
+  | sort_by(-.cnt)
+' ~/eslogs/exec-*.log
 ```
 
 ## Install history

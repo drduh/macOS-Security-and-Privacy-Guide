@@ -1,4 +1,4 @@
-# https://github.com/drduh/macOS-Security-and-Privacy-Guide/blob/main/pf/pf.rules
+# https://github.com/drduh/macOS-Security-and-Privacy-Guide/blob/main/config/pf.rules
 # Apply with: sudo pfctl -e -f pf.rules
 # Show Rules: sudo pfctl -s rules
 # Show State: sudo pfctl -s states
@@ -18,18 +18,29 @@ set ruleset-optimization basic
 scrub in on $wifi  all fragment reassemble
 scrub in on $wired all fragment reassemble
 
-# Define tables
+# Blocklist
 table <blocklist> persist
+
+# Public DNS servers
 table <resolvers> const { 192.168.1.1 \
-                          1.0.0.1 1.0.0.2 1.0.0.3 1.1.1.1 1.1.1.2 1.1.1.3 \
-                          8.8.4.4 8.8.8.8 \
-                          9.9.9.9 9.9.9.10 9.9.9.11 9.9.9.12 }
+  8.8.4.4 8.8.8.8 \
+  1.0.0.1 1.0.0.2 1.0.0.3 \
+  1.1.1.1 1.1.1.2 1.1.1.3 \
+  9.9.9.9  149.112.112.112 \
+  9.9.9.10 149.112.112.10 \
+  9.9.9.11 149.112.112.11 \
+  9.9.9.12 149.112.112.12 }
+
+# SSH
 table <sshGitHub> const { 140.82.112.0/20 } # https://api.github.com/meta
 table <sshLocal> const { 192.168.1.1 }
 
 # Deny and log blocked traffic
 block log all
+
+# Deny unroutable source addresses
 block quick from no-route to any
+
 antispoof quick for $wifi
 antispoof quick for $wired
 
@@ -50,6 +61,10 @@ pass out on $wifi  proto tcp from ($wifi)  to <resolvers> port 53 flags S/SA kee
 pass out on $wifi  proto udp from ($wifi)  to <resolvers> port 53 keep state
 pass out on $wired proto tcp from ($wired) to <resolvers> port 53 flags S/SA keep state
 pass out on $wired proto udp from ($wired) to <resolvers> port 53 keep state
+
+# DNS-over-TLS
+#pass out on $wifi  proto tcp from ($wifi)  to <resolvers> port 853 flags S/SA keep state
+#pass out on $wired proto tcp from ($wired) to <resolvers> port 853 flags S/SA keep state
 
 # HTTP
 pass out on $wifi  proto tcp from ($wifi)  to any port 80 flags S/SA keep state
