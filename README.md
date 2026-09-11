@@ -1034,7 +1034,7 @@ Email is not designed to provide strong privacy by default: message content may 
 
 [Thunderbird](https://www.thunderbird.net/) is a free and open-source email client with standard [IMAP](https://en.wikipedia.org/wiki/Internet_Message_Access_Protocol), [POP](https://en.wikipedia.org/wiki/Post_Office_Protocol), [CalDAV](https://en.wikipedia.org/wiki/CalDAV), and [CardDAV](https://en.wikipedia.org/wiki/CardDAV) support. It is a suitable choice for accessing mail and retaining local copies rather than depending exclusively on a provider's remote server.
 
-Thunderbird includes support for [OpenPGP](https://support.mozilla.org/kb/openpgp-thunderbird-howto-and-faq) email encryption, which can protect message content and provide cryptographic [signatures](https://www.gnupg.org/gph/en/manual/x135.html). Always verify public-key fingerprints through an independent channel before relying on a key for sensitive communication.
+Thunderbird includes support for [OpenPGP](https://support.mozilla.org/kb/openpgp-thunderbird-howto-and-faq) email encryption, which can protect message content and provide cryptographic [signatures](https://www.gnupg.org/gph/en/manual.html#AEN136). Always verify public-key fingerprints through an independent channel before relying on a key for sensitive communication.
 
 The [archived messages feature](https://support.mozilla.org/kb/archived-messages) can move messages out of remote mail servers to a **Local Folder**, improving privacy.
 
@@ -1069,7 +1069,7 @@ iMessage can be used with either a [phone number or an email](https://support.ap
 
 # Malware
 
-See [Methods of malware persistence on Mac OS X](https://www.virusbtn.com/pdf/conference/vb2014/VB2014-Wardle.pdf) and [Malware Persistence on OS X Yosemite](https://www.rsaconference.com/events/us15/agenda/sessions/1591/malware-persistence-on-os-x-yosemite) to learn how common macOS malware persists.
+See [Methods of malware persistence on Mac OS X](https://www.virusbulletin.com/uploads/pdf/conference/vb2014/VB2014-Wardle.pdf) to learn how common macOS malware persists.
 
 For examples of advanced macOS malware capabilities, see the [Hacking Team material](https://www.schneier.com/blog/archives/2015/07/hacking_team_is.html). For further analysis, see [root installation for MacOS](https://github.com/hackedteam/vector-macos-root), [support driver for Mac Agent](https://github.com/hackedteam/driver-macos) and [RCS Agent for Mac](https://github.com/hackedteam/core-macos).
 
