@@ -81,6 +81,7 @@ main() {
   keychain=$(resolveKeychain "${1:-rootca}") || exit 1
 
   workDir=$(mktemp -d)
+  trap 'rm -rf "$workDir"' EXIT
   pemFile="$workDir/certs.pem"
 
   exportCerts "$keychain" "$pemFile"
