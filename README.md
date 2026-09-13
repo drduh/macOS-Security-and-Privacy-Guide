@@ -54,6 +54,7 @@ This guide is provided "as is" - without warranties of any kind. You are solely 
   - [Web browser privacy](#web-browser-privacy)
 - [Tor](#tor)
 - [VPN](#vpn)
+  - [WireGuard](#wireguard)
 - [PGP/GPG](#pgpgpg)
 - [Email](#email)
   - [Thunderbird](#thunderbird)
@@ -999,13 +1000,59 @@ Also see [Invisible Internet Project (I2P)](https://geti2p.net/en/about/intro) a
 
 # VPN
 
-Choose a VPN provider or self-hosted setup with a documented, modern protocol and well-audited clients. Avoid obsolete protocols such as [PPTP](https://en.wikipedia.org/wiki/Point-to-Point_Tunneling_Protocol#Security) in favor of [OpenVPN](https://en.wikipedia.org/wiki/OpenVPN) or [WireGuard](https://www.wireguard.com/) [on a Linux VM](https://github.com/mrash/Wireguard-macOS-LinuxVM) or via a set of [cross platform tools](https://www.wireguard.com/xplatform/).
-
-Some VPN clients may allow traffic to leave over another network interface if the VPN connection drops or is interrupted. See [scy/8122924](https://gist.github.com/scy/8122924) for an example on how to allow traffic only over VPN.
-
-See guides to set up an [IPsec](https://en.wikipedia.org/wiki/Ipsec) VPN on a virtual machine ([hwdsl2/setup-ipsec-vpn](https://github.com/hwdsl2/setup-ipsec-vpn)) or a Docker container ([hwdsl2/docker-ipsec-vpn-server](https://github.com/hwdsl2/docker-ipsec-vpn-server)).
+Choose a VPN provider or self-hosted setup with a documented, modern protocol and well-audited clients. Avoid obsolete protocols such as [PPTP](https://en.wikipedia.org/wiki/Point-to-Point_Tunneling_Protocol#Security) in favor of [WireGuard](https://www.wireguard.com/) or [OpenVPN](https://en.wikipedia.org/wiki/OpenVPN).
 
 It may be worthwhile to consider the geographical location of the VPN provider. See further discussion in [issue 114](https://github.com/drduh/macOS-Security-and-Privacy-Guide/issues/114).
+
+## WireGuard
+
+[WireGuard](https://www.wireguard.com/) is a VPN protocol with a small codebase and a [formally verified](https://www.wireguard.com/formal-verification/) cryptographic design, simpler to configure and audit than IPsec or OpenVPN.
+
+Install the official [WireGuard app](https://apps.apple.com/us/app/wireguard/id1451685025) from the App Store to manage tunnels from the menu bar, or install the command-line tools with Homebrew:
+
+```bash
+brew install wireguard-tools
+```
+
+Generate a key pair for the client:
+
+```bash
+umask 077
+
+wg genkey | tee privatekey | wg pubkey > publickey
+```
+
+Create a tunnel configuration, replacing the keys and addresses with values from your own server or provider:
+
+```
+[Interface]
+PrivateKey = <contents of privatekey>
+Address = 10.8.0.2/32
+DNS = 10.8.0.1
+
+[Peer]
+PublicKey = <server public key>
+AllowedIPs = 0.0.0.0/0, ::/0
+Endpoint = vpn.example.org:51820
+```
+
+`AllowedIPs = 0.0.0.0/0, ::/0` routes all IPv4 and IPv6 traffic through the tunnel; narrower ranges enable split tunneling. See [wg-quick(8)](https://git.zx2c4.com/wireguard-tools/about/src/man/wg-quick.8) for all configuration options.
+
+Import the configuration file into the WireGuard app and enable **On-Demand** so the tunnel activates whenever Wi-Fi or Ethernet is in use. Alternatively, activate the tunnel with the command-line tools:
+
+```bash
+sudo wg-quick up /path/to/wg0.conf
+```
+
+Verify the tunnel is active:
+
+```bash
+sudo wg show
+```
+
+To self-host a WireGuard server, see [trailofbits/algo](https://github.com/trailofbits/algo).
+
+Some VPN clients may allow traffic to leave over another network interface if the VPN connection drops or is interrupted. See [scy/8122924](https://gist.github.com/scy/8122924) for an example on how to allow traffic only over VPN, or use [pf rules](#packet-filter) to restrict traffic to the tunnel interface.
 
 Also see this [technical overview](https://blog.timac.org/2018/0717-macos-vpn-architecture/) of the macOS built-in VPN L2TP/IPsec and [IKEv2](https://en.wikipedia.org/wiki/IKEv2) client.
 
