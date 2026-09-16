@@ -63,7 +63,7 @@ certToJson() {
   info=$(openssl x509 -noout -subject -enddate -fingerprint -sha256 -in "$certFile")
   subject=$(echo "$info" | sed -n 's/^subject=[[:space:]]*//p')
   expires=$(echo "$info" | sed -n 's/^notAfter=//p')
-  fingerprint=$(echo "$info" | sed -n 's/^SHA256 Fingerprint=//p')
+  fingerprint=$(echo "$info" | sed -n 's/^[Ss][Hh][Aa]256 Fingerprint=//p')
 
   jq -n --arg subject "$subject" \
         --arg expires "$expires" \
