@@ -76,11 +76,18 @@ printCertsSortedByDate() {
     strptime("%b %d %H:%M:%S %Y") | mktime) | .[]'
 }
 
+cleanup() {
+  if [[ -d "${workDir:-}" ]]; then
+    rm -rf "$workDir"
+  fi
+}
+
 main() {
-  local workDir pemFile keychain
+  local pemFile keychain
   keychain=$(resolveKeychain "${1:-rootca}") || exit 1
 
   workDir=$(mktemp -d)
+  trap cleanup EXIT
   pemFile="$workDir/certs.pem"
 
   exportCerts "$keychain" "$pemFile"
