@@ -1527,6 +1527,8 @@ jq -s --arg command "curl" '
 ' ~/eslogs/exec-*.log
 ```
 
+**New!** [drduh/mess](https://github.com/drduh/mess) - a free and open source security system for your personal Mac based on `eslogger`.
+
 ## Install history
 
 Show package and system update install history:

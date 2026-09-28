@@ -15,9 +15,7 @@ requireMacos() {
   fi
 }
 
-row() {
-  printf '%-*s%s\n' "${LABEL_WIDTH}" "$1:" "$2"
-}
+row() { printf '%-*s%s\n' "${LABEL_WIDTH}" "$1:" "$2" ; }
 
 printOs() {
   row 'System'  "$(sw_vers -productName)"
@@ -72,7 +70,6 @@ printSip() {
 printXProtect() {
   row 'XProtect' "$(xprotect version 2>/dev/null || echo "unavailable")"
 }
-
 
 printDisk() {
   df -H / | awk 'NR==1 || NR==2'
