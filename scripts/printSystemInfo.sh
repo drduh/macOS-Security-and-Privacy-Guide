@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # https://github.com/drduh/macOS-Security-and-Privacy-Guide/blob/main/scripts/printSystemInfo.sh
 
+#set -x  # uncomment to debug
 set -o errexit
 set -o nounset
 set -o pipefail
