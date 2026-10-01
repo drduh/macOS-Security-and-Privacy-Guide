@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # https://github.com/drduh/macOS-Security-and-Privacy-Guide/blob/main/scripts/printSystemInfo.sh
 
+#set -x  # uncomment to debug
 set -o errexit
 set -o nounset
 set -o pipefail
@@ -14,9 +15,7 @@ requireMacos() {
   fi
 }
 
-row() {
-  printf '%-*s%s\n' "${LABEL_WIDTH}" "$1:" "$2"
-}
+row() { printf '%-*s%s\n' "${LABEL_WIDTH}" "$1:" "$2" ; }
 
 printOs() {
   row 'System'  "$(sw_vers -productName)"
@@ -71,7 +70,6 @@ printSip() {
 printXProtect() {
   row 'XProtect' "$(xprotect version 2>/dev/null || echo "unavailable")"
 }
-
 
 printDisk() {
   df -H / | awk 'NR==1 || NR==2'
