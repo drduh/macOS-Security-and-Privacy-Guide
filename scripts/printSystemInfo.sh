@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 # https://github.com/drduh/macOS-Security-and-Privacy-Guide/blob/main/scripts/printSystemInfo.sh
-#
-# Prints basic system information - no sudo required.
+# Print basic system information - no sudo required.
 
 #set -x  # uncomment to debug
 set -o errexit
