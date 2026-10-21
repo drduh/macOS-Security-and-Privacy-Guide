@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # https://github.com/drduh/macOS-Security-and-Privacy-Guide/blob/main/scripts/printKeychainCerts.sh
 # Print certificate details from a macOS keychain, sorted by expiration.
 #
@@ -22,10 +22,10 @@ resolveKeychain() {
   local keychain
 
   case "$requested" in
-    rootca|root|roots|r|ca|cas|c)
+    rootca | root | roots | r | ca | cas | c)
       keychain="/System/Library/Keychains/SystemRootCertificates.keychain"
       ;;
-    system|sys|s)
+    system | sys | s)
       keychain="/Library/Keychains/System.keychain"
       ;;
     *)
@@ -45,25 +45,48 @@ resolveKeychain() {
 exportCerts() {
   local keychain="$1"
   local pemFile="$2"
+
   security export -k "$keychain" -t certs -f pemseq -o "$pemFile"
 }
 
 splitCerts() {
   local pemFile="$1"
   local splitDir="$2"
+
   awk -v outdir="$splitDir" 'BEGIN{c=0}
-    /-----BEGIN CERTIFICATE-----/{c++}
-    {print > (outdir "/cert-" c ".pem")}' "$pemFile"
+    /-----BEGIN CERTIFICATE-----/{
+      if (out != "") close(out)
+      c++
+      out = outdir "/cert-" c ".pem"
+    }
+    c == 0 {next}
+    {print > out}' "$pemFile"
 }
 
 certToJson() {
   local certFile="$1"
-  local info subject expires fingerprint
+  local info line subject="" expires="" fingerprint=""
 
-  info=$(openssl x509 -noout -subject -enddate -fingerprint -sha256 -in "$certFile")
-  subject=$(echo "$info" | sed -n 's/^subject=[[:space:]]*//p')
-  expires=$(echo "$info" | sed -n 's/^notAfter=//p')
-  fingerprint=$(echo "$info" | sed -n 's/^[Ss][Hh][Aa]256 Fingerprint=//p')
+  if ! info=$(openssl x509 -noout -subject -enddate -fingerprint -sha256 -in "$certFile"); then
+    echo "skipping unreadable certificate '$certFile'" >&2
+    return 1
+  fi
+
+  while IFS= read -r line; do
+    case "$line" in
+      subject=*)
+        subject="${line#subject=}"
+        subject="${subject#"${subject%%[![:space:]]*}"}"
+        ;;
+      notAfter=*)
+        expires="${line#notAfter=}"
+        ;;
+      [Ss][Hh][Aa]256\ Fingerprint=*)
+        fingerprint="${line#*Fingerprint=}"
+        ;;
+      *) ;;
+    esac
+  done <<<"$info"
 
   jq -n --arg subject "$subject" \
         --arg expires "$expires" \
@@ -84,17 +107,25 @@ cleanup() {
 
 main() {
   local pemFile keychain
+
   keychain=$(resolveKeychain "${1:-rootca}") || exit 1
 
-  workDir=$(mktemp -d)
+  workDir=$(mktemp -d) || exit 1
   trap cleanup EXIT
+
   pemFile="$workDir/certs.pem"
 
-  exportCerts "$keychain" "$pemFile"
-  splitCerts "$pemFile" "$workDir"
+  exportCerts "$keychain" "$pemFile" || exit 1
+
+  if [[ ! -s "$pemFile" ]]; then
+    echo "no certificates exported from '$keychain'" >&2
+    exit 1
+  fi
+
+  splitCerts "$pemFile" "$workDir" || exit 1
 
   for f in "$workDir"/cert-*.pem; do
-    certToJson "$f"
+    certToJson "$f" || continue
   done | printCertsSortedByDate
 }
 

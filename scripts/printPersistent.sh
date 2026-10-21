@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# https://github.com/drduh/macOS-Security-and-Privacy-Guide/blob/main/scripts/printPersistent.sh
 # Print persistent launchd jobs as JSON with signing, behavior and anomaly flags.
 #
 # Usage:

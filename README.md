@@ -281,6 +281,12 @@ fdesetup status
 
 When Lockdown Mode is enabled, Safari has an option to [exclude trusted websites](https://ssd.eff.org/module/how-to-enable-lockdown-mode-on-iphone) from restrictions.
 
+Confirm Lockdown Mode state:
+
+```bash
+sysctl -n security.mac.lockdown_mode_state 2>/dev/null | awk '{print "Lockdown Mode: " ($1 == 1 ? "ON" : "OFF")}'
+```
+
 # Firewall
 
 There are several types of firewalls available for macOS.
