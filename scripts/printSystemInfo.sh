@@ -32,7 +32,11 @@ banner() {
   printf '%s\n' "${rule}"
 }
 
-firstLine() { "$@" 2>/dev/null | awk 'NR==1' || echo 'unavailable'; }
+firstLine() {
+  local out
+  out="$("$@" 2>/dev/null | awk 'NR==1' || true)"
+  printf '%s\n' "${out:-unavailable}"
+}
 
 printSystem() {
   local boot_sec up
@@ -121,6 +125,12 @@ lockdownState() {
   esac
 }
 
+sysadminctlStatus() {
+  local cmd='/usr/sbin/sysadminctl'
+  [[ -x "${cmd}" ]] || return 1
+  "${cmd}" "$@" 2>&1 | sed -E 's/^.*sysadminctl\[[0-9:]+\] //'
+}
+
 printSecurity() {
   local fw='/usr/libexec/ApplicationFirewall/socketfilterfw'
 
@@ -131,6 +141,8 @@ printSecurity() {
   row 'Gatekeeper' "$(firstLine spctl --status | sed 's/^assessments //')"
   row 'SIP' "$(firstLine csrutil status | sed -E 's/^System Integrity Protection status: //; s/\.$//')"
   row 'Lockdown Mode' "$(lockdownState)"
+  row 'Screen Lock' "$(firstLine sysadminctlStatus -screenLock status | sed -E 's/^screenLock (delay )?is //')"
+  row 'Guest Account' "$(firstLine sysadminctlStatus -guestAccount status | sed -E 's/^Guest account //; s/\.$//')"
   row 'XProtect' "$(firstLine xprotect version | sed -E 's/^Version: //; s/ Installed: / · installed /')"
 }
 
