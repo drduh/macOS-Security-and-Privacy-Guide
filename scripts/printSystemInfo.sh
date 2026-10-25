@@ -32,7 +32,27 @@ banner() {
   printf '%s\n' "${rule}"
 }
 
-firstLine() { "$@" 2>/dev/null | awk 'NR==1' || echo 'unavailable'; }
+firstLine() {
+  local out
+  out="$("$@" 2>/dev/null | awk 'NR==1' || true)"
+  printf '%s\n' "${out:-unavailable}"
+}
+
+normalizeState() {
+  local v
+  IFS= read -r v || true
+  case "$(tr '[:upper:]' '[:lower:]' <<<"${v}")" in
+    1 | on | enabled) echo 'enabled' ;;
+    0 | off | disabled) echo 'disabled' ;;
+    *) printf '%s\n' "${v}" ;;
+  esac
+}
+
+sysadminctlStatus() {
+  local cmd='/usr/sbin/sysadminctl'
+  [[ -x "${cmd}" ]] || return 1
+  "${cmd}" "$@" 2>&1 | sed -E 's/^.*sysadminctl\[[0-9:]+\] //'
+}
 
 printSystem() {
   local boot_sec up
@@ -51,11 +71,11 @@ printSystem() {
 printHardware() {
   local model_name model_id chip ncpu pcores ecores cores mem_gb mem_free batt
 
-  model_name="$(ioreg -rd1 -c IOPlatformExpertDevice 2>/dev/null \
-    | awk -F'"' '/"product-name"/ {print $4}' || true)"
+  model_name="$(ioreg -rd1 -c IOPlatformExpertDevice 2>/dev/null |
+    awk -F'"' '/"product-name"/ {print $4}' || true)"
   if [[ -z "${model_name}" ]]; then
-    model_name="$(system_profiler SPHardwareDataType 2>/dev/null \
-      | awk -F': ' '/Model Name/ {print $2}' || true)"
+    model_name="$(system_profiler SPHardwareDataType 2>/dev/null |
+      awk -F': ' '/Model Name/ {print $2}' || true)"
   fi
 
   model_id="$(sysctl -n hw.model)"
@@ -72,10 +92,12 @@ printHardware() {
   fi
 
   mem_gb=$(($(sysctl -n hw.memsize) / 1024 / 1024 / 1024))
-  mem_free="$(memory_pressure 2>/dev/null | awk -F': ' '/free percentage/ {print $2}' || true)"
 
-  batt="$(pmset -g batt 2>/dev/null \
-    | sed -nE 's/.*InternalBattery.*[[:space:]]([0-9]+%); ([^;]+);.*/\1 \2/p' || true)"
+  mem_free="$(memory_pressure 2>/dev/null |
+    awk -F': ' '/free percentage/ {print $2}' || true)"
+
+  batt="$(pmset -g batt 2>/dev/null |
+    sed -nE 's/.*InternalBattery.*[[:space:]]([0-9]+%); ([^;]+);.*/\1 \2/p' || true)"
 
   section 'Hardware'
   row 'Model' "${model_name:-unknown} $(note "${model_id}")"
@@ -100,45 +122,67 @@ printNetwork() {
     return
   fi
 
-  port="$(networksetup -listallhardwareports 2>/dev/null \
-    | awk -v dev="${iface}" '/^Hardware Port:/ {p = substr($0, 16)} /^Device:/ && $2 == dev {print p}' \
-    || true)"
+  port="$(networksetup -listallhardwareports 2>/dev/null | awk -v dev="${iface}" \
+    '/^Hardware Port:/ {p = substr($0, 16)} /^Device:/ && $2 == dev {print p}' || true)"
 
-  ip="$(ipconfig getifaddr "${iface}" 2>/dev/null \
-    || ifconfig "${iface}" 2>/dev/null | awk '/inet / && !seen {print $2; seen = 1}' \
-    || true)"
+  ip="$(ipconfig getifaddr "${iface}" 2>/dev/null ||
+    ifconfig "${iface}" 2>/dev/null | awk '/inet / && !seen {print $2; seen = 1}' || true)"
 
   row 'Interface' "${iface}${port:+ $(note "${port}")}"
   row 'IP Address' "${ip:-unavailable}"
   row 'Gateway' "${gateway:-unavailable}"
 }
 
-lockdownState() {
-  case "$(sysctl -n security.mac.lockdown_mode_state 2>/dev/null || true)" in
-    1) echo 'enabled' ;;
-    0) echo 'disabled' ;;
-    *) echo 'unavailable' ;;
-  esac
-}
-
-printSecurity() {
+printFirewall() {
   local fw='/usr/libexec/ApplicationFirewall/socketfilterfw'
 
-  section 'Security'
-  row 'FileVault' "$(firstLine fdesetup status | sed -E 's/^FileVault is //; s/\.$//')"
-  row 'Firewall' "$(firstLine "${fw}" --getglobalstate | sed -E 's/^Firewall is //; s/\. \(State = [0-9]+\)$//')"
-  row 'Stealth Mode' "$(firstLine "${fw}" --getstealthmode | sed -E 's/^.*[Ss]tealth mode (is )?//; s/\.$//')"
-  row 'Gatekeeper' "$(firstLine spctl --status | sed 's/^assessments //')"
-  row 'SIP' "$(firstLine csrutil status | sed -E 's/^System Integrity Protection status: //; s/\.$//')"
-  row 'Lockdown Mode' "$(lockdownState)"
-  row 'XProtect' "$(firstLine xprotect version | sed -E 's/^Version: //; s/ Installed: / · installed /')"
+  section 'Firewall'
+  row 'Status' "$(firstLine "${fw}" --getglobalstate |
+    sed -E 's/^Firewall is //; s/\. \(State = [0-9]+\)$//' |
+    normalizeState)"
+  row 'Stealth Mode' "$(firstLine "${fw}" --getstealthmode |
+    sed -E 's/^.*[Ss]tealth mode (is )?//; s/\.$//' |
+    normalizeState)"
+}
+
+printProtection() {
+  section 'Protection'
+  row 'Gatekeeper' "$(firstLine spctl --status |
+    sed 's/^assessments //' |
+    normalizeState)"
+  row 'Lockdown Mode' "$(firstLine sysctl -n security.mac.lockdown_mode_state |
+    normalizeState)"
+  row 'SIP' "$(firstLine csrutil status |
+    sed -E 's/^System Integrity Protection status: //; s/\.$//' |
+    normalizeState)"
+  row 'XProtect' "$(firstLine xprotect version |
+    sed -E 's/^Version: //; s/ Installed: / · installed /')"
+}
+
+printAccess() {
+  section 'Access'
+  row 'FileVault' "$(firstLine fdesetup status |
+    sed -E 's/^FileVault is //; s/\.$//' |
+    normalizeState)"
+  row 'Secure Token' "$(firstLine sysadminctlStatus -secureTokenStatus "$(id -un)" |
+    sed -E 's/^Secure token is ([A-Za-z]+) for user .*$/\1/' |
+    normalizeState)"
+  row 'Guest Account' "$(firstLine sysadminctlStatus -guestAccount status |
+    sed -E 's/^Guest account //; s/\.$//' |
+    normalizeState)"
+  row 'Screen Lock' "$(firstLine sysadminctlStatus -screenLock status |
+    sed -E 's/^screenLock (delay )?is //' |
+    normalizeState)"
 }
 
 printStorage() {
   local volume='/System/Volumes/Data' fs size used avail cap _
 
   section 'Storage'
-  read -r fs size used avail cap _ <<<"$(df -H "${volume}" 2>/dev/null | awk 'NR==2' || true)"
+
+  read -r fs size used avail cap _ <<<"$(df -H "${volume}" 2>/dev/null |
+    awk 'NR==2' || true)"
+
   if [[ -z "${fs}" ]]; then
     row 'Disk' 'unavailable'
     return
@@ -154,7 +198,9 @@ main() {
   printSystem
   printHardware
   printNetwork
-  printSecurity
+  printFirewall
+  printProtection
+  printAccess
   printStorage
   printf '\n'
 }

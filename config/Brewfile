@@ -1,0 +1,9 @@
+# https://github.com/drduh/macOS-Security-and-Privacy-Guide/blob/main/config/Brewfile
+# https://docs.brew.sh/Brew-Bundle-and-Brewfile
+# Review a package:  brew info <formula>
+# Install packages:  brew bundle install
+brew "dnscrypt-proxy"
+brew "dnsmasq"
+brew "gnupg"
+brew "privoxy"
+brew "wireguard-tools"
