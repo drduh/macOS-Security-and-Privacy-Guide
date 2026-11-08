@@ -21,22 +21,33 @@ scrub in on $wired all fragment reassemble
 # Blocklist
 table <blocklist> persist
 
-# Public DNS servers
+# DNS servers
 table <resolvers> const { 192.168.1.1 \
   8.8.4.4 8.8.8.8 \
-  1.0.0.1 1.0.0.2 1.0.0.3 \
-  1.1.1.1 1.1.1.2 1.1.1.3 \
-  9.9.9.9  149.112.112.112 \
+  1.0.0.1 1.0.0.2 1.0.0.3 1.1.1.1 1.1.1.2 1.1.1.3 \
+  9.9.9.9 149.112.112.112 \
   9.9.9.10 149.112.112.10 \
   9.9.9.11 149.112.112.11 \
   9.9.9.12 149.112.112.12 }
 
 # SSH
 table <sshGitHub> const { 140.82.112.0/20 } # https://api.github.com/meta
-table <sshLocal> const { 192.168.1.1 }
+table <sshLocal>  const { 192.168.1.1 }
+
+# DHCP
+pass out quick on { $wifi $wired } proto udp from any port 68 to any port 67 keep state
+pass in  quick on { $wifi $wired } proto udp from any port 67 to any port 68 keep state
+
+# IPv6 off
+block drop   in  quick inet6 all
+block return out quick inet6 all
+
+# Drop broadcast and multicast without logging
+block drop in quick on { $wifi $wired } inet to { 224.0.0.0/4 255.255.255.255 }
 
 # Deny and log blocked traffic
-block log all
+block drop   in  log all
+block return out log all
 
 # Deny unroutable source addresses
 block quick from no-route to any
@@ -45,16 +56,10 @@ antispoof quick for $wifi
 antispoof quick for $wired
 
 # Enforce blocklist
-block log quick on $wifi  from <blocklist> to any
-block log quick on $wifi  from any to <blocklist>
-block log quick on $wired from <blocklist> to any
-block log quick on $wired from any to <blocklist>
-
-# DHCP
-pass out on $wifi  proto udp from any port 68 to any port 67 keep state
-pass in  on $wifi  proto udp from any port 67 to any port 68 keep state
-pass out on $wired proto udp from any port 68 to any port 67 keep state
-pass in  on $wired proto udp from any port 67 to any port 68 keep state
+block drop   log quick on $wifi  from <blocklist> to any
+block return log quick on $wifi  from any to <blocklist>
+block drop   log quick on $wired from <blocklist> to any
+block return log quick on $wired from any to <blocklist>
 
 # DNS (restricted to defined resolvers)
 pass out on $wifi  proto tcp from ($wifi)  to <resolvers> port 53 flags S/SA keep state
