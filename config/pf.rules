@@ -78,13 +78,13 @@ pass out on $ext proto tcp to any port { 465 993 }
 pass out on $ext proto tcp to any port 43
 
 # NTP
-pass out on $ext proto udp to <router> port 123
+pass out on $ext proto udp to any port 123
 
 # SSH (GitHub)
 pass out on $ext proto tcp to <github> port 22
 
 # SSH (local, wired-only)
-pass out on $wired proto tcp from ($wired) to <router> port 2400
+#pass out on $wired proto tcp from ($wired) to <router> port 2400
 
 # Outbound ICMP (ping)
 #pass out on $ext proto icmp  to any
