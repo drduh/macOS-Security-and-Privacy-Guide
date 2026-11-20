@@ -288,7 +288,8 @@ When Lockdown Mode is enabled, Safari has an option to [exclude trusted websites
 Confirm Lockdown Mode state:
 
 ```bash
-sysctl -n security.mac.lockdown_mode_state 2>/dev/null | awk '{print "Lockdown Mode: " ($1 == 1 ? "ON" : "OFF")}'
+sysctl -n security.mac.lockdown_mode_state 2>/dev/null |
+  awk '{print "Lockdown Mode: " ($1 == 1 ? "ON" : "OFF")}'
 ```
 
 # Firewall
@@ -395,7 +396,7 @@ wifi = "en0"
 set block-policy drop
 set skip on lo0
 set state-policy if-bound
-set ruleset-optimization basic
+set ruleset-optimization none
 
 # Normalize
 scrub in on $wifi all fragment reassemble
@@ -405,25 +406,26 @@ table <blocklist> persist
 
 # Deny and log blocked traffic
 block log all
-block quick from no-route to any
-antispoof quick for $wifi
+
+# Drop outbound with spoofed sources
+block return out log quick on $wifi from ! ($wifi)
 
 # Enforce blocklist
-block log quick on $wifi from <blocklist> to any
-block log quick on $wifi from any to <blocklist>
+block drop   in  log quick from <blocklist>
+block return out log quick to   <blocklist>
 
 # Allow DHCP
-pass out on $wifi proto udp from any port 68 to any port 67 keep state
-pass in  on $wifi proto udp from any port 67 to any port 68 keep state
+pass out quick on $wifi proto udp from any port 68 to any port 67
+pass in  quick on $wifi proto udp from any port 67 to any port 68
 
 # Allow outbound TCP
-pass out on $wifi proto tcp from ($wifi) to any flags S/SA keep state
+pass out on $wifi proto tcp from ($wifi) to any
 
 # Allow outbound UDP
-pass out on $wifi proto udp from ($wifi) to any keep state
+pass out on $wifi proto udp from ($wifi) to any
 
 # Allow outbound ICMP (ping)
-pass out on $wifi proto icmp from ($wifi) to any keep state
+pass out on $wifi proto icmp from ($wifi) to any
 ```
 
 An advanced example of configuring pf is available in [config/pf.rules](https://github.com/drduh/macOS-Security-and-Privacy-Guide/blob/main/config/pf.rules).
@@ -858,7 +860,7 @@ See [Chromium Security](https://www.chromium.org/Home/chromium-security) and [Ch
 
 Safari has both open-source and proprietary components. Safari is based on the open-source Web Engine [WebKit](https://webkit.org/), which is ubiquitous among the macOS ecosystem. WebKit is used by Apple apps such as Mail, Books, and the App Store. Chrome's [Blink](https://www.chromium.org/blink) engine is a fork of WebKit and both engines share a number of similarities.
 
-Safari includes some features that can improve security and privacy. [Content blockers](https://webkit.org/blog/3476/content-blockers-first-look) enable the creation of content blocking rules without using JavaScript. This rule based approach greatly improves memory use, security, and privacy. Safari 11 introduced [Intelligent Tracking Prevention](https://webkit.org/blog/7675/intelligent-tracking-prevention), which removes tracking data stored in Safari after a period of non-interaction by the user from the tracker's website. Safari can randomize the browser fingerprint to reduce tracking. Safari does not support certain features such as WebUSB or the Battery API intentionally for security and privacy reasons. Private tabs in Safari have isolated cookies and cache that is destroyed when you close the tab. Safari also support Profiles which are equivalent to Firefox's Multi-Account Containers for separating cookies and browsing. Safari can be made significantly more secure with [lockdown mode](#lockdown-mode), which can be disabled per-site. Read more about [tracking prevention](https://webkit.org/tracking-prevention/) in Safari.
+Safari includes some features that can improve security and privacy. [Content blockers](https://webkit.org/blog/3476/content-blockers-first-look) enable the creation of content blocking rules without using JavaScript. This rule based approach greatly improves memory use, security, and privacy. Safari 11 introduced [Intelligent Tracking Prevention](https://webkit.org/blog/7675/intelligent-tracking-prevention), which removes tracking data stored in Safari after a period of non-interaction by the user from the tracker's website. Safari can randomize the browser fingerprint to reduce tracking. Safari does not support certain features such as WebUSB or the Battery API intentionally for security and privacy reasons. Private tabs in Safari have isolated cookies and cache that is destroyed when you close the tab. Safari also supports Profiles which are equivalent to Firefox's Multi-Account Containers for separating cookies and browsing. Safari can be made significantly more secure with [lockdown mode](#lockdown-mode), which can be disabled per-site. Read more about [tracking prevention](https://webkit.org/tracking-prevention/) in Safari.
 
 Web Extensions in Safari have an additional option to use native code in Safari's sandbox environment, in addition to Web Extension APIs. Web Extensions in Safari are also distributed through Apple App Store. App Store submission comes with the added benefit of Web Extension code being audited by Apple. On the other hand App Store submission comes at a steep cost. Yearly [developer subscription](https://developer.apple.com/support/compare-memberships) fee costs 100 USD (in contrast to Chrome's 5 USD fee and Firefox's free submission). The high cost is prohibitive for the majority of open-source developers. As a result, Safari has very few extensions to choose from. However, keep the high cost in mind when installing extensions. It is expected that most Web Extensions will have some way of monetizing usage to cover development costs. Avoid Web Extensions without open-source code available for review.
 
